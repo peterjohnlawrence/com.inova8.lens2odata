@@ -1,0 +1,399 @@
+[
+	{
+		"_class": "Datatype",
+		"name": "conjunction",
+		"constraints": 
+		[
+			{
+				"_class": "Literal",
+				"value": "and"
+			},
+
+			{
+				"_class": "Literal",
+				"value": "or"
+			}
+		]
+	},
+
+	{
+		"_class": "Datatype",
+		"name": "filterConjunction",
+		"constraints": 
+		[
+			{
+				"_class": "Literal",
+				"value": "and"
+			},
+
+			{
+				"_class": "Literal",
+				"value": "or"
+			}
+		]
+	},
+
+	{
+		"_class": "Datatype",
+		"name": "condition",
+		"constraints": 
+		[
+			{
+				"_class": "Literal",
+				"value": "notlike"
+			},
+
+			{
+				"_class": "Literal",
+				"value": "like"
+			},
+
+			{
+				"_class": "Literal",
+				"value": "contains"
+			},
+
+			{
+				"_class": "Literal",
+				"value": "="
+			},
+
+			{
+				"_class": "Literal",
+				"value": "!="
+			},
+
+			{
+				"_class": "Literal",
+				"value": "<"
+			},
+
+			{
+				"_class": "Literal",
+				"value": ">"
+			}
+		]
+	},
+
+	{
+		"_class": "Datatype",
+		"name": "objectProperty",
+		"constraints": 
+		[
+			{
+				"_class": "Literal",
+				"value": "hasOffice"
+			},
+
+			{
+				"_class": "Literal",
+				"value": "hasDeal"
+			}
+		]
+	},
+
+	{
+		"_class": "Datatype",
+		"name": "inverseObjectProperty",
+		"constraints": 
+		[
+			{
+				"_class": "Literal",
+				"value": "isOfficeOf"
+			},
+
+			{
+				"_class": "Literal",
+				"value": "isManagingPartnerOf"
+			}
+		]
+	},
+
+	{
+		"_class": "Datatype",
+		"name": "dataProperty",
+		"constraints": 
+		[
+			{
+				"_class": "Literal",
+				"value": "hasOfficeName"
+			},
+
+			{
+				"_class": "Literal",
+				"value": "hsPersonName"
+			}
+		]
+	},
+
+	{
+		"_class": "Class",
+		"name": "query",
+		"features": 
+		[
+			{
+				"_class": "Feature",
+				"name": "find",
+				"kind": "attribute",
+				"lowerLimit": 1,
+				"upperLimit": 1,
+				"type": "find"
+			},
+
+			{
+				"_class": "Feature",
+				"name": "where",
+				"kind": "attribute",
+				"lowerLimit": 0,
+				"upperLimit": 1,
+				"type": "where"
+			}
+		]
+	},
+
+	{
+		"_class": "Class",
+		"name": "where",
+		"features": 
+		[
+			{
+				"_class": "Feature",
+				"name": "clause",
+				"kind": "attribute",
+				"lowerLimit": 1,
+				"upperLimit": 1,
+				"type": "clause"
+			}
+		]
+	},
+
+	{
+		"_class": "Class",
+		"name": "clause",
+		"features": 
+		[
+			{
+				"_class": "Feature",
+				"name": "phrase",
+				"kind": "attribute",
+				"lowerLimit": 1,
+				"upperLimit": 1,
+				"type": "phrase"
+			},
+
+			{
+				"_class": "Feature",
+				"name": "conjunctionPhrase",
+				"kind": "attribute",
+				"lowerLimit": 0,
+				"upperLimit": -1,
+				"type": "conjunctionPhrase"
+			}
+		]
+	},
+
+	{
+		"_class": "Class",
+		"name": "conjunctionPhrase",
+		"features": 
+		[
+			{
+				"_class": "Feature",
+				"name": "conjunction",
+				"kind": "attribute",
+				"lowerLimit": 1,
+				"upperLimit": 1,
+				"type": "conjunction"
+			},
+
+			{
+				"_class": "Feature",
+				"name": "phrase",
+				"kind": "attribute",
+				"lowerLimit": 0,
+				"upperLimit": -1,
+				"type": "phrase"
+			}
+		]
+	},
+
+	{
+		"_class": "Class",
+		"name": "phrase",
+		"features": 
+		[
+			{
+				"_class": "Feature",
+				"name": "ignore",
+				"kind": "attribute",
+				"lowerLimit": 0,
+				"upperLimit": 1,
+				"type": "boolean"
+			},
+
+			{
+				"_class": "Feature",
+				"name": "optional",
+				"kind": "attribute",
+				"lowerLimit": 0,
+				"upperLimit": 1,
+				"type": "boolean"
+			},
+
+			{
+				"_class": "Feature",
+				"name": "propertyPhrase",
+				"kind": "attribute",
+				"lowerLimit": 0,
+				"upperLimit": -1,
+				"type": "propertyPhrase"
+			},
+
+			{
+				"_class": "Feature",
+				"name": "where",
+				"kind": "attribute",
+				"lowerLimit": 0,
+				"upperLimit": 1,
+				"type": "where"
+			}
+		]
+	},
+
+	{
+		"_class": "Class",
+		"name": "propertyPhrase",
+		"abstract": true
+	},
+
+	{
+		"_class": "Class",
+		"name": "objectPropertyPhrase",
+		"superTypes": "propertyPhrase",
+		"features": 
+		{
+			"_class": "Feature",
+			"name": "objectProperty",
+			"kind": "attribute",
+			"lowerLimit": 1,
+			"upperLimit": 1,
+			"type": "objectProperty"
+		}
+	},
+
+	{
+		"_class": "Class",
+		"name": "inverseObjectPropertyPhrase",
+		"superTypes": "propertyPhrase",
+		"features": 
+		{
+			"_class": "Feature",
+			"name": "inverseObjectProperty",
+			"kind": "attribute",
+			"lowerLimit": 1,
+			"upperLimit": 1,
+			"type": "inverseObjectProperty"
+		}
+	},
+
+	{
+		"_class": "Class",
+		"name": "dataPropertyPhrase",
+		"superTypes": "propertyPhrase",
+		"features": 
+		[
+			{
+				"_class": "Feature",
+				"name": "dataProperty",
+				"kind": "attribute",
+				"lowerLimit": 1,
+				"upperLimit": 1,
+				"type": "dataProperty"
+			},
+
+			{
+				"_class": "Feature",
+				"name": "filters",
+				"kind": "attribute",
+				"lowerLimit": 0,
+				"upperLimit": 1,
+				"type": "filter"
+			}
+		]
+	},
+
+	{
+		"_class": "Class",
+		"name": "filters",
+		"features": 
+		[
+			{
+				"_class": "Feature",
+				"name": "filter",
+				"kind": "attribute",
+				"lowerLimit": 1,
+				"upperLimit": 1,
+				"type": "filter"
+			},
+
+			{
+				"_class": "Feature",
+				"name": "conjunctionFilter",
+				"kind": "attribute",
+				"lowerLimit": 0,
+				"upperLimit": -1,
+				"type": "conjunctionFilter"
+			}
+		]
+	},
+
+	{
+		"_class": "Class",
+		"name": "filter",
+		"features": 
+		[
+			{
+				"_class": "Feature",
+				"name": "condition",
+				"kind": "attribute",
+				"lowerLimit": 1,
+				"upperLimit": 1,
+				"type": "condition"
+			},
+
+			{
+				"_class": "Feature",
+				"name": "value",
+				"kind": "attribute",
+				"lowerLimit": 1,
+				"upperLimit": 1,
+				"type": "string"
+			}
+		]
+	},
+
+	{
+		"_class": "Class",
+		"name": "conjunctionFilter",
+		"features": 
+		[
+			{
+				"_class": "Feature",
+				"name": "filterConjunction",
+				"kind": "attribute",
+				"lowerLimit": 1,
+				"upperLimit": 1,
+				"type": "filterConjunction"
+			},
+
+			{
+				"_class": "Feature",
+				"name": "filter",
+				"kind": "attribute",
+				"lowerLimit": 1,
+				"upperLimit": 1,
+				"type": "filter"
+			}
+		]
+	}
+]

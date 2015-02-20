@@ -1,0 +1,353 @@
+{
+	"sparqlEndpoint": "proxy/http/192.168.1.201:10035/repositories/northwind",
+	"(default)": 
+	{
+		"Category": 
+		{
+			"rows": 2,
+			"fragments": 
+			[
+				{
+					"fragmentType": "JS",
+					"fragmentId": "lens.FormDisplay",
+					"title": "Form Display",
+					"URL": "proxy/http/192.168.1.201:10035/repositories/northwind",
+					"fragmentQuery": "select ?s ?p ?o where {?s ?p ?o . VALUES(?s){(%entity%)}}"
+				},
+
+				{
+					"fragmentType": "JS",
+					"fragmentId": "lens.GridDisplay",
+					"title": "Grid Display",
+					"URL": "proxy/http/192.168.1.201:10035/repositories/northwind",
+					"fragmentQuery": "select ?subject ?p ?o where {?subject ?p ?o . VALUES(?subject){(%entity%)}}"
+				},
+
+				{
+					"fragmentType": "JS",
+					"fragmentId": "lens.FormDisplay",
+					"title": "Form Display 2",
+					"URL": "proxy/http/192.168.1.201:10035/repositories/northwind",
+					"fragmentQuery": "select ?subject ?predicate ?object where {?subject ?predicate ?object . VALUES(?subject){(%entity%)}}"
+				},
+
+				{
+					"name": "fragmentR2C2",
+					"fragmentType": "JS",
+					"fragmentId": "lens.ImageDisplay",
+					"title": "Image Display",
+					"URL": "proxy/http/192.168.1.201:10035/repositories/northwind",
+					"fragmentQuery": "select ?subject ?p ?o where {?subject ?p ?o . VALUES(?subject){(%entity%)}}"
+				}
+			]
+		},
+
+		"Customer": 
+		{
+			"rows": 3,
+			"height": "250px",
+			"fragments": 
+			[
+				{
+					"fragmentType": "JS",
+					"fragmentId": "lens.FormDisplay",
+					"title": "Company Summary",
+					"URL": "proxy/http/192.168.1.201:10035/repositories/northwind",
+					"fragmentQuery": "SELECT ?companyName  ?address ?city ?country ?postalCode ?phone WHERE {?customer <http://northwind.com#companyName>  ?companyName .?customer <http://northwind.com#address>  ?address .?customer <http://northwind.com#city>  ?city .  ?customer <http://northwind.com#country>  ?country . ?customer <http://northwind.com#postalCode>  ?postalCode . ?customer <http://northwind.com#phone>  ?phone .  VALUES(?customer){(%entity%)}}"
+				},
+
+				{
+					"fragmentType": "JS",
+					"fragmentId": "lens.GridDisplay",
+					"title": "Company Completed Order Details",
+					"URL": "proxy/http/192.168.1.201:10035/repositories/northwind",
+					"fragmentQuery": "SELECT ?order ?shippedDate ?shipVia ?companyName WHERE { ?order <http://northwind.com#customer>  ?customer . ?order  <http://northwind.com#shippedDate> ?shippedDate . ?order  <http://northwind.com#shipVia> ?shipVia . ?shipVia <http://northwind.com#companyName> ?companyName .VALUES(?customer){(%entity%)}}"
+				},
+
+				{
+					"fragmentType": "JS",
+					"fragmentId": "lens.FormDisplay",
+					"title": "Company property values",
+					"URL": "proxy/http/192.168.1.201:10035/repositories/northwind",
+					"fragmentQuery": "select ?predicate ?object where {?subject ?predicate ?object . VALUES(?subject){(%entity%)}}"
+				},
+
+				{
+					"fragmentType": "JS",
+					"fragmentId": "lens.ImageDisplay",
+					"title": "Image Display",
+					"URL": "mockupimages/BP-eBible.PNG"
+				},
+
+				{
+					"fragmentType": "JS",
+					"fragmentId": "lens.ImageDisplay",
+					"title": "Image Display",
+					"URL": "mockupimages/BP-DealFinancials.PNG"
+				}
+			]
+		},
+
+		"Employee": 
+		{
+			"rows": 2,
+			"fragments": 
+			[
+				{
+					"fragmentType": "JS",
+					"fragmentId": "lens.FormDisplay",
+					"title": "Employee Details",
+					"URL": "proxy/http/192.168.1.201:10035/repositories/northwind",
+					"fragmentQuery": "select ?titleOfCourtesy ?firstName ?lastName ?homePhone  ?postalCode ?title ?notes where {  ?employee <http://northwind.com#titleOfCourtesy> ?titleOfCourtesy . ?employee <http://northwind.com#firstName> ?firstName . ?employee <http://northwind.com#lastName> ?lastName . ?employee <http://northwind.com#homePhone> ?homePhone . ?employee <http://northwind.com#title> ?title . ?employee <http://northwind.com#postalCode> ?postalCode . ?employee <http://northwind.com#notes> ?notes . VALUES(?employee){(%entity%)} }"
+				},
+
+				{
+					"fragmentType": "JS",
+					"fragmentId": "lens.GridDisplay",
+					"title": "Employee Territories",
+					"URL": "proxy/http/192.168.1.201:10035/repositories/northwind",
+					"fragmentQuery": "SELECT ?territory ?region ?territoryDescription WHERE { ?employee <http://northwind.com#territory>  ?territory . ?territory <http://northwind.com#region>  ?region . ?territory <http://northwind.com#territoryDescription>  ?territoryDescription .  VALUES(?employee){(%entity%)}}"
+				},
+
+				{
+					"fragmentType": "JS",
+					"fragmentId": "lens.GridDisplay",
+					"title": "Employee Orders",
+					"URL": "proxy/http/192.168.1.201:10035/repositories/northwind",
+					"fragmentQuery": "SELECT ?order ?shippedDate ?shipVia ?companyName WHERE { ?order <http://northwind.com#employee>  ?employee . ?order  <http://northwind.com#shippedDate> ?shippedDate . ?order  <http://northwind.com#shipVia> ?shipVia . ?shipVia <http://northwind.com#companyName> ?companyName . VALUES(?employee){(%entity%)}}"
+				},
+
+				{
+					"fragmentType": "JS",
+					"fragmentId": "lens.ImageDisplay",
+					"title": "Associates",
+					"URL": "mockupimages/Generic-People.PNG"
+				}
+			]
+		},
+
+		"Order": 
+		{
+			"rows": 1,
+			"height": "500px",
+			"fragments": 
+			[
+				{
+					"fragmentType": "JS",
+					"fragmentId": "lens.ImageDisplay",
+					"title": "Order Mockup",
+					"URL": "mockupimages/Generic-Documents.png"
+				}
+			]
+		},
+
+		"OrderDetail": 
+		{
+			"rows": 1,
+			"fragments": 
+			[
+				{
+					"fragmentType": "JS",
+					"fragmentId": "lens.ImageDisplay",
+					"title": "OrderDetail mockup",
+					"URL": "mockupimages/Generic-People.PNG"
+				}
+			]
+		},
+
+		"Product": 
+		{
+			"rows": 1,
+			"fragments": 
+			[
+				{
+					"fragmentType": "JS",
+					"fragmentId": "lens.ImageDisplay",
+					"title": "Product summary mockup",
+					"URL": "mockupimages/Generic-News.PNG"
+				}
+			]
+		},
+
+		"Shipper": 
+		{
+			"rows": 1,
+			"fragments": 
+			[
+				{
+					"fragmentType": "JS",
+					"fragmentId": "lens.ImageDisplay",
+					"title": "Shipper Mockup",
+					"URL": "mockupimages/Generic-ResearchDocuments.png"
+				}
+			]
+		},
+
+		"Territory": 
+		{
+			"rows": 1,
+			"fragments": 
+			[
+				{
+					"fragmentType": "JS",
+					"fragmentId": "lens.ImageDisplay",
+					"title": "Territory Mockup",
+					"URL": "mockupimages/Generic-ResearchDocuments.png"
+				}
+			]
+		},
+
+		"Region": 
+		{
+			"rows": 1,
+			"fragments": 
+			[
+				{
+					"fragmentType": "JS",
+					"fragmentId": "lens.ImageDisplay",
+					"title": "Region Mockup",
+					"URL": "mockupimages/Generic-ResearchDocuments.png"
+				}
+			]
+		},
+
+		"Supplier": 
+		{
+			"rows": 1,
+			"fragments": 
+			[
+				{
+					"fragmentType": "JS",
+					"fragmentId": "lens.ImageDisplay",
+					"title": "Supplier Mockup",
+					"URL": "mockupimages/Generic-ResearchDocuments.png"
+				}
+			]
+		}
+	},
+
+	"Briefing": 
+	{
+		"Category": 
+		{
+			"rows": 3,
+			"fragments": 
+			[
+				{
+					"fragmentType": "JS",
+					"fragmentId": "lens.FormDisplay",
+					"title": "Form Display",
+					"URL": "proxy/http/192.168.1.201:10035/repositories/northwind",
+					"fragmentQuery": "select ?s ?p ?o where {?s ?p ?o . VALUES(?s){(%entity%)}}"
+				},
+
+				{
+					"fragmentType": "JS",
+					"fragmentId": "lens.GridDisplay",
+					"title": "Grid Display",
+					"URL": "proxy/http/192.168.1.201:10035/repositories/northwind",
+					"fragmentQuery": "select ?subject ?p ?o where {?subject ?p ?o . VALUES(?subject){(%entity%)}}"
+				},
+
+				{
+					"fragmentType": "JS",
+					"fragmentId": "lens.FormDisplay",
+					"title": "Form Display 2",
+					"URL": "proxy/http/192.168.1.201:10035/repositories/northwind",
+					"fragmentQuery": "select ?subject ?predicate ?object where {?subject ?predicate ?object . VALUES(?subject){(%entity%)}}"
+				},
+
+				{
+					"fragmentType": "JS",
+					"fragmentId": "lens.ImageDisplay",
+					"title": "Image Display",
+					"URL": "proxy/http/192.168.1.201:10035/repositories/northwind",
+					"fragmentQuery": "select ?subject ?p ?o where {?subject ?p ?o . VALUES(?subject){(%entity%)}}"
+				}
+			]
+		},
+
+		"Customer": 
+		{
+			"rows": 3,
+			"fragments": 
+			[
+				{
+					"fragmentType": "JS",
+					"fragmentId": "lens.FormDisplay",
+					"title": "Company Summary",
+					"URL": "proxy/http/192.168.1.201:10035/repositories/northwind",
+					"fragmentQuery": "SELECT ?companyName  ?address ?city ?country ?postalCode ?phone WHERE {?customer <http://northwind.com#companyName>  ?companyName .?customer <http://northwind.com#address>  ?address .?customer <http://northwind.com#city>  ?city .  ?customer <http://northwind.com#country>  ?country . ?customer <http://northwind.com#postalCode>  ?postalCode . ?customer <http://northwind.com#phone>  ?phone .  VALUES(?customer){(%entity%)}}"
+				},
+
+				{
+					"fragmentType": "JS",
+					"fragmentId": "lens.GridDisplay",
+					"title": "Company Completed Order Details",
+					"URL": "proxy/http/192.168.1.201:10035/repositories/northwind",
+					"fragmentQuery": "SELECT ?order ?shippedDate ?shipVia ?companyName WHERE { ?order <http://northwind.com#customer>  ?customer . ?order  <http://northwind.com#shippedDate> ?shippedDate . ?order  <http://northwind.com#shipVia> ?shipVia . ?shipVia <http://northwind.com#companyName> ?companyName .VALUES(?customer){(%entity%)}}"
+				},
+
+				{
+					"fragmentType": "JS",
+					"fragmentId": "lens.FormDisplay",
+					"title": "Company property values",
+					"URL": "proxy/http/192.168.1.201:10035/repositories/northwind",
+					"fragmentQuery": "select ?predicate ?object where {?subject ?predicate ?object . VALUES(?subject){(%entity%)}}"
+				},
+
+				{
+					"fragmentType": "JS",
+					"fragmentId": "lens.ImageDisplay",
+					"title": "Image Display",
+					"URL": "mockupimages/BP-eBible.PNG"
+				},
+
+				{
+					"fragmentType": "JS",
+					"fragmentId": "lens.ImageDisplay",
+					"title": "Image Display",
+					"URL": "mockupimages/BP-DealFinancials.PNG"
+				}
+			]
+		},
+
+		"Employee": 
+		{
+			"rows": 2,
+			"fragments": 
+			[
+				{
+					"fragmentType": "JS",
+					"fragmentId": "lens.FormDisplay",
+					"title": "Employee Details",
+					"URL": "proxy/http/192.168.1.201:10035/repositories/northwind",
+					"fragmentQuery": "select ?titleOfCourtesy ?firstName ?lastName ?homePhone  ?postalCode ?title ?notes where {  ?employee <http://northwind.com#titleOfCourtesy> ?titleOfCourtesy . ?employee <http://northwind.com#firstName> ?firstName . ?employee <http://northwind.com#lastName> ?lastName . ?employee <http://northwind.com#homePhone> ?homePhone . ?employee <http://northwind.com#title> ?title . ?employee <http://northwind.com#postalCode> ?postalCode . ?employee <http://northwind.com#notes> ?notes . VALUES(?employee){(%entity%)} }"
+				},
+
+				{
+					"fragmentType": "JS",
+					"fragmentId": "lens.GridDisplay",
+					"title": "Employee Territories",
+					"URL": "proxy/http/192.168.1.201:10035/repositories/northwind",
+					"fragmentQuery": "SELECT ?territory ?region ?territoryDescription WHERE { ?employee <http://northwind.com#territory>  ?territory . ?territory <http://northwind.com#region>  ?region . ?territory <http://northwind.com#territoryDescription>  ?territoryDescription .  VALUES(?employee){(%entity%)}}"
+				},
+
+				{
+					"fragmentType": "JS",
+					"fragmentId": "lens.GridDisplay",
+					"title": "Employee Orders",
+					"URL": "proxy/http/192.168.1.201:10035/repositories/northwind",
+					"fragmentQuery": "SELECT ?order ?shippedDate ?shipVia ?companyName WHERE { ?order <http://northwind.com#employee>  ?employee . ?order  <http://northwind.com#shippedDate> ?shippedDate . ?order  <http://northwind.com#shipVia> ?shipVia . ?shipVia <http://northwind.com#companyName> ?companyName . VALUES(?employee){(%entity%)}}"
+				},
+
+				{
+					"fragmentType": "JS",
+					"fragmentId": "lens.ImageDisplay",
+					"title": "Associates",
+					"URL": "mockupimages/Generic-People.PNG"
+				}
+			]
+		}
+	}
+}

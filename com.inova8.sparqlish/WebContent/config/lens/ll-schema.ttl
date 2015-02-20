@@ -1,0 +1,1297 @@
+# baseURI: http://linklaters.com/schema/ll-schema
+
+@prefix linklaters: <http://data.linklaters.com/> .
+@prefix ll-schema: <http://linklaters.com/schema/ll-schema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix spin: <http://spinrdf.org/spin#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+linklaters:Client
+  rdf:type owl:Class ;
+  rdfs:label "Client" ;
+.
+linklaters:ClientType
+  rdf:type owl:Class ;
+  rdfs:label "Client type" ;
+.
+linklaters:Company
+  rdf:type owl:Class ;
+  rdfs:label "Company" ;
+.
+linklaters:CompanyType
+  rdf:type owl:Class ;
+  rdfs:label "Company type" ;
+.
+linklaters:CostCentre
+  rdf:type owl:Class ;
+  rdfs:label "Cost centre" ;
+.
+linklaters:Country
+  rdf:type owl:Class ;
+  rdfs:label "Country" ;
+.
+linklaters:Deal
+  rdf:type owl:Class ;
+  rdfs:label "Deal" ;
+.
+linklaters:Division
+  rdf:type owl:Class ;
+  rdfs:label "Division" ;
+.
+linklaters:Document
+  rdf:type owl:Class ;
+  rdfs:label "Document" ;
+.
+linklaters:DocumentType
+  rdf:type owl:Class ;
+  rdfs:label "Document type" ;
+.
+linklaters:Feature
+  rdf:type owl:Class ;
+  rdfs:label "Feature" ;
+.
+linklaters:Fee
+  rdf:type owl:Class ;
+  rdfs:label "Fee" ;
+.
+linklaters:FeeStructure
+  rdf:type owl:Class ;
+  rdfs:label "Fee structure" ;
+.
+linklaters:Job
+  rdf:type owl:Class ;
+  rdfs:label "Job" ;
+.
+linklaters:JobGroup
+  rdf:type owl:Class ;
+  rdfs:label "Job group" ;
+.
+linklaters:Jurisdiction
+  rdf:type owl:Class ;
+  rdfs:label "Jurisdiction" ;
+.
+linklaters:LinklatersSector
+  rdf:type owl:Class ;
+  rdfs:label "Linklaters sector" ;
+.
+linklaters:Matter
+  rdf:type owl:Class ;
+  rdfs:label "Matter" ;
+.
+linklaters:MatterStatus
+  rdf:type owl:Class ;
+  rdfs:label "Matter status" ;
+.
+linklaters:Office
+  rdf:type owl:Class ;
+  rdfs:label "Office" ;
+.
+linklaters:OfficeInvolvement
+  rdf:type owl:Class ;
+  rdfs:label "Office involvement" ;
+.
+linklaters:OrganisationRole
+  rdf:type owl:Class ;
+  rdfs:label "Organisation role" ;
+.
+linklaters:Person
+  rdf:type owl:Class ;
+  rdfs:label "Person" ;
+.
+linklaters:Position
+  rdf:type owl:Class ;
+  rdfs:label "Position" ;
+.
+linklaters:PracticeGroup
+  rdf:type owl:Class ;
+  rdfs:label "Practice group" ;
+.
+linklaters:ProfitCentre
+  rdf:type owl:Class ;
+  rdfs:label "Profit centre" ;
+.
+linklaters:Region
+  rdf:type owl:Class ;
+  rdfs:label "Region" ;
+.
+linklaters:SICCode
+  rdf:type owl:Class ;
+  rdfs:label "SICCode" ;
+.
+linklaters:TransactionType
+  rdf:type owl:Class ;
+  rdfs:label "Transaction type" ;
+.
+linklaters:cappingAmount
+  rdf:type owl:DatatypeProperty ;
+  rdfs:domain linklaters:Matter ;
+  rdfs:label "capping amount" ;
+  rdfs:range xsd:decimal ;
+.
+linklaters:catTag
+  rdf:type owl:DatatypeProperty ;
+  rdfs:domain linklaters:Person ;
+  rdfs:label "cat tag" ;
+  rdfs:range xsd:string ;
+.
+linklaters:chargeable
+  rdf:type owl:DatatypeProperty ;
+  rdfs:domain linklaters:Fee ;
+  rdfs:label "chargeable" ;
+  rdfs:range xsd:decimal ;
+.
+linklaters:clientAttribute
+  rdf:type owl:DatatypeProperty ;
+  rdfs:domain linklaters:Matter ;
+  rdfs:label "attribute"^^xsd:string ;
+  rdfs:range xsd:string ;
+.
+linklaters:clientID
+  rdf:type owl:DatatypeProperty ;
+  rdfs:domain linklaters:Client ;
+  rdfs:label "ID"^^xsd:string ;
+  rdfs:range xsd:integer ;
+.
+linklaters:clientName
+  rdf:type owl:DatatypeProperty ;
+  rdfs:domain linklaters:Client ;
+  rdfs:label "name"^^xsd:string ;
+  rdfs:range xsd:string ;
+  owl:equivalentProperty rdfs:label ;
+.
+linklaters:clientRole
+  rdf:type owl:DatatypeProperty ;
+  rdfs:domain linklaters:Matter ;
+  rdfs:label "role"^^xsd:string ;
+  rdfs:range xsd:string ;
+.
+linklaters:clientTypeName
+  rdf:type owl:DatatypeProperty ;
+  rdfs:domain linklaters:ClientType ;
+  rdfs:label "name"^^xsd:string ;
+  rdfs:range xsd:string ;
+  owl:equivalentProperty rdfs:label ;
+.
+linklaters:closedDate
+  rdf:type owl:DatatypeProperty ;
+  rdfs:domain linklaters:Matter ;
+  rdfs:label "closed date" ;
+  rdfs:range xsd:date ;
+.
+linklaters:companiesHouseLink
+  rdf:type owl:DatatypeProperty ;
+  rdfs:domain linklaters:Client ;
+  rdfs:domain linklaters:Company ;
+  rdfs:label "link"^^xsd:string ;
+  rdfs:range xsd:anyURI ;
+.
+linklaters:companyID
+  rdf:type owl:DatatypeProperty ;
+  rdfs:domain linklaters:Company ;
+  rdfs:label "ID"^^xsd:string ;
+  rdfs:range xsd:string ;
+.
+linklaters:companyName
+  rdf:type owl:DatatypeProperty ;
+  rdfs:domain linklaters:Company ;
+  rdfs:label "name"^^xsd:string ;
+  rdfs:range xsd:string ;
+  owl:equivalentProperty rdfs:label ;
+.
+linklaters:companyType
+  rdf:type owl:DatatypeProperty ;
+  rdfs:domain linklaters:CompanyType ;
+  rdfs:label "type"^^xsd:string ;
+  rdfs:range xsd:string ;
+  owl:equivalentProperty rdfs:label ;
+.
+linklaters:costCentreID
+  rdf:type owl:DatatypeProperty ;
+  rdfs:domain linklaters:CostCentre ;
+  rdfs:label "cost centre ID" ;
+  rdfs:range xsd:integer ;
+.
+linklaters:costCentreName
+  rdf:type owl:DatatypeProperty ;
+  rdfs:domain linklaters:CostCentre ;
+  rdfs:label "name"^^xsd:string ;
+  rdfs:range xsd:string ;
+  owl:equivalentProperty rdfs:label ;
+.
+linklaters:countryName
+  rdf:type owl:DatatypeProperty ;
+  rdfs:domain linklaters:Country ;
+  rdfs:label "name"^^xsd:string ;
+  rdfs:range xsd:string ;
+  owl:equivalentProperty rdfs:label ;
+.
+linklaters:dealDescription
+  rdf:type owl:DatatypeProperty ;
+  rdfs:domain linklaters:Deal ;
+  rdfs:label "description"^^xsd:string ;
+  rdfs:range xsd:string ;
+.
+linklaters:dealID
+  rdf:type owl:DatatypeProperty ;
+  rdfs:domain linklaters:Deal ;
+  rdfs:label "ID"^^xsd:string ;
+  rdfs:range xsd:string ;
+.
+linklaters:dealTitle
+  rdf:type owl:DatatypeProperty ;
+  rdfs:domain linklaters:Deal ;
+  rdfs:label "title"^^xsd:string ;
+  rdfs:range xsd:string ;
+  owl:equivalentProperty rdfs:label ;
+.
+linklaters:divisionName
+  rdf:type owl:DatatypeProperty ;
+  rdfs:domain linklaters:Division ;
+  rdfs:label "name"^^xsd:string ;
+  rdfs:range xsd:string ;
+  owl:equivalentProperty rdfs:label ;
+.
+linklaters:documentDescription
+  rdf:type owl:DatatypeProperty ;
+  rdfs:domain linklaters:Document ;
+  rdfs:label "description"^^xsd:string ;
+  rdfs:range xsd:string ;
+  owl:equivalentProperty rdfs:label ;
+.
+linklaters:documentReference
+  rdf:type owl:DatatypeProperty ;
+  rdfs:domain linklaters:Document ;
+  rdfs:label "reference"^^xsd:string ;
+  rdfs:range xsd:anyURI ;
+.
+linklaters:documentTypeName
+  rdf:type owl:DatatypeProperty ;
+  rdfs:domain linklaters:DocumentType ;
+  rdfs:label "name"^^xsd:string ;
+  rdfs:range xsd:string ;
+  owl:equivalentProperty rdfs:label ;
+.
+linklaters:featureCode
+  rdf:type owl:DatatypeProperty ;
+  rdfs:domain linklaters:Feature ;
+  rdfs:label "code"^^xsd:string ;
+  rdfs:range xsd:string ;
+.
+linklaters:featureName
+  rdf:type owl:DatatypeProperty ;
+  rdfs:domain linklaters:Feature ;
+  rdfs:label "name"^^xsd:string ;
+  rdfs:range xsd:string ;
+  owl:equivalentProperty rdfs:label ;
+.
+linklaters:feeStructureName
+  rdf:type owl:DatatypeProperty ;
+  rdfs:domain linklaters:FeeStructure ;
+  rdfs:label "name"^^xsd:string ;
+  rdfs:range xsd:string ;
+  owl:equivalentProperty rdfs:label ;
+.
+linklaters:ftseClassification
+  rdf:type owl:DatatypeProperty ;
+  rdfs:domain linklaters:Client ;
+  rdfs:label "classification"^^xsd:string ;
+  rdfs:range xsd:string ;
+.
+linklaters:hasSecondmentOffice
+  rdf:type owl:ObjectProperty ;
+  rdfs:domain linklaters:Person ;
+  rdfs:label "has Office" ;
+  rdfs:range linklaters:Office ;
+.
+linklaters:intakeMth
+  rdf:type owl:DatatypeProperty ;
+  rdfs:domain linklaters:Person ;
+  rdfs:label "intake mth" ;
+  rdfs:range xsd:integer ;
+.
+linklaters:intakeYear
+  rdf:type owl:DatatypeProperty ;
+  rdfs:domain linklaters:Person ;
+  rdfs:label "intake year" ;
+  rdfs:range xsd:integer ;
+.
+linklaters:isClientOfClientType
+  rdf:type owl:ObjectProperty ;
+  rdfs:domain linklaters:Client ;
+  rdfs:label "has Client type" ;
+  rdfs:range linklaters:ClientType ;
+.
+linklaters:isClientOfCompany
+  rdf:type owl:ObjectProperty ;
+  rdfs:domain linklaters:Client ;
+  rdfs:label "has Company" ;
+  rdfs:range linklaters:Company ;
+.
+linklaters:isClientOfLinklatersSector
+  rdf:type owl:ObjectProperty ;
+  rdfs:domain linklaters:Client ;
+  rdfs:label "has Linklaters sector" ;
+  rdfs:range linklaters:LinklatersSector ;
+.
+linklaters:isClientOfManagingRelationshipPartner
+  rdf:type owl:ObjectProperty ;
+  rdfs:domain linklaters:Client ;
+  rdfs:label "has Person" ;
+  rdfs:range linklaters:Person ;
+.
+linklaters:isClientOfMatter
+  rdf:type owl:ObjectProperty ;
+  rdfs:domain linklaters:Client ;
+  rdfs:label "has Matter" ;
+  rdfs:range linklaters:Matter ;
+.
+linklaters:isClientOfSICCode
+  rdf:type owl:ObjectProperty ;
+  rdfs:domain linklaters:Client ;
+  rdfs:label "has SICCode" ;
+  rdfs:range linklaters:SICCode ;
+.
+linklaters:isClientTypeOfClient
+  rdf:type owl:ObjectProperty ;
+  rdfs:domain linklaters:ClientType ;
+  rdfs:label "has Client" ;
+  rdfs:range linklaters:Client ;
+.
+linklaters:isCompanyOfClient
+  rdf:type owl:ObjectProperty ;
+  rdfs:domain linklaters:Company ;
+  rdfs:label "has Client" ;
+  rdfs:range linklaters:Client ;
+.
+linklaters:isCompanyOfCompanyType
+  rdf:type owl:ObjectProperty ;
+  rdfs:domain linklaters:Company ;
+  rdfs:label "has Company type" ;
+  rdfs:range linklaters:CompanyType ;
+.
+linklaters:isCompanyOfLinklatersSector
+  rdf:type owl:ObjectProperty ;
+  rdfs:domain linklaters:Company ;
+  rdfs:label "has Linklaters sector" ;
+  rdfs:range linklaters:LinklatersSector ;
+.
+linklaters:isCompanyTypeOfCompany
+  rdf:type owl:ObjectProperty ;
+  rdfs:domain linklaters:CompanyType ;
+  rdfs:label "has Company" ;
+  rdfs:range linklaters:Company ;
+.
+linklaters:isCostCenterOfDivision
+  rdf:type owl:ObjectProperty ;
+  rdfs:domain linklaters:CostCentre ;
+  rdfs:label "has Division" ;
+  rdfs:range linklaters:Division ;
+.
+linklaters:isCostCenterOfOffice
+  rdf:type owl:ObjectProperty ;
+  rdfs:domain linklaters:CostCentre ;
+  rdfs:label "has Office" ;
+  rdfs:range linklaters:Office ;
+.
+linklaters:isCostCenterOfPracticeGroup
+  rdf:type owl:ObjectProperty ;
+  rdfs:domain linklaters:CostCentre ;
+  rdfs:label "has Practice group" ;
+  rdfs:range linklaters:PracticeGroup ;
+.
+linklaters:isCostCentreOfCountry
+  rdf:type owl:ObjectProperty ;
+  rdfs:domain linklaters:CostCentre ;
+  rdfs:label "has Country" ;
+  rdfs:range linklaters:Country ;
+.
+linklaters:isCostCentreOfPerson
+  rdf:type owl:ObjectProperty ;
+  rdfs:domain linklaters:CostCentre ;
+  rdfs:label "has Person" ;
+  rdfs:range linklaters:Person ;
+.
+linklaters:isCostCentreOfProfitCentre
+  rdf:type owl:ObjectProperty ;
+  rdfs:domain linklaters:CostCentre ;
+  rdfs:label "has Profit centre" ;
+  rdfs:range linklaters:ProfitCentre ;
+.
+linklaters:isCountryOfCostCentre
+  rdf:type owl:ObjectProperty ;
+  rdfs:domain linklaters:Country ;
+  rdfs:label "has Cost centre" ;
+  rdfs:range linklaters:CostCentre ;
+.
+linklaters:isCountryOfOffice
+  rdf:type owl:ObjectProperty ;
+  rdfs:domain linklaters:Country ;
+  rdfs:label "has Office" ;
+  rdfs:range linklaters:Office ;
+.
+linklaters:isCountryOfPerson
+  rdf:type owl:ObjectProperty ;
+  rdfs:domain linklaters:Country ;
+  rdfs:label "has Person" ;
+  rdfs:range linklaters:Person ;
+.
+linklaters:isCountryOfPracticeGroup
+  rdf:type owl:ObjectProperty ;
+  rdfs:domain linklaters:Country ;
+  rdfs:label "has Practice group" ;
+  rdfs:range linklaters:PracticeGroup ;
+.
+linklaters:isCountryOfProfitCentre
+  rdf:type owl:ObjectProperty ;
+  rdfs:domain linklaters:Country ;
+  rdfs:label "has Profit centre" ;
+  rdfs:range linklaters:ProfitCentre ;
+.
+linklaters:isCountryOfRegion
+  rdf:type owl:ObjectProperty ;
+  rdfs:domain linklaters:Country ;
+  rdfs:label "has Region" ;
+  rdfs:range linklaters:Region ;
+.
+linklaters:isDealOfDocument
+  rdf:type owl:ObjectProperty ;
+  rdfs:domain linklaters:Deal ;
+  rdfs:label "has Document" ;
+  rdfs:range linklaters:Document ;
+.
+linklaters:isDealOfFeature
+  rdf:type owl:ObjectProperty ;
+  rdfs:domain linklaters:Deal ;
+  rdfs:label "has Feature" ;
+  rdfs:range linklaters:Feature ;
+.
+linklaters:isDealOfMatter
+  rdf:type owl:ObjectProperty ;
+  rdfs:domain linklaters:Deal ;
+  rdfs:label "has Matter" ;
+  rdfs:range linklaters:Matter ;
+.
+linklaters:isDealOfOffice
+  rdf:type owl:ObjectProperty ;
+  rdfs:domain linklaters:Deal ;
+  rdfs:label "has Office" ;
+  rdfs:range linklaters:Office ;
+.
+linklaters:isDealOfOfficeInvolvement
+  rdf:type owl:ObjectProperty ;
+  rdfs:domain linklaters:Deal ;
+  rdfs:label "has Office involvement" ;
+  rdfs:range linklaters:OfficeInvolvement ;
+.
+linklaters:isDealOfPracticeGroup
+  rdf:type owl:ObjectProperty ;
+  rdfs:domain linklaters:Deal ;
+  rdfs:label "has Practice group" ;
+  rdfs:range linklaters:PracticeGroup ;
+.
+linklaters:isDealOfSICCode
+  rdf:type owl:ObjectProperty ;
+  rdfs:domain linklaters:Deal ;
+  rdfs:label "has SICCode" ;
+  rdfs:range linklaters:SICCode ;
+.
+linklaters:isDealOfTransactionType
+  rdf:type owl:ObjectProperty ;
+  rdfs:domain linklaters:Deal ;
+  rdfs:label "has Transaction type" ;
+  rdfs:range linklaters:TransactionType ;
+.
+linklaters:isDealofLinklatersSector
+  rdf:type owl:ObjectProperty ;
+  rdfs:domain linklaters:Deal ;
+  rdfs:label "has Linklaters sector" ;
+  rdfs:range linklaters:LinklatersSector ;
+.
+linklaters:isDivisionOfCostCentre
+  rdf:type owl:ObjectProperty ;
+  rdfs:domain linklaters:Division ;
+  rdfs:label "has Cost centre" ;
+  rdfs:range linklaters:CostCentre ;
+.
+linklaters:isDivisionOfOffice
+  rdf:type owl:ObjectProperty ;
+  rdfs:domain linklaters:Division ;
+  rdfs:label "has Office" ;
+  rdfs:range linklaters:Office ;
+.
+linklaters:isDivisionOfPerson
+  rdf:type owl:ObjectProperty ;
+  rdfs:domain linklaters:Division ;
+  rdfs:label "has Person" ;
+  rdfs:range linklaters:Person ;
+.
+linklaters:isDivisionOfPracticeGroup
+  rdf:type owl:ObjectProperty ;
+  rdfs:domain linklaters:Division ;
+  rdfs:label "has Practice group" ;
+  rdfs:range linklaters:PracticeGroup ;
+.
+linklaters:isDivisionOfProfitCentre
+  rdf:type owl:ObjectProperty ;
+  rdfs:domain linklaters:Division ;
+  rdfs:label "has Profit centre" ;
+  rdfs:range linklaters:ProfitCentre ;
+.
+linklaters:isDocumentOfDeal
+  rdf:type owl:ObjectProperty ;
+  rdfs:domain linklaters:Document ;
+  rdfs:label "has Deal" ;
+  rdfs:range linklaters:Deal ;
+.
+linklaters:isDocumentOfDocumentType
+  rdf:type owl:ObjectProperty ;
+  rdfs:domain linklaters:Document ;
+  rdfs:label "has Document type" ;
+  rdfs:range linklaters:DocumentType ;
+.
+linklaters:isDocumentTypeOfDeal
+  rdf:type owl:ObjectProperty ;
+  rdfs:domain linklaters:DocumentType ;
+  rdfs:label "has Deal" ;
+  rdfs:range linklaters:Deal ;
+.
+linklaters:isDocumentTypeOfDocument
+  rdf:type owl:ObjectProperty ;
+  rdfs:domain linklaters:DocumentType ;
+  rdfs:label "has Document" ;
+  rdfs:range linklaters:Document ;
+.
+linklaters:isFeatureOfDeal
+  rdf:type owl:ObjectProperty ;
+  rdfs:domain linklaters:Feature ;
+  rdfs:label "has Deal" ;
+  rdfs:range linklaters:Deal ;
+.
+linklaters:isFeeEarnerOfFee
+  rdf:type owl:ObjectProperty ;
+  rdfs:domain linklaters:Person ;
+  rdfs:label "has Fee" ;
+  rdfs:range linklaters:Fee ;
+.
+linklaters:isFeeEarnerOfMatter
+  rdf:type owl:ObjectProperty ;
+  rdfs:domain linklaters:Person ;
+  rdfs:label "has Matter" ;
+  rdfs:range linklaters:Matter ;
+.
+linklaters:isFeeOfFeeEarner
+  rdf:type owl:ObjectProperty ;
+  rdfs:domain linklaters:Fee ;
+  rdfs:label "has Person" ;
+  rdfs:range linklaters:Person ;
+.
+linklaters:isFeeOfMatter
+  rdf:type owl:ObjectProperty ;
+  rdfs:domain linklaters:Fee ;
+  rdfs:label "has Matter" ;
+  rdfs:range linklaters:Matter ;
+.
+linklaters:isFeeStructureOfMatter
+  rdf:type owl:ObjectProperty ;
+  rdfs:domain linklaters:FeeStructure ;
+  rdfs:label "has Matter" ;
+  rdfs:range linklaters:Matter ;
+.
+linklaters:isJobGroupOfPerson
+  rdf:type owl:ObjectProperty ;
+  rdfs:domain linklaters:JobGroup ;
+  rdfs:label "has Person" ;
+  rdfs:range linklaters:Person ;
+.
+linklaters:isJobOfPerson
+  rdf:type owl:ObjectProperty ;
+  rdfs:domain linklaters:Job ;
+  rdfs:label "has Person" ;
+  rdfs:range linklaters:Person ;
+.
+linklaters:isJurisdictionOfMatter
+  rdf:type owl:ObjectProperty ;
+  rdfs:domain linklaters:Jurisdiction ;
+  rdfs:label "has Matter" ;
+  rdfs:range linklaters:Matter ;
+.
+linklaters:isLead
+  rdf:type owl:DatatypeProperty ;
+  rdfs:domain linklaters:OfficeInvolvement ;
+  rdfs:label "lead"^^xsd:string ;
+  rdfs:range xsd:boolean ;
+.
+linklaters:isLinklatersSectorOfClient
+  rdf:type owl:ObjectProperty ;
+  rdfs:domain linklaters:LinklatersSector ;
+  rdfs:label "has Client" ;
+  rdfs:range linklaters:Client ;
+.
+linklaters:isLinklatersSectorOfCompany
+  rdf:type owl:ObjectProperty ;
+  rdfs:domain linklaters:LinklatersSector ;
+  rdfs:label "has Company" ;
+  rdfs:range linklaters:Company ;
+.
+linklaters:isLinklatersSectorOfDeal
+  rdf:type owl:ObjectProperty ;
+  rdfs:domain linklaters:LinklatersSector ;
+  rdfs:label "has Deal" ;
+  rdfs:range linklaters:Deal ;
+.
+linklaters:isLinklatersSectorOfMatter
+  rdf:type owl:ObjectProperty ;
+  rdfs:domain linklaters:LinklatersSector ;
+  rdfs:label "has Matter" ;
+  rdfs:range linklaters:Matter ;
+.
+linklaters:isMainRegionOfSubRegion
+  rdf:type owl:ObjectProperty ;
+  rdfs:domain linklaters:Region ;
+  rdfs:label "has Region" ;
+  rdfs:range linklaters:Region ;
+.
+linklaters:isManagingRelationshipPartnerOfClient
+  rdf:type owl:ObjectProperty ;
+  rdfs:domain linklaters:Person ;
+  rdfs:label "has Client" ;
+  rdfs:range linklaters:Client ;
+.
+linklaters:isMatterManagerOfMatter
+  rdf:type owl:ObjectProperty ;
+  rdfs:domain linklaters:Person ;
+  rdfs:label "has Matter" ;
+  rdfs:range linklaters:Matter ;
+.
+linklaters:isMatterOfClient
+  rdf:type owl:ObjectProperty ;
+  rdfs:domain linklaters:Matter ;
+  rdfs:label "has Client" ;
+  rdfs:range linklaters:Client ;
+.
+linklaters:isMatterOfCompany
+  rdf:type owl:ObjectProperty ;
+  rdfs:domain linklaters:Matter ;
+  rdfs:label "has Company" ;
+  rdfs:range linklaters:Company ;
+.
+linklaters:isMatterOfDeal
+  rdf:type owl:ObjectProperty ;
+  rdfs:domain linklaters:Matter ;
+  rdfs:label "has Deal" ;
+  rdfs:range linklaters:Deal ;
+.
+linklaters:isMatterOfFee
+  rdf:type owl:ObjectProperty ;
+  rdfs:domain linklaters:Matter ;
+  rdfs:label "has Fee" ;
+  rdfs:range linklaters:Fee ;
+.
+linklaters:isMatterOfFeeEarner
+  rdf:type owl:ObjectProperty ;
+  rdfs:domain linklaters:Matter ;
+  rdfs:label "has Person" ;
+  rdfs:range linklaters:Person ;
+.
+linklaters:isMatterOfFeeStructure
+  rdf:type owl:ObjectProperty ;
+  rdfs:domain linklaters:Matter ;
+  rdfs:label "has Fee structure" ;
+  rdfs:range linklaters:FeeStructure ;
+.
+linklaters:isMatterOfJurisdiction
+  rdf:type owl:ObjectProperty ;
+  rdfs:domain linklaters:Matter ;
+  rdfs:label "has Jurisdiction" ;
+  rdfs:range linklaters:Jurisdiction ;
+.
+linklaters:isMatterOfLinklatersSector
+  rdf:type owl:ObjectProperty ;
+  rdfs:domain linklaters:Matter ;
+  rdfs:label "has Linklaters sector" ;
+  rdfs:range linklaters:LinklatersSector ;
+.
+linklaters:isMatterOfMatterManager
+  rdf:type owl:ObjectProperty ;
+  rdfs:domain linklaters:Matter ;
+  rdfs:label "has Person" ;
+  rdfs:range linklaters:Person ;
+.
+linklaters:isMatterOfOffice
+  rdf:type owl:ObjectProperty ;
+  rdfs:domain linklaters:Matter ;
+  rdfs:label "has Office" ;
+  rdfs:range linklaters:Office ;
+.
+linklaters:isMatterOfPartner
+  rdf:type owl:ObjectProperty ;
+  rdfs:domain linklaters:Matter ;
+  rdfs:label "has Person" ;
+  rdfs:range linklaters:Person ;
+.
+linklaters:isMatterOfPracticeGroup
+  rdf:type owl:ObjectProperty ;
+  rdfs:domain linklaters:Matter ;
+  rdfs:label "has Practice group" ;
+  rdfs:range linklaters:PracticeGroup ;
+.
+linklaters:isMatterOfProfitCentre
+  rdf:type owl:ObjectProperty ;
+  rdfs:domain linklaters:Matter ;
+  rdfs:label "has Profit centre" ;
+  rdfs:range linklaters:ProfitCentre ;
+.
+linklaters:isMatterOfRegion
+  rdf:type owl:ObjectProperty ;
+  rdfs:domain linklaters:Matter ;
+  rdfs:label "has Region" ;
+  rdfs:range linklaters:Region ;
+.
+linklaters:isMatterOfStatus
+  rdf:type owl:ObjectProperty ;
+  rdfs:domain linklaters:Matter ;
+  rdfs:label "has Matter status" ;
+  rdfs:range linklaters:MatterStatus ;
+.
+linklaters:isMatterOfTransactionType
+  rdf:type owl:ObjectProperty ;
+  rdfs:domain linklaters:Matter ;
+  rdfs:label "has Transaction type" ;
+  rdfs:range linklaters:TransactionType ;
+.
+linklaters:isOfficeInvolvementOfDeal
+  rdf:type owl:ObjectProperty ;
+  rdfs:domain linklaters:OfficeInvolvement ;
+  rdfs:label "has Deal" ;
+  rdfs:range linklaters:Deal ;
+.
+linklaters:isOfficeInvolvementOfOffice
+  rdf:type owl:ObjectProperty ;
+  rdfs:domain linklaters:OfficeInvolvement ;
+  rdfs:label "has Office" ;
+  rdfs:range linklaters:Office ;
+.
+linklaters:isOfficeOfCostCentre
+  rdf:type owl:ObjectProperty ;
+  rdfs:domain linklaters:Office ;
+  rdfs:label "has Cost centre" ;
+  rdfs:range linklaters:CostCentre ;
+.
+linklaters:isOfficeOfCountry
+  rdf:type owl:ObjectProperty ;
+  rdfs:domain linklaters:Office ;
+  rdfs:label "has Country" ;
+  rdfs:range linklaters:Country ;
+.
+linklaters:isOfficeOfDeal
+  rdf:type owl:ObjectProperty ;
+  rdfs:domain linklaters:Office ;
+  rdfs:label "has Deal" ;
+  rdfs:range linklaters:Deal ;
+.
+linklaters:isOfficeOfDivision
+  rdf:type owl:ObjectProperty ;
+  rdfs:domain linklaters:Office ;
+  rdfs:label "has Division" ;
+  rdfs:range linklaters:Division ;
+.
+linklaters:isOfficeOfMatter
+  rdf:type owl:ObjectProperty ;
+  rdfs:domain linklaters:Office ;
+  rdfs:label "has Matter" ;
+  rdfs:range linklaters:Matter ;
+.
+linklaters:isOfficeOfOfficeInvolvement
+  rdf:type owl:ObjectProperty ;
+  rdfs:domain linklaters:Office ;
+  rdfs:label "has Office involvement" ;
+  rdfs:range linklaters:OfficeInvolvement ;
+.
+linklaters:isOfficeOfPerson
+  rdf:type owl:ObjectProperty ;
+  rdfs:domain linklaters:Office ;
+  rdfs:label "has Person" ;
+  rdfs:range linklaters:Person ;
+.
+linklaters:isOfficeOfPracticeGroup
+  rdf:type owl:ObjectProperty ;
+  rdfs:domain linklaters:Office ;
+  rdfs:label "has Practice group" ;
+  rdfs:range linklaters:PracticeGroup ;
+.
+linklaters:isOfficeOfProfitCentre
+  rdf:type owl:ObjectProperty ;
+  rdfs:domain linklaters:Office ;
+  rdfs:label "has Profit centre" ;
+  rdfs:range linklaters:ProfitCentre ;
+.
+linklaters:isOrganisationRoleOfPerson
+  rdf:type owl:ObjectProperty ;
+  rdfs:domain linklaters:OrganisationRole ;
+  rdfs:label "has Person" ;
+  rdfs:range linklaters:Person ;
+.
+linklaters:isPartnerOfMatter
+  rdf:type owl:ObjectProperty ;
+  rdfs:domain linklaters:Person ;
+  rdfs:label "has Matter" ;
+  rdfs:range linklaters:Matter ;
+.
+linklaters:isPersonOfCostCentre
+  rdf:type owl:ObjectProperty ;
+  rdfs:domain linklaters:Person ;
+  rdfs:label "has Cost centre" ;
+  rdfs:range linklaters:CostCentre ;
+.
+linklaters:isPersonOfCountry
+  rdf:type owl:ObjectProperty ;
+  rdfs:domain linklaters:Person ;
+  rdfs:label "has Country" ;
+  rdfs:range linklaters:Country ;
+.
+linklaters:isPersonOfDivision
+  rdf:type owl:ObjectProperty ;
+  rdfs:domain linklaters:Person ;
+  rdfs:label "has Division" ;
+  rdfs:range linklaters:Division ;
+.
+linklaters:isPersonOfJob
+  rdf:type owl:ObjectProperty ;
+  rdfs:domain linklaters:Person ;
+  rdfs:label "has Job" ;
+  rdfs:range linklaters:Job ;
+.
+linklaters:isPersonOfJobGroup1
+  rdf:type owl:ObjectProperty ;
+  rdfs:domain linklaters:Person ;
+  rdfs:label "has Job group" ;
+  rdfs:range linklaters:JobGroup ;
+.
+linklaters:isPersonOfJobGroup2
+  rdf:type owl:ObjectProperty ;
+  rdfs:domain linklaters:Person ;
+  rdfs:label "has Job group" ;
+  rdfs:range linklaters:JobGroup ;
+.
+linklaters:isPersonOfJobGroup3
+  rdf:type owl:ObjectProperty ;
+  rdfs:domain linklaters:Person ;
+  rdfs:label "has Job group" ;
+  rdfs:range linklaters:JobGroup ;
+.
+linklaters:isPersonOfOffice
+  rdf:type owl:ObjectProperty ;
+  rdfs:domain linklaters:Person ;
+  rdfs:label "has Office" ;
+  rdfs:range linklaters:Office ;
+.
+linklaters:isPersonOfOrganisationalRole
+  rdf:type owl:ObjectProperty ;
+  rdfs:domain linklaters:Person ;
+  rdfs:label "has Organisation role" ;
+  rdfs:range linklaters:OrganisationRole ;
+.
+linklaters:isPersonOfPosition
+  rdf:type owl:ObjectProperty ;
+  rdfs:domain linklaters:Person ;
+  rdfs:label "has Position" ;
+  rdfs:range linklaters:Position ;
+.
+linklaters:isPersonOfPracticeGroup
+  rdf:type owl:ObjectProperty ;
+  rdfs:domain linklaters:Person ;
+  rdfs:label "has Practice group" ;
+  rdfs:range linklaters:PracticeGroup ;
+.
+linklaters:isPersonOfProfitCentre
+  rdf:type owl:ObjectProperty ;
+  rdfs:domain linklaters:Person ;
+  rdfs:label "has Profit centre" ;
+  rdfs:range linklaters:ProfitCentre ;
+.
+linklaters:isPositionOfPerson
+  rdf:type owl:ObjectProperty ;
+  rdfs:domain linklaters:Position ;
+  rdfs:label "has Person" ;
+  rdfs:range linklaters:Person ;
+.
+linklaters:isPracticeGroupOfCostCentre
+  rdf:type owl:ObjectProperty ;
+  rdfs:domain linklaters:PracticeGroup ;
+  rdfs:label "has Cost centre" ;
+  rdfs:range linklaters:CostCentre ;
+.
+linklaters:isPracticeGroupOfCountry
+  rdf:type owl:ObjectProperty ;
+  rdfs:domain linklaters:PracticeGroup ;
+  rdfs:label "has Country" ;
+  rdfs:range linklaters:Country ;
+.
+linklaters:isPracticeGroupOfDeal
+  rdf:type owl:ObjectProperty ;
+  rdfs:domain linklaters:PracticeGroup ;
+  rdfs:label "has Deal" ;
+  rdfs:range linklaters:Deal ;
+.
+linklaters:isPracticeGroupOfDivision
+  rdf:type owl:ObjectProperty ;
+  rdfs:domain linklaters:PracticeGroup ;
+  rdfs:label "has Division" ;
+  rdfs:range linklaters:Division ;
+.
+linklaters:isPracticeGroupOfMatter
+  rdf:type owl:ObjectProperty ;
+  rdfs:domain linklaters:PracticeGroup ;
+  rdfs:label "has Matter" ;
+  rdfs:range linklaters:Matter ;
+.
+linklaters:isPracticeGroupOfOffice
+  rdf:type owl:ObjectProperty ;
+  rdfs:domain linklaters:PracticeGroup ;
+  rdfs:label "has Office" ;
+  rdfs:range linklaters:Office ;
+.
+linklaters:isPracticeGroupOfPerson
+  rdf:type owl:ObjectProperty ;
+  rdfs:domain linklaters:PracticeGroup ;
+  rdfs:label "has Person" ;
+  rdfs:range linklaters:Person ;
+.
+linklaters:isPracticeGroupOfProfitCentre
+  rdf:type owl:ObjectProperty ;
+  rdfs:domain linklaters:PracticeGroup ;
+  rdfs:label "has Profit centre" ;
+  rdfs:range linklaters:ProfitCentre ;
+.
+linklaters:isPracticeGroupOfTransactionType
+  rdf:type owl:ObjectProperty ;
+  rdfs:domain linklaters:PracticeGroup ;
+  rdfs:label "has Transaction type" ;
+  rdfs:range linklaters:TransactionType ;
+.
+linklaters:isProfitCenterOfOffice
+  rdf:type owl:ObjectProperty ;
+  rdfs:domain linklaters:ProfitCentre ;
+  rdfs:label "has Office" ;
+  rdfs:range linklaters:Office ;
+.
+linklaters:isProfitCentreOfCostCentre
+  rdf:type owl:ObjectProperty ;
+  rdfs:domain linklaters:ProfitCentre ;
+  rdfs:label "has Cost centre" ;
+  rdfs:range linklaters:CostCentre ;
+.
+linklaters:isProfitCentreOfCountry
+  rdf:type owl:ObjectProperty ;
+  rdfs:domain linklaters:ProfitCentre ;
+  rdfs:label "has Country" ;
+  rdfs:range linklaters:Country ;
+.
+linklaters:isProfitCentreOfDivision
+  rdf:type owl:ObjectProperty ;
+  rdfs:domain linklaters:ProfitCentre ;
+  rdfs:label "has Division" ;
+  rdfs:range linklaters:Division ;
+.
+linklaters:isProfitCentreOfMatter
+  rdf:type owl:ObjectProperty ;
+  rdfs:domain linklaters:ProfitCentre ;
+  rdfs:label "has Matter" ;
+  rdfs:range linklaters:Matter ;
+.
+linklaters:isProfitCentreOfPerson
+  rdf:type owl:ObjectProperty ;
+  rdfs:domain linklaters:ProfitCentre ;
+  rdfs:label "has Person" ;
+  rdfs:range linklaters:Person ;
+.
+linklaters:isProfitCentreOfPracticeGroup
+  rdf:type owl:ObjectProperty ;
+  rdfs:domain linklaters:ProfitCentre ;
+  rdfs:label "has Practice group" ;
+  rdfs:range linklaters:PracticeGroup ;
+.
+linklaters:isRegionOfCountry
+  rdf:type owl:ObjectProperty ;
+  rdfs:domain linklaters:Region ;
+  rdfs:label "has Country" ;
+  rdfs:range linklaters:Country ;
+.
+linklaters:isRegionOfMatter
+  rdf:type owl:ObjectProperty ;
+  rdfs:domain linklaters:Region ;
+  rdfs:label "has Matter" ;
+  rdfs:range linklaters:Matter ;
+.
+linklaters:isSICCodeOfClient
+  rdf:type owl:ObjectProperty ;
+  rdfs:domain linklaters:SICCode ;
+  rdfs:label "has Client" ;
+  rdfs:range linklaters:Client ;
+.
+linklaters:isSICCodeOfDeal
+  rdf:type owl:ObjectProperty ;
+  rdfs:domain linklaters:SICCode ;
+  rdfs:label "has Deal" ;
+  rdfs:range linklaters:Deal ;
+.
+linklaters:isSecondmentOfficeOfPerson
+  rdf:type owl:ObjectProperty ;
+  rdfs:domain linklaters:Office ;
+  rdfs:label "has Person" ;
+  rdfs:range linklaters:Person ;
+.
+linklaters:isStatusOfMatter
+  rdf:type owl:ObjectProperty ;
+  rdfs:domain linklaters:MatterStatus ;
+  rdfs:label "has Matter" ;
+  rdfs:range linklaters:Matter ;
+.
+linklaters:isTransactionTypeOfDeal
+  rdf:type owl:ObjectProperty ;
+  rdfs:domain linklaters:TransactionType ;
+  rdfs:label "has Deal" ;
+  rdfs:range linklaters:Deal ;
+.
+linklaters:isTransactionTypeOfMatter
+  rdf:type owl:ObjectProperty ;
+  rdfs:domain linklaters:TransactionType ;
+  rdfs:label "has Matter" ;
+  rdfs:range linklaters:Matter ;
+.
+linklaters:isTransactionTypeOfPracticeGroup
+  rdf:type owl:ObjectProperty ;
+  rdfs:domain linklaters:TransactionType ;
+  rdfs:label "has Practice group" ;
+  rdfs:range linklaters:PracticeGroup ;
+.
+linklaters:jobGroupName
+  rdf:type owl:DatatypeProperty ;
+  rdfs:domain linklaters:JobGroup ;
+  rdfs:label "name"^^xsd:string ;
+  rdfs:range xsd:string ;
+  owl:equivalentProperty rdfs:label ;
+.
+linklaters:jobTitle
+  rdf:type owl:DatatypeProperty ;
+  rdfs:domain linklaters:Job ;
+  rdfs:label "title"^^xsd:string ;
+  rdfs:range xsd:string ;
+  owl:equivalentProperty rdfs:label ;
+.
+linklaters:jurisdictionName
+  rdf:type owl:DatatypeProperty ;
+  rdfs:domain linklaters:Jurisdiction ;
+  rdfs:label "name"^^xsd:string ;
+  rdfs:range xsd:string ;
+  owl:equivalentProperty rdfs:label ;
+.
+linklaters:leavingDate
+  rdf:type owl:DatatypeProperty ;
+  rdfs:domain linklaters:Person ;
+  rdfs:label "leaving date" ;
+  rdfs:range xsd:date ;
+.
+linklaters:matterName
+  rdf:type owl:DatatypeProperty ;
+  rdfs:domain linklaters:Matter ;
+  rdfs:label "name"^^xsd:string ;
+  rdfs:range xsd:string ;
+.
+linklaters:matterStatus
+  rdf:type owl:DatatypeProperty ;
+  rdfs:domain linklaters:MatterStatus ;
+  rdfs:label "status"^^xsd:string ;
+  rdfs:range xsd:string ;
+  owl:equivalentProperty rdfs:label ;
+.
+linklaters:membershipCountry
+  rdf:type owl:DatatypeProperty ;
+  rdfs:domain linklaters:Person ;
+  rdfs:label "membership country" ;
+  rdfs:range xsd:string ;
+.
+linklaters:nMOEstRecovery
+  rdf:type owl:DatatypeProperty ;
+  rdfs:domain linklaters:Matter ;
+  rdfs:label "NMO Est Recovery"^^xsd:string ;
+  rdfs:range xsd:decimal ;
+.
+linklaters:nMOFeeEstDate
+  rdf:type owl:DatatypeProperty ;
+  rdfs:domain linklaters:Matter ;
+  rdfs:label "NMO Fee Est date"^^xsd:string ;
+  rdfs:range xsd:date ;
+.
+linklaters:nMOFeeEstimate
+  rdf:type owl:DatatypeProperty ;
+  rdfs:domain linklaters:Matter ;
+  rdfs:label "NMO Fee estimate"^^xsd:string ;
+  rdfs:range xsd:decimal ;
+.
+linklaters:nonChargeable
+  rdf:type owl:DatatypeProperty ;
+  rdfs:domain linklaters:Fee ;
+  rdfs:label "non chargeable" ;
+  rdfs:range xsd:decimal ;
+.
+linklaters:nonGroupMembership
+  rdf:type owl:DatatypeProperty ;
+  rdfs:domain linklaters:Person ;
+  rdfs:label "non group membership" ;
+  rdfs:range xsd:string ;
+.
+linklaters:officeName
+  rdf:type owl:DatatypeProperty ;
+  rdfs:domain linklaters:Office ;
+  rdfs:label "name"^^xsd:string ;
+  rdfs:range xsd:string ;
+  owl:equivalentProperty rdfs:label ;
+.
+linklaters:organisationalRole
+  rdf:type owl:DatatypeProperty ;
+  rdfs:domain linklaters:OrganisationRole ;
+  rdfs:label "role"^^xsd:string ;
+  rdfs:range xsd:string ;
+  owl:equivalentProperty rdfs:label ;
+.
+linklaters:pQE
+  rdf:type owl:DatatypeProperty ;
+  rdfs:domain linklaters:Person ;
+  rdfs:label "PQE"^^xsd:string ;
+  rdfs:range xsd:string ;
+.
+linklaters:pcbBilled
+  rdf:type owl:DatatypeProperty ;
+  rdfs:domain linklaters:Matter ;
+  rdfs:label "PCB billed"^^xsd:string ;
+  rdfs:range xsd:decimal ;
+.
+linklaters:personID
+  rdf:type owl:DatatypeProperty ;
+  rdfs:domain linklaters:Person ;
+  rdfs:label "ID"^^xsd:string ;
+  rdfs:range xsd:integer ;
+.
+linklaters:personName
+  rdf:type owl:DatatypeProperty ;
+  rdfs:domain linklaters:Person ;
+  rdfs:label "name"^^xsd:string ;
+  rdfs:range xsd:string ;
+  owl:equivalentProperty rdfs:label ;
+.
+linklaters:positionName
+  rdf:type owl:DatatypeProperty ;
+  rdfs:domain linklaters:Position ;
+  rdfs:label "name"^^xsd:string ;
+  rdfs:range xsd:string ;
+  owl:equivalentProperty rdfs:label ;
+.
+linklaters:practiceGroupName
+  rdf:type owl:DatatypeProperty ;
+  rdfs:domain linklaters:PracticeGroup ;
+  rdfs:label "name"^^xsd:string ;
+  rdfs:range xsd:string ;
+  owl:equivalentProperty rdfs:label ;
+.
+linklaters:professionalMembership
+  rdf:type owl:DatatypeProperty ;
+  rdfs:domain linklaters:Person ;
+  rdfs:label "membership"^^xsd:string ;
+  rdfs:range xsd:string ;
+.
+linklaters:profitCentreID
+  rdf:type owl:DatatypeProperty ;
+  rdfs:domain linklaters:ProfitCentre ;
+  rdfs:label "ID"^^xsd:string ;
+  rdfs:range xsd:integer ;
+.
+linklaters:profitCentreName
+  rdf:type owl:DatatypeProperty ;
+  rdfs:domain linklaters:ProfitCentre ;
+  rdfs:label "name"^^xsd:string ;
+  rdfs:range xsd:string ;
+  owl:equivalentProperty rdfs:label ;
+.
+linklaters:regionName
+  rdf:type owl:DatatypeProperty ;
+  rdfs:domain linklaters:Region ;
+  rdfs:label "name"^^xsd:string ;
+  rdfs:range xsd:string ;
+  owl:equivalentProperty rdfs:label ;
+.
+linklaters:releasedDate
+  rdf:type owl:DatatypeProperty ;
+  rdfs:domain linklaters:Matter ;
+  rdfs:label "released date" ;
+  rdfs:range xsd:date ;
+.
+linklaters:sectorName
+  rdf:type owl:DatatypeProperty ;
+  rdfs:domain linklaters:LinklatersSector ;
+  rdfs:label "name"^^xsd:string ;
+  rdfs:range xsd:string ;
+  owl:equivalentProperty rdfs:label ;
+.
+linklaters:sicCodeLink
+  rdf:type owl:DatatypeProperty ;
+  rdfs:domain linklaters:SICCode ;
+  rdfs:label "link"^^xsd:string ;
+  rdfs:range xsd:anyURI ;
+.
+linklaters:sicCodeName
+  rdf:type owl:DatatypeProperty ;
+  rdfs:domain linklaters:SICCode ;
+  rdfs:label "name"^^xsd:string ;
+  rdfs:range xsd:string ;
+  owl:equivalentProperty rdfs:label ;
+.
+linklaters:technicalStartDate
+  rdf:type owl:DatatypeProperty ;
+  rdfs:domain linklaters:Person ;
+  rdfs:label "start date"^^xsd:string ;
+  rdfs:range xsd:date ;
+.
+linklaters:totalHours
+  rdf:type owl:DatatypeProperty ;
+  rdfs:domain linklaters:Fee ;
+  rdfs:label "total hours" ;
+  rdfs:range xsd:decimal ;
+.
+linklaters:totalHoursRecorded
+  rdf:type owl:DatatypeProperty ;
+  rdfs:domain linklaters:Matter ;
+  rdfs:label "total hours recorded" ;
+  rdfs:range xsd:decimal ;
+.
+linklaters:transactionAttribute
+  rdf:type owl:DatatypeProperty ;
+  rdfs:domain linklaters:Matter ;
+  rdfs:label "attribute"^^xsd:string ;
+  rdfs:range xsd:string ;
+.
+linklaters:transactionTypeName
+  rdf:type owl:DatatypeProperty ;
+  rdfs:domain linklaters:TransactionType ;
+  rdfs:label "name"^^xsd:string ;
+  rdfs:range xsd:string ;
+  owl:equivalentProperty rdfs:label ;
+.
+linklaters:wIPNCRFees
+  rdf:type owl:DatatypeProperty ;
+  rdfs:domain linklaters:Matter ;
+  rdfs:label "WIP NCR Fees"^^xsd:string ;
+  rdfs:range xsd:decimal ;
+.
+<http://linklaters.com/schema/ll-schema>
+  rdf:type owl:Ontology ;
+  owl:versionInfo "Created with TopBraid Composer"^^xsd:string ;
+.
+owl:bottomObjectProperty
+  rdfs:label "has Thing" ;
+.
+owl:topObjectProperty
+  rdfs:label "has Thing" ;
+.

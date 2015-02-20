@@ -1,0 +1,2163 @@
+{
+	"DataServices": 
+	{
+		"Schema": 
+		[
+			{
+				"EntityContainer": 
+				{
+					"EntitySet": 
+					[
+						{
+							"EntityType": "northwind.Category",
+							"Name": "Category"
+						},
+
+						{
+							"EntityType": "northwind.Customer",
+							"Name": "Customer"
+						},
+
+						{
+							"EntityType": "northwind.Employee",
+							"Name": "Employee"
+						},
+
+						{
+							"EntityType": "northwind.Order",
+							"Name": "Order"
+						},
+
+						{
+							"EntityType": "northwind.OrderDetail",
+							"Name": "OrderDetail"
+						},
+
+						{
+							"EntityType": "northwind.Product",
+							"Name": "Product"
+						},
+
+						{
+							"EntityType": "northwind.Region",
+							"Name": "Region"
+						},
+
+						{
+							"EntityType": "northwind.Shipper",
+							"Name": "Shipper"
+						},
+
+						{
+							"EntityType": "northwind.Supplier",
+							"Name": "Supplier"
+						},
+
+						{
+							"EntityType": "northwind.Territory",
+							"Name": "Territory"
+						},
+
+						{
+							"EntityType": "rdfs.Resource",
+							"Name": "rdfs_Resource"
+						},
+
+						{
+							"EntityType": "rdfs.Class",
+							"Name": "rdfs_Class"
+						},
+
+						{
+							"EntityType": "owl.Thing",
+							"Name": "owl_Thing"
+						}
+					],
+
+					"AssociationSet": 
+					[
+						{
+							"End": 
+							[
+								{
+									"EntitySet": "Product",
+									"Role": "Product"
+								},
+
+								{
+									"EntitySet": "Category",
+									"Role": "Category"
+								}
+							],
+
+							"Association": "northwind.Product_category",
+							"Name": "Product_category"
+						},
+
+						{
+							"End": 
+							[
+								{
+									"EntitySet": "Employee",
+									"Role": "Employee"
+								},
+
+								{
+									"EntitySet": "Employee",
+									"Role": "Employee1"
+								}
+							],
+
+							"Association": "northwind.Employee_reportsTo",
+							"Name": "Employee_reportsTo"
+						},
+
+						{
+							"End": 
+							[
+								{
+									"EntitySet": "Order",
+									"Role": "Order"
+								},
+
+								{
+									"EntitySet": "Customer",
+									"Role": "Customer"
+								}
+							],
+
+							"Association": "northwind.Order_customer",
+							"Name": "Order_customer"
+						},
+
+						{
+							"End": 
+							[
+								{
+									"EntitySet": "OrderDetail",
+									"Role": "OrderDetail"
+								},
+
+								{
+									"EntitySet": "Product",
+									"Role": "Product"
+								}
+							],
+
+							"Association": "northwind.OrderDetail_product",
+							"Name": "OrderDetail_product"
+						},
+
+						{
+							"End": 
+							[
+								{
+									"EntitySet": "Order",
+									"Role": "Order"
+								},
+
+								{
+									"EntitySet": "Shipper",
+									"Role": "Shipper"
+								}
+							],
+
+							"Association": "northwind.Order_shipVia",
+							"Name": "Order_shipVia"
+						},
+
+						{
+							"End": 
+							[
+								{
+									"EntitySet": "Employee",
+									"Role": "Employee"
+								},
+
+								{
+									"EntitySet": "Territory",
+									"Role": "Territory"
+								}
+							],
+
+							"Association": "northwind.Employee_territory",
+							"Name": "Employee_territory"
+						},
+
+						{
+							"End": 
+							[
+								{
+									"EntitySet": "Product",
+									"Role": "Product"
+								},
+
+								{
+									"EntitySet": "Supplier",
+									"Role": "Supplier"
+								}
+							],
+
+							"Association": "northwind.Product_supplier",
+							"Name": "Product_supplier"
+						},
+
+						{
+							"End": 
+							[
+								{
+									"EntitySet": "OrderDetail",
+									"Role": "OrderDetail"
+								},
+
+								{
+									"EntitySet": "Order",
+									"Role": "Order"
+								}
+							],
+
+							"Association": "northwind.OrderDetail_order",
+							"Name": "OrderDetail_order"
+						},
+
+						{
+							"End": 
+							[
+								{
+									"EntitySet": "Order",
+									"Role": "Order"
+								},
+
+								{
+									"EntitySet": "Employee",
+									"Role": "Employee"
+								}
+							],
+
+							"Association": "northwind.Order_employee",
+							"Name": "Order_employee"
+						},
+
+						{
+							"End": 
+							[
+								{
+									"EntitySet": "rdfs_Resource",
+									"Role": "Resource"
+								},
+
+								{
+									"EntitySet": "rdfs_Class",
+									"Role": "Class"
+								}
+							],
+
+							"Association": "rdf.Resource_type",
+							"Name": "Resource_type"
+						}
+					],
+
+					"xmlns:annotation": "http://schemas.microsoft.com/ado/2009/02/edm/annotation",
+					"Name": "InstanceContainer",
+					"annotation:LazyLoadingEnabled": "false",
+					"m:IsDefaultEntityContainer": "true"
+				},
+
+				"xmlns": "http://schemas.microsoft.com/ado/2009/11/edm",
+				"Namespace": "Instances"
+			},
+
+			{
+				"EntityType": 
+				[
+					{
+						"Property": 
+						[
+							{
+								"xmlns:rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns",
+								"xmlns:rdfs": "http://www.w3.org/2000/01/rdf-schema",
+								"Name": "shipName",
+								"Nullable": "false",
+								"Type": "Collection(rdf.langString)",
+								"rdf:Property": "http://northwind.com#shipName",
+								"rdfs:Datatype": "http://www.w3.org/2001/XMLSchema#string"
+							},
+
+							{
+								"xmlns:rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns",
+								"xmlns:rdfs": "http://www.w3.org/2000/01/rdf-schema",
+								"Name": "orderDate",
+								"Nullable": "false",
+								"Type": "Collection(Edm.DateTime)",
+								"rdf:Property": "http://northwind.com#orderDate",
+								"rdfs:Datatype": "http://www.w3.org/2001/XMLSchema#date"
+							},
+
+							{
+								"xmlns:rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns",
+								"xmlns:rdfs": "http://www.w3.org/2000/01/rdf-schema",
+								"Name": "shipAddress",
+								"Nullable": "false",
+								"Type": "Collection(rdf.langString)",
+								"rdf:Property": "http://northwind.com#shipAddress",
+								"rdfs:Datatype": "http://www.w3.org/2001/XMLSchema#string"
+							},
+
+							{
+								"xmlns:rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns",
+								"xmlns:rdfs": "http://www.w3.org/2000/01/rdf-schema",
+								"Name": "shipCountry",
+								"Nullable": "false",
+								"Type": "Collection(rdf.langString)",
+								"rdf:Property": "http://northwind.com#shipCountry",
+								"rdfs:Datatype": "http://www.w3.org/2001/XMLSchema#string"
+							},
+
+							{
+								"xmlns:rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns",
+								"xmlns:rdfs": "http://www.w3.org/2000/01/rdf-schema",
+								"Name": "shippedDate",
+								"Nullable": "false",
+								"Type": "Collection(Edm.DateTime)",
+								"rdf:Property": "http://northwind.com#shippedDate",
+								"rdfs:Datatype": "http://www.w3.org/2001/XMLSchema#date"
+							},
+
+							{
+								"xmlns:rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns",
+								"xmlns:rdfs": "http://www.w3.org/2000/01/rdf-schema",
+								"Name": "shipCity",
+								"Nullable": "false",
+								"Type": "Collection(rdf.langString)",
+								"rdf:Property": "http://northwind.com#shipCity",
+								"rdfs:Datatype": "http://www.w3.org/2001/XMLSchema#string"
+							},
+
+							{
+								"xmlns:rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns",
+								"xmlns:rdfs": "http://www.w3.org/2000/01/rdf-schema",
+								"Name": "shipPostalCode",
+								"Nullable": "false",
+								"Type": "Collection(rdf.langString)",
+								"rdf:Property": "http://northwind.com#shipPostalCode",
+								"rdfs:Datatype": "http://www.w3.org/2001/XMLSchema#string"
+							},
+
+							{
+								"xmlns:rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns",
+								"xmlns:rdfs": "http://www.w3.org/2000/01/rdf-schema",
+								"Name": "shipRegion",
+								"Nullable": "false",
+								"Type": "Collection(rdf.langString)",
+								"rdf:Property": "http://northwind.com#shipRegion",
+								"rdfs:Datatype": "http://www.w3.org/2001/XMLSchema#string"
+							},
+
+							{
+								"xmlns:rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns",
+								"xmlns:rdfs": "http://www.w3.org/2000/01/rdf-schema",
+								"Name": "freight",
+								"Nullable": "false",
+								"Type": "Collection(Edm.Double)",
+								"rdf:Property": "http://northwind.com#freight",
+								"rdfs:Datatype": "http://www.w3.org/2001/XMLSchema#float"
+							},
+
+							{
+								"xmlns:rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns",
+								"xmlns:rdfs": "http://www.w3.org/2000/01/rdf-schema",
+								"Name": "requiredDate",
+								"Nullable": "false",
+								"Type": "Collection(Edm.DateTime)",
+								"rdf:Property": "http://northwind.com#requiredDate",
+								"rdfs:Datatype": "http://www.w3.org/2001/XMLSchema#date"
+							}
+						],
+
+						"NavigationProperty": 
+						[
+							{
+								"xmlns:rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns",
+								"FromRole": "Order",
+								"Name": "Order_customer",
+								"Relationship": "northwind.Order_customer",
+								"ToRole": "Customer",
+								"rdf:Property": "http://northwind.com#customer"
+							},
+
+							{
+								"xmlns:rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns",
+								"FromRole": "Order",
+								"Name": "Order_shipVia",
+								"Relationship": "northwind.Order_shipVia",
+								"ToRole": "Shipper",
+								"rdf:Property": "http://northwind.com#shipVia"
+							},
+
+							{
+								"xmlns:owl": "http://www.w3.org/2002/07/owl",
+								"FromRole": "Order",
+								"Name": "order_OrderDetail",
+								"Relationship": "northwind.order_OrderDetail",
+								"ToRole": "OrderDetail",
+								"owl:inverseOf": "http://northwind.com#order"
+							},
+
+							{
+								"xmlns:rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns",
+								"FromRole": "Order",
+								"Name": "Order_employee",
+								"Relationship": "northwind.Order_employee",
+								"ToRole": "Employee",
+								"rdf:Property": "http://northwind.com#employee"
+							}
+						],
+
+						"xmlns:rdfs": "http://www.w3.org/2000/01/rdf-schema",
+						"Abstract": "false",
+						"BaseType": "owl.Thing",
+						"Name": "Order",
+						"rdfs:Class": "http://northwind.com#Order"
+					},
+
+					{
+						"Property": 
+						[
+							{
+								"xmlns:rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns",
+								"xmlns:rdfs": "http://www.w3.org/2000/01/rdf-schema",
+								"Name": "discount",
+								"Nullable": "false",
+								"Type": "Collection(Edm.Double)",
+								"rdf:Property": "http://northwind.com#discount",
+								"rdfs:Datatype": "http://www.w3.org/2001/XMLSchema#float"
+							},
+
+							{
+								"xmlns:rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns",
+								"xmlns:rdfs": "http://www.w3.org/2000/01/rdf-schema",
+								"Name": "unitPrice",
+								"Nullable": "false",
+								"Type": "Collection(Edm.Double)",
+								"rdf:Property": "http://northwind.com#unitPrice",
+								"rdfs:Datatype": "http://www.w3.org/2001/XMLSchema#float"
+							},
+
+							{
+								"xmlns:rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns",
+								"xmlns:rdfs": "http://www.w3.org/2000/01/rdf-schema",
+								"Name": "quantity",
+								"Nullable": "false",
+								"Type": "Collection(Edm.Int32)",
+								"rdf:Property": "http://northwind.com#quantity",
+								"rdfs:Datatype": "http://www.w3.org/2001/XMLSchema#integer"
+							}
+						],
+
+						"NavigationProperty": 
+						[
+							{
+								"xmlns:rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns",
+								"FromRole": "OrderDetail",
+								"Name": "OrderDetail_product",
+								"Relationship": "northwind.OrderDetail_product",
+								"ToRole": "Product",
+								"rdf:Property": "http://northwind.com#product"
+							},
+
+							{
+								"xmlns:rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns",
+								"FromRole": "OrderDetail",
+								"Name": "OrderDetail_order",
+								"Relationship": "northwind.OrderDetail_order",
+								"ToRole": "Order",
+								"rdf:Property": "http://northwind.com#order"
+							}
+						],
+
+						"xmlns:rdfs": "http://www.w3.org/2000/01/rdf-schema",
+						"Abstract": "false",
+						"BaseType": "owl.Thing",
+						"Name": "OrderDetail",
+						"rdfs:Class": "http://northwind.com#OrderDetail"
+					},
+
+					{
+						"Property": 
+						{
+							"xmlns:rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns",
+							"xmlns:rdfs": "http://www.w3.org/2000/01/rdf-schema",
+							"Name": "territoryDescription",
+							"Nullable": "false",
+							"Type": "Collection(rdf.langString)",
+							"rdf:Property": "http://northwind.com#territoryDescription",
+							"rdfs:Datatype": "http://www.w3.org/2001/XMLSchema#string"
+						},
+
+						"NavigationProperty": 
+						{
+							"xmlns:owl": "http://www.w3.org/2002/07/owl",
+							"FromRole": "Territory",
+							"Name": "territory_Employee",
+							"Relationship": "northwind.territory_Employee",
+							"ToRole": "Employee",
+							"owl:inverseOf": "http://northwind.com#territory"
+						},
+
+						"xmlns:rdfs": "http://www.w3.org/2000/01/rdf-schema",
+						"Abstract": "false",
+						"BaseType": "owl.Thing",
+						"Name": "Territory",
+						"rdfs:Class": "http://northwind.com#Territory"
+					},
+
+					{
+						"Property": 
+						[
+							{
+								"xmlns:rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns",
+								"xmlns:rdfs": "http://www.w3.org/2000/01/rdf-schema",
+								"Name": "postalCode",
+								"Nullable": "false",
+								"Type": "Collection(rdf.langString)",
+								"rdf:Property": "http://northwind.com#postalCode",
+								"rdfs:Datatype": "http://www.w3.org/2001/XMLSchema#string"
+							},
+
+							{
+								"xmlns:rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns",
+								"xmlns:rdfs": "http://www.w3.org/2000/01/rdf-schema",
+								"Name": "title",
+								"Nullable": "false",
+								"Type": "Collection(rdf.langString)",
+								"rdf:Property": "http://northwind.com#title",
+								"rdfs:Datatype": "http://www.w3.org/2001/XMLSchema#string"
+							},
+
+							{
+								"xmlns:rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns",
+								"xmlns:rdfs": "http://www.w3.org/2000/01/rdf-schema",
+								"Name": "extension",
+								"Nullable": "false",
+								"Type": "Collection(rdf.langString)",
+								"rdf:Property": "http://northwind.com#extension",
+								"rdfs:Datatype": "http://www.w3.org/2001/XMLSchema#string"
+							},
+
+							{
+								"xmlns:rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns",
+								"xmlns:rdfs": "http://www.w3.org/2000/01/rdf-schema",
+								"Name": "notes",
+								"Nullable": "false",
+								"Type": "Collection(rdf.langString)",
+								"rdf:Property": "http://northwind.com#notes",
+								"rdfs:Datatype": "http://www.w3.org/2001/XMLSchema#string"
+							},
+
+							{
+								"xmlns:rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns",
+								"xmlns:rdfs": "http://www.w3.org/2000/01/rdf-schema",
+								"Name": "titleOfCourtesy",
+								"Nullable": "false",
+								"Type": "Collection(rdf.langString)",
+								"rdf:Property": "http://northwind.com#titleOfCourtesy",
+								"rdfs:Datatype": "http://www.w3.org/2001/XMLSchema#string"
+							},
+
+							{
+								"xmlns:rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns",
+								"xmlns:rdfs": "http://www.w3.org/2000/01/rdf-schema",
+								"Name": "region",
+								"Nullable": "false",
+								"Type": "Collection(rdf.langString)",
+								"rdf:Property": "http://northwind.com#region",
+								"rdfs:Datatype": "http://www.w3.org/2001/XMLSchema#string"
+							},
+
+							{
+								"xmlns:rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns",
+								"xmlns:rdfs": "http://www.w3.org/2000/01/rdf-schema",
+								"Name": "country",
+								"Nullable": "false",
+								"Type": "Collection(rdf.langString)",
+								"rdf:Property": "http://northwind.com#country",
+								"rdfs:Datatype": "http://www.w3.org/2001/XMLSchema#string"
+							},
+
+							{
+								"xmlns:rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns",
+								"xmlns:rdfs": "http://www.w3.org/2000/01/rdf-schema",
+								"Name": "birthDate",
+								"Nullable": "false",
+								"Type": "Collection(Edm.DateTime)",
+								"rdf:Property": "http://northwind.com#birthDate",
+								"rdfs:Datatype": "http://www.w3.org/2001/XMLSchema#date"
+							},
+
+							{
+								"xmlns:rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns",
+								"xmlns:rdfs": "http://www.w3.org/2000/01/rdf-schema",
+								"Name": "address",
+								"Nullable": "false",
+								"Type": "Collection(rdf.langString)",
+								"rdf:Property": "http://northwind.com#address",
+								"rdfs:Datatype": "http://www.w3.org/2001/XMLSchema#string"
+							},
+
+							{
+								"xmlns:rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns",
+								"xmlns:rdfs": "http://www.w3.org/2000/01/rdf-schema",
+								"Name": "city",
+								"Nullable": "false",
+								"Type": "Collection(rdf.langString)",
+								"rdf:Property": "http://northwind.com#city",
+								"rdfs:Datatype": "http://www.w3.org/2001/XMLSchema#string"
+							},
+
+							{
+								"xmlns:rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns",
+								"xmlns:rdfs": "http://www.w3.org/2000/01/rdf-schema",
+								"Name": "lastName",
+								"Nullable": "false",
+								"Type": "Collection(rdf.langString)",
+								"rdf:Property": "http://northwind.com#lastName",
+								"rdfs:Datatype": "http://www.w3.org/2001/XMLSchema#string"
+							},
+
+							{
+								"xmlns:rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns",
+								"xmlns:rdfs": "http://www.w3.org/2000/01/rdf-schema",
+								"Name": "hireDate",
+								"Nullable": "false",
+								"Type": "Collection(Edm.DateTime)",
+								"rdf:Property": "http://northwind.com#hireDate",
+								"rdfs:Datatype": "http://www.w3.org/2001/XMLSchema#date"
+							},
+
+							{
+								"xmlns:rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns",
+								"xmlns:rdfs": "http://www.w3.org/2000/01/rdf-schema",
+								"Name": "homePhone",
+								"Nullable": "false",
+								"Type": "Collection(rdf.langString)",
+								"rdf:Property": "http://northwind.com#homePhone",
+								"rdfs:Datatype": "http://www.w3.org/2001/XMLSchema#string"
+							},
+
+							{
+								"xmlns:rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns",
+								"xmlns:rdfs": "http://www.w3.org/2000/01/rdf-schema",
+								"Name": "photo",
+								"Nullable": "false",
+								"Type": "Collection(rdf.langString)",
+								"rdf:Property": "http://northwind.com#photo",
+								"rdfs:Datatype": "http://www.w3.org/2001/XMLSchema#string"
+							},
+
+							{
+								"xmlns:rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns",
+								"xmlns:rdfs": "http://www.w3.org/2000/01/rdf-schema",
+								"Name": "firstName",
+								"Nullable": "false",
+								"Type": "Collection(rdf.langString)",
+								"rdf:Property": "http://northwind.com#firstName",
+								"rdfs:Datatype": "http://www.w3.org/2001/XMLSchema#string"
+							}
+						],
+
+						"NavigationProperty": 
+						[
+							{
+								"xmlns:rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns",
+								"FromRole": "Employee",
+								"Name": "Employee_reportsTo",
+								"Relationship": "northwind.Employee_reportsTo",
+								"ToRole": "Employee1",
+								"rdf:Property": "http://northwind.com#reportsTo"
+							},
+
+							{
+								"xmlns:owl": "http://www.w3.org/2002/07/owl",
+								"FromRole": "Employee",
+								"Name": "reportsTo_Employee",
+								"Relationship": "northwind.reportsTo_Employee",
+								"ToRole": "Employee1",
+								"owl:inverseOf": "http://northwind.com#reportsTo"
+							},
+
+							{
+								"xmlns:rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns",
+								"FromRole": "Employee",
+								"Name": "Employee_territory",
+								"Relationship": "northwind.Employee_territory",
+								"ToRole": "Territory",
+								"rdf:Property": "http://northwind.com#territory"
+							},
+
+							{
+								"xmlns:owl": "http://www.w3.org/2002/07/owl",
+								"FromRole": "Employee",
+								"Name": "employee_Order",
+								"Relationship": "northwind.employee_Order",
+								"ToRole": "Order",
+								"owl:inverseOf": "http://northwind.com#employee"
+							}
+						],
+
+						"xmlns:rdfs": "http://www.w3.org/2000/01/rdf-schema",
+						"Abstract": "false",
+						"BaseType": "owl.Thing",
+						"Name": "Employee",
+						"rdfs:Class": "http://northwind.com#Employee"
+					},
+
+					{
+						"Property": 
+						[
+							{
+								"xmlns:rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns",
+								"xmlns:rdfs": "http://www.w3.org/2000/01/rdf-schema",
+								"Name": "picture",
+								"Nullable": "false",
+								"Type": "Collection(rdf.langString)",
+								"rdf:Property": "http://northwind.com#picture",
+								"rdfs:Datatype": "http://www.w3.org/2001/XMLSchema#string"
+							},
+
+							{
+								"xmlns:rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns",
+								"xmlns:rdfs": "http://www.w3.org/2000/01/rdf-schema",
+								"Name": "categoryName",
+								"Nullable": "false",
+								"Type": "Collection(rdf.langString)",
+								"rdf:Property": "http://northwind.com#categoryName",
+								"rdfs:Datatype": "http://www.w3.org/2001/XMLSchema#string"
+							},
+
+							{
+								"xmlns:rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns",
+								"xmlns:rdfs": "http://www.w3.org/2000/01/rdf-schema",
+								"Name": "description",
+								"Nullable": "false",
+								"Type": "Collection(rdf.langString)",
+								"rdf:Property": "http://northwind.com#description",
+								"rdfs:Datatype": "http://www.w3.org/2001/XMLSchema#string"
+							}
+						],
+
+						"NavigationProperty": 
+						{
+							"xmlns:owl": "http://www.w3.org/2002/07/owl",
+							"FromRole": "Category",
+							"Name": "category_Product",
+							"Relationship": "northwind.category_Product",
+							"ToRole": "Product",
+							"owl:inverseOf": "http://northwind.com#category"
+						},
+
+						"xmlns:rdfs": "http://www.w3.org/2000/01/rdf-schema",
+						"Abstract": "false",
+						"BaseType": "owl.Thing",
+						"Name": "Category",
+						"rdfs:Class": "http://northwind.com#Category"
+					},
+
+					{
+						"Property": 
+						[
+							{
+								"xmlns:rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns",
+								"xmlns:rdfs": "http://www.w3.org/2000/01/rdf-schema",
+								"Name": "postalCode",
+								"Nullable": "false",
+								"Type": "Collection(rdf.langString)",
+								"rdf:Property": "http://northwind.com#postalCode",
+								"rdfs:Datatype": "http://www.w3.org/2001/XMLSchema#string"
+							},
+
+							{
+								"xmlns:rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns",
+								"xmlns:rdfs": "http://www.w3.org/2000/01/rdf-schema",
+								"Name": "fax",
+								"Nullable": "false",
+								"Type": "Collection(rdf.langString)",
+								"rdf:Property": "http://northwind.com#fax",
+								"rdfs:Datatype": "http://www.w3.org/2001/XMLSchema#string"
+							},
+
+							{
+								"xmlns:rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns",
+								"xmlns:rdfs": "http://www.w3.org/2000/01/rdf-schema",
+								"Name": "country",
+								"Nullable": "false",
+								"Type": "Collection(rdf.langString)",
+								"rdf:Property": "http://northwind.com#country",
+								"rdfs:Datatype": "http://www.w3.org/2001/XMLSchema#string"
+							},
+
+							{
+								"xmlns:rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns",
+								"xmlns:rdfs": "http://www.w3.org/2000/01/rdf-schema",
+								"Name": "city",
+								"Nullable": "false",
+								"Type": "Collection(rdf.langString)",
+								"rdf:Property": "http://northwind.com#city",
+								"rdfs:Datatype": "http://www.w3.org/2001/XMLSchema#string"
+							},
+
+							{
+								"xmlns:rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns",
+								"xmlns:rdfs": "http://www.w3.org/2000/01/rdf-schema",
+								"Name": "contactName",
+								"Nullable": "false",
+								"Type": "Collection(rdf.langString)",
+								"rdf:Property": "http://northwind.com#contactName",
+								"rdfs:Datatype": "http://www.w3.org/2001/XMLSchema#string"
+							},
+
+							{
+								"xmlns:rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns",
+								"xmlns:rdfs": "http://www.w3.org/2000/01/rdf-schema",
+								"Name": "region",
+								"Nullable": "false",
+								"Type": "Collection(rdf.langString)",
+								"rdf:Property": "http://northwind.com#region",
+								"rdfs:Datatype": "http://www.w3.org/2001/XMLSchema#string"
+							},
+
+							{
+								"xmlns:rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns",
+								"xmlns:rdfs": "http://www.w3.org/2000/01/rdf-schema",
+								"Name": "companyName",
+								"Nullable": "false",
+								"Type": "Collection(rdf.langString)",
+								"rdf:Property": "http://northwind.com#companyName",
+								"rdfs:Datatype": "http://www.w3.org/2001/XMLSchema#string"
+							},
+
+							{
+								"xmlns:rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns",
+								"xmlns:rdfs": "http://www.w3.org/2000/01/rdf-schema",
+								"Name": "contactTitle",
+								"Nullable": "false",
+								"Type": "Collection(rdf.langString)",
+								"rdf:Property": "http://northwind.com#contactTitle",
+								"rdfs:Datatype": "http://www.w3.org/2001/XMLSchema#string"
+							},
+
+							{
+								"xmlns:rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns",
+								"xmlns:rdfs": "http://www.w3.org/2000/01/rdf-schema",
+								"Name": "address",
+								"Nullable": "false",
+								"Type": "Collection(rdf.langString)",
+								"rdf:Property": "http://northwind.com#address",
+								"rdfs:Datatype": "http://www.w3.org/2001/XMLSchema#string"
+							},
+
+							{
+								"xmlns:rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns",
+								"xmlns:rdfs": "http://www.w3.org/2000/01/rdf-schema",
+								"Name": "phone",
+								"Nullable": "false",
+								"Type": "Collection(rdf.langString)",
+								"rdf:Property": "http://northwind.com#phone",
+								"rdfs:Datatype": "http://www.w3.org/2001/XMLSchema#string"
+							}
+						],
+
+						"NavigationProperty": 
+						{
+							"xmlns:owl": "http://www.w3.org/2002/07/owl",
+							"FromRole": "Customer",
+							"Name": "customer_Order",
+							"Relationship": "northwind.customer_Order",
+							"ToRole": "Order",
+							"owl:inverseOf": "http://northwind.com#customer"
+						},
+
+						"xmlns:rdfs": "http://www.w3.org/2000/01/rdf-schema",
+						"Abstract": "false",
+						"BaseType": "owl.Thing",
+						"Name": "Customer",
+						"rdfs:Class": "http://northwind.com#Customer"
+					},
+
+					{
+						"Property": 
+						[
+							{
+								"xmlns:rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns",
+								"xmlns:rdfs": "http://www.w3.org/2000/01/rdf-schema",
+								"Name": "companyName",
+								"Nullable": "false",
+								"Type": "Collection(rdf.langString)",
+								"rdf:Property": "http://northwind.com#companyName",
+								"rdfs:Datatype": "http://www.w3.org/2001/XMLSchema#string"
+							},
+
+							{
+								"xmlns:rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns",
+								"xmlns:rdfs": "http://www.w3.org/2000/01/rdf-schema",
+								"Name": "phone",
+								"Nullable": "false",
+								"Type": "Collection(rdf.langString)",
+								"rdf:Property": "http://northwind.com#phone",
+								"rdfs:Datatype": "http://www.w3.org/2001/XMLSchema#string"
+							}
+						],
+
+						"NavigationProperty": 
+						{
+							"xmlns:owl": "http://www.w3.org/2002/07/owl",
+							"FromRole": "Shipper",
+							"Name": "shipVia_Order",
+							"Relationship": "northwind.shipVia_Order",
+							"ToRole": "Order",
+							"owl:inverseOf": "http://northwind.com#shipVia"
+						},
+
+						"xmlns:rdfs": "http://www.w3.org/2000/01/rdf-schema",
+						"Abstract": "false",
+						"BaseType": "owl.Thing",
+						"Name": "Shipper",
+						"rdfs:Class": "http://northwind.com#Shipper"
+					},
+
+					{
+						"xmlns:rdfs": "http://www.w3.org/2000/01/rdf-schema",
+						"Abstract": "false",
+						"BaseType": "owl.Thing",
+						"Name": "Region",
+						"rdfs:Class": "http://northwind.com#Region"
+					},
+
+					{
+						"Property": 
+						[
+							{
+								"xmlns:rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns",
+								"xmlns:rdfs": "http://www.w3.org/2000/01/rdf-schema",
+								"Name": "reorderLevel",
+								"Nullable": "false",
+								"Type": "Collection(Edm.Int32)",
+								"rdf:Property": "http://northwind.com#reorderLevel",
+								"rdfs:Datatype": "http://www.w3.org/2001/XMLSchema#integer"
+							},
+
+							{
+								"xmlns:rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns",
+								"xmlns:rdfs": "http://www.w3.org/2000/01/rdf-schema",
+								"Name": "quantityPerUnit",
+								"Nullable": "false",
+								"Type": "Collection(rdf.langString)",
+								"rdf:Property": "http://northwind.com#quantityPerUnit",
+								"rdfs:Datatype": "http://www.w3.org/2001/XMLSchema#string"
+							},
+
+							{
+								"xmlns:rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns",
+								"xmlns:rdfs": "http://www.w3.org/2000/01/rdf-schema",
+								"Name": "discontinued",
+								"Nullable": "false",
+								"Type": "Collection(Edm.Boolean)",
+								"rdf:Property": "http://northwind.com#discontinued",
+								"rdfs:Datatype": "http://www.w3.org/2001/XMLSchema#boolean"
+							},
+
+							{
+								"xmlns:rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns",
+								"xmlns:rdfs": "http://www.w3.org/2000/01/rdf-schema",
+								"Name": "productName",
+								"Nullable": "false",
+								"Type": "Collection(rdf.langString)",
+								"rdf:Property": "http://northwind.com#productName",
+								"rdfs:Datatype": "http://www.w3.org/2001/XMLSchema#string"
+							},
+
+							{
+								"xmlns:rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns",
+								"xmlns:rdfs": "http://www.w3.org/2000/01/rdf-schema",
+								"Name": "unitsOnOrder",
+								"Nullable": "false",
+								"Type": "Collection(Edm.Int32)",
+								"rdf:Property": "http://northwind.com#unitsOnOrder",
+								"rdfs:Datatype": "http://www.w3.org/2001/XMLSchema#integer"
+							},
+
+							{
+								"xmlns:rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns",
+								"xmlns:rdfs": "http://www.w3.org/2000/01/rdf-schema",
+								"Name": "unitsInStock",
+								"Nullable": "false",
+								"Type": "Collection(Edm.Int32)",
+								"rdf:Property": "http://northwind.com#unitsInStock",
+								"rdfs:Datatype": "http://www.w3.org/2001/XMLSchema#integer"
+							},
+
+							{
+								"xmlns:rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns",
+								"xmlns:rdfs": "http://www.w3.org/2000/01/rdf-schema",
+								"Name": "unitPrice",
+								"Nullable": "false",
+								"Type": "Collection(Edm.Double)",
+								"rdf:Property": "http://northwind.com#unitPrice",
+								"rdfs:Datatype": "http://www.w3.org/2001/XMLSchema#float"
+							}
+						],
+
+						"NavigationProperty": 
+						[
+							{
+								"xmlns:rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns",
+								"FromRole": "Product",
+								"Name": "Product_category",
+								"Relationship": "northwind.Product_category",
+								"ToRole": "Category",
+								"rdf:Property": "http://northwind.com#category"
+							},
+
+							{
+								"xmlns:owl": "http://www.w3.org/2002/07/owl",
+								"FromRole": "Product",
+								"Name": "product_OrderDetail",
+								"Relationship": "northwind.product_OrderDetail",
+								"ToRole": "OrderDetail",
+								"owl:inverseOf": "http://northwind.com#product"
+							},
+
+							{
+								"xmlns:rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns",
+								"FromRole": "Product",
+								"Name": "Product_supplier",
+								"Relationship": "northwind.Product_supplier",
+								"ToRole": "Supplier",
+								"rdf:Property": "http://northwind.com#supplier"
+							}
+						],
+
+						"xmlns:rdfs": "http://www.w3.org/2000/01/rdf-schema",
+						"Abstract": "false",
+						"BaseType": "owl.Thing",
+						"Name": "Product",
+						"rdfs:Class": "http://northwind.com#Product"
+					},
+
+					{
+						"Property": 
+						[
+							{
+								"xmlns:rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns",
+								"xmlns:rdfs": "http://www.w3.org/2000/01/rdf-schema",
+								"Name": "postalCode",
+								"Nullable": "false",
+								"Type": "Collection(rdf.langString)",
+								"rdf:Property": "http://northwind.com#postalCode",
+								"rdfs:Datatype": "http://www.w3.org/2001/XMLSchema#string"
+							},
+
+							{
+								"xmlns:rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns",
+								"xmlns:rdfs": "http://www.w3.org/2000/01/rdf-schema",
+								"Name": "phone",
+								"Nullable": "false",
+								"Type": "Collection(rdf.langString)",
+								"rdf:Property": "http://northwind.com#phone",
+								"rdfs:Datatype": "http://www.w3.org/2001/XMLSchema#string"
+							},
+
+							{
+								"xmlns:rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns",
+								"xmlns:rdfs": "http://www.w3.org/2000/01/rdf-schema",
+								"Name": "address",
+								"Nullable": "false",
+								"Type": "Collection(rdf.langString)",
+								"rdf:Property": "http://northwind.com#address",
+								"rdfs:Datatype": "http://www.w3.org/2001/XMLSchema#string"
+							},
+
+							{
+								"xmlns:rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns",
+								"xmlns:rdfs": "http://www.w3.org/2000/01/rdf-schema",
+								"Name": "city",
+								"Nullable": "false",
+								"Type": "Collection(rdf.langString)",
+								"rdf:Property": "http://northwind.com#city",
+								"rdfs:Datatype": "http://www.w3.org/2001/XMLSchema#string"
+							},
+
+							{
+								"xmlns:rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns",
+								"xmlns:rdfs": "http://www.w3.org/2000/01/rdf-schema",
+								"Name": "homePage",
+								"Nullable": "false",
+								"Type": "Collection(rdf.langString)",
+								"rdf:Property": "http://northwind.com#homePage",
+								"rdfs:Datatype": "http://www.w3.org/2001/XMLSchema#string"
+							},
+
+							{
+								"xmlns:rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns",
+								"xmlns:rdfs": "http://www.w3.org/2000/01/rdf-schema",
+								"Name": "contactName",
+								"Nullable": "false",
+								"Type": "Collection(rdf.langString)",
+								"rdf:Property": "http://northwind.com#contactName",
+								"rdfs:Datatype": "http://www.w3.org/2001/XMLSchema#string"
+							},
+
+							{
+								"xmlns:rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns",
+								"xmlns:rdfs": "http://www.w3.org/2000/01/rdf-schema",
+								"Name": "fax",
+								"Nullable": "false",
+								"Type": "Collection(rdf.langString)",
+								"rdf:Property": "http://northwind.com#fax",
+								"rdfs:Datatype": "http://www.w3.org/2001/XMLSchema#string"
+							},
+
+							{
+								"xmlns:rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns",
+								"xmlns:rdfs": "http://www.w3.org/2000/01/rdf-schema",
+								"Name": "companyName",
+								"Nullable": "false",
+								"Type": "Collection(rdf.langString)",
+								"rdf:Property": "http://northwind.com#companyName",
+								"rdfs:Datatype": "http://www.w3.org/2001/XMLSchema#string"
+							},
+
+							{
+								"xmlns:rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns",
+								"xmlns:rdfs": "http://www.w3.org/2000/01/rdf-schema",
+								"Name": "region",
+								"Nullable": "false",
+								"Type": "Collection(rdf.langString)",
+								"rdf:Property": "http://northwind.com#region",
+								"rdfs:Datatype": "http://www.w3.org/2001/XMLSchema#string"
+							},
+
+							{
+								"xmlns:rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns",
+								"xmlns:rdfs": "http://www.w3.org/2000/01/rdf-schema",
+								"Name": "country",
+								"Nullable": "false",
+								"Type": "Collection(rdf.langString)",
+								"rdf:Property": "http://northwind.com#country",
+								"rdfs:Datatype": "http://www.w3.org/2001/XMLSchema#string"
+							}
+						],
+
+						"NavigationProperty": 
+						{
+							"xmlns:owl": "http://www.w3.org/2002/07/owl",
+							"FromRole": "Supplier",
+							"Name": "supplier_Product",
+							"Relationship": "northwind.supplier_Product",
+							"ToRole": "Product",
+							"owl:inverseOf": "http://northwind.com#supplier"
+						},
+
+						"xmlns:rdfs": "http://www.w3.org/2000/01/rdf-schema",
+						"Abstract": "false",
+						"BaseType": "owl.Thing",
+						"Name": "Supplier",
+						"rdfs:Class": "http://northwind.com#Supplier"
+					}
+				],
+
+				"Association": 
+				[
+					{
+						"End": 
+						[
+							{
+								"Multiplicity": "0..1",
+								"Role": "Product",
+								"Type": "northwind.Product"
+							},
+
+							{
+								"Multiplicity": "*",
+								"Role": "Category",
+								"Type": "northwind.Category"
+							}
+						],
+
+						"ReferentialConstraint": 
+						{
+							"Principal": 
+							{
+								"PropertyRef": 
+								{
+									"Name": "Id"
+								},
+
+								"Role": "Product"
+							},
+
+							"Dependent": 
+							{
+								"PropertyRef": 
+								{
+									"Name": "Id"
+								},
+
+								"Role": "Category"
+							}
+						},
+
+						"Name": "Product_category"
+					},
+
+					{
+						"End": 
+						[
+							{
+								"Multiplicity": "0..1",
+								"Role": "Category",
+								"Type": "northwind.Category"
+							},
+
+							{
+								"Multiplicity": "*",
+								"Role": "Product",
+								"Type": "northwind.Product"
+							}
+						],
+
+						"ReferentialConstraint": 
+						{
+							"Principal": 
+							{
+								"PropertyRef": 
+								{
+									"Name": "Id"
+								},
+
+								"Role": "Category"
+							},
+
+							"Dependent": 
+							{
+								"PropertyRef": 
+								{
+									"Name": "Id"
+								},
+
+								"Role": "Product"
+							}
+						},
+
+						"Name": "category_Product"
+					},
+
+					{
+						"End": 
+						[
+							{
+								"Multiplicity": "0..1",
+								"Role": "Employee",
+								"Type": "northwind.Employee"
+							},
+
+							{
+								"Multiplicity": "*",
+								"Role": "Employee1",
+								"Type": "northwind.Employee"
+							}
+						],
+
+						"ReferentialConstraint": 
+						{
+							"Principal": 
+							{
+								"PropertyRef": 
+								{
+									"Name": "Id"
+								},
+
+								"Role": "Employee"
+							},
+
+							"Dependent": 
+							{
+								"PropertyRef": 
+								{
+									"Name": "Id"
+								},
+
+								"Role": "Employee1"
+							}
+						},
+
+						"Name": "Employee_reportsTo"
+					},
+
+					{
+						"End": 
+						[
+							{
+								"Multiplicity": "0..1",
+								"Role": "Employee",
+								"Type": "northwind.Employee"
+							},
+
+							{
+								"Multiplicity": "*",
+								"Role": "Employee1",
+								"Type": "northwind.Employee"
+							}
+						],
+
+						"ReferentialConstraint": 
+						{
+							"Principal": 
+							{
+								"PropertyRef": 
+								{
+									"Name": "Id"
+								},
+
+								"Role": "Employee"
+							},
+
+							"Dependent": 
+							{
+								"PropertyRef": 
+								{
+									"Name": "Id"
+								},
+
+								"Role": "Employee1"
+							}
+						},
+
+						"Name": "reportsTo_Employee"
+					},
+
+					{
+						"End": 
+						[
+							{
+								"Multiplicity": "0..1",
+								"Role": "Order",
+								"Type": "northwind.Order"
+							},
+
+							{
+								"Multiplicity": "*",
+								"Role": "Customer",
+								"Type": "northwind.Customer"
+							}
+						],
+
+						"ReferentialConstraint": 
+						{
+							"Principal": 
+							{
+								"PropertyRef": 
+								{
+									"Name": "Id"
+								},
+
+								"Role": "Order"
+							},
+
+							"Dependent": 
+							{
+								"PropertyRef": 
+								{
+									"Name": "Id"
+								},
+
+								"Role": "Customer"
+							}
+						},
+
+						"Name": "Order_customer"
+					},
+
+					{
+						"End": 
+						[
+							{
+								"Multiplicity": "0..1",
+								"Role": "Customer",
+								"Type": "northwind.Customer"
+							},
+
+							{
+								"Multiplicity": "*",
+								"Role": "Order",
+								"Type": "northwind.Order"
+							}
+						],
+
+						"ReferentialConstraint": 
+						{
+							"Principal": 
+							{
+								"PropertyRef": 
+								{
+									"Name": "Id"
+								},
+
+								"Role": "Customer"
+							},
+
+							"Dependent": 
+							{
+								"PropertyRef": 
+								{
+									"Name": "Id"
+								},
+
+								"Role": "Order"
+							}
+						},
+
+						"Name": "customer_Order"
+					},
+
+					{
+						"End": 
+						[
+							{
+								"Multiplicity": "0..1",
+								"Role": "OrderDetail",
+								"Type": "northwind.OrderDetail"
+							},
+
+							{
+								"Multiplicity": "*",
+								"Role": "Product",
+								"Type": "northwind.Product"
+							}
+						],
+
+						"ReferentialConstraint": 
+						{
+							"Principal": 
+							{
+								"PropertyRef": 
+								{
+									"Name": "Id"
+								},
+
+								"Role": "OrderDetail"
+							},
+
+							"Dependent": 
+							{
+								"PropertyRef": 
+								{
+									"Name": "Id"
+								},
+
+								"Role": "Product"
+							}
+						},
+
+						"Name": "OrderDetail_product"
+					},
+
+					{
+						"End": 
+						[
+							{
+								"Multiplicity": "0..1",
+								"Role": "Product",
+								"Type": "northwind.Product"
+							},
+
+							{
+								"Multiplicity": "*",
+								"Role": "OrderDetail",
+								"Type": "northwind.OrderDetail"
+							}
+						],
+
+						"ReferentialConstraint": 
+						{
+							"Principal": 
+							{
+								"PropertyRef": 
+								{
+									"Name": "Id"
+								},
+
+								"Role": "Product"
+							},
+
+							"Dependent": 
+							{
+								"PropertyRef": 
+								{
+									"Name": "Id"
+								},
+
+								"Role": "OrderDetail"
+							}
+						},
+
+						"Name": "product_OrderDetail"
+					},
+
+					{
+						"End": 
+						[
+							{
+								"Multiplicity": "0..1",
+								"Role": "Order",
+								"Type": "northwind.Order"
+							},
+
+							{
+								"Multiplicity": "*",
+								"Role": "Shipper",
+								"Type": "northwind.Shipper"
+							}
+						],
+
+						"ReferentialConstraint": 
+						{
+							"Principal": 
+							{
+								"PropertyRef": 
+								{
+									"Name": "Id"
+								},
+
+								"Role": "Order"
+							},
+
+							"Dependent": 
+							{
+								"PropertyRef": 
+								{
+									"Name": "Id"
+								},
+
+								"Role": "Shipper"
+							}
+						},
+
+						"Name": "Order_shipVia"
+					},
+
+					{
+						"End": 
+						[
+							{
+								"Multiplicity": "0..1",
+								"Role": "Shipper",
+								"Type": "northwind.Shipper"
+							},
+
+							{
+								"Multiplicity": "*",
+								"Role": "Order",
+								"Type": "northwind.Order"
+							}
+						],
+
+						"ReferentialConstraint": 
+						{
+							"Principal": 
+							{
+								"PropertyRef": 
+								{
+									"Name": "Id"
+								},
+
+								"Role": "Shipper"
+							},
+
+							"Dependent": 
+							{
+								"PropertyRef": 
+								{
+									"Name": "Id"
+								},
+
+								"Role": "Order"
+							}
+						},
+
+						"Name": "shipVia_Order"
+					},
+
+					{
+						"End": 
+						[
+							{
+								"Multiplicity": "0..1",
+								"Role": "Employee",
+								"Type": "northwind.Employee"
+							},
+
+							{
+								"Multiplicity": "*",
+								"Role": "Territory",
+								"Type": "northwind.Territory"
+							}
+						],
+
+						"ReferentialConstraint": 
+						{
+							"Principal": 
+							{
+								"PropertyRef": 
+								{
+									"Name": "Id"
+								},
+
+								"Role": "Employee"
+							},
+
+							"Dependent": 
+							{
+								"PropertyRef": 
+								{
+									"Name": "Id"
+								},
+
+								"Role": "Territory"
+							}
+						},
+
+						"Name": "Employee_territory"
+					},
+
+					{
+						"End": 
+						[
+							{
+								"Multiplicity": "0..1",
+								"Role": "Territory",
+								"Type": "northwind.Territory"
+							},
+
+							{
+								"Multiplicity": "*",
+								"Role": "Employee",
+								"Type": "northwind.Employee"
+							}
+						],
+
+						"ReferentialConstraint": 
+						{
+							"Principal": 
+							{
+								"PropertyRef": 
+								{
+									"Name": "Id"
+								},
+
+								"Role": "Territory"
+							},
+
+							"Dependent": 
+							{
+								"PropertyRef": 
+								{
+									"Name": "Id"
+								},
+
+								"Role": "Employee"
+							}
+						},
+
+						"Name": "territory_Employee"
+					},
+
+					{
+						"End": 
+						[
+							{
+								"Multiplicity": "0..1",
+								"Role": "Product",
+								"Type": "northwind.Product"
+							},
+
+							{
+								"Multiplicity": "*",
+								"Role": "Supplier",
+								"Type": "northwind.Supplier"
+							}
+						],
+
+						"ReferentialConstraint": 
+						{
+							"Principal": 
+							{
+								"PropertyRef": 
+								{
+									"Name": "Id"
+								},
+
+								"Role": "Product"
+							},
+
+							"Dependent": 
+							{
+								"PropertyRef": 
+								{
+									"Name": "Id"
+								},
+
+								"Role": "Supplier"
+							}
+						},
+
+						"Name": "Product_supplier"
+					},
+
+					{
+						"End": 
+						[
+							{
+								"Multiplicity": "0..1",
+								"Role": "Supplier",
+								"Type": "northwind.Supplier"
+							},
+
+							{
+								"Multiplicity": "*",
+								"Role": "Product",
+								"Type": "northwind.Product"
+							}
+						],
+
+						"ReferentialConstraint": 
+						{
+							"Principal": 
+							{
+								"PropertyRef": 
+								{
+									"Name": "Id"
+								},
+
+								"Role": "Supplier"
+							},
+
+							"Dependent": 
+							{
+								"PropertyRef": 
+								{
+									"Name": "Id"
+								},
+
+								"Role": "Product"
+							}
+						},
+
+						"Name": "supplier_Product"
+					},
+
+					{
+						"End": 
+						[
+							{
+								"Multiplicity": "0..1",
+								"Role": "OrderDetail",
+								"Type": "northwind.OrderDetail"
+							},
+
+							{
+								"Multiplicity": "*",
+								"Role": "Order",
+								"Type": "northwind.Order"
+							}
+						],
+
+						"ReferentialConstraint": 
+						{
+							"Principal": 
+							{
+								"PropertyRef": 
+								{
+									"Name": "Id"
+								},
+
+								"Role": "OrderDetail"
+							},
+
+							"Dependent": 
+							{
+								"PropertyRef": 
+								{
+									"Name": "Id"
+								},
+
+								"Role": "Order"
+							}
+						},
+
+						"Name": "OrderDetail_order"
+					},
+
+					{
+						"End": 
+						[
+							{
+								"Multiplicity": "0..1",
+								"Role": "Order",
+								"Type": "northwind.Order"
+							},
+
+							{
+								"Multiplicity": "*",
+								"Role": "OrderDetail",
+								"Type": "northwind.OrderDetail"
+							}
+						],
+
+						"ReferentialConstraint": 
+						{
+							"Principal": 
+							{
+								"PropertyRef": 
+								{
+									"Name": "Id"
+								},
+
+								"Role": "Order"
+							},
+
+							"Dependent": 
+							{
+								"PropertyRef": 
+								{
+									"Name": "Id"
+								},
+
+								"Role": "OrderDetail"
+							}
+						},
+
+						"Name": "order_OrderDetail"
+					},
+
+					{
+						"End": 
+						[
+							{
+								"Multiplicity": "0..1",
+								"Role": "Order",
+								"Type": "northwind.Order"
+							},
+
+							{
+								"Multiplicity": "*",
+								"Role": "Employee",
+								"Type": "northwind.Employee"
+							}
+						],
+
+						"ReferentialConstraint": 
+						{
+							"Principal": 
+							{
+								"PropertyRef": 
+								{
+									"Name": "Id"
+								},
+
+								"Role": "Order"
+							},
+
+							"Dependent": 
+							{
+								"PropertyRef": 
+								{
+									"Name": "Id"
+								},
+
+								"Role": "Employee"
+							}
+						},
+
+						"Name": "Order_employee"
+					},
+
+					{
+						"End": 
+						[
+							{
+								"Multiplicity": "0..1",
+								"Role": "Employee",
+								"Type": "northwind.Employee"
+							},
+
+							{
+								"Multiplicity": "*",
+								"Role": "Order",
+								"Type": "northwind.Order"
+							}
+						],
+
+						"ReferentialConstraint": 
+						{
+							"Principal": 
+							{
+								"PropertyRef": 
+								{
+									"Name": "Id"
+								},
+
+								"Role": "Employee"
+							},
+
+							"Dependent": 
+							{
+								"PropertyRef": 
+								{
+									"Name": "Id"
+								},
+
+								"Role": "Order"
+							}
+						},
+
+						"Name": "employee_Order"
+					}
+				],
+
+				"xmlns": "http://schemas.microsoft.com/ado/2009/11/edm",
+				"xmlns:owl": "http://www.w3.org/2002/07/owl",
+				"Namespace": "northwind",
+				"owl:Ontology": "http://northwind.com#"
+			},
+
+			{
+				"EntityType": 
+				[
+					{
+						"Key": 
+						{
+							"PropertyRef": 
+							{
+								"Name": "Id"
+							}
+						},
+
+						"Property": 
+						[
+							{
+								"xmlns:rdfs": "http://www.w3.org/2000/01/rdf-schema",
+								"Name": "Id",
+								"Nullable": "false",
+								"Type": "Edm.String",
+								"rdfs:Datatype": "http://www.w3.org/2000/01/rdf-schema#Resource"
+							},
+
+							{
+								"xmlns:rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns",
+								"xmlns:rdfs": "http://www.w3.org/2000/01/rdf-schema",
+								"Name": "label",
+								"Nullable": "false",
+								"Type": "Collection(rdf.langString)",
+								"rdf:Property": "http://www.w3.org/2000/01/rdf-schema#label",
+								"rdfs:Datatype": "http://www.w3.org/2001/XMLSchema#string"
+							},
+
+							{
+								"xmlns:rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns",
+								"xmlns:rdfs": "http://www.w3.org/2000/01/rdf-schema",
+								"Name": "comment",
+								"Nullable": "false",
+								"Type": "Collection(rdf.langString)",
+								"rdf:Property": "http://www.w3.org/2000/01/rdf-schema#comment",
+								"rdfs:Datatype": "http://www.w3.org/2001/XMLSchema#string"
+							}
+						],
+
+						"NavigationProperty": 
+						{
+							"xmlns:rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns",
+							"FromRole": "Resource",
+							"Name": "Resource_type",
+							"Relationship": "rdf.Resource_type",
+							"ToRole": "Class",
+							"rdf:Property": "http://www.w3.org/1999/02/22-rdf-syntax-ns#type"
+						},
+
+						"xmlns:rdfs": "http://www.w3.org/2000/01/rdf-schema",
+						"Abstract": "false",
+						"Name": "Resource",
+						"rdfs:Class": "http://www.w3.org/2000/01/rdf-schema#Resource"
+					},
+
+					{
+						"NavigationProperty": 
+						{
+							"xmlns:owl": "http://www.w3.org/2002/07/owl",
+							"FromRole": "Class",
+							"Name": "type_Resource",
+							"Relationship": "rdf.type_Resource",
+							"ToRole": "Resource",
+							"owl:inverseOf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#type"
+						},
+
+						"xmlns:rdfs": "http://www.w3.org/2000/01/rdf-schema",
+						"Abstract": "false",
+						"BaseType": "rdfs.Resource",
+						"Name": "Class",
+						"rdfs:Class": "http://www.w3.org/2000/01/rdf-schema#Class"
+					}
+				],
+
+				"xmlns": "http://schemas.microsoft.com/ado/2009/11/edm",
+				"xmlns:owl": "http://www.w3.org/2002/07/owl",
+				"Namespace": "rdfs",
+				"owl:Ontology": "http://www.w3.org/2000/01/rdf-schema#"
+			},
+
+			{
+				"EntityType": 
+				{
+					"xmlns:rdfs": "http://www.w3.org/2000/01/rdf-schema",
+					"Abstract": "false",
+					"BaseType": "rdfs.Resource",
+					"Name": "Thing",
+					"rdfs:Class": "http://www.w3.org/2002/07/owl#Thing"
+				},
+
+				"xmlns": "http://schemas.microsoft.com/ado/2009/11/edm",
+				"xmlns:owl": "http://www.w3.org/2002/07/owl",
+				"Namespace": "owl",
+				"owl:Ontology": "http://www.w3.org/2002/07/owl#"
+			},
+
+			{
+				"ComplexType": 
+				{
+					"Property": 
+					[
+						{
+							"xmlns:rdfs": "http://www.w3.org/2000/01/rdf-schema",
+							"Name": "lang",
+							"Nullable": "true",
+							"Type": "Edm.String",
+							"rdfs:Datatype": "http://www.w3.org/2001/XMLSchema#string"
+						},
+
+						{
+							"xmlns:rdfs": "http://www.w3.org/2000/01/rdf-schema",
+							"Name": "value",
+							"Nullable": "false",
+							"Type": "Edm.String",
+							"rdfs:Datatype": "http://www.w3.org/2001/XMLSchema#string"
+						}
+					],
+
+					"Name": "langString"
+				},
+
+				"Association": 
+				[
+					{
+						"End": 
+						[
+							{
+								"Multiplicity": "0..1",
+								"Role": "Resource",
+								"Type": "rdfs.Resource"
+							},
+
+							{
+								"Multiplicity": "*",
+								"Role": "Class",
+								"Type": "rdfs.Class"
+							}
+						],
+
+						"ReferentialConstraint": 
+						{
+							"Principal": 
+							{
+								"PropertyRef": 
+								{
+									"Name": "Id"
+								},
+
+								"Role": "Resource"
+							},
+
+							"Dependent": 
+							{
+								"PropertyRef": 
+								{
+									"Name": "Id"
+								},
+
+								"Role": "Class"
+							}
+						},
+
+						"Name": "Resource_type"
+					},
+
+					{
+						"End": 
+						[
+							{
+								"Multiplicity": "0..1",
+								"Role": "Class",
+								"Type": "rdfs.Class"
+							},
+
+							{
+								"Multiplicity": "*",
+								"Role": "Resource",
+								"Type": "rdfs.Resource"
+							}
+						],
+
+						"ReferentialConstraint": 
+						{
+							"Principal": 
+							{
+								"PropertyRef": 
+								{
+									"Name": "Id"
+								},
+
+								"Role": "Class"
+							},
+
+							"Dependent": 
+							{
+								"PropertyRef": 
+								{
+									"Name": "Id"
+								},
+
+								"Role": "Resource"
+							}
+						},
+
+						"Name": "type_Resource"
+					}
+				],
+
+				"xmlns": "http://schemas.microsoft.com/ado/2009/11/edm",
+				"xmlns:owl": "http://www.w3.org/2002/07/owl",
+				"Namespace": "rdf",
+				"owl:Ontology": "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+			}
+		],
+
+		"xmlns:m": "http://schemas.microsoft.com/ado/2007/08/dataservices/metadata",
+		"m:DataServiceVersion": "3.0",
+		"m:MaxDataServiceVersion": "3.0"
+	},
+
+	"xmlns:edmx": "http://schemas.microsoft.com/ado/2007/06/edmx",
+	"xmlns:owl": "http://www.w3.org/2002/07/owl",
+	"xmlns:rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns",
+	"xmlns:rdfs": "http://www.w3.org/2000/01/rdf-schema",
+	"xmlns:xsd": "http://www.w3.org/2001/XMLSchema",
+	"Version": "1.0"
+}

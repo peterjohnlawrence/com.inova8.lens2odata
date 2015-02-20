@@ -1,0 +1,464 @@
+<edmx:Edmx Version="1.0" xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx" xmlns:owl="http://www.w3.org/2002/07/owl" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <edmx:DataServices m:DataServiceVersion="3.0" m:MaxDataServiceVersion="3.0" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata">
+    <Schema Namespace="Instances" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+      <EntityContainer Name="InstanceContainer" annotation:LazyLoadingEnabled="false" m:IsDefaultEntityContainer="true" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation">
+        <EntitySet EntityType="northwind.Supplier" Name="Supplier" rdfs:label="Supplier" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+        <EntitySet EntityType="northwind.Territory" Name="Territory" rdfs:label="Territory" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+        <EntitySet EntityType="northwind.Region" Name="Region" rdfs:label="Region" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+        <EntitySet EntityType="northwind.Product" Name="Product" rdfs:label="Product" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+        <EntitySet EntityType="northwind.Customer" Name="Customer" rdfs:label="Customer" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+        <EntitySet EntityType="northwind.Shipper" Name="Shipper" rdfs:label="Shipper" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+        <EntitySet EntityType="northwind.Category" Name="Category" rdfs:label="Category" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+        <EntitySet EntityType="northwind.Order" Name="Order" rdfs:label="Order" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+        <EntitySet EntityType="northwind.OrderDetail" Name="OrderDetail" rdfs:label="OrderDetail" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+        <EntitySet EntityType="northwind.Employee" Name="Employee" rdfs:label="Employee" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+        <EntitySet EntityType="rdfs.Resource" Name="rdfs_Resource" rdfs:label="Resource" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+        <EntitySet EntityType="rdfs.Class" Name="rdfs_Class" rdfs:label="Class" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+        <EntitySet EntityType="owl.Thing" Name="owl_Thing" rdfs:label="Thing" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+        <AssociationSet Association="northwind.shipVia" Name="shipVia" rdfs:label="has shipVia" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema">
+          <End EntitySet="Order" Role="Order" />
+          <End EntitySet="Shipper" Role="Shipper" />
+        </AssociationSet>
+        <AssociationSet Association="northwind.product" Name="product" rdfs:label="product" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema">
+          <End EntitySet="OrderDetail" Role="OrderDetail" />
+          <End EntitySet="Product" Role="Product" />
+        </AssociationSet>
+        <AssociationSet Association="northwind.territory" Name="territory" rdfs:label="territory" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema">
+          <End EntitySet="Employee" Role="Employee" />
+          <End EntitySet="Territory" Role="Territory" />
+        </AssociationSet>
+        <AssociationSet Association="northwind.supplier" Name="supplier" rdfs:label="has supplier" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema">
+          <End EntitySet="Product" Role="Product" />
+          <End EntitySet="Supplier" Role="Supplier" />
+        </AssociationSet>
+        <AssociationSet Association="northwind.reportsTo" Name="reportsTo" rdfs:label="has reportsTo" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema">
+          <End EntitySet="Employee" Role="Employee" />
+          <End EntitySet="Employee" Role="Employee1" />
+        </AssociationSet>
+        <AssociationSet Association="northwind.category" Name="category" rdfs:label="has category" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema">
+          <End EntitySet="Product" Role="Product" />
+          <End EntitySet="Category" Role="Category" />
+        </AssociationSet>
+        <AssociationSet Association="northwind.order" Name="order" rdfs:label="order" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema">
+          <End EntitySet="OrderDetail" Role="OrderDetail" />
+          <End EntitySet="Order" Role="Order" />
+        </AssociationSet>
+        <AssociationSet Association="northwind.employee" Name="employee" rdfs:label="employee" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema">
+          <End EntitySet="Order" Role="Order" />
+          <End EntitySet="Employee" Role="Employee" />
+        </AssociationSet>
+        <AssociationSet Association="northwind.customer" Name="customer" rdfs:label="has customer" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema">
+          <End EntitySet="Order" Role="Order" />
+          <End EntitySet="Customer" Role="Customer" />
+        </AssociationSet>
+        <AssociationSet Association="northwind.suppliesProduct" Name="suppliesProduct" rdfs:label="supplies product" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema">
+          <End EntitySet="Supplier" Role="Supplier" />
+          <End EntitySet="Product" Role="Product" />
+        </AssociationSet>
+        <AssociationSet Association="northwind.hasPlacedOrder" Name="hasPlacedOrder" rdfs:label="has placed order" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema">
+          <End EntitySet="Customer" Role="Customer" />
+          <End EntitySet="Order" Role="Order" />
+        </AssociationSet>
+        <AssociationSet Association="northwind.managesOrder" Name="managesOrder" rdfs:label="manages order" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema">
+          <End EntitySet="Employee" Role="Employee" />
+          <End EntitySet="Order" Role="Order" />
+        </AssociationSet>
+        <AssociationSet Association="northwind.shipsOrder" Name="shipsOrder" rdfs:label="ships order" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema">
+          <End EntitySet="Shipper" Role="Shipper" />
+          <End EntitySet="Order" Role="Order" />
+        </AssociationSet>
+        <AssociationSet Association="northwind.managesEmployee" Name="managesEmployee" rdfs:label="manages" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema">
+          <End EntitySet="Employee" Role="Employee" />
+          <End EntitySet="Employee" Role="Employee1" />
+        </AssociationSet>
+        <AssociationSet Association="northwind.isPartOfOrderDetail" Name="isPartOfOrderDetail" rdfs:label="is part of order detail" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema">
+          <End EntitySet="Product" Role="Product" />
+          <End EntitySet="OrderDetail" Role="OrderDetail" />
+        </AssociationSet>
+        <AssociationSet Association="northwind.isCategoryOf" Name="isCategoryOf" rdfs:label="is category of" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema">
+          <End EntitySet="Category" Role="Category" />
+          <End EntitySet="Product" Role="Product" />
+        </AssociationSet>
+        <AssociationSet Association="northwind.hasOrderDetail" Name="hasOrderDetail" rdfs:label="has order detail" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema">
+          <End EntitySet="Order" Role="Order" />
+          <End EntitySet="OrderDetail" Role="OrderDetail" />
+        </AssociationSet>
+        <AssociationSet Association="northwind.territoryOf" Name="territoryOf" rdfs:label="territory of" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema">
+          <End EntitySet="Territory" Role="Territory" />
+          <End EntitySet="Employee" Role="Employee" />
+        </AssociationSet>
+        <AssociationSet Association="rdf.type" Name="type" rdfs:label="has Type" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema">
+          <End EntitySet="rdfs_Resource" Role="Resource" />
+          <End EntitySet="rdfs_Class" Role="Class" />
+        </AssociationSet>
+        <AssociationSet Association="rdf.hasInstance" Name="hasInstance" rdfs:label="has Instance" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema">
+          <End EntitySet="rdfs_Class" Role="Class" />
+          <End EntitySet="rdfs_Resource" Role="Resource" />
+        </AssociationSet>
+      </EntityContainer>
+    </Schema>
+    <Schema Namespace="northwind" owl:Ontology="http://northwind.com#" xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:owl="http://www.w3.org/2002/07/owl">
+      <EntityType Abstract="false" BaseType="owl.Thing" Name="Customer" rdfs:Class="http://northwind.com#Customer" rdfs:label="Customer" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema">
+        <Property Name="contactTitle" Nullable="true" Type="rdf.langString" rdf:Property="http://northwind.com#contactTitle" rdfs:Datatype="http://www.w3.org/2001/XMLSchema#string" rdfs:label="contactTitle" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+        <Property Name="address" Nullable="true" Type="rdf.langString" rdf:Property="http://northwind.com#address" rdfs:Datatype="http://www.w3.org/2001/XMLSchema#string" rdfs:label="address" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+        <Property Name="postalCode" Nullable="true" Type="rdf.langString" rdf:Property="http://northwind.com#postalCode" rdfs:Datatype="http://www.w3.org/2001/XMLSchema#string" rdfs:label="postalCode" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+        <Property Name="region" Nullable="true" Type="rdf.langString" rdf:Property="http://northwind.com#region" rdfs:Datatype="http://www.w3.org/2001/XMLSchema#string" rdfs:label="region" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+        <Property Name="country" Nullable="true" Type="rdf.langString" rdf:Property="http://northwind.com#country" rdfs:Datatype="http://www.w3.org/2001/XMLSchema#string" rdfs:label="country" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+        <Property Name="companyName" Nullable="true" Type="rdf.langString" rdf:Property="http://northwind.com#companyName" rdfs:Datatype="http://www.w3.org/2001/XMLSchema#string" rdfs:label="companyName" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+        <Property Name="fax" Nullable="true" Type="rdf.langString" rdf:Property="http://northwind.com#fax" rdfs:Datatype="http://www.w3.org/2001/XMLSchema#string" rdfs:label="fax" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+        <Property Name="contactName" Nullable="true" Type="rdf.langString" rdf:Property="http://northwind.com#contactName" rdfs:Datatype="http://www.w3.org/2001/XMLSchema#string" rdfs:label="contactName" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+        <Property Name="city" Nullable="true" Type="rdf.langString" rdf:Property="http://northwind.com#city" rdfs:Datatype="http://www.w3.org/2001/XMLSchema#string" rdfs:label="city" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+        <Property Name="phone" Nullable="true" Type="rdf.langString" rdf:Property="http://northwind.com#phone" rdfs:Datatype="http://www.w3.org/2001/XMLSchema#string" rdfs:label="phone" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+        <NavigationProperty FromRole="Customer" Name="hasPlacedOrder" Relationship="northwind.hasPlacedOrder" ToRole="Order" owl:inverseOf="http://northwind.com#customer" rdf:Property="http://northwind.com#hasPlacedOrder" rdfs:label="has placed order" xmlns:owl="http://www.w3.org/2002/07/owl" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+      </EntityType>
+      <EntityType Abstract="false" BaseType="owl.Thing" Name="Category" rdfs:Class="http://northwind.com#Category" rdfs:label="Category" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema">
+        <Property Name="picture" Nullable="true" Type="rdf.langString" rdf:Property="http://northwind.com#picture" rdfs:Datatype="http://www.w3.org/2001/XMLSchema#string" rdfs:label="picture" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+        <Property Name="categoryName" Nullable="false" Type="rdf.langString" rdf:Property="http://northwind.com#categoryName" rdfs:Datatype="http://www.w3.org/2001/XMLSchema#string" rdfs:label="categoryName" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+        <Property Name="description" Nullable="true" Type="rdf.langString" rdf:Property="http://northwind.com#description" rdfs:Datatype="http://www.w3.org/2001/XMLSchema#string" rdfs:label="description" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+        <NavigationProperty FromRole="Category" Name="isCategoryOf" Relationship="northwind.isCategoryOf" ToRole="Product" owl:inverseOf="http://northwind.com#category" rdf:Property="http://northwind.com#isCategoryOf" rdfs:label="is category of" xmlns:owl="http://www.w3.org/2002/07/owl" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+      </EntityType>
+      <EntityType Abstract="false" BaseType="owl.Thing" Name="Region" rdfs:Class="http://northwind.com#Region" rdfs:label="Region" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+      <EntityType Abstract="false" BaseType="owl.Thing" Name="Supplier" rdfs:Class="http://northwind.com#Supplier" rdfs:label="Supplier" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema">
+        <Property Name="homePage" Nullable="true" Type="rdf.langString" rdf:Property="http://northwind.com#homePage" rdfs:Datatype="http://www.w3.org/2001/XMLSchema#string" rdfs:label="homePage" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+        <Property Name="address" Nullable="true" Type="rdf.langString" rdf:Property="http://northwind.com#address" rdfs:Datatype="http://www.w3.org/2001/XMLSchema#string" rdfs:label="address" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+        <Property Name="postalCode" Nullable="true" Type="rdf.langString" rdf:Property="http://northwind.com#postalCode" rdfs:Datatype="http://www.w3.org/2001/XMLSchema#string" rdfs:label="postalCode" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+        <Property Name="region" Nullable="true" Type="rdf.langString" rdf:Property="http://northwind.com#region" rdfs:Datatype="http://www.w3.org/2001/XMLSchema#string" rdfs:label="region" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+        <Property Name="country" Nullable="true" Type="rdf.langString" rdf:Property="http://northwind.com#country" rdfs:Datatype="http://www.w3.org/2001/XMLSchema#string" rdfs:label="country" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+        <Property Name="companyName" Nullable="true" Type="rdf.langString" rdf:Property="http://northwind.com#companyName" rdfs:Datatype="http://www.w3.org/2001/XMLSchema#string" rdfs:label="companyName" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+        <Property Name="fax" Nullable="true" Type="rdf.langString" rdf:Property="http://northwind.com#fax" rdfs:Datatype="http://www.w3.org/2001/XMLSchema#string" rdfs:label="fax" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+        <Property Name="contactName" Nullable="true" Type="rdf.langString" rdf:Property="http://northwind.com#contactName" rdfs:Datatype="http://www.w3.org/2001/XMLSchema#string" rdfs:label="contactName" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+        <Property Name="city" Nullable="true" Type="rdf.langString" rdf:Property="http://northwind.com#city" rdfs:Datatype="http://www.w3.org/2001/XMLSchema#string" rdfs:label="city" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+        <Property Name="phone" Nullable="true" Type="rdf.langString" rdf:Property="http://northwind.com#phone" rdfs:Datatype="http://www.w3.org/2001/XMLSchema#string" rdfs:label="phone" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+        <NavigationProperty FromRole="Supplier" Name="suppliesProduct" Relationship="northwind.suppliesProduct" ToRole="Product" owl:inverseOf="http://northwind.com#supplier" rdf:Property="http://northwind.com#suppliesProduct" rdfs:label="supplies product" xmlns:owl="http://www.w3.org/2002/07/owl" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+      </EntityType>
+      <EntityType Abstract="false" BaseType="owl.Thing" Name="Product" rdfs:Class="http://northwind.com#Product" rdfs:label="Product" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema">
+        <Property Name="unitsInStock" Nullable="true" Type="Edm.Int32" rdf:Property="http://northwind.com#unitsInStock" rdfs:Datatype="http://www.w3.org/2001/XMLSchema#integer" rdfs:label="unitsInStock" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+        <Property Name="unitPrice" Nullable="true" Type="Edm.Double" rdf:Property="http://northwind.com#unitPrice" rdfs:Datatype="http://www.w3.org/2001/XMLSchema#float" rdfs:label="unit price" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+        <Property Name="unitsOnOrder" Nullable="true" Type="Edm.Int32" rdf:Property="http://northwind.com#unitsOnOrder" rdfs:Datatype="http://www.w3.org/2001/XMLSchema#integer" rdfs:label="unitsOnOrder" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+        <Property Name="reorderLevel" Nullable="true" Type="Edm.Int32" rdf:Property="http://northwind.com#reorderLevel" rdfs:Datatype="http://www.w3.org/2001/XMLSchema#integer" rdfs:label="reorderLevel" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+        <Property Name="discontinued" Nullable="true" Type="Edm.Boolean" rdf:Property="http://northwind.com#discontinued" rdfs:Datatype="http://www.w3.org/2001/XMLSchema#boolean" rdfs:label="discontinued" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+        <Property Name="quantityPerUnit" Nullable="true" Type="rdf.langString" rdf:Property="http://northwind.com#quantityPerUnit" rdfs:Datatype="http://www.w3.org/2001/XMLSchema#string" rdfs:label="quantityPerUnit" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+        <Property Name="productName" Nullable="true" Type="rdf.langString" rdf:Property="http://northwind.com#productName" rdfs:Datatype="http://www.w3.org/2001/XMLSchema#string" rdfs:label="productName" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+        <NavigationProperty FromRole="Product" Name="supplier" Relationship="northwind.supplier" ToRole="Supplier" rdf:Property="http://northwind.com#supplier" rdfs:label="has supplier" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+        <NavigationProperty FromRole="Product" Name="category" Relationship="northwind.category" ToRole="Category" rdf:Property="http://northwind.com#category" rdfs:label="has category" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+        <NavigationProperty FromRole="Product" Name="isPartOfOrderDetail" Relationship="northwind.isPartOfOrderDetail" ToRole="OrderDetail" owl:inverseOf="http://northwind.com#product" rdf:Property="http://northwind.com#isPartOfOrderDetail" rdfs:label="is part of order detail" xmlns:owl="http://www.w3.org/2002/07/owl" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+      </EntityType>
+      <EntityType Abstract="false" BaseType="owl.Thing" Name="Shipper" rdfs:Class="http://northwind.com#Shipper" rdfs:label="Shipper" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema">
+        <Property Name="companyName" Nullable="true" Type="rdf.langString" rdf:Property="http://northwind.com#companyName" rdfs:Datatype="http://www.w3.org/2001/XMLSchema#string" rdfs:label="companyName" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+        <Property Name="phone" Nullable="true" Type="rdf.langString" rdf:Property="http://northwind.com#phone" rdfs:Datatype="http://www.w3.org/2001/XMLSchema#string" rdfs:label="phone" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+        <NavigationProperty FromRole="Shipper" Name="shipsOrder" Relationship="northwind.shipsOrder" ToRole="Order" owl:inverseOf="http://northwind.com#shipVia" rdf:Property="http://northwind.com#shipsOrder" rdfs:label="ships order" xmlns:owl="http://www.w3.org/2002/07/owl" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+      </EntityType>
+      <EntityType Abstract="false" BaseType="owl.Thing" Name="Order" rdfs:Class="http://northwind.com#Order" rdfs:label="Order" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema">
+        <Property Name="orderDate" Nullable="true" Type="Edm.DateTime" rdf:Property="http://northwind.com#orderDate" rdfs:Datatype="http://www.w3.org/2001/XMLSchema#date" rdfs:label="orderDate" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+        <Property Name="freight" Nullable="true" Type="Edm.Double" rdf:Property="http://northwind.com#freight" rdfs:Datatype="http://www.w3.org/2001/XMLSchema#float" rdfs:label="freight" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+        <Property Name="shipPostalCode" Nullable="true" Type="rdf.langString" rdf:Property="http://northwind.com#shipPostalCode" rdfs:Datatype="http://www.w3.org/2001/XMLSchema#string" rdfs:label="shipPostalCode" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+        <Property Name="shipRegion" Nullable="true" Type="rdf.langString" rdf:Property="http://northwind.com#shipRegion" rdfs:Datatype="http://www.w3.org/2001/XMLSchema#string" rdfs:label="shipRegion" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+        <Property Name="shippedDate" Nullable="true" Type="Edm.DateTime" rdf:Property="http://northwind.com#shippedDate" rdfs:Datatype="http://www.w3.org/2001/XMLSchema#date" rdfs:label="shippedDate" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+        <Property Name="shipCountry" Nullable="true" Type="rdf.langString" rdf:Property="http://northwind.com#shipCountry" rdfs:Datatype="http://www.w3.org/2001/XMLSchema#string" rdfs:label="shipCountry" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+        <Property Name="shipAddress" Nullable="true" Type="rdf.langString" rdf:Property="http://northwind.com#shipAddress" rdfs:Datatype="http://www.w3.org/2001/XMLSchema#string" rdfs:label="shipAddress" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+        <Property Name="requiredDate" Nullable="true" Type="Edm.DateTime" rdf:Property="http://northwind.com#requiredDate" rdfs:Datatype="http://www.w3.org/2001/XMLSchema#date" rdfs:label="requiredDate" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+        <Property Name="shipCity" Nullable="true" Type="rdf.langString" rdf:Property="http://northwind.com#shipCity" rdfs:Datatype="http://www.w3.org/2001/XMLSchema#string" rdfs:label="shipCity" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+        <Property Name="shipName" Nullable="true" Type="rdf.langString" rdf:Property="http://northwind.com#shipName" rdfs:Datatype="http://www.w3.org/2001/XMLSchema#string" rdfs:label="shipName" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+        <NavigationProperty FromRole="Order" Name="shipVia" Relationship="northwind.shipVia" ToRole="Shipper" rdf:Property="http://northwind.com#shipVia" rdfs:label="has shipVia" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+        <NavigationProperty FromRole="Order" Name="employee" Relationship="northwind.employee" ToRole="Employee" rdf:Property="http://northwind.com#employee" rdfs:label="employee" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+        <NavigationProperty FromRole="Order" Name="customer" Relationship="northwind.customer" ToRole="Customer" rdf:Property="http://northwind.com#customer" rdfs:label="has customer" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+        <NavigationProperty FromRole="Order" Name="hasOrderDetail" Relationship="northwind.hasOrderDetail" ToRole="OrderDetail" owl:inverseOf="http://northwind.com#order" rdf:Property="http://northwind.com#hasOrderDetail" rdfs:label="has order detail" xmlns:owl="http://www.w3.org/2002/07/owl" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+      </EntityType>
+      <EntityType Abstract="false" BaseType="owl.Thing" Name="Territory" rdfs:Class="http://northwind.com#Territory" rdfs:label="Territory" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema">
+        <Property Name="territoryDescription" Nullable="true" Type="rdf.langString" rdf:Property="http://northwind.com#territoryDescription" rdfs:Datatype="http://www.w3.org/2001/XMLSchema#string" rdfs:label="territory description" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+        <NavigationProperty FromRole="Territory" Name="territoryOf" Relationship="northwind.territoryOf" ToRole="Employee" owl:inverseOf="http://northwind.com#territory" rdf:Property="http://northwind.com#territoryOf" rdfs:label="territory of" xmlns:owl="http://www.w3.org/2002/07/owl" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+      </EntityType>
+      <EntityType Abstract="false" BaseType="owl.Thing" Name="OrderDetail" rdfs:Class="http://northwind.com#OrderDetail" rdfs:label="OrderDetail" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema">
+        <Property Name="quantity" Nullable="false" Type="Edm.Int32" rdf:Property="http://northwind.com#quantity" rdfs:Datatype="http://www.w3.org/2001/XMLSchema#integer" rdfs:label="quantity" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+        <Property Name="unitPrice" Nullable="false" Type="Edm.Double" rdf:Property="http://northwind.com#unitPrice" rdfs:Datatype="http://www.w3.org/2001/XMLSchema#float" rdfs:label="unit price" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+        <Property Name="discount" Nullable="true" Type="Edm.Double" rdf:Property="http://northwind.com#discount" rdfs:Datatype="http://www.w3.org/2001/XMLSchema#float" rdfs:label="discount" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+        <NavigationProperty FromRole="OrderDetail" Name="product" Relationship="northwind.product" ToRole="Product" rdf:Property="http://northwind.com#product" rdfs:label="product" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+        <NavigationProperty FromRole="OrderDetail" Name="order" Relationship="northwind.order" ToRole="Order" rdf:Property="http://northwind.com#order" rdfs:label="order" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+      </EntityType>
+      <EntityType Abstract="false" BaseType="owl.Thing" Name="Employee" rdfs:Class="http://northwind.com#Employee" rdfs:label="Employee" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema">
+        <Property Name="address" Nullable="true" Type="rdf.langString" rdf:Property="http://northwind.com#address" rdfs:Datatype="http://www.w3.org/2001/XMLSchema#string" rdfs:label="address" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+        <Property Name="postalCode" Nullable="true" Type="rdf.langString" rdf:Property="http://northwind.com#postalCode" rdfs:Datatype="http://www.w3.org/2001/XMLSchema#string" rdfs:label="postalCode" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+        <Property Name="region" Nullable="true" Type="rdf.langString" rdf:Property="http://northwind.com#region" rdfs:Datatype="http://www.w3.org/2001/XMLSchema#string" rdfs:label="region" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+        <Property Name="country" Nullable="true" Type="rdf.langString" rdf:Property="http://northwind.com#country" rdfs:Datatype="http://www.w3.org/2001/XMLSchema#string" rdfs:label="country" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+        <Property Name="hireDate" Nullable="true" Type="Edm.DateTime" rdf:Property="http://northwind.com#hireDate" rdfs:Datatype="http://www.w3.org/2001/XMLSchema#date" rdfs:label="hireDate" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+        <Property Name="homePhone" Nullable="true" Type="rdf.langString" rdf:Property="http://northwind.com#homePhone" rdfs:Datatype="http://www.w3.org/2001/XMLSchema#string" rdfs:label="homePhone" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+        <Property Name="extension" Nullable="true" Type="rdf.langString" rdf:Property="http://northwind.com#extension" rdfs:Datatype="http://www.w3.org/2001/XMLSchema#string" rdfs:label="extension" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+        <Property Name="birthDate" Nullable="true" Type="Edm.DateTime" rdf:Property="http://northwind.com#birthDate" rdfs:Datatype="http://www.w3.org/2001/XMLSchema#date" rdfs:label="birthDate" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+        <Property Name="titleOfCourtesy" Nullable="true" Type="rdf.langString" rdf:Property="http://northwind.com#titleOfCourtesy" rdfs:Datatype="http://www.w3.org/2001/XMLSchema#string" rdfs:label="titleOfCourtesy" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+        <Property Name="title" Nullable="true" Type="rdf.langString" rdf:Property="http://northwind.com#title" rdfs:Datatype="http://www.w3.org/2001/XMLSchema#string" rdfs:label="title" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+        <Property Name="photo" Nullable="true" Type="rdf.langString" rdf:Property="http://northwind.com#photo" rdfs:Datatype="http://www.w3.org/2001/XMLSchema#string" rdfs:label="photo" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+        <Property Name="lastName" Nullable="true" Type="rdf.langString" rdf:Property="http://northwind.com#lastName" rdfs:Datatype="http://www.w3.org/2001/XMLSchema#string" rdfs:label="lastName" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+        <Property Name="city" Nullable="true" Type="rdf.langString" rdf:Property="http://northwind.com#city" rdfs:Datatype="http://www.w3.org/2001/XMLSchema#string" rdfs:label="city" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+        <Property Name="firstName" Nullable="true" Type="rdf.langString" rdf:Property="http://northwind.com#firstName" rdfs:Datatype="http://www.w3.org/2001/XMLSchema#string" rdfs:label="firstName" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+        <Property Name="notes" Nullable="true" Type="rdf.langString" rdf:Property="http://northwind.com#notes" rdfs:Datatype="http://www.w3.org/2001/XMLSchema#string" rdfs:label="notes" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+        <NavigationProperty FromRole="Employee" Name="territory" Relationship="northwind.territory" ToRole="Territory" rdf:Property="http://northwind.com#territory" rdfs:label="territory" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+        <NavigationProperty FromRole="Employee" Name="reportsTo" Relationship="northwind.reportsTo" ToRole="Employee1" rdf:Property="http://northwind.com#reportsTo" rdfs:label="has reportsTo" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+        <NavigationProperty FromRole="Employee" Name="managesOrder" Relationship="northwind.managesOrder" ToRole="Order" owl:inverseOf="http://northwind.com#employee" rdf:Property="http://northwind.com#managesOrder" rdfs:label="manages order" xmlns:owl="http://www.w3.org/2002/07/owl" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+        <NavigationProperty FromRole="Employee" Name="managesEmployee" Relationship="northwind.managesEmployee" ToRole="Employee1" owl:inverseOf="http://northwind.com#reportsTo" rdf:Property="http://northwind.com#managesEmployee" rdfs:label="manages" xmlns:owl="http://www.w3.org/2002/07/owl" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+      </EntityType>
+      <Association Name="shipVia">
+        <End Multiplicity="0..1" Role="Order" Type="northwind.Order" />
+        <End Multiplicity="0..1" Role="Shipper" Type="northwind.Shipper" />
+        <ReferentialConstraint>
+          <Principal Role="Order">
+            <PropertyRef Name="Id" />
+          </Principal>
+          <Dependent Role="Shipper">
+            <PropertyRef Name="Id" />
+          </Dependent>
+        </ReferentialConstraint>
+      </Association>
+      <Association Name="product">
+        <End Multiplicity="0..1" Role="OrderDetail" Type="northwind.OrderDetail" />
+        <End Multiplicity="1" Role="Product" Type="northwind.Product" />
+        <ReferentialConstraint>
+          <Principal Role="OrderDetail">
+            <PropertyRef Name="Id" />
+          </Principal>
+          <Dependent Role="Product">
+            <PropertyRef Name="Id" />
+          </Dependent>
+        </ReferentialConstraint>
+      </Association>
+      <Association Name="territory">
+        <End Multiplicity="0..1" Role="Employee" Type="northwind.Employee" />
+        <End Multiplicity="*" Role="Territory" Type="northwind.Territory" />
+        <ReferentialConstraint>
+          <Principal Role="Employee">
+            <PropertyRef Name="Id" />
+          </Principal>
+          <Dependent Role="Territory">
+            <PropertyRef Name="Id" />
+          </Dependent>
+        </ReferentialConstraint>
+      </Association>
+      <Association Name="supplier">
+        <End Multiplicity="0..1" Role="Product" Type="northwind.Product" />
+        <End Multiplicity="1" Role="Supplier" Type="northwind.Supplier" />
+        <ReferentialConstraint>
+          <Principal Role="Product">
+            <PropertyRef Name="Id" />
+          </Principal>
+          <Dependent Role="Supplier">
+            <PropertyRef Name="Id" />
+          </Dependent>
+        </ReferentialConstraint>
+      </Association>
+      <Association Name="reportsTo">
+        <End Multiplicity="0..1" Role="Employee" Type="northwind.Employee" />
+        <End Multiplicity="0..1" Role="Employee1" Type="northwind.Employee" />
+        <ReferentialConstraint>
+          <Principal Role="Employee">
+            <PropertyRef Name="Id" />
+          </Principal>
+          <Dependent Role="Employee1">
+            <PropertyRef Name="Id" />
+          </Dependent>
+        </ReferentialConstraint>
+      </Association>
+      <Association Name="category">
+        <End Multiplicity="0..1" Role="Product" Type="northwind.Product" />
+        <End Multiplicity="1" Role="Category" Type="northwind.Category" />
+        <ReferentialConstraint>
+          <Principal Role="Product">
+            <PropertyRef Name="Id" />
+          </Principal>
+          <Dependent Role="Category">
+            <PropertyRef Name="Id" />
+          </Dependent>
+        </ReferentialConstraint>
+      </Association>
+      <Association Name="order">
+        <End Multiplicity="0..1" Role="OrderDetail" Type="northwind.OrderDetail" />
+        <End Multiplicity="1" Role="Order" Type="northwind.Order" />
+        <ReferentialConstraint>
+          <Principal Role="OrderDetail">
+            <PropertyRef Name="Id" />
+          </Principal>
+          <Dependent Role="Order">
+            <PropertyRef Name="Id" />
+          </Dependent>
+        </ReferentialConstraint>
+      </Association>
+      <Association Name="employee">
+        <End Multiplicity="0..1" Role="Order" Type="northwind.Order" />
+        <End Multiplicity="0..1" Role="Employee" Type="northwind.Employee" />
+        <ReferentialConstraint>
+          <Principal Role="Order">
+            <PropertyRef Name="Id" />
+          </Principal>
+          <Dependent Role="Employee">
+            <PropertyRef Name="Id" />
+          </Dependent>
+        </ReferentialConstraint>
+      </Association>
+      <Association Name="customer">
+        <End Multiplicity="0..1" Role="Order" Type="northwind.Order" />
+        <End Multiplicity="1" Role="Customer" Type="northwind.Customer" />
+        <ReferentialConstraint>
+          <Principal Role="Order">
+            <PropertyRef Name="Id" />
+          </Principal>
+          <Dependent Role="Customer">
+            <PropertyRef Name="Id" />
+          </Dependent>
+        </ReferentialConstraint>
+      </Association>
+      <Association Name="suppliesProduct">
+        <End Multiplicity="1" Role="Supplier" Type="northwind.Supplier" />
+        <End Multiplicity="*" Role="Product" Type="northwind.Product" />
+        <ReferentialConstraint>
+          <Principal Role="Supplier">
+            <PropertyRef Name="Id" />
+          </Principal>
+          <Dependent Role="Product">
+            <PropertyRef Name="Id" />
+          </Dependent>
+        </ReferentialConstraint>
+      </Association>
+      <Association Name="hasPlacedOrder">
+        <End Multiplicity="1" Role="Customer" Type="northwind.Customer" />
+        <End Multiplicity="*" Role="Order" Type="northwind.Order" />
+        <ReferentialConstraint>
+          <Principal Role="Customer">
+            <PropertyRef Name="Id" />
+          </Principal>
+          <Dependent Role="Order">
+            <PropertyRef Name="Id" />
+          </Dependent>
+        </ReferentialConstraint>
+      </Association>
+      <Association Name="managesOrder">
+        <End Multiplicity="0..1" Role="Employee" Type="northwind.Employee" />
+        <End Multiplicity="*" Role="Order" Type="northwind.Order" />
+        <ReferentialConstraint>
+          <Principal Role="Employee">
+            <PropertyRef Name="Id" />
+          </Principal>
+          <Dependent Role="Order">
+            <PropertyRef Name="Id" />
+          </Dependent>
+        </ReferentialConstraint>
+      </Association>
+      <Association Name="shipsOrder">
+        <End Multiplicity="0..1" Role="Shipper" Type="northwind.Shipper" />
+        <End Multiplicity="*" Role="Order" Type="northwind.Order" />
+        <ReferentialConstraint>
+          <Principal Role="Shipper">
+            <PropertyRef Name="Id" />
+          </Principal>
+          <Dependent Role="Order">
+            <PropertyRef Name="Id" />
+          </Dependent>
+        </ReferentialConstraint>
+      </Association>
+      <Association Name="managesEmployee">
+        <End Multiplicity="0..1" Role="Employee" Type="northwind.Employee" />
+        <End Multiplicity="*" Role="Employee1" Type="northwind.Employee" />
+        <ReferentialConstraint>
+          <Principal Role="Employee">
+            <PropertyRef Name="Id" />
+          </Principal>
+          <Dependent Role="Employee1">
+            <PropertyRef Name="Id" />
+          </Dependent>
+        </ReferentialConstraint>
+      </Association>
+      <Association Name="isPartOfOrderDetail">
+        <End Multiplicity="1" Role="Product" Type="northwind.Product" />
+        <End Multiplicity="*" Role="OrderDetail" Type="northwind.OrderDetail" />
+        <ReferentialConstraint>
+          <Principal Role="Product">
+            <PropertyRef Name="Id" />
+          </Principal>
+          <Dependent Role="OrderDetail">
+            <PropertyRef Name="Id" />
+          </Dependent>
+        </ReferentialConstraint>
+      </Association>
+      <Association Name="isCategoryOf">
+        <End Multiplicity="1" Role="Category" Type="northwind.Category" />
+        <End Multiplicity="*" Role="Product" Type="northwind.Product" />
+        <ReferentialConstraint>
+          <Principal Role="Category">
+            <PropertyRef Name="Id" />
+          </Principal>
+          <Dependent Role="Product">
+            <PropertyRef Name="Id" />
+          </Dependent>
+        </ReferentialConstraint>
+      </Association>
+      <Association Name="hasOrderDetail">
+        <End Multiplicity="1" Role="Order" Type="northwind.Order" />
+        <End Multiplicity="*" Role="OrderDetail" Type="northwind.OrderDetail" />
+        <ReferentialConstraint>
+          <Principal Role="Order">
+            <PropertyRef Name="Id" />
+          </Principal>
+          <Dependent Role="OrderDetail">
+            <PropertyRef Name="Id" />
+          </Dependent>
+        </ReferentialConstraint>
+      </Association>
+      <Association Name="territoryOf">
+        <End Multiplicity="0..1" Role="Territory" Type="northwind.Territory" />
+        <End Multiplicity="*" Role="Employee" Type="northwind.Employee" />
+        <ReferentialConstraint>
+          <Principal Role="Territory">
+            <PropertyRef Name="Id" />
+          </Principal>
+          <Dependent Role="Employee">
+            <PropertyRef Name="Id" />
+          </Dependent>
+        </ReferentialConstraint>
+      </Association>
+    </Schema>
+    <Schema Namespace="rdfs" owl:Ontology="http://www.w3.org/2000/01/rdf-schema#" xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:owl="http://www.w3.org/2002/07/owl">
+      <EntityType Abstract="false" Name="Resource" rdfs:Class="http://www.w3.org/2000/01/rdf-schema#Resource" rdfs:label="Resource" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema">
+        <Key>
+          <PropertyRef Name="Id" />
+        </Key>
+        <Property Name="Id" Nullable="false" Type="Edm.String" rdfs:Datatype="http://www.w3.org/2000/01/rdf-schema#Resource" rdfs:label="Id" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+        <Property Name="label" Nullable="true" Type="Collection(rdf.langString)" rdf:Property="http://www.w3.org/2000/01/rdf-schema#label" rdfs:Datatype="http://www.w3.org/2001/XMLSchema#string" rdfs:label="label" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+        <Property Name="comment" Nullable="true" Type="Collection(rdf.langString)" rdf:Property="http://www.w3.org/2000/01/rdf-schema#comment" rdfs:Datatype="http://www.w3.org/2001/XMLSchema#string" rdfs:label="comment" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+        <NavigationProperty FromRole="Resource" Name="type" Relationship="rdf.type" ToRole="Class" rdf:Property="http://www.w3.org/1999/02/22-rdf-syntax-ns#type" rdfs:label="has Type" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+      </EntityType>
+      <EntityType Abstract="false" BaseType="rdfs.Resource" Name="Class" rdfs:Class="http://www.w3.org/2000/01/rdf-schema#Class" rdfs:label="Class" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema">
+        <NavigationProperty FromRole="Class" Name="hasInstance" Relationship="rdf.hasInstance" ToRole="Resource" owl:inverseOf="http://www.w3.org/1999/02/22-rdf-syntax-ns#type" rdf:Property="http://www.w3.org/1999/02/22-rdf-syntax-ns#hasInstance" rdfs:label="has Instance" xmlns:owl="http://www.w3.org/2002/07/owl" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+      </EntityType>
+    </Schema>
+    <Schema Namespace="owl" owl:Ontology="http://www.w3.org/2002/07/owl#" xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:owl="http://www.w3.org/2002/07/owl">
+      <EntityType Abstract="false" BaseType="rdfs.Resource" Name="Thing" rdfs:Class="http://www.w3.org/2002/07/owl#Thing" rdfs:label="Thing" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+    </Schema>
+    <Schema Namespace="rdf" owl:Ontology="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:owl="http://www.w3.org/2002/07/owl">
+      <ComplexType Name="langString">
+        <Property Name="lang" Nullable="true" Type="Edm.String" rdfs:Datatype="http://www.w3.org/2001/XMLSchema#string" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+        <Property Name="value" Nullable="false" Type="Edm.String" rdfs:Datatype="http://www.w3.org/2001/XMLSchema#string" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+      </ComplexType>
+      <Association Name="type">
+        <End Multiplicity="*" Role="Resource" Type="rdfs.Resource" />
+        <End Multiplicity="0..1" Role="Class" Type="rdfs.Class" />
+        <ReferentialConstraint>
+          <Principal Role="Resource">
+            <PropertyRef Name="Id" />
+          </Principal>
+          <Dependent Role="Class">
+            <PropertyRef Name="Id" />
+          </Dependent>
+        </ReferentialConstraint>
+      </Association>
+      <Association Name="hasInstance">
+        <End Multiplicity="0..1" Role="Class" Type="rdfs.Class" />
+        <End Multiplicity="*" Role="Resource" Type="rdfs.Resource" />
+        <ReferentialConstraint>
+          <Principal Role="Class">
+            <PropertyRef Name="Id" />
+          </Principal>
+          <Dependent Role="Resource">
+            <PropertyRef Name="Id" />
+          </Dependent>
+        </ReferentialConstraint>
+      </Association>
+    </Schema>
+  </edmx:DataServices>
+</edmx:Edmx>

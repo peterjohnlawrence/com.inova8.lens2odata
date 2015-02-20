@@ -1,0 +1,46 @@
+<template data-controller-name="lens.LensView">
+<div data-sap-ui-type="sap.m.Page" data-title="Title">
+	<div data-sap-ui-aggregation="content">
+		<div data-sap-ui-type="sap.ui.commons.layout.MatrixLayout" id="lens"
+			data-layoutFixed="true" data-columns="2">
+		</div>
+	</div>
+	<div data-sap-ui-aggregation="customHeader">
+		<div data-sap-ui-type="sap.m.Bar">
+			<div data-sap-ui-aggregation="contentLeft">
+				<div data-sap-ui-type="sap.m.Button" data-icon="sap-icon://nav-back"
+					data-press="goBack"></div>
+			</div>
+			<div data-sap-ui-aggregation="contentMiddle">
+				<div data-sap-ui-type="sap.ui.commons.Image"
+					data-src="resources/LinklaterLensLogo.png" data-height="45px"
+					data-design="Bold"></div>
+			</div>
+<!-- 			<div data-sap-ui-aggregation="contentMiddle"> -->
+<!-- 				<div data-sap-ui-type="sap.m.Label" data-text="{i18n>lensLensView}" -->
+<!-- 					data-design="Bold"></div> -->
+<!-- 			</div> -->
+			<div data-sap-ui-aggregation="contentMiddle">
+				<div data-sap-ui-type="sap.m.Label" id="fragmentFocus" data-visible="false"
+					data-design="Bold"></div>
+			</div>
+			<div data-sap-ui-aggregation="contentMiddle">
+				<div data-sap-ui-type="sap.m.Label" id="fragmentEntityType"
+					data-design="Bold"></div>
+			</div>
+			<div data-sap-ui-aggregation="contentMiddle">
+				<div data-sap-ui-type="sap.m.Label" data-text=":"
+					data-design="Bold"></div>
+			</div>
+			<div data-sap-ui-aggregation="contentMiddle">
+				<div data-sap-ui-type="sap.m.Label" id="fragmentEntity"
+					data-design="Bold"></div>
+			</div>
+			<div data-sap-ui-aggregation="contentRight">
+				<div data-sap-ui-type="sap.m.Button" data-icon="sap-icon://search"
+					data-press="goSearch"></div>
+			</div>
+		</div>
+	</div>
+</div>
+</template>
