@@ -1,7 +1,7 @@
 [
 	{
 		"_class": "Datatype",
-		"name": "conjunction",
+		"name": "Conjunction",
 		"constraints": 
 		[
 			{
@@ -18,7 +18,7 @@
 
 	{
 		"_class": "Datatype",
-		"name": "filterConjunction",
+		"name": "FilterConjunction",
 		"constraints": 
 		[
 			{
@@ -35,7 +35,7 @@
 
 	{
 		"_class": "Datatype",
-		"name": "condition",
+		"name": "Condition",
 		"constraints": 
 		[
 			{
@@ -77,7 +77,29 @@
 
 	{
 		"_class": "Datatype",
-		"name": "objectProperty",
+		"name": "Concept",
+		"constraints": 
+		[
+			{
+				"_class": "Literal",
+				"value": "Office"
+			},
+
+			{
+				"_class": "Literal",
+				"value": "Matter"
+			},
+
+			{
+				"_class": "Literal",
+				"value": "Deal"
+			}
+		]
+	},
+
+	{
+		"_class": "Datatype",
+		"name": "ObjectProperty",
 		"constraints": 
 		[
 			{
@@ -94,7 +116,7 @@
 
 	{
 		"_class": "Datatype",
-		"name": "inverseObjectProperty",
+		"name": "InverseObjectProperty",
 		"constraints": 
 		[
 			{
@@ -111,7 +133,7 @@
 
 	{
 		"_class": "Datatype",
-		"name": "dataProperty",
+		"name": "DataProperty",
 		"constraints": 
 		[
 			{
@@ -128,73 +150,75 @@
 
 	{
 		"_class": "Class",
-		"name": "query",
+		"name": "Query",
 		"features": 
 		[
 			{
 				"_class": "Feature",
-				"name": "find",
+				"name": "name",
 				"kind": "attribute",
 				"lowerLimit": 1,
 				"upperLimit": 1,
-				"type": "find"
+				"type": "name"
 			},
 
 			{
 				"_class": "Feature",
-				"name": "where",
+				"name": "concept",
+				"kind": "attribute",
+				"lowerLimit": 1,
+				"upperLimit": 1,
+				"type": "Concept"
+			},
+
+			{
+				"_class": "Feature",
+				"name": "label",
 				"kind": "attribute",
 				"lowerLimit": 0,
 				"upperLimit": 1,
-				"type": "where"
+				"type": "string"
+			},
+
+			{
+				"_class": "Feature",
+				"name": "clauses",
+				"kind": "containment",
+				"lowerLimit": 0,
+				"upperLimit": 1,
+				"type": "Clauses"
 			}
 		]
 	},
 
 	{
 		"_class": "Class",
-		"name": "where",
+		"name": "Clauses",
 		"features": 
 		[
 			{
 				"_class": "Feature",
 				"name": "clause",
-				"kind": "attribute",
+				"kind": "containment",
 				"lowerLimit": 1,
 				"upperLimit": 1,
-				"type": "clause"
-			}
-		]
-	},
-
-	{
-		"_class": "Class",
-		"name": "clause",
-		"features": 
-		[
-			{
-				"_class": "Feature",
-				"name": "phrase",
-				"kind": "attribute",
-				"lowerLimit": 1,
-				"upperLimit": 1,
-				"type": "phrase"
+				"type": "Clause"
 			},
 
 			{
 				"_class": "Feature",
-				"name": "conjunctionPhrase",
+				"name": "conjunctionClauses",
 				"kind": "attribute",
 				"lowerLimit": 0,
 				"upperLimit": -1,
-				"type": "conjunctionPhrase"
+				"type": "ConjunctionClause"
 			}
 		]
 	},
 
 	{
 		"_class": "Class",
-		"name": "conjunctionPhrase",
+		"name": "ConjunctionClause",
 		"features": 
 		[
 			{
@@ -203,23 +227,23 @@
 				"kind": "attribute",
 				"lowerLimit": 1,
 				"upperLimit": 1,
-				"type": "conjunction"
+				"type": "Conjunction"
 			},
 
 			{
 				"_class": "Feature",
-				"name": "phrase",
+				"name": "clause",
 				"kind": "attribute",
-				"lowerLimit": 0,
-				"upperLimit": -1,
-				"type": "phrase"
+				"lowerLimit": 1,
+				"upperLimit": 1,
+				"type": "Clause"
 			}
 		]
 	},
 
 	{
 		"_class": "Class",
-		"name": "phrase",
+		"name": "Clause",
 		"features": 
 		[
 			{
@@ -242,64 +266,86 @@
 
 			{
 				"_class": "Feature",
-				"name": "propertyPhrase",
+				"name": "label",
 				"kind": "attribute",
 				"lowerLimit": 0,
-				"upperLimit": -1,
-				"type": "propertyPhrase"
+				"upperLimit": 1,
+				"type": "string"
 			},
 
 			{
 				"_class": "Feature",
-				"name": "where",
-				"kind": "attribute",
+				"name": "propertyClause",
+				"kind": "containment",
 				"lowerLimit": 0,
-				"upperLimit": 1,
-				"type": "where"
+				"upperLimit": -1,
+				"type": "PropertyClause"
 			}
 		]
 	},
 
 	{
 		"_class": "Class",
-		"name": "propertyPhrase",
+		"name": "PropertyClause",
 		"abstract": true
 	},
 
 	{
 		"_class": "Class",
-		"name": "objectPropertyPhrase",
-		"superTypes": "propertyPhrase",
+		"name": "ObjectPropertyClause",
+		"superTypes": "PropertyClause",
 		"features": 
-		{
-			"_class": "Feature",
-			"name": "objectProperty",
-			"kind": "attribute",
-			"lowerLimit": 1,
-			"upperLimit": 1,
-			"type": "objectProperty"
-		}
+		[
+			{
+				"_class": "Feature",
+				"name": "objectProperty",
+				"kind": "attribute",
+				"lowerLimit": 1,
+				"upperLimit": 1,
+				"type": "ObjectProperty"
+			},
+
+			{
+				"_class": "Feature",
+				"name": "clauses",
+				"kind": "containment",
+				"lowerLimit": 1,
+				"upperLimit": 1,
+				"type": "Clauses"
+			}
+		]
 	},
 
 	{
 		"_class": "Class",
-		"name": "inverseObjectPropertyPhrase",
-		"superTypes": "propertyPhrase",
+		"name": "InverseObjectPropertyClause",
+		"superTypes": "PropertyClause",
 		"features": 
-		{
-			"_class": "Feature",
-			"name": "inverseObjectProperty",
-			"kind": "attribute",
-			"lowerLimit": 1,
-			"upperLimit": 1,
-			"type": "inverseObjectProperty"
-		}
+		[
+			{
+				"_class": "Feature",
+				"name": "inverseObjectProperty",
+				"kind": "attribute",
+				"lowerLimit": 1,
+				"upperLimit": 1,
+				"type": "InverseObjectProperty"
+			},
+
+			{
+				"_class": "Feature",
+				"name": "clauses",
+				"kind": "containment",
+				"lowerLimit": 1,
+				"upperLimit": 1,
+				"type": "Clauses"
+			}
+		]
 	},
 
 	{
 		"_class": "Class",
-		"name": "dataPropertyPhrase",
-		"superTypes": "propertyPhrase",
+		"name": "DataPropertyClause",
+		"superTypes": "PropertyClause",
 		"features": 
 		[
 			{
@@ -308,48 +354,48 @@
 				"kind": "attribute",
 				"lowerLimit": 1,
 				"upperLimit": 1,
-				"type": "dataProperty"
+				"type": "DataProperty"
 			},
 
 			{
 				"_class": "Feature",
 				"name": "filters",
-				"kind": "attribute",
+				"kind": "containment",
 				"lowerLimit": 0,
 				"upperLimit": 1,
-				"type": "filter"
+				"type": "Filters"
 			}
 		]
 	},
 
 	{
 		"_class": "Class",
-		"name": "filters",
+		"name": "Filters",
 		"features": 
 		[
 			{
 				"_class": "Feature",
 				"name": "filter",
-				"kind": "attribute",
+				"kind": "containment",
 				"lowerLimit": 1,
 				"upperLimit": 1,
-				"type": "filter"
+				"type": "Filter"
 			},
 
 			{
 				"_class": "Feature",
-				"name": "conjunctionFilter",
-				"kind": "attribute",
+				"name": "conjunctionFilters",
+				"kind": "containment",
 				"lowerLimit": 0,
 				"upperLimit": -1,
-				"type": "conjunctionFilter"
+				"type": "ConjunctionFilter"
 			}
 		]
 	},
 
 	{
 		"_class": "Class",
-		"name": "filter",
+		"name": "Filter",
 		"features": 
 		[
 			{
@@ -358,7 +404,7 @@
 				"kind": "attribute",
 				"lowerLimit": 1,
 				"upperLimit": 1,
-				"type": "condition"
+				"type": "Condition"
 			},
 
 			{
@@ -367,14 +413,23 @@
 				"kind": "attribute",
 				"lowerLimit": 1,
 				"upperLimit": 1,
-				"type": "string"
+				"type": "String"
+			},
+
+			{
+				"_class": "Feature",
+				"name": "datatype",
+				"kind": "attribute",
+				"lowerLimit": 1,
+				"upperLimit": 1,
+				"type": "String"
 			}
 		]
 	},
 
 	{
 		"_class": "Class",
-		"name": "conjunctionFilter",
+		"name": "ConjunctionFilter",
 		"features": 
 		[
 			{
@@ -383,7 +438,7 @@
 				"kind": "attribute",
 				"lowerLimit": 1,
 				"upperLimit": 1,
-				"type": "filterConjunction"
+				"type": "FilterConjunction"
 			},
 
 			{
@@ -392,7 +447,7 @@
 				"kind": "attribute",
 				"lowerLimit": 1,
 				"upperLimit": 1,
-				"type": "filter"
+				"type": "Filter"
 			}
 		]
 	}

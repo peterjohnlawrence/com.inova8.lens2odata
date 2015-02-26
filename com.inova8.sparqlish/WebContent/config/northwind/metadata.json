@@ -279,7 +279,7 @@
 								"Name": "shipName",
 								"Nullable": "false",
 								"Type": "Collection(rdf.langString)",
-								"rdf:Property": "http://northwind.com#shipName",
+								"rdf:Property": "http://northwind.com/shipName",
 								"rdfs:Datatype": "http://www.w3.org/2001/XMLSchema#string"
 							},
 
@@ -289,7 +289,7 @@
 								"Name": "orderDate",
 								"Nullable": "false",
 								"Type": "Collection(Edm.DateTime)",
-								"rdf:Property": "http://northwind.com#orderDate",
+								"rdf:Property": "http://northwind.com/orderDate",
 								"rdfs:Datatype": "http://www.w3.org/2001/XMLSchema#date"
 							},
 
@@ -299,7 +299,7 @@
 								"Name": "shipAddress",
 								"Nullable": "false",
 								"Type": "Collection(rdf.langString)",
-								"rdf:Property": "http://northwind.com#shipAddress",
+								"rdf:Property": "http://northwind.com/shipAddress",
 								"rdfs:Datatype": "http://www.w3.org/2001/XMLSchema#string"
 							},
 
@@ -309,7 +309,7 @@
 								"Name": "shipCountry",
 								"Nullable": "false",
 								"Type": "Collection(rdf.langString)",
-								"rdf:Property": "http://northwind.com#shipCountry",
+								"rdf:Property": "http://northwind.com/shipCountry",
 								"rdfs:Datatype": "http://www.w3.org/2001/XMLSchema#string"
 							},
 
@@ -319,7 +319,7 @@
 								"Name": "shippedDate",
 								"Nullable": "false",
 								"Type": "Collection(Edm.DateTime)",
-								"rdf:Property": "http://northwind.com#shippedDate",
+								"rdf:Property": "http://northwind.com/shippedDate",
 								"rdfs:Datatype": "http://www.w3.org/2001/XMLSchema#date"
 							},
 
@@ -329,7 +329,7 @@
 								"Name": "shipCity",
 								"Nullable": "false",
 								"Type": "Collection(rdf.langString)",
-								"rdf:Property": "http://northwind.com#shipCity",
+								"rdf:Property": "http://northwind.com/shipCity",
 								"rdfs:Datatype": "http://www.w3.org/2001/XMLSchema#string"
 							},
 
@@ -339,7 +339,7 @@
 								"Name": "shipPostalCode",
 								"Nullable": "false",
 								"Type": "Collection(rdf.langString)",
-								"rdf:Property": "http://northwind.com#shipPostalCode",
+								"rdf:Property": "http://northwind.com/shipPostalCode",
 								"rdfs:Datatype": "http://www.w3.org/2001/XMLSchema#string"
 							},
 
@@ -349,7 +349,7 @@
 								"Name": "shipRegion",
 								"Nullable": "false",
 								"Type": "Collection(rdf.langString)",
-								"rdf:Property": "http://northwind.com#shipRegion",
+								"rdf:Property": "http://northwind.com/shipRegion",
 								"rdfs:Datatype": "http://www.w3.org/2001/XMLSchema#string"
 							},
 
@@ -359,7 +359,7 @@
 								"Name": "freight",
 								"Nullable": "false",
 								"Type": "Collection(Edm.Double)",
-								"rdf:Property": "http://northwind.com#freight",
+								"rdf:Property": "http://northwind.com/freight",
 								"rdfs:Datatype": "http://www.w3.org/2001/XMLSchema#float"
 							},
 
@@ -369,7 +369,7 @@
 								"Name": "requiredDate",
 								"Nullable": "false",
 								"Type": "Collection(Edm.DateTime)",
-								"rdf:Property": "http://northwind.com#requiredDate",
+								"rdf:Property": "http://northwind.com/requiredDate",
 								"rdfs:Datatype": "http://www.w3.org/2001/XMLSchema#date"
 							}
 						],
@@ -382,7 +382,7 @@
 								"Name": "Order_customer",
 								"Relationship": "northwind.Order_customer",
 								"ToRole": "Customer",
-								"rdf:Property": "http://northwind.com#customer"
+								"rdf:Property": "http://northwind.com/customer"
 							},
 
 							{
@@ -391,7 +391,7 @@
 								"Name": "Order_shipVia",
 								"Relationship": "northwind.Order_shipVia",
 								"ToRole": "Shipper",
-								"rdf:Property": "http://northwind.com#shipVia"
+								"rdf:Property": "http://northwind.com/shipVia"
 							},
 
 							{
@@ -400,7 +400,7 @@
 								"Name": "order_OrderDetail",
 								"Relationship": "northwind.order_OrderDetail",
 								"ToRole": "OrderDetail",
-								"owl:inverseOf": "http://northwind.com#order"
+								"owl:inverseOf": "http://northwind.com/order"
 							},
 
 							{
@@ -409,7 +409,7 @@
 								"Name": "Order_employee",
 								"Relationship": "northwind.Order_employee",
 								"ToRole": "Employee",
-								"rdf:Property": "http://northwind.com#employee"
+								"rdf:Property": "http://northwind.com/employee"
 							}
 						],
 
@@ -417,7 +417,7 @@
 						"Abstract": "false",
 						"BaseType": "owl.Thing",
 						"Name": "Order",
-						"rdfs:Class": "http://northwind.com#Order"
+						"rdfs:Class": "http://northwind.com/Order"
 					},
 
 					{
@@ -429,7 +429,7 @@
 								"Name": "discount",
 								"Nullable": "false",
 								"Type": "Collection(Edm.Double)",
-								"rdf:Property": "http://northwind.com#discount",
+								"rdf:Property": "http://northwind.com/discount",
 								"rdfs:Datatype": "http://www.w3.org/2001/XMLSchema#float"
 							},
 
@@ -439,7 +439,7 @@
 								"Name": "unitPrice",
 								"Nullable": "false",
 								"Type": "Collection(Edm.Double)",
-								"rdf:Property": "http://northwind.com#unitPrice",
+								"rdf:Property": "http://northwind.com/unitPrice",
 								"rdfs:Datatype": "http://www.w3.org/2001/XMLSchema#float"
 							},
 
@@ -449,7 +449,7 @@
 								"Name": "quantity",
 								"Nullable": "false",
 								"Type": "Collection(Edm.Int32)",
-								"rdf:Property": "http://northwind.com#quantity",
+								"rdf:Property": "http://northwind.com/quantity",
 								"rdfs:Datatype": "http://www.w3.org/2001/XMLSchema#integer"
 							}
 						],
@@ -462,7 +462,7 @@
 								"Name": "OrderDetail_product",
 								"Relationship": "northwind.OrderDetail_product",
 								"ToRole": "Product",
-								"rdf:Property": "http://northwind.com#product"
+								"rdf:Property": "http://northwind.com/product"
 							},
 
 							{
@@ -471,7 +471,7 @@
 								"Name": "OrderDetail_order",
 								"Relationship": "northwind.OrderDetail_order",
 								"ToRole": "Order",
-								"rdf:Property": "http://northwind.com#order"
+								"rdf:Property": "http://northwind.com/order"
 							}
 						],
 
@@ -479,7 +479,7 @@
 						"Abstract": "false",
 						"BaseType": "owl.Thing",
 						"Name": "OrderDetail",
-						"rdfs:Class": "http://northwind.com#OrderDetail"
+						"rdfs:Class": "http://northwind.com/OrderDetail"
 					},
 
 					{
@@ -490,7 +490,7 @@
 							"Name": "territoryDescription",
 							"Nullable": "false",
 							"Type": "Collection(rdf.langString)",
-							"rdf:Property": "http://northwind.com#territoryDescription",
+							"rdf:Property": "http://northwind.com/territoryDescription",
 							"rdfs:Datatype": "http://www.w3.org/2001/XMLSchema#string"
 						},
 
@@ -501,14 +501,14 @@
 							"Name": "territory_Employee",
 							"Relationship": "northwind.territory_Employee",
 							"ToRole": "Employee",
-							"owl:inverseOf": "http://northwind.com#territory"
+							"owl:inverseOf": "http://northwind.com/territory"
 						},
 
 						"xmlns:rdfs": "http://www.w3.org/2000/01/rdf-schema",
 						"Abstract": "false",
 						"BaseType": "owl.Thing",
 						"Name": "Territory",
-						"rdfs:Class": "http://northwind.com#Territory"
+						"rdfs:Class": "http://northwind.com/Territory"
 					},
 
 					{
@@ -520,7 +520,7 @@
 								"Name": "postalCode",
 								"Nullable": "false",
 								"Type": "Collection(rdf.langString)",
-								"rdf:Property": "http://northwind.com#postalCode",
+								"rdf:Property": "http://northwind.com/postalCode",
 								"rdfs:Datatype": "http://www.w3.org/2001/XMLSchema#string"
 							},
 
@@ -530,7 +530,7 @@
 								"Name": "title",
 								"Nullable": "false",
 								"Type": "Collection(rdf.langString)",
-								"rdf:Property": "http://northwind.com#title",
+								"rdf:Property": "http://northwind.com/title",
 								"rdfs:Datatype": "http://www.w3.org/2001/XMLSchema#string"
 							},
 
@@ -540,7 +540,7 @@
 								"Name": "extension",
 								"Nullable": "false",
 								"Type": "Collection(rdf.langString)",
-								"rdf:Property": "http://northwind.com#extension",
+								"rdf:Property": "http://northwind.com/extension",
 								"rdfs:Datatype": "http://www.w3.org/2001/XMLSchema#string"
 							},
 
@@ -550,7 +550,7 @@
 								"Name": "notes",
 								"Nullable": "false",
 								"Type": "Collection(rdf.langString)",
-								"rdf:Property": "http://northwind.com#notes",
+								"rdf:Property": "http://northwind.com/notes",
 								"rdfs:Datatype": "http://www.w3.org/2001/XMLSchema#string"
 							},
 
@@ -560,7 +560,7 @@
 								"Name": "titleOfCourtesy",
 								"Nullable": "false",
 								"Type": "Collection(rdf.langString)",
-								"rdf:Property": "http://northwind.com#titleOfCourtesy",
+								"rdf:Property": "http://northwind.com/titleOfCourtesy",
 								"rdfs:Datatype": "http://www.w3.org/2001/XMLSchema#string"
 							},
 
@@ -570,7 +570,7 @@
 								"Name": "region",
 								"Nullable": "false",
 								"Type": "Collection(rdf.langString)",
-								"rdf:Property": "http://northwind.com#region",
+								"rdf:Property": "http://northwind.com/region",
 								"rdfs:Datatype": "http://www.w3.org/2001/XMLSchema#string"
 							},
 
@@ -580,7 +580,7 @@
 								"Name": "country",
 								"Nullable": "false",
 								"Type": "Collection(rdf.langString)",
-								"rdf:Property": "http://northwind.com#country",
+								"rdf:Property": "http://northwind.com/country",
 								"rdfs:Datatype": "http://www.w3.org/2001/XMLSchema#string"
 							},
 
@@ -590,7 +590,7 @@
 								"Name": "birthDate",
 								"Nullable": "false",
 								"Type": "Collection(Edm.DateTime)",
-								"rdf:Property": "http://northwind.com#birthDate",
+								"rdf:Property": "http://northwind.com/birthDate",
 								"rdfs:Datatype": "http://www.w3.org/2001/XMLSchema#date"
 							},
 
@@ -600,7 +600,7 @@
 								"Name": "address",
 								"Nullable": "false",
 								"Type": "Collection(rdf.langString)",
-								"rdf:Property": "http://northwind.com#address",
+								"rdf:Property": "http://northwind.com/address",
 								"rdfs:Datatype": "http://www.w3.org/2001/XMLSchema#string"
 							},
 
@@ -610,7 +610,7 @@
 								"Name": "city",
 								"Nullable": "false",
 								"Type": "Collection(rdf.langString)",
-								"rdf:Property": "http://northwind.com#city",
+								"rdf:Property": "http://northwind.com/city",
 								"rdfs:Datatype": "http://www.w3.org/2001/XMLSchema#string"
 							},
 
@@ -620,7 +620,7 @@
 								"Name": "lastName",
 								"Nullable": "false",
 								"Type": "Collection(rdf.langString)",
-								"rdf:Property": "http://northwind.com#lastName",
+								"rdf:Property": "http://northwind.com/lastName",
 								"rdfs:Datatype": "http://www.w3.org/2001/XMLSchema#string"
 							},
 
@@ -630,7 +630,7 @@
 								"Name": "hireDate",
 								"Nullable": "false",
 								"Type": "Collection(Edm.DateTime)",
-								"rdf:Property": "http://northwind.com#hireDate",
+								"rdf:Property": "http://northwind.com/hireDate",
 								"rdfs:Datatype": "http://www.w3.org/2001/XMLSchema#date"
 							},
 
@@ -640,7 +640,7 @@
 								"Name": "homePhone",
 								"Nullable": "false",
 								"Type": "Collection(rdf.langString)",
-								"rdf:Property": "http://northwind.com#homePhone",
+								"rdf:Property": "http://northwind.com/homePhone",
 								"rdfs:Datatype": "http://www.w3.org/2001/XMLSchema#string"
 							},
 
@@ -650,7 +650,7 @@
 								"Name": "photo",
 								"Nullable": "false",
 								"Type": "Collection(rdf.langString)",
-								"rdf:Property": "http://northwind.com#photo",
+								"rdf:Property": "http://northwind.com/photo",
 								"rdfs:Datatype": "http://www.w3.org/2001/XMLSchema#string"
 							},
 
@@ -660,7 +660,7 @@
 								"Name": "firstName",
 								"Nullable": "false",
 								"Type": "Collection(rdf.langString)",
-								"rdf:Property": "http://northwind.com#firstName",
+								"rdf:Property": "http://northwind.com/firstName",
 								"rdfs:Datatype": "http://www.w3.org/2001/XMLSchema#string"
 							}
 						],
@@ -673,7 +673,7 @@
 								"Name": "Employee_reportsTo",
 								"Relationship": "northwind.Employee_reportsTo",
 								"ToRole": "Employee1",
-								"rdf:Property": "http://northwind.com#reportsTo"
+								"rdf:Property": "http://northwind.com/reportsTo"
 							},
 
 							{
@@ -682,7 +682,7 @@
 								"Name": "reportsTo_Employee",
 								"Relationship": "northwind.reportsTo_Employee",
 								"ToRole": "Employee1",
-								"owl:inverseOf": "http://northwind.com#reportsTo"
+								"owl:inverseOf": "http://northwind.com/reportsTo"
 							},
 
 							{
@@ -691,7 +691,7 @@
 								"Name": "Employee_territory",
 								"Relationship": "northwind.Employee_territory",
 								"ToRole": "Territory",
-								"rdf:Property": "http://northwind.com#territory"
+								"rdf:Property": "http://northwind.com/territory"
 							},
 
 							{
@@ -700,7 +700,7 @@
 								"Name": "employee_Order",
 								"Relationship": "northwind.employee_Order",
 								"ToRole": "Order",
-								"owl:inverseOf": "http://northwind.com#employee"
+								"owl:inverseOf": "http://northwind.com/employee"
 							}
 						],
 
@@ -708,7 +708,7 @@
 						"Abstract": "false",
 						"BaseType": "owl.Thing",
 						"Name": "Employee",
-						"rdfs:Class": "http://northwind.com#Employee"
+						"rdfs:Class": "http://northwind.com/Employee"
 					},
 
 					{
@@ -720,7 +720,7 @@
 								"Name": "picture",
 								"Nullable": "false",
 								"Type": "Collection(rdf.langString)",
-								"rdf:Property": "http://northwind.com#picture",
+								"rdf:Property": "http://northwind.com/picture",
 								"rdfs:Datatype": "http://www.w3.org/2001/XMLSchema#string"
 							},
 
@@ -730,7 +730,7 @@
 								"Name": "categoryName",
 								"Nullable": "false",
 								"Type": "Collection(rdf.langString)",
-								"rdf:Property": "http://northwind.com#categoryName",
+								"rdf:Property": "http://northwind.com/categoryName",
 								"rdfs:Datatype": "http://www.w3.org/2001/XMLSchema#string"
 							},
 
@@ -740,7 +740,7 @@
 								"Name": "description",
 								"Nullable": "false",
 								"Type": "Collection(rdf.langString)",
-								"rdf:Property": "http://northwind.com#description",
+								"rdf:Property": "http://northwind.com/description",
 								"rdfs:Datatype": "http://www.w3.org/2001/XMLSchema#string"
 							}
 						],
@@ -752,14 +752,14 @@
 							"Name": "category_Product",
 							"Relationship": "northwind.category_Product",
 							"ToRole": "Product",
-							"owl:inverseOf": "http://northwind.com#category"
+							"owl:inverseOf": "http://northwind.com/category"
 						},
 
 						"xmlns:rdfs": "http://www.w3.org/2000/01/rdf-schema",
 						"Abstract": "false",
 						"BaseType": "owl.Thing",
 						"Name": "Category",
-						"rdfs:Class": "http://northwind.com#Category"
+						"rdfs:Class": "http://northwind.com/Category"
 					},
 
 					{
@@ -771,7 +771,7 @@
 								"Name": "postalCode",
 								"Nullable": "false",
 								"Type": "Collection(rdf.langString)",
-								"rdf:Property": "http://northwind.com#postalCode",
+								"rdf:Property": "http://northwind.com/postalCode",
 								"rdfs:Datatype": "http://www.w3.org/2001/XMLSchema#string"
 							},
 
@@ -781,7 +781,7 @@
 								"Name": "fax",
 								"Nullable": "false",
 								"Type": "Collection(rdf.langString)",
-								"rdf:Property": "http://northwind.com#fax",
+								"rdf:Property": "http://northwind.com/fax",
 								"rdfs:Datatype": "http://www.w3.org/2001/XMLSchema#string"
 							},
 
@@ -791,7 +791,7 @@
 								"Name": "country",
 								"Nullable": "false",
 								"Type": "Collection(rdf.langString)",
-								"rdf:Property": "http://northwind.com#country",
+								"rdf:Property": "http://northwind.com/country",
 								"rdfs:Datatype": "http://www.w3.org/2001/XMLSchema#string"
 							},
 
@@ -801,7 +801,7 @@
 								"Name": "city",
 								"Nullable": "false",
 								"Type": "Collection(rdf.langString)",
-								"rdf:Property": "http://northwind.com#city",
+								"rdf:Property": "http://northwind.com/city",
 								"rdfs:Datatype": "http://www.w3.org/2001/XMLSchema#string"
 							},
 
@@ -811,7 +811,7 @@
 								"Name": "contactName",
 								"Nullable": "false",
 								"Type": "Collection(rdf.langString)",
-								"rdf:Property": "http://northwind.com#contactName",
+								"rdf:Property": "http://northwind.com/contactName",
 								"rdfs:Datatype": "http://www.w3.org/2001/XMLSchema#string"
 							},
 
@@ -821,7 +821,7 @@
 								"Name": "region",
 								"Nullable": "false",
 								"Type": "Collection(rdf.langString)",
-								"rdf:Property": "http://northwind.com#region",
+								"rdf:Property": "http://northwind.com/region",
 								"rdfs:Datatype": "http://www.w3.org/2001/XMLSchema#string"
 							},
 
@@ -831,7 +831,7 @@
 								"Name": "companyName",
 								"Nullable": "false",
 								"Type": "Collection(rdf.langString)",
-								"rdf:Property": "http://northwind.com#companyName",
+								"rdf:Property": "http://northwind.com/companyName",
 								"rdfs:Datatype": "http://www.w3.org/2001/XMLSchema#string"
 							},
 
@@ -841,7 +841,7 @@
 								"Name": "contactTitle",
 								"Nullable": "false",
 								"Type": "Collection(rdf.langString)",
-								"rdf:Property": "http://northwind.com#contactTitle",
+								"rdf:Property": "http://northwind.com/contactTitle",
 								"rdfs:Datatype": "http://www.w3.org/2001/XMLSchema#string"
 							},
 
@@ -851,7 +851,7 @@
 								"Name": "address",
 								"Nullable": "false",
 								"Type": "Collection(rdf.langString)",
-								"rdf:Property": "http://northwind.com#address",
+								"rdf:Property": "http://northwind.com/address",
 								"rdfs:Datatype": "http://www.w3.org/2001/XMLSchema#string"
 							},
 
@@ -861,7 +861,7 @@
 								"Name": "phone",
 								"Nullable": "false",
 								"Type": "Collection(rdf.langString)",
-								"rdf:Property": "http://northwind.com#phone",
+								"rdf:Property": "http://northwind.com/phone",
 								"rdfs:Datatype": "http://www.w3.org/2001/XMLSchema#string"
 							}
 						],
@@ -873,14 +873,14 @@
 							"Name": "customer_Order",
 							"Relationship": "northwind.customer_Order",
 							"ToRole": "Order",
-							"owl:inverseOf": "http://northwind.com#customer"
+							"owl:inverseOf": "http://northwind.com/customer"
 						},
 
 						"xmlns:rdfs": "http://www.w3.org/2000/01/rdf-schema",
 						"Abstract": "false",
 						"BaseType": "owl.Thing",
 						"Name": "Customer",
-						"rdfs:Class": "http://northwind.com#Customer"
+						"rdfs:Class": "http://northwind.com/Customer"
 					},
 
 					{
@@ -892,7 +892,7 @@
 								"Name": "companyName",
 								"Nullable": "false",
 								"Type": "Collection(rdf.langString)",
-								"rdf:Property": "http://northwind.com#companyName",
+								"rdf:Property": "http://northwind.com/companyName",
 								"rdfs:Datatype": "http://www.w3.org/2001/XMLSchema#string"
 							},
 
@@ -902,7 +902,7 @@
 								"Name": "phone",
 								"Nullable": "false",
 								"Type": "Collection(rdf.langString)",
-								"rdf:Property": "http://northwind.com#phone",
+								"rdf:Property": "http://northwind.com/phone",
 								"rdfs:Datatype": "http://www.w3.org/2001/XMLSchema#string"
 							}
 						],
@@ -914,14 +914,14 @@
 							"Name": "shipVia_Order",
 							"Relationship": "northwind.shipVia_Order",
 							"ToRole": "Order",
-							"owl:inverseOf": "http://northwind.com#shipVia"
+							"owl:inverseOf": "http://northwind.com/shipVia"
 						},
 
 						"xmlns:rdfs": "http://www.w3.org/2000/01/rdf-schema",
 						"Abstract": "false",
 						"BaseType": "owl.Thing",
 						"Name": "Shipper",
-						"rdfs:Class": "http://northwind.com#Shipper"
+						"rdfs:Class": "http://northwind.com/Shipper"
 					},
 
 					{
@@ -929,7 +929,7 @@
 						"Abstract": "false",
 						"BaseType": "owl.Thing",
 						"Name": "Region",
-						"rdfs:Class": "http://northwind.com#Region"
+						"rdfs:Class": "http://northwind.com/Region"
 					},
 
 					{
@@ -941,7 +941,7 @@
 								"Name": "reorderLevel",
 								"Nullable": "false",
 								"Type": "Collection(Edm.Int32)",
-								"rdf:Property": "http://northwind.com#reorderLevel",
+								"rdf:Property": "http://northwind.com/reorderLevel",
 								"rdfs:Datatype": "http://www.w3.org/2001/XMLSchema#integer"
 							},
 
@@ -951,7 +951,7 @@
 								"Name": "quantityPerUnit",
 								"Nullable": "false",
 								"Type": "Collection(rdf.langString)",
-								"rdf:Property": "http://northwind.com#quantityPerUnit",
+								"rdf:Property": "http://northwind.com/quantityPerUnit",
 								"rdfs:Datatype": "http://www.w3.org/2001/XMLSchema#string"
 							},
 
@@ -961,7 +961,7 @@
 								"Name": "discontinued",
 								"Nullable": "false",
 								"Type": "Collection(Edm.Boolean)",
-								"rdf:Property": "http://northwind.com#discontinued",
+								"rdf:Property": "http://northwind.com/discontinued",
 								"rdfs:Datatype": "http://www.w3.org/2001/XMLSchema#boolean"
 							},
 
@@ -971,7 +971,7 @@
 								"Name": "productName",
 								"Nullable": "false",
 								"Type": "Collection(rdf.langString)",
-								"rdf:Property": "http://northwind.com#productName",
+								"rdf:Property": "http://northwind.com/productName",
 								"rdfs:Datatype": "http://www.w3.org/2001/XMLSchema#string"
 							},
 
@@ -981,7 +981,7 @@
 								"Name": "unitsOnOrder",
 								"Nullable": "false",
 								"Type": "Collection(Edm.Int32)",
-								"rdf:Property": "http://northwind.com#unitsOnOrder",
+								"rdf:Property": "http://northwind.com/unitsOnOrder",
 								"rdfs:Datatype": "http://www.w3.org/2001/XMLSchema#integer"
 							},
 
@@ -991,7 +991,7 @@
 								"Name": "unitsInStock",
 								"Nullable": "false",
 								"Type": "Collection(Edm.Int32)",
-								"rdf:Property": "http://northwind.com#unitsInStock",
+								"rdf:Property": "http://northwind.com/unitsInStock",
 								"rdfs:Datatype": "http://www.w3.org/2001/XMLSchema#integer"
 							},
 
@@ -1001,7 +1001,7 @@
 								"Name": "unitPrice",
 								"Nullable": "false",
 								"Type": "Collection(Edm.Double)",
-								"rdf:Property": "http://northwind.com#unitPrice",
+								"rdf:Property": "http://northwind.com/unitPrice",
 								"rdfs:Datatype": "http://www.w3.org/2001/XMLSchema#float"
 							}
 						],
@@ -1014,7 +1014,7 @@
 								"Name": "Product_category",
 								"Relationship": "northwind.Product_category",
 								"ToRole": "Category",
-								"rdf:Property": "http://northwind.com#category"
+								"rdf:Property": "http://northwind.com/category"
 							},
 
 							{
@@ -1023,7 +1023,7 @@
 								"Name": "product_OrderDetail",
 								"Relationship": "northwind.product_OrderDetail",
 								"ToRole": "OrderDetail",
-								"owl:inverseOf": "http://northwind.com#product"
+								"owl:inverseOf": "http://northwind.com/product"
 							},
 
 							{
@@ -1032,7 +1032,7 @@
 								"Name": "Product_supplier",
 								"Relationship": "northwind.Product_supplier",
 								"ToRole": "Supplier",
-								"rdf:Property": "http://northwind.com#supplier"
+								"rdf:Property": "http://northwind.com/supplier"
 							}
 						],
 
@@ -1040,7 +1040,7 @@
 						"Abstract": "false",
 						"BaseType": "owl.Thing",
 						"Name": "Product",
-						"rdfs:Class": "http://northwind.com#Product"
+						"rdfs:Class": "http://northwind.com/Product"
 					},
 
 					{
@@ -1052,7 +1052,7 @@
 								"Name": "postalCode",
 								"Nullable": "false",
 								"Type": "Collection(rdf.langString)",
-								"rdf:Property": "http://northwind.com#postalCode",
+								"rdf:Property": "http://northwind.com/postalCode",
 								"rdfs:Datatype": "http://www.w3.org/2001/XMLSchema#string"
 							},
 
@@ -1062,7 +1062,7 @@
 								"Name": "phone",
 								"Nullable": "false",
 								"Type": "Collection(rdf.langString)",
-								"rdf:Property": "http://northwind.com#phone",
+								"rdf:Property": "http://northwind.com/phone",
 								"rdfs:Datatype": "http://www.w3.org/2001/XMLSchema#string"
 							},
 
@@ -1072,7 +1072,7 @@
 								"Name": "address",
 								"Nullable": "false",
 								"Type": "Collection(rdf.langString)",
-								"rdf:Property": "http://northwind.com#address",
+								"rdf:Property": "http://northwind.com/address",
 								"rdfs:Datatype": "http://www.w3.org/2001/XMLSchema#string"
 							},
 
@@ -1082,7 +1082,7 @@
 								"Name": "city",
 								"Nullable": "false",
 								"Type": "Collection(rdf.langString)",
-								"rdf:Property": "http://northwind.com#city",
+								"rdf:Property": "http://northwind.com/city",
 								"rdfs:Datatype": "http://www.w3.org/2001/XMLSchema#string"
 							},
 
@@ -1092,7 +1092,7 @@
 								"Name": "homePage",
 								"Nullable": "false",
 								"Type": "Collection(rdf.langString)",
-								"rdf:Property": "http://northwind.com#homePage",
+								"rdf:Property": "http://northwind.com/homePage",
 								"rdfs:Datatype": "http://www.w3.org/2001/XMLSchema#string"
 							},
 
@@ -1102,7 +1102,7 @@
 								"Name": "contactName",
 								"Nullable": "false",
 								"Type": "Collection(rdf.langString)",
-								"rdf:Property": "http://northwind.com#contactName",
+								"rdf:Property": "http://northwind.com/contactName",
 								"rdfs:Datatype": "http://www.w3.org/2001/XMLSchema#string"
 							},
 
@@ -1112,7 +1112,7 @@
 								"Name": "fax",
 								"Nullable": "false",
 								"Type": "Collection(rdf.langString)",
-								"rdf:Property": "http://northwind.com#fax",
+								"rdf:Property": "http://northwind.com/fax",
 								"rdfs:Datatype": "http://www.w3.org/2001/XMLSchema#string"
 							},
 
@@ -1122,7 +1122,7 @@
 								"Name": "companyName",
 								"Nullable": "false",
 								"Type": "Collection(rdf.langString)",
-								"rdf:Property": "http://northwind.com#companyName",
+								"rdf:Property": "http://northwind.com/companyName",
 								"rdfs:Datatype": "http://www.w3.org/2001/XMLSchema#string"
 							},
 
@@ -1132,7 +1132,7 @@
 								"Name": "region",
 								"Nullable": "false",
 								"Type": "Collection(rdf.langString)",
-								"rdf:Property": "http://northwind.com#region",
+								"rdf:Property": "http://northwind.com/region",
 								"rdfs:Datatype": "http://www.w3.org/2001/XMLSchema#string"
 							},
 
@@ -1142,7 +1142,7 @@
 								"Name": "country",
 								"Nullable": "false",
 								"Type": "Collection(rdf.langString)",
-								"rdf:Property": "http://northwind.com#country",
+								"rdf:Property": "http://northwind.com/country",
 								"rdfs:Datatype": "http://www.w3.org/2001/XMLSchema#string"
 							}
 						],
@@ -1154,14 +1154,14 @@
 							"Name": "supplier_Product",
 							"Relationship": "northwind.supplier_Product",
 							"ToRole": "Product",
-							"owl:inverseOf": "http://northwind.com#supplier"
+							"owl:inverseOf": "http://northwind.com/supplier"
 						},
 
 						"xmlns:rdfs": "http://www.w3.org/2000/01/rdf-schema",
 						"Abstract": "false",
 						"BaseType": "owl.Thing",
 						"Name": "Supplier",
-						"rdfs:Class": "http://northwind.com#Supplier"
+						"rdfs:Class": "http://northwind.com/Supplier"
 					}
 				],
 
@@ -1927,7 +1927,7 @@
 				"xmlns": "http://schemas.microsoft.com/ado/2009/11/edm",
 				"xmlns:owl": "http://www.w3.org/2002/07/owl",
 				"Namespace": "northwind",
-				"owl:Ontology": "http://northwind.com#"
+				"owl:Ontology": "http://northwind.com/"
 			},
 
 			{

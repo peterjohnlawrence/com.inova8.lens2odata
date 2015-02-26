@@ -33,4 +33,22 @@
 		<nature>org.eclipse.jdt.core.javanature</nature>
 		<nature>org.eclipse.wst.jsdt.core.jsNature</nature>
 	</natures>
+	<linkedResources>
+		<link>
+			<name>WebContent/openui5</name>
+			<type>2</type>
+			<location>C:/Apps/openui5-runtime-1.26.7/resources</location>
+		</link>
+	</linkedResources>
+	<filteredResources>
+		<filter>
+			<id>1424737200236</id>
+			<name></name>
+			<type>26</type>
+			<matcher>
+				<id>org.eclipse.ui.ide.multiFilter</id>
+				<arguments>1.0-name-matches-false-false-openui5</arguments>
+			</matcher>
+		</filter>
+	</filteredResources>
 </projectDescription>

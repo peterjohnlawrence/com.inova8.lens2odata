@@ -24,7 +24,7 @@ sap.ui.jsfragment("lens.FormDisplay", {
 		console.debug("SPARQL fragmentQuery=", fragmentQuery);
 		var fragmentModel = new sap.ui.model.json.JSONModel();
 		var headers = {};
-		headers.Authorization = "Access-Control-Allow-Origin: *";
+		//headers.Authorization = "Access-Control-Allow-Origin: *";
 		headers.Accept = "application/sparql-results+json";
 		try {
 			fragmentModel.loadData(URL, "query=" + encodeURIComponent(fragmentQuery), false, "POST", false, false, headers);

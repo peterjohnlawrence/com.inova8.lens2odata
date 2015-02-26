@@ -98,7 +98,7 @@ Lens.Component.prototype.init = function() {
 	resultsModel.sparqlEndpoint = lensesData.getData().sparqlEndpoint;
 
 	resultsModel.headers = {};
-	resultsModel.headers.Authorization = "Access-Control-Allow-Origin: *; Access-Control-Allow-Methods: POST, OPTIONS, GET; Access-Control-Allow-Headers: *";
+//	resultsModel.headers.Authorization = "Access-Control-Allow-Origin: *; Access-Control-Allow-Methods: GET, POST, PUT, DELETE; Access-Control-Allow-Headers: *";
 	resultsModel.headers.Accept = "application/sparql-results+json";
 
 

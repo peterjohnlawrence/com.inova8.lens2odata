@@ -404,7 +404,7 @@ lens.FilterConditionsClause = function(model, sparql, currentEntitySet, currentF
 
 lens.DatatypePropertyClause = function(model, sparql, currentEntitySet, currentCondition) {
 	var currentPropertyValue = currentCondition.property;
- var datatypePropertyURI;
+	var datatypePropertyURI;
 	var datatypeProperty = lens.FindDatatypeProperty(model, currentEntitySet.EntityType, currentPropertyValue);
 	var equivalentProperty = datatypeProperty["owl:equivalentProperty"];
 	if (equivalentProperty != "" && equivalentProperty != null && equivalentProperty != undefined) {
@@ -415,13 +415,13 @@ lens.DatatypePropertyClause = function(model, sparql, currentEntitySet, currentC
 			if (!(currentPropertyValue in sparql.selectVars)) {
 				sparql.selectVars[currentPropertyValue] = true;
 			}
-			datatypePropertyURI =  datatypeProperty["rdf:Property"];
+			datatypePropertyURI = datatypeProperty["rdf:Property"];
 		}
 	} else {
 		if (!(currentPropertyValue in sparql.selectVars)) {
 			sparql.selectVars[currentPropertyValue] = true;
 		}
-		datatypePropertyURI =  datatypeProperty["rdf:Property"];
+		datatypePropertyURI = datatypeProperty["rdf:Property"];
 	}
 
 	var filterClause = "";
@@ -438,10 +438,9 @@ lens.DatatypePropertyClause = function(model, sparql, currentEntitySet, currentC
 	} else {
 		sparql.allOptional = false;
 	}
-	sparql.subWhereClauses = sparql.subWhereClauses + "{?" + currentEntitySet.Name + " <" + datatypePropertyURI+ "> ?" + currentPropertyValue
-			+ ".\n" + filterClause + "}.\n";
-	sparql.whereClauses = sparql.whereClauses + "{?" + currentEntitySet.Name + " <" + datatypePropertyURI+ "> ?" + currentPropertyValue + ".\n"
-			+ "}.\n";
+	sparql.subWhereClauses = sparql.subWhereClauses + "{?" + currentEntitySet.Name + " <" + datatypePropertyURI + "> ?" + currentPropertyValue + ".\n"
+			+ filterClause + "}.\n";
+	sparql.whereClauses = sparql.whereClauses + "{?" + currentEntitySet.Name + " <" + datatypePropertyURI + "> ?" + currentPropertyValue + ".\n" + "}.\n";
 	return sparql;
 };
 lens.ObjectPropertyClause = function(model, sparql, currentEntitySet, currentCondition) {
