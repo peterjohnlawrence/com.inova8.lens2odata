@@ -143,7 +143,24 @@
 
 			{
 				"_class": "Literal",
-				"value": "hsPersonName"
+				"value": "hasPersonName"
+			}
+		]
+	},
+
+	{
+		"_class": "Datatype",
+		"name": "URI",
+		"constraints": 
+		[
+			{
+				"_class": "Literal",
+				"value": "<http://inova8.com/Customer>"
+			},
+
+			{
+				"_class": "Literal",
+				"value": "inova8:Deal"
 			}
 		]
 	},
@@ -307,6 +324,15 @@
 
 			{
 				"_class": "Feature",
+				"name": "objectPropertyFilters",
+				"kind": "containment",
+				"lowerLimit": 0,
+				"upperLimit": -1,
+				"type": "URI"
+			},
+
+			{
+				"_class": "Feature",
 				"name": "clauses",
 				"kind": "containment",
 				"lowerLimit": 1,
@@ -329,6 +355,15 @@
 				"lowerLimit": 1,
 				"upperLimit": 1,
 				"type": "InverseObjectProperty"
+			},
+
+			{
+				"_class": "Feature",
+				"name": "inverseObjectPropertyFilters",
+				"kind": "attribute",
+				"lowerLimit": 0,
+				"upperLimit": -1,
+				"type": "URI"
 			},
 
 			{

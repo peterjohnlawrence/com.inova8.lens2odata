@@ -1,0 +1,105 @@
+{
+	"root": 
+	{
+		"0": 
+		{
+			"path": "/queries/9/clauses/clause/",
+			"sparqlish": "with shipCountry containing Fr or containing Ge",
+			"label": "Shipped to Country",
+			"hidden": false,
+			"variable": "?v_0",
+			"nameVariable": "",
+			"index": 7
+		},
+
+		"1": 
+		{
+			"path": "/queries/9/clauses/conjunctionClauses/0/",
+			"sparqlish": "and with shippedDate < 1998-01-01",
+			"label": "shippedDate",
+			"hidden": false,
+			"variable": "?v_1",
+			"nameVariable": "",
+			"index": 1
+		},
+
+		"2": 
+		{
+			"0": 
+			{
+				"path": "/queries/9/clauses/conjunctionClauses/1/clause/propertyClause/clauses/clause/",
+				"sparqlish": "with companyName containing Bon",
+				"label": "companyName",
+				"hidden": false,
+				"variable": "?v_2_0",
+				"nameVariable": "",
+				"index": 4
+			},
+
+			"1": 
+			{
+				"path": "/queries/9/clauses/conjunctionClauses/1/clause/propertyClause/clauses/conjunctionClauses/0/",
+				"sparqlish": "and with contactName containing Leb",
+				"label": "Contact name",
+				"hidden": false,
+				"variable": "?v_2_1",
+				"nameVariable": "",
+				"index": 3
+			},
+
+			"path": "/queries/9/clauses/conjunctionClauses/1/",
+			"sparqlish": "and with customer in <http://northwind.com/Customer-BONAP>,northwind:Customer-ANATR",
+			"label": "Customer",
+			"hidden": false,
+			"variable": "?v_2",
+			"nameVariable": "?v_2_label",
+			"index": 2
+		},
+
+		"3": 
+		{
+			"0": 
+			{
+				"path": "/queries/9/clauses/conjunctionClauses/2/clause/propertyClause/clauses/clause/",
+				"sparqlish": "with firstName containing Nancy",
+				"label": "firstName",
+				"hidden": false,
+				"variable": "?v_3_0",
+				"nameVariable": "",
+				"index": 6,
+				"result_0_value": "Nancy",
+				"result_0_type": "typed-literal",
+				"result_0_datatype": "http://www.w3.org/2001/XMLSchema#string",
+				"result_1_value": "Nancy",
+				"result_1_type": "typed-literal",
+				"result_1_datatype": "http://www.w3.org/2001/XMLSchema#string"
+			},
+
+			"path": "/queries/9/clauses/conjunctionClauses/2/",
+			"sparqlish": "and with optionally employee",
+			"label": "employee",
+			"hidden": false,
+			"variable": "?v_3",
+			"nameVariable": "?v_3_label",
+			"index": 5,
+			"result_0_value": "http://northwind.com/Employee-1",
+			"result_0_type": "uri",
+			"result_0_label_value": "http://northwind.com/Employee-1",
+			"result_0_label_type": "typed-literal",
+			"result_0_label_datatype": "http://www.w3.org/2001/XMLSchema#string",
+			"result_1_value": "http://northwind.com/Employee-1",
+			"result_1_type": "uri",
+			"result_1_label_value": "http://northwind.com/Employee-1",
+			"result_1_label_type": "typed-literal",
+			"result_1_label_datatype": "http://www.w3.org/2001/XMLSchema#string"
+		},
+
+		"path": "/queries/9/",
+		"sparqlish": "Find Order in northwind:Order-10340",
+		"label": "Order",
+		"hidden": false,
+		"variable": "?v",
+		"nameVariable": "?v_label",
+		"index": 0
+	}
+}

@@ -1,0 +1,101 @@
+{
+	"head": 
+	{
+		"link": 
+		[
+			
+		],
+
+		"vars": 
+		[
+			"v",
+			"v_label",
+			"v_0",
+			"v_1",
+			"v_2",
+			"v_2_label",
+			"v_2_0",
+			"v_2_1",
+			"v_3",
+			"v_3_label",
+			"v_3_0"
+		]
+	},
+
+	"results": 
+	{
+		"distinct": false,
+		"ordered": true,
+		"bindings": 
+		[
+			{
+				"v": 
+				{
+					"type": "uri",
+					"value": "http://northwind.com/Order-10340"
+				},
+
+				"v_label": 
+				{
+					"type": "literal",
+					"value": "10340"
+				},
+
+				"v_0": 
+				{
+					"type": "literal",
+					"value": "France"
+				},
+
+				"v_1": 
+				{
+					"type": "typed-literal",
+					"datatype": "http://www.w3.org/2001/XMLSchema#date",
+					"value": "1996-11-08"
+				},
+
+				"v_2": 
+				{
+					"type": "uri",
+					"value": "http://northwind.com/Customer-BONAP"
+				},
+
+				"v_2_label": 
+				{
+					"type": "literal",
+					"value": "BONAP"
+				},
+
+				"v_2_0": 
+				{
+					"type": "literal",
+					"value": "Bon app'"
+				},
+
+				"v_2_1": 
+				{
+					"type": "literal",
+					"value": "Laurence Lebihan"
+				},
+
+				"v_3": 
+				{
+					"type": "uri",
+					"value": "http://northwind.com/Employee-1"
+				},
+
+				"v_3_label": 
+				{
+					"type": "literal",
+					"value": "1"
+				},
+
+				"v_3_0": 
+				{
+					"type": "literal",
+					"value": "Nancy"
+				}
+			}
+		]
+	}
+}

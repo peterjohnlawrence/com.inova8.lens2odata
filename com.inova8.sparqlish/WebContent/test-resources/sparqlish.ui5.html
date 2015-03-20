@@ -1,0 +1,183 @@
+<!doctype html>
+<html>
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+<base href="../">
+<title>Sparqlish</title>
+<script id="sap-ui-bootstrap" src="openui5/sap-ui-core.js"
+	data-sap-ui-theme="sap_bluecrystal" data-sap-ui-libs="sap.ui.commons"
+	data-sap-ui-resourceroots='{
+            "sparqlish":"./",
+					"sparqlish":"./sparqlish"
+        }'
+	data-sap-ui-xx-bindingSyntax="complex" type="text/javascript">></script>
+<script type="text/javascript" src="sparqlish/sparqlish.js"></script>
+<script type="text/javascript"
+	src="resources/jquery.rdfquery.core.min-1.0.js"></script>
+<script type="text/javascript">
+	//Tree table of query
+jQuery.sap.require("sap.ui.table.Table");
+this.oTable = new sap.ui.table.TreeTable({
+	columns : [ new sap.ui.table.Column({
+		label : "Query",
+		// template : "viewModel>sparqlish",
+		template : "viewModel>sparqlish",
+		width : "700px"
+	}), new sap.ui.table.Column({
+		label : "Label",
+		template : new sap.ui.commons.TextField({
+			tooltip : "Label for the variable in the query result set",
+			editable : false,
+			value : {
+				path : "viewModel>label"
+			}
+		// value :  "{viewModel>"+"label}"
+		// value : "{= '\{' + ${viewModel>path} +'label\}'}"
+		// value : {path: '{="queryModel>" + ${viewModel>path}  + "label"}'}
+		}),
+		width : "150px"
+	}),// .setModel(queryModel).setBindingContext(new sap.ui.model.Context(queryModel,
+			// this.getBindingContext("viewModel").getProperty("path"))).bindValue({path:"label"}),
+	new sap.ui.table.Column({
+		label : "Hidden",
+		template : new sap.ui.commons.CheckBox({
+			tooltip : "Check if variable not required in result",
+			editable : false,
+			checked : {
+				path : "viewModel>hidden"
+			}
+		}),
+		visible : true,
+		width : "50px"
+	}), new sap.ui.table.Column({
+		label : "Optional",
+		template : new sap.ui.commons.CheckBox({
+			tooltip : "Check if variable is optional result",
+			value : {
+				path : "viewModel>optional"
+			}
+		}),
+		editable : true,
+		visible : true,
+		width : "50px"
+	}), new sap.ui.table.Column({
+		label : "Ignore",
+		template : new sap.ui.commons.CheckBox({
+			tooltip : "Ignore this clause",
+			value : {
+				path : "viewModel>ignore"
+			}
+		}),
+		editable : false,
+		visible : true,
+		width : "50px"
+	}), new sap.ui.table.Column({
+		label : "Variable",
+		template : "viewModel>variable",
+		editable : false,
+		visible : false,
+		width : "100px"
+	}), new sap.ui.table.Column({
+		label : "NameVariable",
+		template : "viewModel>nameVariable",
+		editable : false,
+		visible : false
+	}), new sap.ui.table.Column({
+		label : "Index",
+		template : "viewModel>index",
+		editable : false,
+		visible : false,
+		width : "40px"
+	}), new sap.ui.table.Column({
+		label : "Path",
+		template : "viewModel>path",
+		editable : false,
+		visible : false
+	}), new sap.ui.table.Column({
+		label : "Result1",
+		template : "viewModel>result_0_value",
+		width : "300px"
+	}), new sap.ui.table.Column({
+		label : "Result2",
+		template :  "viewModel>result_1_value",
+		width : "300px"
+	}), new sap.ui.table.Column({
+		label : "Result3",
+		template :  "viewModel>result_2_value",
+		width : "300px"
+	}) ],
+	fixedColumnCount : 6,
+	visibleRowCount : 15,
+	selectionMode : sap.ui.table.SelectionMode.Single,
+	enableColumnReordering : true,
+	expandFirstLevel : true,
+	cellClick : function(oEvent) {
+		var eDock = sap.ui.core.Popup.Dock;
+		this.oCell = oEvent.getParameter("cellControl")
+		this.iRowIndex = oEvent.getParameter("rowIndex");
+		this.iColumnIndex = oEvent.getParameter("columnIndex");
+		if (this.iColumnIndex == 0) {
+			if (this.iRowIndex == 0) {
+				oEditConcept.setModel(oQueryModel);
+				oEditConcept.setBindingContext(new sap.ui.model.Context(oQueryModel, this.oCell.getBindingContext("viewModel").getProperty("path")));
+				oEditConcept.open(false, this.oCell.getFocusDomRef(), eDock.BeginTop, eDock.BeginBottom, this.oCell.getDomRef());
+			} else {
+				oEditClause.setModel(oQueryModel);
+				oEditClause.setBindingContext(new sap.ui.model.Context(oQueryModel, this.oCell.getBindingContext("viewModel").getProperty("path")));
+				oEditClause.open(false, this.oCell.getFocusDomRef(), eDock.BeginTop, eDock.BeginBottom, this.oCell.getDomRef());
+			}
+		} else if (this.iColumnIndex == 1) {
+			oEditLabel.setModel(this.oCell.getBindingContext("viewModel").getModel());
+			oEditLabel.setBindingContext(this.oCell.getBindingContext("viewModel"));
+			oEditLabel.open(false, this.oCell.getFocusDomRef(), eDock.BeginTop, eDock.BeginBottom, this.oCell.getDomRef());
+		} else if (this.iColumnIndex > 4) {
+			oFacetQueryMenu.setBindingContext(this.oCell.getBindingContext("viewModel"));
+			oFacetQueryMenu.open(false, this.oCell.getFocusDomRef(), eDock.BeginTop, eDock.BeginBottom, this.oCell.getDomRef());
+		}
+	}
+});
+
+// Query display table
+var oQueryModel = new sap.ui.model.json.JSONModel();
+oQueryModel.loadData("test-resources/sparqlish.qunit.json", null, false);
+var queryAST = oQueryModel.getData();
+var queries = new Queries(queryAST);
+oTable.placeAt("uiTable");
+oTable.setModel(oQueryModel, "queryModel");
+
+// Query list
+var oComboBox = sap.ui.jsfragment("sparqlish.query.queryList", this);
+oComboBox.placeAt("uiMenu");
+
+// Preview action
+var oButton = sap.ui.jsfragment("sparqlish.query.preview", this);
+oButton.placeAt("uiPreview");
+
+// Query action
+var oButton = sap.ui.jsfragment("sparqlish.query.query", this);
+oButton.placeAt("uiQuery");
+
+// Facet query menu
+var oFacetQueryMenu = sap.ui.jsfragment("sparqlish.menu.facetQuery", this);
+
+// Concept menu
+var oEditConcept = sap.ui.jsfragment("sparqlish.menu.editConcept", this.oTable);
+
+// Clause menu
+var oEditClause = sap.ui.jsfragment("sparqlish.menu.editClause", this.oTable);
+
+// Label menu
+var oEditLabel = sap.ui.jsfragment("sparqlish.menu.editLabel", this.oTable);
+	
+</script>
+</head>
+<body>
+	<div id="uiMenu">Select Query:</div>
+	<div id="uiPreview"></div>
+	<div id="uiQuery"></div>
+	<div id="uiTable"></div>
+	<!-- 	<div id="uiArea" oncontextmenu="return false;"></div> -->
+
+</body>
+</html>
