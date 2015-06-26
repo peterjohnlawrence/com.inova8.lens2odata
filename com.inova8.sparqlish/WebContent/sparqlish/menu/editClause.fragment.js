@@ -16,22 +16,28 @@ sap.ui.jsfragment("sparqlish.menu.editClause", {
 			editable : true,
 			width : "500px",
 			value : {
-				path : "_class"
-			}
+				// path : "_class",
+				parts:[{path : "_class", type: new sap.ui.model.type.String()}],
+				formatter: function(_Class){ 
+           return "My " + _Class ; 
+               }
+			}	  
 		});
 		var oIgnoreCheck = new sap.ui.commons.CheckBox("oIgnoreCheck", {
 			editable : true,
 			checked : {
 				path : "ignore"
 			},
-			text:"Ignore"
+			tooltip : "Ignore clause in query",
+			text : "Ignore"
 		});
 		var oOptionalCheck = new sap.ui.commons.CheckBox("oOptionalCheck", {
 			editable : true,
 			checked : {
 				path : "optional"
 			},
-			text:"Optional"
+			tooltip : "Designate clause results as optional",
+			text : "Optional"
 		});
 		oClauseLayout.createRow(oClauseText, oOptionalCheck, oIgnoreCheck)
 		oEditClauseDialog.addContent(oClauseLayout);

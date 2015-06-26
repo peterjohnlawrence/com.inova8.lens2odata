@@ -4,41 +4,87 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
 <base href="../">
+
+		<style>
+			.conceptClause {
+				font: 15px arial, sans-serif;
+				font-weight: bold;
+				font-size: 100%;
+			}
+			.objectPropertyClause {
+				font: 15px arial, sans-serif;
+				font-weight: bold;
+				font-size: 100%;
+			}
+			.dataPropertyClause {
+				font: 15px arial, sans-serif;
+				font-weight: bold;
+				font-size: 100%;
+			}
+		</style>
+		
 <title>Sparqlish</title>
-<script id="sap-ui-bootstrap" src="openui5/sap-ui-core.js"
-	data-sap-ui-theme="sap_bluecrystal" data-sap-ui-libs="sap.ui.commons"
-	data-sap-ui-resourceroots='{
+<script id="sap-ui-bootstrap" src="openui5/sap-ui-core.js" data-sap-ui-theme="sap_bluecrystal" data-sap-ui-libs="sap.ui.commons"
+		data-sap-ui-libs="sap.ui.unified" data-sap-ui-resourceroots='{
             "sparqlish":"./",
 					"sparqlish":"./sparqlish"
         }'
-	data-sap-ui-xx-bindingSyntax="complex" type="text/javascript">></script>
+		data-sap-ui-xx-bindingSyntax="complex" type="text/javascript">></script>
 <script type="text/javascript" src="sparqlish/sparqlish.js"></script>
-<script type="text/javascript"
-	src="resources/jquery.rdfquery.core.min-1.0.js"></script>
+<script type="text/javascript" src="sparqlish/sparqlishfunctions.js"></script>
+
+<script type="text/javascript" src="sparqlish/control/conceptClauseControl.js"></script>
+<script type="text/javascript" src="sparqlish/control/conceptControl.js"></script>
+<script type="text/javascript" src="sparqlish/control/conceptFiltersControl.js"></script>
+<script type="text/javascript" src="sparqlish/control/conceptFilterControl.js"></script>
+
+<script type="text/javascript" src="sparqlish/control/objectPropertyClauseControl.js"></script>
+<script type="text/javascript" src="sparqlish/control/objectPropertyControl.js"></script>
+<script type="text/javascript" src="sparqlish/control/objectPropertyFiltersControl.js"></script>
+<script type="text/javascript" src="sparqlish/control/objectPropertyFilterControl.js"></script>
+
+<script type="text/javascript" src="sparqlish/control/dataPropertyClauseControl.js"></script>
+<script type="text/javascript" src="sparqlish/control/dataPropertyControl.js"></script>
+<script type="text/javascript" src="sparqlish/control/dataPropertyFiltersControl.js"></script>
+<script type="text/javascript" src="sparqlish/control/dataPropertyFilterControl.js"></script>
+
+<script type="text/javascript" src="resources/jquery.rdfquery.core.min-1.0.js"></script>
 <script type="text/javascript">
+
+
 	//Tree table of query
 jQuery.sap.require("sap.ui.table.Table");
-this.oTable = new sap.ui.table.TreeTable({
+
+this.oTable = new sap.ui.table.TreeTable("myTable",{
 	columns : [ new sap.ui.table.Column({
 		label : "Query",
 		// template : "viewModel>sparqlish",
-		template : "viewModel>sparqlish",
-		width : "700px"
-	}), new sap.ui.table.Column({
-		label : "Label",
-		template : new sap.ui.commons.TextField({
-			tooltip : "Label for the variable in the query result set",
+		width : "700px",
+		template : new sap.ui.commons.FormattedTextView({
+			tooltip : "SPARQLish query string",
 			editable : false,
-			value : {
-				path : "viewModel>label"
-			}
-		// value :  "{viewModel>"+"label}"
-		// value : "{= '\{' + ${viewModel>path} +'label\}'}"
-		// value : {path: '{="queryModel>" + ${viewModel>path}  + "label"}'}
+			htmlText : "{viewModel>sparqlish}",
+			value : "{viewModel>sparqlish}"
 		}),
-		width : "150px"
-	}),// .setModel(queryModel).setBindingContext(new sap.ui.model.Context(queryModel,
-			// this.getBindingContext("viewModel").getProperty("path"))).bindValue({path:"label"}),
+	}),
+
+
+//	})//, 
+// 	new sap.ui.table.Column({
+// 		label : "Label",
+// 		template : new sap.ui.commons.TextField({
+// 			tooltip : "Label for the variable in the query result set",
+// 			editable : false,
+// 			value : {
+// 				path : "viewModel>label"
+// 			}
+// 		// value : "{viewModel>"+"label}"
+// 		// value : "{= '\{' + ${viewModel>path} +'label\}'}"
+// 		// value : {path: '{="queryModel>" + ${viewModel>path} + "label"}'}
+// 		}),
+// 		width : "150px"
+// 	}),// .setModel(queryModel).setBindingContext(new sap.ui.model.Context(queryModel,
+// 	// this.getBindingContext("viewModel").getProperty("path"))).bindValue({path:"label"}),
 	new sap.ui.table.Column({
 		label : "Hidden",
 		template : new sap.ui.commons.CheckBox({
@@ -100,51 +146,75 @@ this.oTable = new sap.ui.table.TreeTable({
 		width : "300px"
 	}), new sap.ui.table.Column({
 		label : "Result2",
-		template :  "viewModel>result_1_value",
+		template : "viewModel>result_1_value",
 		width : "300px"
 	}), new sap.ui.table.Column({
 		label : "Result3",
-		template :  "viewModel>result_2_value",
+		template : "viewModel>result_2_value",
 		width : "300px"
-	}) ],
+	}) 
+
+	],
 	fixedColumnCount : 6,
 	visibleRowCount : 15,
 	selectionMode : sap.ui.table.SelectionMode.Single,
 	enableColumnReordering : true,
-	expandFirstLevel : true,
-	cellClick : function(oEvent) {
-		var eDock = sap.ui.core.Popup.Dock;
-		this.oCell = oEvent.getParameter("cellControl")
-		this.iRowIndex = oEvent.getParameter("rowIndex");
-		this.iColumnIndex = oEvent.getParameter("columnIndex");
-		if (this.iColumnIndex == 0) {
-			if (this.iRowIndex == 0) {
-				oEditConcept.setModel(oQueryModel);
-				oEditConcept.setBindingContext(new sap.ui.model.Context(oQueryModel, this.oCell.getBindingContext("viewModel").getProperty("path")));
-				oEditConcept.open(false, this.oCell.getFocusDomRef(), eDock.BeginTop, eDock.BeginBottom, this.oCell.getDomRef());
-			} else {
-				oEditClause.setModel(oQueryModel);
-				oEditClause.setBindingContext(new sap.ui.model.Context(oQueryModel, this.oCell.getBindingContext("viewModel").getProperty("path")));
-				oEditClause.open(false, this.oCell.getFocusDomRef(), eDock.BeginTop, eDock.BeginBottom, this.oCell.getDomRef());
-			}
-		} else if (this.iColumnIndex == 1) {
-			oEditLabel.setModel(this.oCell.getBindingContext("viewModel").getModel());
-			oEditLabel.setBindingContext(this.oCell.getBindingContext("viewModel"));
-			oEditLabel.open(false, this.oCell.getFocusDomRef(), eDock.BeginTop, eDock.BeginBottom, this.oCell.getDomRef());
-		} else if (this.iColumnIndex > 4) {
-			oFacetQueryMenu.setBindingContext(this.oCell.getBindingContext("viewModel"));
-			oFacetQueryMenu.open(false, this.oCell.getFocusDomRef(), eDock.BeginTop, eDock.BeginBottom, this.oCell.getDomRef());
-		}
-	}
+	expandFirstLevel : true
+// 	,
+// 	cellClick : function(oEvent) {
+// 		var eDock = sap.ui.core.Popup.Dock;
+// 		this.oCell = oEvent.getParameter("cellControl")
+// 		this.iRowIndex = oEvent.getParameter("rowIndex");
+// 		this.iColumnIndex = oEvent.getParameter("columnIndex");
+// 		if (this.iColumnIndex == 0) {
+// 			if (this.iRowIndex == 0) {
+// 				oEditConcept.setModel(oQueryModel);
+// 				oEditConcept.setBindingContext(new sap.ui.model.Context(oQueryModel, this.oCell.getBindingContext("viewModel").getProperty("path")));
+// 				oEditConcept.open(false, this.oCell.getFocusDomRef(), eDock.BeginTop, eDock.BeginBottom, this.oCell.getDomRef());
+// 			} else {
+// 				oEditClause.setModel(oQueryModel);
+// 				oEditClause.setBindingContext(new sap.ui.model.Context(oQueryModel, this.oCell.getBindingContext("viewModel").getProperty("path")));
+// 				oEditClause.open(false, this.oCell.getFocusDomRef(), eDock.BeginTop, eDock.BeginBottom, this.oCell.getDomRef());
+// 			}
+// 		} else if (this.iColumnIndex == 1) {
+// 			oEditLabel.setModel(this.oCell.getBindingContext("viewModel").getModel());
+// 			oEditLabel.setBindingContext(this.oCell.getBindingContext("viewModel"));
+// 			oEditLabel.open(false, this.oCell.getFocusDomRef(), eDock.BeginTop, eDock.BeginBottom, this.oCell.getDomRef());
+// 		} else if (this.iColumnIndex > 4) {
+// 			oFacetQueryMenu.setBindingContext(this.oCell.getBindingContext("viewModel"));
+// 			oFacetQueryMenu.open(false, this.oCell.getFocusDomRef(), eDock.BeginTop, eDock.BeginBottom, this.oCell.getDomRef());
+// 		}
+// 	}
 });
+// var oCol = new sap.ui.table.Column({
+// 	label : new sap.ui.commons.Label({text: "New Col"}),
+// 	width : "250px",
+// 	path: "viewModel>sparqlish",
+// //	, templateSharable:false
+//     template: new sap.ui.commons.TextView({text:"viewModel>sparqlish"})//,
+// //	,   
+// //	factory: function(sId,oContext){return new sap.ui.commons.TextField(sId,{value:"viewModel>sparqlish"});}
+// });
+
+//  oCol.bindAggregation("template", "viewModel>sparqlish",new sap.ui.commons.TextView({text:"viewModel>sparqlish"})
+// //	,function(sId, oContext) {return new sap.ui.commons.TextView(sId,{text:"viewModel>sparqlish"});}
+// //  	 {
+// // 	 path: "viewModel>sparqlish",
+// // 	 template:"viewModel>sparqlish"// new sap.ui.commons.TextView({text:"{viewModel>sparqlish}"})
+// //  	 //factory:function(sId, oContext) {return new sap.ui.commons.TextView({text:"{viewModel>sparqlish}"});}//return ccConceptClause();
+// //  	}
+//  );
+//oTable.addColumn(oCol);
 
 // Query display table
 var oQueryModel = new sap.ui.model.json.JSONModel();
-oQueryModel.loadData("test-resources/sparqlish.qunit.json", null, false);
+oQueryModel.loadData("test-resources/sparqlish.qunit.rdf.json", null, false);
 var queryAST = oQueryModel.getData();
 var queries = new Queries(queryAST);
 oTable.placeAt("uiTable");
 oTable.setModel(oQueryModel, "queryModel");
+
+
 
 // Query list
 var oComboBox = sap.ui.jsfragment("sparqlish.query.queryList", this);
@@ -169,15 +239,106 @@ var oEditClause = sap.ui.jsfragment("sparqlish.menu.editClause", this.oTable);
 
 // Label menu
 var oEditLabel = sap.ui.jsfragment("sparqlish.menu.editLabel", this.oTable);
-	
+
+var oConceptClause = ccConceptClause();
+oConceptClause.placeAt("uiConceptClause");
+var oDataPropertyClause = ccDataPropertyClause();
+oDataPropertyClause.placeAt("uiDataPropertyClause");
+var oObjectPropertyClause = ccObjectPropertyClause();
+oObjectPropertyClause.placeAt("uiObjectPropertyClause");
+
+
+var oConceptClauseControl = new sparqlish.control.conceptClauseControl({
+		query:{
+			"_class": "Query",
+			"name": "Test: Order query",
+			"top": 100,
+			"skip": null,
+			"concept": "<http://northwind.com/Order>",
+			"conceptFilters": 
+			[
+				{
+					"Id": "northwind:Order-10340"
+				},
+				{
+					"Id": "northwind:Order-10999"
+				},
+				{
+					"Id": "northwind:Order-1"
+				}
+			]}
+							
+		});
+oConceptClauseControl.placeAt("uiConceptClauseControl");
+
+
+var oObjectPropertyClauseControl = new sparqlish.control.objectPropertyClauseControl({
+		objectPropertyClause:{
+								"_class": "ObjectPropertyClause",
+								"objectProperty": "<http://northwind.com/customer>",
+								"objectPropertyFilters": 
+								[
+									{
+										"Id": "<http://northwind.com/Customer-BONAP>"
+									},
+
+									{
+										"Id": "northwind:Customer-ANATR"
+									}
+								]}
+							
+		});
+oObjectPropertyClauseControl.placeAt("uiObjectPropertyClauseControl");
+
+
+var oDataPropertyClauseControl = new sparqlish.control.dataPropertyClauseControl({
+		dataPropertyClause:
+					{
+						"_class": "DataPropertyClause",
+						"dataProperty": "<http://northwind.com/shipCountry>",
+						"filters": 
+						{
+							"_class": "Filters",
+							"filter": 
+							{
+								"_class": "Filter",
+								"condition": "containing",
+								"value": "Fr",
+								"datatype": "<http://www.w3.org/2001/XMLSchema#string>"
+							},
+
+							"conjunctionFilters": 
+							[
+								{
+									"_class": "ConjunctionFilter",
+									"filterConjunction": "or",
+									"filter": 
+									{
+										"_class": "Filter",
+										"condition": "containing",
+										"value": "Ge",
+										"datatype": "<http://www.w3.org/2001/XMLSchema#string>"
+									}
+								}
+							]
+						}
+					}					
+		});
+oDataPropertyClauseControl.placeAt("uiDataPropertyClauseControl");
 </script>
 </head>
 <body>
-	<div id="uiMenu">Select Query:</div>
-	<div id="uiPreview"></div>
-	<div id="uiQuery"></div>
-	<div id="uiTable"></div>
-	<!-- 	<div id="uiArea" oncontextmenu="return false;"></div> -->
-
+		<div id="uiMenu">Select Query:</div>
+		<div id="uiPreview"></div>
+		<div id="uiQuery"></div>
+		<div id="uiConceptClause">ConceptClause1:</div>
+		<div id="uiDataPropertyClause">DataPropertyClause1:</div>
+		<div id="uiObjectPropertyClause">ObjectPropertyClause1:</div>
+		
+		<div id="uiConceptClauseControl">ConceptClauseControl:</div>
+		<div id="uiObjectPropertyClauseControl">ObjectPropertyClauseControl:</div>
+		<div id="uiDataPropertyClauseControl">DataPropertyClauseControl:</div>
+				
+		<div id="uiTable"></div>
 </body>
 </html>

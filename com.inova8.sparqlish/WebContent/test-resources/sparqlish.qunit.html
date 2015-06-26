@@ -8,7 +8,6 @@
 <script id="sap-ui-bootstrap" type="text/javascript"
 	src="openui5/sap-ui-core.js" data-sap-ui-theme="sap_bluecrystal"
 	data-sap-ui-noConflict="true">
-
 	
 </script>
 
@@ -18,7 +17,6 @@
 <script type="text/javascript" src="openui5/sap/ui/thirdparty/qunit.js"></script>
 <script type="text/javascript" src="openui5/sap/ui/qunit/qunit-junit.js"></script>
 <script type="text/javascript" src="openui5/sap/ui/qunit/QUnitUtils.js"></script>
-<
 <script type="text/javascript" src="sparqlish/sparqlish.js"></script>
 <script type="text/javascript"
 	src="resources/jquery.rdfquery.core.min-1.0.js"></script>
@@ -26,13 +24,12 @@
 	QUnit.module("sparqlish");
 	QUnit.test("Queries read", 3, function(assert) {
 		var queryData = new sap.ui.model.json.JSONModel();
-		queryData.loadData("test-resources/sparqlish.qunit.json", null, false);
+		queryData.loadData("test-resources/sparqlish.qunit.rdf.json", null, false);
 		var queryAST = queryData.getData();
 		assert.equal(queryAST.queries[0]["_class"], "Query");
 		assert.equal(queryAST.queries[0]["concept"], "<http://northwind.com/Order>");
 		var queries = new Queries(queryAST);
-		assert
-				.equal(queries.oQueries[0].sparql(), "SELECT * \nWHERE{\n{?v a <http://northwind.com/Order>. OPTIONAL{?v rdfs:label ?v_label}}\n}");
+		assert.equal(queries.oQueries[0].sparql(), "SELECT * \nWHERE{\n{?v a <http://northwind.com/Order>. OPTIONAL{?v rdfs:label ?v_label}}\n}");
 
 	});
 	QUnit
@@ -41,7 +38,7 @@
 					9,
 					function(assert) {
 						var queryData = new sap.ui.model.json.JSONModel();
-						queryData.loadData("test-resources/sparqlish.qunit.json", null, false);
+						queryData.loadData("test-resources/sparqlish.qunit.rdf.json", null, false);
 						var queryAST = queryData.getData();
 						var queries = new Queries(queryAST);
 
@@ -57,7 +54,7 @@
 						assert
 								.equal(
 										queries.oQueries[9].sWhere,
-										"WHERE{\n{?v a <http://northwind.com/Order>. OPTIONAL{?v rdfs:label ?v_label}VALUES(?v){(northwind:Order-10340)}}\n{?v <http://northwind.com/shipCountry> ?v_0 . FILTER((REGEX(?v_0, 'Fr'^^<http://www.w3.org/2001/XMLSchema#string>,'i')) || (REGEX(?v_0, 'Ge'^^<http://www.w3.org/2001/XMLSchema#string>,'i')))}\n{?v <http://northwind.com/shippedDate> ?v_1 . FILTER((?v_1 < '1998-01-01'^^<http://www.w3.org/2001/XMLSchema#date>))}\n{?v <http://northwind.com/customer> ?v_2. OPTIONAL{?v_2 rdfs:label ?v_2_label}VALUES(?v_2){(<http://northwind.com/Customer-BONAP>)(northwind:Customer-ANATR)}\n	{?v_2 <http://northwind.com/companyName> ?v_2_0 . FILTER((REGEX(?v_2_0, 'Bon'^^<http://www.w3.org/2001/XMLSchema#string>,'i')))}\n	{?v_2 <http://northwind.com/contactName> ?v_2_1 . FILTER((REGEX(?v_2_1, 'Leb'^^<http://www.w3.org/2001/XMLSchema#string>,'i')))}}\nOPTIONAL{?v <http://northwind.com/employee> ?v_3. OPTIONAL{?v_3 rdfs:label ?v_3_label}\n	{?v_3 <http://northwind.com/firstName> ?v_3_0 . FILTER((REGEX(?v_3_0, 'Nancy'^^<http://www.w3.org/2001/XMLSchema#string>,'i')))}}\n}");
+										"WHERE{\n{?v a <http://northwind.com/Order>. OPTIONAL{?v rdfs:label ?v_label}VALUES(?v){(northwind:Order-10340)}}\n{?v <http://northwind.com/shipCountry> ?v_0 . FILTER((REGEX(?v_0, 'Fr'^^<http://www.w3.org/2001/XMLSchema#string>,'i')) || (REGEX(?v_0, 'Ge'^^<http://www.w3.org/2001/XMLSchema#string>,'i')))}\n{?v <http://northwind.com/shippedDate> ?v_1 . FILTER((?v_1 < '1998-01-01'^^<http://www.w3.org/2001/XMLSchema#date>))}\n{?v <http://northwind.com/customer> ?v_2. OPTIONAL{?v_2 rdfs:label ?v_2_label}VALUES(?v_2){(<http://northwind.com/Customer-BONAP>)(northwind:Customer-ANATR)}\n	{?v_2 <http://northwind.com/companyName> ?v_2_0 . FILTER((REGEX(?v_2_0, 'Bon'^^<http://www.w3.org/2001/XMLSchema#string>,'i')))}\n	{?v_2 <http://northwind.com/contactName> ?v_2_1 . FILTER((REGEX(?v_2_1, 'Leb'^^<http://www.w3.org/2001/XMLSchema#string>,'i')))}}\n{?v <http://northwind.com/employee> ?v_3. OPTIONAL{?v_3 rdfs:label ?v_3_label}\n	{?v_3 <http://northwind.com/firstName> ?v_3_0 . FILTER((REGEX(?v_3_0, 'Nancy'^^<http://www.w3.org/2001/XMLSchema#string>,'i')))}}\n}");
 						assert.equal(queries.oQueries[9].oClauseReferences[5].selectDistinct() + queries.oQueries[9].oClauseReferences[5].facetWhere(),
 								"SELECT DISTINCT ?v_3 ?v_3_label WHERE {{?v <http://northwind.com/employee> ?v_3. OPTIONAL{?v_3 rdfs:label ?v_3_label}}}");
 						assert
@@ -67,11 +64,48 @@
 
 	QUnit
 			.test(
+					"Odata Query create",
+					12,
+					function(assert) {
+						var queryData = new sap.ui.model.json.JSONModel();
+						queryData.loadData("test-resources/sparqlish.qunit.odata.json", null, false);
+						var queryAST = queryData.getData();
+						//ODATA tests
+						var query = new Query(queryAST.queries[9]);
+						assert.equal(query.odataPath("V2"), "Orders()");
+						assert.equal(query.odataSelect("V2"),
+								"$select=OrderID,ShipCountry,ShippedDate,Customer/CustomerID,Customer/CompanyName,Customer/ContactName,Employee/FirstName,Employee/Employee1/LastName");
+						assert.equal(query.odataExpand("V2"), "$expand=Customer,Employee,Employee/Employee1");
+						assert.equal(query.odataOptions("V2"), "$top=100&$skip=0");
+						assert
+								.equal(
+										query.odataFilter("V2"),
+										"$filter=(((((OrderID eq 10340))))and((substringof('Fr',ShipCountry))or(substringof('Ge',ShipCountry))and(ShippedDate lt datetime'1998-01-01')and((((Customer/CustomerID eq 'BONAP'))or((Customer/CustomerID eq 'ALFKI'))))and(substringof('Bon',Customer/CompanyName))and(substringof('Leb',Customer/ContactName))and(substringof('Nancy',Employee/FirstName))))");
+						assert
+								.equal(
+										query.odataURI("V2"),
+										"Orders()?$filter=(((((OrderID eq 10340))))and((substringof('Fr',ShipCountry))or(substringof('Ge',ShipCountry))and(ShippedDate lt datetime'1998-01-01')and((((Customer/CustomerID eq 'BONAP'))or((Customer/CustomerID eq 'ALFKI'))))and(substringof('Bon',Customer/CompanyName))and(substringof('Leb',Customer/ContactName))and(substringof('Nancy',Employee/FirstName))))&$expand=Customer,Employee,Employee/Employee1&$select=OrderID,ShipCountry,ShippedDate,Customer/CustomerID,Customer/CompanyName,Customer/ContactName,Employee/FirstName,Employee/Employee1/LastName&$top=100&$skip=0");
+						assert.equal(query.odataPath("V4"), "Orders()");
+						assert.equal(query.odataSelect("V4"),
+								"$select=OrderID,ShipCountry,ShippedDate");
+						assert.equal(query.odataExpand("V4"), "$expand=Customer($select=CustomerID,CompanyName,ContactName),Employee($select=FirstName),Employee($expand=Employee1($select=LastName))");
+						assert.equal(query.odataOptions("V4"), "$top=100&$skip=0");
+						assert
+								.equal(
+										query.odataFilter("V4"),
+										"$filter=(((((OrderID eq 10340))))and((contains(ShipCountry,'Fr'))or(contains(ShipCountry,'Ge'))and(ShippedDate lt 1998-01-01)and((((Customer/CustomerID eq 'BONAP'))or((Customer/CustomerID eq 'ALFKI'))))and(contains(Customer/CompanyName,'Bon'))and(contains(Customer/ContactName,'Leb'))and(contains(Employee/FirstName,'Nancy'))))");
+						assert
+								.equal(
+										query.odataURI("V4"),
+										"Orders()?$filter=(((((OrderID eq 10340))))and((contains(ShipCountry,'Fr'))or(contains(ShipCountry,'Ge'))and(ShippedDate lt 1998-01-01)and((((Customer/CustomerID eq 'BONAP'))or((Customer/CustomerID eq 'ALFKI'))))and(contains(Customer/CompanyName,'Bon'))and(contains(Customer/ContactName,'Leb'))and(contains(Employee/FirstName,'Nancy'))))&$expand=Customer($select=CustomerID,CompanyName,ContactName),Employee($select=FirstName),Employee($expand=Employee1($select=LastName))&$select=OrderID,ShipCountry,ShippedDate&$top=100&$skip=0");
+					});
+	QUnit
+			.test(
 					"Sparql Query create",
 					10,
 					function(assert) {
 						var queryData = new sap.ui.model.json.JSONModel();
-						queryData.loadData("test-resources/sparqlish.qunit.json", null, false);
+						queryData.loadData("test-resources/sparqlish.qunit.rdf.json", null, false);
 						var queryAST = queryData.getData();
 						//SPARQL tests
 						var query = new Query(queryAST.queries[0]);
@@ -85,12 +119,12 @@
 						assert
 								.equal(
 										query.sparql(),
-										"SELECT * \nWHERE{\n{?v a <http://northwind.com/Order>. OPTIONAL{?v rdfs:label ?v_label}}\nOPTIONAL{?v <http://northwind.com/shipCountry> ?v_0 . FILTER((REGEX(?v_0, 'Fr'^^<http://www.w3.org/2001/XMLSchema#string>,'i')))}\n}");
+										"SELECT * \nWHERE{\n{?v a <http://northwind.com/Order>. OPTIONAL{?v rdfs:label ?v_label}}\n{?v <http://northwind.com/shipCountry> ?v_0 . FILTER((REGEX(?v_0, 'Fr'^^<http://www.w3.org/2001/XMLSchema#string>,'i')))}\n}");
 						query = new Query(queryAST.queries[3]);
 						assert
 								.equal(
 										query.sparql(),
-										"SELECT * \nWHERE{\n{?v a <http://northwind.com/Order>. OPTIONAL{?v rdfs:label ?v_label}}\nOPTIONAL{?v <http://northwind.com/shipCountry> ?v_0 . FILTER((REGEX(?v_0, 'Fr'^^<http://www.w3.org/2001/XMLSchema#string>,'i')))}\n{?v <http://northwind.com/shippedDate> ?v_1 . FILTER((?v_1 < '1998-01-01'^^<http://www.w3.org/2001/XMLSchema#date>))}\n}");
+										"SELECT * \nWHERE{\n{?v a <http://northwind.com/Order>. OPTIONAL{?v rdfs:label ?v_label}}\n{?v <http://northwind.com/shipCountry> ?v_0 . FILTER((REGEX(?v_0, 'Fr'^^<http://www.w3.org/2001/XMLSchema#string>,'i')))}\n{?v <http://northwind.com/shippedDate> ?v_1 . FILTER((?v_1 < '1998-01-01'^^<http://www.w3.org/2001/XMLSchema#date>))}\n}");
 						query = new Query(queryAST.queries[4]);
 						assert
 								.equal(
@@ -120,7 +154,7 @@
 						assert
 								.equal(
 										query.sparql(),
-										"SELECT * \nWHERE{\n{?v a <http://northwind.com/Order>. OPTIONAL{?v rdfs:label ?v_label}VALUES(?v){(northwind:Order-10340)}}\n{?v <http://northwind.com/shipCountry> ?v_0 . FILTER((REGEX(?v_0, 'Fr'^^<http://www.w3.org/2001/XMLSchema#string>,'i')) || (REGEX(?v_0, 'Ge'^^<http://www.w3.org/2001/XMLSchema#string>,'i')))}\n{?v <http://northwind.com/shippedDate> ?v_1 . FILTER((?v_1 < '1998-01-01'^^<http://www.w3.org/2001/XMLSchema#date>))}\n{?v <http://northwind.com/customer> ?v_2. OPTIONAL{?v_2 rdfs:label ?v_2_label}VALUES(?v_2){(<http://northwind.com/Customer-BONAP>)(northwind:Customer-ANATR)}\n\t{?v_2 <http://northwind.com/companyName> ?v_2_0 . FILTER((REGEX(?v_2_0, 'Bon'^^<http://www.w3.org/2001/XMLSchema#string>,'i')))}\n\t{?v_2 <http://northwind.com/contactName> ?v_2_1 . FILTER((REGEX(?v_2_1, 'Leb'^^<http://www.w3.org/2001/XMLSchema#string>,'i')))}}\nOPTIONAL{?v <http://northwind.com/employee> ?v_3. OPTIONAL{?v_3 rdfs:label ?v_3_label}\n\t{?v_3 <http://northwind.com/firstName> ?v_3_0 . FILTER((REGEX(?v_3_0, 'Nancy'^^<http://www.w3.org/2001/XMLSchema#string>,'i')))}}\n}");
+										"SELECT * \nWHERE{\n{?v a <http://northwind.com/Order>. OPTIONAL{?v rdfs:label ?v_label}VALUES(?v){(northwind:Order-10340)}}\n{?v <http://northwind.com/shipCountry> ?v_0 . FILTER((REGEX(?v_0, 'Fr'^^<http://www.w3.org/2001/XMLSchema#string>,'i')) || (REGEX(?v_0, 'Ge'^^<http://www.w3.org/2001/XMLSchema#string>,'i')))}\n{?v <http://northwind.com/shippedDate> ?v_1 . FILTER((?v_1 < '1998-01-01'^^<http://www.w3.org/2001/XMLSchema#date>))}\n{?v <http://northwind.com/customer> ?v_2. OPTIONAL{?v_2 rdfs:label ?v_2_label}VALUES(?v_2){(<http://northwind.com/Customer-BONAP>)(northwind:Customer-ANATR)}\n\t{?v_2 <http://northwind.com/companyName> ?v_2_0 . FILTER((REGEX(?v_2_0, 'Bon'^^<http://www.w3.org/2001/XMLSchema#string>,'i')))}\n\t{?v_2 <http://northwind.com/contactName> ?v_2_1 . FILTER((REGEX(?v_2_1, 'Leb'^^<http://www.w3.org/2001/XMLSchema#string>,'i')))}}\n{?v <http://northwind.com/employee> ?v_3. OPTIONAL{?v_3 rdfs:label ?v_3_label}\n\t{?v_3 <http://northwind.com/firstName> ?v_3_0 . FILTER((REGEX(?v_3_0, 'Nancy'^^<http://www.w3.org/2001/XMLSchema#string>,'i')))}}\n}");
 					});
 </script>
 </head>

@@ -30,113 +30,184 @@ sap.ui.base.Object.extend("Queries", {
 		}
 	}
 });
-sap.ui.base.Object.extend("Query", {
-	constructor : function(oAST, sPath) {
-		this.oAST = oAST;
-		this.oClauseReferences = [];
-		this.oViewModel = null;
-		try {
-			if (oAST["_class"] != "Query")
-				throw "notQueryException";
-			this.sName = oAST["name"];
-			this.sPath = sPath;
-			this.oContext = {
-				sSubject : "",
-				sObject : "",
-				iLevel : 0
-			};
-			this.sConcept = oAST["concept"];
-			this.sLabel = (oAST["label"] == undefined) ? labelFromURI(this.sConcept) : oAST["label"];
-			this.bHidden = (oAST["hidden"] == undefined) ? false : oAST["hidden"];
+sap.ui.base.Object
+		.extend(
+				"Query",
+				{
+					constructor : function(oAST, sPath) {
+						this.oAST = oAST;
+						this.oClauseReferences = [];
+						this.oViewModel = null;
+						try {
+							if (oAST["_class"] != "Query")
+								throw "notQueryException";
+							this.sName = oAST["name"];
+							this.sPath = sPath;
+							this.oContext = {
+								sOdataEntityPath : "",
+								sSubject : "",
+								sObject : "",
+								iLevel : 0
+							};
+							this.sTop = (oAST["top"] == undefined) ? null : oAST["top"];
+							this.sSkip = (oAST["skip"] == undefined) ? null : oAST["skip"];
+							this.sConcept = oAST["concept"];
+							this.sLabel = (oAST["label"] == undefined) ? labelFromURI(this.sConcept) : oAST["label"];
+							this.bHidden = (oAST["hidden"] == undefined) ? false : oAST["hidden"];
 
-			if (oAST["conceptFilters"] != null) {
-				this.oConceptFilters = oAST["conceptFilters"];
-			} else {
-				this.oConceptFilters = null;
-			}
-			if (oAST["clauses"] != null) {
-				this.oClauses = new Clauses(oAST["clauses"], this.oContext);
-			} else {
-				this.oClauses = null;
-			}
-			// Now prep the viewmodel
-			this.oViewModel = this.viewModel();
-			// now prep the sparql query
-			var sContext = sPrefix + this.oContext.sSubject;
-			var sValues = objectFilterSparql(sContext, this.oConceptFilters);
-			if (this.oClauses != null) {
-				this.sWhere = "WHERE{\n{" + sContext + " a " + this.sConcept + ". OPTIONAL{" + sContext + " rdfs:label " + sContext + sLabelPostfix + "}" + sValues+ "}\n"
-						+ this.oClauses.sparql() + "\n}";
-			} else {
-				this.sWhere = "WHERE{\n{" + sContext + " a " + this.sConcept + ". OPTIONAL{" + sContext + " rdfs:label " + sContext + sLabelPostfix + "}" + sValues+ "}\n" + "}";
-			}
+							if (oAST["conceptFilters"] != null) {
+								this.oConceptFilters = oAST["conceptFilters"];
+							} else {
+								this.oConceptFilters = null;
+							}
+							if (oAST["clauses"] != null) {
+								this.oClauses = new Clauses(oAST["clauses"], this.oContext);
+							} else {
+								this.oClauses = null;
+							}
+							// Now prep the viewmodel
+							this.oViewModel = this.viewModel();
+							// now prep the sparql query
+							var sContext = sPrefix + this.oContext.sSubject;
+							var sValues = sparqlKeyFilters(sContext, this.oConceptFilters);
+							if (this.oClauses != null) {
+								this.sWhere = "WHERE{\n{" + sContext + " a " + this.sConcept + ". OPTIONAL{" + sContext + " rdfs:label " + sContext + sLabelPostfix + "}"
+										+ sValues + "}\n" + this.oClauses.sparql() + "\n}";
+							} else {
+								this.sWhere = "WHERE{\n{" + sContext + " a " + this.sConcept + ". OPTIONAL{" + sContext + " rdfs:label " + sContext + sLabelPostfix + "}"
+										+ sValues + "}\n" + "}";
+							}
 
-		} catch (e) {
-			jQuery.sap.log.error(e);
-		}
-	},
-	selectDistinct : function() {
-		return "SELECT DISTINCT " + sPrefix + this.oContext.sSubject + " " + this.sNameVariable;
-	},
-	facetWhere : function() {
-		return " WHERE {" + this.facetSparql() + "}";
-	},
-	facetQuery : function() {
-		return this.selectDistinct() + this.facetWhere();
-	},
-	sparql : function() {
-		var sContext = sPrefix + this.oContext.sSubject;
-		var sValues = objectFilterSparql(sContext, this.oConceptFilters);
-		if (this.oClauses != null) {
-			return ( "SELECT * \nWHERE{\n{" + sContext + " a " + this.sConcept + ". OPTIONAL{" + sContext + " rdfs:label " + sContext
-					+ sLabelPostfix + "}" + sValues+ "}\n" + this.oClauses.sparql() + "\n}");
-		} else {
-			return ("SELECT * \nWHERE{\n{" + sContext + " a " + this.sConcept + ". OPTIONAL{" + sContext + " rdfs:label " + sContext
-					+ sLabelPostfix + "}" + sValues+ "}\n" + "}");
-		}
-	},
-	facetSparql : function() {
-		var sContext = sPrefix + this.oContext.sSubject;
-		var sValues = objectFilterSparql(sContext, this.oConceptFilters);
-		if (this.oClauses != null) {
-			return ("{" + sContext + " a " + this.sConcept + ". OPTIONAL{" + sContext + " rdfs:label " + sContext
-					+ sLabelPostfix + "}" + sValues+ "}\n" + this.oClauses.sparql() );
-		} else {
-			return ("{" + sContext + " a " + this.sConcept + ". OPTIONAL{" + sContext + " rdfs:label " + sContext
-					+ sLabelPostfix + "}" + sValues+ "}\n" );
-		}
-	},
-	sparqlish : function() {
-		if (this.oConceptFilters != null) {
-			return "Find " + labelFromURI(this.sConcept) + " in " + this.oConceptFilters.toString();
-		} else {
-			return "Find " + labelFromURI(this.sConcept);
-		}
-	},
-	viewModel : function() {
-		try {
-			this.oClauseReferences[0] = this;
-			var oViewModel = {
-				"root" : {}
-			};
-			if (this.oClauses != null) {
-				extendj(oViewModel.root, this.oClauses.viewModel(this.sPath, this.oClauseReferences));
-			}
-			extendj(oViewModel.root, {
-				"path" : this.sPath,
-				"sparqlish" : this.sparqlish(),
-				"label" : this.sLabel,
-				"hidden" : this.bHidden,
-				"variable" : sPrefix,
-				"nameVariable" : sPrefix + sLabelPostfix,
-				"index" : 0
-			});
-			return oViewModel;
-		} catch (e) {
-			jQuery.sap.log.error(e);
-		}
-	}
-});
+						} catch (e) {
+							jQuery.sap.log.error(e);
+						}
+					},
+					selectDistinct : function() {
+						return "SELECT DISTINCT " + sPrefix + this.oContext.sSubject + " " + this.sNameVariable;
+					},
+					facetWhere : function() {
+						return " WHERE {" + this.facetSparql() + "}";
+					},
+					facetQuery : function() {
+						return this.selectDistinct() + this.facetWhere();
+					},
+					sparql : function() {
+						var sContext = sPrefix + this.oContext.sSubject;
+						var sValues = sparqlKeyFilters(sContext, this.oConceptFilters);
+						if (this.oClauses != null) {
+							return ("SELECT * \nWHERE{\n{" + sContext + " a " + this.sConcept + ". OPTIONAL{" + sContext + " rdfs:label " + sContext + sLabelPostfix + "}"
+									+ sValues + "}\n" + this.oClauses.sparql() + "\n}");
+						} else {
+							return ("SELECT * \nWHERE{\n{" + sContext + " a " + this.sConcept + ". OPTIONAL{" + sContext + " rdfs:label " + sContext + sLabelPostfix + "}"
+									+ sValues + "}\n" + "}");
+						}
+					},
+					facetSparql : function() {
+						var sContext = sPrefix + this.oContext.sSubject;
+						var sValues = sparqlKeyFilters(sContext, this.oConceptFilters);
+						if (this.oClauses != null) {
+							return ("{" + sContext + " a " + this.sConcept + ". OPTIONAL{" + sContext + " rdfs:label " + sContext + sLabelPostfix + "}" + sValues + "}\n" + this.oClauses
+									.sparql());
+						} else {
+							return ("{" + sContext + " a " + this.sConcept + ". OPTIONAL{" + sContext + " rdfs:label " + sContext + sLabelPostfix + "}" + sValues + "}\n");
+						}
+					},
+					sparqlish : function() {
+						if (this.oConceptFilters != null) {
+							return "Find <embed data-index='0'>" + labelFromURI(this.sConcept) + " in " + sparqlishKeyFilters(this.oConceptFilters);
+						} else {
+							return "Find " + labelFromURI(this.sConcept);
+						}
+					},
+					viewModel : function() {
+						try {
+							this.oClauseReferences[0] = this;
+							var oViewModel = {
+								"root" : {}
+							};
+							if (this.oClauses != null) {
+								extendj(oViewModel.root, this.oClauses.viewModel(this.sPath, this.oClauseReferences));
+							}
+							extendj(oViewModel.root, {
+								"path" : this.sPath,
+								"sparqlish" : this.sparqlish(),
+								"label" : this.sLabel,
+								"hidden" : this.bHidden,
+								"variable" : sPrefix,
+								"nameVariable" : sPrefix + sLabelPostfix,
+								"index" : 0
+							});
+							return oViewModel;
+						} catch (e) {
+							jQuery.sap.log.error(e);
+						}
+					},
+					odataPath : function(sVersion) {
+						return this.sConcept + "()";
+					},
+					odataFilter : function(sVersion) {
+						var sClausesFilter = "";
+						if (this.oClauses != null) {
+							sClausesFilter = this.oClauses.odataFilter(sVersion);
+						}
+						if (this.oConceptFilters != null) {
+							return "$filter=((" + odataKeyFilters(sVersion, this.oContext.sOdataEntityPath, this.oConceptFilters) + ")and(" + sClausesFilter + "))";
+						} else {
+							if (sClausesFilter != "") {
+								return "$filter=(" + sClausesFilter + ")";
+							} else {
+								return "";
+							}
+						}
+					},
+					odataSelect : function(sVersion) {
+						var sSelect = "";
+						if (this.oClauses != null) {
+							sSelect = this.oClauses.odataSelect(sVersion);
+						}
+						if (this.oConceptFilters != null) {
+							return "$select=" + odataKeys(sVersion, this.oContext.sOdataEntityPath, this.oConceptFilters) + "," + sSelect;
+						} else {
+							if (sClausesFilter != "") {
+								return "$select=" + sSelect;
+							} else {
+								return "";
+							}
+						}
+					},
+					odataExpand : function(sVersion) {
+						if (sVersion == "V4") {
+							return this.odataExpandSelect(sVersion);
+						} else {
+							return "$expand=" + this.oClauses.odataExpand(sVersion);
+						}
+					},
+					odataExpandSelect : function(sVersion) {
+						return "$expand=" + this.oClauses.odataExpandSelect(sVersion);
+					},
+					odataOptions : function(sVersion) {
+						var sTop = ((this.sTop == null) ? "" : "$top=" + this.sTop);
+						var sSkip = ((this.sSkip == null) ? "" : "$skip=" + this.sSkip);
+						if (sTop != "") {
+							if (sSkip != "") {
+								return sTop + "&" + sSkip;
+							} else {
+								return sSkip;
+							}
+						} else {
+							if (sSkip != "") {
+								return sSkip;
+							} else {
+								return ""
+							}
+						}
+
+					},
+					odataURI : function(sVersion) {
+						return this.odataPath(sVersion) + "?" + this.odataFilter(sVersion) + "&" + this.odataExpand(sVersion) + "&" + this.odataSelect(sVersion) + "&"
+								+ this.odataOptions(sVersion);
+					}
+				});
 sap.ui.base.Object.extend("Clauses", {
 	constructor : function(oAST, oContext) {
 		this.oAST = oAST;
@@ -145,6 +216,7 @@ sap.ui.base.Object.extend("Clauses", {
 			if (oAST["_class"] != "Clauses")
 				throw "notClausesException";
 			var oFirstContext = {
+				sOdataEntityPath : oContext.sOdataEntityPath,
 				sSubject : oContext.sSubject,
 				sObject : oContext.sSubject + "_" + 0,
 				iLevel : oContext.iLevel
@@ -154,6 +226,7 @@ sap.ui.base.Object.extend("Clauses", {
 				this.oConjunctionClauses = [];
 				for (var i = 0; i < oAST["conjunctionClauses"].length; i++) {
 					var oNewContext = {
+						sOdataEntityPath : oContext.sOdataEntityPath,
 						sSubject : oContext.sSubject,
 						sObject : oContext.sSubject + "_" + (i + 1),
 						iLevel : oContext.iLevel
@@ -203,6 +276,83 @@ sap.ui.base.Object.extend("Clauses", {
 			"0" : this.oClause.viewModel(sPath + "clauses/clause/", oClauseReferences)
 		});
 		return oViewModel;
+	},
+	odataFilter : function(sVersion) {
+		var sOdataFilter = this.oClause.odataFilter(sVersion);
+		if (this.oConjunctionClauses != null) {
+			for (var i = 0; i < this.oConjunctionClauses.length; i++) {
+				sOdataFilter = sOdataFilter + this.oConjunctionClauses[i].odataFilter(sVersion);
+			}
+			return sOdataFilter;
+		} else {
+			return sOdataFilter;
+		}
+	},
+	odataSelect : function(sVersion) {
+		var sOdataSelect = this.oClause.odataSelect(sVersion);
+		if (this.oConjunctionClauses != null) {
+			for (var i = 0; i < this.oConjunctionClauses.length; i++) {
+				var sOdataConjunctionSelect = this.oConjunctionClauses[i].odataSelect(sVersion);
+				if (sOdataConjunctionSelect != "") {
+					sOdataSelect = sOdataSelect + "," + this.oConjunctionClauses[i].odataSelect(sVersion);
+				}
+			}
+			return sOdataSelect;
+		} else {
+			return sOdataSelect;
+		}
+	},
+	odataExpand : function(sVersion) {
+		var sOdataExpand = this.oClause.odataExpand(sVersion);
+		if (this.oConjunctionClauses != null) {
+			for (var i = 0; i < this.oConjunctionClauses.length; i++) {
+				var sOdataConjunctionExpand = this.oConjunctionClauses[i].odataExpand(sVersion);
+
+				if (sOdataConjunctionExpand != "") {
+					if (sOdataExpand != "") {
+						sOdataExpand = sOdataExpand + "," + sOdataConjunctionExpand;
+					} else {
+						sOdataExpand = sOdataConjunctionExpand;
+					}
+				}
+			}
+			return sOdataExpand;
+		} else {
+			return sOdataExpand;
+		}
+	},
+	odataExpandSelect : function(sVersion) {
+		var sOdataExpandSelect = this.oClause.odataExpandSelect(sVersion);
+		(sOdataExpandSelect == "") ? "" : sOdataExpandSelect + "($select=xx)";
+		if (this.oConjunctionClauses != null) {
+			for (var i = 0; i < this.oConjunctionClauses.length; i++) {
+				var sOdataConjunctionExpandSelect = this.oConjunctionClauses[i].odataExpandSelect(sVersion);
+				if (sOdataConjunctionExpandSelect != "") {
+					if (sOdataExpandSelect != "") {
+						sOdataExpandSelect = sOdataExpandSelect + "," + sOdataConjunctionExpandSelect;
+					} else {
+						sOdataExpandSelect = sOdataConjunctionExpandSelect;
+					}
+				}
+			}
+			return sOdataExpandSelect;
+		} else {
+			return sOdataExpandSelect;
+		}
+	},
+	odataSelectForExpand : function(sVersion) {
+		var sOdataSelectForExpand = this.oClause.odataSelectForExpand(sVersion);
+		if (this.oConjunctionClauses != null) {
+			for (var i = 0; i < this.oConjunctionClauses.length; i++) {
+				var sOdataConjunctionSelect = this.oConjunctionClauses[i].odataSelectForExpand(sVersion);
+				if (sOdataConjunctionSelect != "") {
+					sOdataSelectForExpand = sOdataSelectForExpand + "," + this.oConjunctionClauses[i].odataSelectForExpand(sVersion);
+				}
+			}
+			return sOdataSelectForExpand;
+		} else {
+			return sOdataSelectForExpand;
+		}
 	}
 });
 sap.ui.base.Object.extend("Clause", {
@@ -271,6 +421,21 @@ sap.ui.base.Object.extend("Clause", {
 			"index" : iIndex
 		});
 		return oViewModel;
+	},
+	odataFilter : function(sVersion) {
+		return this.oPropertyClause.odataFilter(sVersion);
+	},
+	odataSelect : function(sVersion) {
+		return this.oPropertyClause.odataSelect(sVersion);
+	},
+	odataExpand : function(sVersion) {
+		return this.oPropertyClause.odataExpand(sVersion);
+	},
+	odataExpandSelect : function(sVersion) {
+		return this.oPropertyClause.odataExpandSelect(sVersion);
+	},
+	odataSelectForExpand : function(sVersion) {
+		return this.oPropertyClause.odataSelectForExpand(sVersion);
 	}
 });
 sap.ui.base.Object.extend("ConjunctionClause", {
@@ -287,7 +452,7 @@ sap.ui.base.Object.extend("ConjunctionClause", {
 		}
 	},
 	sparql : function() {
-		return (clauseConjunction(this.sConjunction) + "\n" + this.oClause.sparql());
+		return (sparqlClauseConjunction(this.sConjunction) + "\n" + this.oClause.sparql());
 	},
 	sparqlish : function() {
 		return (this.sConjunction + " " + this.oClause.sparqlish());
@@ -300,6 +465,26 @@ sap.ui.base.Object.extend("ConjunctionClause", {
 			"sparqlish" : this.sparqlish()
 		});
 		return oViewModel;
+	},
+	odataFilter : function(sVersion) {
+		var sOdataFilter = this.oClause.odataFilter(sVersion);
+		if (sOdataFilter == "") {
+			return "";
+		} else {
+			return odataClauseConjunction(this.sConjunction) + this.oClause.odataFilter(sVersion);
+		}
+	},
+	odataSelect : function(sVersion) {
+		return this.oClause.odataSelect(sVersion);
+	},
+	odataExpand : function(sVersion) {
+		return this.oClause.odataExpand(sVersion);
+	},
+	odataExpandSelect : function(sVersion) {
+		return this.oClause.odataExpandSelect(sVersion);
+	},
+	odataSelectForExpand : function(sVersion) {
+		return this.oClause.odataSelectForExpand(sVersion);
 	}
 });
 sap.ui.base.Object.extend("PropertyClause", {
@@ -318,17 +503,17 @@ sap.ui.base.Object.extend("PropertyClause", {
 			} else if (oAST["_class"] == "InverseObjectPropertyClause") {
 				this.oPropertyClause = new InverseObjectPropertyClause(oAST, oContext);
 				this.sLabel = labelFromURI(this.oPropertyClause.sInverseObjectProperty);
-			}  else if (oAST["_class"] == "OperationClause") {
+			} else if (oAST["_class"] == "OperationClause") {
 				this.oPropertyClause = new OperationClause(oAST, oContext);
 				this.sLabel = labelFromURI(this.oPropertyClause.sOperationProperty);
-			}else
+			} else
 				throw "notPropertyClauseException";
 		} catch (e) {
 			jQuery.sap.log.error(e);
 		}
 	},
 	sparql : function() {
-		return (this.oPropertyClause.sparql());
+		return this.oPropertyClause.sparql();
 	},
 	facetSparql : function() {
 		return this.oPropertyClause.facetSparql();
@@ -338,12 +523,27 @@ sap.ui.base.Object.extend("PropertyClause", {
 	},
 	viewModel : function(sPath, oClauseReferences) {
 		return this.oPropertyClause.viewModel(sPath, oClauseReferences);
+	},
+	odataFilter : function(sVersion) {
+		return this.oPropertyClause.odataFilter(sVersion);
+	},
+	odataSelect : function(sVersion) {
+		return this.oPropertyClause.odataSelect(sVersion);
+	},
+	odataExpand : function(sVersion) {
+		return this.oPropertyClause.odataExpand(sVersion);
+	},
+	odataExpandSelect : function(sVersion) {
+		return this.oPropertyClause.odataExpandSelect(sVersion);
+	},
+	odataSelectForExpand : function(sVersion) {
+		return this.oPropertyClause.odataSelectForExpand(sVersion);
 	}
 });
 sap.ui.base.Object.extend("DataPropertyClause", {
 	constructor : function(oAST, oContext) {
 		this.oAST = oAST;
-		this.oContext = oContext;
+
 		try {
 			if (oAST["_class"] != "DataPropertyClause")
 				throw "notDataPropertyClauseException";
@@ -352,6 +552,12 @@ sap.ui.base.Object.extend("DataPropertyClause", {
 				this.oFilters = new Filters(oAST["filters"], oContext);
 			} else {
 				this.oFilters = null;
+			}
+			this.oContext = oContext;
+			if (this.oContext.sOdataEntityPath == "") {
+				this.oContext.sOdataEntityPath = this.sDataProperty;
+			} else {
+				this.oContext.sOdataEntityPath = this.oContext.sOdataEntityPath + "/" + this.sDataProperty;
 			}
 
 		} catch (e) {
@@ -379,6 +585,26 @@ sap.ui.base.Object.extend("DataPropertyClause", {
 	},
 	viewModel : function(sPath, oClauseReferences) {
 		return {};
+	},
+	odataFilter : function(sVersion) {
+		var sOdataFilter = "";
+		if (this.oFilters != null) {
+			return sOdataFilter + this.oFilters.odataFilter(sVersion);
+		} else {
+			return sOdataFilter;
+		}
+	},
+	odataSelect : function(sVersion) {
+		return this.oContext.sOdataEntityPath;
+	},
+	odataExpand : function(sVersion) {
+		return "";
+	},
+	odataExpandSelect : function(sVersion) {
+		return "";
+	},
+	odataSelectForExpand : function(sVersion) {
+		return this.sDataProperty;
 	}
 });
 sap.ui.base.Object.extend("Filters", {
@@ -424,6 +650,26 @@ sap.ui.base.Object.extend("Filters", {
 		} else {
 			return sSparqlish;
 		}
+	},
+	odataFilter : function(sVersion) {
+		var sOdataFilter = this.oFilter.odataFilter(sVersion);
+		if (this.oConjunctionFilters != null) {
+			for (var i = 0; i < this.oConjunctionFilters.length; i++) {
+				sOdataFilter = sOdataFilter + this.oConjunctionFilters[i].odataFilter(sVersion);
+			}
+			return sOdataFilter;
+		} else {
+			return sOdataFilter;
+		}
+	},
+	odataSelect : function(sVersion) {
+		return "";
+	},
+	odataExpand : function(sVersion) {
+		return "";
+	},
+	odataExpandSelect : function(sVersion) {
+		return "";
 	}
 });
 sap.ui.base.Object.extend("Filter", {
@@ -436,17 +682,34 @@ sap.ui.base.Object.extend("Filter", {
 			this.sCondition = oAST["condition"];
 			this.sValue = oAST["value"];
 			this.sDatatype = oAST["datatype"];
+			this.sType = oAST["type"];
 		} catch (e) {
 			jQuery.sap.log.error(e);
 		}
 	},
 	sparql : function() {
-		var sSparql = filterCondition(sPrefix /* ?o */+ this.oContext.sObject, this.sCondition, this.sValue, this.sDatatype);
+		var sSparql = sparqlFilterCondition(sPrefix /* ?o */+ this.oContext.sObject, this.sCondition, this.sValue, this.sDatatype);
 		return sSparql;
 	},
 	sparqlish : function() {
 		var sSparqlish = this.sCondition + " " + this.sValue;
 		return sSparqlish;
+	},
+	odataFilter : function(sVersion) {
+		var sOdataFilter = odataFilterCondition(sVersion, this.oContext.sOdataEntityPath, this.sCondition, this.sValue, this.sType);
+		return sOdataFilter;
+	},
+	odataSelect : function(sVersion) {
+		return "";
+	},
+	odataExpand : function(sVersion) {
+		return "";
+	},
+	odataExpandSelect : function(sVersion) {
+		return "";
+	},
+	odataSelectForExpand : function(sVersion) {
+		return "";
 	}
 });
 sap.ui.base.Object.extend("ConjunctionFilter", {
@@ -463,16 +726,30 @@ sap.ui.base.Object.extend("ConjunctionFilter", {
 		}
 	},
 	sparql : function() {
-		return " " + filterConjunction(this.sFilterConjunction) + " " + this.oFilter.sparql();
+		return " " + sparqlFilterConjunction(this.sFilterConjunction) + " " + this.oFilter.sparql();
 	},
 	sparqlish : function() {
 		return " " + this.sFilterConjunction + " " + this.oFilter.sparqlish();
+	},
+	odataFilter : function(sVersion) {
+		return odataFilterConjunction(sVersion, this.sFilterConjunction) + this.oFilter.odataFilter(sVersion);
+	},
+	odataSelect : function(sVersion) {
+		return this.oFilter.odataSelect(sVersion);
+	},
+	odataExpand : function(sVersion) {
+		return "";
+	},
+	odataExpandSelect : function(sVersion) {
+		return "";
+	},
+	odataSelectForExpand : function(sVersion) {
+		return "";
 	}
 });
 sap.ui.base.Object.extend("ObjectPropertyClause", {
 	constructor : function(oAST, oContext) {
 		this.oAST = oAST;
-		this.oContext = oContext;
 		try {
 			if (oAST["_class"] != "ObjectPropertyClause")
 				throw "notObjectPropertyClauseException";
@@ -482,9 +759,16 @@ sap.ui.base.Object.extend("ObjectPropertyClause", {
 			} else {
 				this.oObjectPropertyFilters = null;
 			}
+			this.oContext = oContext;
+			if (this.oContext.sOdataEntityPath == "") {
+				this.oContext.sOdataEntityPath = this.sObjectProperty;
+			} else {
+				this.oContext.sOdataEntityPath = this.oContext.sOdataEntityPath + "/" + this.sObjectProperty;
+			}
 
 			if (oAST["clauses"] != null) {
 				var oNewContext = {
+					sOdataEntityPath : oContext.sOdataEntityPath,
 					sSubject : oContext.sObject,
 					sObject : oContext.sObject + "_",
 					iLevel : oContext.iLevel + 1
@@ -500,7 +784,7 @@ sap.ui.base.Object.extend("ObjectPropertyClause", {
 	sparql : function() {
 		var sSparql = "{" + sPrefix + this.oContext.sSubject + " " + this.sObjectProperty + " " + sPrefix + this.oContext.sObject + ". OPTIONAL{" + sPrefix
 				+ this.oContext.sObject + " rdfs:label " + sPrefix + this.oContext.sObject + sLabelPostfix + "}";
-		sSparql = sSparql + objectFilterSparql(sPrefix + this.oContext.sObject, this.oObjectPropertyFilters);
+		sSparql = sSparql + sparqlKeyFilters(sPrefix + this.oContext.sObject, this.oObjectPropertyFilters);
 		if (this.oClauses != null) {
 			return sSparql + "\n" + this.oClauses.sparql() + "}";
 		} else {
@@ -513,7 +797,7 @@ sap.ui.base.Object.extend("ObjectPropertyClause", {
 	},
 	sparqlish : function() {
 		if (this.oObjectPropertyFilters != null) {
-			return labelFromURI(this.sObjectProperty) + " in " + this.oObjectPropertyFilters.toString();
+			return labelFromURI(this.sObjectProperty) + " in " + sparqlishKeyFilters(this.oObjectPropertyFilters);
 		} else {
 			return labelFromURI(this.sObjectProperty);
 		}
@@ -528,6 +812,60 @@ sap.ui.base.Object.extend("ObjectPropertyClause", {
 			"sparqlish" : this.sparqlish()
 		});
 		return oViewModel;
+	},
+	odataFilter : function(sVersion) {
+		var sOdataFilter = "";
+		if (this.oClauses != null) {
+			sOdataFilter = this.oClauses.odataFilter(sVersion);
+		}
+		if (this.oObjectPropertyFilters != null) {
+			sOdataFilter = "(" + odataKeyFilters(sVersion, this.oContext.sOdataEntityPath, this.oObjectPropertyFilters) + ")and" + sOdataFilter;
+		}
+		return sOdataFilter;
+	},
+	odataSelect : function(sVersion) {
+		if ((sVersion == "V4") && (this.oContext.iLevel >= 0)) {
+			return "";
+		} else {
+			var sOdataSelect = "";
+			if (this.oClauses != null) {
+				sOdataSelect = this.oClauses.odataSelect(sVersion);
+			}
+			if (this.oObjectPropertyFilters != null) {
+				sOdataSelect = odataKeys(sVersion, this.oContext.sOdataEntityPath, this.oObjectPropertyFilters) + "," + sOdataSelect;
+			}
+			return sOdataSelect;
+		}
+	},
+	odataExpand : function(sVersion) {
+		var sPathExpand = "";
+		if (this.oClauses != null) {
+			sPathExpand = this.oClauses.odataExpand(sVersion);
+		}
+		if (sPathExpand == "") {
+			return this.sObjectProperty;
+		} else {
+			return this.sObjectProperty + "," + this.sObjectProperty + "/" + sPathExpand;
+		}
+	},
+	odataExpandSelect : function(sVersion) {
+		var sOdataExpandSelect = "";
+		var sOdataSelect = "";
+		if (this.oClauses != null) {
+			sOdataExpandSelect = this.oClauses.odataExpandSelect(sVersion);
+			sOdataSelect = this.oClauses.odataSelectForExpand(sVersion);
+			if (this.oObjectPropertyFilters != null) {
+				sOdataSelect = odataKeys(sVersion, "", this.oObjectPropertyFilters) + "," + sOdataSelect;
+			}
+		}
+		if (sOdataExpandSelect == "") {
+			return this.sObjectProperty + "($select=" + sOdataSelect + ")";
+		} else {
+			return this.sObjectProperty + "($select=" + sOdataSelect + ")," + this.sObjectProperty + "($expand=" + sOdataExpandSelect + ")";
+		}
+	},
+	odataSelectForExpand : function(sVersion) {
+		return "";
 	}
 });
 sap.ui.base.Object.extend("InverseObjectPropertyClause", {
@@ -541,6 +879,7 @@ sap.ui.base.Object.extend("InverseObjectPropertyClause", {
 
 			if (oAST["clauses"] != null) {
 				var oNewContext = {
+					sOdataEntityPath : oContext.sOdataEntityPath + "/" + "Inverseproperty",
 					sSubject : oContext.sSubject,
 					sObject : oContext.sSubject + "_",
 					iLevel : oContext.iLevel + 1
@@ -580,6 +919,18 @@ sap.ui.base.Object.extend("InverseObjectPropertyClause", {
 			"sparqlish" : this.sparqlish()
 		});
 		return oViewModel;
+	},
+	odataFilter : function(sVersion) {
+		return "";
+	},
+	odataSelect : function(sVersion) {
+		return "";
+	},
+	odataExpand : function(sVersion) {
+		return "";
+	},
+	odataExpandSelect : function(sVersion) {
+		return "";
 	}
 });
 sap.ui.base.Object.extend("OperationClause", {
@@ -607,7 +958,7 @@ sap.ui.base.Object.extend("OperationClause", {
 		}
 	},
 	sparql : function() {
-		var sSparql = "{" + sPrefix + this.oContext.sObject + " " + this.sOperation + " " + sPrefix + this.oContext.sSubject ;
+		var sSparql = "{" + sPrefix + this.oContext.sObject + " " + this.sOperation + " " + sPrefix + this.oContext.sSubject;
 		if (this.oClauses != null) {
 			return sSparql + "\n" + this.oClauses.sparql() + "}";
 		} else {
@@ -631,20 +982,22 @@ sap.ui.base.Object.extend("OperationClause", {
 			"sparqlish" : this.sparqlish()
 		});
 		return oViewModel;
+	},
+	odataFilter : function(sVersion) {
+		return "";
+	},
+	odataSelect : function(sVersion) {
+		return "";
+	},
+	odataExpand : function(sVersion) {
+		return "";
+	},
+	odataExpandSelect : function(sVersion) {
+		return "";
 	}
 });
-repeatString = function(sString, iRepeat) {
-	if (iRepeat <= 0) {
-		return "";
-	} else {
-		var sRepeatString = "";
-		for (var i = 0; i < iRepeat; i++) {
-			sRepeatString = sRepeatString + sString;
-		}
-		return sRepeatString;
-	}
-};
-clauseConjunction = function(sConjunction) {
+
+sparqlClauseConjunction = function(sConjunction) {
 	switch (sConjunction) {
 	case "and": {
 		return "";
@@ -658,7 +1011,32 @@ clauseConjunction = function(sConjunction) {
 		throw "illegalClauseConjunction";
 	}
 };
-filterConjunction = function(sConjunction) {
+sparqlKeyFilters = function(sVariable, oFilters) {
+	var sSparql = "";
+	if (oFilters != null) {
+		sSparql = sSparql + "VALUES(" + sVariable + "){";
+		for (var i = 0; i < oFilters.length; i++) {
+			sSparql = sSparql + "(" + oFilters[i]["Id"] + ")"
+		}
+		sSparql = sSparql + "}";
+	}
+	return sSparql;
+};
+odataClauseConjunction = function(sConjunction) {
+	switch (sConjunction) {
+	case "and": {
+		return "and";
+	}
+		;
+	case "or": {
+		return "or";
+	}
+		;
+	default:
+		throw "illegalClauseConjunction";
+	}
+};
+sparqlFilterConjunction = function(sConjunction) {
 	switch (sConjunction) {
 	case "and": {
 		return "&&";
@@ -672,7 +1050,21 @@ filterConjunction = function(sConjunction) {
 		throw "illegalClauseConjunction";
 	}
 };
-filterCondition = function(sVariable, sCondition, sValue, sDatatype) {
+odataFilterConjunction = function(sVersion, sConjunction) {
+	switch (sConjunction) {
+	case "and": {
+		return "and";
+	}
+		;
+	case "or": {
+		return "or";
+	}
+		;
+	default:
+		throw "illegalClauseConjunction";
+	}
+};
+sparqlFilterCondition = function(sVariable, sCondition, sValue, sDatatype) {
 	switch (sCondition) {
 	case "=":
 	case "is":
@@ -735,6 +1127,142 @@ filterCondition = function(sVariable, sCondition, sValue, sDatatype) {
 		throw "illegalFilterCondition";
 	}
 };
+odataFilterCondition = function(sVersion, sVariable, sCondition, sValue, sType) {
+	switch (sCondition) {
+	case "=":
+	case "is":
+	case "equals": {
+		return "(" + sVariable + "eq " + odataValue(sVersion, sValue, sType) + ")";
+	}
+		;
+	case "!=":
+	case "is not":
+	case "not equals": {
+		return "(" + sVariable + " ne " + odataValue(sVersion, sValue, sType) + ")";
+	}
+		;
+	case ">":
+	case "greater than": {
+		return "(" + sVariable + " gt " + odataValue(sVersion, sValue, sType) + ")";
+	}
+		;
+	case ">=":
+	case "greater than or equal": {
+		return "(" + sVariable + " ge " + odataValue(sVersion, sValue, sType) + ")";
+	}
+		;
+	case "<":
+	case "less than": {
+		return "(" + sVariable + " lt " + odataValue(sVersion, sValue, sType) + ")";
+	}
+		;
+	case "<=":
+	case "less than or equal": {
+		return "(" + sVariable + " le " + odataValue(sVersion, sValue, sType) + ")";
+	}
+		;
+	case "containing":
+	case "contains": {
+		if (sVersion == "V4") {
+			return "(contains(" + sVariable + ",'" + sValue + "'))";
+		} else {
+			return "(substringof('" + sValue + "'," + sVariable + "))";
+		}
+	}
+		;
+	case "ends with": {
+		return "*ERROR*";
+	}
+		;
+	case "starts with": {
+		return "*ERROR*";
+	}
+		;
+	case "between": {
+		return "*ERROR*";
+	}
+		;
+	case "after": {
+		return "(" + sVariable + " gt '" + sValue + "')";
+	}
+		;
+	case "before": {
+		return "(" + sVariable + " lt '" + sValue + "')";
+	}
+		;
+	default:
+		throw "illegalFilterCondition";
+	}
+};
+odataValue = function(sVersion, sValue, sType) {
+	switch (sType) {
+	case "Edm.String": {
+		return "'" + sValue + "'";
+	}
+	case "Edm.DateTime": {
+		if (sVersion == "V4") {
+			return sValue;
+		} else {
+			return "datetime'" + sValue + "'";
+		}
+	}
+	}
+};
+sparqlishKeyFilters = function(oKeyFilters) {
+	var sSparqlishKeyFilters = "";
+	for (var key = 0; key < oKeyFilters.length; key++) {
+		var fields = Object.keys(oKeyFilters[key])
+		if (key > 0) {
+			sSparqlishKeyFilters = sSparqlishKeyFilters + " or ";
+		}
+		if (fields.length > 1) {
+			sSparqlishKeyFilters = sSparqlishKeyFilters + "(";
+		}
+		for (var field = 0; field < fields.length; field++) {
+			if (field > 0) {
+				sSparqlishKeyFilters = sSparqlishKeyFilters + "and";
+			}
+			sSparqlishKeyFilters = sSparqlishKeyFilters + oKeyFilters[key][fields[field]];
+		}
+		if (fields.length > 1) {
+			sSparqlishKeyFilters = sSparqlishKeyFilters + ")";
+		}
+	}
+	return sSparqlishKeyFilters;
+};
+odataKeyFilters = function(sVersion, sOdataEntityPath, oKeyFilters) {
+	var sOdataKeyFilters = "(";
+	for (var key = 0; key < oKeyFilters.length; key++) {
+		var fields = Object.keys(oKeyFilters[key])
+		if (key > 0) {
+			sOdataKeyFilters = sOdataKeyFilters + "or(";
+		} else {
+			sOdataKeyFilters = sOdataKeyFilters + "(";
+		}
+		for (var field = 0; field < fields.length; field++) {
+			if (field > 0) {
+				sOdataKeyFilters = sOdataKeyFilters + "and";
+			}
+			sOdataKeyFilters = sOdataKeyFilters + "(" + ((sOdataEntityPath.length == 0) ? "" : (sOdataEntityPath + "/")) + fields[field] + " eq "
+					+ oKeyFilters[key][fields[field]] + ")";
+		}
+		sOdataKeyFilters = sOdataKeyFilters + ")";
+	}
+	return sOdataKeyFilters + ")";
+};
+odataKeys = function(sVersion, sOdataEntityPath, oKeyFilters) {
+	var oOdataKeys = [];
+	for (var key = 0; key < oKeyFilters.length; key++) {
+		var fields = Object.keys(oKeyFilters[key])
+		for (var field = 0; field < fields.length; field++) {
+			var sNewKey = ((sOdataEntityPath.length == 0) ? "" : (sOdataEntityPath + "/")) + fields[field];
+			if (oOdataKeys.indexOf(sNewKey)) {
+				oOdataKeys.push(sNewKey);
+			}
+		}
+	}
+	return oOdataKeys.toString();
+};
 labelFromURI = function(sUri) {
 	if (RegExp("^<.*>$").test(sUri)) {
 		// URL wrapped within <...>, so strip them
@@ -757,14 +1285,24 @@ extendj = function() {
 				arguments[0][key] = arguments[i][key];
 	return arguments[0];
 };
-objectFilterSparql = function(sVariable, oFilters) {
-	var sSparql = "";
-	if (oFilters != null) {
-		sSparql = sSparql + "VALUES(" + sVariable + "){";
-		for (var i = 0; i < oFilters.length; i++) {
-			sSparql = sSparql + "(" + oFilters[i] + ")"
+repeatString = function(sString, iRepeat) {
+	if (iRepeat <= 0) {
+		return "";
+	} else {
+		var sRepeatString = "";
+		for (var i = 0; i < iRepeat; i++) {
+			sRepeatString = sRepeatString + sString;
 		}
-		sSparql = sSparql + "}";
+		return sRepeatString;
 	}
-	return sSparql;
+};
+edmToXSD = function(sType) {
+	switch (sType) {
+	case "Edm.String": {
+		return "http://www.w3.org/2001/XMLSchema#string";
+	}
+	case "Edm.DateTime": {
+		return "http://www.w3.org/2001/XMLSchema#date";
+	}
+	}
 }
