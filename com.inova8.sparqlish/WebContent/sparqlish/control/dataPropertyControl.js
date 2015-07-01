@@ -9,6 +9,17 @@ sap.ui.core.Control.extend("sparqlish.control.dataPropertyControl", {
 				multiple : false,
 				visibility : "hidden"
 			}
+		},
+		events : {
+			selected : {
+				enablePreventDefault : true
+			},
+			unselected : {
+				enablePreventDefault : true
+			},
+			changed : {
+				enablePreventDefault : true
+			}
 		}
 	},
 	init : function() {
@@ -19,7 +30,7 @@ sap.ui.core.Control.extend("sparqlish.control.dataPropertyControl", {
 			press : function(oEvent) {
 				var oSource = oEvent.getSource();
 				var eDock = sap.ui.core.Popup.Dock;
-				var oConceptListMenu = new sap.ui.unified.Menu({
+				var oDataPropertyMenu = new sap.ui.unified.Menu({
 					items : [new sap.ui.unified.MenuItem({
 					text : '*DELETE*'
 				}), new sap.ui.unified.MenuItem({
@@ -32,8 +43,12 @@ sap.ui.core.Control.extend("sparqlish.control.dataPropertyControl", {
 					text : 'contactName'
 				}) ]
 				});
-				oConceptListMenu.attachItemSelect(function(oEvent) {
+				oDataPropertyMenu.attachItemSelect(function(oEvent) {
+					if(self.getAggregation("_dataProperty").getText()!=oEvent.getParameter("item").getText()){
+						self.fireChanged({dataProperty:oEvent.getParameter("item").getText()});
+					}
 					self.getAggregation("_dataProperty").setText(oEvent.getParameter("item").getText());
+					self.fireSelected({dataProperty:oEvent.getParameter("item").getText()});
 				}).open(false, this.getFocusDomRef(), eDock.BeginTop, eDock.beginBottom, this.getDomRef());
 			}
 		}));

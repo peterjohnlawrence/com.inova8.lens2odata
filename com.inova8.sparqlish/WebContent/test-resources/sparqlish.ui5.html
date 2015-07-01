@@ -7,19 +7,19 @@
 
 		<style>
 			.conceptClause {
-				font: 15px arial, sans-serif;
+				font: 14px arial, sans-serif;
 				font-weight: bold;
-				font-size: 100%;
+				//font-size: 100%;
 			}
 			.objectPropertyClause {
-				font: 15px arial, sans-serif;
+				font: 14px arial, sans-serif;
 				font-weight: bold;
-				font-size: 100%;
+				//font-size: 100%;
 			}
 			.dataPropertyClause {
-				font: 15px arial, sans-serif;
+				font: 14px arial, sans-serif;
 				font-weight: bold;
-				font-size: 100%;
+				//font-size: 100%;
 			}
 		</style>
 		
@@ -47,6 +47,7 @@
 <script type="text/javascript" src="sparqlish/control/dataPropertyControl.js"></script>
 <script type="text/javascript" src="sparqlish/control/dataPropertyFiltersControl.js"></script>
 <script type="text/javascript" src="sparqlish/control/dataPropertyFilterControl.js"></script>
+<script type="text/javascript" src="sparqlish/control/dataPropertyConjunctionFilterControl.js"></script>
 
 <script type="text/javascript" src="resources/jquery.rdfquery.core.min-1.0.js"></script>
 <script type="text/javascript">
@@ -240,16 +241,16 @@ var oEditClause = sap.ui.jsfragment("sparqlish.menu.editClause", this.oTable);
 // Label menu
 var oEditLabel = sap.ui.jsfragment("sparqlish.menu.editLabel", this.oTable);
 
-var oConceptClause = ccConceptClause();
-oConceptClause.placeAt("uiConceptClause");
-var oDataPropertyClause = ccDataPropertyClause();
-oDataPropertyClause.placeAt("uiDataPropertyClause");
-var oObjectPropertyClause = ccObjectPropertyClause();
-oObjectPropertyClause.placeAt("uiObjectPropertyClause");
+// var oConceptClause = ccConceptClause();
+// oConceptClause.placeAt("uiConceptClause");
+// var oDataPropertyClause = ccDataPropertyClause();
+// oDataPropertyClause.placeAt("uiDataPropertyClause");
+// var oObjectPropertyClause = ccObjectPropertyClause();
+// oObjectPropertyClause.placeAt("uiObjectPropertyClause");
 
 
 var oConceptClauseControl = new sparqlish.control.conceptClauseControl({
-		query:{
+		conceptClause:{
 			"_class": "Query",
 			"name": "Test: Order query",
 			"top": 100,
@@ -270,6 +271,15 @@ var oConceptClauseControl = new sparqlish.control.conceptClauseControl({
 							
 		});
 oConceptClauseControl.placeAt("uiConceptClauseControl");
+
+var oConceptClauseControlInit = new sparqlish.control.conceptClauseControl({
+		conceptClause:{
+			"_class": "Query",
+			"name": "Test: Order query"
+			}
+							
+		});
+oConceptClauseControlInit.placeAt("uiConceptClauseControlInit");
 
 
 var oObjectPropertyClauseControl = new sparqlish.control.objectPropertyClauseControl({
@@ -331,11 +341,9 @@ oDataPropertyClauseControl.placeAt("uiDataPropertyClauseControl");
 		<div id="uiMenu">Select Query:</div>
 		<div id="uiPreview"></div>
 		<div id="uiQuery"></div>
-		<div id="uiConceptClause">ConceptClause1:</div>
-		<div id="uiDataPropertyClause">DataPropertyClause1:</div>
-		<div id="uiObjectPropertyClause">ObjectPropertyClause1:</div>
 		
-		<div id="uiConceptClauseControl">ConceptClauseControl:</div>
+		<div id="uiConceptClauseControl">ConceptClauseControl:<button onclick="alert(JSON.stringify(oConceptClauseControl.getConceptClause()))">ConceptData</button></div>
+		<div id="uiConceptClauseControlInit">ConceptClauseControlInitialize:<button onclick="alert(JSON.stringify(oConceptClauseControlInit.getConceptClause()))">ConceptInitData</button></div>
 		<div id="uiObjectPropertyClauseControl">ObjectPropertyClauseControl:</div>
 		<div id="uiDataPropertyClauseControl">DataPropertyClauseControl:</div>
 				

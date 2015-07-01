@@ -1,14 +1,18 @@
 sap.ui.core.Control.extend("sparqlish.control.conceptFilterControl", {
 	metadata : {
 		properties : {
-			query : "object",
-			filterIndex : "int"
+			conceptFilter : "object"
 		},
 		aggregations : {
 			_conceptFilter : {
 				type : "sap.ui.commons.Link",
 				multiple : false,
 				visibility : "hidden"
+			}
+		},
+		events : {
+			deleted : {
+				enablePreventDefault : true
 			}
 		}
 	},
@@ -35,35 +39,23 @@ sap.ui.core.Control.extend("sparqlish.control.conceptFilterControl", {
 				});
 				oConceptListMenu.attachItemSelect(function(oEvent) {
 					var selectedItem = oEvent.getParameter("item").getText();
-					var iFilterIndex = self.getProperty("filterIndex");
 					if (selectedItem == '*DELETE*') {
 						self.destroyAggregation("_conceptFilter");
-						self.getParent().removeAggregation("_conceptFilters", iFilterIndex);
+						delete self.getProperty("conceptFilter");
+						self.fireDeleted();
 					} else {
 						self.getAggregation("_conceptFilter").setText(selectedItem);
-						self.getProperty("query").conceptFilters.push({"Id":selectedItem});
+						self.getProperty("conceptFilter").Id = selectedItem;
 					}
 				}).open(false, this.getFocusDomRef(), eDock.BeginTop, eDock.beginBottom, this.getDomRef());
 			}
 		}));
 	},
-	setQuery : function(oQuery) {
-		this.setProperty("query", oQuery, false);
-	},
-	setFilterIndex : function(iFilterIndex) {
-		this.setProperty("filterIndex", iFilterIndex, false);
-		if (iFilterIndex > this.getProperty("query").conceptFilters.length) {
-			this.getAggregation("_conceptFilter").setText("[enter value]");
-		} else {
-			this.getAggregation("_conceptFilter").setText(this.getProperty("query").conceptFilters[iFilterIndex].Id);
-		}
+	setConceptFilter : function(oConceptFilter) {
+		this.setProperty("conceptFilter", oConceptFilter, false);
+		this.getAggregation("_conceptFilter").setText(oConceptFilter.Id);
 	},
 	renderer : function(oRm, oControl) {
-		if (oControl.getProperty("filterIndex") > 0) {
-			oRm.write(", ");
-		}else{
-			oRm.write(" in ");
-		}
 		oRm.renderControl(oControl.getAggregation("_conceptFilter"));
 	}
 });

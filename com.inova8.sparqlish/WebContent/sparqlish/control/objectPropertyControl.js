@@ -9,6 +9,17 @@ sap.ui.core.Control.extend("sparqlish.control.objectPropertyControl", {
 				multiple : false,
 				visibility : "hidden"
 			}
+		},
+		events : {
+			selected : {
+				enablePreventDefault : true
+			},
+			unselected : {
+				enablePreventDefault : true
+			},
+			changed : {
+				enablePreventDefault : true
+			}
 		}
 	},
 	init : function() {
@@ -19,7 +30,7 @@ sap.ui.core.Control.extend("sparqlish.control.objectPropertyControl", {
 			press : function(oEvent) {
 				var oSource = oEvent.getSource();
 				var eDock = sap.ui.core.Popup.Dock;
-				var oConceptListMenu = new sap.ui.unified.Menu({
+				var oObjectPropertyMenu = new sap.ui.unified.Menu({
 					items : [  new sap.ui.unified.MenuItem({
 					text : '*DELETE*'
 				}),new sap.ui.unified.MenuItem({
@@ -32,8 +43,12 @@ sap.ui.core.Control.extend("sparqlish.control.objectPropertyControl", {
 					text : 'has product'
 				}) ]
 				});
-				oConceptListMenu.attachItemSelect(function(oEvent) {
+				oObjectPropertyMenu.attachItemSelect(function(oEvent) {
+					if(self.getAggregation("_objectProperty").getText()!=oEvent.getParameter("item").getText()){
+						self.fireChanged({objectProperty:oEvent.getParameter("item").getText()});
+					}
 					self.getAggregation("_objectProperty").setText(oEvent.getParameter("item").getText());
+					self.fireSelected({objectProperty:oEvent.getParameter("item").getText()});
 				}).open(false, this.getFocusDomRef(), eDock.BeginTop, eDock.beginBottom, this.getDomRef());
 			}
 		}));

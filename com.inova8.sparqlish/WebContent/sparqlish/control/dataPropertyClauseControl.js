@@ -5,7 +5,7 @@ sap.ui.core.Control.extend("sparqlish.control.dataPropertyClauseControl", {
 		},
 		events : {},
 		aggregations : {
-			_objectProperty : {
+			_dataProperty : {
 				type : "sparqlish.control.dataPropertyControl",
 				multiple : false,
 				visibility : "hidden"
@@ -26,7 +26,7 @@ sap.ui.core.Control.extend("sparqlish.control.dataPropertyClauseControl", {
 	setDataPropertyClause : function(oDataPropertyClause ) {
 		this.setProperty("dataPropertyClause", oDataPropertyClause, true);
 		this.getAggregation("_dataProperty").setDataPropertyClause(oDataPropertyClause );
-		this.getAggregation("_dataPropertyFilters").setDataPropertyClause(oDataPropertyClause);
+		this.getAggregation("_dataPropertyFilters").setDataPropertyFilters(oDataPropertyClause.filters);
 	},
 	renderer : function(oRm, oControl) {
 		oRm.write("<div ");

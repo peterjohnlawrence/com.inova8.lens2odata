@@ -1,7 +1,7 @@
 sap.ui.core.Control.extend("sparqlish.control.dataPropertyFiltersControl", {
 	metadata : {
 		properties : {
-			dataPropertyClause : "object"
+			dataPropertyFilters : "object"
 		},
 		aggregations : {
 			_dataPropertyFilter : {
@@ -27,41 +27,64 @@ sap.ui.core.Control.extend("sparqlish.control.dataPropertyFiltersControl", {
 			text : "[+]",
 			tooltip : "Add a filter value",
 			press : function(oEvent) {
-				if (self.getAggregation("_dataPropertyConjunctionFilters") == null) {
+				// first add the initial filter before extending collection of conjunctionFilters
+				if (self.getAggregation("_dataPropertyFilter") == null) {
 					self.setAggregation("_dataPropertyFilter", new sparqlish.control.dataPropertyFilterControl({
-						dataPropertyClause : self.getProperty("dataPropertyClause")
+						dataPropertyFilter : self.getProperty("dataPropertyFilters").filter
 					}));
 				} else {
-					var dataPropertyConjunctionFilters = self.getAggregation("_dataPropertyConjunctionFilters").length;
-					self.addAggregation("_dataPropertyConjunctionFilters", new sparqlish.control.dataPropertyConjunctionFilterControl({
-						dataPropertyClause : self.getProperty("dataPropertyClause"),
-						filterIndex : dataPropertyConjunctionFilters + 1
-					}));
+					if (self.getAggregation("_dataPropertyConjunctionFilters") == null) {
+						self.addAggregation("_dataPropertyConjunctionFilters", new sparqlish.control.dataPropertyConjunctionFilterControl({
+							//TODO can we initialize at this stage
+							dataPropertyConjunctionFilter : self.getProperty("dataPropertyFilters").conjunctionFilters[0],
+							filterIndex : 0
+						}));
+					} else {
+						var dataPropertyConjunctionFilters = self.getAggregation("_dataPropertyConjunctionFilters").length;
+						self.addAggregation("_dataPropertyConjunctionFilters", new sparqlish.control.dataPropertyConjunctionFilterControl({
+							//TODO initialize new filter
+							//dataPropertyConjunctionFilter : self.getProperty("dataPropertyFilters").conjunctionFilters[dataPropertyConjunctionFilters],
+							//filterIndex : dataPropertyConjunctionFilters 
+						}));
+					}
 				}
 				self.getParent().rerender();
 			}
 		}));
 	},
-	setDataPropertyClause : function(oDataPropertyClause) {
+	setDataPropertyFilters : function(oDataPropertyFilters) {
 		var self = this;
-		self.setProperty("dataPropertyClause", oDataPropertyClause, true);
-		var dataPropertyFilters = oDataPropertyClause.filters.length;
-		for (var i = 0; i < dataPropertyFilters; i++) {
-			var filterControls = self.getAggregation("_filters");
-			var filterControl = null;
-			if (filterControls != null) {
-				filterControl = filterControls[i];
+		self.setProperty("dataPropertyFilters", oDataPropertyFilters, true);
+//		if (oDataPropertyClause.filters != null) {	
+		
+			if (oDataPropertyFilters.filter != null) {
+				if (self.getAggregation("_dataPropertyFilter")==null){
+						self.setAggregation("_dataPropertyFilter", new sparqlish.control.dataPropertyFilterControl({
+						dataPropertyFilter : self.getProperty("dataPropertyFilters").filter
+					}));				
+				}
+				self.getAggregation("_dataPropertyFilter").setDataPropertyFilter ( oDataPropertyFilters.filter);
+				
+				var dataPropertyConjunctionFilters = oDataPropertyFilters.conjunctionFilters.length;
+				var filterControls = self.getAggregation("_dataPropertyConjunctionFilters");
+				//TODO should we destroy the existing aggregation
+				for (var i = 0; i < dataPropertyConjunctionFilters; i++) {
+					var filterControl = null;
+					if (filterControls != null) {
+						filterControl = filterControls[i];
+					}
+					if (filterControl != null) {
+						filterControl.setDataPropertyConjunctionFilter(oDataPropertyFilters.conjunctionFilters[i]);
+						filterControl.setFilterIndex(i);
+					} else {
+						self.addAggregation("_dataPropertyConjunctionFilters", new sparqlish.control.dataPropertyConjunctionFilterControl({
+							dataPropertyConjunctionFilter : oDataPropertyFilters.conjunctionFilters[i],
+							filterIndex : i
+						}));
+					}
+				}
 			}
-			if (filterControl != null) {
-				filterControl.setDataPropertyClause(oDataPropertyClause);
-				filterControl.setFilterIndex(i);
-			} else {
-				self.addAggregation("_dataPropertyFilters", new sparqlish.control.dataPropertyFilterControl({
-					dataPropertyClause : oDataPropertyClause,
-					filterIndex : i
-				}));
-			}
-		}
+//		}
 	},
 	renderer : function(oRm, oControl) {
 		oRm.renderControl(oControl.getAggregation("_dataPropertyFilter"));

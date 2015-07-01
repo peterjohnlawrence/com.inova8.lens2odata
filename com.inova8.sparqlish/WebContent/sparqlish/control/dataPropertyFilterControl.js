@@ -1,7 +1,7 @@
 sap.ui.core.Control.extend("sparqlish.control.dataPropertyFilterControl", {
 	metadata : {
 		properties : {
-			dataPropertyClause : "object"
+			dataPropertyFilter : "object"
 		},
 		aggregations : {
 			_condition : {
@@ -10,7 +10,7 @@ sap.ui.core.Control.extend("sparqlish.control.dataPropertyFilterControl", {
 				visibility : "hidden"
 			},
 			_value : {
-				type : "sap.ui.commons.Link",
+				type : "sap.ui.commons.InPlaceEdit",
 				multiple : false,
 				visibility : "hidden"
 			}
@@ -26,42 +26,45 @@ sap.ui.core.Control.extend("sparqlish.control.dataPropertyFilterControl", {
 				var eDock = sap.ui.core.Popup.Dock;
 				var oConceptListMenu = new sap.ui.unified.Menu({
 					items : [ new sap.ui.unified.MenuItem({
-					text : '*DELETE*'
-				}),new sap.ui.unified.MenuItem({
-					text : 'containing'
-				}), new sap.ui.unified.MenuItem({
-					text : 'less than'
-				}), new sap.ui.unified.MenuItem({
-					text : 'greater than'
-				}), new sap.ui.unified.MenuItem({
-					text : 'equals'
-				}) ]
+						text : '*DELETE*'
+					}), new sap.ui.unified.MenuItem({
+						text : 'containing'
+					}), new sap.ui.unified.MenuItem({
+						text : 'less than'
+					}), new sap.ui.unified.MenuItem({
+						text : 'greater than'
+					}), new sap.ui.unified.MenuItem({
+						text : 'equals'
+					}) ]
 				});
 				oConceptListMenu.attachItemSelect(function(oEvent) {
 					var selectedItem = oEvent.getParameter("item").getText();
-					var iFilterIndex = self.getProperty("filterIndex");
 					if (selectedItem == '*DELETE*') {
 						self.destroyAggregation("_dataPropertyFilter");
-						self.getParent().removeAggregation("_dataPropertyFilters", iFilterIndex);
+						self.getParent().removeAggregation("_dataPropertyFilter");
 					} else {
-						self.getAggregation("_dataPropertyFilter").setText(selectedItem);
-						self.getProperty("dataPropertyClause").dataPropertyFilters.push({
-							"Id" : selectedItem
-						});
+						self.getAggregation("_condition").setText(selectedItem);
+						self.getProperty("dataPropertyFilter").condition = selectedItem;
 					}
 				}).open(false, this.getFocusDomRef(), eDock.BeginTop, eDock.beginBottom, this.getDomRef());
 			}
 		}));
+		this.setAggregation("_value", new sap.ui.commons.InPlaceEdit({
+			content : new sap.ui.commons.TextField({
+				value : "[enter value]",
+				tooltip : "Enter value for condition",
+				width:"auto"
+			})
+		}));
 	},
-	setDataPropertyClause : function(oDataPropertyClause) {
-		this.setProperty("dataPropertyClause", oDataPropertyClause, false);
+	setDataPropertyFilter : function(oDataPropertyFilter) {
+		this.setProperty("dataPropertyFilter", oDataPropertyFilter, false);
+		this.getAggregation("_condition").setText(oDataPropertyFilter.condition);
+		this.getAggregation("_value").getContent().setValue(oDataPropertyFilter.value);
 	},
 	renderer : function(oRm, oControl) {
-		if (oControl.getProperty("filterIndex") > 0) {
-			oRm.write(", ");
-		} else {
-			oRm.write(" in ");
-		}
-		oRm.renderControl(oControl.getAggregation("_dataPropertyFilter"));
+		oRm.renderControl(oControl.getAggregation("_condition"));
+		oRm.write("&nbsp;");
+		oRm.renderControl(oControl.getAggregation("_value"));
 	}
 });
