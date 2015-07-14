@@ -21,6 +21,11 @@
 				font-weight: bold;
 				//font-size: 100%;
 			}
+			.clause {
+				font: 14px arial, sans-serif;
+				font-weight: bold;
+				//font-size: 100%;
+			}
 		</style>
 		
 <title>Sparqlish</title>
@@ -48,6 +53,10 @@
 <script type="text/javascript" src="sparqlish/control/dataPropertyFiltersControl.js"></script>
 <script type="text/javascript" src="sparqlish/control/dataPropertyFilterControl.js"></script>
 <script type="text/javascript" src="sparqlish/control/dataPropertyConjunctionFilterControl.js"></script>
+
+<script type="text/javascript" src="sparqlish/control/clausesControl.js"></script>
+<script type="text/javascript" src="sparqlish/control/clauseControl.js"></script>
+<script type="text/javascript" src="sparqlish/control/conjunctionClauseControl.js"></script>
 
 <script type="text/javascript" src="resources/jquery.rdfquery.core.min-1.0.js"></script>
 <script type="text/javascript">
@@ -248,9 +257,8 @@ var oEditLabel = sap.ui.jsfragment("sparqlish.menu.editLabel", this.oTable);
 // var oObjectPropertyClause = ccObjectPropertyClause();
 // oObjectPropertyClause.placeAt("uiObjectPropertyClause");
 
-
-var oConceptClauseControl = new sparqlish.control.conceptClauseControl({
-		conceptClause:{
+var oConceptClauseModel = new sap.ui.model.json.JSONModel();
+oConceptClauseModel.setData({query:{
 			"_class": "Query",
 			"name": "Test: Order query",
 			"top": 100,
@@ -267,23 +275,26 @@ var oConceptClauseControl = new sparqlish.control.conceptClauseControl({
 				{
 					"Id": "northwind:Order-1"
 				}
-			]}
-							
-		});
+			]}});
+var oConceptClauseControl = new sparqlish.control.conceptClauseControl();
+oConceptClauseControl.setModel(oConceptClauseModel);
+oConceptClauseControl.bindProperty("conceptClause","/query");
 oConceptClauseControl.placeAt("uiConceptClauseControl");
 
-var oConceptClauseControlInit = new sparqlish.control.conceptClauseControl({
-		conceptClause:{
+var oConceptClauseInitModel = new sap.ui.model.json.JSONModel();
+oConceptClauseInitModel.setData({query:{
 			"_class": "Query",
 			"name": "Test: Order query"
-			}
-							
-		});
-oConceptClauseControlInit.placeAt("uiConceptClauseControlInit");
+			}});
+var oConceptClauseInitControl = new sparqlish.control.conceptClauseControl();
+oConceptClauseInitControl.setModel(oConceptClauseInitModel);
+oConceptClauseInitControl.bindProperty("conceptClause","/query");
+oConceptClauseInitControl.placeAt("uiConceptClauseInitControl");
 
 
-var oObjectPropertyClauseControl = new sparqlish.control.objectPropertyClauseControl({
-		objectPropertyClause:{
+var oObjectPropertyClauseModel = new sap.ui.model.json.JSONModel();
+oObjectPropertyClauseModel.setData({
+		propertyClause:{
 								"_class": "ObjectPropertyClause",
 								"objectProperty": "<http://northwind.com/customer>",
 								"objectPropertyFilters": 
@@ -298,11 +309,26 @@ var oObjectPropertyClauseControl = new sparqlish.control.objectPropertyClauseCon
 								]}
 							
 		});
+var oObjectPropertyClauseControl = new sparqlish.control.objectPropertyClauseControl();
+oObjectPropertyClauseControl.setModel(oObjectPropertyClauseModel);
+oObjectPropertyClauseControl.bindProperty("objectPropertyClause","/propertyClause");
 oObjectPropertyClauseControl.placeAt("uiObjectPropertyClauseControl");
 
 
-var oDataPropertyClauseControl = new sparqlish.control.dataPropertyClauseControl({
-		dataPropertyClause:
+var oObjectPropertyClauseInitModel = new sap.ui.model.json.JSONModel();
+oObjectPropertyClauseInitModel.setData({
+		propertyClause:{
+								"_class": "ObjectPropertyClause"}
+		});
+var oObjectPropertyClauseInitControl = new sparqlish.control.objectPropertyClauseControl();
+oObjectPropertyClauseInitControl.setModel(oObjectPropertyClauseInitModel);
+oObjectPropertyClauseInitControl.bindProperty("objectPropertyClause","/propertyClause");
+oObjectPropertyClauseInitControl.placeAt("uiObjectPropertyClauseInitControl");
+
+
+var oDataPropertyClauseModel = new sap.ui.model.json.JSONModel();
+oDataPropertyClauseModel.setData({
+		propertyClause:
 					{
 						"_class": "DataPropertyClause",
 						"dataProperty": "<http://northwind.com/shipCountry>",
@@ -329,24 +355,319 @@ var oDataPropertyClauseControl = new sparqlish.control.dataPropertyClauseControl
 										"value": "Ge",
 										"datatype": "<http://www.w3.org/2001/XMLSchema#string>"
 									}
+								},
+								{
+									"_class": "ConjunctionFilter",
+									"filterConjunction": "or",
+									"filter": 
+									{
+										"_class": "Filter",
+										"condition": "containing",
+										"value": "Br",
+										"datatype": "<http://www.w3.org/2001/XMLSchema#string>"
+									}
 								}
 							]
 						}
 					}					
 		});
+var oDataPropertyClauseControl = new sparqlish.control.dataPropertyClauseControl();
+oDataPropertyClauseModel.setDefaultBindingMode(sap.ui.model.BindingMode.TwoWay)
+oDataPropertyClauseControl.setModel(oDataPropertyClauseModel);
+oDataPropertyClauseControl.bindProperty("dataPropertyClause","/propertyClause");
 oDataPropertyClauseControl.placeAt("uiDataPropertyClauseControl");
+
+
+// var oDataPropertyClauseInitModel = new sap.ui.model.json.JSONModel();
+// oDataPropertyClauseInitModel.setData({
+// 		propertyClause:
+// 					{
+// 						"_class": "DataPropertyClause"
+// 					}					
+// 		});
+// var oDataPropertyClauseInitControl = new sparqlish.control.dataPropertyClauseControl();
+// oDataPropertyClauseInitControl.setModel(oDataPropertyClauseInitModel);
+// oDataPropertyClauseInitControl.bindProperty("dataPropertyClause","/propertyClause");
+// oDataPropertyClauseInitControl.placeAt("uiDataPropertyClauseInitControl");
+
+var oClausesModel = new sap.ui.model.json.JSONModel();
+oClausesModel.setData({
+					"clauses": 
+			{
+				"_class": "Clauses",
+				"clause": 
+				{
+					"_class": "Clause",
+					"ignore": false,
+					"optional": false,
+					"label": "Shipped to Country",
+					"propertyClause": 
+					{
+						"_class": "DataPropertyClause",
+						"dataProperty": "ShipCountry",
+						"filters": 
+						{
+							"_class": "Filters",
+							"filter": 
+							{
+								"_class": "Filter",
+								"condition": "containing",
+								"value": "Fr",
+								"datatype": "<http://www.w3.org/2001/XMLSchema#string>",
+								"type": "Edm.String"
+							},
+
+							"conjunctionFilters": 
+							[
+								{
+									"_class": "ConjunctionFilter",
+									"filterConjunction": "or",
+									"filter": 
+									{
+										"_class": "Filter",
+										"condition": "containing",
+										"value": "Ge",
+										"datatype": "<http://www.w3.org/2001/XMLSchema#string>",
+										"type": "Edm.String"
+									}
+								}
+							]
+						}
+					}
+				},
+
+				"conjunctionClauses": 
+				[
+					{
+						"_class": "ConjunctionClause",
+						"conjunction": "and",
+						"clause": 
+						{
+							"_class": "Clause",
+							"ignore": false,
+							"optional": false,
+							"label": "ShippedDate",
+							"propertyClause": 
+							{
+								"_class": "DataPropertyClause",
+								"dataProperty": "ShippedDate",
+								"filters": 
+								{
+									"_class": "Filters",
+									"filter": 
+									{
+										"_class": "Filter",
+										"condition": "<",
+										"value": "1998-01-01",
+										"datatype": "<http://www.w3.org/2001/XMLSchema#date>",
+										"type": "Edm.DateTime"
+									}
+								}
+							}
+						}
+					},
+
+					{
+						"_class": "ConjunctionClause",
+						"conjunction": "and",
+						"clause": 
+						{
+							"_class": "Clause",
+							"ignore": false,
+							"optional": false,
+							"label": "Customer",
+							"propertyClause": 
+							{
+								"_class": "ObjectPropertyClause",
+								"objectProperty": "Customer",
+								"objectPropertyFilters": 
+								[
+									{
+										"CustomerID": "'BONAP'"
+									},
+
+									{
+										"CustomerID": "'ALFKI'"
+									}
+								],
+
+								"clauses": 
+								{
+									"_class": "Clauses",
+									"clause": 
+									{
+										"_class": "Clause",
+										"ignore": false,
+										"optional": false,
+										"propertyClause": 
+										{
+											"_class": "DataPropertyClause",
+											"dataProperty": "CompanyName",
+											"filters": 
+											{
+												"_class": "Filters",
+												"filter": 
+												{
+													"_class": "Filter",
+													"condition": "containing",
+													"value": "Bon",
+													"datatype": "<http://www.w3.org/2001/XMLSchema#string>",
+													"type": "Edm.String"
+												}
+											}
+										}
+									},
+
+									"conjunctionClauses": 
+									[
+										{
+											"_class": "ConjunctionClause",
+											"conjunction": "and",
+											"clause": 
+											{
+												"_class": "Clause",
+												"ignore": false,
+												"optional": false,
+												"label": "Contact name",
+												"propertyClause": 
+												{
+													"_class": "DataPropertyClause",
+													"dataProperty": "ContactName",
+													"filters": 
+													{
+														"_class": "Filters",
+														"filter": 
+														{
+															"_class": "Filter",
+															"condition": "containing",
+															"value": "Leb",
+															"datatype": "<http://www.w3.org/2001/XMLSchema#string>",
+															"type": "Edm.String"
+														}
+													}
+												}
+											}
+										}
+									]
+								}
+							}
+						}
+					},
+
+					{
+						"_class": "ConjunctionClause",
+						"conjunction": "and",
+						"clause": 
+						{
+							"_class": "Clause",
+							"ignore": false,
+							"optional": true,
+							"propertyClause": 
+							{
+								"_class": "ObjectPropertyClause",
+								"objectProperty": "Employee",
+								"clauses": 
+								{
+									"_class": "Clauses",
+									"clause": 
+									{
+										"_class": "Clause",
+										"ignore": false,
+										"optional": false,
+										"propertyClause": 
+										{
+											"_class": "DataPropertyClause",
+											"dataProperty": "FirstName",
+											"filters": 
+											{
+												"_class": "Filters",
+												"filter": 
+												{
+													"_class": "Filter",
+													"condition": "containing",
+													"value": "Nancy",
+													"datatype": "<http://www.w3.org/2001/XMLSchema#string>",
+													"type": "Edm.String"
+												}
+											}
+										}
+									},
+
+									"conjunctionClauses": 
+									[
+										{
+											"_class": "ConjunctionClause",
+											"conjunction": "and",
+											"clause": 
+											{
+												"_class": "Clause",
+												"ignore": false,
+												"optional": false,
+												"propertyClause": 
+												{
+													"_class": "ObjectPropertyClause",
+													"objectProperty": "Employee1",
+													"clauses": 
+													{
+														"_class": "Clauses",
+														"clause": 
+														{
+															"_class": "Clause",
+															"ignore": false,
+															"optional": false,
+															"propertyClause": 
+															{
+																"_class": "DataPropertyClause",
+																"dataProperty": "LastName"
+															}
+														}
+													}
+												}
+											}
+										}
+									]
+								}
+							}
+						}
+					}
+				]
+			}
+					
+		});
+var oClausesControl = new sparqlish.control.clausesControl();
+oClausesControl.setModel(oClausesModel);
+oClausesControl.bindProperty("clauses","/clauses");//.bindElement("/clauses");//
+oClausesControl.placeAt("uiClausesControl");
+
 </script>
 </head>
 <body>
 		<div id="uiMenu">Select Query:</div>
 		<div id="uiPreview"></div>
 		<div id="uiQuery"></div>
-		
-		<div id="uiConceptClauseControl">ConceptClauseControl:<button onclick="alert(JSON.stringify(oConceptClauseControl.getConceptClause()))">ConceptData</button></div>
-		<div id="uiConceptClauseControlInit">ConceptClauseControlInitialize:<button onclick="alert(JSON.stringify(oConceptClauseControlInit.getConceptClause()))">ConceptInitData</button></div>
-		<div id="uiObjectPropertyClauseControl">ObjectPropertyClauseControl:</div>
-		<div id="uiDataPropertyClauseControl">DataPropertyClauseControl:</div>
-				
-		<div id="uiTable"></div>
+<table>
+  <tr>
+    <td>ConceptClauseControl:</td><td><button onclick="alert(JSON.stringify(oConceptClauseModel.getData()))">Data</button></td><td><div id="uiConceptClauseControl"></div></td>
+  </tr>
+    <tr>
+    <td>ConceptClauseInitControl:</td><td><button onclick="alert(JSON.stringify(oConceptClauseInitModel.getData()))">Data</button></td><td><div id="uiConceptClauseInitControl"></div></td>
+  </tr>
+    <tr>
+    <td>ObjectPropertyClauseControl:</td><td><button onclick="alert(JSON.stringify(oObjectPropertyClauseModel.getData()))">Data</button></td><td><div id="uiObjectPropertyClauseControl"></div></td>
+  </tr>
+    <tr>
+    <td>ObjectPropertyClauseInitControl:</td><td><button onclick="alert(JSON.stringify(oObjectPropertyClauseInitModel.getData()))">Data</button></td><td><div id="uiObjectPropertyClauseInitControl"></div></td>
+  </tr>
+    <tr>
+    <td>DataPropertyClauseControl:</td><td><button onclick="alert(JSON.stringify(oDataPropertyClauseModel.getData()))">Data</button></td><td><div id="uiDataPropertyClauseControl"></div></td>
+  </tr>
+    <tr>
+    <td>DataPropertyClauseInitControl:</td><td><button onclick="alert(JSON.stringify(oDataPropertyClauseInitModel.getData()))">Data</button></td><td><div id="uiDataPropertyClauseInitControl"></div></td>
+  </tr>
+    <tr>
+    <td>ClausesControl:</td><td><button onclick="alert(JSON.stringify(oClausesModel.getData()))">Data</button></td><td><div id="uiClausesControl"></div></td>
+  </tr>
+</table>
+<div id="uiTable"></div>
 </body>
 </html>

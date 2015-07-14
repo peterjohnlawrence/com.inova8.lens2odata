@@ -1,29 +1,46 @@
 sap.ui.core.Control.extend("sparqlish.control.objectPropertyFiltersControl", {
 	metadata : {
-		properties : {
-			objectPropertyFilters : "object"
-		},
 		aggregations : {
 			_objectPropertyFilters : {
 				type : "sparqlish.control.objectPropertyFilterControl",
-				multiple : true,
-				visibility : "hidden"
+				multiple : true
 			},
 			_extendFilter : {
 				type : "sap.ui.commons.Link",
-				multiple : false,
-				visibility : "hidden"
+				multiple : false
 			}
 		}
 	},
 	init : function() {
 		var self = this;
+		self.bindAggregation("_objectPropertyFilters", "objectPropertyFilters", new sparqlish.control.objectPropertyFilterControl({
+			deleted : function(oEvent) {
+				// TODO is this really the best way to delete an element?
+				var path = oEvent.getSource().getBindingContext().getPath().split("/");
+				var index = path[path.length - 1];
+				var currentModel = oEvent.getSource().getModel();
+				var currentModelData = currentModel.getData();
+				currentModelData.propertyClause.objectPropertyFilters.splice(index, 1);
+				currentModel.setData(currentModelData);
+				currentModel.refresh();
+				self.getParent().rerender();
+			}
+		}));
 		this.setAggregation("_extendFilter", new sap.ui.commons.Link({
 			text : "[+]",
 			tooltip : "Add a filter value",
-			visible : false,
+			visible : true,
 			press : function(oEvent) {
-				self.addAggregation("_objectPropertyFilters", new sparqlish.control.objectPropertyFilterControl({}));
+				var currentModel = self.getModel();
+				var currentModelData = currentModel.getData();
+				if (currentModelData.propertyClause.objectPropertyFilters == null) {
+					currentModelData.propertyClause.objectPropertyFilters = [];
+				}
+				currentModelData.propertyClause.objectPropertyFilters.push({
+					Id : "[enter new value]"
+				});
+				currentModel.setData(currentModelData);
+				currentModel.refresh();
 				self.getParent().rerender();
 			}
 		}));
@@ -32,27 +49,13 @@ sap.ui.core.Control.extend("sparqlish.control.objectPropertyFiltersControl", {
 		var self = this;
 		self.setProperty("objectPropertyFilters", oObjectPropertyFilters, true);
 		if (oObjectPropertyFilters != null) {
-			var objectPropertyFilters = oObjectPropertyFilters.length;
-			for (var i = 0; i < objectPropertyFilters; i++) {
-				var filterControls = self.getAggregation("_objectPropertyFilters");
-				var filterControl = null;
-				if (filterControls != null) {
-					filterControl = filterControls[i];
-				}
-				if (filterControl != null) {
-					filterControl.setObjectPropertyFilter(oObjectPropertyFilters[i]);
-				} else {
-					self.addAggregation("_objectPropertyFilters", new sparqlish.control.objectPropertyFilterControl({
-						objectPropertyFilter : oObjectPropertyFilters[i]
-					}));
-				}
-			}
+			if (oObjectPropertyFilters.length > 0)
+				self.getAggregation("_extendFilter").setVisible(true);
 		}
 	},
 	renderer : function(oRm, oControl) {
 		var objectPropertyFilters = oControl.getAggregation("_objectPropertyFilters");
 		if (objectPropertyFilters != null) {
-			//oRm.write("&nbsp;");
 			for (var i = 0; i < objectPropertyFilters.length; i++) {
 				if (i > 0) {
 					oRm.write(", ");

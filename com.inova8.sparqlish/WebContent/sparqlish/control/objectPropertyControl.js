@@ -1,8 +1,5 @@
 sap.ui.core.Control.extend("sparqlish.control.objectPropertyControl", {
 	metadata : {
-		properties : {
-			objectPropertyClause : "object"
-		},
 		aggregations : {
 			_objectProperty : {
 				type : "sap.ui.commons.Link",
@@ -25,7 +22,7 @@ sap.ui.core.Control.extend("sparqlish.control.objectPropertyControl", {
 	init : function() {
 		var self = this;
 		this.setAggregation("_objectProperty", new sap.ui.commons.Link({
-			text : "[select object property]",
+			text : "{objectProperty}",
 			tooltip : "Select an object property",
 			press : function(oEvent) {
 				var oSource = oEvent.getSource();
@@ -53,14 +50,7 @@ sap.ui.core.Control.extend("sparqlish.control.objectPropertyControl", {
 			}
 		}));
 	},
-	setObjectPropertyClause : function(oObjectPropertyClause) {
-		this.setProperty("objectPropertyClause", oObjectPropertyClause, true);
-		if (oObjectPropertyClause.objectProperty == null) {
-			this.getAggregation("_objectProperty").setText("[select object property]");
-		} else {
-			this.getAggregation("_objectProperty").setText(oObjectPropertyClause.objectProperty);
-		}
-	},
+
 	renderer : function(oRm, oControl) {
 		oRm.renderControl(oControl.getAggregation("_objectProperty"));
 	}

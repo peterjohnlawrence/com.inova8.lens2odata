@@ -1,31 +1,38 @@
 sap.ui.core.Control.extend("sparqlish.control.dataPropertyConjunctionFilterControl", {
 	metadata : {
 		properties : {
-			dataPropertyConjunctionFilter : "object",
-			filterIndex : "int"
+			dataPropertyConjunctionFilter : "object"
 		},
 		aggregations : {
 			_conjunction : {
 				type : "sap.ui.commons.Link",
-				multiple : false,
-				visibility : "hidden"
+				multiple : false
 			},
 			_dataPropertyFilter : {
 				type : "sparqlish.control.dataPropertyFilterControl",
-				multiple : false,
-				visibility : "hidden"
+				multiple : false
+			}
+		},
+		events : {
+			deleted : {
+				enablePreventDefault : true
+			},
+			changed : {
+				enablePreventDefault : true
 			}
 		}
 	},
 	init : function() {
 		var self = this;
-		this.setAggregation("_conjunction", new sap.ui.commons.Link({
-			text : "[enter conjunction]",
+		// self.setAggregation("_conjunction", new sap.ui.commons.TextField({value:"{filterConjunction}"}));
+		self.setAggregation("_conjunction", new sap.ui.commons.Link({
+			text : "{filterConjunction}",
 			tooltip : "Select a conjunction",
 			press : function(oEvent) {
-				var oSource = oEvent.getSource();
+				//TODO Need to explicitly find 'this' instead of using self in the case of a aggregation with multiple=true
+				var me =  oEvent.getSource().getParent();
 				var eDock = sap.ui.core.Popup.Dock;
-				var oConceptListMenu = new sap.ui.unified.Menu({
+				var oConjunctionMenu = new sap.ui.unified.Menu({
 					items : [ new sap.ui.unified.MenuItem({
 						text : '*DELETE*'
 					}), new sap.ui.unified.MenuItem({
@@ -34,35 +41,34 @@ sap.ui.core.Control.extend("sparqlish.control.dataPropertyConjunctionFilterContr
 						text : 'or'
 					}) ]
 				});
-				oConceptListMenu.attachItemSelect(function(oEvent) {
+				oConjunctionMenu.attachItemSelect(function(oEvent) {
 					var selectedItem = oEvent.getParameter("item").getText();
-					var iFilterIndex = self.getProperty("filterIndex");
 					if (selectedItem == '*DELETE*') {
-						self.destroyAggregation("_conjunction");
-						self.destroyAggregation("_dataPropertyFilter");
-						self.getParent().removeAggregation("_dataPropertyFilters", iFilterIndex);
+						//TODO add handler
+						me.fireDeleted();
 					} else {
-						self.getAggregation("_conjunction").setText(selectedItem);
+						me.getAggregation("_conjunction").setText(selectedItem);
 					}
 				}).open(false, this.getFocusDomRef(), eDock.BeginTop, eDock.beginBottom, this.getDomRef());
 			}
 		}));
 		self.setAggregation("_dataPropertyFilter", new sparqlish.control.dataPropertyFilterControl({
-//			dataPropertyFilter : self.getProperty("dataPropertyConjunctionFilter").filter
-		}));
+			deleted : function(oEvent) {
+				// TODO Should not delete if there are still some conjunctions
+				// TODO is this really the best way to delete an element?
+				var path = oEvent.getSource().getBindingContext().getPath().split("/");
+				var index = path[path.length - 1];
+				var currentModel = oEvent.getSource().getModel();
+				var currentModelData = currentModel.getData();
+				currentModelData.dataPropertyClause.filters.filter = {};
+				currentModel.setData(currentModelData);
+				currentModel.refresh();
+				self.getParent().rerender();
+			}
+		}).bindElement("filter"));
 	},
 	setDataPropertyConjunctionFilter : function(oDataPropertyConjunctionFilter) {
-		this.setProperty("dataPropertyConjunctionFilter", oDataPropertyConjunctionFilter, false);
-		this.getAggregation("_conjunction").setText(oDataPropertyConjunctionFilter.filterConjunction);
-		this.getAggregation("_dataPropertyFilter").setDataPropertyFilter(oDataPropertyConjunctionFilter.filter);
-	},
-	setFilterIndex : function(iFilterIndex) {
-		this.setProperty("filterIndex", iFilterIndex, false);
-		//if (iFilterIndex > this.getProperty("dataPropertyConjunctionFilter").filters.conjunctionFilters.length) {
-			// this.getAggregation("_dataPropertyFilter").setText("[enter value]");
-		//} else {
-			// this.getAggregation("_dataPropertyFilter").setText(this.getProperty("dataPropertyClause").dataPropertyFilters[iFilterIndex].Id);
-		//}
+		// this.setProperty("dataPropertyConjunctionFilter", oDataPropertyConjunctionFilter, false);
 	},
 	renderer : function(oRm, oControl) {
 		oRm.write("&nbsp;");

@@ -1,13 +1,9 @@
 sap.ui.core.Control.extend("sparqlish.control.conceptFiltersControl", {
 	metadata : {
-		properties : {
-			conceptFilters : "object"
-		},
 		aggregations : {
 			_conceptFilters : {
 				type : "sparqlish.control.conceptFilterControl",
-				multiple : true,
-				visibility : "hidden"
+				multiple : true
 			},
 			_extendFilter : {
 				type : "sap.ui.commons.Link",
@@ -18,55 +14,42 @@ sap.ui.core.Control.extend("sparqlish.control.conceptFiltersControl", {
 	},
 	init : function() {
 		var self = this;
-		this.setAggregation("_extendFilter", new sap.ui.commons.Link({
+		self.bindAggregation("_conceptFilters", "conceptFilters", new sparqlish.control.conceptFilterControl({
+			//conceptFilter : "{Id}",
+			deleted : function(oEvent) {
+				// TODO is this really the best way to delete an element?
+				var path = oEvent.getSource().getBindingContext().getPath().split("/");
+				var index = path[path.length - 1];
+				var currentModel = oEvent.getSource().getModel();
+				var currentModelData = currentModel.getData();
+				currentModelData.query.conceptFilters.splice(index, 1);
+				currentModel.setData(currentModelData);
+				currentModel.refresh();
+				self.getParent().rerender();
+			}
+		}));
+		self.setAggregation("_extendFilter", new sap.ui.commons.Link({
 			text : "[+]",
 			tooltip : "Add a filter value",
-			visible : false,
+			visible : true,
 			press : function(oEvent) {
-				var oConceptFilters = self.getProperty("conceptFilters");
-				oConceptFilters.push({
+				var currentModel = self.getModel();
+				var currentModelData = currentModel.getData();
+				if (currentModelData.query.conceptFilters == null) {
+					currentModelData.query.conceptFilters = [];
+				}
+				currentModelData.query.conceptFilters.push({
 					Id : "[enter new value]"
 				});
-				self.addAggregation("_conceptFilters", new sparqlish.control.conceptFilterControl({
-					conceptFilter : oConceptFilters[oConceptFilters.length - 1]
-				}));
+				currentModel.setData(currentModelData);
+				currentModel.refresh();
 				self.getParent().rerender();
 			}
 		}));
 	},
-	setConceptFilters : function(oConceptFilters) {
-		var self = this;
-		self.setProperty("conceptFilters", oConceptFilters, true);
-		if (oConceptFilters != null) {
-			var conceptFilters = oConceptFilters.length;
-			for (var i = 0; i < conceptFilters; i++) {
-				var filterControls = self.getAggregation("_conceptFilters");
-				var filterControl = null;
-				if (filterControls != null) {
-					filterControl = filterControls[i];
-				}
-				if (filterControl != null) {
-					filterControl.setConceptFilter(oConceptFilters[i]);
-				} else {
-					var newI = i;
-					var newControl = new sparqlish.control.conceptFilterControl({
-						conceptFilter : oConceptFilters[i],
-						deleted : function() {
-							delete oConceptFilters[newI];
-							//newControl.destroy();
-							//self.getParent().rerender();
-						}
-					});
-					self.addAggregation("_conceptFilters", newControl);
-				}
-			}
-		}
-		if (conceptFilters>0) self.getAggregation("_extendFilter").setVisible(true);
-	},
 	renderer : function(oRm, oControl) {
 		var conceptFilters = oControl.getAggregation("_conceptFilters");
 		if (conceptFilters != null) {
-			// oRm.write("&nbsp;");
 			for (var i = 0; i < conceptFilters.length; i++) {
 				if (i > 0) {
 					oRm.write(", ");

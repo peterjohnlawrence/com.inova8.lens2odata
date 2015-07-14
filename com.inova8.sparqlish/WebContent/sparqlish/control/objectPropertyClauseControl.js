@@ -25,15 +25,24 @@ sap.ui.core.Control.extend("sparqlish.control.objectPropertyClauseControl", {
 				self.getAggregation("_objectPropertyFilters").getAggregation("_extendFilter").setVisible(true);
 			},
 			changed : function(oEvent) {
-				alert("delete filters");
+				var currentModel = this.getModel();
+				var currentModelData = currentModel.getData();
+				currentModelData.propertyClause.objectPropertyFilters = [];
+				currentModel.setData(currentModelData);
+				currentModel.refresh();
+				self.rerender();
 			}
-		}));
-		this.setAggregation("_objectPropertyFilters", new sparqlish.control.objectPropertyFiltersControl());
+		}).bindElement("/propertyClause"));
+		this.setAggregation("_objectPropertyFilters", new sparqlish.control.objectPropertyFiltersControl().bindElement( "/propertyClause"));
 	},
 	setObjectPropertyClause : function(oObjectPropertyClause) {
-		this.setProperty("objectPropertyClause", oObjectPropertyClause, true);
-		this.getAggregation("_objectProperty").setObjectPropertyClause(oObjectPropertyClause);
-		this.getAggregation("_objectPropertyFilters").setObjectPropertyClause(oObjectPropertyClause);
+		if (oObjectPropertyClause.objectProperty == null){
+				var currentModel = this.getModel();
+				var currentModelData = currentModel.getData();
+				currentModelData.propertyClause.objectProperty = "[select object property]";
+				currentModel.setData(currentModelData);
+				currentModel.refresh();
+		}
 	},
 	renderer : function(oRm, oControl) {
 		oRm.write("<div ");

@@ -10,33 +10,40 @@ sap.ui.core.Control.extend("sparqlish.control.conceptClauseControl", {
 				multiple : false,
 				visibility : "hidden"
 			},
-			_conceptfilters : {
+			_conceptFilters : {
 				type : "sparqlish.control.conceptFiltersControl",
 				multiple : false,
 				visibility : "hidden"
 			}
 		}
 	},
-	// set up the inner controls
 	init : function() {
 		var self = this;
 		this.setAggregation("_concept", new sparqlish.control.conceptControl({
 			selected : function(oEvent) {
-				self.getAggregation("_conceptfilters").getAggregation("_extendFilter").setVisible(true);
+				self.getAggregation("_conceptFilters").getAggregation("_extendFilter").setVisible(true);
 			},
 			changed : function(oEvent) {
-				alert("delete filters");
+				var currentModel = this.getModel();
+				var currentModelData = currentModel.getData();
+				currentModelData.query.conceptFilters = [];
+				currentModel.setData(currentModelData);
+				currentModel.refresh();
+				self.rerender();
 			}
-		}));
-		this.setAggregation("_conceptfilters", new sparqlish.control.conceptFiltersControl());
+		}).bindElement( "/query")
+		);
+		this.setAggregation("_conceptFilters", new sparqlish.control.conceptFiltersControl().bindElement("/query")
+				);
 	},
 	setConceptClause : function(oConceptClause) {
-		this.setProperty("conceptClause", oConceptClause, true);
-		this.getAggregation("_concept").setConcept(oConceptClause);
-		if (oConceptClause.conceptFilters == null) {
-			oConceptClause.conceptFilters=[];
+		if (oConceptClause.concept == null){
+				var currentModel = this.getModel();
+				var currentModelData = currentModel.getData();
+				currentModelData.query.concept = "[select concept]";
+				currentModel.setData(currentModelData);
+				currentModel.refresh();
 		}
-		this.getAggregation("_conceptfilters").setConceptFilters(oConceptClause.conceptFilters);
 	},
 	renderer : function(oRm, oControl) {
 		oRm.write("<div ");
@@ -44,7 +51,7 @@ sap.ui.core.Control.extend("sparqlish.control.conceptClauseControl", {
 		oRm.write("class=\"conceptClause\"> Find ");
 		oRm.renderControl(oControl.getAggregation("_concept"));
 		oRm.write("&nbsp;");
-		oRm.renderControl(oControl.getAggregation("_conceptfilters"));
+		oRm.renderControl(oControl.getAggregation("_conceptFilters"));
 		oRm.write("</div>");
 	}
 });

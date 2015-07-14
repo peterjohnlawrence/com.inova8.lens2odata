@@ -1,13 +1,12 @@
 sap.ui.core.Control.extend("sparqlish.control.dataPropertyControl", {
 	metadata : {
 		properties : {
-			dataPropertyClause : "object"
+			dataProperty : "object"
 		},
 		aggregations : {
 			_dataProperty : {
 				type : "sap.ui.commons.Link",
-				multiple : false,
-				visibility : "hidden"
+				multiple : false
 			}
 		},
 		events : {
@@ -51,15 +50,7 @@ sap.ui.core.Control.extend("sparqlish.control.dataPropertyControl", {
 					self.fireSelected({dataProperty:oEvent.getParameter("item").getText()});
 				}).open(false, this.getFocusDomRef(), eDock.BeginTop, eDock.beginBottom, this.getDomRef());
 			}
-		}));
-	},
-	setDataPropertyClause : function(oDataPropertyClause) {
-		this.setProperty("dataPropertyClause", oDataPropertyClause, true);
-		if (oDataPropertyClause.dataProperty == null) {
-			this.getAggregation("_dataProperty").setText("[select data property]");
-		} else {
-			this.getAggregation("_dataProperty").setText(oDataPropertyClause.dataProperty);
-		}
+		}).bindProperty("text","dataProperty"));
 	},
 	renderer : function(oRm, oControl) {
 		oRm.renderControl(oControl.getAggregation("_dataProperty"));

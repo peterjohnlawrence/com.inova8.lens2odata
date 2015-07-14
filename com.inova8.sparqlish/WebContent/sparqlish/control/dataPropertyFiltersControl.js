@@ -6,85 +6,101 @@ sap.ui.core.Control.extend("sparqlish.control.dataPropertyFiltersControl", {
 		aggregations : {
 			_dataPropertyFilter : {
 				type : "sparqlish.control.dataPropertyFilterControl",
-				multiple : false,
-				visibility : "hidden"
+				multiple : false
 			},
 			_dataPropertyConjunctionFilters : {
 				type : "sparqlish.control.dataPropertyConjunctionFilterControl",
-				multiple : true,
-				visibility : "hidden"
+				multiple : true
 			},
 			_extendFilter : {
 				type : "sap.ui.commons.Link",
-				multiple : false,
-				visibility : "hidden"
+				multiple : false
 			}
 		}
 	},
 	init : function() {
 		var self = this;
-		this.setAggregation("_extendFilter", new sap.ui.commons.Link({
+		self.setAggregation("_dataPropertyFilter", new sparqlish.control.dataPropertyFilterControl({
+			deleted : function(oEvent) {
+				// TODO Should not delete if there are still some conjunctions
+				// TODO is this really the best way to delete an element?
+				var path = oEvent.getSource().getBindingContext().getPath().split("/");
+				var index = path[path.length - 1];
+				var currentModel = oEvent.getSource().getModel();
+				var currentModelData = currentModel.getData();
+				currentModelData.dataPropertyClause.filters.filter = {};
+				currentModel.setData(currentModelData);
+				currentModel.refresh();
+				self.getParent().rerender();
+			}
+		}).bindElement("filter"));
+		self.bindAggregation("_dataPropertyConjunctionFilters", "conjunctionFilters",
+				new sparqlish.control.dataPropertyConjunctionFilterControl({
+					deleted : function(oEvent) {
+						// TODO is this really the best way to delete an element?
+						var path = oEvent.getSource().getBindingContext().getPath().split("/");
+						var index = path[path.length - 1];
+						var currentModel = oEvent.getSource().getModel();
+						var currentModelData = currentModel.getData();
+						currentModelData.dataPropertyClause.filters.conjunctionFilters.splice(index, 1);
+						currentModel.setData(currentModelData);
+						currentModel.refresh();
+						self.getParent().rerender();
+					}
+				})//.bindElement("conjunctionFilters")
+				);
+
+		self.setAggregation("_extendFilter", new sap.ui.commons.Link({
 			text : "[+]",
 			tooltip : "Add a filter value",
 			press : function(oEvent) {
-				// first add the initial filter before extending collection of conjunctionFilters
-				if (self.getAggregation("_dataPropertyFilter") == null) {
-					self.setAggregation("_dataPropertyFilter", new sparqlish.control.dataPropertyFilterControl({
-						dataPropertyFilter : self.getProperty("dataPropertyFilters").filter
-					}));
+				var currentModel = self.getModel();
+				var currentModelData = currentModel.getData();
+				if (currentModelData.propertyClause.filters == null) {
+					currentModelData.propertyClause.filters = {
+						"_class" : "Filters",
+						"filter" : {
+							"_class" : "Filter",
+							"condition" : "[enter condition]",
+							"value" : "[enter value]",
+							"datatype" : null
+						}
+					};
 				} else {
-					if (self.getAggregation("_dataPropertyConjunctionFilters") == null) {
-						self.addAggregation("_dataPropertyConjunctionFilters", new sparqlish.control.dataPropertyConjunctionFilterControl({
-							//TODO can we initialize at this stage
-							dataPropertyConjunctionFilter : self.getProperty("dataPropertyFilters").conjunctionFilters[0],
-							filterIndex : 0
-						}));
+					if (currentModelData.propertyClause.filters.conjunctionFilters == null) {
+						currentModelData.propertyClause.filters.conjunctionFilters = [ {
+							"_class" : "ConjunctionFilter",
+							"filterConjunction" : "[enter conjunction]",
+							"filter" : {
+								"_class" : "Filter",
+								"condition" : "[enter condition]",
+								"value" : "[enter value]",
+								"datatype" : null
+							}
+						} ]
 					} else {
-						var dataPropertyConjunctionFilters = self.getAggregation("_dataPropertyConjunctionFilters").length;
-						self.addAggregation("_dataPropertyConjunctionFilters", new sparqlish.control.dataPropertyConjunctionFilterControl({
-							//TODO initialize new filter
-							//dataPropertyConjunctionFilter : self.getProperty("dataPropertyFilters").conjunctionFilters[dataPropertyConjunctionFilters],
-							//filterIndex : dataPropertyConjunctionFilters 
-						}));
+						currentModelData.propertyClause.filters.conjunctionFilters.push({
+							"_class" : "ConjunctionFilter",
+							"filterConjunction" : "[enter conjunction]",
+							"filter" : {
+								"_class" : "Filter",
+								"condition" : "[enter condition]",
+								"value" : "[enter value]",
+								"datatype" : null
+							}
+						}
+						);
 					}
 				}
+				currentModel.setData(currentModelData);
+				currentModel.refresh();
 				self.getParent().rerender();
 			}
 		}));
 	},
 	setDataPropertyFilters : function(oDataPropertyFilters) {
 		var self = this;
-		self.setProperty("dataPropertyFilters", oDataPropertyFilters, true);
-//		if (oDataPropertyClause.filters != null) {	
-		
-			if (oDataPropertyFilters.filter != null) {
-				if (self.getAggregation("_dataPropertyFilter")==null){
-						self.setAggregation("_dataPropertyFilter", new sparqlish.control.dataPropertyFilterControl({
-						dataPropertyFilter : self.getProperty("dataPropertyFilters").filter
-					}));				
-				}
-				self.getAggregation("_dataPropertyFilter").setDataPropertyFilter ( oDataPropertyFilters.filter);
-				
-				var dataPropertyConjunctionFilters = oDataPropertyFilters.conjunctionFilters.length;
-				var filterControls = self.getAggregation("_dataPropertyConjunctionFilters");
-				//TODO should we destroy the existing aggregation
-				for (var i = 0; i < dataPropertyConjunctionFilters; i++) {
-					var filterControl = null;
-					if (filterControls != null) {
-						filterControl = filterControls[i];
-					}
-					if (filterControl != null) {
-						filterControl.setDataPropertyConjunctionFilter(oDataPropertyFilters.conjunctionFilters[i]);
-						filterControl.setFilterIndex(i);
-					} else {
-						self.addAggregation("_dataPropertyConjunctionFilters", new sparqlish.control.dataPropertyConjunctionFilterControl({
-							dataPropertyConjunctionFilter : oDataPropertyFilters.conjunctionFilters[i],
-							filterIndex : i
-						}));
-					}
-				}
-			}
-//		}
+//		self.setProperty("dataPropertyFilters", oDataPropertyFilters);
 	},
 	renderer : function(oRm, oControl) {
 		oRm.renderControl(oControl.getAggregation("_dataPropertyFilter"));
