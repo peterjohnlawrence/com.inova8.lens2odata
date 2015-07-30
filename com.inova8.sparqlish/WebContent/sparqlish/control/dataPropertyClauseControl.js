@@ -18,30 +18,30 @@ sap.ui.core.Control.extend("sparqlish.control.dataPropertyClauseControl", {
 	// set up the inner controls
 	init : function() {
 		var self = this;
-				this.setAggregation("_dataProperty", new sparqlish.control.dataPropertyControl({
+		self.setAggregation("_dataProperty", new sparqlish.control.dataPropertyControl({
 			selected : function(oEvent) {
 				self.getAggregation("_dataPropertyFilters").getAggregation("_extendFilter").setVisible(true);
 			},
 			changed : function(oEvent) {
-				var currentModel = this.getModel();
-				var currentModelData = currentModel.getData();
-				currentModelData.propertyClause.dataPropertytFilters = [];
-				currentModel.setData(currentModelData);
+				var currentModel = this.getModel("queryModel");
+				var currentContext = this.getBindingContext("queryModel");
+				var currentModelData = currentModel.getProperty("", currentContext);
+				currentModelData.dataPropertyFilters = [];
+				// currentModel.setData(currentModelData,"queryModel");
 				currentModel.refresh();
 				self.rerender();
 			}
-		}).bindElement("/propertyClause") //.bindProperty("dataProperty", "/dataPropertyClause")
-		);
-		this.setAggregation("_dataPropertyFilters", new sparqlish.control.dataPropertyFiltersControl().bindElement( "/propertyClause/filters") //.bindProperty("dataPropertyFilters", "/dataPropertyClause/filters")
-				);
+		}).bindElement("queryModel>"));
+		self.setAggregation("_dataPropertyFilters", new sparqlish.control.dataPropertyFiltersControl().bindElement("queryModel>dataPropertyFilters"));
 	},
-	setDataPropertyClause : function(oDataPropertyClause ) {
-		if (oDataPropertyClause.dataProperty == null){
-				var currentModel = this.getModel();
-				var currentModelData = currentModel.getData();
-				currentModelData.propertyClause.dataProperty = "[select data property]";
-				currentModel.setData(currentModelData);
-				currentModel.refresh();
+	setDataPropertyClause : function(oDataPropertyClause) {
+		if (oDataPropertyClause.dataProperty == null) {
+			var currentModel = this.getModel("queryModel");
+			var currentContext = this.getBindingContext("queryModel");
+			var currentModelData = currentModel.getProperty("", currentContext);
+			currentModelData.dataProperty = "[select data property]";
+			// currentModel.setData(currentModelData,"queryModel");
+			currentModel.refresh();
 		}
 	},
 	renderer : function(oRm, oControl) {

@@ -13,7 +13,7 @@ sap.ui.core.Control.extend("sparqlish.control.dataPropertyFiltersControl", {
 				multiple : true
 			},
 			_extendFilter : {
-				type : "sap.ui.commons.Link",
+				type : "sparqlish.control.iconLink",
 				multiple : false
 			}
 		}
@@ -24,75 +24,83 @@ sap.ui.core.Control.extend("sparqlish.control.dataPropertyFiltersControl", {
 			deleted : function(oEvent) {
 				// TODO Should not delete if there are still some conjunctions
 				// TODO is this really the best way to delete an element?
-				var path = oEvent.getSource().getBindingContext().getPath().split("/");
+				var currentModel = oEvent.getSource().getModel("queryModel");
+				var currentContext = oEvent.getSource().getBindingContext("queryModel");
+				var path = currentContext.getPath().split("/");
 				var index = path[path.length - 1];
-				var currentModel = oEvent.getSource().getModel();
-				var currentModelData = currentModel.getData();
-				currentModelData.dataPropertyClause.filters.filter = {};
-				currentModel.setData(currentModelData);
+				var dataPropertyFiltersContextPath = currentContext.getPath().slice(0,-(1+index.length))
+				var dataPropertyFiltersContext = new sap.ui.model.Context("queryModel",dataPropertyFiltersContextPath);
+				var currentModelData = currentModel.getProperty("",dataPropertyFiltersContext);
+				//TODO
+				currentModelData.dataPropertyFilter = {};
+				// currentModel.setData(currentModelData,"queryModel");
+				currentModel.refresh();
+				self.getParent().rerender();
+				}
+		}).bindElement("queryModel>dataPropertyFilter"));
+		self.bindAggregation("_dataPropertyConjunctionFilters", "queryModel>conjunctionFilters", new sparqlish.control.dataPropertyConjunctionFilterControl({
+			deleted : function(oEvent) {
+				// TODO is this really the best way to delete an element?
+				var currentModel = oEvent.getSource().getModel("queryModel");
+				var currentContext = oEvent.getSource().getBindingContext("queryModel");
+				var path = currentContext.getPath().split("/");
+				var index = path[path.length - 1];
+				var dataPropertyFiltersContextPath = currentContext.getPath().slice(0,-(1+index.length))
+				var dataPropertyFiltersContext = new sap.ui.model.Context("queryModel",dataPropertyFiltersContextPath);
+				var currentModelData = currentModel.getProperty("",dataPropertyFiltersContext);
+				//TODO
+				currentModelData.splice(index, 1);
+				// currentModel.setData(currentModelData);
 				currentModel.refresh();
 				self.getParent().rerender();
 			}
-		}).bindElement("filter"));
-		self.bindAggregation("_dataPropertyConjunctionFilters", "conjunctionFilters",
-				new sparqlish.control.dataPropertyConjunctionFilterControl({
-					deleted : function(oEvent) {
-						// TODO is this really the best way to delete an element?
-						var path = oEvent.getSource().getBindingContext().getPath().split("/");
-						var index = path[path.length - 1];
-						var currentModel = oEvent.getSource().getModel();
-						var currentModelData = currentModel.getData();
-						currentModelData.dataPropertyClause.filters.conjunctionFilters.splice(index, 1);
-						currentModel.setData(currentModelData);
-						currentModel.refresh();
-						self.getParent().rerender();
-					}
-				})//.bindElement("conjunctionFilters")
-				);
+		})// .bindElement("conjunctionFilters")
+		);
 
-		self.setAggregation("_extendFilter", new sap.ui.commons.Link({
+		self.setAggregation("_extendFilter", new sparqlish.control.iconLink({
 			text : "[+]",
+			icon : "add-filter",
 			tooltip : "Add a filter value",
 			press : function(oEvent) {
-				var currentModel = self.getModel();
-				var currentModelData = currentModel.getData();
-				if (currentModelData.propertyClause.filters == null) {
-					currentModelData.propertyClause.filters = {
-						"_class" : "Filters",
-						"filter" : {
-							"_class" : "Filter",
+				var currentModel = self.getModel("queryModel");
+				var currentContext = oEvent.getSource().getBindingContext("queryModel");
+				var currentModelData = currentModel.getProperty("",currentContext);
+				if (currentModelData.dataPropertyFilters == null) {
+					currentModelData = {
+						"_class" : "DataPropertyFilters",
+						"dataPropertyFilter" : {
+							"_class" : "DataPropertyFilter",
 							"condition" : "[enter condition]",
 							"value" : "[enter value]",
 							"datatype" : null
 						}
 					};
 				} else {
-					if (currentModelData.propertyClause.filters.conjunctionFilters == null) {
-						currentModelData.propertyClause.filters.conjunctionFilters = [ {
+					if (currentModelData.dataPropertyFilters.conjunctionFilters == null) {
+						currentModelData.dataPropertyFilters.conjunctionFilters = [ {
 							"_class" : "ConjunctionFilter",
 							"filterConjunction" : "[enter conjunction]",
-							"filter" : {
-								"_class" : "Filter",
+							"dataPropertyFilter" : {
+								"_class" : "DataPropertyFilter",
 								"condition" : "[enter condition]",
 								"value" : "[enter value]",
 								"datatype" : null
 							}
 						} ]
 					} else {
-						currentModelData.propertyClause.filters.conjunctionFilters.push({
+						currentModelData.dataPropertyFilters.conjunctionFilters.push({
 							"_class" : "ConjunctionFilter",
 							"filterConjunction" : "[enter conjunction]",
-							"filter" : {
-								"_class" : "Filter",
+							"dataPropertyFilter" : {
+								"_class" : "DataPropertyFilter",
 								"condition" : "[enter condition]",
 								"value" : "[enter value]",
 								"datatype" : null
 							}
-						}
-						);
+						});
 					}
 				}
-				currentModel.setData(currentModelData);
+				//currentModel.setData(currentModelData, "queryModel");
 				currentModel.refresh();
 				self.getParent().rerender();
 			}
@@ -100,7 +108,7 @@ sap.ui.core.Control.extend("sparqlish.control.dataPropertyFiltersControl", {
 	},
 	setDataPropertyFilters : function(oDataPropertyFilters) {
 		var self = this;
-//		self.setProperty("dataPropertyFilters", oDataPropertyFilters);
+		// self.setProperty("dataPropertyFilters", oDataPropertyFilters);
 	},
 	renderer : function(oRm, oControl) {
 		oRm.renderControl(oControl.getAggregation("_dataPropertyFilter"));

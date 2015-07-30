@@ -21,11 +21,11 @@ sap.ui.core.Control.extend("sparqlish.control.objectPropertyControl", {
 	},
 	init : function() {
 		var self = this;
-		this.setAggregation("_objectProperty", new sap.ui.commons.Link({
-			text : "{objectProperty}",
+		self.setAggregation("_objectProperty", new sap.ui.commons.Link({
+			text : "{queryModel>objectProperty}",
 			tooltip : "Select an object property",
 			press : function(oEvent) {
-				var oSource = oEvent.getSource();
+				var me = oEvent.getSource();
 				var eDock = sap.ui.core.Popup.Dock;
 				var oObjectPropertyMenu = new sap.ui.unified.Menu({
 					items : [  new sap.ui.unified.MenuItem({
@@ -41,6 +41,7 @@ sap.ui.core.Control.extend("sparqlish.control.objectPropertyControl", {
 				}) ]
 				});
 				oObjectPropertyMenu.attachItemSelect(function(oEvent) {
+					//TODO self not safe
 					if(self.getAggregation("_objectProperty").getText()!=oEvent.getParameter("item").getText()){
 						self.fireChanged({objectProperty:oEvent.getParameter("item").getText()});
 					}

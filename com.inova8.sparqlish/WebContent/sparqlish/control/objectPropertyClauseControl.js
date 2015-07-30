@@ -20,27 +20,29 @@ sap.ui.core.Control.extend("sparqlish.control.objectPropertyClauseControl", {
 	// set up the inner controls
 	init : function() {
 		var self = this;
-		this.setAggregation("_objectProperty", new sparqlish.control.objectPropertyControl({
+		self.setAggregation("_objectProperty", new sparqlish.control.objectPropertyControl({
 			selected : function(oEvent) {
 				self.getAggregation("_objectPropertyFilters").getAggregation("_extendFilter").setVisible(true);
 			},
 			changed : function(oEvent) {
-				var currentModel = this.getModel();
-				var currentModelData = currentModel.getData();
-				currentModelData.propertyClause.objectPropertyFilters = [];
-				currentModel.setData(currentModelData);
+				var currentModel = this.getModel("queryModel");
+				var currentContext = this.getBindingContext("queryModel");
+				var currentModelData = currentModel.getProperty("",currentContext);
+				currentModelData.objectPropertyFilters = [];
+				//currentModel.setData(currentModelData,"queryModel");
 				currentModel.refresh();
 				self.rerender();
 			}
-		}).bindElement("/propertyClause"));
-		this.setAggregation("_objectPropertyFilters", new sparqlish.control.objectPropertyFiltersControl().bindElement( "/propertyClause"));
+		}).bindElement("queryModel>propertyClause"));
+		// TODO
+		self.setAggregation("_objectPropertyFilters", new sparqlish.control.objectPropertyFiltersControl().bindElement( "queryModel>propertyClause"));
 	},
 	setObjectPropertyClause : function(oObjectPropertyClause) {
 		if (oObjectPropertyClause.objectProperty == null){
-				var currentModel = this.getModel();
-				var currentModelData = currentModel.getData();
-				currentModelData.propertyClause.objectProperty = "[select object property]";
-				currentModel.setData(currentModelData);
+				var currentModel = this.getModel("queryModel");
+				var currentContext = this.getBindingContext("queryModel");
+				var currentModelData = currentModel.getProperty("",currentContext);
+				currentModelData.objectProperty = "[select object property]";
 				currentModel.refresh();
 		}
 	},

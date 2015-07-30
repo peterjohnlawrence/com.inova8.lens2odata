@@ -24,25 +24,29 @@ sap.ui.core.Control.extend("sparqlish.control.conceptClauseControl", {
 				self.getAggregation("_conceptFilters").getAggregation("_extendFilter").setVisible(true);
 			},
 			changed : function(oEvent) {
-				var currentModel = this.getModel();
-				var currentModelData = currentModel.getData();
-				currentModelData.query.conceptFilters = [];
-				currentModel.setData(currentModelData);
+				var currentModel = this.getModel("queryModel");
+				var currentContext = this.getBindingContext("queryModel");
+				var currentModelData = currentModel.getProperty("", currentContext);
+				currentModelData.conceptFilters = [];
+				// currentModel.setData(currentModelData,"queryModel");
 				currentModel.refresh();
 				self.rerender();
 			}
-		}).bindElement( "/query")
-		);
-		this.setAggregation("_conceptFilters", new sparqlish.control.conceptFiltersControl().bindElement("/query")
-				);
+		}).bindElement("queryModel>"));
+		this.setAggregation("_conceptFilters", new sparqlish.control.conceptFiltersControl().bindElement("queryModel>"));
 	},
 	setConceptClause : function(oConceptClause) {
-		if (oConceptClause.concept == null){
-				var currentModel = this.getModel();
-				var currentModelData = currentModel.getData();
-				currentModelData.query.concept = "[select concept]";
-				currentModel.setData(currentModelData);
+		try {
+			if (oConceptClause.concept == null) {
+				var currentModel = this.getModel("queryModel");
+				var currentContext = this.getBindingContext("queryModel");
+				var currentModelData = currentModel.getProperty("", currentContext);
+				currentModelData.concept = "[select concept]";
+				// currentModel.setData(currentModelData,"queryModel");
 				currentModel.refresh();
+			}
+		} catch (e) {
+			jQuery.sap.log.error(e);
 		}
 	},
 	renderer : function(oRm, oControl) {

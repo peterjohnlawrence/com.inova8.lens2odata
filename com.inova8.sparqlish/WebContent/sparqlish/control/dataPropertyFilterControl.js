@@ -1,3 +1,4 @@
+jQuery.sap.require("sap.ui.core.IconPool");
 sap.ui.core.Control.extend("sparqlish.control.dataPropertyFilterControl", {
 	metadata : {
 		aggregations : {
@@ -19,16 +20,17 @@ sap.ui.core.Control.extend("sparqlish.control.dataPropertyFilterControl", {
 	init : function() {
 		var self = this;
 		self.setAggregation("_condition", new sap.ui.commons.Link({
-			text : "{condition}",
+			text : "{queryModel>condition}",
 			tooltip : "Select a condition",
 			press : function(oEvent) {
-				//var oSource = oEvent.getSource();
-				//TODO Need to explicitly find 'this' instead of using self in the case of a aggregation with multiple=true
-				var me =  oEvent.getSource().getParent();
+				// var oSource = oEvent.getSource();
+				// TODO Need to explicitly find 'this' instead of using self in the case of a aggregation with multiple=true
+				var me = oEvent.getSource().getParent();
 				var eDock = sap.ui.core.Popup.Dock;
 				var oConditiontMenu = new sap.ui.unified.Menu({
 					items : [ new sap.ui.unified.MenuItem({
-						text : '*DELETE*'
+						text : 'DELETE',
+						icon : sap.ui.core.IconPool.getIconURI("delete")
 					}), new sap.ui.unified.MenuItem({
 						text : 'containing'
 					}), new sap.ui.unified.MenuItem({
@@ -41,7 +43,7 @@ sap.ui.core.Control.extend("sparqlish.control.dataPropertyFilterControl", {
 				});
 				oConditiontMenu.attachItemSelect(function(oEvent) {
 					var selectedItem = oEvent.getParameter("item").getText();
-					if (selectedItem == '*DELETE*') {
+					if (selectedItem == 'DELETE') {
 						me.fireDeleted();
 					} else {
 						me.getAggregation("_condition").setText(selectedItem);
@@ -51,9 +53,9 @@ sap.ui.core.Control.extend("sparqlish.control.dataPropertyFilterControl", {
 		}));
 		self.setAggregation("_value", new sap.ui.commons.InPlaceEdit({
 			content : new sap.ui.commons.TextField({
-				value : "{value}",
+				value : "{queryModel>value}",
 				tooltip : "Enter value for condition",
-				width:"auto"
+				width : "auto"
 			})
 		}));
 	},

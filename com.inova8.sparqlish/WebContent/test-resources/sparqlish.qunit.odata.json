@@ -23,12 +23,12 @@
 					{
 						"_class": "DataPropertyClause",
 						"dataProperty": "ShipCountry",
-						"filters": 
+						"dataPropertyFilters": 
 						{
-							"_class": "Filters",
-							"filter": 
+							"_class": "DataPropertyFilters",
+							"dataPropertyFilter": 
 							{
-								"_class": "Filter",
+								"_class": "DataPropertyFilter",
 								"condition": "containing",
 								"value": "Fr",
 								"datatype": "<http://www.w3.org/2001/XMLSchema#string>",
@@ -50,18 +50,19 @@
 				"clause": 
 				{
 					"_class": "Clause",
+					"includeOptionalIgnore": "optional",
 					"ignore": false,
 					"optional": true,
 					"propertyClause": 
 					{
 						"_class": "DataPropertyClause",
 						"dataProperty": "ShipCountry",
-						"filters": 
+						"dataPropertyFilters": 
 						{
-							"_class": "Filters",
-							"filter": 
+							"_class": "DataPropertyFilters",
+							"dataPropertyFilter": 
 							{
-								"_class": "Filter",
+								"_class": "DataPropertyFilter",
 								"condition": "containing",
 								"value": "Fr",
 								"datatype": "<http://www.w3.org/2001/XMLSchema#string>",
@@ -83,6 +84,7 @@
 				"clause": 
 				{
 					"_class": "Clause",
+					"includeOptionalIgnore": "include",
 					"ignore": false,
 					"optional": true,
 					"label": "Ship To Country",
@@ -90,12 +92,12 @@
 					{
 						"_class": "DataPropertyClause",
 						"dataProperty": "ShipCountry",
-						"filters": 
+						"dataPropertyFilters": 
 						{
-							"_class": "Filters",
-							"filter": 
+							"_class": "DataPropertyFilters",
+							"dataPropertyFilter": 
 							{
-								"_class": "Filter",
+								"_class": "DataPropertyFilter",
 								"condition": "containing",
 								"value": "Fr",
 								"datatype": "<http://www.w3.org/2001/XMLSchema#string>",
@@ -113,6 +115,7 @@
 						"clause": 
 						{
 							"_class": "Clause",
+							"includeOptionalIgnore": "include",
 							"ignore": false,
 							"optional": false,
 							"label": "Shipping Date",
@@ -120,12 +123,12 @@
 							{
 								"_class": "DataPropertyClause",
 								"dataProperty": "ShippedDate",
-								"filters": 
+								"dataPropertyFilters": 
 								{
-									"_class": "Filters",
-									"filter": 
+									"_class": "DataPropertyFilters",
+									"dataPropertyFilter": 
 									{
-										"_class": "Filter",
+										"_class": "DataPropertyFilter",
 										"condition": "<",
 										"value": "1998-01-01",
 										"datatype": "<http://www.w3.org/2001/XMLSchema#date>",
@@ -149,6 +152,7 @@
 				"clause": 
 				{
 					"_class": "Clause",
+					"includeOptionalIgnore": "include",
 					"ignore": false,
 					"optional": false,
 					"propertyClause": 
@@ -175,6 +179,7 @@
 				"clause": 
 				{
 					"_class": "Clause",
+					"includeOptionalIgnore": "include",
 					"ignore": false,
 					"optional": false,
 					"propertyClause": 
@@ -192,6 +197,7 @@
 						"clause": 
 						{
 							"_class": "Clause",
+							"includeOptionalIgnore": "include",
 							"ignore": false,
 							"optional": false,
 							"propertyClause": 
@@ -215,6 +221,7 @@
 				"clause": 
 				{
 					"_class": "Clause",
+					"includeOptionalIgnore": "include",
 					"ignore": false,
 					"optional": false,
 					"propertyClause": 
@@ -227,18 +234,19 @@
 							"clause": 
 							{
 								"_class": "Clause",
+								"includeOptionalIgnore": "include",
 								"ignore": false,
 								"optional": false,
 								"propertyClause": 
 								{
 									"_class": "DataPropertyClause",
 									"dataProperty": "ShippedDate",
-									"filters": 
+									"dataPropertyFilters": 
 									{
-										"_class": "Filters",
-										"filter": 
+										"_class": "DataPropertyFilters",
+										"dataPropertyFilter": 
 										{
-											"_class": "Filter",
+											"_class": "DataPropertyFilter",
 											"condition": "<",
 											"value": "1998-01-01",
 											"datatype": "<http://www.w3.org/2001/XMLSchema#date>",
@@ -263,6 +271,7 @@
 				"clause": 
 				{
 					"_class": "Clause",
+					"includeOptionalIgnore": "include",
 					"ignore": false,
 					"optional": false,
 					"propertyClause": 
@@ -275,6 +284,7 @@
 							"clause": 
 							{
 								"_class": "Clause",
+								"includeOptionalIgnore": "include",
 								"ignore": false,
 								"optional": false,
 								"propertyClause": 
@@ -301,6 +311,7 @@
 				"clause": 
 				{
 					"_class": "Clause",
+					"includeOptionalIgnore": "include",
 					"ignore": false,
 					"optional": false,
 					"propertyClause": 
@@ -319,6 +330,7 @@
 							"clause": 
 							{
 								"_class": "Clause",
+								"includeOptionalIgnore": "include",
 								"ignore": false,
 								"optional": false,
 								"propertyClause": 
@@ -339,18 +351,19 @@
 						"clause": 
 						{
 							"_class": "Clause",
+							"includeOptionalIgnore": "include",
 							"ignore": false,
 							"optional": false,
 							"propertyClause": 
 							{
 								"_class": "DataPropertyClause",
 								"dataProperty": "ShippedDate",
-								"filters": 
+								"dataPropertyFilters": 
 								{
-									"_class": "Filters",
-									"filter": 
+									"_class": "DataPropertyFilters",
+									"dataPropertyFilter": 
 									{
-										"_class": "Filter",
+										"_class": "DataPropertyFilter",
 										"condition": "<",
 										"value": "1998-01-01",
 										"datatype": "<http://www.w3.org/2001/XMLSchema#date>",
@@ -383,6 +396,7 @@
 				"clause": 
 				{
 					"_class": "Clause",
+					"includeOptionalIgnore": "include",
 					"ignore": false,
 					"optional": false,
 					"label": "Shipped to Country",
@@ -390,12 +404,12 @@
 					{
 						"_class": "DataPropertyClause",
 						"dataProperty": "ShipCountry",
-						"filters": 
+						"dataPropertyFilters": 
 						{
-							"_class": "Filters",
-							"filter": 
+							"_class": "DataPropertyFilters",
+							"dataPropertyFilter": 
 							{
-								"_class": "Filter",
+								"_class": "DataPropertyFilter",
 								"condition": "containing",
 								"value": "Fr",
 								"datatype": "<http://www.w3.org/2001/XMLSchema#string>",
@@ -407,9 +421,9 @@
 								{
 									"_class": "ConjunctionFilter",
 									"filterConjunction": "or",
-									"filter": 
+									"dataPropertyFilter": 
 									{
-										"_class": "Filter",
+										"_class": "DataPropertyFilter",
 										"condition": "containing",
 										"value": "Ge",
 										"datatype": "<http://www.w3.org/2001/XMLSchema#string>",
@@ -429,18 +443,19 @@
 						"clause": 
 						{
 							"_class": "Clause",
+							"includeOptionalIgnore": "include",
 							"ignore": false,
 							"optional": false,
 							"propertyClause": 
 							{
 								"_class": "DataPropertyClause",
 								"dataProperty": "ShippedDate",
-								"filters": 
+								"dataPropertyFilters": 
 								{
-									"_class": "Filters",
-									"filter": 
+									"_class": "DataPropertyFilters",
+									"dataPropertyFilter": 
 									{
-										"_class": "Filter",
+										"_class": "DataPropertyFilter",
 										"condition": "<",
 										"value": "1998-01-01",
 										"datatype": "<http://www.w3.org/2001/XMLSchema#date>",
@@ -457,6 +472,7 @@
 						"clause": 
 						{
 							"_class": "Clause",
+							"includeOptionalIgnore": "include",
 							"ignore": false,
 							"optional": false,
 							"label": "Customer",
@@ -481,18 +497,19 @@
 									"clause": 
 									{
 										"_class": "Clause",
+										"includeOptionalIgnore": "include",
 										"ignore": false,
 										"optional": false,
 										"propertyClause": 
 										{
 											"_class": "DataPropertyClause",
 											"dataProperty": "CompanyName",
-											"filters": 
+											"dataPropertyFilters": 
 											{
-												"_class": "Filters",
-												"filter": 
+												"_class": "DataPropertyFilters",
+												"dataPropertyFilter": 
 												{
-													"_class": "Filter",
+													"_class": "DataPropertyFilter",
 													"condition": "containing",
 													"value": "Bon",
 													"datatype": "<http://www.w3.org/2001/XMLSchema#string>",
@@ -510,6 +527,7 @@
 											"clause": 
 											{
 												"_class": "Clause",
+												"includeOptionalIgnore": "include",
 												"ignore": false,
 												"optional": false,
 												"label": "Contact name",
@@ -517,12 +535,12 @@
 												{
 													"_class": "DataPropertyClause",
 													"dataProperty": "ContactName",
-													"filters": 
+													"dataPropertyFilters": 
 													{
-														"_class": "Filters",
-														"filter": 
+														"_class": "DataPropertyFilters",
+														"dataPropertyFilter": 
 														{
-															"_class": "Filter",
+															"_class": "DataPropertyFilter",
 															"condition": "containing",
 															"value": "Leb",
 															"datatype": "<http://www.w3.org/2001/XMLSchema#string>",
@@ -544,6 +562,7 @@
 						"clause": 
 						{
 							"_class": "Clause",
+							"includeOptionalIgnore": "include",
 							"ignore": false,
 							"optional": true,
 							"propertyClause": 
@@ -556,18 +575,19 @@
 									"clause": 
 									{
 										"_class": "Clause",
+										"includeOptionalIgnore": "include",
 										"ignore": false,
 										"optional": false,
 										"propertyClause": 
 										{
 											"_class": "DataPropertyClause",
 											"dataProperty": "FirstName",
-											"filters": 
+											"dataPropertyFilters": 
 											{
-												"_class": "Filters",
-												"filter": 
+												"_class": "DataPropertyFilters",
+												"dataPropertyFilter": 
 												{
-													"_class": "Filter",
+													"_class": "DataPropertyFilter",
 													"condition": "containing",
 													"value": "Nancy",
 													"datatype": "<http://www.w3.org/2001/XMLSchema#string>",
@@ -585,6 +605,7 @@
 											"clause": 
 											{
 												"_class": "Clause",
+												"includeOptionalIgnore": "include",
 												"ignore": false,
 												"optional": false,
 												"propertyClause": 
@@ -597,6 +618,7 @@
 														"clause": 
 														{
 															"_class": "Clause",
+															"includeOptionalIgnore": "include",
 															"ignore": false,
 															"optional": false,
 															"propertyClause": 
@@ -630,6 +652,7 @@
 				"clause": 
 				{
 					"_class": "Clause",
+					"includeOptionalIgnore": "include",
 					"ignore": false,
 					"optional": false,
 					"propertyClause": 
@@ -651,6 +674,7 @@
 						"clause": 
 						{
 							"_class": "Clause",
+							"includeOptionalIgnore": "include",
 							"ignore": false,
 							"optional": false,
 							"propertyClause": 
@@ -667,6 +691,7 @@
 						"clause": 
 						{
 							"_class": "Clause",
+							"includeOptionalIgnore": "include",
 							"ignore": false,
 							"optional": false,
 							"propertyClause": 
@@ -683,6 +708,7 @@
 						"clause": 
 						{
 							"_class": "Clause",
+							"includeOptionalIgnore": "include",
 							"ignore": false,
 							"optional": false,
 							"propertyClause": 
@@ -699,6 +725,7 @@
 						"clause": 
 						{
 							"_class": "Clause",
+							"includeOptionalIgnore": "include",
 							"ignore": false,
 							"optional": false,
 							"propertyClause": 
@@ -715,6 +742,7 @@
 						"clause": 
 						{
 							"_class": "Clause",
+							"includeOptionalIgnore": "include",
 							"ignore": false,
 							"optional": false,
 							"propertyClause": 
@@ -727,6 +755,7 @@
 									"clause": 
 									{
 										"_class": "Clause",
+										"includeOptionalIgnore": "include",
 										"ignore": false,
 										"optional": false,
 										"propertyClause": 
@@ -748,6 +777,7 @@
 											"clause": 
 											{
 												"_class": "Clause",
+												"includeOptionalIgnore": "include",
 												"ignore": false,
 												"optional": false,
 												"propertyClause": 
@@ -768,6 +798,7 @@
 											"clause": 
 											{
 												"_class": "Clause",
+												"includeOptionalIgnore": "include",
 												"ignore": false,
 												"optional": false,
 												"propertyClause": 
@@ -788,6 +819,7 @@
 											"clause": 
 											{
 												"_class": "Clause",
+												"includeOptionalIgnore": "include",
 												"ignore": false,
 												"optional": false,
 												"propertyClause": 
@@ -804,6 +836,7 @@
 											"clause": 
 											{
 												"_class": "Clause",
+												"includeOptionalIgnore": "include",
 												"ignore": false,
 												"optional": false,
 												"propertyClause": 
@@ -816,6 +849,7 @@
 														"clause": 
 														{
 															"_class": "Clause",
+															"includeOptionalIgnore": "include",
 															"ignore": false,
 															"optional": false,
 															"propertyClause": 
@@ -837,6 +871,7 @@
 																"clause": 
 																{
 																	"_class": "Clause",
+																	"includeOptionalIgnore": "include",
 																	"ignore": false,
 																	"optional": false,
 																	"propertyClause": 
@@ -857,6 +892,7 @@
 																"clause": 
 																{
 																	"_class": "Clause",
+																	"includeOptionalIgnore": "include",
 																	"ignore": false,
 																	"optional": false,
 																	"propertyClause": 
@@ -877,6 +913,7 @@
 																"clause": 
 																{
 																	"_class": "Clause",
+																	"includeOptionalIgnore": "include",
 																	"ignore": false,
 																	"optional": false,
 																	"propertyClause": 
@@ -893,6 +930,7 @@
 																"clause": 
 																{
 																	"_class": "Clause",
+																	"includeOptionalIgnore": "include",
 																	"ignore": false,
 																	"optional": false,
 																	"propertyClause": 
@@ -905,6 +943,7 @@
 																			"clause": 
 																			{
 																				"_class": "Clause",
+																				"includeOptionalIgnore": "include",
 																				"ignore": false,
 																				"optional": false,
 																				"propertyClause": 
@@ -926,6 +965,7 @@
 																					"clause": 
 																					{
 																						"_class": "Clause",
+																						"includeOptionalIgnore": "include",
 																						"ignore": false,
 																						"optional": false,
 																						"propertyClause": 
@@ -946,6 +986,7 @@
 																					"clause": 
 																					{
 																						"_class": "Clause",
+																						"includeOptionalIgnore": "include",
 																						"ignore": false,
 																						"optional": false,
 																						"propertyClause": 
@@ -966,6 +1007,7 @@
 																					"clause": 
 																					{
 																						"_class": "Clause",
+																						"includeOptionalIgnore": "include",
 																						"ignore": false,
 																						"optional": false,
 																						"propertyClause": 

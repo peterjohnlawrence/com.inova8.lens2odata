@@ -6,41 +6,48 @@ sap.ui.core.Control.extend("sparqlish.control.objectPropertyFiltersControl", {
 				multiple : true
 			},
 			_extendFilter : {
-				type : "sap.ui.commons.Link",
+				type : "sparqlish.control.iconLink",
 				multiple : false
 			}
 		}
 	},
 	init : function() {
 		var self = this;
-		self.bindAggregation("_objectPropertyFilters", "objectPropertyFilters", new sparqlish.control.objectPropertyFilterControl({
+		self.bindAggregation("_objectPropertyFilters", "queryModel>objectPropertyFilters", new sparqlish.control.objectPropertyFilterControl({
 			deleted : function(oEvent) {
 				// TODO is this really the best way to delete an element?
-				var path = oEvent.getSource().getBindingContext().getPath().split("/");
+				var me=oEvent.getSource();
+				var currentModel = me.getModel("queryModel");
+				var currentContext = me.getBindingContext("queryModel");
+				var path = currentContext.getPath().split("/");
 				var index = path[path.length - 1];
-				var currentModel = oEvent.getSource().getModel();
-				var currentModelData = currentModel.getData();
-				currentModelData.propertyClause.objectPropertyFilters.splice(index, 1);
-				currentModel.setData(currentModelData);
+				var objectPropertyFiltersContextPath = currentContext.getPath().slice(0,-(1+index.length))
+				var objectPropertyFiltersContext = new sap.ui.model.Context("queryModel",objectPropertyFiltersContextPath);
+				var currentModelData = currentModel.getProperty("",objectPropertyFiltersContext);
+				currentModelData.splice(index, 1);
 				currentModel.refresh();
+				//TODO self not safe
 				self.getParent().rerender();
-			}
+		}
 		}));
-		this.setAggregation("_extendFilter", new sap.ui.commons.Link({
+		this.setAggregation("_extendFilter", new sparqlish.control.iconLink({
 			text : "[+]",
+			icon: "add-filter",
 			tooltip : "Add a filter value",
 			visible : true,
 			press : function(oEvent) {
-				var currentModel = self.getModel();
-				var currentModelData = currentModel.getData();
-				if (currentModelData.propertyClause.objectPropertyFilters == null) {
-					currentModelData.propertyClause.objectPropertyFilters = [];
+				var me=oEvent.getSource();
+				var currentModel = me.getModel("queryModel");
+				var currentContext = me.getBindingContext("queryModel");
+				var currentModelData = currentModel.getProperty("",currentContext);
+				if (currentModelData.objectPropertyFilters == null) {
+					currentModelData.objectPropertyFilters = [];
 				}
-				currentModelData.propertyClause.objectPropertyFilters.push({
+				currentModelData.objectPropertyFilters.push({
 					Id : "[enter new value]"
 				});
-				currentModel.setData(currentModelData);
 				currentModel.refresh();
+				//TODO self not safe
 				self.getParent().rerender();
 			}
 		}));

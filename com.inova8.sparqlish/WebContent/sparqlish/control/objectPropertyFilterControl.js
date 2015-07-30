@@ -1,3 +1,4 @@
+jQuery.sap.require("sap.ui.core.IconPool");
 sap.ui.core.Control.extend("sparqlish.control.objectPropertyFilterControl", {
 	metadata : {
 		aggregations : {
@@ -16,14 +17,15 @@ sap.ui.core.Control.extend("sparqlish.control.objectPropertyFilterControl", {
 	init : function() {
 		var self = this;
 		this.setAggregation("_objectPropertyFilter", new sap.ui.commons.Link({
-			text : "{Id}",
+			text : "{queryModel>Id}",
 			tooltip : "Select a value",
 			press : function(oEvent) {
-				var oSource = oEvent.getSource();
+				var me = oEvent.getSource();
 				var eDock = sap.ui.core.Popup.Dock;
 				var oConceptMenu = new sap.ui.unified.Menu({
 					items : [ new sap.ui.unified.MenuItem({
-						text : '*DELETE*'
+						text : 'DELETE',
+						icon : sap.ui.core.IconPool.getIconURI("delete")
 					}), new sap.ui.unified.MenuItem({
 						text : 'northwind:Customer-0'
 					}), new sap.ui.unified.MenuItem({
@@ -35,8 +37,9 @@ sap.ui.core.Control.extend("sparqlish.control.objectPropertyFilterControl", {
 					}) ]
 				});
 				oConceptMenu.attachItemSelect(function(oEvent) {
+					//TODO self not safe
 					var selectedItem = oEvent.getParameter("item").getText();
-					if (selectedItem == '*DELETE*') {
+					if (selectedItem == 'DELETE') {
 						self.fireDeleted();
 					} else {
 						self.getAggregation("_objectPropertyFilter").setText(selectedItem);

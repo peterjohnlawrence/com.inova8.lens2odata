@@ -6,7 +6,7 @@ sap.ui.core.Control.extend("sparqlish.control.conceptFiltersControl", {
 				multiple : true
 			},
 			_extendFilter : {
-				type : "sap.ui.commons.Link",
+				type : "sparqlish.control.iconLink",
 				multiple : false,
 				visibility : "hidden"
 			}
@@ -14,34 +14,39 @@ sap.ui.core.Control.extend("sparqlish.control.conceptFiltersControl", {
 	},
 	init : function() {
 		var self = this;
-		self.bindAggregation("_conceptFilters", "conceptFilters", new sparqlish.control.conceptFilterControl({
+		self.bindAggregation("_conceptFilters", "queryModel>conceptFilters", new sparqlish.control.conceptFilterControl({
 			//conceptFilter : "{Id}",
 			deleted : function(oEvent) {
 				// TODO is this really the best way to delete an element?
-				var path = oEvent.getSource().getBindingContext().getPath().split("/");
-				var index = path[path.length - 1];
-				var currentModel = oEvent.getSource().getModel();
-				var currentModelData = currentModel.getData();
-				currentModelData.query.conceptFilters.splice(index, 1);
-				currentModel.setData(currentModelData);
+				var currentModel = oEvent.getSource().getModel("queryModel");
+			  var currentContext = oEvent.getSource().getBindingContext("queryModel");
+			  var path = currentContext.getPath().split("/");
+			  var index = path[path.length - 1];
+			  var conceptFiltersContextPath = currentContext.getPath().slice(0,-(1+index.length))
+			  var conceptFiltersContext = new sap.ui.model.Context("queryModel",conceptFiltersContextPath);
+			  var currentModelData = currentModel.getProperty("", conceptFiltersContext);
+				currentModelData.splice(index, 1);
+
 				currentModel.refresh();
 				self.getParent().rerender();
 			}
 		}));
-		self.setAggregation("_extendFilter", new sap.ui.commons.Link({
-			text : "[+]",
+		self.setAggregation("_extendFilter", new sparqlish.control.iconLink({
+			text : "add-filter",
+			icon : "add-filter",
 			tooltip : "Add a filter value",
 			visible : true,
 			press : function(oEvent) {
-				var currentModel = self.getModel();
-				var currentModelData = currentModel.getData();
-				if (currentModelData.query.conceptFilters == null) {
-					currentModelData.query.conceptFilters = [];
+				var currentModel = self.getModel("queryModel");
+			  var currentContext = self.getBindingContext("queryModel");
+			  var currentModelData = currentModel.getProperty("", currentContext);
+				if (currentModelData.conceptFilters == null) {
+					currentModelData.conceptFilters = [];
 				}
-				currentModelData.query.conceptFilters.push({
+				currentModelData.conceptFilters.push({
 					Id : "[enter new value]"
 				});
-				currentModel.setData(currentModelData);
+				//currentModel.setData(currentModelData,"queryModel");
 				currentModel.refresh();
 				self.getParent().rerender();
 			}

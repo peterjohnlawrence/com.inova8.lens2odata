@@ -8,8 +8,8 @@ jQuery.sap.declare("DataPropertyClause");
 jQuery.sap.declare("ObjectPropertyClause");
 jQuery.sap.declare("InverseObjectPropertyClause");
 jQuery.sap.declare("OperationClause");
-jQuery.sap.declare("Filters");
-jQuery.sap.declare("Filter");
+jQuery.sap.declare("DataPropertyFilters");
+jQuery.sap.declare("DataPropertyFilter");
 jQuery.sap.declare("ConjunctionFilter");
 var sPrefix = "?v";
 var sLabelPostfix = "_label";
@@ -168,7 +168,7 @@ sap.ui.base.Object
 						if (this.oConceptFilters != null) {
 							return "$select=" + odataKeys(sVersion, this.oContext.sOdataEntityPath, this.oConceptFilters) + "," + sSelect;
 						} else {
-							if (sClausesFilter != "") {
+							if (sSelect != "") {
 								return "$select=" + sSelect;
 							} else {
 								return "";
@@ -364,6 +364,11 @@ sap.ui.base.Object.extend("Clause", {
 				throw "notClauseException";
 			this.bIgnore = (oAST["ignore"] == "true") ? true : false;
 			this.bOptional = (oAST["optional"] == "true") ? true : false;
+			if ( oAST["includeOptionalIgnore"]== undefined ){
+				this.sIncludeOptionalIgnore ="include";
+			}else{
+				this.sIncludeOptionalIgnore =oAST["includeOptionalIgnore"];
+			}
 			this.oPropertyClause = new PropertyClause(oAST["propertyClause"], oContext);
 			this.sLabel = (oAST["label"] == undefined) ? (this.oPropertyClause.sLabel) : oAST["label"];
 			this.bHidden = (oAST["hidden"] == undefined) ? (this.oPropertyClause.bHidden) : oAST["hidden"];
@@ -416,6 +421,7 @@ sap.ui.base.Object.extend("Clause", {
 			"sparqlish" : this.sparqlish(),
 			"label" : this.sLabel,
 			"hidden" : this.bHidden,
+			"includeOptionalIgnore": this.sIncludeOptionalIgnore,
 			"variable" : sPrefix + this.oContext.sObject,
 			"nameVariable" : this.sNameVariable,
 			"index" : iIndex
@@ -548,8 +554,8 @@ sap.ui.base.Object.extend("DataPropertyClause", {
 			if (oAST["_class"] != "DataPropertyClause")
 				throw "notDataPropertyClauseException";
 			this.sDataProperty = oAST["dataProperty"];
-			if (oAST["filters"] != null) {
-				this.oFilters = new Filters(oAST["filters"], oContext);
+			if (oAST["dataPropertyFilters"] != null) {
+				this.oFilters = new DataPropertyFilters(oAST["dataPropertyFilters"], oContext);
 			} else {
 				this.oFilters = null;
 			}
@@ -607,14 +613,14 @@ sap.ui.base.Object.extend("DataPropertyClause", {
 		return this.sDataProperty;
 	}
 });
-sap.ui.base.Object.extend("Filters", {
+sap.ui.base.Object.extend("DataPropertyFilters", {
 	constructor : function(oAST, oContext) {
 		this.oAST = oAST;
 		this.oContext = oContext;
 		try {
-			if (oAST["_class"] != "Filters")
+			if (oAST["_class"] != "DataPropertyFilters")
 				throw "notFiltersException";
-			this.oFilter = new Filter(oAST["filter"], oContext);
+			this.oFilter = new DataPropertyFilter(oAST["dataPropertyFilter"], oContext);
 
 			if (oAST["conjunctionFilters"] != null) {
 				this.oConjunctionFilters = [];
@@ -672,12 +678,12 @@ sap.ui.base.Object.extend("Filters", {
 		return "";
 	}
 });
-sap.ui.base.Object.extend("Filter", {
+sap.ui.base.Object.extend("DataPropertyFilter", {
 	constructor : function(oAST, oContext) {
 		this.oAST = oAST;
 		this.oContext = oContext;
 		try {
-			if (oAST["_class"] != "Filter")
+			if (oAST["_class"] != "DataPropertyFilter")
 				throw "notFilterException";
 			this.sCondition = oAST["condition"];
 			this.sValue = oAST["value"];
@@ -720,7 +726,7 @@ sap.ui.base.Object.extend("ConjunctionFilter", {
 			if (oAST["_class"] != "ConjunctionFilter")
 				throw "notConjunctionFilterException";
 			this.sFilterConjunction = oAST["filterConjunction"];
-			this.oFilter = new Filter(oAST["filter"], oContext);
+			this.oFilter = new DataPropertyFilter(oAST["dataPropertyFilter"], oContext);
 		} catch (e) {
 			jQuery.sap.log.error(e);
 		}

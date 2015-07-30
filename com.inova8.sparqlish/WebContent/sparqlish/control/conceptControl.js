@@ -1,8 +1,5 @@
 sap.ui.core.Control.extend("sparqlish.control.conceptControl", {
 	metadata : {
-		// properties : {
-		// concept : "object"
-		// },
 		aggregations : {
 			_concept : {
 				type : "sap.ui.commons.Link",
@@ -25,7 +22,7 @@ sap.ui.core.Control.extend("sparqlish.control.conceptControl", {
 	init : function() {
 		var self = this;
 		var oLink = new sap.ui.commons.Link({
-			text : "{concept}",
+			text : "{queryModel>concept}",
 			tooltip : "Select a concept to find"
 		});
 
@@ -59,33 +56,6 @@ sap.ui.core.Control.extend("sparqlish.control.conceptControl", {
 
 		this.setAggregation("_concept", oLink);
 
-		// this.setAggregation("_concept", new sap.ui.commons.Link({
-		// text : "{concept}",
-		// tooltip : "Select a concept to find",
-		// press : function(oEvent) {
-		// var oSource = oEvent.getSource();
-		// var eDock = sap.ui.core.Popup.Dock;
-		// var oConceptMenu = new sap.ui.unified.Menu({
-		// items : [ new sap.ui.unified.MenuItem({
-		// text : 'Order'
-		// }), new sap.ui.unified.MenuItem({
-		// text : 'Customer'
-		// }), new sap.ui.unified.MenuItem({
-		// text : 'Territory'
-		// }), new sap.ui.unified.MenuItem({
-		// text : 'Product'
-		// }) ]
-		// });
-		// oConceptMenu.attachItemSelect(function(oEvent) {
-		// if(self.getAggregation("_concept").getText()!=oEvent.getParameter("item").getText()){
-		// self.fireChanged({concept:oEvent.getParameter("item").getText()});
-		// }
-		// self.getAggregation("_concept").setText(oEvent.getParameter("item").getText());
-		// self.fireSelected({concept:oEvent.getParameter("item").getText()});
-		// }).open(false, this.getFocusDomRef(), eDock.BeginTop, eDock.beginBottom, this.getDomRef());
-		// }
-		// })
-		// );
 	},
 	renderer : function(oRm, oControl) {
 		oRm.renderControl(oControl.getAggregation("_concept"));

@@ -1,3 +1,4 @@
+jQuery.sap.require("sap.ui.core.IconPool");
 sap.ui.core.Control.extend("sparqlish.control.dataPropertyConjunctionFilterControl", {
 	metadata : {
 		properties : {
@@ -26,15 +27,16 @@ sap.ui.core.Control.extend("sparqlish.control.dataPropertyConjunctionFilterContr
 		var self = this;
 		// self.setAggregation("_conjunction", new sap.ui.commons.TextField({value:"{filterConjunction}"}));
 		self.setAggregation("_conjunction", new sap.ui.commons.Link({
-			text : "{filterConjunction}",
+			text : "{queryModel>filterConjunction}",
 			tooltip : "Select a conjunction",
 			press : function(oEvent) {
-				//TODO Need to explicitly find 'this' instead of using self in the case of a aggregation with multiple=true
-				var me =  oEvent.getSource().getParent();
+				// TODO Need to explicitly find 'this' instead of using self in the case of a aggregation with multiple=true
+				var me = oEvent.getSource().getParent();
 				var eDock = sap.ui.core.Popup.Dock;
 				var oConjunctionMenu = new sap.ui.unified.Menu({
 					items : [ new sap.ui.unified.MenuItem({
-						text : '*DELETE*'
+						text : 'DELETE',
+						icon : sap.ui.core.IconPool.getIconURI("delete")
 					}), new sap.ui.unified.MenuItem({
 						text : 'and'
 					}), new sap.ui.unified.MenuItem({
@@ -43,8 +45,8 @@ sap.ui.core.Control.extend("sparqlish.control.dataPropertyConjunctionFilterContr
 				});
 				oConjunctionMenu.attachItemSelect(function(oEvent) {
 					var selectedItem = oEvent.getParameter("item").getText();
-					if (selectedItem == '*DELETE*') {
-						//TODO add handler
+					if (selectedItem == 'DELETE') {
+						// TODO add handler
 						me.fireDeleted();
 					} else {
 						me.getAggregation("_conjunction").setText(selectedItem);
@@ -56,16 +58,21 @@ sap.ui.core.Control.extend("sparqlish.control.dataPropertyConjunctionFilterContr
 			deleted : function(oEvent) {
 				// TODO Should not delete if there are still some conjunctions
 				// TODO is this really the best way to delete an element?
-				var path = oEvent.getSource().getBindingContext().getPath().split("/");
+				var currentModel = oEvent.getSource().getModel("queryModel");
+				var currentContext = oEvent.getSource().getBindingContext("queryModel");
+				var path = currentContext.getPath().split("/");
 				var index = path[path.length - 1];
-				var currentModel = oEvent.getSource().getModel();
-				var currentModelData = currentModel.getData();
-				currentModelData.dataPropertyClause.filters.filter = {};
-				currentModel.setData(currentModelData);
+				var dataPropertyFiltersContextPath = currentContext.getPath().slice(0, -(1 + index.length))
+				var dataPropertyFiltersContext = new sap.ui.model.Context("queryModel", dataPropertyFiltersContextPath);
+				var currentModelData = currentModel.getProperty("", dataPropertyFiltersContext);
+				// TODO
+				currentModelData.dataPropertyfilter = {};
+				// currentModel.setData(currentModelData,"queryModel");
 				currentModel.refresh();
-				self.getParent().rerender();
+				oEvent.getSource().getParent().rerender();
+
 			}
-		}).bindElement("filter"));
+		}).bindElement("queryModel>dataPropertyFilter"));
 	},
 	setDataPropertyConjunctionFilter : function(oDataPropertyConjunctionFilter) {
 		// this.setProperty("dataPropertyConjunctionFilter", oDataPropertyConjunctionFilter, false);
