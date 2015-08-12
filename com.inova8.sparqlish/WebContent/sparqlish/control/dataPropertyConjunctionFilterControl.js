@@ -1,3 +1,4 @@
+jQuery.sap.require("sparqlish.control.dataPropertyFilterControl");
 jQuery.sap.require("sap.ui.core.IconPool");
 sap.ui.core.Control.extend("sparqlish.control.dataPropertyConjunctionFilterControl", {
 	metadata : {
@@ -35,17 +36,17 @@ sap.ui.core.Control.extend("sparqlish.control.dataPropertyConjunctionFilterContr
 				var eDock = sap.ui.core.Popup.Dock;
 				var oConjunctionMenu = new sap.ui.unified.Menu({
 					items : [ new sap.ui.unified.MenuItem({
-						text : 'DELETE',
+						text : '{i18n>dataPropertyClauseDELETE}',
 						icon : sap.ui.core.IconPool.getIconURI("delete")
 					}), new sap.ui.unified.MenuItem({
-						text : 'and'
+						text : '{i18n>dataPropertyClauseAnd}'
 					}), new sap.ui.unified.MenuItem({
-						text : 'or'
+						text : '{i18n>dataPropertyClauseOr}'
 					}) ]
 				});
 				oConjunctionMenu.attachItemSelect(function(oEvent) {
 					var selectedItem = oEvent.getParameter("item").getText();
-					if (selectedItem == 'DELETE') {
+					if (selectedItem == sap.ui.getCore().getModel("i18n").getProperty("dataPropertyClauseDELETE")) {
 						// TODO add handler
 						me.fireDeleted();
 					} else {
@@ -75,7 +76,6 @@ sap.ui.core.Control.extend("sparqlish.control.dataPropertyConjunctionFilterContr
 		}).bindElement("queryModel>dataPropertyFilter"));
 	},
 	setDataPropertyConjunctionFilter : function(oDataPropertyConjunctionFilter) {
-		// this.setProperty("dataPropertyConjunctionFilter", oDataPropertyConjunctionFilter, false);
 	},
 	renderer : function(oRm, oControl) {
 		oRm.write("&nbsp;");

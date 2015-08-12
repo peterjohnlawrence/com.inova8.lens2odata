@@ -3,8 +3,7 @@ sap.ui.core.Control.extend("sparqlish.control.objectPropertyControl", {
 		aggregations : {
 			_objectProperty : {
 				type : "sap.ui.commons.Link",
-				multiple : false,
-				visibility : "hidden"
+				multiple : false
 			}
 		},
 		events : {

@@ -1,3 +1,4 @@
+jQuery.sap.require("sparqlish.control.conceptFilterControl");
 sap.ui.core.Control.extend("sparqlish.control.conceptFiltersControl", {
 	metadata : {
 		aggregations : {
@@ -7,24 +8,23 @@ sap.ui.core.Control.extend("sparqlish.control.conceptFiltersControl", {
 			},
 			_extendFilter : {
 				type : "sparqlish.control.iconLink",
-				multiple : false,
-				visibility : "hidden"
+				multiple : false
 			}
 		}
 	},
 	init : function() {
 		var self = this;
 		self.bindAggregation("_conceptFilters", "queryModel>conceptFilters", new sparqlish.control.conceptFilterControl({
-			//conceptFilter : "{Id}",
+			// conceptFilter : "{Id}",
 			deleted : function(oEvent) {
 				// TODO is this really the best way to delete an element?
 				var currentModel = oEvent.getSource().getModel("queryModel");
-			  var currentContext = oEvent.getSource().getBindingContext("queryModel");
-			  var path = currentContext.getPath().split("/");
-			  var index = path[path.length - 1];
-			  var conceptFiltersContextPath = currentContext.getPath().slice(0,-(1+index.length))
-			  var conceptFiltersContext = new sap.ui.model.Context("queryModel",conceptFiltersContextPath);
-			  var currentModelData = currentModel.getProperty("", conceptFiltersContext);
+				var currentContext = oEvent.getSource().getBindingContext("queryModel");
+				var path = currentContext.getPath().split("/");
+				var index = path[path.length - 1];
+				var conceptFiltersContextPath = currentContext.getPath().slice(0, -(1 + index.length))
+				var conceptFiltersContext = new sap.ui.model.Context("queryModel", conceptFiltersContextPath);
+				var currentModelData = currentModel.getProperty("", conceptFiltersContext);
 				currentModelData.splice(index, 1);
 
 				currentModel.refresh();
@@ -35,18 +35,20 @@ sap.ui.core.Control.extend("sparqlish.control.conceptFiltersControl", {
 			text : "add-filter",
 			icon : "add-filter",
 			tooltip : "Add a filter value",
-			visible : true,
+			visible : false,
 			press : function(oEvent) {
+				// var me = oEvent.getSource().getParent();
 				var currentModel = self.getModel("queryModel");
-			  var currentContext = self.getBindingContext("queryModel");
-			  var currentModelData = currentModel.getProperty("", currentContext);
+				var currentContext = self.getBindingContext("queryModel");
+				var currentModelData = currentModel.getProperty("", currentContext);
 				if (currentModelData.conceptFilters == null) {
 					currentModelData.conceptFilters = [];
 				}
 				currentModelData.conceptFilters.push({
-					Id : "[enter new value]"
+					OrderID : "[enter new value]"
 				});
-				//currentModel.setData(currentModelData,"queryModel");
+				// currentModel.setData(currentModelData,"queryModel");
+				self.getAggregation("_extendFilter").setVisible(true);
 				currentModel.refresh();
 				self.getParent().rerender();
 			}
@@ -57,9 +59,10 @@ sap.ui.core.Control.extend("sparqlish.control.conceptFiltersControl", {
 		if (conceptFilters != null) {
 			for (var i = 0; i < conceptFilters.length; i++) {
 				if (i > 0) {
-					oRm.write(", ");
+					oRm.write(sap.ui.getCore().getModel("i18n").getProperty("conceptClauseConjunction"));
 				} else {
-					oRm.write(" in ");
+					oRm.write("&nbsp;");
+					oRm.write(sap.ui.getCore().getModel("i18n").getProperty("conceptClauseIn"));
 				}
 				oRm.renderControl(conceptFilters[i]);
 			}

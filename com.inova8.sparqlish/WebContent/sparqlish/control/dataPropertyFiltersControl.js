@@ -1,3 +1,5 @@
+jQuery.sap.require("sparqlish.control.dataPropertyFilterControl");
+jQuery.sap.require("sparqlish.control.dataPropertyConjunctionFilterControl");
 sap.ui.core.Control.extend("sparqlish.control.dataPropertyFiltersControl", {
 	metadata : {
 		properties : {
@@ -28,15 +30,15 @@ sap.ui.core.Control.extend("sparqlish.control.dataPropertyFiltersControl", {
 				var currentContext = oEvent.getSource().getBindingContext("queryModel");
 				var path = currentContext.getPath().split("/");
 				var index = path[path.length - 1];
-				var dataPropertyFiltersContextPath = currentContext.getPath().slice(0,-(1+index.length))
-				var dataPropertyFiltersContext = new sap.ui.model.Context("queryModel",dataPropertyFiltersContextPath);
-				var currentModelData = currentModel.getProperty("",dataPropertyFiltersContext);
-				//TODO
+				var dataPropertyFiltersContextPath = currentContext.getPath().slice(0, -(1 + index.length))
+				var dataPropertyFiltersContext = new sap.ui.model.Context("queryModel", dataPropertyFiltersContextPath);
+				var currentModelData = currentModel.getProperty("", dataPropertyFiltersContext);
+				// TODO
 				currentModelData.dataPropertyFilter = {};
 				// currentModel.setData(currentModelData,"queryModel");
 				currentModel.refresh();
 				self.getParent().rerender();
-				}
+			}
 		}).bindElement("queryModel>dataPropertyFilter"));
 		self.bindAggregation("_dataPropertyConjunctionFilters", "queryModel>conjunctionFilters", new sparqlish.control.dataPropertyConjunctionFilterControl({
 			deleted : function(oEvent) {
@@ -45,10 +47,10 @@ sap.ui.core.Control.extend("sparqlish.control.dataPropertyFiltersControl", {
 				var currentContext = oEvent.getSource().getBindingContext("queryModel");
 				var path = currentContext.getPath().split("/");
 				var index = path[path.length - 1];
-				var dataPropertyFiltersContextPath = currentContext.getPath().slice(0,-(1+index.length))
-				var dataPropertyFiltersContext = new sap.ui.model.Context("queryModel",dataPropertyFiltersContextPath);
-				var currentModelData = currentModel.getProperty("",dataPropertyFiltersContext);
-				//TODO
+				var dataPropertyFiltersContextPath = currentContext.getPath().slice(0, -(1 + index.length))
+				var dataPropertyFiltersContext = new sap.ui.model.Context("queryModel", dataPropertyFiltersContextPath);
+				var currentModelData = currentModel.getProperty("", dataPropertyFiltersContext);
+				// TODO
 				currentModelData.splice(index, 1);
 				// currentModel.setData(currentModelData);
 				currentModel.refresh();
@@ -58,14 +60,15 @@ sap.ui.core.Control.extend("sparqlish.control.dataPropertyFiltersControl", {
 		);
 
 		self.setAggregation("_extendFilter", new sparqlish.control.iconLink({
+			visible : false,
 			text : "[+]",
 			icon : "add-filter",
-			tooltip : "Add a filter value",
+			tooltip : "Add a data filter value",
 			press : function(oEvent) {
 				var currentModel = self.getModel("queryModel");
 				var currentContext = oEvent.getSource().getBindingContext("queryModel");
-				var currentModelData = currentModel.getProperty("",currentContext);
-				if (currentModelData.dataPropertyFilters == null) {
+				var currentModelData = currentModel.getProperty("", currentContext);
+				if (currentModelData == null) {
 					currentModelData = {
 						"_class" : "DataPropertyFilters",
 						"dataPropertyFilter" : {
@@ -76,8 +79,15 @@ sap.ui.core.Control.extend("sparqlish.control.dataPropertyFiltersControl", {
 						}
 					};
 				} else {
-					if (currentModelData.dataPropertyFilters.conjunctionFilters == null) {
-						currentModelData.dataPropertyFilters.conjunctionFilters = [ {
+					if (currentModelData.dataPropertyFilter == null) {
+						currentModelData.dataPropertyFilter = {
+							"_class" : "DataPropertyFilter",
+							"condition" : "[enter condition]",
+							"value" : "[enter value]",
+							"datatype" : null
+						}
+					} else if (currentModelData.conjunctionFilters == null) {
+						currentModelData.conjunctionFilters = [ {
 							"_class" : "ConjunctionFilter",
 							"filterConjunction" : "[enter conjunction]",
 							"dataPropertyFilter" : {
@@ -88,7 +98,7 @@ sap.ui.core.Control.extend("sparqlish.control.dataPropertyFiltersControl", {
 							}
 						} ]
 					} else {
-						currentModelData.dataPropertyFilters.conjunctionFilters.push({
+						currentModelData.conjunctionFilters.push({
 							"_class" : "ConjunctionFilter",
 							"filterConjunction" : "[enter conjunction]",
 							"dataPropertyFilter" : {
@@ -100,7 +110,8 @@ sap.ui.core.Control.extend("sparqlish.control.dataPropertyFiltersControl", {
 						});
 					}
 				}
-				//currentModel.setData(currentModelData, "queryModel");
+				// currentModel.setData(currentModelData, "queryModel");
+				self.getAggregation("_extendFilter").setVisible(true);
 				currentModel.refresh();
 				self.getParent().rerender();
 			}
@@ -111,12 +122,14 @@ sap.ui.core.Control.extend("sparqlish.control.dataPropertyFiltersControl", {
 		// self.setProperty("dataPropertyFilters", oDataPropertyFilters);
 	},
 	renderer : function(oRm, oControl) {
-		oRm.renderControl(oControl.getAggregation("_dataPropertyFilter"));
-		var dataPropertyConjunctionFilters = oControl.getAggregation("_dataPropertyConjunctionFilters");
-		if (dataPropertyConjunctionFilters != null) {
-			oRm.write("&nbsp;");
-			for (var i = 0; i < dataPropertyConjunctionFilters.length; i++) {
-				oRm.renderControl(dataPropertyConjunctionFilters[i]);
+		if (oControl.getAggregation("_dataPropertyFilter") != null) {
+			oRm.renderControl(oControl.getAggregation("_dataPropertyFilter"));
+			var dataPropertyConjunctionFilters = oControl.getAggregation("_dataPropertyConjunctionFilters");
+			if (dataPropertyConjunctionFilters != null) {
+
+				for (var i = 0; i < dataPropertyConjunctionFilters.length; i++) {
+					oRm.renderControl(dataPropertyConjunctionFilters[i]);
+				}
 			}
 		}
 		oRm.write("&nbsp;");

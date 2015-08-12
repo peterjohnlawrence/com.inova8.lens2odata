@@ -1,3 +1,5 @@
+jQuery.sap.require("sparqlish.control.dataPropertyControl");
+jQuery.sap.require("sparqlish.control.dataPropertyFiltersControl");
 sap.ui.core.Control.extend("sparqlish.control.dataPropertyClauseControl", {
 	metadata : {
 		properties : {
@@ -20,7 +22,7 @@ sap.ui.core.Control.extend("sparqlish.control.dataPropertyClauseControl", {
 		var self = this;
 		self.setAggregation("_dataProperty", new sparqlish.control.dataPropertyControl({
 			selected : function(oEvent) {
-				self.getAggregation("_dataPropertyFilters").getAggregation("_extendFilter").setVisible(true);
+				self.getAggregation("_dataPropertyFilters").getAggregation("_extendFilter").setVisible(false);
 			},
 			changed : function(oEvent) {
 				var currentModel = this.getModel("queryModel");
@@ -28,6 +30,7 @@ sap.ui.core.Control.extend("sparqlish.control.dataPropertyClauseControl", {
 				var currentModelData = currentModel.getProperty("", currentContext);
 				currentModelData.dataPropertyFilters = [];
 				// currentModel.setData(currentModelData,"queryModel");
+				self.getAggregation("_dataPropertyFilters").getAggregation("_extendFilter").setVisible(true);
 				currentModel.refresh();
 				self.rerender();
 			}
@@ -41,15 +44,17 @@ sap.ui.core.Control.extend("sparqlish.control.dataPropertyClauseControl", {
 			var currentModelData = currentModel.getProperty("", currentContext);
 			currentModelData.dataProperty = "[select data property]";
 			// currentModel.setData(currentModelData,"queryModel");
+			self.getAggregation("_dataPropertyFilters").getAggregation("_extendFilter").setVisible(true);
 			currentModel.refresh();
 		}
 	},
 	renderer : function(oRm, oControl) {
 		oRm.write("<div ");
 		oRm.writeControlData(oControl);
-		oRm.write("class=\"dataPropertyClause\"> with ");
+		oRm.writeClasses();
+		oRm.write(">");
+		oRm.write(sap.ui.getCore().getModel("i18n").getProperty("dataPropertyClauseWith"));
 		oRm.renderControl(oControl.getAggregation("_dataProperty"));
-		oRm.write("&nbsp;");
 		oRm.renderControl(oControl.getAggregation("_dataPropertyFilters"));
 		oRm.write("</div>");
 	}

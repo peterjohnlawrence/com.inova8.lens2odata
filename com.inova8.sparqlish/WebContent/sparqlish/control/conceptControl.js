@@ -1,10 +1,11 @@
+//TODO why is this required
+jQuery.sap.require("sap.ui.unified.MenuItem");
 sap.ui.core.Control.extend("sparqlish.control.conceptControl", {
 	metadata : {
 		aggregations : {
 			_concept : {
 				type : "sap.ui.commons.Link",
-				multiple : false,
-				visibility : "hidden"
+				multiple : false
 			}
 		},
 		events : {
@@ -27,16 +28,14 @@ sap.ui.core.Control.extend("sparqlish.control.conceptControl", {
 		});
 
 		var oConceptMenu = new sap.ui.unified.Menu({
-			items : [ new sap.ui.unified.MenuItem({
-				text : 'Order'
-			}), new sap.ui.unified.MenuItem({
-				text : 'Customer'
-			}), new sap.ui.unified.MenuItem({
-				text : 'Territory'
-			}), new sap.ui.unified.MenuItem({
-				text : 'Product'
-			}) ]
+			items : {
+				path : "entityContainer>/entitySet",
+				template : new sap.ui.unified.MenuItem({
+					text : "{entityContainer>name}"
+				})
+			}
 		});
+
 		oLink.attachPress(function(oEvent) {
 			var oSource = oEvent.getSource();
 			var eDock = sap.ui.core.Popup.Dock;

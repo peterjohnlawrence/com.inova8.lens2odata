@@ -37,7 +37,7 @@
 		<link>
 			<name>WebContent/openui5</name>
 			<type>2</type>
-			<location>C:/Apps/openui5-runtime-1.28.12/resources</location>
+			<location>C:/Apps/openui5-runtime-1.28.13/resources</location>
 		</link>
 	</linkedResources>
 	<filteredResources>

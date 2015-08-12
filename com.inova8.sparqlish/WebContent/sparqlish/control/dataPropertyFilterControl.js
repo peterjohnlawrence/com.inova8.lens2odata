@@ -42,6 +42,7 @@ sap.ui.core.Control.extend("sparqlish.control.dataPropertyFilterControl", {
 					}) ]
 				});
 				oConditiontMenu.attachItemSelect(function(oEvent) {
+				//	var me = oEvent.getSource().getParent();
 					var selectedItem = oEvent.getParameter("item").getText();
 					if (selectedItem == 'DELETE') {
 						me.fireDeleted();
@@ -60,6 +61,7 @@ sap.ui.core.Control.extend("sparqlish.control.dataPropertyFilterControl", {
 		}));
 	},
 	renderer : function(oRm, oControl) {
+		oRm.write("&nbsp;");
 		oRm.renderControl(oControl.getAggregation("_condition"));
 		oRm.write("&nbsp;");
 		oRm.renderControl(oControl.getAggregation("_value"));

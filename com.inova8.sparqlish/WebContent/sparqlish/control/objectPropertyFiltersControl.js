@@ -1,3 +1,4 @@
+jQuery.sap.require("sparqlish.control.objectPropertyFilterControl");
 sap.ui.core.Control.extend("sparqlish.control.objectPropertyFiltersControl", {
 	metadata : {
 		aggregations : {
@@ -13,41 +14,42 @@ sap.ui.core.Control.extend("sparqlish.control.objectPropertyFiltersControl", {
 	},
 	init : function() {
 		var self = this;
-		self.bindAggregation("_objectPropertyFilters", "queryModel>objectPropertyFilters", new sparqlish.control.objectPropertyFilterControl({
+		self.bindAggregation("_objectPropertyFilters", "queryModel>", new sparqlish.control.objectPropertyFilterControl({
 			deleted : function(oEvent) {
 				// TODO is this really the best way to delete an element?
-				var me=oEvent.getSource();
+				var me = oEvent.getSource();
 				var currentModel = me.getModel("queryModel");
 				var currentContext = me.getBindingContext("queryModel");
 				var path = currentContext.getPath().split("/");
 				var index = path[path.length - 1];
-				var objectPropertyFiltersContextPath = currentContext.getPath().slice(0,-(1+index.length))
-				var objectPropertyFiltersContext = new sap.ui.model.Context("queryModel",objectPropertyFiltersContextPath);
-				var currentModelData = currentModel.getProperty("",objectPropertyFiltersContext);
+				var objectPropertyFiltersContextPath = currentContext.getPath().slice(0, -(1 + index.length))
+				var objectPropertyFiltersContext = new sap.ui.model.Context("queryModel", objectPropertyFiltersContextPath);
+				var currentModelData = currentModel.getProperty("", objectPropertyFiltersContext);
 				currentModelData.splice(index, 1);
 				currentModel.refresh();
-				//TODO self not safe
+				// TODO self not safe
 				self.getParent().rerender();
-		}
+			}
 		}));
-		this.setAggregation("_extendFilter", new sparqlish.control.iconLink({
+		self.setAggregation("_extendFilter", new sparqlish.control.iconLink({
+			visible:false,
 			text : "[+]",
-			icon: "add-filter",
-			tooltip : "Add a filter value",
-			visible : true,
+			icon : "add-filter",
+			tooltip : "Add an object filter value",
 			press : function(oEvent) {
-				var me=oEvent.getSource();
-				var currentModel = me.getModel("queryModel");
-				var currentContext = me.getBindingContext("queryModel");
-				var currentModelData = currentModel.getProperty("",currentContext);
-				if (currentModelData.objectPropertyFilters == null) {
-					currentModelData.objectPropertyFilters = [];
+				// TODO self not safe
+				//var me = oEvent.getSource().getParent();
+				var currentModel = self.getModel("queryModel");
+				var currentContext = self.getBindingContext("queryModel");
+				var currentModelData = currentModel.getProperty("", currentContext);
+				if (currentModelData == null) {
+					currentModelData = [];
 				}
-				currentModelData.objectPropertyFilters.push({
-					Id : "[enter new value]"
+				currentModelData.push({
+					CustomerID : "[enter new value]"
 				});
+				self.getAggregation("_extendFilter").setVisible(true);
 				currentModel.refresh();
-				//TODO self not safe
 				self.getParent().rerender();
 			}
 		}));
@@ -59,6 +61,7 @@ sap.ui.core.Control.extend("sparqlish.control.objectPropertyFiltersControl", {
 			if (oObjectPropertyFilters.length > 0)
 				self.getAggregation("_extendFilter").setVisible(true);
 		}
+		self.getAggregation("_extendFilter").setVisible(true);
 	},
 	renderer : function(oRm, oControl) {
 		var objectPropertyFilters = oControl.getAggregation("_objectPropertyFilters");
@@ -69,6 +72,7 @@ sap.ui.core.Control.extend("sparqlish.control.objectPropertyFiltersControl", {
 				} else {
 					oRm.write(" in ");
 				}
+				oRm.write("&nbsp;");
 				oRm.renderControl(objectPropertyFilters[i]);
 			}
 		}

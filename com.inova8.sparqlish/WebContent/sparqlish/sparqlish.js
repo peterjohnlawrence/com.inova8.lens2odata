@@ -20,7 +20,7 @@ sap.ui.base.Object.extend("Queries", {
 		try {
 			if (oAST["queries"] != null) {
 				for (var i = 0; i < oAST["queries"].length; i++) {
-					this.oQueries.push(new Query(oAST["queries"][i], "/queries/" + i + "/"));
+					this.oQueries.push(new Query(oAST["queries"][i], "queryModel>/queries/" + i + "/"));
 				}
 			} else {
 				this.oQueries = null;

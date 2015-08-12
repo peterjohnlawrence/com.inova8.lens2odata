@@ -21,22 +21,8 @@ sap.ui.jsfragment("sparqlish.query.queryList", {
 			if (oController.iCurrentQuery != null) {
 				oController.oViewModel = new sap.ui.model.json.JSONModel();
 				oController.oViewModel.setData(queries.oQueries[i].oViewModel);
-				oController.oTable.setModel(oController.oViewModel, "queryModel");
-				oController.oTable.bindRows("queryModel>/");
-//				oCol = new sap.ui.table.Column({
-//					label : "I",
-//					template : "queryModel>index",
-//					editable : false,
-//					visible : true,
-//					width : "40px"
-//				});
-//				oController.oTable.addColumn(oCol);
-//				oFilter = new sap.ui.model.Filter({
-//					path : "queryModel>index",
-//					operator : sap.ui.model.FilterOperator.NE,
-//					value1 : "0"
-//				});
-//				oController.oTable.filter(oCol, 0);
+				oController.oTable.setModel(oController.oViewModel, "viewModel");
+				oController.oTable.bindRows("viewModel>/");
 			}
 		});
 		return oComboBox;

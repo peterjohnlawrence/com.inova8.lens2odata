@@ -1,3 +1,5 @@
+jQuery.sap.require("sparqlish.control.objectPropertyControl");
+jQuery.sap.require("sparqlish.control.objectPropertyFiltersControl");
 sap.ui.core.Control.extend("sparqlish.control.objectPropertyClauseControl", {
 	metadata : {
 		properties : {
@@ -7,13 +9,11 @@ sap.ui.core.Control.extend("sparqlish.control.objectPropertyClauseControl", {
 		aggregations : {
 			_objectProperty : {
 				type : "sparqlish.control.objectPropertyControl",
-				multiple : false,
-				visibility : "hidden"
+				multiple : false
 			},
 			_objectPropertyFilters : {
 				type : "sparqlish.control.objectPropertyFiltersControl",
-				multiple : false,
-				visibility : "hidden"
+				multiple : false
 			}
 		}
 	},
@@ -22,7 +22,7 @@ sap.ui.core.Control.extend("sparqlish.control.objectPropertyClauseControl", {
 		var self = this;
 		self.setAggregation("_objectProperty", new sparqlish.control.objectPropertyControl({
 			selected : function(oEvent) {
-				self.getAggregation("_objectPropertyFilters").getAggregation("_extendFilter").setVisible(true);
+				self.getAggregation("_objectPropertyFilters").getAggregation("_extendFilter").setVisible(false);
 			},
 			changed : function(oEvent) {
 				var currentModel = this.getModel("queryModel");
@@ -30,12 +30,13 @@ sap.ui.core.Control.extend("sparqlish.control.objectPropertyClauseControl", {
 				var currentModelData = currentModel.getProperty("",currentContext);
 				currentModelData.objectPropertyFilters = [];
 				//currentModel.setData(currentModelData,"queryModel");
+				self.getAggregation("_objectPropertyFilters").getAggregation("_extendFilter").setVisible(true);
 				currentModel.refresh();
 				self.rerender();
 			}
-		}).bindElement("queryModel>propertyClause"));
+		}).bindElement("queryModel>"));
 		// TODO
-		self.setAggregation("_objectPropertyFilters", new sparqlish.control.objectPropertyFiltersControl().bindElement( "queryModel>propertyClause"));
+		self.setAggregation("_objectPropertyFilters", new sparqlish.control.objectPropertyFiltersControl().bindElement( "queryModel>objectPropertyFilters"));
 	},
 	setObjectPropertyClause : function(oObjectPropertyClause) {
 		if (oObjectPropertyClause.objectProperty == null){
@@ -49,9 +50,10 @@ sap.ui.core.Control.extend("sparqlish.control.objectPropertyClauseControl", {
 	renderer : function(oRm, oControl) {
 		oRm.write("<div ");
 		oRm.writeControlData(oControl);
-		oRm.write("class=\"objectPropertyClause\"> with ");
+		oRm.writeClasses();
+		oRm.write(">");
+		oRm.write(sap.ui.getCore().getModel("i18n").getProperty("objectPropertyClauseWith"));
 		oRm.renderControl(oControl.getAggregation("_objectProperty"));
-		oRm.write("&nbsp;");
 		oRm.renderControl(oControl.getAggregation("_objectPropertyFilters"));
 		oRm.write("</div>");
 	}

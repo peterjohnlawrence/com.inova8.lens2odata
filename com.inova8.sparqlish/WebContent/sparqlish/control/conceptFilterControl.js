@@ -4,8 +4,7 @@ sap.ui.core.Control.extend("sparqlish.control.conceptFilterControl", {
 		aggregations : {
 			_conceptFilter : {
 				type : "sap.ui.commons.Link",
-				multiple : false,
-				visibility : "hidden"
+				multiple : false
 			}
 		},
 		events : {
@@ -17,10 +16,16 @@ sap.ui.core.Control.extend("sparqlish.control.conceptFilterControl", {
 	init : function() {
 		var self = this;
 		self.setAggregation("_conceptFilter", new sap.ui.commons.Link({
-			text : "{queryModel>Id}",
+			//TODO Only allows for a single valued primary key
+		//	text : '{= "{queryModel>" + ${entityTypeModel>/key/propertyRef/0/name}+"}"}',
+		//	text :{ path : "='queryModel>'+${entityTypeModel>/key/propertyRef/0/name}" },
+		//text :{ path : '="queryModel>" + ${entityTypeModel>/key/propertyRef/0/name}' },
+		//text :"{='{queryModel>' + ${entityTypeModel>/key/propertyRef/0/name} +'}'}",
+		//	text : "{queryModel>OrderID}",
+		text :{ path : 'queryModel>OrderID' },
 			tooltip : "Select a value",
 			press : function(oEvent) {
-				var oSource = oEvent.getSource();
+				var me = oEvent.getSource().getParent();
 				var eDock = sap.ui.core.Popup.Dock;
 				var oConceptMenu = new sap.ui.unified.Menu({
 					items : [ new sap.ui.unified.MenuItem({
@@ -39,15 +44,16 @@ sap.ui.core.Control.extend("sparqlish.control.conceptFilterControl", {
 				oConceptMenu.attachItemSelect(function(oEvent) {
 					var selectedItem = oEvent.getParameter("item").getText();
 					if (selectedItem == 'DELETE') {
-						self.fireDeleted();
+						me.fireDeleted();
 					} else {
-						self.getAggregation("_conceptFilter").setText(selectedItem);
+						me.getAggregation("_conceptFilter").setText(selectedItem);
 					}
 				}).open(false, this.getFocusDomRef(), eDock.BeginTop, eDock.beginBottom, this.getDomRef());
 			}
 		}));
 	},
 	renderer : function(oRm, oControl) {
+		oRm.write("&nbsp;");
 		oRm.renderControl(oControl.getAggregation("_conceptFilter"));
 	}
 });
