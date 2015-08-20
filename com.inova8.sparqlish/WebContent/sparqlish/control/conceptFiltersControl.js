@@ -1,4 +1,5 @@
 jQuery.sap.require("sparqlish.control.conceptFilterControl");
+jQuery.sap.require("sparqlish.control.iconLink");
 sap.ui.core.Control.extend("sparqlish.control.conceptFiltersControl", {
 	metadata : {
 		aggregations : {
@@ -35,9 +36,8 @@ sap.ui.core.Control.extend("sparqlish.control.conceptFiltersControl", {
 			text : "add-filter",
 			icon : "add-filter",
 			tooltip : "Add a filter value",
-			visible : false,
+			visible : true,
 			press : function(oEvent) {
-				// var me = oEvent.getSource().getParent();
 				var currentModel = self.getModel("queryModel");
 				var currentContext = self.getBindingContext("queryModel");
 				var currentModelData = currentModel.getProperty("", currentContext);
@@ -59,10 +59,10 @@ sap.ui.core.Control.extend("sparqlish.control.conceptFiltersControl", {
 		if (conceptFilters != null) {
 			for (var i = 0; i < conceptFilters.length; i++) {
 				if (i > 0) {
-					oRm.write(sap.ui.getCore().getModel("i18n").getProperty("conceptClauseConjunction"));
+					oRm.write(sap.ui.getCore().getModel("i18nModel").getProperty("conceptClauseConjunction"));
 				} else {
 					oRm.write("&nbsp;");
-					oRm.write(sap.ui.getCore().getModel("i18n").getProperty("conceptClauseIn"));
+					oRm.write(sap.ui.getCore().getModel("i18nModel").getProperty("conceptClauseIn"));
 				}
 				oRm.renderControl(conceptFilters[i]);
 			}

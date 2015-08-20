@@ -52,7 +52,7 @@ sap.ui.controller("lens.QueryView", {
 			if (simpleMode || simpleMode == undefined) {
 				query.simple = true;
 				query.filter = sSearchText.getValue();
-				sQueryExpandButton.setText("Advanced Search");// bindProperty("text","{i18n>queryAdvanced}");
+				sQueryExpandButton.setText("Advanced Search");// bindProperty("text","{i18nModel>queryAdvanced}");
 				sQueryExpandButton.simpleSearch = false;
 				sSearchForm.setVisible(true);
 				sQueryForm.setVisible(false);
@@ -62,14 +62,14 @@ sap.ui.controller("lens.QueryView", {
 				}
 				query.simple = false;
 				query.filter = sSearchText.getValue();
-				sQueryExpandButton.setText("Simple Search");// .bindProperty("text","{i18n>querySearch}");
+				sQueryExpandButton.setText("Simple Search");// .bindProperty("text","{i18nModel>querySearch}");
 				sQueryExpandButton.simpleSearch = true;
 				sSearchForm.setVisible(false);
 				sQueryForm.setVisible(true);
 			}
 		} else {
 			// TODO, only ad if incorrect query name on URL
-			sQueryExpandButton.setText("Advanced Search");// bindProperty("text","{i18n>queryAdvanced}");
+			sQueryExpandButton.setText("Advanced Search");// bindProperty("text","{i18nModel>queryAdvanced}");
 			sQueryExpandButton.simpleSearch = false;
 			sSearchForm.setVisible(true);
 			sQueryForm.setVisible(false);
@@ -306,28 +306,28 @@ sap.ui.controller("lens.QueryView", {
 								path : "queryData>optional",
 								type : new sap.ui.model.type.String()
 							}, {
-								path : "i18n>querySelect",
+								path : "i18nModel>querySelect",
 								type : new sap.ui.model.type.String()
 							}, {
-								path : "i18n>queryAnd",
+								path : "i18nModel>queryAnd",
 								type : new sap.ui.model.type.String()
 							}, {
-								path : "i18n>queryWhere",
+								path : "i18nModel>queryWhere",
 								type : new sap.ui.model.type.String()
 							}, {
-								path : "i18n>queryAndWhere",
+								path : "i18nModel>queryAndWhere",
 								type : new sap.ui.model.type.String()
 							}, {
-								path : "i18n>queryWith",
+								path : "i18nModel>queryWith",
 								type : new sap.ui.model.type.String()
 							}, {
-								path : "i18n>queryAndWith",
+								path : "i18nModel>queryAndWith",
 								type : new sap.ui.model.type.String()
 							}, {
-								path : "i18n>queryOptional",
+								path : "i18nModel>queryOptional",
 								type : new sap.ui.model.type.String()
 							}, {
-								path : "i18n>queryLinked",
+								path : "i18nModel>queryLinked",
 								type : new sap.ui.model.type.String()
 							} ],
 							formatter : function(propertyType, entityType, propertyLabel, condition, value, optional, querySelect, queryAnd, queryWhere, queryAndWhere,
@@ -401,19 +401,19 @@ sap.ui.controller("lens.QueryView", {
 			sQueryTreeTable.insertColumn(new sap.ui.table.Column({
 				width : "15%",
 				hAlign : "Center",
-				template : new sap.ui.commons.CheckBox().bindProperty("checked", "queryData>include").setTooltip("{i18n>queryEnableClause}")
+				template : new sap.ui.commons.CheckBox().bindProperty("checked", "queryData>include").setTooltip("{i18nModel>queryEnableClause}")
 			}), 1);
 			sQueryTreeTable.insertColumn(new sap.ui.table.Column({
 				width : "15%",
 				hAlign : "Center",
-				template : new sap.ui.commons.CheckBox().bindProperty("checked", "queryData>optional").setTooltip("{i18n>queryOptionalClause}")
+				template : new sap.ui.commons.CheckBox().bindProperty("checked", "queryData>optional").setTooltip("{i18nModel>queryOptionalClause}")
 			}), 2);
 			sQueryTreeTable.insertColumn(new sap.ui.table.Column({
 				width : "15%",
 				hAlign : "Center",
 				template : new sap.ui.commons.Button({
 					icon : "images/delete.gif",
-					tooltip : "{i18n>queryDeleteClause}",
+					tooltip : "{i18nModel>queryDeleteClause}",
 					lite : true,
 					press : function() {
 						sQueryController.pushQuery(sap.ui.getCore().getModel("queryData").getData());
@@ -433,13 +433,13 @@ sap.ui.controller("lens.QueryView", {
 				hAlign : "Center",
 				label : new sap.ui.commons.Button({
 					icon : "images/add.gif",
-					tooltip : "{i18n>queryAddClause}",
+					tooltip : "{i18nModel>queryAddClause}",
 					lite : true,
 					press : this.addDatatypeProperty
 				}),
 				template : new sap.ui.commons.Button({
 					icon : "images/add.gif",
-					tooltip : "{i18n>queryAddClause}",
+					tooltip : "{i18nModel>queryAddClause}",
 					lite : true,
 					press : this.addDatatypeProperty
 
@@ -451,13 +451,13 @@ sap.ui.controller("lens.QueryView", {
 				label : new sap.ui.commons.Button({
 					vAlign : "Top",
 					icon : "images/link.gif",
-					tooltip : "{i18n>queryLinkClause}",
+					tooltip : "{i18nModel>queryLinkClause}",
 					lite : true,
 					press : this.addObjectProperty
 				}),
 				template : new sap.ui.commons.Button({
 					icon : "images/link.gif",
-					tooltip : "{i18n>queryLinkClause}",
+					tooltip : "{i18nModel>queryLinkClause}",
 					lite : true,
 					press : this.addObjectProperty
 				})

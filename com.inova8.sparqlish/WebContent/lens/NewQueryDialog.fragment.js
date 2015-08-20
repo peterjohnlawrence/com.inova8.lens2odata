@@ -1,7 +1,7 @@
 sap.ui.jsfragment("lens.NewQueryDialog", {
 	createContent : function(oController) {
 		var oNewQueryDialog = new sap.ui.commons.Dialog("NewQueryDialog", {
-			title : "{i18n>newQueryDialogTitle}",
+			title : "{i18nModel>newQueryDialogTitle}",
 			modal : true,
 			maxWidth : "500px",
 			showCloseButton : false
@@ -15,7 +15,7 @@ sap.ui.jsfragment("lens.NewQueryDialog", {
 			oCloseButton.firePress();
 		};
 		var oCloseButton = new sap.ui.commons.Button({
-			text : "{i18n>dialogClose}",
+			text : "{i18nModel>dialogClose}",
 			press : function() {
 				var newQueryName = queryNameTemplate.getValue();
 				if (newQueryName.length > 0) {
@@ -43,7 +43,7 @@ sap.ui.jsfragment("lens.NewQueryDialog", {
 		};
 
 		var oCancelButton = new sap.ui.commons.Button({
-			text : "{i18n>dialogCancel}",
+			text : "{i18nModel>dialogCancel}",
 			press : function() {
 				queryNameTemplate.setValue("");
 				oNewQueryDialog.close();

@@ -22,7 +22,7 @@ sap.ui.core.Control.extend("sparqlish.control.objectPropertyClauseControl", {
 		var self = this;
 		self.setAggregation("_objectProperty", new sparqlish.control.objectPropertyControl({
 			selected : function(oEvent) {
-				self.getAggregation("_objectPropertyFilters").getAggregation("_extendFilter").setVisible(false);
+//				self.getAggregation("_objectPropertyFilters").getAggregation("_extendFilter").setVisible(false);
 			},
 			changed : function(oEvent) {
 				var currentModel = this.getModel("queryModel");
@@ -48,11 +48,12 @@ sap.ui.core.Control.extend("sparqlish.control.objectPropertyClauseControl", {
 		}
 	},
 	renderer : function(oRm, oControl) {
+		oRm.addClass("objectPropertyClause");
 		oRm.write("<div ");
 		oRm.writeControlData(oControl);
 		oRm.writeClasses();
 		oRm.write(">");
-		oRm.write(sap.ui.getCore().getModel("i18n").getProperty("objectPropertyClauseWith"));
+		oRm.write(sap.ui.getCore().getModel("i18nModel").getProperty("objectPropertyClauseWith"));
 		oRm.renderControl(oControl.getAggregation("_objectProperty"));
 		oRm.renderControl(oControl.getAggregation("_objectPropertyFilters"));
 		oRm.write("</div>");

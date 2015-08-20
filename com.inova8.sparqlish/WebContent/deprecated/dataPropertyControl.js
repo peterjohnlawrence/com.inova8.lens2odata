@@ -50,7 +50,7 @@ sap.ui.core.Control.extend("sparqlish.control.dataPropertyControl", {
 					self.fireSelected({dataProperty:oEvent.getParameter("item").getText()});
 				}).open(false, this.getFocusDomRef(), eDock.BeginTop, eDock.beginBottom, this.getDomRef());
 			}
-		}).bindProperty("text","queryModel>dataProperty"));
+		}).bindProperty("text","queryModel>dataProperty").addStyleClass("menuLink") );
 	},
 	renderer : function(oRm, oControl) {
 		oRm.renderControl(oControl.getAggregation("_dataProperty"));

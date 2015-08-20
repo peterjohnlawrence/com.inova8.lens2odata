@@ -1,9 +1,9 @@
 jQuery.sap.require("sparqlish.control.dataPropertyFilterControl");
 jQuery.sap.require("sparqlish.control.dataPropertyConjunctionFilterControl");
+jQuery.sap.require("sparqlish.control.iconLink");
 sap.ui.core.Control.extend("sparqlish.control.dataPropertyFiltersControl", {
 	metadata : {
 		properties : {
-			dataPropertyFilters : "object"
 		},
 		aggregations : {
 			_dataPropertyFilter : {
@@ -60,7 +60,7 @@ sap.ui.core.Control.extend("sparqlish.control.dataPropertyFiltersControl", {
 		);
 
 		self.setAggregation("_extendFilter", new sparqlish.control.iconLink({
-			visible : false,
+			visible : true,
 			text : "[+]",
 			icon : "add-filter",
 			tooltip : "Add a data filter value",
@@ -89,7 +89,7 @@ sap.ui.core.Control.extend("sparqlish.control.dataPropertyFiltersControl", {
 					} else if (currentModelData.conjunctionFilters == null) {
 						currentModelData.conjunctionFilters = [ {
 							"_class" : "ConjunctionFilter",
-							"filterConjunction" : "[enter conjunction]",
+							"filterConjunction" : sap.ui.getCore().getModel("i18nModel").getProperty("conjunctionClauseAnd"),
 							"dataPropertyFilter" : {
 								"_class" : "DataPropertyFilter",
 								"condition" : "[enter condition]",
@@ -100,7 +100,7 @@ sap.ui.core.Control.extend("sparqlish.control.dataPropertyFiltersControl", {
 					} else {
 						currentModelData.conjunctionFilters.push({
 							"_class" : "ConjunctionFilter",
-							"filterConjunction" : "[enter conjunction]",
+							"filterConjunction" : sap.ui.getCore().getModel("i18nModel").getProperty("conjunctionClauseAnd"),
 							"dataPropertyFilter" : {
 								"_class" : "DataPropertyFilter",
 								"condition" : "[enter condition]",
@@ -117,22 +117,17 @@ sap.ui.core.Control.extend("sparqlish.control.dataPropertyFiltersControl", {
 			}
 		}));
 	},
-	setDataPropertyFilters : function(oDataPropertyFilters) {
-		var self = this;
-		// self.setProperty("dataPropertyFilters", oDataPropertyFilters);
-	},
+
 	renderer : function(oRm, oControl) {
 		if (oControl.getAggregation("_dataPropertyFilter") != null) {
 			oRm.renderControl(oControl.getAggregation("_dataPropertyFilter"));
 			var dataPropertyConjunctionFilters = oControl.getAggregation("_dataPropertyConjunctionFilters");
 			if (dataPropertyConjunctionFilters != null) {
-
 				for (var i = 0; i < dataPropertyConjunctionFilters.length; i++) {
 					oRm.renderControl(dataPropertyConjunctionFilters[i]);
 				}
 			}
 		}
-		oRm.write("&nbsp;");
 		oRm.renderControl(oControl.getAggregation("_extendFilter"));
 	}
 });

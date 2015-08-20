@@ -1,7 +1,7 @@
 sap.ui.jsfragment("lens.ObjectPropertyDialog", {
 	createContent : function(oController) {
 		var oObjectPropertyDialog = new sap.m.Dialog("ObjectPropertyDialog", {
-			title : "{i18n>objectPropertyDialogTitle}",
+			title : "{i18nModel>objectPropertyDialogTitle}",
 			modal : true,
 			maxWidth : "400px",
 			contentWidth : "700px",
@@ -10,7 +10,7 @@ sap.ui.jsfragment("lens.ObjectPropertyDialog", {
 		});
 
 		var oCloseButton = new sap.ui.commons.Button({
-			text : "{i18n>dialogClose}",
+			text : "{i18nModel>dialogClose}",
 			press : function() {
 				var queryObject= oObjectPropertyForm.getBindingContext("queryData").getObject();
 				var objectPropertyLabel = queryObject.propertyLabel;
@@ -33,7 +33,7 @@ sap.ui.jsfragment("lens.ObjectPropertyDialog", {
 			}
 		});
 		var oCancelButton = new sap.ui.commons.Button({
-			text : "{i18n>dialogCancel}",
+			text : "{i18nModel>dialogCancel}",
 			press : function() {
 				sQueryController.undo();
 				oObjectPropertyDialog.close();

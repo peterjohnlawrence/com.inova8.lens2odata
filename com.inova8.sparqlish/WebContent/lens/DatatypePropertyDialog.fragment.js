@@ -2,7 +2,7 @@ sap.ui.jsfragment("lens.DatatypePropertyDialog", {
 	createContent : function(oController) {
 		var datatype = null;
 		var oDatatypePropertyDialog = new sap.m.Dialog({
-			title : "{i18n>datatypePropertyDialogTitle}",
+			title : "{i18nModel>datatypePropertyDialogTitle}",
 			modal : true,
 			maxWidth : "600px",
 			contentWidth : "700px",
@@ -15,7 +15,7 @@ sap.ui.jsfragment("lens.DatatypePropertyDialog", {
 		});
 
 		var oCloseButton = new sap.ui.commons.Button({
-			text : "{i18n>dialogClose}",
+			text : "{i18nModel>dialogClose}",
 			press : function() {
 				var datatypePropertyLabel = oDatatypePropertyForm.getBindingContext("queryData").getObject().propertyLabel;
 				var entityContext = datatypePropertyTemplate.getBindingContext("modelData").getObject();
@@ -25,7 +25,7 @@ sap.ui.jsfragment("lens.DatatypePropertyDialog", {
 			}
 		});
 		var oCancelButton = new sap.ui.commons.Button({
-			text : "{i18n>dialogCancel}",
+			text : "{i18nModel>dialogCancel}",
 			press : function() {
 				sQueryController.undo();
 				oDatatypePropertyDialog.close();

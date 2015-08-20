@@ -3,7 +3,7 @@ jQuery.sap.require("sap.ui.core.IconPool");
 sap.ui.core.Control.extend("sparqlish.control.dataPropertyConjunctionFilterControl", {
 	metadata : {
 		properties : {
-			dataPropertyConjunctionFilter : "object"
+//			dataPropertyConjunctionFilter : "object"
 		},
 		aggregations : {
 			_conjunction : {
@@ -36,17 +36,17 @@ sap.ui.core.Control.extend("sparqlish.control.dataPropertyConjunctionFilterContr
 				var eDock = sap.ui.core.Popup.Dock;
 				var oConjunctionMenu = new sap.ui.unified.Menu({
 					items : [ new sap.ui.unified.MenuItem({
-						text : '{i18n>dataPropertyClauseDELETE}',
+						text : '{i18nModel>dataPropertyClauseDELETE}',
 						icon : sap.ui.core.IconPool.getIconURI("delete")
 					}), new sap.ui.unified.MenuItem({
-						text : '{i18n>dataPropertyClauseAnd}'
+						text : '{i18nModel>dataPropertyClauseAnd}'
 					}), new sap.ui.unified.MenuItem({
-						text : '{i18n>dataPropertyClauseOr}'
+						text : '{i18nModel>dataPropertyClauseOr}'
 					}) ]
 				});
 				oConjunctionMenu.attachItemSelect(function(oEvent) {
 					var selectedItem = oEvent.getParameter("item").getText();
-					if (selectedItem == sap.ui.getCore().getModel("i18n").getProperty("dataPropertyClauseDELETE")) {
+					if (selectedItem == sap.ui.getCore().getModel("i18nModel").getProperty("dataPropertyClauseDELETE")) {
 						// TODO add handler
 						me.fireDeleted();
 					} else {
@@ -54,7 +54,7 @@ sap.ui.core.Control.extend("sparqlish.control.dataPropertyConjunctionFilterContr
 					}
 				}).open(false, this.getFocusDomRef(), eDock.BeginTop, eDock.beginBottom, this.getDomRef());
 			}
-		}));
+		}).addStyleClass("menuLink") );
 		self.setAggregation("_dataPropertyFilter", new sparqlish.control.dataPropertyFilterControl({
 			deleted : function(oEvent) {
 				// TODO Should not delete if there are still some conjunctions
@@ -75,8 +75,8 @@ sap.ui.core.Control.extend("sparqlish.control.dataPropertyConjunctionFilterContr
 			}
 		}).bindElement("queryModel>dataPropertyFilter"));
 	},
-	setDataPropertyConjunctionFilter : function(oDataPropertyConjunctionFilter) {
-	},
+//	setDataPropertyConjunctionFilter : function(oDataPropertyConjunctionFilter) {
+//	},
 	renderer : function(oRm, oControl) {
 		oRm.write("&nbsp;");
 		oRm.renderControl(oControl.getAggregation("_conjunction"));

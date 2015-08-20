@@ -65,7 +65,7 @@ sap.ui.jsfragment("lens.FormView", {
 		oFormViewForm.setModel(resultsModel, "resultsModel");
 		
 		var oFormViewDialog = new sap.ui.commons.Dialog("FormView",{
-		   title : "{i18n>lensResultsForm}",
+		   title : "{i18nModel>lensResultsForm}",
 		   modal : false,
 		   maxWidth : "700px"
 		});

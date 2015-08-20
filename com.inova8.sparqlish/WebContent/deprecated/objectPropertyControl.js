@@ -40,7 +40,7 @@ sap.ui.core.Control.extend("sparqlish.control.objectPropertyControl", {
 				}) ]
 				});
 				oObjectPropertyMenu.attachItemSelect(function(oEvent) {
-					//TODO self not safe
+					// TODO self not safe
 					if(self.getAggregation("_objectProperty").getText()!=oEvent.getParameter("item").getText()){
 						self.fireChanged({objectProperty:oEvent.getParameter("item").getText()});
 					}
@@ -48,7 +48,7 @@ sap.ui.core.Control.extend("sparqlish.control.objectPropertyControl", {
 					self.fireSelected({objectProperty:oEvent.getParameter("item").getText()});
 				}).open(false, this.getFocusDomRef(), eDock.BeginTop, eDock.beginBottom, this.getDomRef());
 			}
-		}));
+		}).addStyleClass("menuLink") );
 	},
 
 	renderer : function(oRm, oControl) {

@@ -1,4 +1,5 @@
 jQuery.sap.require("sparqlish.control.objectPropertyFilterControl");
+jQuery.sap.require("sparqlish.control.iconLink");
 sap.ui.core.Control.extend("sparqlish.control.objectPropertyFiltersControl", {
 	metadata : {
 		aggregations : {
@@ -32,7 +33,7 @@ sap.ui.core.Control.extend("sparqlish.control.objectPropertyFiltersControl", {
 			}
 		}));
 		self.setAggregation("_extendFilter", new sparqlish.control.iconLink({
-			visible:false,
+			visible:true,
 			text : "[+]",
 			icon : "add-filter",
 			tooltip : "Add an object filter value",
@@ -53,15 +54,6 @@ sap.ui.core.Control.extend("sparqlish.control.objectPropertyFiltersControl", {
 				self.getParent().rerender();
 			}
 		}));
-	},
-	setObjectPropertyClause : function(oObjectPropertyFilters) {
-		var self = this;
-		self.setProperty("objectPropertyFilters", oObjectPropertyFilters, true);
-		if (oObjectPropertyFilters != null) {
-			if (oObjectPropertyFilters.length > 0)
-				self.getAggregation("_extendFilter").setVisible(true);
-		}
-		self.getAggregation("_extendFilter").setVisible(true);
 	},
 	renderer : function(oRm, oControl) {
 		var objectPropertyFilters = oControl.getAggregation("_objectPropertyFilters");

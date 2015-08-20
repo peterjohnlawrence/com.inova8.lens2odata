@@ -17,32 +17,36 @@ sap.ui.core.Control.extend("sparqlish.control.dataPropertyFilterControl", {
 			}
 		}
 	},
+
 	init : function() {
 		var self = this;
 		self.setAggregation("_condition", new sap.ui.commons.Link({
 			text : "{queryModel>condition}",
 			tooltip : "Select a condition",
 			press : function(oEvent) {
-				// var oSource = oEvent.getSource();
-				// TODO Need to explicitly find 'this' instead of using self in the case of a aggregation with multiple=true
 				var me = oEvent.getSource().getParent();
+				var oClauseContext = self._clauseContext(me);
+
+				this.oDataPropertyType = oClauseContext.getDataProperty().type;
+				//
 				var eDock = sap.ui.core.Popup.Dock;
-				var oConditiontMenu = new sap.ui.unified.Menu({
-					items : [ new sap.ui.unified.MenuItem({
-						text : 'DELETE',
-						icon : sap.ui.core.IconPool.getIconURI("delete")
-					}), new sap.ui.unified.MenuItem({
-						text : 'containing'
-					}), new sap.ui.unified.MenuItem({
-						text : 'less than'
-					}), new sap.ui.unified.MenuItem({
-						text : 'greater than'
-					}), new sap.ui.unified.MenuItem({
-						text : 'equals'
-					}) ]
+
+				var oConditionMenu = new sap.ui.unified.Menu({
+					items : {
+						path : "datatypesModel>/datatypes/" + this.oDataPropertyType + "/conditions",
+						template : new sap.ui.unified.MenuItem({
+							text : "{datatypesModel>condition}"
+						})
+					}
 				});
-				oConditiontMenu.attachItemSelect(function(oEvent) {
-				//	var me = oEvent.getSource().getParent();
+				// TODO Really need to add a delete menu item 
+				oConditionMenu.addItem(new sap.ui.unified.MenuItem({
+					text : '{i18nModel>dataPropertyFilterDELETE}',
+					icon : sap.ui.core.IconPool.getIconURI("delete")
+				}));
+
+				oConditionMenu.attachItemSelect(function(oEvent) {
+					// var me = oEvent.getSource().getParent();
 					var selectedItem = oEvent.getParameter("item").getText();
 					if (selectedItem == 'DELETE') {
 						me.fireDeleted();
@@ -51,16 +55,32 @@ sap.ui.core.Control.extend("sparqlish.control.dataPropertyFilterControl", {
 					}
 				}).open(false, this.getFocusDomRef(), eDock.BeginTop, eDock.beginBottom, this.getDomRef());
 			}
-		}));
+		}).addStyleClass("menuLink"));
 		self.setAggregation("_value", new sap.ui.commons.InPlaceEdit({
 			content : new sap.ui.commons.TextField({
 				value : "{queryModel>value}",
 				tooltip : "Enter value for condition",
 				width : "auto"
-			})
+			}).addStyleClass("dataPropertyValue")
 		}));
 	},
+	_clauseContext : function(me) {
+		var oClauseContext = me.getParent().getParent();
+		if (oClauseContext.getMetadata()._sClassName != "sparqlish.control.clauseControl") {
+			oClauseContext = oClauseContext.getParent();
+		}
+		return oClauseContext;
+	},
 	renderer : function(oRm, oControl) {
+
+		if (oControl.getAggregation("_condition").getText() == "[enter condition]") {
+			// not yet defined so lets bind to the first concept in collection
+			// TODO DELETE is the first condition
+			var oClauseContext = oControl._clauseContext(oControl);
+			oControl.oDataPropertyType = oClauseContext.getDataProperty().type;
+			oControl.getAggregation("_condition").setText(
+					oControl.getModel("datatypesModel").getProperty("/datatypes/" + oControl.oDataPropertyType + "/conditions/1/condition"));
+		}
 		oRm.write("&nbsp;");
 		oRm.renderControl(oControl.getAggregation("_condition"));
 		oRm.write("&nbsp;");

@@ -1,13 +1,13 @@
 sap.ui.jsfragment("lens.EntityDialog", {
 	createContent : function(oController) {
 		var oEntityDialog = new sap.ui.commons.Dialog({
-		   title : "{i18n>entityDialogTitle}",
+		   title : "{i18nModel>entityDialogTitle}",
 		   modal : true,
 		   maxWidth : "400px"
 		});
 
 		var oButton = new sap.ui.commons.Button({
-		   text : "{i18n>dialogClose}",
+		   text : "{i18nModel>dialogClose}",
 		   press : function() {
 			   oEntityDialog.close();
 		   }

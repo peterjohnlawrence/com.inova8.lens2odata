@@ -4,13 +4,13 @@
 		{
 			"_class": "Query",
 			"name": "Test1:No clauses",
-			"concept": "Order"
+			"concept": "Orders"
 		},
 
 		{
 			"_class": "Query",
 			"name": "Test2:Single clauses",
-			"concept": "Order",
+			"concept": "Orders",
 			"label": "Order",
 			"clauses": 
 			{
@@ -43,7 +43,7 @@
 		{
 			"_class": "Query",
 			"name": "Test3:Optional Single clauses",
-			"concept": "Order",
+			"concept": "Orders",
 			"clauses": 
 			{
 				"_class": "Clauses",
@@ -77,7 +77,7 @@
 		{
 			"_class": "Query",
 			"name": "Test4:Optional two clauses",
-			"concept": "Order",
+			"concept": "Orders",
 			"clauses": 
 			{
 				"_class": "Clauses",
@@ -145,7 +145,7 @@
 		{
 			"_class": "Query",
 			"name": "Test5:Object clause",
-			"concept": "Order",
+			"concept": "Orders",
 			"clauses": 
 			{
 				"_class": "Clauses",
@@ -172,7 +172,7 @@
 		{
 			"_class": "Query",
 			"name": "Test6:Object clauses",
-			"concept": "Order",
+			"concept": "Orders",
 			"clauses": 
 			{
 				"_class": "Clauses",
@@ -214,7 +214,7 @@
 		{
 			"_class": "Query",
 			"name": "Test7:Object clauses",
-			"concept": "Order",
+			"concept": "Orders",
 			"clauses": 
 			{
 				"_class": "Clauses",
@@ -264,7 +264,7 @@
 		{
 			"_class": "Query",
 			"name": "Test8:Object object clauses",
-			"concept": "Order",
+			"concept": "Orders",
 			"clauses": 
 			{
 				"_class": "Clauses",
@@ -304,7 +304,7 @@
 			"name": "Test9:Object object clauses",
 			"top": 100,
 			"skip": null,
-			"concept": "Order",
+			"concept": "Orders",
 			"clauses": 
 			{
 				"_class": "Clauses",

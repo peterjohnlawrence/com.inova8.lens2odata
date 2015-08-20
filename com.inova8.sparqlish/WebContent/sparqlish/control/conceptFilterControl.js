@@ -16,7 +16,7 @@ sap.ui.core.Control.extend("sparqlish.control.conceptFilterControl", {
 	init : function() {
 		var self = this;
 		self.setAggregation("_conceptFilter", new sap.ui.commons.Link({
-			//TODO Only allows for a single valued primary key
+			// TODO Only allows for a single valued primary key
 		//	text : '{= "{queryModel>" + ${entityTypeModel>/key/propertyRef/0/name}+"}"}',
 		//	text :{ path : "='queryModel>'+${entityTypeModel>/key/propertyRef/0/name}" },
 		//text :{ path : '="queryModel>" + ${entityTypeModel>/key/propertyRef/0/name}' },
@@ -29,7 +29,7 @@ sap.ui.core.Control.extend("sparqlish.control.conceptFilterControl", {
 				var eDock = sap.ui.core.Popup.Dock;
 				var oConceptMenu = new sap.ui.unified.Menu({
 					items : [ new sap.ui.unified.MenuItem({
-						text : 'DELETE',
+						text : '{i18nModel>conceptFilterDELETE}',
 						icon : sap.ui.core.IconPool.getIconURI("delete")
 					}), new sap.ui.unified.MenuItem({
 						text : 'northwind:Order-0'
@@ -50,9 +50,10 @@ sap.ui.core.Control.extend("sparqlish.control.conceptFilterControl", {
 					}
 				}).open(false, this.getFocusDomRef(), eDock.BeginTop, eDock.beginBottom, this.getDomRef());
 			}
-		}));
+		}).addStyleClass("menuLink") );
 	},
 	renderer : function(oRm, oControl) {
+		
 		oRm.write("&nbsp;");
 		oRm.renderControl(oControl.getAggregation("_conceptFilter"));
 	}
