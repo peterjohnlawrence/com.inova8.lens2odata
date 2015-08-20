@@ -1,0 +1,414 @@
+<!doctype html>
+<html>
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+<base href="../">
+
+<title>Sparqlish</title>
+<script id="sap-ui-bootstrap" src="openui5/sap-ui-core.js" data-sap-ui-theme="sap_bluecrystal" data-sap-ui-libs="sap.ui.commons"
+		data-sap-ui-libs="sap.ui.unified" data-sap-ui-resourceroots='{
+            "sparqlish":"./",
+					"sparqlish":"./sparqlish"
+        }'
+		data-sap-ui-xx-bindingSyntax="complex" type="text/javascript">></script>
+<script type="text/javascript" src="resources/jquery.rdfquery.core.min-1.0.js"></script>
+<script type="text/javascript" src="sparqlish/sparqlish.js"></script>
+<script type="text/javascript" src="sparqlish/utilities.js"></script>
+<script type="text/javascript" src="sparqlish/control/propertyMenu.js"></script>
+<script type="text/javascript" src="sparqlish/control/includeOptionalIgnore.js"></script>
+<script type="text/javascript" src="sparqlish/control/queryControl.js"></script>
+<script type="text/javascript" src="sparqlish/control/conceptClauseControl.js"></script>
+<script type="text/javascript" src="sparqlish/control/clauseControl.js"></script>
+<script type="text/javascript" src="sparqlish/control/queryClause.js"></script>
+<style>
+.conceptClause {
+	font: 16px arial, sans-serif;
+	font-weight: normal; //
+	font-size: 100%;
+	display:inline-block;
+}
+
+.objectPropertyClause {
+	font: 16px arial, sans-serif;
+	font-weight: normal; //
+	font-size: 100%;
+	display:inline-block;
+}
+
+.dataPropertyClause {
+	font: 16px arial, sans-serif;
+	font-weight: normal; //
+	font-size: 100%;
+	display:inline-block;
+}
+.dataPropertyValue {
+	font: 16px arial, sans-serif;
+	font-weight: normal; //
+	font-size: 100%;
+	display:inline-block;
+}
+.clause {
+	font: 16px arial, sans-serif;
+	font-weight: normal; //
+	font-size: 100%;
+	display:inline-block;
+}
+.conjunctionClause {
+	font: 16px arial, sans-serif;
+	font-weight: normal; //
+	font-size: 100%;
+	display:inline-block;
+}
+.menuLink {
+	font: 16px arial, sans-serif;
+	font-weight: normal; //
+	font-size: 100%;
+	display:inline-block;
+}
+.sapUiIcon {
+
+}
+</style>
+<script type="text/javascript">
+//Mock OData server
+jQuery.sap.require("sap.ui.core.util.MockServer");
+
+var sUri = "/mock/";
+var oMockServer = new sap.ui.core.util.MockServer({
+	rootUri : sUri
+});
+var sMetadataUrl = "test-resources/northwind.v2.metadata.xml";
+oMockServer.simulate(sMetadataUrl);
+oMockServer.start();
+
+var oDataModel = new sap.ui.model.odata.ODataModel(sUri, true);
+var oMetaModel = oDataModel.getMetaModel();
+sap.ui.getCore().setModel(oMetaModel, "metaModel");
+
+// TODO this should be part of the control
+var oMetaModelEntityContainer = oMetaModel.getODataEntityContainer();
+var oEntityContainerModel = new sap.ui.model.json.JSONModel();
+oEntityContainerModel.setData(oMetaModelEntityContainer);
+sap.ui.getCore().setModel(oEntityContainerModel, "entityContainer");
+
+// set up models
+var i18nModel = new sap.ui.model.resource.ResourceModel({
+	bundleUrl : [ ".", "i18n/messageBundle.properties" ].join("/")
+});
+sap.ui.getCore().setModel(i18nModel, "i18nModel");
+
+var oQueryModel = new sap.ui.model.json.JSONModel();
+oQueryModel.loadData("test-resources/sparqlish.qunit.odata.json", null, false);
+sap.ui.getCore().setModel(oQueryModel, "queryModel");
+
+// datatypesModel>
+var oDatatypesModel = new sap.ui.model.json.JSONModel();
+oDatatypesModel.loadData("test-resources/datatypesModel.json", null, false);
+sap.ui.getCore().setModel(oDatatypesModel, "datatypesModel");
+
+// var oPropertyMenu = new sparqlish.control.propertyMenu();
+// oPropertyMenu.setModel(oQueryModel, "queryModel");
+// oPropertyMenu.setModel(oMetaModel, "metaModel");
+// oPropertyMenu.setModel(oDatatypesModel, "datatypesModel");
+// oPropertyMenu.bindElement("queryModel>/queries/9/clauses/conjunctionClauses/1/clause");
+// oPropertyMenu.placeAt("uiPropertyMenu");
+
+// var oIncludeOptionalIgnore = new sparqlish.control.includeOptionalIgnore();
+// oIncludeOptionalIgnore.setModel(oQueryModel, "queryModel");
+// oIncludeOptionalIgnore.setModel(oMetaModel, "metaModel");
+// oIncludeOptionalIgnore.setModel(oDatatypesModel, "datatypesModel");
+// oIncludeOptionalIgnore.bindElement("queryModel>/queries/9/clauses/conjunctionClauses/1/clause");
+// oIncludeOptionalIgnore.placeAt("uiIncludeOptionalIgnore");
+
+// var oQueryControl1 = new sparqlish.control.queryControl();
+// oQueryControl1.setModel(oQueryModel, "queryModel");
+// oQueryControl1.setModel(oMetaModel, "metaModel");
+// oQueryControl1.setModel(oDatatypesModel, "datatypesModel");
+// oQueryControl1.bindElement("queryModel>/queries/9/");
+// oQueryControl1.placeAt("uiQueryControl1");
+
+// var oQueryControl2 = new sparqlish.control.queryControl();
+// oQueryControl2.setModel(oQueryModel, "queryModel");
+// oQueryControl2.setModel(oMetaModel, "metaModel");
+// oQueryControl2.setModel(oDatatypesModel, "datatypesModel");
+// oQueryControl2.bindElement("queryModel>/queries/9/clauses/conjunctionClauses/1/clause");
+// oQueryControl2.placeAt("uiQueryControl2");
+
+// var oQueryControl3 = new sparqlish.control.queryControl();
+// oQueryControl3.setModel(oQueryModel, "queryModel");
+// oQueryControl3.setModel(oMetaModel, "metaModel");
+// oQueryControl3.setModel(oDatatypesModel, "datatypesModel");
+// oQueryControl3.bindElement("queryModel>/queries/9/clauses/conjunctionClauses/1/clause/propertyClause/clauses/clause");
+// oQueryControl3.placeAt("uiQueryControl3");
+
+// var oQueryControl4 = new sparqlish.control.queryControl();
+// oQueryControl4.setModel(oQueryModel, "queryModel");
+// oQueryControl4.setModel(oMetaModel, "metaModel");
+// oQueryControl4.setModel(oDatatypesModel, "datatypesModel");
+// oQueryControl4.bindElement("queryModel>/queries/9/clauses/conjunctionClauses/1");
+// oQueryControl4.placeAt("uiQueryControl4");
+
+// var oConceptClauseControl = new sparqlish.control.conceptClauseControl();
+// oConceptClauseControl.setModel(oQueryModel, "queryModel");
+// oConceptClauseControl.setModel(oMetaModel, "metaModel");
+// oConceptClauseControl.setModel(oDatatypesModel, "datatypesModel");
+// oConceptClauseControl.bindElement("queryModel>/queries/9/");
+// oConceptClauseControl.placeAt("uiConceptClauseControl");
+
+// var oClauseControl1 = new sparqlish.control.clauseControl();
+// oClauseControl1.setModel(oQueryModel, "queryModel");
+// oClauseControl1.setModel(oMetaModel, "metaModel");
+// oClauseControl1.setModel(oMetaModel, "datatypesModel");
+// oClauseControl1.bindElement("queryModel>/queries/9/clauses/conjunctionClauses/1/clause");
+// oClauseControl1.placeAt("uiClauseControl1");
+
+// var oClauseControl2 = new sparqlish.control.clauseControl();
+// oClauseControl2.setModel(oQueryModel, "queryModel");
+// oClauseControl2.setModel(oMetaModel, "metaModel");
+// oClauseControl2.setModel(oDatatypesModel, "datatypesModel");
+// oClauseControl2.bindElement("queryModel>/queries/9/clauses/conjunctionClauses/1/clause/propertyClause/clauses/clause");
+// oClauseControl2.placeAt("uiClauseControl2");
+
+// var oConceptClauseInitModel = new sap.ui.model.json.JSONModel();
+// oConceptClauseInitModel.setData({
+// 	"_class" : "Query",
+// 	"name" : "Test: Order query",
+// 	"concept" : "",
+// 	"conceptFilters" : []
+// });
+// var oConceptClauseInitControl = new sparqlish.control.conceptClauseControl();
+// oConceptClauseInitControl.setModel(oConceptClauseInitModel, "queryModel");
+// oConceptClauseInitControl.setModel(oMetaModel, "metaModel");
+// oConceptClauseInitControl.setModel(oDatatypesModel, "datatypesModel");
+// oConceptClauseInitControl.bindElement("queryModel>/");
+// oConceptClauseInitControl.placeAt("uiConceptClauseInitControl");
+
+// var oClauseInitModel = new sap.ui.model.json.JSONModel();
+// oClauseInitModel.setData({
+// 	"_class" : "Query",
+// 	"name" : "Test: Order query",
+// 	"concept" : "Regions",
+// 	"conceptFilters" : [],
+// 	"clauses" : {
+// 		"_class" : "Clauses",
+// 		"clause" : {
+// 			"_class" : "Clause",
+// 			"ignore" : false,
+// 			"optional" : true,
+// 			"includeOptionalIgnore" : "include"
+// 		}
+// 	}
+// });
+// var oClauseInitControl = new sparqlish.control.clauseControl();
+// oClauseInitControl.setModel(oClauseInitModel, "queryModel");
+// oClauseInitControl.setModel(oMetaModel, "metaModel");
+// oClauseInitControl.setModel(oDatatypesModel, "datatypesModel");
+// oClauseInitControl.bindElement("queryModel>/clauses/clause/");
+// oClauseInitControl.placeAt("uiClauseInitControl");
+
+// var oConjunctionClauseInitModel = new sap.ui.model.json.JSONModel();
+// oConjunctionClauseInitModel.setData(
+// {
+// 	"_class" : "Query",
+// 	"name" : "Test: Order query",
+// 	"concept" : "Orders",
+// 	"conceptFilters" : [],
+// 	"clauses" : {
+// 		"_class" : "Clauses",
+// 		"clause" : {
+// 			"_class" : "Clause",
+// 			"ignore" : false,
+// 			"optional" : true,
+// 			"includeOptionalIgnore" : "include",
+// 			"propertyClause" : {}
+// 		},
+// 		"conjunctionClauses" : [ {
+// 			"_class" : "ConjunctionClause",
+// 			"conjunction" : "or",
+// 			"clause" : {
+// 				"_class" : "Clause",
+// 				"ignore" : false,
+// 				"optional" : true,
+// 				"includeOptionalIgnore" : "include",
+// // 				"propertyClause" : {
+// // 					"_class" : "DataPropertyClause",
+// // 					"dataProperty":"ShippedDate",
+// // 					"dataPropertyFilters":{}				
+// // 				}			
+// 			}
+// 		}]	
+// 	}
+// }
+// );
+// var oConjunctionClauseInitControl = new sparqlish.control.conjunctionClauseControl();
+// oConjunctionClauseInitControl.setModel(oConjunctionClauseInitModel, "queryModel");
+// oConjunctionClauseInitControl.setModel(oMetaModel, "metaModel");
+// oConjunctionClauseInitControl.setModel(oDatatypesModel, "datatypesModel");
+// oConjunctionClauseInitControl.bindElement("queryModel>/clauses/conjunctionClauses/0");
+// oConjunctionClauseInitControl.placeAt("uiConjunctionClauseInitControl");
+
+// var oQueryInitModel = new sap.ui.model.json.JSONModel();
+// oQueryInitModel.setData({
+// 	"_class" : "Query",
+// 	"concept" : ""
+// });
+// var oQueryInitControl = new sparqlish.control.queryControl();
+// oQueryInitControl.setModel(oQueryInitModel, "queryModel");
+// oQueryInitControl.setModel(oMetaModel, "metaModel");
+// oQueryInitControl.setModel(oDatatypesModel, "datatypesModel");
+// oQueryInitControl.bindElement("queryModel>/");
+// oQueryInitControl.placeAt("uiQueryInitControl");
+
+// var oQueryClause1 = new sparqlish.control.queryClause();
+// oQueryClause1.setModel(oQueryModel, "queryModel");
+// oQueryClause1.setModel(oMetaModel, "metaModel");
+// oQueryClause1.setModel(oDatatypesModel, "datatypesModel");
+// oQueryClause1.bindElement("queryModel>/queries/9/");
+// oQueryClause1.setClausePath("queryModel>/queries/9/");
+// oQueryClause1.placeAt("uiQueryClause1");
+
+// var oQueryClause2 = new sparqlish.control.queryClause();
+// oQueryClause2.setModel(oQueryModel, "queryModel");
+// oQueryClause2.setModel(oMetaModel, "metaModel");
+// oQueryClause2.setModel(oDatatypesModel, "datatypesModel");
+// oQueryClause2.bindElement("queryModel>/queries/9/clauses/clause/");
+// oQueryClause2.setClausePath("queryModel>/queries/9/clauses/clause/");
+// oQueryClause2.placeAt("uiQueryClause2");
+
+// var oQueryClause2b = new sparqlish.control.queryClause();
+// oQueryClause2b.setModel(oQueryModel, "queryModel");
+// oQueryClause2b.setModel(oMetaModel, "metaModel");
+// oQueryClause2b.setModel(oDatatypesModel, "datatypesModel");
+// oQueryClause2b.bindElement("queryModel>/queries/9/clauses/clause/");
+// oQueryClause2b.setClausePath("queryModel>/queries/9/clauses/clause/");
+// oQueryClause2b.placeAt("uiQueryClause2b");
+
+// var oQueryClause3 = new sparqlish.control.queryClause();
+// oQueryClause3.setModel(oQueryModel, "queryModel");
+// oQueryClause3.setModel(oMetaModel, "metaModel");
+// oQueryClause3.setModel(oDatatypesModel, "datatypesModel");
+// oQueryClause3.bindElement("queryModel>/queries/9/clauses/conjunctionClauses/0/");
+// oQueryClause3.setClausePath("queryModel>/queries/9/clauses/conjunctionClauses/0/");
+// oQueryClause3.placeAt("uiQueryClause3");
+
+var oQueryClause4 = new sparqlish.control.queryClause();
+oQueryClause4.setModel(oQueryModel, "queryModel");
+oQueryClause4.setModel(oMetaModel, "metaModel");
+oQueryClause4.setModel(oDatatypesModel, "datatypesModel");
+oQueryClause4.setModel(oEntityContainerModel, "entityContainer");
+//oQueryClause4.bindElement("queryModel>/queries/1/");
+oQueryClause4.setClausePath("queryModel>/queries/1/");
+oQueryClause4.placeAt("uiQueryClause4");
+
+var oQueryClause4b = new sparqlish.control.queryClause();
+oQueryClause4b.setModel(oQueryModel, "queryModel");
+oQueryClause4b.setModel(oMetaModel, "metaModel");
+oQueryClause4b.setModel(oDatatypesModel, "datatypesModel");
+oQueryClause4b.setModel(oEntityContainerModel, "entityContainer");
+//oQueryClause4b.bindElement("queryModel>/queries/1/clauses/clause/");
+oQueryClause4b.setClausePath("queryModel>/queries/1/clauses/clause/");
+oQueryClause4b.placeAt("uiQueryClause4b");
+
+</script>
+</head>
+<body>
+		<table>		
+				<tr>
+						<td>PropertyMenu:</td>
+						<td><button onclick="alert(JSON.stringify( oQueryModel.getProperty('',oPropertyMenu.getBindingContext('queryModel'))))">Data</button></td>
+						<td><div id="uiPropertyMenu"></div></td>
+				</tr>
+				<tr>
+						<td>includeOptionalIgnore:</td>
+						<td><button onclick="alert(JSON.stringify( oQueryModel.getProperty('',oIncludeOptionalIgnore.getBindingContext('queryModel'))))">Data</button></td>
+						<td><div id="uiIncludeOptionalIgnore"></div></td>
+				</tr>
+				<tr>
+						<td>QueryControl1:</td>
+						<td><button onclick="alert(JSON.stringify( oQueryModel.getProperty('',oQueryControl1.getBindingContext('queryModel'))))">Data</button></td>
+						<td><div id="uiQueryControl1"></div></td>
+				</tr>
+				<tr>
+						<td>QueryControl2:</td>
+						<td><button onclick="alert(JSON.stringify( oQueryModel.getProperty('',oQueryControl2.getBindingContext('queryModel'))))">Data</button></td>
+						<td><div id="uiQueryControl2"></div></td>
+				</tr>
+				<tr>
+						<td>QueryControl3:</td>
+						<td><button onclick="alert(JSON.stringify( oQueryModel.getProperty('',oQueryControl3.getBindingContext('queryModel'))))">Data</button></td>
+						<td><div id="uiQueryControl3"></div></td>
+				</tr>
+				<tr>
+						<td>QueryControl4:</td>
+						<td><button onclick="alert(JSON.stringify( oQueryModel.getProperty('',oQueryControl4.getBindingContext('queryModel'))))">Data</button></td>
+						<td><div id="uiQueryControl4"></div></td>
+				</tr>
+				<tr>
+						<td>ConceptClauseControl:</td>
+						<td><button onclick="alert(JSON.stringify( oQueryModel.getProperty('',oConceptClauseControl.getBindingContext('queryModel'))))">Data</button></td>
+						<td><div id="uiConceptClauseControl"></div></td>
+				</tr>
+				<tr>
+						<td>ClauseControl1:</td>
+						<td><button onclick="alert(JSON.stringify( oQueryModel.getProperty('',oClauseControl1.getBindingContext('queryModel'))))">Data</button></td>
+						<td><div id="uiClauseControl1"></div></td>
+				</tr>
+				<tr>
+						<td>ClauseControl2:</td>
+						<td><button onclick="alert(JSON.stringify( oQueryModel.getProperty('',oClauseControl2.getBindingContext('queryModel'))))">Data</button></td>
+						<td><div id="uiClauseControl2"></div></td>
+				</tr>				<tr>
+						<td>ConceptClauseInitControl:</td>
+						<td><button onclick="alert(JSON.stringify(oConceptClauseInitModel.getData()))">Data</button></td>
+						<td><div id="uiConceptClauseInitControl"></div></td>
+				</tr>
+				<tr>
+						<td>ClauseInitControl:</td>
+						<td><button onclick="alert(JSON.stringify(oClauseInitModel.getData()))">Data</button></td>
+						<td><div id="uiClauseInitControl"></div></td>
+				</tr>
+				<tr>
+						<td>ConjunctionClauseInitControl:</td>
+						<td><button onclick="alert(JSON.stringify(oConjunctionClauseInitModel.getData()))">Data</button></td>
+						<td><div id="uiConjunctionClauseInitControl"></div></td>
+				</tr>
+				<tr>
+						<td>QueryInitControl:</td>
+						<td><button onclick="alert(JSON.stringify(oQueryInitModel.getData()))">Data</button></td>
+						<td><div id="uiQueryInitControl"></div></td>
+				</tr>	
+				<tr>
+						<td>QueryClause1:</td>
+						<td><button onclick="alert(JSON.stringify( oQueryModel.getProperty('',oQueryClause1.getBindingContext('queryModel'))))">Data</button></td>
+						<td><div id="uiQueryClause1"></div></td>
+				</tr>
+				<tr>
+						<td>QueryClause2:</td>
+						<td><button onclick="alert(JSON.stringify( oQueryModel.getProperty('',oQueryClause2.getBindingContext('queryModel'))))">Data</button></td>
+						<td><div id="uiQueryClause2"></div></td>
+				</tr>
+				<tr>
+						<td>QueryClause2b:</td>
+						<td><button onclick="alert(JSON.stringify( oQueryModel.getProperty('',oQueryClause2b.getBindingContext('queryModel'))))">Data</button></td>
+						<td><div id="uiQueryClause2b"></div></td>
+				</tr>
+				<tr>
+						<td>QueryClause3:</td>
+						<td><button onclick="alert(JSON.stringify( oQueryModel.getProperty('',oQueryClause3.getBindingContext('queryModel'))))">Data</button></td>
+						<td><div id="uiQueryClause3"></div></td>
+				</tr>	
+				<tr>
+						<td>QueryClause4:</td>
+						<td><button onclick="alert(JSON.stringify( oQueryModel.getProperty('',oQueryClause4.getBindingContext('queryModel'))))">Data</button></td>
+						<td><div id="uiQueryClause4"></div></td>
+				</tr>	
+				<tr>
+						<td>QueryClause4b:</td>
+						<td><button onclick="alert(JSON.stringify( oQueryModel.getProperty('',oQueryClause4b.getBindingContext('queryModel'))))">Data</button></td>
+						<td><div id="uiQueryClause4b"></div></td>
+				</tr>
+			</table>
+		<div id="uiTable"></div>
+</body>
+</html>
