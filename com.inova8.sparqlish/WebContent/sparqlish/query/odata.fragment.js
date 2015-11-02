@@ -6,7 +6,7 @@ sap.ui.jsfragment("sparqlish.query.odata", {
 			tooltip : "This will generate the query to return full results",
 			press : function() {
 				var query = new Query(oController.queryAST.queries[oController.iCurrentQuery]);
-				alert(query.odataURI());
+				alert(oController.sUrl + query.odataURI());
 			}
 		});
 		return myButton;

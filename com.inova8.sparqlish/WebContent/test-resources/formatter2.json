@@ -1,83 +1,46 @@
 {
-	"_class": "ConjunctionClause",
-	"conjunction": "and",
-	"clause": 
+	"_class": "Query",
+	"concept": "Orders",
+	"clauses": 
 	{
-		"_class": "Clause",
-		"includeOptionalIgnore": "include",
-		"ignore": false,
-		"optional": false,
-		"label": "Customer",
-		"propertyClause": 
+		"_class": "Clauses",
+		"clause": 
 		{
-			"_class": "DataPropertyClause",
-			"clauses": 
+			"_class": "Clause",
+			"ignore": false,
+			"optional": false,
+			"propertyClause": 
 			{
-				"_class": "Clauses",
+				"_class": "DataPropertyClause",
+				"dataProperty": "RequiredDate",
+				"dataPropertyFilters": 
+				{
+					"_class": "DataPropertyFilters"
+				}
+			}
+		},
+
+		"conjunctionClauses": 
+		[
+			{
+				"_class": "ConjunctionClause",
+				"conjunction": "and",
 				"clause": 
 				{
 					"_class": "Clause",
-					"includeOptionalIgnore": "include",
 					"ignore": false,
 					"optional": false,
 					"propertyClause": 
 					{
 						"_class": "DataPropertyClause",
-						"dataProperty": "CompanyName",
+						"dataProperty": "OrderDate",
 						"dataPropertyFilters": 
 						{
-							"_class": "DataPropertyFilters",
-							"dataPropertyFilter": 
-							{
-								"_class": "DataPropertyFilter",
-								"condition": "containing",
-								"value": "Bon",
-								"datatype": "<http://www.w3.org/2001/XMLSchema#string>",
-								"type": "Edm.String"
-							}
+							"_class": "DataPropertyFilters"
 						}
 					}
-				},
-
-				"conjunctionClauses": 
-				[
-					{
-						"_class": "ConjunctionClause",
-						"conjunction": "and",
-						"clause": 
-						{
-							"_class": "Clause",
-							"includeOptionalIgnore": "include",
-							"ignore": false,
-							"optional": false,
-							"label": "Contact name",
-							"propertyClause": 
-							{
-								"_class": "DataPropertyClause",
-								"dataProperty": "ContactName",
-								"dataPropertyFilters": 
-								{
-									"_class": "DataPropertyFilters",
-									"dataPropertyFilter": 
-									{
-										"_class": "DataPropertyFilter",
-										"condition": "containing",
-										"value": "Leb",
-										"datatype": "<http://www.w3.org/2001/XMLSchema#string>",
-										"type": "Edm.String"
-									}
-								}
-							}
-						}
-					}
-				]
-			},
-
-			"dataProperty": "OrderID",
-			"dataPropertyFilters": 
-			{
-				
+				}
 			}
-		}
+		]
 	}
 }

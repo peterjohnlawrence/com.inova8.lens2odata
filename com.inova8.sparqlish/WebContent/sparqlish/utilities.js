@@ -8,7 +8,7 @@ entityTypeContext = function(oQueryModel, oMetaModel, oContext) {
 	var sContextPath = path[0];
 
 	for (var index = 1; index < depth; index++) {
-		sContextPath += "clauses"+  path[index];
+		sContextPath += "clauses" + path[index];
 		var sObjectProperty = oQueryModel.getProperty(sContextPath).objectProperty;
 		var navigationProperty = getNavigationProperty(sEntityType, sObjectProperty);
 		var toEntitySet = navigationProperty.toRole;
@@ -17,22 +17,27 @@ entityTypeContext = function(oQueryModel, oMetaModel, oContext) {
 	return oMetaModel.getODataEntityType(sEntityType);
 };
 entityTypeQName = function(oQueryModel, oMetaModel, oContext) {
-	var path = oContext.getPath().split("clauses");
-	var depth = (path.length - 1);
+	try {
+		var path = oContext.getPath().split("clauses");
 
-	var sConcept = oQueryModel.getProperty(path[0]).concept;
-	var sEntityType = oMetaModel.getODataEntitySet(sConcept).entityType;
-	path.splice(path.length - 1, 1);
-	var sContextPath = path[0];
+		var depth = (path.length - 1);
 
-	for (var index = 1; index < depth; index++) {
-		sContextPath += "clauses"+  path[index];
-		var sObjectProperty = oQueryModel.getProperty(sContextPath).objectProperty;
-		var navigationProperty = getNavigationProperty(sEntityType, sObjectProperty);
-		var toEntitySet = navigationProperty.toRole;
-		sEntityType = oMetaModel.getODataEntitySet(toEntitySet).entityType;
+		var sConcept = oQueryModel.getProperty(path[0]).concept;
+		var sEntityType = oMetaModel.getODataEntitySet(sConcept).entityType;
+		path.splice(path.length - 1, 1);
+		var sContextPath = path[0];
+
+		for (var index = 1; index < depth; index++) {
+			sContextPath += "clauses" + path[index];
+			var sObjectProperty = oQueryModel.getProperty(sContextPath).objectProperty;
+			var navigationProperty = getNavigationProperty(sEntityType, sObjectProperty);
+			var toEntitySet = navigationProperty.toRole;
+			sEntityType = oMetaModel.getODataEntitySet(toEntitySet).entityType;
+		}
+		return sEntityType;
+	} catch (error) {
+		jQuery.sap.log.fatal(error, 'Failed to locate qName using context ' + oContext.getPath());
 	}
-	return sEntityType;
 };
 getNavigationProperty = function(sEntityType, sObjectProperty) {
 	var oEntityType = oMetaModel.getODataEntityType(sEntityType);
@@ -50,4 +55,18 @@ getProperty = function(sEntityType, sProperty) {
 			return properties[index];
 	}
 	return properties[0];
+};
+checkClass = function(oControl, oRm, sModel, _class) {
+	if (oControl.getModel(sModel).getProperty("_class", oControl.getBindingContext(sModel)) !=_class) {
+		oRm.addClass("error");
+		oRm.write("<div ");
+		oRm.writeControlData(oControl);
+		oRm.writeClasses();
+		oRm.write(">");
+		oRm.write("Not referencing a " +  _class + " class");
+		oRm.write("</div>");
+		return false;
+	}else{
+		return true;
+	}
 }

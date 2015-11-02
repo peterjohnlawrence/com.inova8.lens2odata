@@ -40,7 +40,7 @@ sap.ui.core.Control
 								}
 								currentPropertyClause._class = "DataPropertyClause";
 								currentPropertyClause.dataProperty = sSelectedProperty;
-								currentPropertyClause.dataPropertyFilters = {};
+								currentPropertyClause.dataPropertyFilters = {"_class":"DataPropertyFilters"};
 								delete currentPropertyClause.objectProperty;
 								delete currentPropertyClause.objectPropertyFilters;
 								// clauses only apply to objectProperties but we have switched to a dataProperty
@@ -89,7 +89,7 @@ sap.ui.core.Control
 								});
 							}
 						};
-						var oLink = new sap.ui.commons.Link(
+						var oPropertyLink = new sap.ui.commons.Link(
 								{
 									text : "{=  ${queryModel>propertyClause/_class} ==='DataPropertyClause'  ?   ${queryModel>propertyClause/dataProperty} : (${queryModel>propertyClause/_class} ==='ObjectPropertyClause' ? ${queryModel>propertyClause/objectProperty}: ${i18nModel>clauseSelectProperty})}",
 									tooltip : "{i18nModel>propertyMenuTooltip}"
@@ -119,19 +119,11 @@ sap.ui.core.Control
 						self.oPropertyMenuItemDataProperty.setSubmenu(self.oDataPropertyMenu);
 						// self.oPropertyMenu.attachItemSelect(dataPropertySelect);
 
-						oLink.attachPress(function(oEvent) {
+						oPropertyLink.attachPress(function(oEvent) {
 							var self = oEvent.getSource().getParent();
 							// Setup property menu according to current model context if not already set
-							var oEntityTypeContext = self.getParent().getEntityTypeContext();
-							var sEntityTypeQName = self.getParent().getEntityTypeQName();
-
-							// if (oEntityTypeContext == undefined) {
-							// sEntityTypeQName = entityTypeQName(self.getModel("queryModel"), oMetaModel,
-							// self.getBindingContext("queryModel"));
-							// oEntityTypeContext = oMetaModel.getODataEntityType(sEntityTypeQName);
-							// self.getParent().setEntityTypeContext(oEntityTypeContext);
-							// self.getParent().setEntityTypeQName(sEntityTypeQName);
-							// }
+							var oEntityTypeContext = self.getParent().getDomainEntityTypeContext();
+							var sEntityTypeQName = self.getParent().getDomainEntityTypeQName();
 							self.oEntityTypeModel = new sap.ui.model.json.JSONModel();
 							self.oEntityTypeModel.setData(oEntityTypeContext);
 							self.oPropertyMenu.setModel(self.oEntityTypeModel, "entityTypeModel");
@@ -146,7 +138,7 @@ sap.ui.core.Control
 //							self.oPropertyMenu.open(false, oLink.getFocusDomRef(), eDock.BeginTop, eDock.beginBottom, oLink.getDomRef());
 						});
 
-						self.setAggregation("_property", oLink);
+						self.setAggregation("_property", oPropertyLink);
 					},
 					renderer : function(oRm, oControl) {
 						//oRm.writeControlData(oControl);

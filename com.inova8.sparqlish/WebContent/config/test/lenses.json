@@ -1,0 +1,155 @@
+{
+	"templates": 
+	{
+		"testTemplate1": 
+		{
+			"type": "rows",
+			"width": "100%",
+			"height": "100%",
+			"rows": 
+			[
+				{
+					"content": 
+					{
+						"type": "lens",
+						"id": "R1"
+					}
+				},
+
+				{
+					"content": 
+					{
+						"type": "columns",
+						"width": "100%",
+						"height": "100%",
+						"columns": 
+						[
+							{
+								"content": 
+								{
+									"type": "lens",
+									"id": "R2-C1"
+								}
+							},
+
+							{
+								"content": 
+								{
+									"type": "rows",
+									"width": "100%",
+									"height": "100%",
+									"rows": 
+									[
+										{
+											"content": 
+											{
+												"type": "lens",
+												"id": "R2-C2-R1"
+											}
+										},
+
+										{
+											"content": 
+											{
+												"type": "lens",
+												"id": "R2-C2-R2"
+											}
+										}
+									]
+								}
+							},
+
+							{
+								"content": 
+								{
+									"type": "lens",
+									"id": "R2-C3"
+								}
+							}
+						]
+					}
+				},
+
+				{
+					"content": 
+					{
+						"type": "columns",
+						"width": "100%",
+						"height": "100%",
+						"columns": 
+						[
+							{
+								"content": 
+								{
+									"type": "lens",
+									"id": "R3-C1"
+								}
+							},
+
+							{
+								"content": 
+								{
+									"type": "lens",
+									"id": "R3-C2"
+								}
+							}
+						]
+					}
+				}
+			]
+		},
+
+		"testTemplate2": 
+		{
+			"type": "rows",
+			"width": "100%",
+			"height": "100%",
+			"rows": 
+			[
+				{
+					"content": 
+					{
+						"type": "lens",
+						"id": "R1"
+					}
+				},
+
+				{
+					"content": 
+					{
+						"type": "lens",
+						"id": "R3-C1"
+					}
+				}
+			]
+		}
+	},
+
+	"lenses": 
+	{
+		"(default)": 
+		{
+			"Northwind.Orders": 
+			{
+				"title": "Orders Lens",
+				"template": "testTemplate1",
+				"fragments": 
+				{
+					"R3-C1": 
+					{
+						"title": "Order Dates",
+						"type": "Components.queryResultsForm",
+						"query": "../proxy/http/services.odata.org/V2/Northwind/Northwind.svc/Orders()?&$expand=&$select=OrderDate,RequiredDate&"
+					},
+
+					"R1": 
+					{
+						"title": "Products",
+						"type": "Components.queryResultsTable",
+						"query": "../proxy/http/services.odata.org/V2/Northwind/Northwind.svc/Products()?&$expand=&$select=ProductID,ProductName,SupplierID,CategoryID,QuantityPerUnit,UnitPrice,UnitsInStock,UnitsOnOrder,ReorderLevel,Discontinued&"
+					}
+				}
+			}
+		}
+	}
+}

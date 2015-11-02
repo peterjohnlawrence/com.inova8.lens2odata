@@ -1,0 +1,15 @@
+{
+	"name": "Components.queryResultsTable.Component",
+	"version": "0.1.0",
+	"description": "Components.queryResultsTable.Component",
+	"keywords": 
+	[
+		"table",
+		"query"
+	],
+
+	"dependencies": 
+	{
+		
+	}
+}

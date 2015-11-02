@@ -1,0 +1,10 @@
+{
+	"queries": 
+	[
+		{
+			"_class": "Query",
+			"name": "Test1:No clauses",
+			"concept": "Company"
+		}
+	]
+}

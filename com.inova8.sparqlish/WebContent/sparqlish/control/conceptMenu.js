@@ -1,5 +1,6 @@
-// TODO why is this required
-jQuery.sap.require("sap.ui.unified.MenuItem");
+jQuery.sap.require("sap.ui.commons.ListBox");
+jQuery.sap.require("sap.ui.core.ListItem");
+jQuery.sap.require("sap.ui.ux3.ToolPopup");
 sap.ui.core.Control.extend("sparqlish.control.conceptMenu", {
 	metadata : {
 		aggregations : {
@@ -22,57 +23,51 @@ sap.ui.core.Control.extend("sparqlish.control.conceptMenu", {
 	},
 	init : function() {
 		var self = this;
-		var oLink = new sap.ui.commons.Link({
+		self.oConceptLink = new sap.ui.commons.Link({
 			text : "{queryModel>concept}",
 			tooltip : "Select a concept to find"
-		}).addStyleClass("menuLink");
+		});
+		self.oConceptLink.addStyleClass("menuLink");
 
-		var oConceptMenu = new sap.ui.unified.Menu({
+		self.oConceptList = new sap.ui.commons.ListBox({
 			items : {
 				path : "entityContainer>/entitySet",
-				template : new sap.ui.unified.MenuItem({
+				template : new sap.ui.core.ListItem({
 					text : "{entityContainer>name}"
 				})
 			}
 		});
 
-		oLink.attachPress(function(oEvent) {
-			var oSource = oEvent.getSource();
-			var eDock = sap.ui.core.Popup.Dock;
-			oConceptMenu.open(false, this.getFocusDomRef(), eDock.BeginTop, eDock.beginBottom, this.getDomRef());
-			// oConceptMenu.open(false, oLink.getFocusDomRef(), eDock.BeginTop, eDock.beginBottom, oLink.getDomRef());
+		self.oConceptPopup = new sap.ui.ux3.ToolPopup();
+		self.oConceptPopup.addContent(self.oConceptList);
+		self.oConceptPopup.setOpener(self.oConceptLink);
+		self.oConceptPopup.setAutoClose(true);
+
+		self.oConceptLink.attachPress(function(oEvent) {
+			if (self.oConceptPopup.isOpen()) {
+				self.oConceptPopup.close();
+			} else {
+				self.oConceptPopup.open();
+			}
 		});
-		var conceptSelect = function(oEvent) {
-			if (self.getAggregation("_concept").getText() != oEvent.getParameter("item").getText()) {
+		self.conceptSelect = function(oEvent) {
+			if (self.getAggregation("_concept").getText() != oEvent.getParameter("selectedItem").getText()) {
 				self.fireChanged({
-					concept : oEvent.getParameter("item").getText()
+					concept : oEvent.getParameter("selectedItem").getText()
 				});
 			}
-			self.getAggregation("_concept").setText(oEvent.getParameter("item").getText());
+			self.getAggregation("_concept").setText(oEvent.getParameter("selectedItem").getText());
 			self.fireSelected({
-				concept : oEvent.getParameter("item").getText()
+				concept : oEvent.getParameter("selectedItem").getText()
 			});
-
+			//Now close popup since select completed
+			self.oConceptPopup.close();
 		};
-		oConceptMenu.attachItemSelect(conceptSelect
-		// function(oEvent) {
-		// if (self.getAggregation("_concept").getText() != oEvent.getParameter("item").getText()) {
-		// self.fireChanged({
-		// concept : oEvent.getParameter("item").getText()
-		// });
-		// }
-		// self.getAggregation("_concept").setText(oEvent.getParameter("item").getText());
-		// self.fireSelected({
-		// concept : oEvent.getParameter("item").getText()
-		// });
-		// }
-		);
-
-		this.setAggregation("_concept", oLink);
-
+		self.oConceptList.attachSelect(self.conceptSelect);
+		self.setAggregation("_concept", self.oConceptLink);
 	},
 	renderer : function(oRm, oControl) {
-		// TODO really this should be done on a binding chnage event but where is it?
+		// TODO really this should be done on a binding change event but where is it?
 		if (oControl.getAggregation("_concept").getText() == "") {
 			// not yet defined so lets bind to the first concept in collection
 			oControl.getAggregation("_concept").setText(oControl.getModel("entityContainer").getProperty("/entitySet/0/name"));

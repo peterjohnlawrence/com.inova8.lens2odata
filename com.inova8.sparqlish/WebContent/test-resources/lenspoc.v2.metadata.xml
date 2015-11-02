@@ -1,0 +1,2432 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<edmx:Edmx Version="1.0"
+	xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx">
+	<edmx:DataServices m:DataServiceVersion="1.0"
+		xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata">
+		<Schema Namespace="Instances"
+			xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+			<EntityContainer Name="InstanceContainer"
+				m:IsDefaultEntityContainer="true">
+				<EntitySet Name="Client" EntityType="linklaters.Client"
+					rdfs:label="Client" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+				<EntitySet Name="ClientType" EntityType="linklaters.ClientType"
+					rdfs:label="Client type" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+				<EntitySet Name="Company" EntityType="linklaters.Company"
+					rdfs:label="Company" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+				<EntitySet Name="CompanyType" EntityType="linklaters.CompanyType"
+					rdfs:label="Company type" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+				<EntitySet Name="CostCentre" EntityType="linklaters.CostCentre"
+					rdfs:label="Cost centre" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+				<EntitySet Name="Country" EntityType="linklaters.Country"
+					rdfs:label="Country" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+				<EntitySet Name="Deal" EntityType="linklaters.Deal"
+					rdfs:label="Deal" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+				<EntitySet Name="Division" EntityType="linklaters.Division"
+					rdfs:label="Division" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+				<EntitySet Name="Document" EntityType="linklaters.Document"
+					rdfs:label="Document" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+				<EntitySet Name="DocumentType" EntityType="linklaters.DocumentType"
+					rdfs:label="Document type" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+				<EntitySet Name="Feature" EntityType="linklaters.Feature"
+					rdfs:label="Feature" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+				<EntitySet Name="Fee" EntityType="linklaters.Fee"
+					rdfs:label="Fee" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+				<EntitySet Name="FeeStructure" EntityType="linklaters.FeeStructure"
+					rdfs:label="Fee structure" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+				<EntitySet Name="Job" EntityType="linklaters.Job"
+					rdfs:label="Job" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+				<EntitySet Name="JobGroup" EntityType="linklaters.JobGroup"
+					rdfs:label="Job group" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+				<EntitySet Name="Jurisdiction" EntityType="linklaters.Jurisdiction"
+					rdfs:label="Jurisdiction" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+				<EntitySet Name="LinklatersSector" EntityType="linklaters.LinklatersSector"
+					rdfs:label="Linklaters sector" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+				<EntitySet Name="Matter" EntityType="linklaters.Matter"
+					rdfs:label="Matter" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+				<EntitySet Name="MatterStatus" EntityType="linklaters.MatterStatus"
+					rdfs:label="Matter status" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+				<EntitySet Name="Office" EntityType="linklaters.Office"
+					rdfs:label="Office" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+				<EntitySet Name="OfficeInvolvement" EntityType="linklaters.OfficeInvolvement"
+					rdfs:label="Office involvement" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+				<EntitySet Name="OrganisationRole" EntityType="linklaters.OrganisationRole"
+					rdfs:label="Organisation role" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+				<EntitySet Name="Person" EntityType="linklaters.Person"
+					rdfs:label="Person" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+				<EntitySet Name="Position" EntityType="linklaters.Position"
+					rdfs:label="Position" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+				<EntitySet Name="PracticeGroup" EntityType="linklaters.PracticeGroup"
+					rdfs:label="Practice group" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+				<EntitySet Name="ProfitCentre" EntityType="linklaters.ProfitCentre"
+					rdfs:label="Profit centre" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+				<EntitySet Name="Region" EntityType="linklaters.Region"
+					rdfs:label="Region" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+				<EntitySet Name="SICCode" EntityType="linklaters.SICCode"
+					rdfs:label="SICCode" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+				<EntitySet Name="TransactionType" EntityType="linklaters.TransactionType"
+					rdfs:label="Transaction type" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+				<EntitySet Name="rdfs_Resource" EntityType="rdfs.Resource"
+					rdfs:label="Resource" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+				<EntitySet Name="rdfs_Class" EntityType="rdfs.Class"
+					rdfs:label="Class" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+				<EntitySet Name="owl_Thing" EntityType="owl.Thing"
+					rdfs:label="Thing" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+				<AssociationSet Name="isSICCodeOfClient" Association="linklaters.isSICCodeOfClient"
+					rdfs:label="has Client" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema">
+					<End EntitySet="SICCode" Role="SICCode" />
+					<End EntitySet="Client" Role="Client" />
+				</AssociationSet>
+				<AssociationSet Name="isManagingRelationshipPartnerOfClient"
+					Association="linklaters.isManagingRelationshipPartnerOfClient"
+					rdfs:label="has Client" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema">
+					<End EntitySet="Person" Role="Person" />
+					<End EntitySet="Client" Role="Client" />
+				</AssociationSet>
+				<AssociationSet Name="isLinklatersSectorOfClient"
+					Association="linklaters.isLinklatersSectorOfClient" rdfs:label="has Client"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema">
+					<End EntitySet="LinklatersSector" Role="LinklatersSector" />
+					<End EntitySet="Client" Role="Client" />
+				</AssociationSet>
+				<AssociationSet Name="isCompanyOfClient" Association="linklaters.isCompanyOfClient"
+					rdfs:label="has Client" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema">
+					<End EntitySet="Company" Role="Company" />
+					<End EntitySet="Client" Role="Client" />
+				</AssociationSet>
+				<AssociationSet Name="isClientTypeOfClient"
+					Association="linklaters.isClientTypeOfClient" rdfs:label="has Client"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema">
+					<End EntitySet="ClientType" Role="ClientType" />
+					<End EntitySet="Client" Role="Client" />
+				</AssociationSet>
+				<AssociationSet Name="isMatterOfClient" Association="linklaters.isMatterOfClient"
+					rdfs:label="has Client" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema">
+					<End EntitySet="Matter" Role="Matter" />
+					<End EntitySet="Client" Role="Client" />
+				</AssociationSet>
+				<AssociationSet Name="isClientOfClientType"
+					Association="linklaters.isClientOfClientType" rdfs:label="has Client type"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema">
+					<End EntitySet="Client" Role="Client" />
+					<End EntitySet="ClientType" Role="ClientType" />
+				</AssociationSet>
+				<AssociationSet Name="isLinklatersSectorOfCompany"
+					Association="linklaters.isLinklatersSectorOfCompany" rdfs:label="has Company"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema">
+					<End EntitySet="LinklatersSector" Role="LinklatersSector" />
+					<End EntitySet="Company" Role="Company" />
+				</AssociationSet>
+				<AssociationSet Name="isMatterOfCompany" Association="linklaters.isMatterOfCompany"
+					rdfs:label="has Company" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema">
+					<End EntitySet="Matter" Role="Matter" />
+					<End EntitySet="Company" Role="Company" />
+				</AssociationSet>
+				<AssociationSet Name="isCompanyTypeOfCompany"
+					Association="linklaters.isCompanyTypeOfCompany" rdfs:label="has Company"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema">
+					<End EntitySet="CompanyType" Role="CompanyType" />
+					<End EntitySet="Company" Role="Company" />
+				</AssociationSet>
+				<AssociationSet Name="isClientOfCompany" Association="linklaters.isClientOfCompany"
+					rdfs:label="has Company" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema">
+					<End EntitySet="Client" Role="Client" />
+					<End EntitySet="Company" Role="Company" />
+				</AssociationSet>
+				<AssociationSet Name="isCompanyOfCompanyType"
+					Association="linklaters.isCompanyOfCompanyType" rdfs:label="has Company type"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema">
+					<End EntitySet="Company" Role="Company" />
+					<End EntitySet="CompanyType" Role="CompanyType" />
+				</AssociationSet>
+				<AssociationSet Name="isPersonOfCostCentre"
+					Association="linklaters.isPersonOfCostCentre" rdfs:label="has Cost centre"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema">
+					<End EntitySet="Person" Role="Person" />
+					<End EntitySet="CostCentre" Role="CostCentre" />
+				</AssociationSet>
+				<AssociationSet Name="isOfficeOfCostCentre"
+					Association="linklaters.isOfficeOfCostCentre" rdfs:label="has Cost centre"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema">
+					<End EntitySet="Office" Role="Office" />
+					<End EntitySet="CostCentre" Role="CostCentre" />
+				</AssociationSet>
+				<AssociationSet Name="isPracticeGroupOfCostCentre"
+					Association="linklaters.isPracticeGroupOfCostCentre" rdfs:label="has Cost centre"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema">
+					<End EntitySet="PracticeGroup" Role="PracticeGroup" />
+					<End EntitySet="CostCentre" Role="CostCentre" />
+				</AssociationSet>
+				<AssociationSet Name="isProfitCentreOfCostCentre"
+					Association="linklaters.isProfitCentreOfCostCentre" rdfs:label="has Cost centre"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema">
+					<End EntitySet="ProfitCentre" Role="ProfitCentre" />
+					<End EntitySet="CostCentre" Role="CostCentre" />
+				</AssociationSet>
+				<AssociationSet Name="isDivisionOfCostCentre"
+					Association="linklaters.isDivisionOfCostCentre" rdfs:label="has Cost centre"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema">
+					<End EntitySet="Division" Role="Division" />
+					<End EntitySet="CostCentre" Role="CostCentre" />
+				</AssociationSet>
+				<AssociationSet Name="isCountryOfCostCentre"
+					Association="linklaters.isCountryOfCostCentre" rdfs:label="has Cost centre"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema">
+					<End EntitySet="Country" Role="Country" />
+					<End EntitySet="CostCentre" Role="CostCentre" />
+				</AssociationSet>
+				<AssociationSet Name="isPracticeGroupOfCountry"
+					Association="linklaters.isPracticeGroupOfCountry" rdfs:label="has Country"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema">
+					<End EntitySet="PracticeGroup" Role="PracticeGroup" />
+					<End EntitySet="Country" Role="Country" />
+				</AssociationSet>
+				<AssociationSet Name="isProfitCentreOfCountry"
+					Association="linklaters.isProfitCentreOfCountry" rdfs:label="has Country"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema">
+					<End EntitySet="ProfitCentre" Role="ProfitCentre" />
+					<End EntitySet="Country" Role="Country" />
+				</AssociationSet>
+				<AssociationSet Name="isPersonOfCountry" Association="linklaters.isPersonOfCountry"
+					rdfs:label="has Country" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema">
+					<End EntitySet="Person" Role="Person" />
+					<End EntitySet="Country" Role="Country" />
+				</AssociationSet>
+				<AssociationSet Name="isOfficeOfCountry" Association="linklaters.isOfficeOfCountry"
+					rdfs:label="has Country" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema">
+					<End EntitySet="Office" Role="Office" />
+					<End EntitySet="Country" Role="Country" />
+				</AssociationSet>
+				<AssociationSet Name="isRegionOfCountry" Association="linklaters.isRegionOfCountry"
+					rdfs:label="has Country" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema">
+					<End EntitySet="Region" Role="Region" />
+					<End EntitySet="Country" Role="Country" />
+				</AssociationSet>
+				<AssociationSet Name="isCostCentreOfCountry"
+					Association="linklaters.isCostCentreOfCountry" rdfs:label="has Country"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema">
+					<End EntitySet="CostCentre" Role="CostCentre" />
+					<End EntitySet="Country" Role="Country" />
+				</AssociationSet>
+				<AssociationSet Name="isDocumentOfDeal" Association="linklaters.isDocumentOfDeal"
+					rdfs:label="has Deal" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema">
+					<End EntitySet="Document" Role="Document" />
+					<End EntitySet="Deal" Role="Deal" />
+				</AssociationSet>
+				<AssociationSet Name="isFeatureOfDeal" Association="linklaters.isFeatureOfDeal"
+					rdfs:label="has Deal" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema">
+					<End EntitySet="Feature" Role="Feature" />
+					<End EntitySet="Deal" Role="Deal" />
+				</AssociationSet>
+				<AssociationSet Name="isDocumentTypeOfDeal"
+					Association="linklaters.isDocumentTypeOfDeal" rdfs:label="has Deal"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema">
+					<End EntitySet="DocumentType" Role="DocumentType" />
+					<End EntitySet="Deal" Role="Deal" />
+				</AssociationSet>
+				<AssociationSet Name="isTransactionTypeOfDeal"
+					Association="linklaters.isTransactionTypeOfDeal" rdfs:label="has Deal"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema">
+					<End EntitySet="TransactionType" Role="TransactionType" />
+					<End EntitySet="Deal" Role="Deal" />
+				</AssociationSet>
+				<AssociationSet Name="isOfficeInvolvementOfDeal"
+					Association="linklaters.isOfficeInvolvementOfDeal" rdfs:label="has Deal"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema">
+					<End EntitySet="OfficeInvolvement" Role="OfficeInvolvement" />
+					<End EntitySet="Deal" Role="Deal" />
+				</AssociationSet>
+				<AssociationSet Name="isPracticeGroupOfDeal"
+					Association="linklaters.isPracticeGroupOfDeal" rdfs:label="has Deal"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema">
+					<End EntitySet="PracticeGroup" Role="PracticeGroup" />
+					<End EntitySet="Deal" Role="Deal" />
+				</AssociationSet>
+				<AssociationSet Name="isOfficeOfDeal" Association="linklaters.isOfficeOfDeal"
+					rdfs:label="has Deal" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema">
+					<End EntitySet="Office" Role="Office" />
+					<End EntitySet="Deal" Role="Deal" />
+				</AssociationSet>
+				<AssociationSet Name="isLinklatersSectorOfDeal"
+					Association="linklaters.isLinklatersSectorOfDeal" rdfs:label="has Deal"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema">
+					<End EntitySet="LinklatersSector" Role="LinklatersSector" />
+					<End EntitySet="Deal" Role="Deal" />
+				</AssociationSet>
+				<AssociationSet Name="isSICCodeOfDeal" Association="linklaters.isSICCodeOfDeal"
+					rdfs:label="has Deal" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema">
+					<End EntitySet="SICCode" Role="SICCode" />
+					<End EntitySet="Deal" Role="Deal" />
+				</AssociationSet>
+				<AssociationSet Name="isMatterOfDeal" Association="linklaters.isMatterOfDeal"
+					rdfs:label="has Deal" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema">
+					<End EntitySet="Matter" Role="Matter" />
+					<End EntitySet="Deal" Role="Deal" />
+				</AssociationSet>
+				<AssociationSet Name="isPersonOfDivision"
+					Association="linklaters.isPersonOfDivision" rdfs:label="has Division"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema">
+					<End EntitySet="Person" Role="Person" />
+					<End EntitySet="Division" Role="Division" />
+				</AssociationSet>
+				<AssociationSet Name="isOfficeOfDivision"
+					Association="linklaters.isOfficeOfDivision" rdfs:label="has Division"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema">
+					<End EntitySet="Office" Role="Office" />
+					<End EntitySet="Division" Role="Division" />
+				</AssociationSet>
+				<AssociationSet Name="isPracticeGroupOfDivision"
+					Association="linklaters.isPracticeGroupOfDivision" rdfs:label="has Division"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema">
+					<End EntitySet="PracticeGroup" Role="PracticeGroup" />
+					<End EntitySet="Division" Role="Division" />
+				</AssociationSet>
+				<AssociationSet Name="isCostCenterOfDivision"
+					Association="linklaters.isCostCenterOfDivision" rdfs:label="has Division"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema">
+					<End EntitySet="CostCentre" Role="CostCentre" />
+					<End EntitySet="Division" Role="Division" />
+				</AssociationSet>
+				<AssociationSet Name="isProfitCentreOfDivision"
+					Association="linklaters.isProfitCentreOfDivision" rdfs:label="has Division"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema">
+					<End EntitySet="ProfitCentre" Role="ProfitCentre" />
+					<End EntitySet="Division" Role="Division" />
+				</AssociationSet>
+				<AssociationSet Name="isDealOfDocument" Association="linklaters.isDealOfDocument"
+					rdfs:label="has Document" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema">
+					<End EntitySet="Deal" Role="Deal" />
+					<End EntitySet="Document" Role="Document" />
+				</AssociationSet>
+				<AssociationSet Name="isDocumentTypeOfDocument"
+					Association="linklaters.isDocumentTypeOfDocument" rdfs:label="has Document"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema">
+					<End EntitySet="DocumentType" Role="DocumentType" />
+					<End EntitySet="Document" Role="Document" />
+				</AssociationSet>
+				<AssociationSet Name="isDocumentOfDocumentType"
+					Association="linklaters.isDocumentOfDocumentType" rdfs:label="has Document type"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema">
+					<End EntitySet="Document" Role="Document" />
+					<End EntitySet="DocumentType" Role="DocumentType" />
+				</AssociationSet>
+				<AssociationSet Name="isDealOfFeature" Association="linklaters.isDealOfFeature"
+					rdfs:label="has Feature" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema">
+					<End EntitySet="Deal" Role="Deal" />
+					<End EntitySet="Feature" Role="Feature" />
+				</AssociationSet>
+				<AssociationSet Name="isMatterOfFee" Association="linklaters.isMatterOfFee"
+					rdfs:label="has Fee" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema">
+					<End EntitySet="Matter" Role="Matter" />
+					<End EntitySet="Fee" Role="Fee" />
+				</AssociationSet>
+				<AssociationSet Name="isFeeEarnerOfFee" Association="linklaters.isFeeEarnerOfFee"
+					rdfs:label="has Fee" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema">
+					<End EntitySet="Person" Role="Person" />
+					<End EntitySet="Fee" Role="Fee" />
+				</AssociationSet>
+				<AssociationSet Name="isMatterOfFeeStructure"
+					Association="linklaters.isMatterOfFeeStructure" rdfs:label="has Fee structure"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema">
+					<End EntitySet="Matter" Role="Matter" />
+					<End EntitySet="FeeStructure" Role="FeeStructure" />
+				</AssociationSet>
+				<AssociationSet Name="isPersonOfJob" Association="linklaters.isPersonOfJob"
+					rdfs:label="has Job" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema">
+					<End EntitySet="Person" Role="Person" />
+					<End EntitySet="Job" Role="Job" />
+				</AssociationSet>
+				<AssociationSet Name="isPersonOfJobGroup2"
+					Association="linklaters.isPersonOfJobGroup2" rdfs:label="has Job group"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema">
+					<End EntitySet="Person" Role="Person" />
+					<End EntitySet="JobGroup" Role="JobGroup" />
+				</AssociationSet>
+				<AssociationSet Name="isPersonOfJobGroup1"
+					Association="linklaters.isPersonOfJobGroup1" rdfs:label="has Job group"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema">
+					<End EntitySet="Person" Role="Person" />
+					<End EntitySet="JobGroup" Role="JobGroup" />
+				</AssociationSet>
+				<AssociationSet Name="isPersonOfJobGroup3"
+					Association="linklaters.isPersonOfJobGroup3" rdfs:label="has Job group"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema">
+					<End EntitySet="Person" Role="Person" />
+					<End EntitySet="JobGroup" Role="JobGroup" />
+				</AssociationSet>
+				<AssociationSet Name="isMatterOfJurisdiction"
+					Association="linklaters.isMatterOfJurisdiction" rdfs:label="has Jurisdiction"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema">
+					<End EntitySet="Matter" Role="Matter" />
+					<End EntitySet="Jurisdiction" Role="Jurisdiction" />
+				</AssociationSet>
+				<AssociationSet Name="isMatterOfLinklatersSector"
+					Association="linklaters.isMatterOfLinklatersSector" rdfs:label="has Linklaters sector"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema">
+					<End EntitySet="Matter" Role="Matter" />
+					<End EntitySet="LinklatersSector" Role="LinklatersSector" />
+				</AssociationSet>
+				<AssociationSet Name="isDealofLinklatersSector"
+					Association="linklaters.isDealofLinklatersSector" rdfs:label="has Linklaters sector"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema">
+					<End EntitySet="Deal" Role="Deal" />
+					<End EntitySet="LinklatersSector" Role="LinklatersSector" />
+				</AssociationSet>
+				<AssociationSet Name="isCompanyOfLinklatersSector"
+					Association="linklaters.isCompanyOfLinklatersSector" rdfs:label="has Linklaters sector"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema">
+					<End EntitySet="Company" Role="Company" />
+					<End EntitySet="LinklatersSector" Role="LinklatersSector" />
+				</AssociationSet>
+				<AssociationSet Name="isClientOfLinklatersSector"
+					Association="linklaters.isClientOfLinklatersSector" rdfs:label="has Linklaters sector"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema">
+					<End EntitySet="Client" Role="Client" />
+					<End EntitySet="LinklatersSector" Role="LinklatersSector" />
+				</AssociationSet>
+				<AssociationSet Name="isFeeOfMatter" Association="linklaters.isFeeOfMatter"
+					rdfs:label="has Matter" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema">
+					<End EntitySet="Fee" Role="Fee" />
+					<End EntitySet="Matter" Role="Matter" />
+				</AssociationSet>
+				<AssociationSet Name="isLinklatersSectorOfMatter"
+					Association="linklaters.isLinklatersSectorOfMatter" rdfs:label="has Matter"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema">
+					<End EntitySet="LinklatersSector" Role="LinklatersSector" />
+					<End EntitySet="Matter" Role="Matter" />
+				</AssociationSet>
+				<AssociationSet Name="isRegionOfMatter" Association="linklaters.isRegionOfMatter"
+					rdfs:label="has Matter" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema">
+					<End EntitySet="Region" Role="Region" />
+					<End EntitySet="Matter" Role="Matter" />
+				</AssociationSet>
+				<AssociationSet Name="isFeeStructureOfMatter"
+					Association="linklaters.isFeeStructureOfMatter" rdfs:label="has Matter"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema">
+					<End EntitySet="FeeStructure" Role="FeeStructure" />
+					<End EntitySet="Matter" Role="Matter" />
+				</AssociationSet>
+				<AssociationSet Name="isOfficeOfMatter" Association="linklaters.isOfficeOfMatter"
+					rdfs:label="has Matter" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema">
+					<End EntitySet="Office" Role="Office" />
+					<End EntitySet="Matter" Role="Matter" />
+				</AssociationSet>
+				<AssociationSet Name="isTransactionTypeOfMatter"
+					Association="linklaters.isTransactionTypeOfMatter" rdfs:label="has Matter"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema">
+					<End EntitySet="TransactionType" Role="TransactionType" />
+					<End EntitySet="Matter" Role="Matter" />
+				</AssociationSet>
+				<AssociationSet Name="isMatterManagerOfMatter"
+					Association="linklaters.isMatterManagerOfMatter" rdfs:label="has Matter"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema">
+					<End EntitySet="Person" Role="Person" />
+					<End EntitySet="Matter" Role="Matter" />
+				</AssociationSet>
+				<AssociationSet Name="isStatusOfMatter" Association="linklaters.isStatusOfMatter"
+					rdfs:label="has Matter" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema">
+					<End EntitySet="MatterStatus" Role="MatterStatus" />
+					<End EntitySet="Matter" Role="Matter" />
+				</AssociationSet>
+				<AssociationSet Name="isPartnerOfMatter" Association="linklaters.isPartnerOfMatter"
+					rdfs:label="has Matter" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema">
+					<End EntitySet="Person" Role="Person" />
+					<End EntitySet="Matter" Role="Matter" />
+				</AssociationSet>
+				<AssociationSet Name="isDealOfMatter" Association="linklaters.isDealOfMatter"
+					rdfs:label="has Matter" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema">
+					<End EntitySet="Deal" Role="Deal" />
+					<End EntitySet="Matter" Role="Matter" />
+				</AssociationSet>
+				<AssociationSet Name="isJurisdictionOfMatter"
+					Association="linklaters.isJurisdictionOfMatter" rdfs:label="has Matter"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema">
+					<End EntitySet="Jurisdiction" Role="Jurisdiction" />
+					<End EntitySet="Matter" Role="Matter" />
+				</AssociationSet>
+				<AssociationSet Name="isFeeEarnerOfMatter"
+					Association="linklaters.isFeeEarnerOfMatter" rdfs:label="has Matter"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema">
+					<End EntitySet="Person" Role="Person" />
+					<End EntitySet="Matter" Role="Matter" />
+				</AssociationSet>
+				<AssociationSet Name="isProfitCentreOfMatter"
+					Association="linklaters.isProfitCentreOfMatter" rdfs:label="has Matter"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema">
+					<End EntitySet="ProfitCentre" Role="ProfitCentre" />
+					<End EntitySet="Matter" Role="Matter" />
+				</AssociationSet>
+				<AssociationSet Name="isClientOfMatter" Association="linklaters.isClientOfMatter"
+					rdfs:label="has Matter" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema">
+					<End EntitySet="Client" Role="Client" />
+					<End EntitySet="Matter" Role="Matter" />
+				</AssociationSet>
+				<AssociationSet Name="isPracticeGroupOfMatter"
+					Association="linklaters.isPracticeGroupOfMatter" rdfs:label="has Matter"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema">
+					<End EntitySet="PracticeGroup" Role="PracticeGroup" />
+					<End EntitySet="Matter" Role="Matter" />
+				</AssociationSet>
+				<AssociationSet Name="isMatterOfStatus" Association="linklaters.isMatterOfStatus"
+					rdfs:label="has Matter status" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema">
+					<End EntitySet="Matter" Role="Matter" />
+					<End EntitySet="MatterStatus" Role="MatterStatus" />
+				</AssociationSet>
+				<AssociationSet Name="isPracticeGroupOfOffice"
+					Association="linklaters.isPracticeGroupOfOffice" rdfs:label="has Office"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema">
+					<End EntitySet="PracticeGroup" Role="PracticeGroup" />
+					<End EntitySet="Office" Role="Office" />
+				</AssociationSet>
+				<AssociationSet Name="isProfitCenterOfOffice"
+					Association="linklaters.isProfitCenterOfOffice" rdfs:label="has Office"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema">
+					<End EntitySet="ProfitCentre" Role="ProfitCentre" />
+					<End EntitySet="Office" Role="Office" />
+				</AssociationSet>
+				<AssociationSet Name="isCostCenterOfOffice"
+					Association="linklaters.isCostCenterOfOffice" rdfs:label="has Office"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema">
+					<End EntitySet="CostCentre" Role="CostCentre" />
+					<End EntitySet="Office" Role="Office" />
+				</AssociationSet>
+				<AssociationSet Name="isDivisionOfOffice"
+					Association="linklaters.isDivisionOfOffice" rdfs:label="has Office"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema">
+					<End EntitySet="Division" Role="Division" />
+					<End EntitySet="Office" Role="Office" />
+				</AssociationSet>
+				<AssociationSet Name="isOfficeInvolvementOfOffice"
+					Association="linklaters.isOfficeInvolvementOfOffice" rdfs:label="has Office"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema">
+					<End EntitySet="OfficeInvolvement" Role="OfficeInvolvement" />
+					<End EntitySet="Office" Role="Office" />
+				</AssociationSet>
+				<AssociationSet Name="isCountryOfOffice" Association="linklaters.isCountryOfOffice"
+					rdfs:label="has Office" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema">
+					<End EntitySet="Country" Role="Country" />
+					<End EntitySet="Office" Role="Office" />
+				</AssociationSet>
+				<AssociationSet Name="isPersonOfOffice" Association="linklaters.isPersonOfOffice"
+					rdfs:label="has Office" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema">
+					<End EntitySet="Person" Role="Person" />
+					<End EntitySet="Office" Role="Office" />
+				</AssociationSet>
+				<AssociationSet Name="hasSecondmentOffice"
+					Association="linklaters.hasSecondmentOffice" rdfs:label="has Office"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema">
+					<End EntitySet="Person" Role="Person" />
+					<End EntitySet="Office" Role="Office" />
+				</AssociationSet>
+				<AssociationSet Name="isMatterOfOffice" Association="linklaters.isMatterOfOffice"
+					rdfs:label="has Office" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema">
+					<End EntitySet="Matter" Role="Matter" />
+					<End EntitySet="Office" Role="Office" />
+				</AssociationSet>
+				<AssociationSet Name="isDealOfOffice" Association="linklaters.isDealOfOffice"
+					rdfs:label="has Office" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema">
+					<End EntitySet="Deal" Role="Deal" />
+					<End EntitySet="Office" Role="Office" />
+				</AssociationSet>
+				<AssociationSet Name="isDealOfOfficeInvolvement"
+					Association="linklaters.isDealOfOfficeInvolvement" rdfs:label="has Office involvement"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema">
+					<End EntitySet="Deal" Role="Deal" />
+					<End EntitySet="OfficeInvolvement" Role="OfficeInvolvement" />
+				</AssociationSet>
+				<AssociationSet Name="isOfficeOfOfficeInvolvement"
+					Association="linklaters.isOfficeOfOfficeInvolvement" rdfs:label="has Office involvement"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema">
+					<End EntitySet="Office" Role="Office" />
+					<End EntitySet="OfficeInvolvement" Role="OfficeInvolvement" />
+				</AssociationSet>
+				<AssociationSet Name="isPersonOfOrganisationalRole"
+					Association="linklaters.isPersonOfOrganisationalRole" rdfs:label="has Organisation role"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema">
+					<End EntitySet="Person" Role="Person" />
+					<End EntitySet="OrganisationRole" Role="OrganisationRole" />
+				</AssociationSet>
+				<AssociationSet Name="isMatterOfMatterManager"
+					Association="linklaters.isMatterOfMatterManager" rdfs:label="has Manager"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema">
+					<End EntitySet="Matter" Role="Matter" />
+					<End EntitySet="Person" Role="Person" />
+				</AssociationSet>
+				<AssociationSet Name="isSecondmentOfficeOfPerson"
+					Association="linklaters.isSecondmentOfficeOfPerson" rdfs:label="has Person"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema">
+					<End EntitySet="Office" Role="Office" />
+					<End EntitySet="Person" Role="Person" />
+				</AssociationSet>
+				<AssociationSet Name="isProfitCentreOfPerson"
+					Association="linklaters.isProfitCentreOfPerson" rdfs:label="has Person"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema">
+					<End EntitySet="ProfitCentre" Role="ProfitCentre" />
+					<End EntitySet="Person" Role="Person" />
+				</AssociationSet>
+				<AssociationSet Name="isDivisionOfPerson"
+					Association="linklaters.isDivisionOfPerson" rdfs:label="has Person"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema">
+					<End EntitySet="Division" Role="Division" />
+					<End EntitySet="Person" Role="Person" />
+				</AssociationSet>
+				<AssociationSet Name="isFeeOfFeeEarner" Association="linklaters.isFeeOfFeeEarner"
+					rdfs:label="has Person" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema">
+					<End EntitySet="Fee" Role="Fee" />
+					<End EntitySet="Person" Role="Person" />
+				</AssociationSet>
+				<AssociationSet Name="isMatterOfPartner" Association="linklaters.isMatterOfPartner"
+					rdfs:label="has Partner" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema">
+					<End EntitySet="Matter" Role="Matter" />
+					<End EntitySet="Person" Role="Person" />
+				</AssociationSet>
+				<AssociationSet Name="isJobGroupOfPerson"
+					Association="linklaters.isJobGroupOfPerson" rdfs:label="has Person"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema">
+					<End EntitySet="JobGroup" Role="JobGroup" />
+					<End EntitySet="Person" Role="Person" />
+				</AssociationSet>
+				<AssociationSet Name="isCostCentreOfPerson"
+					Association="linklaters.isCostCentreOfPerson" rdfs:label="has Person"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema">
+					<End EntitySet="CostCentre" Role="CostCentre" />
+					<End EntitySet="Person" Role="Person" />
+				</AssociationSet>
+				<AssociationSet Name="isJobOfPerson" Association="linklaters.isJobOfPerson"
+					rdfs:label="has Person" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema">
+					<End EntitySet="Job" Role="Job" />
+					<End EntitySet="Person" Role="Person" />
+				</AssociationSet>
+				<AssociationSet Name="isOfficeOfPerson" Association="linklaters.isOfficeOfPerson"
+					rdfs:label="has Person" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema">
+					<End EntitySet="Office" Role="Office" />
+					<End EntitySet="Person" Role="Person" />
+				</AssociationSet>
+				<AssociationSet Name="isMatterOfFeeEarner"
+					Association="linklaters.isMatterOfFeeEarner" rdfs:label="has Fee Earner"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema">
+					<End EntitySet="Matter" Role="Matter" />
+					<End EntitySet="Person" Role="Person" />
+				</AssociationSet>
+				<AssociationSet Name="isClientOfManagingRelationshipPartner"
+					Association="linklaters.isClientOfManagingRelationshipPartner"
+					rdfs:label="has Person" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema">
+					<End EntitySet="Client" Role="Client" />
+					<End EntitySet="Person" Role="Person" />
+				</AssociationSet>
+				<AssociationSet Name="isPracticeGroupOfPerson"
+					Association="linklaters.isPracticeGroupOfPerson" rdfs:label="has Person"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema">
+					<End EntitySet="PracticeGroup" Role="PracticeGroup" />
+					<End EntitySet="Person" Role="Person" />
+				</AssociationSet>
+				<AssociationSet Name="isPositionOfPerson"
+					Association="linklaters.isPositionOfPerson" rdfs:label="has Person"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema">
+					<End EntitySet="Position" Role="Position" />
+					<End EntitySet="Person" Role="Person" />
+				</AssociationSet>
+				<AssociationSet Name="isOrganisationRoleOfPerson"
+					Association="linklaters.isOrganisationRoleOfPerson" rdfs:label="has Person"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema">
+					<End EntitySet="OrganisationRole" Role="OrganisationRole" />
+					<End EntitySet="Person" Role="Person" />
+				</AssociationSet>
+				<AssociationSet Name="isCountryOfPerson" Association="linklaters.isCountryOfPerson"
+					rdfs:label="has Person" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema">
+					<End EntitySet="Country" Role="Country" />
+					<End EntitySet="Person" Role="Person" />
+				</AssociationSet>
+				<AssociationSet Name="isPersonOfPosition"
+					Association="linklaters.isPersonOfPosition" rdfs:label="has Position"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema">
+					<End EntitySet="Person" Role="Person" />
+					<End EntitySet="Position" Role="Position" />
+				</AssociationSet>
+				<AssociationSet Name="isPersonOfPracticeGroup"
+					Association="linklaters.isPersonOfPracticeGroup" rdfs:label="has Practice group"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema">
+					<End EntitySet="Person" Role="Person" />
+					<End EntitySet="PracticeGroup" Role="PracticeGroup" />
+				</AssociationSet>
+				<AssociationSet Name="isCountryOfPracticeGroup"
+					Association="linklaters.isCountryOfPracticeGroup" rdfs:label="has Practice group"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema">
+					<End EntitySet="Country" Role="Country" />
+					<End EntitySet="PracticeGroup" Role="PracticeGroup" />
+				</AssociationSet>
+				<AssociationSet Name="isDealOfPracticeGroup"
+					Association="linklaters.isDealOfPracticeGroup" rdfs:label="has Practice group"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema">
+					<End EntitySet="Deal" Role="Deal" />
+					<End EntitySet="PracticeGroup" Role="PracticeGroup" />
+				</AssociationSet>
+				<AssociationSet Name="isMatterOfPracticeGroup"
+					Association="linklaters.isMatterOfPracticeGroup" rdfs:label="has Practice group"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema">
+					<End EntitySet="Matter" Role="Matter" />
+					<End EntitySet="PracticeGroup" Role="PracticeGroup" />
+				</AssociationSet>
+				<AssociationSet Name="isProfitCentreOfPracticeGroup"
+					Association="linklaters.isProfitCentreOfPracticeGroup" rdfs:label="has Practice group"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema">
+					<End EntitySet="ProfitCentre" Role="ProfitCentre" />
+					<End EntitySet="PracticeGroup" Role="PracticeGroup" />
+				</AssociationSet>
+				<AssociationSet Name="isTransactionTypeOfPracticeGroup"
+					Association="linklaters.isTransactionTypeOfPracticeGroup"
+					rdfs:label="has Practice group" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema">
+					<End EntitySet="TransactionType" Role="TransactionType" />
+					<End EntitySet="PracticeGroup" Role="PracticeGroup" />
+				</AssociationSet>
+				<AssociationSet Name="isDivisionOfPracticeGroup"
+					Association="linklaters.isDivisionOfPracticeGroup" rdfs:label="has Practice group"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema">
+					<End EntitySet="Division" Role="Division" />
+					<End EntitySet="PracticeGroup" Role="PracticeGroup" />
+				</AssociationSet>
+				<AssociationSet Name="isOfficeOfPracticeGroup"
+					Association="linklaters.isOfficeOfPracticeGroup" rdfs:label="has Practice group"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema">
+					<End EntitySet="Office" Role="Office" />
+					<End EntitySet="PracticeGroup" Role="PracticeGroup" />
+				</AssociationSet>
+				<AssociationSet Name="isCostCenterOfPracticeGroup"
+					Association="linklaters.isCostCenterOfPracticeGroup" rdfs:label="has Practice group"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema">
+					<End EntitySet="CostCentre" Role="CostCentre" />
+					<End EntitySet="PracticeGroup" Role="PracticeGroup" />
+				</AssociationSet>
+				<AssociationSet Name="isPersonOfProfitCentre"
+					Association="linklaters.isPersonOfProfitCentre" rdfs:label="has Profit centre"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema">
+					<End EntitySet="Person" Role="Person" />
+					<End EntitySet="ProfitCentre" Role="ProfitCentre" />
+				</AssociationSet>
+				<AssociationSet Name="isPracticeGroupOfProfitCentre"
+					Association="linklaters.isPracticeGroupOfProfitCentre" rdfs:label="has Profit centre"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema">
+					<End EntitySet="PracticeGroup" Role="PracticeGroup" />
+					<End EntitySet="ProfitCentre" Role="ProfitCentre" />
+				</AssociationSet>
+				<AssociationSet Name="isCountryOfProfitCentre"
+					Association="linklaters.isCountryOfProfitCentre" rdfs:label="has Profit centre"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema">
+					<End EntitySet="Country" Role="Country" />
+					<End EntitySet="ProfitCentre" Role="ProfitCentre" />
+				</AssociationSet>
+				<AssociationSet Name="isMatterOfProfitCentre"
+					Association="linklaters.isMatterOfProfitCentre" rdfs:label="has Profit centre"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema">
+					<End EntitySet="Matter" Role="Matter" />
+					<End EntitySet="ProfitCentre" Role="ProfitCentre" />
+				</AssociationSet>
+				<AssociationSet Name="isDivisionOfProfitCentre"
+					Association="linklaters.isDivisionOfProfitCentre" rdfs:label="has Profit centre"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema">
+					<End EntitySet="Division" Role="Division" />
+					<End EntitySet="ProfitCentre" Role="ProfitCentre" />
+				</AssociationSet>
+				<AssociationSet Name="isOfficeOfProfitCentre"
+					Association="linklaters.isOfficeOfProfitCentre" rdfs:label="has Profit centre"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema">
+					<End EntitySet="Office" Role="Office" />
+					<End EntitySet="ProfitCentre" Role="ProfitCentre" />
+				</AssociationSet>
+				<AssociationSet Name="isCostCentreOfProfitCentre"
+					Association="linklaters.isCostCentreOfProfitCentre" rdfs:label="has Profit centre"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema">
+					<End EntitySet="CostCentre" Role="CostCentre" />
+					<End EntitySet="ProfitCentre" Role="ProfitCentre" />
+				</AssociationSet>
+				<AssociationSet Name="isMatterOfRegion" Association="linklaters.isMatterOfRegion"
+					rdfs:label="has Region" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema">
+					<End EntitySet="Matter" Role="Matter" />
+					<End EntitySet="Region" Role="Region" />
+				</AssociationSet>
+				<AssociationSet Name="isCountryOfRegion" Association="linklaters.isCountryOfRegion"
+					rdfs:label="has Region" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema">
+					<End EntitySet="Country" Role="Country" />
+					<End EntitySet="Region" Role="Region" />
+				</AssociationSet>
+				<AssociationSet Name="isMainRegionOfSubRegion"
+					Association="linklaters.isMainRegionOfSubRegion" rdfs:label="has Region"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema">
+					<End EntitySet="Region" Role="Region" />
+					<End EntitySet="Region" Role="Region1" />
+				</AssociationSet>
+				<AssociationSet Name="isDealOfSICCode" Association="linklaters.isDealOfSICCode"
+					rdfs:label="has SICCode" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema">
+					<End EntitySet="Deal" Role="Deal" />
+					<End EntitySet="SICCode" Role="SICCode" />
+				</AssociationSet>
+				<AssociationSet Name="isClientOfSICCode" Association="linklaters.isClientOfSICCode"
+					rdfs:label="has SICCode" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema">
+					<End EntitySet="Client" Role="Client" />
+					<End EntitySet="SICCode" Role="SICCode" />
+				</AssociationSet>
+				<AssociationSet Name="isDealOfTransactionType"
+					Association="linklaters.isDealOfTransactionType" rdfs:label="has Transaction type"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema">
+					<End EntitySet="Deal" Role="Deal" />
+					<End EntitySet="TransactionType" Role="TransactionType" />
+				</AssociationSet>
+				<AssociationSet Name="isPracticeGroupOfTransactionType"
+					Association="linklaters.isPracticeGroupOfTransactionType"
+					rdfs:label="has Transaction type" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema">
+					<End EntitySet="PracticeGroup" Role="PracticeGroup" />
+					<End EntitySet="TransactionType" Role="TransactionType" />
+				</AssociationSet>
+				<AssociationSet Name="isMatterOfTransactionType"
+					Association="linklaters.isMatterOfTransactionType" rdfs:label="has Transaction type"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema">
+					<End EntitySet="Matter" Role="Matter" />
+					<End EntitySet="TransactionType" Role="TransactionType" />
+				</AssociationSet>
+				<AssociationSet Name="type" Association="rdfs.type"
+					rdfs:label="has Type" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema">
+					<End EntitySet="rdfs_Resource" Role="Resource" />
+					<End EntitySet="rdfs_Class" Role="Class" />
+				</AssociationSet>
+				<AssociationSet Name="hasInstance" Association="rdfs.hasInstance"
+					rdfs:label="has Instance" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema">
+					<End EntitySet="rdfs_Class" Role="Class" />
+					<End EntitySet="rdfs_Resource" Role="Resource" />
+				</AssociationSet>
+			</EntityContainer>
+		</Schema>
+		<Schema Namespace="linklaters"
+			xmlns="http://schemas.microsoft.com/ado/2008/09/edm" owl:Ontology="http://data.linklaters.com/"
+			xmlns:owl="http://www.w3.org/2002/07/owl">
+			<EntityType Name="CompanyType" BaseType="owl.Thing"
+				rdfs:Class="http://data.linklaters.com/CompanyType" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema"
+				rdfs:label="Company type">
+				<Property Name="companyType" Type="Edm.String" Nullable="true"
+					rdf:Property="http://data.linklaters.com/companyType" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns"
+					rdfs:Datatype="http://www.w3.org/2001/XMLSchema#string" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema"
+					rdfs:label="company type" />
+				<NavigationProperty Name="isCompanyTypeOfCompany"
+					Relationship="linklaters.isCompanyTypeOfCompany" FromRole="CompanyType"
+					ToRole="Company" rdf:Property="http://data.linklaters.com/isCompanyTypeOfCompany"
+					xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" rdfs:label="has Company"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+			</EntityType>
+			<EntityType Name="Deal" BaseType="owl.Thing"
+				rdfs:Class="http://data.linklaters.com/Deal" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema"
+				rdfs:label="Deal">
+				<Property Name="dealID" Type="Edm.String" Nullable="true"
+					rdf:Property="http://data.linklaters.com/dealID" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns"
+					rdfs:Datatype="http://www.w3.org/2001/XMLSchema#string" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema"
+					rdfs:label="deal ID" />
+				<Property Name="dealDescription" Type="Edm.String"
+					Nullable="true" rdf:Property="http://data.linklaters.com/dealDescription"
+					xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns"
+					rdfs:Datatype="http://www.w3.org/2001/XMLSchema#string" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema"
+					rdfs:label="deal description" />
+				<Property Name="dealTitle" Type="Edm.String" Nullable="true"
+					rdf:Property="http://data.linklaters.com/dealTitle" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns"
+					rdfs:Datatype="http://www.w3.org/2001/XMLSchema#string" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema"
+					rdfs:label="deal title" />
+				<NavigationProperty Name="isDealOfDocument"
+					Relationship="linklaters.isDealOfDocument" FromRole="Deal" ToRole="Document"
+					rdf:Property="http://data.linklaters.com/isDealOfDocument"
+					xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" rdfs:label="has Document"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+				<NavigationProperty Name="isDealOfFeature"
+					Relationship="linklaters.isDealOfFeature" FromRole="Deal" ToRole="Feature"
+					rdf:Property="http://data.linklaters.com/isDealOfFeature"
+					xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" rdfs:label="has Feature"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+				<NavigationProperty Name="isDealofLinklatersSector"
+					Relationship="linklaters.isDealofLinklatersSector" FromRole="Deal"
+					ToRole="LinklatersSector" rdf:Property="http://data.linklaters.com/isDealofLinklatersSector"
+					xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" rdfs:label="has Linklaters sector"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+				<NavigationProperty Name="isDealOfMatter"
+					Relationship="linklaters.isDealOfMatter" FromRole="Deal" ToRole="Matter"
+					rdf:Property="http://data.linklaters.com/isDealOfMatter" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns"
+					rdfs:label="has Matter" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+				<NavigationProperty Name="isDealOfOffice"
+					Relationship="linklaters.isDealOfOffice" FromRole="Deal" ToRole="Office"
+					rdf:Property="http://data.linklaters.com/isDealOfOffice" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns"
+					rdfs:label="has Office" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+				<NavigationProperty Name="isDealOfOfficeInvolvement"
+					Relationship="linklaters.isDealOfOfficeInvolvement" FromRole="Deal"
+					ToRole="OfficeInvolvement" rdf:Property="http://data.linklaters.com/isDealOfOfficeInvolvement"
+					xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" rdfs:label="has Office involvement"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+				<NavigationProperty Name="isDealOfPracticeGroup"
+					Relationship="linklaters.isDealOfPracticeGroup" FromRole="Deal"
+					ToRole="PracticeGroup" rdf:Property="http://data.linklaters.com/isDealOfPracticeGroup"
+					xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" rdfs:label="has Practice group"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+				<NavigationProperty Name="isDealOfSICCode"
+					Relationship="linklaters.isDealOfSICCode" FromRole="Deal" ToRole="SICCode"
+					rdf:Property="http://data.linklaters.com/isDealOfSICCode"
+					xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" rdfs:label="has SICCode"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+				<NavigationProperty Name="isDealOfTransactionType"
+					Relationship="linklaters.isDealOfTransactionType" FromRole="Deal"
+					ToRole="TransactionType" rdf:Property="http://data.linklaters.com/isDealOfTransactionType"
+					xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" rdfs:label="has Transaction type"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+			</EntityType>
+			<EntityType Name="Jurisdiction" BaseType="owl.Thing"
+				rdfs:Class="http://data.linklaters.com/Jurisdiction" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema"
+				rdfs:label="Jurisdiction">
+				<Property Name="jurisdictionName" Type="Edm.String"
+					Nullable="true" rdf:Property="http://data.linklaters.com/jurisdictionName"
+					xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns"
+					rdfs:Datatype="http://www.w3.org/2001/XMLSchema#string" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema"
+					rdfs:label="jurisdiction" />
+				<NavigationProperty Name="isJurisdictionOfMatter"
+					Relationship="linklaters.isJurisdictionOfMatter" FromRole="Jurisdiction"
+					ToRole="Matter" rdf:Property="http://data.linklaters.com/isJurisdictionOfMatter"
+					xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" rdfs:label="has Matter"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+			</EntityType>
+			<EntityType Name="Matter" BaseType="owl.Thing"
+				rdfs:Class="http://data.linklaters.com/Matter" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema"
+				rdfs:label="Matter">
+				<Property Name="nMOEstRecovery" Type="Edm.Decimal"
+					Nullable="true" rdf:Property="http://data.linklaters.com/nMOEstRecovery"
+					xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns"
+					rdfs:Datatype="http://www.w3.org/2001/XMLSchema#decimal"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" rdfs:label="NMO Est Recovery" />
+				<Property Name="nMOFeeEstDate" Type="Edm.DateTime"
+					Nullable="true" rdf:Property="http://data.linklaters.com/nMOFeeEstDate"
+					xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns"
+					rdfs:Datatype="http://www.w3.org/2001/XMLSchema#date" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema"
+					rdfs:label="NMO Fee Est date" />
+				<Property Name="nMOFeeEstimate" Type="Edm.Decimal"
+					Nullable="true" rdf:Property="http://data.linklaters.com/nMOFeeEstimate"
+					xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns"
+					rdfs:Datatype="http://www.w3.org/2001/XMLSchema#decimal"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" rdfs:label="NMO Fee estimate" />
+				<Property Name="pcbBilled" Type="Edm.Decimal" Nullable="true"
+					rdf:Property="http://data.linklaters.com/pcbBilled" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns"
+					rdfs:Datatype="http://www.w3.org/2001/XMLSchema#decimal"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" rdfs:label="PCB billed" />
+				<Property Name="wIPNCRFees" Type="Edm.Decimal" Nullable="true"
+					rdf:Property="http://data.linklaters.com/wIPNCRFees" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns"
+					rdfs:Datatype="http://www.w3.org/2001/XMLSchema#decimal"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" rdfs:label="WIP NCR Fees" />
+				<Property Name="cappingAmount" Type="Edm.Decimal" Nullable="true"
+					rdf:Property="http://data.linklaters.com/cappingAmount" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns"
+					rdfs:Datatype="http://www.w3.org/2001/XMLSchema#decimal"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" rdfs:label="capping amount" />
+				<Property Name="clientAttribute" Type="Edm.String"
+					Nullable="true" rdf:Property="http://data.linklaters.com/clientAttribute"
+					xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns"
+					rdfs:Datatype="http://www.w3.org/2001/XMLSchema#string" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema"
+					rdfs:label="client attribute" />
+				<Property Name="clientRole" Type="Edm.String" Nullable="true"
+					rdf:Property="http://data.linklaters.com/clientRole" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns"
+					rdfs:Datatype="http://www.w3.org/2001/XMLSchema#string" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema"
+					rdfs:label="client role" />
+				<Property Name="closedDate" Type="Edm.DateTime" Nullable="true"
+					rdf:Property="http://data.linklaters.com/closedDate" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns"
+					rdfs:Datatype="http://www.w3.org/2001/XMLSchema#date" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema"
+					rdfs:label="closed date" />
+				<Property Name="matterID" Type="Edm.String" Nullable="true"
+					rdf:Property="http://data.linklaters.com/matterID" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns"
+					rdfs:Datatype="http://www.w3.org/2001/XMLSchema#string" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema"
+					rdfs:label="matter ID" />
+				<Property Name="matterName" Type="Edm.String" Nullable="true"
+					rdf:Property="http://data.linklaters.com/matterName" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns"
+					rdfs:Datatype="http://www.w3.org/2001/XMLSchema#string" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema"
+					rdfs:label="matter name" />
+				<Property Name="releasedDate" Type="Edm.DateTime" Nullable="true"
+					rdf:Property="http://data.linklaters.com/releasedDate" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns"
+					rdfs:Datatype="http://www.w3.org/2001/XMLSchema#date" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema"
+					rdfs:label="released date" />
+				<Property Name="totalHoursRecorded" Type="Edm.Decimal"
+					Nullable="true" rdf:Property="http://data.linklaters.com/totalHoursRecorded"
+					xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns"
+					rdfs:Datatype="http://www.w3.org/2001/XMLSchema#decimal"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" rdfs:label="total hours recorded" />
+				<Property Name="transactionAttribute" Type="Edm.String"
+					Nullable="true" rdf:Property="http://data.linklaters.com/transactionAttribute"
+					xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns"
+					rdfs:Datatype="http://www.w3.org/2001/XMLSchema#string" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema"
+					rdfs:label="transaction attribute" />
+				<NavigationProperty Name="isMatterOfClient"
+					Relationship="linklaters.isMatterOfClient" FromRole="Matter"
+					ToRole="Client" rdf:Property="http://data.linklaters.com/isMatterOfClient"
+					xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" rdfs:label="has Client"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+				<NavigationProperty Name="isMatterOfCompany"
+					Relationship="linklaters.isMatterOfCompany" FromRole="Matter"
+					ToRole="Company" rdf:Property="http://data.linklaters.com/isMatterOfCompany"
+					xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" rdfs:label="has Company"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+				<NavigationProperty Name="isMatterOfDeal"
+					Relationship="linklaters.isMatterOfDeal" FromRole="Matter" ToRole="Deal"
+					rdf:Property="http://data.linklaters.com/isMatterOfDeal" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns"
+					rdfs:label="has Deal" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+				<NavigationProperty Name="isMatterOfFee"
+					Relationship="linklaters.isMatterOfFee" FromRole="Matter" ToRole="Fee"
+					rdf:Property="http://data.linklaters.com/isMatterOfFee" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns"
+					rdfs:label="has Fee" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+				<NavigationProperty Name="isMatterOfFeeStructure"
+					Relationship="linklaters.isMatterOfFeeStructure" FromRole="Matter"
+					ToRole="FeeStructure" rdf:Property="http://data.linklaters.com/isMatterOfFeeStructure"
+					xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" rdfs:label="has Fee structure"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+				<NavigationProperty Name="isMatterOfJurisdiction"
+					Relationship="linklaters.isMatterOfJurisdiction" FromRole="Matter"
+					ToRole="Jurisdiction" rdf:Property="http://data.linklaters.com/isMatterOfJurisdiction"
+					xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" rdfs:label="has Jurisdiction"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+				<NavigationProperty Name="isMatterOfLinklatersSector"
+					Relationship="linklaters.isMatterOfLinklatersSector" FromRole="Matter"
+					ToRole="LinklatersSector" rdf:Property="http://data.linklaters.com/isMatterOfLinklatersSector"
+					xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" rdfs:label="has Linklaters sector"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+				<NavigationProperty Name="isMatterOfStatus"
+					Relationship="linklaters.isMatterOfStatus" FromRole="Matter"
+					ToRole="MatterStatus" rdf:Property="http://data.linklaters.com/isMatterOfStatus"
+					xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" rdfs:label="has Matter status"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+				<NavigationProperty Name="isMatterOfOffice"
+					Relationship="linklaters.isMatterOfOffice" FromRole="Matter"
+					ToRole="Office" rdf:Property="http://data.linklaters.com/isMatterOfOffice"
+					xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" rdfs:label="has Office"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+				<NavigationProperty Name="isMatterOfMatterManager"
+					Relationship="linklaters.isMatterOfMatterManager" FromRole="Matter"
+					ToRole="Person" rdf:Property="http://data.linklaters.com/isMatterOfMatterManager"
+					xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" rdfs:label="has Manager"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+				<NavigationProperty Name="isMatterOfPartner"
+					Relationship="linklaters.isMatterOfPartner" FromRole="Matter"
+					ToRole="Person" rdf:Property="http://data.linklaters.com/isMatterOfPartner"
+					xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" rdfs:label="has Partner"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+				<NavigationProperty Name="isMatterOfFeeEarner"
+					Relationship="linklaters.isMatterOfFeeEarner" FromRole="Matter"
+					ToRole="Person" rdf:Property="http://data.linklaters.com/isMatterOfFeeEarner"
+					xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" rdfs:label="has Fee Earner"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+				<NavigationProperty Name="isMatterOfPracticeGroup"
+					Relationship="linklaters.isMatterOfPracticeGroup" FromRole="Matter"
+					ToRole="PracticeGroup" rdf:Property="http://data.linklaters.com/isMatterOfPracticeGroup"
+					xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" rdfs:label="has Practice group"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+				<NavigationProperty Name="isMatterOfProfitCentre"
+					Relationship="linklaters.isMatterOfProfitCentre" FromRole="Matter"
+					ToRole="ProfitCentre" rdf:Property="http://data.linklaters.com/isMatterOfProfitCentre"
+					xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" rdfs:label="has Profit centre"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+				<NavigationProperty Name="isMatterOfRegion"
+					Relationship="linklaters.isMatterOfRegion" FromRole="Matter"
+					ToRole="Region" rdf:Property="http://data.linklaters.com/isMatterOfRegion"
+					xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" rdfs:label="has Region"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+				<NavigationProperty Name="isMatterOfTransactionType"
+					Relationship="linklaters.isMatterOfTransactionType" FromRole="Matter"
+					ToRole="TransactionType" rdf:Property="http://data.linklaters.com/isMatterOfTransactionType"
+					xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" rdfs:label="has Transaction type"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+			</EntityType>
+			<EntityType Name="LinklatersSector" BaseType="owl.Thing"
+				rdfs:Class="http://data.linklaters.com/LinklatersSector" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema"
+				rdfs:label="Linklaters sector">
+				<Property Name="sectorName" Type="Edm.String" Nullable="true"
+					rdf:Property="http://data.linklaters.com/sectorName" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns"
+					rdfs:Datatype="http://www.w3.org/2001/XMLSchema#string" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema"
+					rdfs:label="linklaters sector" />
+				<NavigationProperty Name="isLinklatersSectorOfClient"
+					Relationship="linklaters.isLinklatersSectorOfClient" FromRole="LinklatersSector"
+					ToRole="Client" rdf:Property="http://data.linklaters.com/isLinklatersSectorOfClient"
+					xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" rdfs:label="has Client"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+				<NavigationProperty Name="isLinklatersSectorOfCompany"
+					Relationship="linklaters.isLinklatersSectorOfCompany" FromRole="LinklatersSector"
+					ToRole="Company" rdf:Property="http://data.linklaters.com/isLinklatersSectorOfCompany"
+					xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" rdfs:label="has Company"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+				<NavigationProperty Name="isLinklatersSectorOfDeal"
+					Relationship="linklaters.isLinklatersSectorOfDeal" FromRole="LinklatersSector"
+					ToRole="Deal" rdf:Property="http://data.linklaters.com/isLinklatersSectorOfDeal"
+					xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" rdfs:label="has Deal"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+				<NavigationProperty Name="isLinklatersSectorOfMatter"
+					Relationship="linklaters.isLinklatersSectorOfMatter" FromRole="LinklatersSector"
+					ToRole="Matter" rdf:Property="http://data.linklaters.com/isLinklatersSectorOfMatter"
+					xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" rdfs:label="has Matter"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+			</EntityType>
+			<EntityType Name="TransactionType" BaseType="owl.Thing"
+				rdfs:Class="http://data.linklaters.com/TransactionType" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema"
+				rdfs:label="Transaction type">
+				<Property Name="transactionTypeName" Type="Edm.String"
+					Nullable="true" rdf:Property="http://data.linklaters.com/transactionTypeName"
+					xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns"
+					rdfs:Datatype="http://www.w3.org/2001/XMLSchema#string" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema"
+					rdfs:label="transaction type" />
+				<NavigationProperty Name="isTransactionTypeOfDeal"
+					Relationship="linklaters.isTransactionTypeOfDeal" FromRole="TransactionType"
+					ToRole="Deal" rdf:Property="http://data.linklaters.com/isTransactionTypeOfDeal"
+					xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" rdfs:label="has Deal"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+				<NavigationProperty Name="isTransactionTypeOfMatter"
+					Relationship="linklaters.isTransactionTypeOfMatter" FromRole="TransactionType"
+					ToRole="Matter" rdf:Property="http://data.linklaters.com/isTransactionTypeOfMatter"
+					xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" rdfs:label="has Matter"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+				<NavigationProperty Name="isTransactionTypeOfPracticeGroup"
+					Relationship="linklaters.isTransactionTypeOfPracticeGroup"
+					FromRole="TransactionType" ToRole="PracticeGroup"
+					rdf:Property="http://data.linklaters.com/isTransactionTypeOfPracticeGroup"
+					xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" rdfs:label="has Practice group"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+			</EntityType>
+			<EntityType Name="CostCentre" BaseType="owl.Thing"
+				rdfs:Class="http://data.linklaters.com/CostCentre" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema"
+				rdfs:label="Cost centre">
+				<Property Name="costCentreID" Type="Edm.Int32" Nullable="true"
+					rdf:Property="http://data.linklaters.com/costCentreID" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns"
+					rdfs:Datatype="http://www.w3.org/2001/XMLSchema#integer"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" rdfs:label="cost centre ID" />
+				<Property Name="costCentreName" Type="Edm.String" Nullable="true"
+					rdf:Property="http://data.linklaters.com/costCentreName" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns"
+					rdfs:Datatype="http://www.w3.org/2001/XMLSchema#string" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema"
+					rdfs:label="cost centre name" />
+				<NavigationProperty Name="isCostCentreOfCountry"
+					Relationship="linklaters.isCostCentreOfCountry" FromRole="CostCentre"
+					ToRole="Country" rdf:Property="http://data.linklaters.com/isCostCentreOfCountry"
+					xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" rdfs:label="has Country"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+				<NavigationProperty Name="isCostCenterOfDivision"
+					Relationship="linklaters.isCostCenterOfDivision" FromRole="CostCentre"
+					ToRole="Division" rdf:Property="http://data.linklaters.com/isCostCenterOfDivision"
+					xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" rdfs:label="has Division"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+				<NavigationProperty Name="isCostCenterOfOffice"
+					Relationship="linklaters.isCostCenterOfOffice" FromRole="CostCentre"
+					ToRole="Office" rdf:Property="http://data.linklaters.com/isCostCenterOfOffice"
+					xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" rdfs:label="has Office"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+				<NavigationProperty Name="isCostCentreOfPerson"
+					Relationship="linklaters.isCostCentreOfPerson" FromRole="CostCentre"
+					ToRole="Person" rdf:Property="http://data.linklaters.com/isCostCentreOfPerson"
+					xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" rdfs:label="has Person"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+				<NavigationProperty Name="isCostCenterOfPracticeGroup"
+					Relationship="linklaters.isCostCenterOfPracticeGroup" FromRole="CostCentre"
+					ToRole="PracticeGroup" rdf:Property="http://data.linklaters.com/isCostCenterOfPracticeGroup"
+					xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" rdfs:label="has Practice group"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+				<NavigationProperty Name="isCostCentreOfProfitCentre"
+					Relationship="linklaters.isCostCentreOfProfitCentre" FromRole="CostCentre"
+					ToRole="ProfitCentre" rdf:Property="http://data.linklaters.com/isCostCentreOfProfitCentre"
+					xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" rdfs:label="has Profit centre"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+			</EntityType>
+			<EntityType Name="FeeStructure" BaseType="owl.Thing"
+				rdfs:Class="http://data.linklaters.com/FeeStructure" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema"
+				rdfs:label="Fee structure">
+				<Property Name="feeStructureName" Type="Edm.String"
+					Nullable="true" rdf:Property="http://data.linklaters.com/feeStructureName"
+					xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns"
+					rdfs:Datatype="http://www.w3.org/2001/XMLSchema#string" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema"
+					rdfs:label="fee structure" />
+				<NavigationProperty Name="isFeeStructureOfMatter"
+					Relationship="linklaters.isFeeStructureOfMatter" FromRole="FeeStructure"
+					ToRole="Matter" rdf:Property="http://data.linklaters.com/isFeeStructureOfMatter"
+					xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" rdfs:label="has Matter"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+			</EntityType>
+			<EntityType Name="OfficeInvolvement" BaseType="owl.Thing"
+				rdfs:Class="http://data.linklaters.com/OfficeInvolvement"
+				xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" rdfs:label="Office involvement">
+				<Property Name="isLead" Type="Edm.Boolean" Nullable="true"
+					rdf:Property="http://data.linklaters.com/isLead" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns"
+					rdfs:Datatype="http://www.w3.org/2001/XMLSchema#boolean"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" rdfs:label="office lead" />
+				<NavigationProperty Name="isOfficeInvolvementOfDeal"
+					Relationship="linklaters.isOfficeInvolvementOfDeal" FromRole="OfficeInvolvement"
+					ToRole="Deal" rdf:Property="http://data.linklaters.com/isOfficeInvolvementOfDeal"
+					xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" rdfs:label="has Deal"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+				<NavigationProperty Name="isOfficeInvolvementOfOffice"
+					Relationship="linklaters.isOfficeInvolvementOfOffice" FromRole="OfficeInvolvement"
+					ToRole="Office" rdf:Property="http://data.linklaters.com/isOfficeInvolvementOfOffice"
+					xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" rdfs:label="has Office"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+			</EntityType>
+			<EntityType Name="Feature" BaseType="owl.Thing"
+				rdfs:Class="http://data.linklaters.com/Feature" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema"
+				rdfs:label="Feature">
+				<Property Name="featureCode" Type="Edm.String" Nullable="true"
+					rdf:Property="http://data.linklaters.com/featureCode" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns"
+					rdfs:Datatype="http://www.w3.org/2001/XMLSchema#string" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema"
+					rdfs:label="feature code" />
+				<Property Name="featureName" Type="Edm.String" Nullable="true"
+					rdf:Property="http://data.linklaters.com/featureName" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns"
+					rdfs:Datatype="http://www.w3.org/2001/XMLSchema#string" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema"
+					rdfs:label="feature name" />
+				<NavigationProperty Name="isFeatureOfDeal"
+					Relationship="linklaters.isFeatureOfDeal" FromRole="Feature"
+					ToRole="Deal" rdf:Property="http://data.linklaters.com/isFeatureOfDeal"
+					xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" rdfs:label="has Deal"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+			</EntityType>
+			<EntityType Name="Region" BaseType="owl.Thing"
+				rdfs:Class="http://data.linklaters.com/Region" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema"
+				rdfs:label="Region">
+				<Property Name="regionName" Type="Edm.String" Nullable="true"
+					rdf:Property="http://data.linklaters.com/regionName" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns"
+					rdfs:Datatype="http://www.w3.org/2001/XMLSchema#string" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema"
+					rdfs:label="region" />
+				<NavigationProperty Name="isRegionOfCountry"
+					Relationship="linklaters.isRegionOfCountry" FromRole="Region"
+					ToRole="Country" rdf:Property="http://data.linklaters.com/isRegionOfCountry"
+					xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" rdfs:label="has Country"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+				<NavigationProperty Name="isRegionOfMatter"
+					Relationship="linklaters.isRegionOfMatter" FromRole="Region"
+					ToRole="Matter" rdf:Property="http://data.linklaters.com/isRegionOfMatter"
+					xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" rdfs:label="has Matter"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+				<NavigationProperty Name="isMainRegionOfSubRegion"
+					Relationship="linklaters.isMainRegionOfSubRegion" FromRole="Region"
+					ToRole="Region1" rdf:Property="http://data.linklaters.com/isMainRegionOfSubRegion"
+					xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" rdfs:label="has Region"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+			</EntityType>
+			<EntityType Name="DocumentType" BaseType="owl.Thing"
+				rdfs:Class="http://data.linklaters.com/DocumentType" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema"
+				rdfs:label="Document type">
+				<Property Name="documentTypeName" Type="Edm.String"
+					Nullable="true" rdf:Property="http://data.linklaters.com/documentTypeName"
+					xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns"
+					rdfs:Datatype="http://www.w3.org/2001/XMLSchema#string" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema"
+					rdfs:label="document type" />
+				<NavigationProperty Name="isDocumentTypeOfDeal"
+					Relationship="linklaters.isDocumentTypeOfDeal" FromRole="DocumentType"
+					ToRole="Deal" rdf:Property="http://data.linklaters.com/isDocumentTypeOfDeal"
+					xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" rdfs:label="has Deal"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+				<NavigationProperty Name="isDocumentTypeOfDocument"
+					Relationship="linklaters.isDocumentTypeOfDocument" FromRole="DocumentType"
+					ToRole="Document" rdf:Property="http://data.linklaters.com/isDocumentTypeOfDocument"
+					xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" rdfs:label="has Document"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+			</EntityType>
+			<EntityType Name="Company" BaseType="owl.Thing"
+				rdfs:Class="http://data.linklaters.com/Company" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema"
+				rdfs:label="Company">
+				<Property Name="companiesHouseLink" Type="Edm.String"
+					Nullable="true" rdf:Property="http://data.linklaters.com/companiesHouseLink"
+					xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns"
+					rdfs:Datatype="http://www.w3.org/2001/XMLSchema#anyURI" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema"
+					rdfs:label="companies house link" />
+				<Property Name="companyID" Type="Edm.String" Nullable="true"
+					rdf:Property="http://data.linklaters.com/companyID" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns"
+					rdfs:Datatype="http://www.w3.org/2001/XMLSchema#string" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema"
+					rdfs:label="company ID" />
+				<Property Name="companyName" Type="Edm.String" Nullable="true"
+					rdf:Property="http://data.linklaters.com/companyName" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns"
+					rdfs:Datatype="http://www.w3.org/2001/XMLSchema#string" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema"
+					rdfs:label="company name" />
+				<NavigationProperty Name="isCompanyOfClient"
+					Relationship="linklaters.isCompanyOfClient" FromRole="Company"
+					ToRole="Client" rdf:Property="http://data.linklaters.com/isCompanyOfClient"
+					xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" rdfs:label="has Client"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+				<NavigationProperty Name="isCompanyOfCompanyType"
+					Relationship="linklaters.isCompanyOfCompanyType" FromRole="Company"
+					ToRole="CompanyType" rdf:Property="http://data.linklaters.com/isCompanyOfCompanyType"
+					xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" rdfs:label="has Company type"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+				<NavigationProperty Name="isCompanyOfLinklatersSector"
+					Relationship="linklaters.isCompanyOfLinklatersSector" FromRole="Company"
+					ToRole="LinklatersSector" rdf:Property="http://data.linklaters.com/isCompanyOfLinklatersSector"
+					xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" rdfs:label="has Linklaters sector"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+			</EntityType>
+			<EntityType Name="Client" BaseType="owl.Thing"
+				rdfs:Class="http://data.linklaters.com/Client" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema"
+				rdfs:label="Client">
+				<Property Name="clientID" Type="Edm.Int32" Nullable="true"
+					rdf:Property="http://data.linklaters.com/clientID" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns"
+					rdfs:Datatype="http://www.w3.org/2001/XMLSchema#integer"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" rdfs:label="Client ID" />
+				<Property Name="clientName" Type="Edm.String" Nullable="true"
+					rdf:Property="http://data.linklaters.com/clientName" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns"
+					rdfs:Datatype="http://www.w3.org/2001/XMLSchema#string" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema"
+					rdfs:label="client name" />
+				<Property Name="companiesHouseLink" Type="Edm.String"
+					Nullable="true" rdf:Property="http://data.linklaters.com/companiesHouseLink"
+					xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns"
+					rdfs:Datatype="http://www.w3.org/2001/XMLSchema#anyURI" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema"
+					rdfs:label="companies house link" />
+				<Property Name="ftseClassification" Type="Edm.String"
+					Nullable="true" rdf:Property="http://data.linklaters.com/ftseClassification"
+					xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns"
+					rdfs:Datatype="http://www.w3.org/2001/XMLSchema#string" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema"
+					rdfs:label="ftse classification" />
+				<NavigationProperty Name="isClientOfClientType"
+					Relationship="linklaters.isClientOfClientType" FromRole="Client"
+					ToRole="ClientType" rdf:Property="http://data.linklaters.com/isClientOfClientType"
+					xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" rdfs:label="has Client type"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+				<NavigationProperty Name="isClientOfCompany"
+					Relationship="linklaters.isClientOfCompany" FromRole="Client"
+					ToRole="Company" rdf:Property="http://data.linklaters.com/isClientOfCompany"
+					xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" rdfs:label="has Company"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+				<NavigationProperty Name="isClientOfLinklatersSector"
+					Relationship="linklaters.isClientOfLinklatersSector" FromRole="Client"
+					ToRole="LinklatersSector" rdf:Property="http://data.linklaters.com/isClientOfLinklatersSector"
+					xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" rdfs:label="has Linklaters sector"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+				<NavigationProperty Name="isClientOfMatter"
+					Relationship="linklaters.isClientOfMatter" FromRole="Client"
+					ToRole="Matter" rdf:Property="http://data.linklaters.com/isClientOfMatter"
+					xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" rdfs:label="has Matter"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+				<NavigationProperty Name="isClientOfManagingRelationshipPartner"
+					Relationship="linklaters.isClientOfManagingRelationshipPartner"
+					FromRole="Client" ToRole="Person"
+					rdf:Property="http://data.linklaters.com/isClientOfManagingRelationshipPartner"
+					xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" rdfs:label="has Person"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+				<NavigationProperty Name="isClientOfSICCode"
+					Relationship="linklaters.isClientOfSICCode" FromRole="Client"
+					ToRole="SICCode" rdf:Property="http://data.linklaters.com/isClientOfSICCode"
+					xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" rdfs:label="has SICCode"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+			</EntityType>
+			<EntityType Name="SICCode" BaseType="owl.Thing"
+				rdfs:Class="http://data.linklaters.com/SICCode" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema"
+				rdfs:label="SICCode">
+				<Property Name="sicCodeLink" Type="Edm.String" Nullable="true"
+					rdf:Property="http://data.linklaters.com/sicCodeLink" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns"
+					rdfs:Datatype="http://www.w3.org/2001/XMLSchema#anyURI" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema"
+					rdfs:label="sic code link" />
+				<Property Name="sicCodeName" Type="Edm.String" Nullable="true"
+					rdf:Property="http://data.linklaters.com/sicCodeName" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns"
+					rdfs:Datatype="http://www.w3.org/2001/XMLSchema#string" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema"
+					rdfs:label="sic code name" />
+				<NavigationProperty Name="isSICCodeOfClient"
+					Relationship="linklaters.isSICCodeOfClient" FromRole="SICCode"
+					ToRole="Client" rdf:Property="http://data.linklaters.com/isSICCodeOfClient"
+					xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" rdfs:label="has Client"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+				<NavigationProperty Name="isSICCodeOfDeal"
+					Relationship="linklaters.isSICCodeOfDeal" FromRole="SICCode"
+					ToRole="Deal" rdf:Property="http://data.linklaters.com/isSICCodeOfDeal"
+					xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" rdfs:label="has Deal"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+			</EntityType>
+			<EntityType Name="ProfitCentre" BaseType="owl.Thing"
+				rdfs:Class="http://data.linklaters.com/ProfitCentre" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema"
+				rdfs:label="Profit centre">
+				<Property Name="profitCentreID" Type="Edm.Int32" Nullable="true"
+					rdf:Property="http://data.linklaters.com/profitCentreID" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns"
+					rdfs:Datatype="http://www.w3.org/2001/XMLSchema#integer"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" rdfs:label="profit centre ID" />
+				<Property Name="profitCentreName" Type="Edm.String"
+					Nullable="true" rdf:Property="http://data.linklaters.com/profitCentreName"
+					xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns"
+					rdfs:Datatype="http://www.w3.org/2001/XMLSchema#string" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema"
+					rdfs:label="profit centre name" />
+				<NavigationProperty Name="isProfitCentreOfCostCentre"
+					Relationship="linklaters.isProfitCentreOfCostCentre" FromRole="ProfitCentre"
+					ToRole="CostCentre" rdf:Property="http://data.linklaters.com/isProfitCentreOfCostCentre"
+					xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" rdfs:label="has Cost centre"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+				<NavigationProperty Name="isProfitCentreOfCountry"
+					Relationship="linklaters.isProfitCentreOfCountry" FromRole="ProfitCentre"
+					ToRole="Country" rdf:Property="http://data.linklaters.com/isProfitCentreOfCountry"
+					xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" rdfs:label="has Country"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+				<NavigationProperty Name="isProfitCentreOfDivision"
+					Relationship="linklaters.isProfitCentreOfDivision" FromRole="ProfitCentre"
+					ToRole="Division" rdf:Property="http://data.linklaters.com/isProfitCentreOfDivision"
+					xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" rdfs:label="has Division"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+				<NavigationProperty Name="isProfitCentreOfMatter"
+					Relationship="linklaters.isProfitCentreOfMatter" FromRole="ProfitCentre"
+					ToRole="Matter" rdf:Property="http://data.linklaters.com/isProfitCentreOfMatter"
+					xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" rdfs:label="has Matter"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+				<NavigationProperty Name="isProfitCenterOfOffice"
+					Relationship="linklaters.isProfitCenterOfOffice" FromRole="ProfitCentre"
+					ToRole="Office" rdf:Property="http://data.linklaters.com/isProfitCenterOfOffice"
+					xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" rdfs:label="has Office"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+				<NavigationProperty Name="isProfitCentreOfPerson"
+					Relationship="linklaters.isProfitCentreOfPerson" FromRole="ProfitCentre"
+					ToRole="Person" rdf:Property="http://data.linklaters.com/isProfitCentreOfPerson"
+					xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" rdfs:label="has Person"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+				<NavigationProperty Name="isProfitCentreOfPracticeGroup"
+					Relationship="linklaters.isProfitCentreOfPracticeGroup" FromRole="ProfitCentre"
+					ToRole="PracticeGroup" rdf:Property="http://data.linklaters.com/isProfitCentreOfPracticeGroup"
+					xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" rdfs:label="has Practice group"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+			</EntityType>
+			<EntityType Name="Document" BaseType="owl.Thing"
+				rdfs:Class="http://data.linklaters.com/Document" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema"
+				rdfs:label="Document">
+				<Property Name="documentDescription" Type="Edm.String"
+					Nullable="true" rdf:Property="http://data.linklaters.com/documentDescription"
+					xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns"
+					rdfs:Datatype="http://www.w3.org/2001/XMLSchema#string" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema"
+					rdfs:label="document description" />
+				<Property Name="documentReference" Type="Edm.String"
+					Nullable="true" rdf:Property="http://data.linklaters.com/documentReference"
+					xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns"
+					rdfs:Datatype="http://www.w3.org/2001/XMLSchema#anyURI" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema"
+					rdfs:label="document reference" />
+				<NavigationProperty Name="isDocumentOfDeal"
+					Relationship="linklaters.isDocumentOfDeal" FromRole="Document"
+					ToRole="Deal" rdf:Property="http://data.linklaters.com/isDocumentOfDeal"
+					xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" rdfs:label="has Deal"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+				<NavigationProperty Name="isDocumentOfDocumentType"
+					Relationship="linklaters.isDocumentOfDocumentType" FromRole="Document"
+					ToRole="DocumentType" rdf:Property="http://data.linklaters.com/isDocumentOfDocumentType"
+					xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" rdfs:label="has Document type"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+			</EntityType>
+			<EntityType Name="OrganisationRole" BaseType="owl.Thing"
+				rdfs:Class="http://data.linklaters.com/OrganisationRole" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema"
+				rdfs:label="Organisation role">
+				<Property Name="organisationalRole" Type="Edm.String"
+					Nullable="true" rdf:Property="http://data.linklaters.com/organisationalRole"
+					xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns"
+					rdfs:Datatype="http://www.w3.org/2001/XMLSchema#string" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema"
+					rdfs:label="organisational role" />
+				<NavigationProperty Name="isOrganisationRoleOfPerson"
+					Relationship="linklaters.isOrganisationRoleOfPerson" FromRole="OrganisationRole"
+					ToRole="Person" rdf:Property="http://data.linklaters.com/isOrganisationRoleOfPerson"
+					xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" rdfs:label="has Person"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+			</EntityType>
+			<EntityType Name="PracticeGroup" BaseType="owl.Thing"
+				rdfs:Class="http://data.linklaters.com/PracticeGroup" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema"
+				rdfs:label="Practice group">
+				<Property Name="practiceGroupName" Type="Edm.String"
+					Nullable="true" rdf:Property="http://data.linklaters.com/practiceGroupName"
+					xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns"
+					rdfs:Datatype="http://www.w3.org/2001/XMLSchema#string" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema"
+					rdfs:label="practice group" />
+				<NavigationProperty Name="isPracticeGroupOfCostCentre"
+					Relationship="linklaters.isPracticeGroupOfCostCentre" FromRole="PracticeGroup"
+					ToRole="CostCentre" rdf:Property="http://data.linklaters.com/isPracticeGroupOfCostCentre"
+					xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" rdfs:label="has Cost centre"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+				<NavigationProperty Name="isPracticeGroupOfCountry"
+					Relationship="linklaters.isPracticeGroupOfCountry" FromRole="PracticeGroup"
+					ToRole="Country" rdf:Property="http://data.linklaters.com/isPracticeGroupOfCountry"
+					xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" rdfs:label="has Country"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+				<NavigationProperty Name="isPracticeGroupOfDeal"
+					Relationship="linklaters.isPracticeGroupOfDeal" FromRole="PracticeGroup"
+					ToRole="Deal" rdf:Property="http://data.linklaters.com/isPracticeGroupOfDeal"
+					xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" rdfs:label="has Deal"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+				<NavigationProperty Name="isPracticeGroupOfDivision"
+					Relationship="linklaters.isPracticeGroupOfDivision" FromRole="PracticeGroup"
+					ToRole="Division" rdf:Property="http://data.linklaters.com/isPracticeGroupOfDivision"
+					xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" rdfs:label="has Division"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+				<NavigationProperty Name="isPracticeGroupOfMatter"
+					Relationship="linklaters.isPracticeGroupOfMatter" FromRole="PracticeGroup"
+					ToRole="Matter" rdf:Property="http://data.linklaters.com/isPracticeGroupOfMatter"
+					xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" rdfs:label="has Matter"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+				<NavigationProperty Name="isPracticeGroupOfOffice"
+					Relationship="linklaters.isPracticeGroupOfOffice" FromRole="PracticeGroup"
+					ToRole="Office" rdf:Property="http://data.linklaters.com/isPracticeGroupOfOffice"
+					xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" rdfs:label="has Office"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+				<NavigationProperty Name="isPracticeGroupOfPerson"
+					Relationship="linklaters.isPracticeGroupOfPerson" FromRole="PracticeGroup"
+					ToRole="Person" rdf:Property="http://data.linklaters.com/isPracticeGroupOfPerson"
+					xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" rdfs:label="has Person"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+				<NavigationProperty Name="isPracticeGroupOfProfitCentre"
+					Relationship="linklaters.isPracticeGroupOfProfitCentre" FromRole="PracticeGroup"
+					ToRole="ProfitCentre" rdf:Property="http://data.linklaters.com/isPracticeGroupOfProfitCentre"
+					xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" rdfs:label="has Profit centre"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+				<NavigationProperty Name="isPracticeGroupOfTransactionType"
+					Relationship="linklaters.isPracticeGroupOfTransactionType"
+					FromRole="PracticeGroup" ToRole="TransactionType"
+					rdf:Property="http://data.linklaters.com/isPracticeGroupOfTransactionType"
+					xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" rdfs:label="has Transaction type"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+			</EntityType>
+			<EntityType Name="Fee" BaseType="owl.Thing"
+				rdfs:Class="http://data.linklaters.com/Fee" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema"
+				rdfs:label="Fee">
+				<Property Name="chargeable" Type="Edm.Decimal" Nullable="true"
+					rdf:Property="http://data.linklaters.com/chargeable" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns"
+					rdfs:Datatype="http://www.w3.org/2001/XMLSchema#decimal"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" rdfs:label="chargeable" />
+				<Property Name="nonChargeable" Type="Edm.Decimal" Nullable="true"
+					rdf:Property="http://data.linklaters.com/nonChargeable" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns"
+					rdfs:Datatype="http://www.w3.org/2001/XMLSchema#decimal"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" rdfs:label="non chargeable" />
+				<Property Name="totalHours" Type="Edm.Decimal" Nullable="true"
+					rdf:Property="http://data.linklaters.com/totalHours" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns"
+					rdfs:Datatype="http://www.w3.org/2001/XMLSchema#decimal"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" rdfs:label="total hours" />
+				<NavigationProperty Name="isFeeOfMatter"
+					Relationship="linklaters.isFeeOfMatter" FromRole="Fee" ToRole="Matter"
+					rdf:Property="http://data.linklaters.com/isFeeOfMatter" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns"
+					rdfs:label="has Matter" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+				<NavigationProperty Name="isFeeOfFeeEarner"
+					Relationship="linklaters.isFeeOfFeeEarner" FromRole="Fee" ToRole="Person"
+					rdf:Property="http://data.linklaters.com/isFeeOfFeeEarner"
+					xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" rdfs:label="has Person"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+			</EntityType>
+			<EntityType Name="Country" BaseType="owl.Thing"
+				rdfs:Class="http://data.linklaters.com/Country" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema"
+				rdfs:label="Country">
+				<Property Name="countryName" Type="Edm.String" Nullable="true"
+					rdf:Property="http://data.linklaters.com/countryName" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns"
+					rdfs:Datatype="http://www.w3.org/2001/XMLSchema#string" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema"
+					rdfs:label="country name" />
+				<NavigationProperty Name="isCountryOfCostCentre"
+					Relationship="linklaters.isCountryOfCostCentre" FromRole="Country"
+					ToRole="CostCentre" rdf:Property="http://data.linklaters.com/isCountryOfCostCentre"
+					xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" rdfs:label="has Cost centre"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+				<NavigationProperty Name="isCountryOfOffice"
+					Relationship="linklaters.isCountryOfOffice" FromRole="Country"
+					ToRole="Office" rdf:Property="http://data.linklaters.com/isCountryOfOffice"
+					xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" rdfs:label="has Office"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+				<NavigationProperty Name="isCountryOfPerson"
+					Relationship="linklaters.isCountryOfPerson" FromRole="Country"
+					ToRole="Person" rdf:Property="http://data.linklaters.com/isCountryOfPerson"
+					xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" rdfs:label="has Person"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+				<NavigationProperty Name="isCountryOfPracticeGroup"
+					Relationship="linklaters.isCountryOfPracticeGroup" FromRole="Country"
+					ToRole="PracticeGroup" rdf:Property="http://data.linklaters.com/isCountryOfPracticeGroup"
+					xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" rdfs:label="has Practice group"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+				<NavigationProperty Name="isCountryOfProfitCentre"
+					Relationship="linklaters.isCountryOfProfitCentre" FromRole="Country"
+					ToRole="ProfitCentre" rdf:Property="http://data.linklaters.com/isCountryOfProfitCentre"
+					xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" rdfs:label="has Profit centre"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+				<NavigationProperty Name="isCountryOfRegion"
+					Relationship="linklaters.isCountryOfRegion" FromRole="Country"
+					ToRole="Region" rdf:Property="http://data.linklaters.com/isCountryOfRegion"
+					xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" rdfs:label="has Region"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+			</EntityType>
+			<EntityType Name="Job" BaseType="owl.Thing"
+				rdfs:Class="http://data.linklaters.com/Job" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema"
+				rdfs:label="Job">
+				<Property Name="jobTitle" Type="Edm.String" Nullable="true"
+					rdf:Property="http://data.linklaters.com/jobTitle" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns"
+					rdfs:Datatype="http://www.w3.org/2001/XMLSchema#string" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema"
+					rdfs:label="job title" />
+				<NavigationProperty Name="isJobOfPerson"
+					Relationship="linklaters.isJobOfPerson" FromRole="Job" ToRole="Person"
+					rdf:Property="http://data.linklaters.com/isJobOfPerson" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns"
+					rdfs:label="has Person" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+			</EntityType>
+			<EntityType Name="JobGroup" BaseType="owl.Thing"
+				rdfs:Class="http://data.linklaters.com/JobGroup" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema"
+				rdfs:label="Job group">
+				<Property Name="jobGroupName" Type="Edm.String" Nullable="true"
+					rdf:Property="http://data.linklaters.com/jobGroupName" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns"
+					rdfs:Datatype="http://www.w3.org/2001/XMLSchema#string" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema"
+					rdfs:label="job group" />
+				<NavigationProperty Name="isJobGroupOfPerson"
+					Relationship="linklaters.isJobGroupOfPerson" FromRole="JobGroup"
+					ToRole="Person" rdf:Property="http://data.linklaters.com/isJobGroupOfPerson"
+					xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" rdfs:label="has Person"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+			</EntityType>
+			<EntityType Name="Division" BaseType="owl.Thing"
+				rdfs:Class="http://data.linklaters.com/Division" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema"
+				rdfs:label="Division">
+				<Property Name="divisionName" Type="Edm.String" Nullable="true"
+					rdf:Property="http://data.linklaters.com/divisionName" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns"
+					rdfs:Datatype="http://www.w3.org/2001/XMLSchema#string" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema"
+					rdfs:label="division name" />
+				<NavigationProperty Name="isDivisionOfCostCentre"
+					Relationship="linklaters.isDivisionOfCostCentre" FromRole="Division"
+					ToRole="CostCentre" rdf:Property="http://data.linklaters.com/isDivisionOfCostCentre"
+					xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" rdfs:label="has Cost centre"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+				<NavigationProperty Name="isDivisionOfOffice"
+					Relationship="linklaters.isDivisionOfOffice" FromRole="Division"
+					ToRole="Office" rdf:Property="http://data.linklaters.com/isDivisionOfOffice"
+					xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" rdfs:label="has Office"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+				<NavigationProperty Name="isDivisionOfPerson"
+					Relationship="linklaters.isDivisionOfPerson" FromRole="Division"
+					ToRole="Person" rdf:Property="http://data.linklaters.com/isDivisionOfPerson"
+					xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" rdfs:label="has Person"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+				<NavigationProperty Name="isDivisionOfPracticeGroup"
+					Relationship="linklaters.isDivisionOfPracticeGroup" FromRole="Division"
+					ToRole="PracticeGroup" rdf:Property="http://data.linklaters.com/isDivisionOfPracticeGroup"
+					xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" rdfs:label="has Practice group"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+				<NavigationProperty Name="isDivisionOfProfitCentre"
+					Relationship="linklaters.isDivisionOfProfitCentre" FromRole="Division"
+					ToRole="ProfitCentre" rdf:Property="http://data.linklaters.com/isDivisionOfProfitCentre"
+					xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" rdfs:label="has Profit centre"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+			</EntityType>
+			<EntityType Name="Position" BaseType="owl.Thing"
+				rdfs:Class="http://data.linklaters.com/Position" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema"
+				rdfs:label="Position">
+				<Property Name="positionName" Type="Edm.String" Nullable="true"
+					rdf:Property="http://data.linklaters.com/positionName" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns"
+					rdfs:Datatype="http://www.w3.org/2001/XMLSchema#string" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema"
+					rdfs:label="position" />
+				<NavigationProperty Name="isPositionOfPerson"
+					Relationship="linklaters.isPositionOfPerson" FromRole="Position"
+					ToRole="Person" rdf:Property="http://data.linklaters.com/isPositionOfPerson"
+					xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" rdfs:label="has Person"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+			</EntityType>
+			<EntityType Name="MatterStatus" BaseType="owl.Thing"
+				rdfs:Class="http://data.linklaters.com/MatterStatus" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema"
+				rdfs:label="Matter status">
+				<Property Name="matterStatus" Type="Edm.String" Nullable="true"
+					rdf:Property="http://data.linklaters.com/matterStatus" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns"
+					rdfs:Datatype="http://www.w3.org/2001/XMLSchema#string" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema"
+					rdfs:label="matter status" />
+				<NavigationProperty Name="isStatusOfMatter"
+					Relationship="linklaters.isStatusOfMatter" FromRole="MatterStatus"
+					ToRole="Matter" rdf:Property="http://data.linklaters.com/isStatusOfMatter"
+					xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" rdfs:label="has Matter"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+			</EntityType>
+			<EntityType Name="ClientType" BaseType="owl.Thing"
+				rdfs:Class="http://data.linklaters.com/ClientType" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema"
+				rdfs:label="Client type">
+				<Property Name="clientTypeName" Type="Edm.String" Nullable="true"
+					rdf:Property="http://data.linklaters.com/clientTypeName" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns"
+					rdfs:Datatype="http://www.w3.org/2001/XMLSchema#string" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema"
+					rdfs:label="client type" />
+				<NavigationProperty Name="isClientTypeOfClient"
+					Relationship="linklaters.isClientTypeOfClient" FromRole="ClientType"
+					ToRole="Client" rdf:Property="http://data.linklaters.com/isClientTypeOfClient"
+					xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" rdfs:label="has Client"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+			</EntityType>
+			<EntityType Name="Office" BaseType="owl.Thing"
+				rdfs:Class="http://data.linklaters.com/Office" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema"
+				rdfs:label="Office">
+				<Property Name="officeName" Type="Edm.String" Nullable="true"
+					rdf:Property="http://data.linklaters.com/officeName" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns"
+					rdfs:Datatype="http://www.w3.org/2001/XMLSchema#string" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema"
+					rdfs:label="office name" />
+				<NavigationProperty Name="isOfficeOfCostCentre"
+					Relationship="linklaters.isOfficeOfCostCentre" FromRole="Office"
+					ToRole="CostCentre" rdf:Property="http://data.linklaters.com/isOfficeOfCostCentre"
+					xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" rdfs:label="has Cost centre"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+				<NavigationProperty Name="isOfficeOfCountry"
+					Relationship="linklaters.isOfficeOfCountry" FromRole="Office"
+					ToRole="Country" rdf:Property="http://data.linklaters.com/isOfficeOfCountry"
+					xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" rdfs:label="has Country"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+				<NavigationProperty Name="isOfficeOfDeal"
+					Relationship="linklaters.isOfficeOfDeal" FromRole="Office" ToRole="Deal"
+					rdf:Property="http://data.linklaters.com/isOfficeOfDeal" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns"
+					rdfs:label="has Deal" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+				<NavigationProperty Name="isOfficeOfDivision"
+					Relationship="linklaters.isOfficeOfDivision" FromRole="Office"
+					ToRole="Division" rdf:Property="http://data.linklaters.com/isOfficeOfDivision"
+					xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" rdfs:label="has Division"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+				<NavigationProperty Name="isOfficeOfMatter"
+					Relationship="linklaters.isOfficeOfMatter" FromRole="Office"
+					ToRole="Matter" rdf:Property="http://data.linklaters.com/isOfficeOfMatter"
+					xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" rdfs:label="has Matter"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+				<NavigationProperty Name="isOfficeOfOfficeInvolvement"
+					Relationship="linklaters.isOfficeOfOfficeInvolvement" FromRole="Office"
+					ToRole="OfficeInvolvement" rdf:Property="http://data.linklaters.com/isOfficeOfOfficeInvolvement"
+					xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" rdfs:label="has Office involvement"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+				<NavigationProperty Name="isSecondmentOfficeOfPerson"
+					Relationship="linklaters.isSecondmentOfficeOfPerson" FromRole="Office"
+					ToRole="Person" rdf:Property="http://data.linklaters.com/isSecondmentOfficeOfPerson"
+					xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" rdfs:label="has Person"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+				<NavigationProperty Name="isOfficeOfPerson"
+					Relationship="linklaters.isOfficeOfPerson" FromRole="Office"
+					ToRole="Person" rdf:Property="http://data.linklaters.com/isOfficeOfPerson"
+					xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" rdfs:label="has Person"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+				<NavigationProperty Name="isOfficeOfPracticeGroup"
+					Relationship="linklaters.isOfficeOfPracticeGroup" FromRole="Office"
+					ToRole="PracticeGroup" rdf:Property="http://data.linklaters.com/isOfficeOfPracticeGroup"
+					xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" rdfs:label="has Practice group"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+				<NavigationProperty Name="isOfficeOfProfitCentre"
+					Relationship="linklaters.isOfficeOfProfitCentre" FromRole="Office"
+					ToRole="ProfitCentre" rdf:Property="http://data.linklaters.com/isOfficeOfProfitCentre"
+					xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" rdfs:label="has Profit centre"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+			</EntityType>
+			<EntityType Name="Person" BaseType="owl.Thing"
+				rdfs:Class="http://data.linklaters.com/Person" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema"
+				rdfs:label="Person">
+				<Property Name="pQE" Type="Edm.String" Nullable="true"
+					rdf:Property="http://data.linklaters.com/pQE" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns"
+					rdfs:Datatype="http://www.w3.org/2001/XMLSchema#string" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema"
+					rdfs:label="PQE" />
+				<Property Name="catTag" Type="Edm.String" Nullable="true"
+					rdf:Property="http://data.linklaters.com/catTag" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns"
+					rdfs:Datatype="http://www.w3.org/2001/XMLSchema#string" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema"
+					rdfs:label="cat tag" />
+				<Property Name="intakeMth" Type="Edm.Int32" Nullable="true"
+					rdf:Property="http://data.linklaters.com/intakeMth" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns"
+					rdfs:Datatype="http://www.w3.org/2001/XMLSchema#integer"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" rdfs:label="intake mth" />
+				<Property Name="intakeYear" Type="Edm.Int32" Nullable="true"
+					rdf:Property="http://data.linklaters.com/intakeYear" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns"
+					rdfs:Datatype="http://www.w3.org/2001/XMLSchema#integer"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" rdfs:label="intake year" />
+				<Property Name="leavingDate" Type="Edm.DateTime" Nullable="true"
+					rdf:Property="http://data.linklaters.com/leavingDate" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns"
+					rdfs:Datatype="http://www.w3.org/2001/XMLSchema#date" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema"
+					rdfs:label="leaving date" />
+				<Property Name="membershipCountry" Type="Edm.String"
+					Nullable="true" rdf:Property="http://data.linklaters.com/membershipCountry"
+					xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns"
+					rdfs:Datatype="http://www.w3.org/2001/XMLSchema#string" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema"
+					rdfs:label="membership country" />
+				<Property Name="nonGroupMembership" Type="Edm.String"
+					Nullable="true" rdf:Property="http://data.linklaters.com/nonGroupMembership"
+					xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns"
+					rdfs:Datatype="http://www.w3.org/2001/XMLSchema#string" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema"
+					rdfs:label="non group membership" />
+				<Property Name="personID" Type="Edm.Int32" Nullable="true"
+					rdf:Property="http://data.linklaters.com/personID" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns"
+					rdfs:Datatype="http://www.w3.org/2001/XMLSchema#integer"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" rdfs:label="person ID" />
+				<Property Name="personName" Type="Edm.String" Nullable="true"
+					rdf:Property="http://data.linklaters.com/personName" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns"
+					rdfs:Datatype="http://www.w3.org/2001/XMLSchema#string" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema"
+					rdfs:label="person name" />
+				<Property Name="professionalMembership" Type="Edm.String"
+					Nullable="true" rdf:Property="http://data.linklaters.com/professionalMembership"
+					xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns"
+					rdfs:Datatype="http://www.w3.org/2001/XMLSchema#string" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema"
+					rdfs:label="professional membership" />
+				<Property Name="technicalStartDate" Type="Edm.DateTime"
+					Nullable="true" rdf:Property="http://data.linklaters.com/technicalStartDate"
+					xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns"
+					rdfs:Datatype="http://www.w3.org/2001/XMLSchema#date" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema"
+					rdfs:label="start date" />
+				<NavigationProperty Name="isManagingRelationshipPartnerOfClient"
+					Relationship="linklaters.isManagingRelationshipPartnerOfClient"
+					FromRole="Person" ToRole="Client"
+					rdf:Property="http://data.linklaters.com/isManagingRelationshipPartnerOfClient"
+					xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" rdfs:label="has Client"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+				<NavigationProperty Name="isPersonOfCostCentre"
+					Relationship="linklaters.isPersonOfCostCentre" FromRole="Person"
+					ToRole="CostCentre" rdf:Property="http://data.linklaters.com/isPersonOfCostCentre"
+					xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" rdfs:label="has Cost centre"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+				<NavigationProperty Name="isPersonOfCountry"
+					Relationship="linklaters.isPersonOfCountry" FromRole="Person"
+					ToRole="Country" rdf:Property="http://data.linklaters.com/isPersonOfCountry"
+					xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" rdfs:label="has Country"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+				<NavigationProperty Name="isPersonOfDivision"
+					Relationship="linklaters.isPersonOfDivision" FromRole="Person"
+					ToRole="Division" rdf:Property="http://data.linklaters.com/isPersonOfDivision"
+					xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" rdfs:label="has Division"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+				<NavigationProperty Name="isFeeEarnerOfFee"
+					Relationship="linklaters.isFeeEarnerOfFee" FromRole="Person"
+					ToRole="Fee" rdf:Property="http://data.linklaters.com/isFeeEarnerOfFee"
+					xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" rdfs:label="has Fee"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+				<NavigationProperty Name="isPersonOfJob"
+					Relationship="linklaters.isPersonOfJob" FromRole="Person" ToRole="Job"
+					rdf:Property="http://data.linklaters.com/isPersonOfJob" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns"
+					rdfs:label="has Job" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+				<NavigationProperty Name="isPersonOfJobGroup2"
+					Relationship="linklaters.isPersonOfJobGroup2" FromRole="Person"
+					ToRole="JobGroup" rdf:Property="http://data.linklaters.com/isPersonOfJobGroup2"
+					xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" rdfs:label="has Job group"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+				<NavigationProperty Name="isPersonOfJobGroup1"
+					Relationship="linklaters.isPersonOfJobGroup1" FromRole="Person"
+					ToRole="JobGroup" rdf:Property="http://data.linklaters.com/isPersonOfJobGroup1"
+					xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" rdfs:label="has Job group"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+				<NavigationProperty Name="isPersonOfJobGroup3"
+					Relationship="linklaters.isPersonOfJobGroup3" FromRole="Person"
+					ToRole="JobGroup" rdf:Property="http://data.linklaters.com/isPersonOfJobGroup3"
+					xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" rdfs:label="has Job group"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+				<NavigationProperty Name="isMatterManagerOfMatter"
+					Relationship="linklaters.isMatterManagerOfMatter" FromRole="Person"
+					ToRole="Matter" rdf:Property="http://data.linklaters.com/isMatterManagerOfMatter"
+					xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" rdfs:label="has Matter"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+				<NavigationProperty Name="isPartnerOfMatter"
+					Relationship="linklaters.isPartnerOfMatter" FromRole="Person"
+					ToRole="Matter" rdf:Property="http://data.linklaters.com/isPartnerOfMatter"
+					xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" rdfs:label="has Matter"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+				<NavigationProperty Name="isFeeEarnerOfMatter"
+					Relationship="linklaters.isFeeEarnerOfMatter" FromRole="Person"
+					ToRole="Matter" rdf:Property="http://data.linklaters.com/isFeeEarnerOfMatter"
+					xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" rdfs:label="has Matter"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+				<NavigationProperty Name="isPersonOfOffice"
+					Relationship="linklaters.isPersonOfOffice" FromRole="Person"
+					ToRole="Office" rdf:Property="http://data.linklaters.com/isPersonOfOffice"
+					xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" rdfs:label="has Office"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+				<NavigationProperty Name="hasSecondmentOffice"
+					Relationship="linklaters.hasSecondmentOffice" FromRole="Person"
+					ToRole="Office" rdf:Property="http://data.linklaters.com/hasSecondmentOffice"
+					xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" rdfs:label="has Office"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+				<NavigationProperty Name="isPersonOfOrganisationalRole"
+					Relationship="linklaters.isPersonOfOrganisationalRole" FromRole="Person"
+					ToRole="OrganisationRole" rdf:Property="http://data.linklaters.com/isPersonOfOrganisationalRole"
+					xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" rdfs:label="has Organisation role"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+				<NavigationProperty Name="isPersonOfPosition"
+					Relationship="linklaters.isPersonOfPosition" FromRole="Person"
+					ToRole="Position" rdf:Property="http://data.linklaters.com/isPersonOfPosition"
+					xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" rdfs:label="has Position"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+				<NavigationProperty Name="isPersonOfPracticeGroup"
+					Relationship="linklaters.isPersonOfPracticeGroup" FromRole="Person"
+					ToRole="PracticeGroup" rdf:Property="http://data.linklaters.com/isPersonOfPracticeGroup"
+					xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" rdfs:label="has Practice group"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+				<NavigationProperty Name="isPersonOfProfitCentre"
+					Relationship="linklaters.isPersonOfProfitCentre" FromRole="Person"
+					ToRole="ProfitCentre" rdf:Property="http://data.linklaters.com/isPersonOfProfitCentre"
+					xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" rdfs:label="has Profit centre"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+			</EntityType>
+			<Association Name="isSICCodeOfClient">
+				<End Type="linklaters.SICCode" Multiplicity="0..1" Role="SICCode" />
+				<End Type="linklaters.Client" Multiplicity="*" Role="Client" />
+			</Association>
+			<Association Name="isManagingRelationshipPartnerOfClient">
+				<End Type="linklaters.Person" Multiplicity="0..1" Role="Person" />
+				<End Type="linklaters.Client" Multiplicity="*" Role="Client" />
+			</Association>
+			<Association Name="isLinklatersSectorOfClient">
+				<End Type="linklaters.LinklatersSector" Multiplicity="0..1"
+					Role="LinklatersSector" />
+				<End Type="linklaters.Client" Multiplicity="*" Role="Client" />
+			</Association>
+			<Association Name="isCompanyOfClient">
+				<End Type="linklaters.Company" Multiplicity="0..1" Role="Company" />
+				<End Type="linklaters.Client" Multiplicity="*" Role="Client" />
+			</Association>
+			<Association Name="isClientTypeOfClient">
+				<End Type="linklaters.ClientType" Multiplicity="0..1" Role="ClientType" />
+				<End Type="linklaters.Client" Multiplicity="*" Role="Client" />
+			</Association>
+			<Association Name="isMatterOfClient">
+				<End Type="linklaters.Matter" Multiplicity="0..1" Role="Matter" />
+				<End Type="linklaters.Client" Multiplicity="*" Role="Client" />
+			</Association>
+			<Association Name="isClientOfClientType">
+				<End Type="linklaters.Client" Multiplicity="0..1" Role="Client" />
+				<End Type="linklaters.ClientType" Multiplicity="*" Role="ClientType" />
+			</Association>
+			<Association Name="isLinklatersSectorOfCompany">
+				<End Type="linklaters.LinklatersSector" Multiplicity="0..1"
+					Role="LinklatersSector" />
+				<End Type="linklaters.Company" Multiplicity="*" Role="Company" />
+			</Association>
+			<Association Name="isMatterOfCompany">
+				<End Type="linklaters.Matter" Multiplicity="0..1" Role="Matter" />
+				<End Type="linklaters.Company" Multiplicity="*" Role="Company" />
+			</Association>
+			<Association Name="isCompanyTypeOfCompany">
+				<End Type="linklaters.CompanyType" Multiplicity="0..1" Role="CompanyType" />
+				<End Type="linklaters.Company" Multiplicity="*" Role="Company" />
+			</Association>
+			<Association Name="isClientOfCompany">
+				<End Type="linklaters.Client" Multiplicity="0..1" Role="Client" />
+				<End Type="linklaters.Company" Multiplicity="*" Role="Company" />
+			</Association>
+			<Association Name="isCompanyOfCompanyType">
+				<End Type="linklaters.Company" Multiplicity="0..1" Role="Company" />
+				<End Type="linklaters.CompanyType" Multiplicity="*" Role="CompanyType" />
+			</Association>
+			<Association Name="isPersonOfCostCentre">
+				<End Type="linklaters.Person" Multiplicity="0..1" Role="Person" />
+				<End Type="linklaters.CostCentre" Multiplicity="*" Role="CostCentre" />
+			</Association>
+			<Association Name="isOfficeOfCostCentre">
+				<End Type="linklaters.Office" Multiplicity="0..1" Role="Office" />
+				<End Type="linklaters.CostCentre" Multiplicity="*" Role="CostCentre" />
+			</Association>
+			<Association Name="isPracticeGroupOfCostCentre">
+				<End Type="linklaters.PracticeGroup" Multiplicity="0..1"
+					Role="PracticeGroup" />
+				<End Type="linklaters.CostCentre" Multiplicity="*" Role="CostCentre" />
+			</Association>
+			<Association Name="isProfitCentreOfCostCentre">
+				<End Type="linklaters.ProfitCentre" Multiplicity="0..1" Role="ProfitCentre" />
+				<End Type="linklaters.CostCentre" Multiplicity="*" Role="CostCentre" />
+			</Association>
+			<Association Name="isDivisionOfCostCentre">
+				<End Type="linklaters.Division" Multiplicity="0..1" Role="Division" />
+				<End Type="linklaters.CostCentre" Multiplicity="*" Role="CostCentre" />
+			</Association>
+			<Association Name="isCountryOfCostCentre">
+				<End Type="linklaters.Country" Multiplicity="0..1" Role="Country" />
+				<End Type="linklaters.CostCentre" Multiplicity="*" Role="CostCentre" />
+			</Association>
+			<Association Name="isPracticeGroupOfCountry">
+				<End Type="linklaters.PracticeGroup" Multiplicity="0..1"
+					Role="PracticeGroup" />
+				<End Type="linklaters.Country" Multiplicity="*" Role="Country" />
+			</Association>
+			<Association Name="isProfitCentreOfCountry">
+				<End Type="linklaters.ProfitCentre" Multiplicity="0..1" Role="ProfitCentre" />
+				<End Type="linklaters.Country" Multiplicity="*" Role="Country" />
+			</Association>
+			<Association Name="isPersonOfCountry">
+				<End Type="linklaters.Person" Multiplicity="0..1" Role="Person" />
+				<End Type="linklaters.Country" Multiplicity="*" Role="Country" />
+			</Association>
+			<Association Name="isOfficeOfCountry">
+				<End Type="linklaters.Office" Multiplicity="0..1" Role="Office" />
+				<End Type="linklaters.Country" Multiplicity="*" Role="Country" />
+			</Association>
+			<Association Name="isRegionOfCountry">
+				<End Type="linklaters.Region" Multiplicity="0..1" Role="Region" />
+				<End Type="linklaters.Country" Multiplicity="*" Role="Country" />
+			</Association>
+			<Association Name="isCostCentreOfCountry">
+				<End Type="linklaters.CostCentre" Multiplicity="0..1" Role="CostCentre" />
+				<End Type="linklaters.Country" Multiplicity="*" Role="Country" />
+			</Association>
+			<Association Name="isDocumentOfDeal">
+				<End Type="linklaters.Document" Multiplicity="0..1" Role="Document" />
+				<End Type="linklaters.Deal" Multiplicity="*" Role="Deal" />
+			</Association>
+			<Association Name="isFeatureOfDeal">
+				<End Type="linklaters.Feature" Multiplicity="0..1" Role="Feature" />
+				<End Type="linklaters.Deal" Multiplicity="*" Role="Deal" />
+			</Association>
+			<Association Name="isDocumentTypeOfDeal">
+				<End Type="linklaters.DocumentType" Multiplicity="0..1" Role="DocumentType" />
+				<End Type="linklaters.Deal" Multiplicity="*" Role="Deal" />
+			</Association>
+			<Association Name="isTransactionTypeOfDeal">
+				<End Type="linklaters.TransactionType" Multiplicity="0..1"
+					Role="TransactionType" />
+				<End Type="linklaters.Deal" Multiplicity="*" Role="Deal" />
+			</Association>
+			<Association Name="isOfficeInvolvementOfDeal">
+				<End Type="linklaters.OfficeInvolvement" Multiplicity="0..1"
+					Role="OfficeInvolvement" />
+				<End Type="linklaters.Deal" Multiplicity="*" Role="Deal" />
+			</Association>
+			<Association Name="isPracticeGroupOfDeal">
+				<End Type="linklaters.PracticeGroup" Multiplicity="0..1"
+					Role="PracticeGroup" />
+				<End Type="linklaters.Deal" Multiplicity="*" Role="Deal" />
+			</Association>
+			<Association Name="isOfficeOfDeal">
+				<End Type="linklaters.Office" Multiplicity="0..1" Role="Office" />
+				<End Type="linklaters.Deal" Multiplicity="*" Role="Deal" />
+			</Association>
+			<Association Name="isLinklatersSectorOfDeal">
+				<End Type="linklaters.LinklatersSector" Multiplicity="0..1"
+					Role="LinklatersSector" />
+				<End Type="linklaters.Deal" Multiplicity="*" Role="Deal" />
+			</Association>
+			<Association Name="isSICCodeOfDeal">
+				<End Type="linklaters.SICCode" Multiplicity="0..1" Role="SICCode" />
+				<End Type="linklaters.Deal" Multiplicity="*" Role="Deal" />
+			</Association>
+			<Association Name="isMatterOfDeal">
+				<End Type="linklaters.Matter" Multiplicity="0..1" Role="Matter" />
+				<End Type="linklaters.Deal" Multiplicity="*" Role="Deal" />
+			</Association>
+			<Association Name="isPersonOfDivision">
+				<End Type="linklaters.Person" Multiplicity="0..1" Role="Person" />
+				<End Type="linklaters.Division" Multiplicity="*" Role="Division" />
+			</Association>
+			<Association Name="isOfficeOfDivision">
+				<End Type="linklaters.Office" Multiplicity="0..1" Role="Office" />
+				<End Type="linklaters.Division" Multiplicity="*" Role="Division" />
+			</Association>
+			<Association Name="isPracticeGroupOfDivision">
+				<End Type="linklaters.PracticeGroup" Multiplicity="0..1"
+					Role="PracticeGroup" />
+				<End Type="linklaters.Division" Multiplicity="*" Role="Division" />
+			</Association>
+			<Association Name="isCostCenterOfDivision">
+				<End Type="linklaters.CostCentre" Multiplicity="0..1" Role="CostCentre" />
+				<End Type="linklaters.Division" Multiplicity="*" Role="Division" />
+			</Association>
+			<Association Name="isProfitCentreOfDivision">
+				<End Type="linklaters.ProfitCentre" Multiplicity="0..1" Role="ProfitCentre" />
+				<End Type="linklaters.Division" Multiplicity="*" Role="Division" />
+			</Association>
+			<Association Name="isDealOfDocument">
+				<End Type="linklaters.Deal" Multiplicity="0..1" Role="Deal" />
+				<End Type="linklaters.Document" Multiplicity="*" Role="Document" />
+			</Association>
+			<Association Name="isDocumentTypeOfDocument">
+				<End Type="linklaters.DocumentType" Multiplicity="0..1" Role="DocumentType" />
+				<End Type="linklaters.Document" Multiplicity="*" Role="Document" />
+			</Association>
+			<Association Name="isDocumentOfDocumentType">
+				<End Type="linklaters.Document" Multiplicity="0..1" Role="Document" />
+				<End Type="linklaters.DocumentType" Multiplicity="*" Role="DocumentType" />
+			</Association>
+			<Association Name="isDealOfFeature">
+				<End Type="linklaters.Deal" Multiplicity="0..1" Role="Deal" />
+				<End Type="linklaters.Feature" Multiplicity="*" Role="Feature" />
+			</Association>
+			<Association Name="isMatterOfFee">
+				<End Type="linklaters.Matter" Multiplicity="0..1" Role="Matter" />
+				<End Type="linklaters.Fee" Multiplicity="*" Role="Fee" />
+			</Association>
+			<Association Name="isFeeEarnerOfFee">
+				<End Type="linklaters.Person" Multiplicity="0..1" Role="Person" />
+				<End Type="linklaters.Fee" Multiplicity="*" Role="Fee" />
+			</Association>
+			<Association Name="isMatterOfFeeStructure">
+				<End Type="linklaters.Matter" Multiplicity="0..1" Role="Matter" />
+				<End Type="linklaters.FeeStructure" Multiplicity="*" Role="FeeStructure" />
+			</Association>
+			<Association Name="isPersonOfJob">
+				<End Type="linklaters.Person" Multiplicity="0..1" Role="Person" />
+				<End Type="linklaters.Job" Multiplicity="*" Role="Job" />
+			</Association>
+			<Association Name="isPersonOfJobGroup2">
+				<End Type="linklaters.Person" Multiplicity="0..1" Role="Person" />
+				<End Type="linklaters.JobGroup" Multiplicity="*" Role="JobGroup" />
+			</Association>
+			<Association Name="isPersonOfJobGroup1">
+				<End Type="linklaters.Person" Multiplicity="0..1" Role="Person" />
+				<End Type="linklaters.JobGroup" Multiplicity="*" Role="JobGroup" />
+			</Association>
+			<Association Name="isPersonOfJobGroup3">
+				<End Type="linklaters.Person" Multiplicity="0..1" Role="Person" />
+				<End Type="linklaters.JobGroup" Multiplicity="*" Role="JobGroup" />
+			</Association>
+			<Association Name="isMatterOfJurisdiction">
+				<End Type="linklaters.Matter" Multiplicity="0..1" Role="Matter" />
+				<End Type="linklaters.Jurisdiction" Multiplicity="*" Role="Jurisdiction" />
+			</Association>
+			<Association Name="isMatterOfLinklatersSector">
+				<End Type="linklaters.Matter" Multiplicity="0..1" Role="Matter" />
+				<End Type="linklaters.LinklatersSector" Multiplicity="*"
+					Role="LinklatersSector" />
+			</Association>
+			<Association Name="isDealofLinklatersSector">
+				<End Type="linklaters.Deal" Multiplicity="0..1" Role="Deal" />
+				<End Type="linklaters.LinklatersSector" Multiplicity="*"
+					Role="LinklatersSector" />
+			</Association>
+			<Association Name="isCompanyOfLinklatersSector">
+				<End Type="linklaters.Company" Multiplicity="0..1" Role="Company" />
+				<End Type="linklaters.LinklatersSector" Multiplicity="*"
+					Role="LinklatersSector" />
+			</Association>
+			<Association Name="isClientOfLinklatersSector">
+				<End Type="linklaters.Client" Multiplicity="0..1" Role="Client" />
+				<End Type="linklaters.LinklatersSector" Multiplicity="*"
+					Role="LinklatersSector" />
+			</Association>
+			<Association Name="isFeeOfMatter">
+				<End Type="linklaters.Fee" Multiplicity="0..1" Role="Fee" />
+				<End Type="linklaters.Matter" Multiplicity="*" Role="Matter" />
+			</Association>
+			<Association Name="isLinklatersSectorOfMatter">
+				<End Type="linklaters.LinklatersSector" Multiplicity="0..1"
+					Role="LinklatersSector" />
+				<End Type="linklaters.Matter" Multiplicity="*" Role="Matter" />
+			</Association>
+			<Association Name="isRegionOfMatter">
+				<End Type="linklaters.Region" Multiplicity="0..1" Role="Region" />
+				<End Type="linklaters.Matter" Multiplicity="*" Role="Matter" />
+			</Association>
+			<Association Name="isFeeStructureOfMatter">
+				<End Type="linklaters.FeeStructure" Multiplicity="0..1" Role="FeeStructure" />
+				<End Type="linklaters.Matter" Multiplicity="*" Role="Matter" />
+			</Association>
+			<Association Name="isOfficeOfMatter">
+				<End Type="linklaters.Office" Multiplicity="0..1" Role="Office" />
+				<End Type="linklaters.Matter" Multiplicity="*" Role="Matter" />
+			</Association>
+			<Association Name="isTransactionTypeOfMatter">
+				<End Type="linklaters.TransactionType" Multiplicity="0..1"
+					Role="TransactionType" />
+				<End Type="linklaters.Matter" Multiplicity="*" Role="Matter" />
+			</Association>
+			<Association Name="isMatterManagerOfMatter">
+				<End Type="linklaters.Person" Multiplicity="0..1" Role="Person" />
+				<End Type="linklaters.Matter" Multiplicity="*" Role="Matter" />
+			</Association>
+			<Association Name="isStatusOfMatter">
+				<End Type="linklaters.MatterStatus" Multiplicity="0..1" Role="MatterStatus" />
+				<End Type="linklaters.Matter" Multiplicity="*" Role="Matter" />
+			</Association>
+			<Association Name="isPartnerOfMatter">
+				<End Type="linklaters.Person" Multiplicity="0..1" Role="Person" />
+				<End Type="linklaters.Matter" Multiplicity="*" Role="Matter" />
+			</Association>
+			<Association Name="isDealOfMatter">
+				<End Type="linklaters.Deal" Multiplicity="0..1" Role="Deal" />
+				<End Type="linklaters.Matter" Multiplicity="*" Role="Matter" />
+			</Association>
+			<Association Name="isJurisdictionOfMatter">
+				<End Type="linklaters.Jurisdiction" Multiplicity="0..1" Role="Jurisdiction" />
+				<End Type="linklaters.Matter" Multiplicity="*" Role="Matter" />
+			</Association>
+			<Association Name="isFeeEarnerOfMatter">
+				<End Type="linklaters.Person" Multiplicity="0..1" Role="Person" />
+				<End Type="linklaters.Matter" Multiplicity="*" Role="Matter" />
+			</Association>
+			<Association Name="isProfitCentreOfMatter">
+				<End Type="linklaters.ProfitCentre" Multiplicity="0..1" Role="ProfitCentre" />
+				<End Type="linklaters.Matter" Multiplicity="*" Role="Matter" />
+			</Association>
+			<Association Name="isClientOfMatter">
+				<End Type="linklaters.Client" Multiplicity="0..1" Role="Client" />
+				<End Type="linklaters.Matter" Multiplicity="*" Role="Matter" />
+			</Association>
+			<Association Name="isPracticeGroupOfMatter">
+				<End Type="linklaters.PracticeGroup" Multiplicity="0..1"
+					Role="PracticeGroup" />
+				<End Type="linklaters.Matter" Multiplicity="*" Role="Matter" />
+			</Association>
+			<Association Name="isMatterOfStatus">
+				<End Type="linklaters.Matter" Multiplicity="0..1" Role="Matter" />
+				<End Type="linklaters.MatterStatus" Multiplicity="*" Role="MatterStatus" />
+			</Association>
+			<Association Name="isPracticeGroupOfOffice">
+				<End Type="linklaters.PracticeGroup" Multiplicity="0..1"
+					Role="PracticeGroup" />
+				<End Type="linklaters.Office" Multiplicity="*" Role="Office" />
+			</Association>
+			<Association Name="isProfitCenterOfOffice">
+				<End Type="linklaters.ProfitCentre" Multiplicity="0..1" Role="ProfitCentre" />
+				<End Type="linklaters.Office" Multiplicity="*" Role="Office" />
+			</Association>
+			<Association Name="isCostCenterOfOffice">
+				<End Type="linklaters.CostCentre" Multiplicity="0..1" Role="CostCentre" />
+				<End Type="linklaters.Office" Multiplicity="*" Role="Office" />
+			</Association>
+			<Association Name="isDivisionOfOffice">
+				<End Type="linklaters.Division" Multiplicity="0..1" Role="Division" />
+				<End Type="linklaters.Office" Multiplicity="*" Role="Office" />
+			</Association>
+			<Association Name="isOfficeInvolvementOfOffice">
+				<End Type="linklaters.OfficeInvolvement" Multiplicity="0..1"
+					Role="OfficeInvolvement" />
+				<End Type="linklaters.Office" Multiplicity="*" Role="Office" />
+			</Association>
+			<Association Name="isCountryOfOffice">
+				<End Type="linklaters.Country" Multiplicity="0..1" Role="Country" />
+				<End Type="linklaters.Office" Multiplicity="*" Role="Office" />
+			</Association>
+			<Association Name="isPersonOfOffice">
+				<End Type="linklaters.Person" Multiplicity="0..1" Role="Person" />
+				<End Type="linklaters.Office" Multiplicity="*" Role="Office" />
+			</Association>
+			<Association Name="hasSecondmentOffice">
+				<End Type="linklaters.Person" Multiplicity="0..1" Role="Person" />
+				<End Type="linklaters.Office" Multiplicity="*" Role="Office" />
+			</Association>
+			<Association Name="isMatterOfOffice">
+				<End Type="linklaters.Matter" Multiplicity="0..1" Role="Matter" />
+				<End Type="linklaters.Office" Multiplicity="*" Role="Office" />
+			</Association>
+			<Association Name="isDealOfOffice">
+				<End Type="linklaters.Deal" Multiplicity="0..1" Role="Deal" />
+				<End Type="linklaters.Office" Multiplicity="*" Role="Office" />
+			</Association>
+			<Association Name="isDealOfOfficeInvolvement">
+				<End Type="linklaters.Deal" Multiplicity="0..1" Role="Deal" />
+				<End Type="linklaters.OfficeInvolvement" Multiplicity="*"
+					Role="OfficeInvolvement" />
+			</Association>
+			<Association Name="isOfficeOfOfficeInvolvement">
+				<End Type="linklaters.Office" Multiplicity="0..1" Role="Office" />
+				<End Type="linklaters.OfficeInvolvement" Multiplicity="*"
+					Role="OfficeInvolvement" />
+			</Association>
+			<Association Name="isPersonOfOrganisationalRole">
+				<End Type="linklaters.Person" Multiplicity="0..1" Role="Person" />
+				<End Type="linklaters.OrganisationRole" Multiplicity="*"
+					Role="OrganisationRole" />
+			</Association>
+			<Association Name="isMatterOfMatterManager">
+				<End Type="linklaters.Matter" Multiplicity="0..1" Role="Matter" />
+				<End Type="linklaters.Person" Multiplicity="*" Role="Person" />
+			</Association>
+			<Association Name="isSecondmentOfficeOfPerson">
+				<End Type="linklaters.Office" Multiplicity="0..1" Role="Office" />
+				<End Type="linklaters.Person" Multiplicity="*" Role="Person" />
+			</Association>
+			<Association Name="isProfitCentreOfPerson">
+				<End Type="linklaters.ProfitCentre" Multiplicity="0..1" Role="ProfitCentre" />
+				<End Type="linklaters.Person" Multiplicity="*" Role="Person" />
+			</Association>
+			<Association Name="isDivisionOfPerson">
+				<End Type="linklaters.Division" Multiplicity="0..1" Role="Division" />
+				<End Type="linklaters.Person" Multiplicity="*" Role="Person" />
+			</Association>
+			<Association Name="isFeeOfFeeEarner">
+				<End Type="linklaters.Fee" Multiplicity="0..1" Role="Fee" />
+				<End Type="linklaters.Person" Multiplicity="*" Role="Person" />
+			</Association>
+			<Association Name="isMatterOfPartner">
+				<End Type="linklaters.Matter" Multiplicity="0..1" Role="Matter" />
+				<End Type="linklaters.Person" Multiplicity="*" Role="Person" />
+			</Association>
+			<Association Name="isJobGroupOfPerson">
+				<End Type="linklaters.JobGroup" Multiplicity="0..1" Role="JobGroup" />
+				<End Type="linklaters.Person" Multiplicity="*" Role="Person" />
+			</Association>
+			<Association Name="isCostCentreOfPerson">
+				<End Type="linklaters.CostCentre" Multiplicity="0..1" Role="CostCentre" />
+				<End Type="linklaters.Person" Multiplicity="*" Role="Person" />
+			</Association>
+			<Association Name="isJobOfPerson">
+				<End Type="linklaters.Job" Multiplicity="0..1" Role="Job" />
+				<End Type="linklaters.Person" Multiplicity="*" Role="Person" />
+			</Association>
+			<Association Name="isOfficeOfPerson">
+				<End Type="linklaters.Office" Multiplicity="0..1" Role="Office" />
+				<End Type="linklaters.Person" Multiplicity="*" Role="Person" />
+			</Association>
+			<Association Name="isMatterOfFeeEarner">
+				<End Type="linklaters.Matter" Multiplicity="0..1" Role="Matter" />
+				<End Type="linklaters.Person" Multiplicity="*" Role="Person" />
+			</Association>
+			<Association Name="isClientOfManagingRelationshipPartner">
+				<End Type="linklaters.Client" Multiplicity="0..1" Role="Client" />
+				<End Type="linklaters.Person" Multiplicity="*" Role="Person" />
+			</Association>
+			<Association Name="isPracticeGroupOfPerson">
+				<End Type="linklaters.PracticeGroup" Multiplicity="0..1"
+					Role="PracticeGroup" />
+				<End Type="linklaters.Person" Multiplicity="*" Role="Person" />
+			</Association>
+			<Association Name="isPositionOfPerson">
+				<End Type="linklaters.Position" Multiplicity="0..1" Role="Position" />
+				<End Type="linklaters.Person" Multiplicity="*" Role="Person" />
+			</Association>
+			<Association Name="isOrganisationRoleOfPerson">
+				<End Type="linklaters.OrganisationRole" Multiplicity="0..1"
+					Role="OrganisationRole" />
+				<End Type="linklaters.Person" Multiplicity="*" Role="Person" />
+			</Association>
+			<Association Name="isCountryOfPerson">
+				<End Type="linklaters.Country" Multiplicity="0..1" Role="Country" />
+				<End Type="linklaters.Person" Multiplicity="*" Role="Person" />
+			</Association>
+			<Association Name="isPersonOfPosition">
+				<End Type="linklaters.Person" Multiplicity="0..1" Role="Person" />
+				<End Type="linklaters.Position" Multiplicity="*" Role="Position" />
+			</Association>
+			<Association Name="isPersonOfPracticeGroup">
+				<End Type="linklaters.Person" Multiplicity="0..1" Role="Person" />
+				<End Type="linklaters.PracticeGroup" Multiplicity="*"
+					Role="PracticeGroup" />
+			</Association>
+			<Association Name="isCountryOfPracticeGroup">
+				<End Type="linklaters.Country" Multiplicity="0..1" Role="Country" />
+				<End Type="linklaters.PracticeGroup" Multiplicity="*"
+					Role="PracticeGroup" />
+			</Association>
+			<Association Name="isDealOfPracticeGroup">
+				<End Type="linklaters.Deal" Multiplicity="0..1" Role="Deal" />
+				<End Type="linklaters.PracticeGroup" Multiplicity="*"
+					Role="PracticeGroup" />
+			</Association>
+			<Association Name="isMatterOfPracticeGroup">
+				<End Type="linklaters.Matter" Multiplicity="0..1" Role="Matter" />
+				<End Type="linklaters.PracticeGroup" Multiplicity="*"
+					Role="PracticeGroup" />
+			</Association>
+			<Association Name="isProfitCentreOfPracticeGroup">
+				<End Type="linklaters.ProfitCentre" Multiplicity="0..1" Role="ProfitCentre" />
+				<End Type="linklaters.PracticeGroup" Multiplicity="*"
+					Role="PracticeGroup" />
+			</Association>
+			<Association Name="isTransactionTypeOfPracticeGroup">
+				<End Type="linklaters.TransactionType" Multiplicity="0..1"
+					Role="TransactionType" />
+				<End Type="linklaters.PracticeGroup" Multiplicity="*"
+					Role="PracticeGroup" />
+			</Association>
+			<Association Name="isDivisionOfPracticeGroup">
+				<End Type="linklaters.Division" Multiplicity="0..1" Role="Division" />
+				<End Type="linklaters.PracticeGroup" Multiplicity="*"
+					Role="PracticeGroup" />
+			</Association>
+			<Association Name="isOfficeOfPracticeGroup">
+				<End Type="linklaters.Office" Multiplicity="0..1" Role="Office" />
+				<End Type="linklaters.PracticeGroup" Multiplicity="*"
+					Role="PracticeGroup" />
+			</Association>
+			<Association Name="isCostCenterOfPracticeGroup">
+				<End Type="linklaters.CostCentre" Multiplicity="0..1" Role="CostCentre" />
+				<End Type="linklaters.PracticeGroup" Multiplicity="*"
+					Role="PracticeGroup" />
+			</Association>
+			<Association Name="isPersonOfProfitCentre">
+				<End Type="linklaters.Person" Multiplicity="0..1" Role="Person" />
+				<End Type="linklaters.ProfitCentre" Multiplicity="*" Role="ProfitCentre" />
+			</Association>
+			<Association Name="isPracticeGroupOfProfitCentre">
+				<End Type="linklaters.PracticeGroup" Multiplicity="0..1"
+					Role="PracticeGroup" />
+				<End Type="linklaters.ProfitCentre" Multiplicity="*" Role="ProfitCentre" />
+			</Association>
+			<Association Name="isCountryOfProfitCentre">
+				<End Type="linklaters.Country" Multiplicity="0..1" Role="Country" />
+				<End Type="linklaters.ProfitCentre" Multiplicity="*" Role="ProfitCentre" />
+			</Association>
+			<Association Name="isMatterOfProfitCentre">
+				<End Type="linklaters.Matter" Multiplicity="0..1" Role="Matter" />
+				<End Type="linklaters.ProfitCentre" Multiplicity="*" Role="ProfitCentre" />
+			</Association>
+			<Association Name="isDivisionOfProfitCentre">
+				<End Type="linklaters.Division" Multiplicity="0..1" Role="Division" />
+				<End Type="linklaters.ProfitCentre" Multiplicity="*" Role="ProfitCentre" />
+			</Association>
+			<Association Name="isOfficeOfProfitCentre">
+				<End Type="linklaters.Office" Multiplicity="0..1" Role="Office" />
+				<End Type="linklaters.ProfitCentre" Multiplicity="*" Role="ProfitCentre" />
+			</Association>
+			<Association Name="isCostCentreOfProfitCentre">
+				<End Type="linklaters.CostCentre" Multiplicity="0..1" Role="CostCentre" />
+				<End Type="linklaters.ProfitCentre" Multiplicity="*" Role="ProfitCentre" />
+			</Association>
+			<Association Name="isMatterOfRegion">
+				<End Type="linklaters.Matter" Multiplicity="0..1" Role="Matter" />
+				<End Type="linklaters.Region" Multiplicity="*" Role="Region" />
+			</Association>
+			<Association Name="isCountryOfRegion">
+				<End Type="linklaters.Country" Multiplicity="0..1" Role="Country" />
+				<End Type="linklaters.Region" Multiplicity="*" Role="Region" />
+			</Association>
+			<Association Name="isMainRegionOfSubRegion">
+				<End Type="linklaters.Region" Multiplicity="0..1" Role="Region" />
+				<End Type="linklaters.Region" Multiplicity="*" Role="Region1" />
+			</Association>
+			<Association Name="isDealOfSICCode">
+				<End Type="linklaters.Deal" Multiplicity="0..1" Role="Deal" />
+				<End Type="linklaters.SICCode" Multiplicity="*" Role="SICCode" />
+			</Association>
+			<Association Name="isClientOfSICCode">
+				<End Type="linklaters.Client" Multiplicity="0..1" Role="Client" />
+				<End Type="linklaters.SICCode" Multiplicity="*" Role="SICCode" />
+			</Association>
+			<Association Name="isDealOfTransactionType">
+				<End Type="linklaters.Deal" Multiplicity="0..1" Role="Deal" />
+				<End Type="linklaters.TransactionType" Multiplicity="*"
+					Role="TransactionType" />
+			</Association>
+			<Association Name="isPracticeGroupOfTransactionType">
+				<End Type="linklaters.PracticeGroup" Multiplicity="0..1"
+					Role="PracticeGroup" />
+				<End Type="linklaters.TransactionType" Multiplicity="*"
+					Role="TransactionType" />
+			</Association>
+			<Association Name="isMatterOfTransactionType">
+				<End Type="linklaters.Matter" Multiplicity="0..1" Role="Matter" />
+				<End Type="linklaters.TransactionType" Multiplicity="*"
+					Role="TransactionType" />
+			</Association>
+			<EntityContainer Name="linklatersInstanceContainer" />
+		</Schema>
+		<Schema Namespace="rdfs"
+			xmlns="http://schemas.microsoft.com/ado/2008/09/edm" owl:Ontology="http://www.w3.org/2000/01/rdf-schema#"
+			xmlns:owl="http://www.w3.org/2002/07/owl">
+			<EntityType Name="Resource"
+				rdfs:Class="http://www.w3.org/2000/01/rdf-schema#Resource"
+				xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" rdfs:label="Resource">
+				<Key>
+					<PropertyRef Name="Id" />
+				</Key>
+				<Property Name="Id" Type="Edm.String" Nullable="false"
+					rdfs:label="Id" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema"
+					rdfs:Datatype="http://www.w3.org/2000/01/rdf-schema#Resource" />
+				<Property Name="label" Type="Edm.String" Nullable="true"
+					rdf:Property="http://www.w3.org/2000/01/rdf-schema#label"
+					xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns"
+					rdfs:Datatype="http://www.w3.org/2001/XMLSchema#string" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema"
+					rdfs:label="label" />
+				<Property Name="comment" Type="Edm.String" Nullable="true"
+					rdf:Property="http://www.w3.org/2000/01/rdf-schema#comment"
+					xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns"
+					rdfs:Datatype="http://www.w3.org/2001/XMLSchema#string" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema"
+					rdfs:label="comment" />
+				<NavigationProperty Name="type" Relationship="rdfs.type"
+					FromRole="Resource" ToRole="Class"
+					rdf:Property="http://www.w3.org/1999/02/22-rdf-syntax-ns#type"
+					xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" rdfs:label="has Type"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+			</EntityType>
+			<EntityType Name="Class" BaseType="rdfs.Resource"
+				rdfs:Class="http://www.w3.org/2000/01/rdf-schema#Class" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema"
+				rdfs:label="Class">
+				<NavigationProperty Name="hasInstance"
+					Relationship="rdfs.hasInstance" FromRole="Class" ToRole="Resource"
+					rdf:Property="http://www.w3.org/1999/02/22-rdf-syntax-ns#hasInstance"
+					xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns" rdfs:label="has Instance"
+					xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" owl:inverseOf="http://www.w3.org/1999/02/22-rdf-syntax-ns#type"
+					xmlns:owl="http://www.w3.org/2002/07/owl" />
+			</EntityType>
+			<Association Name="type">
+				<End Type="rdfs.Resource" Multiplicity="*" Role="Resource" />
+				<End Type="rdfs.Class" Multiplicity="0..1" Role="Class" />
+			</Association>
+			<Association Name="hasInstance">
+				<End Type="rdfs.Class" Multiplicity="0..1" Role="Class" />
+				<End Type="rdfs.Resource" Multiplicity="*" Role="Resource" />
+			</Association>
+			<EntityContainer Name="rdfsInstanceContainer" />
+		</Schema>
+		<Schema Namespace="owl"
+			xmlns="http://schemas.microsoft.com/ado/2008/09/edm" owl:Ontology="http://www.w3.org/2002/07/owl#"
+			xmlns:owl="http://www.w3.org/2002/07/owl">
+			<EntityType Name="Thing" BaseType="rdfs.Resource"
+				rdfs:Class="http://www.w3.org/2002/07/owl#Thing" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema"
+				rdfs:label="Thing" />
+			<EntityContainer Name="owlInstanceContainer" />
+		</Schema>
+		<Schema Namespace="rdf"
+			xmlns="http://schemas.microsoft.com/ado/2008/09/edm" owl:Ontology="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+			xmlns:owl="http://www.w3.org/2002/07/owl">
+			<ComplexType Name="langString">
+				<Property Name="lang" Type="Edm.String"
+					rdfs:Datatype="http://www.w3.org/2001/XMLSchema#string" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+				<Property Name="value" Type="Edm.String"
+					rdfs:Datatype="http://www.w3.org/2001/XMLSchema#string" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema" />
+			</ComplexType>
+			<EntityContainer Name="rdfInstanceContainer" />
+		</Schema>
+	</edmx:DataServices>
+</edmx:Edmx>

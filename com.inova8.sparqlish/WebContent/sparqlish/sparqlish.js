@@ -13,14 +13,15 @@ jQuery.sap.declare("DataPropertyFilter");
 jQuery.sap.declare("ConjunctionFilter");
 var sPrefix = "?v";
 var sLabelPostfix = "_label";
+var defaultVersion = "V2";
 sap.ui.base.Object.extend("Queries", {
 	constructor : function(oAST) {
 		this.oAST = oAST;
 		this.oQueries = [];
 		try {
-			if (oAST["queries"] != null) {
+			if (!jQuery.isEmptyObject(oAST["queries"])) {
 				for (var i = 0; i < oAST["queries"].length; i++) {
-					this.oQueries.push(new Query(oAST["queries"][i], "queryModel>/queries/" + i + "/"));
+					this.oQueries.push(new Query(oAST["queries"][i], "/queries/" + i + "/"));
 				}
 			} else {
 				this.oQueries = null;
@@ -35,6 +36,7 @@ sap.ui.base.Object
 				"Query",
 				{
 					constructor : function(oAST, sPath) {
+						sPath = sPath || "";
 						this.oAST = oAST;
 						this.oClauseReferences = [];
 						this.oViewModel = null;
@@ -55,12 +57,12 @@ sap.ui.base.Object
 							this.sLabel = (oAST["label"] == undefined) ? labelFromURI(this.sConcept) : oAST["label"];
 							this.bHidden = (oAST["hidden"] == undefined) ? false : oAST["hidden"];
 
-							if (oAST["conceptFilters"] != null) {
+							if (!jQuery.isEmptyObject(oAST["conceptFilters"])) {
 								this.oConceptFilters = oAST["conceptFilters"];
 							} else {
 								this.oConceptFilters = null;
 							}
-							if (oAST["clauses"] != null) {
+							if (!jQuery.isEmptyObject(oAST["clauses"])) {
 								this.oClauses = new Clauses(oAST["clauses"], this.oContext);
 							} else {
 								this.oClauses = null;
@@ -70,7 +72,7 @@ sap.ui.base.Object
 							// now prep the sparql query
 							var sContext = sPrefix + this.oContext.sSubject;
 							var sValues = sparqlKeyFilters(sContext, this.oConceptFilters);
-							if (this.oClauses != null) {
+							if (!jQuery.isEmptyObject(this.oClauses)) {
 								this.sWhere = "WHERE{\n{" + sContext + " a " + this.sConcept + ". OPTIONAL{" + sContext + " rdfs:label " + sContext + sLabelPostfix + "}"
 										+ sValues + "}\n" + this.oClauses.sparql() + "\n}";
 							} else {
@@ -94,7 +96,7 @@ sap.ui.base.Object
 					sparql : function() {
 						var sContext = sPrefix + this.oContext.sSubject;
 						var sValues = sparqlKeyFilters(sContext, this.oConceptFilters);
-						if (this.oClauses != null) {
+						if (!jQuery.isEmptyObject(this.oClauses)) {
 							return ("SELECT * \nWHERE{\n{" + sContext + " a " + this.sConcept + ". OPTIONAL{" + sContext + " rdfs:label " + sContext + sLabelPostfix + "}"
 									+ sValues + "}\n" + this.oClauses.sparql() + "\n}");
 						} else {
@@ -105,7 +107,7 @@ sap.ui.base.Object
 					facetSparql : function() {
 						var sContext = sPrefix + this.oContext.sSubject;
 						var sValues = sparqlKeyFilters(sContext, this.oConceptFilters);
-						if (this.oClauses != null) {
+						if (!jQuery.isEmptyObject(this.oClauses)) {
 							return ("{" + sContext + " a " + this.sConcept + ". OPTIONAL{" + sContext + " rdfs:label " + sContext + sLabelPostfix + "}" + sValues + "}\n" + this.oClauses
 									.sparql());
 						} else {
@@ -113,7 +115,7 @@ sap.ui.base.Object
 						}
 					},
 					sparqlish : function() {
-						if (this.oConceptFilters != null) {
+						if (!jQuery.isEmptyObject(this.oConceptFilters)) {
 							return "Find <embed data-index='0'>" + labelFromURI(this.sConcept) + " in " + sparqlishKeyFilters(this.oConceptFilters);
 						} else {
 							return "Find " + labelFromURI(this.sConcept);
@@ -125,7 +127,7 @@ sap.ui.base.Object
 							var oViewModel = {
 								"root" : {}
 							};
-							if (this.oClauses != null) {
+							if (!jQuery.isEmptyObject(this.oClauses)) {
 								extendj(oViewModel.root, this.oClauses.viewModel(this.sPath, this.oClauseReferences));
 							}
 							extendj(oViewModel.root, {
@@ -147,11 +149,15 @@ sap.ui.base.Object
 					},
 					odataFilter : function(sVersion) {
 						var sClausesFilter = "";
-						if (this.oClauses != null) {
+						if (!jQuery.isEmptyObject(this.oClauses)) {
 							sClausesFilter = this.oClauses.odataFilter(sVersion);
 						}
-						if (this.oConceptFilters != null) {
-							return "$filter=((" + odataKeyFilters(sVersion, this.oContext.sOdataEntityPath, this.oConceptFilters) + ")and(" + sClausesFilter + "))";
+						if (!jQuery.isEmptyObject(this.oConceptFilters)) {
+							if (sClausesFilter != "") {
+								return "$filter=((" + odataKeyFilters(sVersion, this.oContext.sOdataEntityPath, this.oConceptFilters) + ")and(" + sClausesFilter + "))";
+							} else {
+								return "$filter=((" + odataKeyFilters(sVersion, this.oContext.sOdataEntityPath, this.oConceptFilters) + "))";
+							}
 						} else {
 							if (sClausesFilter != "") {
 								return "$filter=(" + sClausesFilter + ")";
@@ -162,11 +168,15 @@ sap.ui.base.Object
 					},
 					odataSelect : function(sVersion) {
 						var sSelect = "";
-						if (this.oClauses != null) {
+						if (!jQuery.isEmptyObject(this.oClauses)) {
 							sSelect = this.oClauses.odataSelect(sVersion);
 						}
-						if (this.oConceptFilters != null) {
-							return "$select=" + odataKeys(sVersion, this.oContext.sOdataEntityPath, this.oConceptFilters) + "," + sSelect;
+						if (!jQuery.isEmptyObject(this.oConceptFilters)) {
+							if (sSelect != "") {
+								return "$select=" + odataKeys(sVersion, this.oContext.sOdataEntityPath, this.oConceptFilters) + "," + sSelect;
+							} else {
+								return "$select=" + odataKeys(sVersion, this.oContext.sOdataEntityPath, this.oConceptFilters);
+							}
 						} else {
 							if (sSelect != "") {
 								return "$select=" + sSelect;
@@ -176,11 +186,14 @@ sap.ui.base.Object
 						}
 					},
 					odataExpand : function(sVersion) {
-						if (sVersion == "V4") {
-							return this.odataExpandSelect(sVersion);
-						} else {
-							return "$expand=" + this.oClauses.odataExpand(sVersion);
-						}
+						if (!jQuery.isEmptyObject(this.oClauses)) {
+							if (sVersion == "V4") {
+								return this.odataExpandSelect(sVersion);
+							} else {
+								return "$expand=" + this.oClauses.odataExpand(sVersion);
+							}
+						} else
+							return "";
 					},
 					odataExpandSelect : function(sVersion) {
 						return "$expand=" + this.oClauses.odataExpandSelect(sVersion);
@@ -204,6 +217,7 @@ sap.ui.base.Object
 
 					},
 					odataURI : function(sVersion) {
+						sVersion = sVersion || defaultVersion;
 						return this.odataPath(sVersion) + "?" + this.odataFilter(sVersion) + "&" + this.odataExpand(sVersion) + "&" + this.odataSelect(sVersion) + "&"
 								+ this.odataOptions(sVersion);
 					}
@@ -221,50 +235,62 @@ sap.ui.base.Object.extend("Clauses", {
 				sObject : oContext.sSubject + "_" + 0,
 				iLevel : oContext.iLevel
 			};
-			this.oClause = new Clause(oAST["clause"], oFirstContext);
-			if (oAST["conjunctionClauses"] != null) {
-				this.oConjunctionClauses = [];
-				for (var i = 0; i < oAST["conjunctionClauses"].length; i++) {
-					var oNewContext = {
-						sOdataEntityPath : oContext.sOdataEntityPath,
-						sSubject : oContext.sSubject,
-						sObject : oContext.sSubject + "_" + (i + 1),
-						iLevel : oContext.iLevel
-					};
-					this.oConjunctionClauses[i] = new ConjunctionClause(oAST["conjunctionClauses"][i], oNewContext);
+			if (!jQuery.isEmptyObject(oAST["clause"])) {
+				this.oClause = new Clause(oAST["clause"], oFirstContext);
+				if (!jQuery.isEmptyObject(oAST["conjunctionClauses"])) {
+					this.oConjunctionClauses = [];
+					for (var i = 0; i < oAST["conjunctionClauses"].length; i++) {
+						var oNewContext = {
+							sOdataEntityPath : oContext.sOdataEntityPath,
+							sSubject : oContext.sSubject,
+							sObject : oContext.sSubject + "_" + (i + 1),
+							iLevel : oContext.iLevel
+						};
+						this.oConjunctionClauses[i] = new ConjunctionClause(oAST["conjunctionClauses"][i], oNewContext);
+					}
+				} else {
+					this.oConjunctionClauses = null;
 				}
 			} else {
-				this.oConjunctionClauses = null;
+				this.oClause = null;
 			}
 		} catch (e) {
 			jQuery.sap.log.error(e);
 		}
 	},
 	sparql : function() {
-		var sSparql = this.oClause.sparql();
-		if (this.oConjunctionClauses != null) {
-			for (var i = 0; i < this.oConjunctionClauses.length; i++) {
-				sSparql = sSparql + this.oConjunctionClauses[i].sparql();
+		if (!jQuery.isEmptyObject(this.oClause)) {
+			var sSparql = this.oClause.sparql();
+			if (!jQuery.isEmptyObject(this.oConjunctionClauses)) {
+				for (var i = 0; i < this.oConjunctionClauses.length; i++) {
+					sSparql = sSparql + this.oConjunctionClauses[i].sparql();
+				}
+				return sSparql;
+			} else {
+				return sSparql;
 			}
-			return sSparql;
 		} else {
-			return sSparql;
+			return "";
 		}
 	},
 	sparqlish : function() {
-		var sSparqlish = this.oClause.sparqlish();
-		if (this.oConjunctionClauses != null) {
-			for (var i = 0; i < this.oConjunctionClauses.length; i++) {
-				sSparqlish = sSparqlish + this.oConjunctionClauses[i].sparqlish();
+		if (!jQuery.isEmptyObject(this.oClause)) {
+			var sSparqlish = this.oClause.sparqlish();
+			if (!jQuery.isEmptyObject(this.oConjunctionClauses)) {
+				for (var i = 0; i < this.oConjunctionClauses.length; i++) {
+					sSparqlish = sSparqlish + this.oConjunctionClauses[i].sparqlish();
+				}
+				return sSparqlish;
+			} else {
+				return sSparqlish;
 			}
-			return sSparqlish;
 		} else {
-			return sSparqlish;
+			return "";
 		}
 	},
 	viewModel : function(sPath, oClauseReferences) {
 		var oViewModel = {};
-		if (this.oConjunctionClauses != null) {
+		if (!jQuery.isEmptyObject(this.oConjunctionClauses)) {
 			for (var i = 0; i < this.oConjunctionClauses.length; i++) {
 				var iIndex = i + 1;
 				var oConjunctionClause = {};
@@ -272,86 +298,108 @@ sap.ui.base.Object.extend("Clauses", {
 				extendj(oViewModel, oConjunctionClause);
 			}
 		}
-		extendj(oViewModel, {
-			"0" : this.oClause.viewModel(sPath + "clauses/clause/", oClauseReferences)
-		});
+		if (!jQuery.isEmptyObject(this.oClause)) {
+			extendj(oViewModel, {
+				"0" : this.oClause.viewModel(sPath + "clauses/clause/", oClauseReferences)
+			});
+		}
 		return oViewModel;
 	},
 	odataFilter : function(sVersion) {
-		var sOdataFilter = this.oClause.odataFilter(sVersion);
-		if (this.oConjunctionClauses != null) {
-			for (var i = 0; i < this.oConjunctionClauses.length; i++) {
-				sOdataFilter = sOdataFilter + this.oConjunctionClauses[i].odataFilter(sVersion);
+		if (!jQuery.isEmptyObject(this.oClause)) {
+			var sOdataFilter = this.oClause.odataFilter(sVersion);
+			if (!jQuery.isEmptyObject(this.oConjunctionClauses)) {
+				for (var i = 0; i < this.oConjunctionClauses.length; i++) {
+					sOdataFilter = sOdataFilter + this.oConjunctionClauses[i].odataFilter(sVersion);
+				}
+				return sOdataFilter;
+			} else {
+				return sOdataFilter;
 			}
-			return sOdataFilter;
 		} else {
-			return sOdataFilter;
+			return "";
 		}
 	},
 	odataSelect : function(sVersion) {
-		var sOdataSelect = this.oClause.odataSelect(sVersion);
-		if (this.oConjunctionClauses != null) {
-			for (var i = 0; i < this.oConjunctionClauses.length; i++) {
-				var sOdataConjunctionSelect = this.oConjunctionClauses[i].odataSelect(sVersion);
-				if (sOdataConjunctionSelect != "") {
-					sOdataSelect = sOdataSelect + "," + this.oConjunctionClauses[i].odataSelect(sVersion);
+		if (!jQuery.isEmptyObject(this.oClause)) {
+			var sOdataSelect = this.oClause.odataSelect(sVersion);
+			if (!jQuery.isEmptyObject(this.oConjunctionClauses)) {
+				for (var i = 0; i < this.oConjunctionClauses.length; i++) {
+					var sOdataConjunctionSelect = this.oConjunctionClauses[i].odataSelect(sVersion);
+					if (sOdataConjunctionSelect != "") {
+						sOdataSelect = sOdataSelect + "," + this.oConjunctionClauses[i].odataSelect(sVersion);
+					}
 				}
+				return sOdataSelect;
+			} else {
+				return sOdataSelect;
 			}
-			return sOdataSelect;
 		} else {
-			return sOdataSelect;
+			return "";
 		}
 	},
 	odataExpand : function(sVersion) {
-		var sOdataExpand = this.oClause.odataExpand(sVersion);
-		if (this.oConjunctionClauses != null) {
-			for (var i = 0; i < this.oConjunctionClauses.length; i++) {
-				var sOdataConjunctionExpand = this.oConjunctionClauses[i].odataExpand(sVersion);
+		if (!jQuery.isEmptyObject(this.oClause)) {
+			var sOdataExpand = this.oClause.odataExpand(sVersion);
+			if (!jQuery.isEmptyObject(this.oConjunctionClauses)) {
+				for (var i = 0; i < this.oConjunctionClauses.length; i++) {
+					var sOdataConjunctionExpand = this.oConjunctionClauses[i].odataExpand(sVersion);
 
-				if (sOdataConjunctionExpand != "") {
-					if (sOdataExpand != "") {
-						sOdataExpand = sOdataExpand + "," + sOdataConjunctionExpand;
-					} else {
-						sOdataExpand = sOdataConjunctionExpand;
+					if (sOdataConjunctionExpand != "") {
+						if (sOdataExpand != "") {
+							sOdataExpand = sOdataExpand + "," + sOdataConjunctionExpand;
+						} else {
+							sOdataExpand = sOdataConjunctionExpand;
+						}
 					}
 				}
+				return sOdataExpand;
+			} else {
+				return sOdataExpand;
 			}
-			return sOdataExpand;
 		} else {
-			return sOdataExpand;
+			return "";
 		}
 	},
 	odataExpandSelect : function(sVersion) {
-		var sOdataExpandSelect = this.oClause.odataExpandSelect(sVersion);
-		(sOdataExpandSelect == "") ? "" : sOdataExpandSelect + "($select=xx)";
-		if (this.oConjunctionClauses != null) {
-			for (var i = 0; i < this.oConjunctionClauses.length; i++) {
-				var sOdataConjunctionExpandSelect = this.oConjunctionClauses[i].odataExpandSelect(sVersion);
-				if (sOdataConjunctionExpandSelect != "") {
-					if (sOdataExpandSelect != "") {
-						sOdataExpandSelect = sOdataExpandSelect + "," + sOdataConjunctionExpandSelect;
-					} else {
-						sOdataExpandSelect = sOdataConjunctionExpandSelect;
+		if (!jQuery.isEmptyObject(this.oClause)) {
+			var sOdataExpandSelect = this.oClause.odataExpandSelect(sVersion);
+			(sOdataExpandSelect == "") ? "" : sOdataExpandSelect + "($select=xx)";
+			if (!jQuery.isEmptyObject(this.oConjunctionClauses)) {
+				for (var i = 0; i < this.oConjunctionClauses.length; i++) {
+					var sOdataConjunctionExpandSelect = this.oConjunctionClauses[i].odataExpandSelect(sVersion);
+					if (sOdataConjunctionExpandSelect != "") {
+						if (sOdataExpandSelect != "") {
+							sOdataExpandSelect = sOdataExpandSelect + "," + sOdataConjunctionExpandSelect;
+						} else {
+							sOdataExpandSelect = sOdataConjunctionExpandSelect;
+						}
 					}
 				}
+				return sOdataExpandSelect;
+			} else {
+				return sOdataExpandSelect;
 			}
-			return sOdataExpandSelect;
 		} else {
-			return sOdataExpandSelect;
+			return "";
 		}
 	},
 	odataSelectForExpand : function(sVersion) {
-		var sOdataSelectForExpand = this.oClause.odataSelectForExpand(sVersion);
-		if (this.oConjunctionClauses != null) {
-			for (var i = 0; i < this.oConjunctionClauses.length; i++) {
-				var sOdataConjunctionSelect = this.oConjunctionClauses[i].odataSelectForExpand(sVersion);
-				if (sOdataConjunctionSelect != "") {
-					sOdataSelectForExpand = sOdataSelectForExpand + "," + this.oConjunctionClauses[i].odataSelectForExpand(sVersion);
+		if (!jQuery.isEmptyObject(this.oClause)) {
+			var sOdataSelectForExpand = this.oClause.odataSelectForExpand(sVersion);
+			if (!jQuery.isEmptyObject(this.oConjunctionClauses)) {
+				for (var i = 0; i < this.oConjunctionClauses.length; i++) {
+					var sOdataConjunctionSelect = this.oConjunctionClauses[i].odataSelectForExpand(sVersion);
+					if (sOdataConjunctionSelect != "") {
+						sOdataSelectForExpand = sOdataSelectForExpand + "," + this.oConjunctionClauses[i].odataSelectForExpand(sVersion);
+					}
 				}
+				return sOdataSelectForExpand;
+			} else {
+				return sOdataSelectForExpand;
 			}
-			return sOdataSelectForExpand;
 		} else {
-			return sOdataSelectForExpand;
+			return "";
 		}
 	}
 });
@@ -364,10 +412,10 @@ sap.ui.base.Object.extend("Clause", {
 				throw "notClauseException";
 			this.bIgnore = (oAST["ignore"] == "true") ? true : false;
 			this.bOptional = (oAST["optional"] == "true") ? true : false;
-			if ( oAST["includeOptionalIgnore"]== undefined ){
-				this.sIncludeOptionalIgnore ="include";
-			}else{
-				this.sIncludeOptionalIgnore =oAST["includeOptionalIgnore"];
+			if (oAST["includeOptionalIgnore"] == undefined) {
+				this.sIncludeOptionalIgnore = "include";
+			} else {
+				this.sIncludeOptionalIgnore = oAST["includeOptionalIgnore"];
 			}
 			this.oPropertyClause = new PropertyClause(oAST["propertyClause"], oContext);
 			this.sLabel = (oAST["label"] == undefined) ? (this.oPropertyClause.sLabel) : oAST["label"];
@@ -393,7 +441,8 @@ sap.ui.base.Object.extend("Clause", {
 		var sSparql = repeatString("\t", this.oContext.iLevel);
 		sSparql = sSparql + (this.bIgnore ? "#" : "");
 		sSparql = sSparql + (this.bOptional ? "OPTIONAL" : "");
-		sSparql = sSparql + this.oPropertyClause.sparql();
+		if (!jQuery.isEmptyObject(this.oPropertyClause))
+			sSparql = sSparql + this.oPropertyClause.sparql();
 		return sSparql;
 	},
 	facetSparql : function() {
@@ -403,25 +452,28 @@ sap.ui.base.Object.extend("Clause", {
 		var sSparqlish = "with ";
 		sSparqlish = sSparqlish + (this.bIgnore ? "IGNORE " : "");
 		sSparqlish = sSparqlish + (this.bOptional ? "optionally " : "");
-		sSparqlish = sSparqlish + this.oPropertyClause.sparqlish();
+		if (!jQuery.isEmptyObject(this.oPropertyClause))
+			sSparqlish = sSparqlish + this.oPropertyClause.sparqlish();
 		return sSparqlish;
 	},
 	viewModel : function(sPath, oClauseReferences) {
 		var iIndex = oClauseReferences.length;
 		oClauseReferences.push(this);
 		var oViewModel = {};
-		extendj(oViewModel, this.oPropertyClause.viewModel(sPath + "clause/propertyClause/", oClauseReferences));
 		this.sNameVariable = "";
-		if (this.oPropertyClause.oPropertyClause.sDataProperty == undefined) {
-			// assume it must be an objectProperty
-			this.sNameVariable = sPrefix + this.oContext.sObject + sLabelPostfix;
+		if (!jQuery.isEmptyObject(this.oPropertyClause)) {
+			extendj(oViewModel, this.oPropertyClause.viewModel(sPath + "clause/propertyClause/", oClauseReferences));
+			if (this.oPropertyClause.oPropertyClause.sDataProperty == undefined) {
+				// assume it must be an objectProperty
+				this.sNameVariable = sPrefix + this.oContext.sObject + sLabelPostfix;
+			}
 		}
 		extendj(oViewModel, {
 			"path" : sPath,
 			"sparqlish" : this.sparqlish(),
 			"label" : this.sLabel,
 			"hidden" : this.bHidden,
-			"includeOptionalIgnore": this.sIncludeOptionalIgnore,
+			"includeOptionalIgnore" : this.sIncludeOptionalIgnore,
 			"variable" : sPrefix + this.oContext.sObject,
 			"nameVariable" : this.sNameVariable,
 			"index" : iIndex
@@ -429,19 +481,39 @@ sap.ui.base.Object.extend("Clause", {
 		return oViewModel;
 	},
 	odataFilter : function(sVersion) {
-		return this.oPropertyClause.odataFilter(sVersion);
+		if (!jQuery.isEmptyObject(this.oPropertyClause)) {
+			return this.oPropertyClause.odataFilter(sVersion);
+		} else {
+			return "";
+		}
 	},
 	odataSelect : function(sVersion) {
-		return this.oPropertyClause.odataSelect(sVersion);
+		if (!jQuery.isEmptyObject(this.oPropertyClause)) {
+			return this.oPropertyClause.odataSelect(sVersion);
+		} else {
+			return "";
+		}
 	},
 	odataExpand : function(sVersion) {
-		return this.oPropertyClause.odataExpand(sVersion);
+		if (!jQuery.isEmptyObject(this.oPropertyClause)) {
+			return this.oPropertyClause.odataExpand(sVersion);
+		} else {
+			return "";
+		}
 	},
 	odataExpandSelect : function(sVersion) {
-		return this.oPropertyClause.odataExpandSelect(sVersion);
+		if (!jQuery.isEmptyObject(this.oPropertyClause)) {
+			return this.oPropertyClause.odataExpandSelect(sVersion);
+		} else {
+			return "";
+		}
 	},
 	odataSelectForExpand : function(sVersion) {
-		return this.oPropertyClause.odataSelectForExpand(sVersion);
+		if (!jQuery.isEmptyObject(this.oPropertyClause)) {
+			return this.oPropertyClause.odataSelectForExpand(sVersion);
+		} else {
+			return "";
+		}
 	}
 });
 sap.ui.base.Object.extend("ConjunctionClause", {
@@ -554,7 +626,7 @@ sap.ui.base.Object.extend("DataPropertyClause", {
 			if (oAST["_class"] != "DataPropertyClause")
 				throw "notDataPropertyClauseException";
 			this.sDataProperty = oAST["dataProperty"];
-			if (oAST["dataPropertyFilters"] != null) {
+			if (!jQuery.isEmptyObject(oAST["dataPropertyFilters"])) {
 				this.oFilters = new DataPropertyFilters(oAST["dataPropertyFilters"], oContext);
 			} else {
 				this.oFilters = null;
@@ -572,7 +644,7 @@ sap.ui.base.Object.extend("DataPropertyClause", {
 	},
 	sparql : function() {
 		var sSparql = "{" + sPrefix + this.oContext.sSubject + " " + this.sDataProperty + " " + sPrefix /* ?o */+ this.oContext.sObject + " . "
-		if (this.oFilters != null) {
+		if (!jQuery.isEmptyObject(this.oFilters)) {
 			return sSparql + this.oFilters.sparql() + "}";
 		} else {
 			return sSparql + "}";
@@ -583,7 +655,7 @@ sap.ui.base.Object.extend("DataPropertyClause", {
 	},
 	sparqlish : function() {
 		var sSparqlish = labelFromURI(this.sDataProperty);
-		if (this.oFilters != null) {
+		if (!jQuery.isEmptyObject(this.oFilters)) {
 			return sSparqlish + this.oFilters.sparqlish();
 		} else {
 			return sSparqlish;
@@ -594,7 +666,7 @@ sap.ui.base.Object.extend("DataPropertyClause", {
 	},
 	odataFilter : function(sVersion) {
 		var sOdataFilter = "";
-		if (this.oFilters != null) {
+		if (!jQuery.isEmptyObject(this.oFilters)) {
 			return sOdataFilter + this.oFilters.odataFilter(sVersion);
 		} else {
 			return sOdataFilter;
@@ -620,9 +692,10 @@ sap.ui.base.Object.extend("DataPropertyFilters", {
 		try {
 			if (oAST["_class"] != "DataPropertyFilters")
 				throw "notFiltersException";
-			this.oFilter = new DataPropertyFilter(oAST["dataPropertyFilter"], oContext);
-
-			if (oAST["conjunctionFilters"] != null) {
+			if (!jQuery.isEmptyObject(oAST["dataPropertyFilter"])) {
+				this.oFilter = new DataPropertyFilter(oAST["dataPropertyFilter"], oContext);
+			}
+			if (!jQuery.isEmptyObject(oAST["conjunctionFilters"])) {
 				this.oConjunctionFilters = [];
 				for (var i = 0; i < oAST["conjunctionFilters"].length; i++) {
 					this.oConjunctionFilters[i] = new ConjunctionFilter(oAST["conjunctionFilters"][i], oContext);
@@ -636,36 +709,48 @@ sap.ui.base.Object.extend("DataPropertyFilters", {
 		}
 	},
 	sparql : function() {
-		var sSparql = "FILTER(" + this.oFilter.sparql();
-		if (this.oConjunctionFilters != null) {
-			for (var i = 0; i < this.oConjunctionFilters.length; i++) {
-				sSparql = sSparql + this.oConjunctionFilters[i].sparql();
+		if (!jQuery.isEmptyObject(this.oFilter)) {
+			var sSparql = "FILTER(" + this.oFilter.sparql();
+			if (!jQuery.isEmptyObject(this.oConjunctionFilters)) {
+				for (var i = 0; i < this.oConjunctionFilters.length; i++) {
+					sSparql = sSparql + this.oConjunctionFilters[i].sparql();
+				}
+				return sSparql + ")";
+			} else {
+				return sSparql + ")";
 			}
-			return sSparql + ")";
 		} else {
-			return sSparql + ")";
+			return "";
 		}
 	},
 	sparqlish : function() {
-		var sSparqlish = " " + this.oFilter.sparqlish();
-		if (this.oConjunctionFilters != null) {
-			for (var i = 0; i < this.oConjunctionFilters.length; i++) {
-				sSparqlish = sSparqlish + this.oConjunctionFilters[i].sparqlish();
+		if (this.oFilter != undefined) {
+			var sSparqlish = " " + this.oFilter.sparqlish();
+			if (!jQuery.isEmptyObject(this.oConjunctionFilters)) {
+				for (var i = 0; i < this.oConjunctionFilters.length; i++) {
+					sSparqlish = sSparqlish + this.oConjunctionFilters[i].sparqlish();
+				}
+				return sSparqlish;
+			} else {
+				return sSparqlish;
 			}
-			return sSparqlish;
 		} else {
-			return sSparqlish;
+			return "";
 		}
 	},
 	odataFilter : function(sVersion) {
-		var sOdataFilter = this.oFilter.odataFilter(sVersion);
-		if (this.oConjunctionFilters != null) {
-			for (var i = 0; i < this.oConjunctionFilters.length; i++) {
-				sOdataFilter = sOdataFilter + this.oConjunctionFilters[i].odataFilter(sVersion);
+		if (this.oFilter != undefined) {
+			var sOdataFilter = this.oFilter.odataFilter(sVersion);
+			if (!jQuery.isEmptyObject(this.oConjunctionFilters)) {
+				for (var i = 0; i < this.oConjunctionFilters.length; i++) {
+					sOdataFilter = sOdataFilter + this.oConjunctionFilters[i].odataFilter(sVersion);
+				}
+				return sOdataFilter;
+			} else {
+				return sOdataFilter;
 			}
-			return sOdataFilter;
 		} else {
-			return sOdataFilter;
+			return "";
 		}
 	},
 	odataSelect : function(sVersion) {
@@ -694,7 +779,7 @@ sap.ui.base.Object.extend("DataPropertyFilter", {
 		}
 	},
 	sparql : function() {
-		var sSparql = sparqlFilterCondition(sPrefix /* ?o */+ this.oContext.sObject, this.sCondition, this.sValue, this.sDatatype);
+		var sSparql = sparqlFilterCondition(sPrefix /* ?o */+ this.oContext.sObject, this.sCondition, this.sValue, this.sType);
 		return sSparql;
 	},
 	sparqlish : function() {
@@ -760,7 +845,7 @@ sap.ui.base.Object.extend("ObjectPropertyClause", {
 			if (oAST["_class"] != "ObjectPropertyClause")
 				throw "notObjectPropertyClauseException";
 			this.sObjectProperty = oAST["objectProperty"];
-			if (oAST["objectPropertyFilters"] != null) {
+			if (!jQuery.isEmptyObject(oAST["objectPropertyFilters"])) {
 				this.oObjectPropertyFilters = oAST["objectPropertyFilters"];
 			} else {
 				this.oObjectPropertyFilters = null;
@@ -772,7 +857,7 @@ sap.ui.base.Object.extend("ObjectPropertyClause", {
 				this.oContext.sOdataEntityPath = this.oContext.sOdataEntityPath + "/" + this.sObjectProperty;
 			}
 
-			if (oAST["clauses"] != null) {
+			if (!jQuery.isEmptyObject(oAST["clauses"])) {
 				var oNewContext = {
 					sOdataEntityPath : oContext.sOdataEntityPath,
 					sSubject : oContext.sObject,
@@ -791,7 +876,7 @@ sap.ui.base.Object.extend("ObjectPropertyClause", {
 		var sSparql = "{" + sPrefix + this.oContext.sSubject + " " + this.sObjectProperty + " " + sPrefix + this.oContext.sObject + ". OPTIONAL{" + sPrefix
 				+ this.oContext.sObject + " rdfs:label " + sPrefix + this.oContext.sObject + sLabelPostfix + "}";
 		sSparql = sSparql + sparqlKeyFilters(sPrefix + this.oContext.sObject, this.oObjectPropertyFilters);
-		if (this.oClauses != null) {
+		if (!jQuery.isEmptyObject(this.oClauses)) {
 			return sSparql + "\n" + this.oClauses.sparql() + "}";
 		} else {
 			return sSparql + "}";
@@ -802,7 +887,7 @@ sap.ui.base.Object.extend("ObjectPropertyClause", {
 				+ this.oContext.sObject + " rdfs:label " + sPrefix + this.oContext.sObject + sLabelPostfix + "}" + "}";
 	},
 	sparqlish : function() {
-		if (this.oObjectPropertyFilters != null) {
+		if (!jQuery.isEmptyObject(this.oObjectPropertyFilters)) {
 			return labelFromURI(this.sObjectProperty) + " in " + sparqlishKeyFilters(this.oObjectPropertyFilters);
 		} else {
 			return labelFromURI(this.sObjectProperty);
@@ -810,7 +895,7 @@ sap.ui.base.Object.extend("ObjectPropertyClause", {
 	},
 	viewModel : function(sPath, oClauseReferences) {
 		var oViewModel = {};
-		if (this.oClauses != null) {
+		if (!jQuery.isEmptyObject(this.oClauses)) {
 			extendj(oViewModel, this.oClauses.viewModel(sPath, oClauseReferences));
 		}
 		extendj(oViewModel, {
@@ -821,11 +906,15 @@ sap.ui.base.Object.extend("ObjectPropertyClause", {
 	},
 	odataFilter : function(sVersion) {
 		var sOdataFilter = "";
-		if (this.oClauses != null) {
+		if (!jQuery.isEmptyObject(this.oClauses)) {
 			sOdataFilter = this.oClauses.odataFilter(sVersion);
 		}
-		if (this.oObjectPropertyFilters != null) {
-			sOdataFilter = "(" + odataKeyFilters(sVersion, this.oContext.sOdataEntityPath, this.oObjectPropertyFilters) + ")and" + sOdataFilter;
+		if (!jQuery.isEmptyObject(this.oObjectPropertyFilters)) {
+			if (sOdataFilter != "") {
+				sOdataFilter = "(" + odataKeyFilters(sVersion, this.oContext.sOdataEntityPath, this.oObjectPropertyFilters) + ")and" + sOdataFilter;
+			} else {
+				sOdataFilter = "(" + odataKeyFilters(sVersion, this.oContext.sOdataEntityPath, this.oObjectPropertyFilters) + ")";
+			}
 		}
 		return sOdataFilter;
 	},
@@ -834,18 +923,22 @@ sap.ui.base.Object.extend("ObjectPropertyClause", {
 			return "";
 		} else {
 			var sOdataSelect = "";
-			if (this.oClauses != null) {
+			if (!jQuery.isEmptyObject(this.oClauses)) {
 				sOdataSelect = this.oClauses.odataSelect(sVersion);
 			}
-			if (this.oObjectPropertyFilters != null) {
-				sOdataSelect = odataKeys(sVersion, this.oContext.sOdataEntityPath, this.oObjectPropertyFilters) + "," + sOdataSelect;
+			if (!jQuery.isEmptyObject(this.oObjectPropertyFilters)) {
+				if (sOdataSelect != "") {
+					sOdataSelect = odataKeys(sVersion, this.oContext.sOdataEntityPath, this.oObjectPropertyFilters) + "," + sOdataSelect;
+				} else {
+					sOdataSelect = odataKeys(sVersion, this.oContext.sOdataEntityPath, this.oObjectPropertyFilters);
+				}
 			}
 			return sOdataSelect;
 		}
 	},
 	odataExpand : function(sVersion) {
 		var sPathExpand = "";
-		if (this.oClauses != null) {
+		if (!jQuery.isEmptyObject(this.oClauses)) {
 			sPathExpand = this.oClauses.odataExpand(sVersion);
 		}
 		if (sPathExpand == "") {
@@ -857,10 +950,10 @@ sap.ui.base.Object.extend("ObjectPropertyClause", {
 	odataExpandSelect : function(sVersion) {
 		var sOdataExpandSelect = "";
 		var sOdataSelect = "";
-		if (this.oClauses != null) {
+		if (!jQuery.isEmptyObject(this.oClauses)) {
 			sOdataExpandSelect = this.oClauses.odataExpandSelect(sVersion);
 			sOdataSelect = this.oClauses.odataSelectForExpand(sVersion);
-			if (this.oObjectPropertyFilters != null) {
+			if (!jQuery.isEmptyObject(this.oObjectPropertyFilters)) {
 				sOdataSelect = odataKeys(sVersion, "", this.oObjectPropertyFilters) + "," + sOdataSelect;
 			}
 		}
@@ -883,7 +976,7 @@ sap.ui.base.Object.extend("InverseObjectPropertyClause", {
 				throw "notInverseObjectPropertyClauseException";
 			this.sInverseObjectProperty = oAST["inverseObjectProperty"];
 
-			if (oAST["clauses"] != null) {
+			if (!jQuery.isEmptyObject(oAST["clauses"])) {
 				var oNewContext = {
 					sOdataEntityPath : oContext.sOdataEntityPath + "/" + "Inverseproperty",
 					sSubject : oContext.sSubject,
@@ -902,7 +995,7 @@ sap.ui.base.Object.extend("InverseObjectPropertyClause", {
 	sparql : function() {
 		var sSparql = "{" + sPrefix + this.oContext.sObject + " " + this.sInverseObjectProperty + " " + sPrefix + this.oContext.sSubject + ". OPTIONAL{" + sPrefix
 				+ this.oContext.sObject + " rdfs:label " + sPrefix + this.oContext.sObject + sLabelPostfix + "}";
-		if (this.oClauses != null) {
+		if (!jQuery.isEmptyObject(this.oClauses)) {
 			return sSparql + "\n" + this.oClauses.sparql() + "}";
 		} else {
 			return sSparql + "}";
@@ -917,7 +1010,7 @@ sap.ui.base.Object.extend("InverseObjectPropertyClause", {
 	},
 	viewModel : function(sPath, oClauseReferences) {
 		var oViewModel = {};
-		if (this.oClauses != null) {
+		if (!jQuery.isEmptyObject(this.oClauses)) {
 			extendj(oViewModel, this.oClauses.viewModel(sPath, oClauseReferences));
 		}
 		extendj(oViewModel, {
@@ -948,7 +1041,7 @@ sap.ui.base.Object.extend("OperationClause", {
 				throw "notOperationClauseException";
 			this.sOperation = oAST["operation"];
 
-			if (oAST["clauses"] != null) {
+			if (!jQuery.isEmptyObject(oAST["clauses"])) {
 				var oNewContext = {
 					sSubject : oContext.sSubject,
 					sObject : oContext.sSubject + "_",
@@ -965,7 +1058,7 @@ sap.ui.base.Object.extend("OperationClause", {
 	},
 	sparql : function() {
 		var sSparql = "{" + sPrefix + this.oContext.sObject + " " + this.sOperation + " " + sPrefix + this.oContext.sSubject;
-		if (this.oClauses != null) {
+		if (!jQuery.isEmptyObject(this.oClauses)) {
 			return sSparql + "\n" + this.oClauses.sparql() + "}";
 		} else {
 			return sSparql + "}";
@@ -980,7 +1073,7 @@ sap.ui.base.Object.extend("OperationClause", {
 	},
 	viewModel : function(sPath, oClauseReferences) {
 		var oViewModel = {};
-		if (this.oClauses != null) {
+		if (!jQuery.isEmptyObject(this.oClauses)) {
 			extendj(oViewModel, this.oClauses.viewModel(sPath, oClauseReferences));
 		}
 		extendj(oViewModel, {
@@ -1019,10 +1112,10 @@ sparqlClauseConjunction = function(sConjunction) {
 };
 sparqlKeyFilters = function(sVariable, oFilters) {
 	var sSparql = "";
-	if (oFilters != null) {
+	if (!jQuery.isEmptyObject(oFilters)) {
 		sSparql = sSparql + "VALUES(" + sVariable + "){";
 		for (var i = 0; i < oFilters.length; i++) {
-			sSparql = sSparql + "(" + oFilters[i]["Id"] + ")"
+			sSparql = sSparql + "(" + sparqlValue(oFilters[i][0].value, oFilters[i][0].type) + ")"
 		}
 		sSparql = sSparql + "}";
 	}
@@ -1070,43 +1163,44 @@ odataFilterConjunction = function(sVersion, sConjunction) {
 		throw "illegalClauseConjunction";
 	}
 };
-sparqlFilterCondition = function(sVariable, sCondition, sValue, sDatatype) {
+sparqlFilterCondition = function(sVariable, sCondition, sValue, sType) {
+	var sSparqlValue = sparqlValue(sValue, sType);
 	switch (sCondition) {
 	case "=":
 	case "is":
 	case "equals": {
-		return "(" + sVariable + "= '" + sValue + "'^^" + sDatatype + ")";
+		return "(" + sVariable + "= " + sSparqlValue + ")";
 	}
 		;
 	case "!=":
 	case "is not":
 	case "not equals": {
-		return "(" + sVariable + " != '" + sValue + "'^^" + sDatatype + ")";
+		return "(" + sVariable + " != " + sSparqlValue + ")";
 	}
 		;
 	case ">":
 	case "greater than": {
-		return "(" + sVariable + " > '" + sValue + "'^^" + sDatatype + ")";
+		return "(" + sVariable + " > " + sSparqlValue + ")";
 	}
 		;
 	case ">=":
 	case "greater than or equal": {
-		return "(" + sVariable + " >= '" + sValue + "'^^" + sDatatype + ")";
+		return "(" + sVariable + " >= " + sSparqlValue + ")";
 	}
 		;
 	case "<":
 	case "less than": {
-		return "(" + sVariable + " < '" + sValue + "'^^" + sDatatype + ")";
+		return "(" + sVariable + " < " + sSparqlValue + ")";
 	}
 		;
 	case "<=":
 	case "less than or equal": {
-		return "(" + sVariable + " <= '" + sValue + "'^^" + sDatatype + ")";
+		return "(" + sVariable + " <= " + sSparqlValue + ")";
 	}
 		;
 	case "containing":
 	case "contains": {
-		return "(REGEX(" + sVariable + ", '" + sValue + "'^^" + sDatatype + ",'i'))";
+		return "(REGEX(" + sVariable + ", " + sSparqlValue + ",'i'))";
 	}
 		;
 	case "ends with": {
@@ -1122,11 +1216,11 @@ sparqlFilterCondition = function(sVariable, sCondition, sValue, sDatatype) {
 	}
 		;
 	case "after": {
-		return "(" + sVariable + " > '" + sValue + "'^^" + sDatatype + ")";
+		return "(" + sVariable + " > " + sSparqlValue + ")";
 	}
 		;
 	case "before": {
-		return "(" + sVariable + " < '" + sValue + "'^^" + sDatatype + ")";
+		return "(" + sVariable + " < " + sSparqlValue + ")";
 	}
 		;
 	default:
@@ -1138,7 +1232,7 @@ odataFilterCondition = function(sVersion, sVariable, sCondition, sValue, sType) 
 	case "=":
 	case "is":
 	case "equals": {
-		return "(" + sVariable + "eq " + odataValue(sVersion, sValue, sType) + ")";
+		return "(" + sVariable + " eq " + odataValue(sVersion, sValue, sType) + ")";
 	}
 		;
 	case "!=":
@@ -1202,6 +1296,9 @@ odataFilterCondition = function(sVersion, sVariable, sCondition, sValue, sType) 
 };
 odataValue = function(sVersion, sValue, sType) {
 	switch (sType) {
+	case "Edm.Int32": {
+		return sValue;
+	}
 	case "Edm.String": {
 		return "'" + sValue + "'";
 	}
@@ -1214,7 +1311,30 @@ odataValue = function(sVersion, sValue, sType) {
 	}
 	}
 };
+sparqlValue = function(sValue, sType) {
+	switch (sType) {
+	case "Edm.Int32": {
+		return sValue + sparqlCast(edmToXSD(sType));
+	}
+	case "Edm.String": {
+		return "'" + sValue + "'" + sparqlCast(edmToXSD(sType));
+	}
+	case "Edm.DateTime": {
+		return "'" + sValue + "'" + sparqlCast(edmToXSD(sType));
+	}
+	default:
+		return "'" + sValue + "'";
+	}
+};
+sparqlCast = function(sXSDtype) {
+	if (sXSDtype == "") {
+		return "";
+	} else {
+		return "^^<" + sXSDtype + ">";
+	}
+};
 sparqlishKeyFilters = function(oKeyFilters) {
+	// TODO update to new format of keys
 	var sSparqlishKeyFilters = "";
 	for (var key = 0; key < oKeyFilters.length; key++) {
 		var fields = Object.keys(oKeyFilters[key])
@@ -1238,19 +1358,18 @@ sparqlishKeyFilters = function(oKeyFilters) {
 };
 odataKeyFilters = function(sVersion, sOdataEntityPath, oKeyFilters) {
 	var sOdataKeyFilters = "(";
-	for (var key = 0; key < oKeyFilters.length; key++) {
-		var fields = Object.keys(oKeyFilters[key])
-		if (key > 0) {
+	for (var keys = 0; keys < oKeyFilters.length; keys++) {
+		if (keys > 0) {
 			sOdataKeyFilters = sOdataKeyFilters + "or(";
 		} else {
 			sOdataKeyFilters = sOdataKeyFilters + "(";
 		}
-		for (var field = 0; field < fields.length; field++) {
-			if (field > 0) {
+		for (var key = 0; key < oKeyFilters[keys].length; key++) {
+			if (key > 0) {
 				sOdataKeyFilters = sOdataKeyFilters + "and";
 			}
-			sOdataKeyFilters = sOdataKeyFilters + "(" + ((sOdataEntityPath.length == 0) ? "" : (sOdataEntityPath + "/")) + fields[field] + " eq "
-					+ oKeyFilters[key][fields[field]] + ")";
+			sOdataKeyFilters = sOdataKeyFilters + "(" + ((sOdataEntityPath.length == 0) ? "" : (sOdataEntityPath + "/")) + oKeyFilters[keys][key].key + " eq "
+					+ odataValue(sVersion, oKeyFilters[keys][key].value, oKeyFilters[keys][key].type) + ")";
 		}
 		sOdataKeyFilters = sOdataKeyFilters + ")";
 	}
@@ -1258,10 +1377,9 @@ odataKeyFilters = function(sVersion, sOdataEntityPath, oKeyFilters) {
 };
 odataKeys = function(sVersion, sOdataEntityPath, oKeyFilters) {
 	var oOdataKeys = [];
-	for (var key = 0; key < oKeyFilters.length; key++) {
-		var fields = Object.keys(oKeyFilters[key])
-		for (var field = 0; field < fields.length; field++) {
-			var sNewKey = ((sOdataEntityPath.length == 0) ? "" : (sOdataEntityPath + "/")) + fields[field];
+	for (var keys = 0; keys < oKeyFilters.length; keys++) {
+		for (var key = 0; key < oKeyFilters[keys].length; key++) {
+			var sNewKey = ((sOdataEntityPath.length == 0) ? "" : (sOdataEntityPath + "/")) + oKeyFilters[keys][key].key;
 			if (oOdataKeys.indexOf(sNewKey)) {
 				oOdataKeys.push(sNewKey);
 			}
@@ -1309,6 +1427,12 @@ edmToXSD = function(sType) {
 	}
 	case "Edm.DateTime": {
 		return "http://www.w3.org/2001/XMLSchema#date";
+	}
+	case "Edm.Int32": {
+		return "http://www.w3.org/2001/XMLSchema#integer";
+	}
+	default: {
+		return "";
 	}
 	}
 }

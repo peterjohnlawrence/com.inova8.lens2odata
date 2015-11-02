@@ -1,0 +1,14 @@
+{
+	"name": "Components.lensPanel.Component",
+	"version": "0.1.0",
+	"description": "Components.lensPanel.Component",
+	"keywords": 
+	[
+		"panel"
+	],
+
+	"dependencies": 
+	{
+		
+	}
+}

@@ -1,85 +1,118 @@
 {
-	"_class": "ConjunctionClause",
-	"conjunction": "and",
-	"clause": 
+	"(default)": 
 	{
-		"_class": "Clause",
-		"includeOptionalIgnore": "include",
-		"ignore": false,
-		"optional": false,
-		"label": "Customer",
-		"propertyClause": 
+		"Northwind.Orders": 
 		{
-			"_class": "ObjectPropertyClause",
-			"objectProperty": "Customer",
-			"objectPropertyFilters": 
-			[
-				{
-					"CustomerID": "'BONAP'"
-				},
-
-				{
-					"CustomerID": "'ALFKI'"
-				}
-			],
-
-			"clauses": 
+			"title": "Orders Lens",
+			"content": 
 			{
-				"_class": "Clauses",
-				"clause": 
-				{
-					"_class": "Clause",
-					"includeOptionalIgnore": "include",
-					"ignore": false,
-					"optional": false,
-					"propertyClause": 
-					{
-						"_class": "DataPropertyClause",
-						"dataProperty": "CompanyName",
-						"dataPropertyFilters": 
-						{
-							"_class": "DataPropertyFilters",
-							"dataPropertyFilter": 
-							{
-								"_class": "DataPropertyFilter",
-								"condition": "containing",
-								"value": "Bon",
-								"datatype": "<http://www.w3.org/2001/XMLSchema#string>",
-								"type": "Edm.String"
-							}
-						}
-					}
-				},
-
-				"conjunctionClauses": 
+				"type": "rows",
+				"rows": 
 				[
 					{
-						"_class": "ConjunctionClause",
-						"conjunction": "and",
-						"clause": 
+						"content": 
 						{
-							"_class": "Clause",
-							"includeOptionalIgnore": "include",
-							"ignore": false,
-							"optional": false,
-							"label": "Contact name",
-							"propertyClause": 
+							"type": "lens",
+							"lens": 
 							{
-								"_class": "DataPropertyClause",
-								"dataProperty": "ContactName",
-								"dataPropertyFilters": 
+								"title": "R1"
+							}
+						}
+					},
+
+					{
+						"title": "R2",
+						"content": 
+						{
+							"type": "columns",
+							"columns": 
+							[
 								{
-									"_class": "DataPropertyFilters",
-									"dataPropertyFilter": 
+									"content": 
 									{
-										"_class": "DataPropertyFilter",
-										"condition": "containing",
-										"value": "Leb",
-										"datatype": "<http://www.w3.org/2001/XMLSchema#string>",
-										"type": "Edm.String"
+										"type": "lens",
+										"lens": 
+										{
+											"title": "R2-C1"
+										}
+									}
+								},
+
+								{
+									"title": "R2-C2",
+									"content": 
+									{
+										"type": "rows",
+										"rows": 
+										[
+											{
+												"content": 
+												{
+													"type": "lens",
+													"lens": 
+													{
+														"title": "R2-C2-R1"
+													}
+												}
+											},
+
+											{
+												"content": 
+												{
+													"type": "lens",
+													"lens": 
+													{
+														"title": "R2-C2-R2"
+													}
+												}
+											}
+										]
+									}
+								},
+
+								{
+									"content": 
+									{
+										"type": "lens",
+										"lens": 
+										{
+											"title": "R2-C3"
+										}
 									}
 								}
-							}
+							]
+						}
+					},
+
+					{
+						"title": "R3",
+						"content": 
+						{
+							"type": "columns",
+							"columns": 
+							[
+								{
+									"content": 
+									{
+										"type": "lens",
+										"lens": 
+										{
+											"title": "R3-C1"
+										}
+									}
+								},
+
+								{
+									"content": 
+									{
+										"type": "lens",
+										"lens": 
+										{
+											"title": "R3-C2"
+										}
+									}
+								}
+							]
 						}
 					}
 				]

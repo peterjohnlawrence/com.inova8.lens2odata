@@ -10,25 +10,28 @@
 	<!-- UI5 resource servlet used to handle application resources -->
 	<!-- ============================================================== -->
 
-	<!-- <servlet> -->
-	<!-- <display-name>ResourceServlet</display-name> -->
-	<!-- <servlet-name>ResourceServlet</servlet-name> -->
-	<!-- <servlet-class>com.sap.ui5.resource.ResourceServlet</servlet-class> -->
-	<!-- </servlet> -->
-	<!-- <servlet-mapping> -->
-	<!-- <servlet-name>ResourceServlet</servlet-name> -->
-	<!-- <url-pattern>/resources/*</url-pattern> -->
-	<!-- </servlet-mapping> -->
-	<!-- <servlet-mapping> -->
-	<!-- <servlet-name>ResourceServlet</servlet-name> -->
-	<!-- <url-pattern>/test-resources/*</url-pattern> -->
-	<!-- </servlet-mapping> -->
+	<servlet>
+		<display-name>ResourceServlet</display-name>
+		<servlet-name>ResourceServlet</servlet-name>
+		<servlet-class>com.sap.ui5.resource.ResourceServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ResourceServlet</servlet-name>
+		<url-pattern>/resources/*</url-pattern>
+	</servlet-mapping>
+	<!-- BEGIN: test-resources -->
+	<!-- test-resources mapping has to be switched off for productive use on a Java server! -->
+	<servlet-mapping>
+		<servlet-name>ResourceServlet</servlet-name>
+		<url-pattern>/test-resources/*</url-pattern>
+	</servlet-mapping>
+	<!-- END: test-resources -->
 	<!-- BEGIN: DEV MODE -->
 	<!-- DEV MODE switched off by default and can be switched on during development -->
 	<!-- but has to be switched off for productive use on a Java server! -->
 	<context-param>
 		<param-name>com.sap.ui5.resource.DEV_MODE</param-name>
-		<param-value>false</param-value>
+		<param-value>true</param-value>
 	</context-param>
 	<!-- END: DEV MODE -->
 
@@ -68,52 +71,52 @@
 	<!-- UI5 proxy servlet -->
 	<!-- ============================================================== -->
 
-	<!-- <servlet> -->
-	<!-- <servlet-name>SimpleProxyServlet</servlet-name> -->
-	<!-- <servlet-class>com.sap.ui5.proxy.SimpleProxyServlet</servlet-class> -->
-	<!-- </servlet> -->
-	<!-- <servlet-mapping> -->
-	<!-- <servlet-name>SimpleProxyServlet</servlet-name> -->
-	<!-- <url-pattern>/proxy/*</url-pattern> -->
-	<!-- </servlet-mapping> -->
+	<servlet>
+	<servlet-name>SimpleProxyServlet</servlet-name>
+	<servlet-class>com.sap.ui5.proxy.SimpleProxyServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+	<servlet-name>SimpleProxyServlet</servlet-name>
+	<url-pattern>/proxy/*</url-pattern>
+	</servlet-mapping>
 
 
 	<!-- ============================================================== -->
 	<!-- Tomcat CORS filtering -->
 	<!-- ============================================================== -->
 
-	<filter>
-		<filter-name>CorsFilter</filter-name>
-		<filter-class>org.apache.catalina.filters.CorsFilter</filter-class>
-		<init-param>
-			<param-name>cors.allowed.origins</param-name>
-			<param-value>*</param-value>
-		</init-param>
-		<init-param>
-			<param-name>cors.allowed.methods</param-name>
-			<param-value>GET,POST,HEAD,OPTIONS,PUT,DELETE</param-value>
-		</init-param>
-		<init-param>
-			<param-name>cors.allowed.headers</param-name>
-			<param-value>Content-Type,X-Requested-With,accept,Origin,Access-Control-Request-Method,Access-Control-Request-Headers,Authorization</param-value>
-		</init-param>
-		<init-param>
-			<param-name>cors.exposed.headers</param-name>
-			<param-value>Access-Control-Allow-Origin,Access-Control-Allow-Credentials</param-value>
-		</init-param>
-		<init-param>
-			<param-name>cors.support.credentials</param-name>
-			<param-value>true</param-value>
-		</init-param>
-		<init-param>
-			<param-name>cors.preflight.maxage</param-name>
-			<param-value>10</param-value>
-		</init-param>
-	</filter>
-	<filter-mapping>
-		<filter-name>CorsFilter</filter-name>
-		<url-pattern>/*</url-pattern>
-	</filter-mapping>
+<!-- 	<filter> -->
+<!-- 		<filter-name>CorsFilter</filter-name> -->
+<!-- 		<filter-class>org.apache.catalina.filters.CorsFilter</filter-class> -->
+<!-- 		<init-param> -->
+<!-- 			<param-name>cors.allowed.origins</param-name> -->
+<!-- 			<param-value>*</param-value> -->
+<!-- 		</init-param> -->
+<!-- 		<init-param> -->
+<!-- 			<param-name>cors.allowed.methods</param-name> -->
+<!-- 			<param-value>GET,POST,HEAD,OPTIONS,PUT,DELETE</param-value> -->
+<!-- 		</init-param> -->
+<!-- 		<init-param> -->
+<!-- 			<param-name>cors.allowed.headers</param-name> -->
+<!-- 			<param-value>Content-Type,X-Requested-With,accept,Origin,Access-Control-Request-Method,Access-Control-Request-Headers,Authorization</param-value> -->
+<!-- 		</init-param> -->
+<!-- 		<init-param> -->
+<!-- 			<param-name>cors.exposed.headers</param-name> -->
+<!-- 			<param-value>Access-Control-Allow-Origin,Access-Control-Allow-Credentials</param-value> -->
+<!-- 		</init-param> -->
+<!-- 		<init-param> -->
+<!-- 			<param-name>cors.support.credentials</param-name> -->
+<!-- 			<param-value>true</param-value> -->
+<!-- 		</init-param> -->
+<!-- 		<init-param> -->
+<!-- 			<param-name>cors.preflight.maxage</param-name> -->
+<!-- 			<param-value>10</param-value> -->
+<!-- 		</init-param> -->
+<!-- 	</filter> -->
+<!-- 	<filter-mapping> -->
+<!-- 		<filter-name>CorsFilter</filter-name> -->
+<!-- 		<url-pattern>/*</url-pattern> -->
+<!-- 	</filter-mapping> -->
 
 
 

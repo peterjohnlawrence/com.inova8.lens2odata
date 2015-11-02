@@ -1,0 +1,263 @@
+<!doctype html>
+<html>
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+<base href="../">
+<title>Sparqlish</title>
+<script id="sap-ui-bootstrap" src="openui5/sap-ui-core.js" data-sap-ui-theme="sap_bluecrystal" data-sap-ui-libs="sap.ui.commons"
+		data-sap-ui-libs="sap.ui.unified" data-sap-ui-libs="sap.ui.table" data-sap-ui-resourceroots='{
+            "sparqlish":"./",
+					"sparqlish":"./sparqlish"
+        }'		data-sap-ui-xx-bindingSyntax="complex" type="text/javascript"></script>
+<script type="text/javascript" src="resources/jquery.rdfquery.core.min-1.0.js"></script>
+<script type="text/javascript" src="sparqlish/sparqlish.js"></script>
+<script type="text/javascript" src="sparqlish/utilities.js"></script>
+<script type="text/javascript" src="sparqlish/control/propertyMenu.js"></script>
+<script type="text/javascript" src="sparqlish/control/includeOptionalIgnore.js"></script>
+<script type="text/javascript" src="sparqlish/control/queryClause.js"></script>
+<script type="text/javascript" src="sparqlish/control/conceptClause.js"></script>
+<script type="text/javascript" src="sparqlish/control/propertyClause.js"></script>
+<script type="text/javascript" src="sparqlish/control/conjunctionPropertyClause.js"></script>
+<script type="text/javascript" src="sparqlish/control/query.js"></script>
+<link rel="stylesheet" type="text/css" href="sparqlish/sparqlish.css">
+<script type="text/javascript">
+
+/*
+SPARQLish requires a  query model (queryModel>) from which it derives a viewModel (viewModel>)
+To control the construction of the queryModel and hence the SPARQL or OData query the application also requires an OData metaModel (metamodel>). 
+The metamodel can be derived from the OData model (dataModel>) which is delivered by the Odata server.
+In the absence of an actual OData server we can create a 'mock' server by providing a suitable metadata
+The final model is ResourceModel to support resource bundles used for language based labels (i18nModel>). 
+In summary the models are:
+	i18nModel>: the ResourceModel created using new sap.ui.model.resource.ResourceModel.
+	dataModel>: the ODataModel provided by the ODataserver (or Mockserver) using new sap.ui.model.odata.ODataModel(sUri, true).
+	metaModel>: the MetaModel that is provided by the OData using  oDataModel.getMetaModel().
+	queryModel>: the JSONModel that conatins the 0, 1 or many queriues in SPARQLish format, created by loading the coirresponding queryModel file.
+	viewModel>: The JSONModel derived from the queryModel so that it conatins the requisite indenting etc for displaying a particular query in a tree format. 
+	datatypesModel>: The JSONModel containing the different conditions for differenbt datatypes.
+*/
+ jQuery.sap.log.setLevel(jQuery.sap.log.Level.DEBUG );
+ 
+//Mock OData mock server
+jQuery.sap.require("sap.ui.core.util.MockServer"); 
+var sUri = "/mock/";
+var oMockServer = new sap.ui.core.util.MockServer({
+    rootUri : sUri
+});
+var sUrl = "http://services.odata.org/V4/Northwind/Northwind.svc/" ;
+//var sMetadataUrl = "test-resources/northwind.v2.metadata.xml"; 
+var sMetadataUrl = "test-resources/lenspoc.v2.metadata.xml"; 
+oMockServer.simulate(sMetadataUrl);
+oMockServer.start();  
+
+// set up models
+// i18nModel>
+var i18nModel = new sap.ui.model.resource.ResourceModel({
+		bundleUrl : [ ".", "i18n/messageBundle.properties" ].join("/")
+});
+sap.ui.getCore().setModel(i18nModel, "i18nModel");
+
+// dataModel>
+var oDataModel = new sap.ui.model.odata.ODataModel(sUri, true);
+sap.ui.getCore().setModel(oDataModel, "dataModel");
+
+// metaModel>
+var oMetaModel = oDataModel.getMetaModel();
+sap.ui.getCore().setModel(oMetaModel, "metaModel");
+
+// queryModel>
+var oQueryModel = new sap.ui.model.json.JSONModel();
+oQueryModel.loadData("test-resources/sparqlish.qunit.test1.json", null, false);
+//oQueryModel.loadData("test-resources/sparqlish.qunit.odata.json", null, false);
+sap.ui.getCore().setModel(oQueryModel, "queryModel");
+
+//viewModel>, not initialized until query chosen since it is specific to a single query
+var oViewModel;
+sap.ui.getCore().setModel(oViewModel, "viewModel");
+
+// datatypesModel>
+var oDatatypesModel = new sap.ui.model.json.JSONModel();
+oDatatypesModel.loadData("test-resources/datatypesModel.json", null, false);
+sap.ui.getCore().setModel(oDatatypesModel, "datatypesModel");
+
+// parametersModel>
+var oParametersModel = new sap.ui.model.json.JSONModel();;
+oParametersModel.setJSON('{"expandClause":false}', true);
+sap.ui.getCore().setModel(oParametersModel, "parametersModel");
+
+// TODO this should be part of the control
+var oMetaModelEntityContainer = oMetaModel.getODataEntityContainer();
+var oEntityContainerModel = new sap.ui.model.json.JSONModel();
+oEntityContainerModel.setData(oMetaModelEntityContainer);
+sap.ui.getCore().setModel(oEntityContainerModel, "entityContainer");
+
+refresh = function(oEvent) {
+	var queryAST = oQueryModel.getData();
+	var queries = new Queries(queryAST);
+	oViewModel.setData(queries.oQueries[0].oViewModel);
+	var myTable = oEvent.getSource().getParent().getParent();
+	// TODO need to expand/contract column count to show enough rows for query
+	myTable.setVisibleRowCount(myTable.getVisibleRowCount()+1);
+	var queryColumn = myTable.getColumns()[0];
+	queryColumn.destroyTemplate();
+	queryColumn.setTemplate(new sparqlish.control.queryClause({
+		clausePath : {
+			path : "viewModel>path"
+		},
+		changedClause:refresh
+	}));
+	oViewModel.refresh();
+	myTable.rerender();
+};
+
+//Tree table of query
+jQuery.sap.require("sap.ui.table.Table");
+var self =this;
+this.oTable = new sap.ui.table.TreeTable({
+//this.oTable = new sap.ui.table.Table("myTable",{
+	columns : [ 
+
+
+	new sap.ui.table.Column({
+		label : "Query",
+		template : new sparqlish.control.queryClause(  {
+				clausePath : {path: "viewModel>path"}
+		,
+		changedClause:refresh
+		}),
+		templateShareable:true,
+		visible : true,
+		width : "500px"
+	}),
+// 	new sap.ui.table.Column({
+// 		label : "Query",
+// 		// template : "viewModel>sparqlish",
+// 		width : "400px",
+// 		template : new sap.ui.commons.FormattedTextView({
+// 			tooltip : "SPARQLish query string",
+// 			htmlText : "{viewModel>sparqlish}"
+// 		}),
+// 	}),
+new sap.ui.table.Column({
+		label : "Variable",
+		template : "viewModel>variable",
+		visible : false,
+		width : "100px"
+	}), new sap.ui.table.Column({
+		label : "NameVariable",
+		template : "viewModel>nameVariable",
+		visible : false
+	}), new sap.ui.table.Column({
+		label : "Index",
+		template : "viewModel>index",
+		visible : false,
+		width : "40px"
+	}), new sap.ui.table.Column({
+		label : "Path",
+		template : "viewModel>path",
+		visible : false,
+		width : "100px"
+	}), new sap.ui.table.Column({
+		label : "Result1",
+		template : "viewModel>result_0_value",
+		width : "300px"
+	}), new sap.ui.table.Column({
+		label : "Result2",
+		template : "viewModel>result_1_value",
+		width : "300px"
+	}), new sap.ui.table.Column({
+		label : "Result3",
+		template : "viewModel>result_2_value",
+		width : "300px"
+	}) 
+
+	],
+	fixedColumnCount : 6,
+	visibleRowCount : 7,
+	selectionMode : sap.ui.table.SelectionMode.Single,
+	enableColumnReordering : true,
+	expandFirstLevel : true,
+	expandTolevel: 3
+})
+//TODO TreeTable
+   .attachToggleOpenState(function(oEvent){
+	// TODO workaround as exapnding Tree causes duplicate id
+	var myTable = oEvent.getSource();
+	// TODO need to expand/contract column count to show enough rows for query
+	myTable.setVisibleRowCount(myTable.getVisibleRowCount()+1);
+	var queryColumn= myTable.getColumns()[0];
+//	oEvent.getSource().setVisibleRowCount =2;
+	queryColumn.destroyTemplate();
+	queryColumn.setTemplate(new sparqlish.control.queryClause({
+				clausePath : {path: "viewModel>path"}		,
+		changedClause:refresh
+		}));
+	myTable.expandToLevel(3);
+	})
+	;
+
+this.oTable.bindRows("viewModel>/root");
+
+// Query display table
+
+var queryAST = oQueryModel.getData();
+var queries = new Queries(queryAST);
+oTable.placeAt("uiTable");
+
+//Set models to table, just in case
+ 
+ 
+oTable.setModel(oDataModel, "dataModel");
+oTable.setModel(oMetaModel, "metaModel");
+oTable.setModel(oQueryModel, "queryModel");
+oTable.setModel(oViewModel, "viewModel");
+
+// Query list
+var oComboBox = sap.ui.jsfragment("sparqlish.query.queryList", this);
+oComboBox.placeAt("uiMenu");
+
+// Preview action
+var oButton = sap.ui.jsfragment("sparqlish.query.preview", this);
+oButton.placeAt("uiPreview");
+
+// Review query action
+var oShowButton =  new sap.ui.commons.Button({
+			text : "Show query",
+			tooltip : "This sjhow query",
+			press : function() {
+				alert(JSON.stringify(oQueryModel.getData().queries[0]));
+			}});
+oShowButton.placeAt("uiShowQuery");
+
+// SPARQLQuery action
+var oQueryButton = sap.ui.jsfragment("sparqlish.query.query", this);
+oQueryButton.placeAt("uiSPARQLQuery");
+
+// ODataQuery action
+var oODataButton = sap.ui.jsfragment("sparqlish.query.odata", this);
+oODataButton.placeAt("uiODataQuery");
+
+// Facet query menu
+var oFacetQueryMenu = sap.ui.jsfragment("sparqlish.menu.facetQuery", this);
+
+// Concept menu
+var oEditConcept = sap.ui.jsfragment("sparqlish.menu.editConcept", this.oTable);
+
+// Clause menu
+var oEditClause = sap.ui.jsfragment("sparqlish.menu.editClause", this.oTable);
+
+// Label menu
+var oEditLabel = sap.ui.jsfragment("sparqlish.menu.editLabel", this.oTable);
+
+</script>
+</head>
+<body>
+		<div id="uiMenu">Select Query:</div>
+		<div id="uiPreview"></div>
+		<div id="uiSPARQLQuery"></div>
+		<div id="uiODataQuery"></div>
+		<div id="uiTable"></div>
+		<div id="uiShowQuery"></div>
+</body>
+</html>
