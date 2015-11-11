@@ -1,0 +1,15 @@
+{
+	"name": "Components.queryResultsForm.Component",
+	"version": "0.1.0",
+	"description": "Components.queryResultsForm.Component",
+	"keywords": 
+	[
+		"form",
+		"query"
+	],
+
+	"dependencies": 
+	{
+		
+	}
+}
