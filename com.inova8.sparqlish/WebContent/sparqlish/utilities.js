@@ -39,7 +39,7 @@ entityTypeQName = function(oQueryModel, oMetaModel, oContext) {
 		jQuery.sap.log.fatal(error, 'Failed to locate qName using context ' + oContext.getPath());
 	}
 };
-getNavigationProperty = function(sEntityType, sObjectProperty) {
+getNavigationProperty = function(oMetaModel,sEntityType, sObjectProperty) {
 	var oEntityType = oMetaModel.getODataEntityType(sEntityType);
 	var navigationProperties = oEntityType.navigationProperty;
 	for (var index = 0; index < navigationProperties.length; index++) {
@@ -47,7 +47,7 @@ getNavigationProperty = function(sEntityType, sObjectProperty) {
 			return navigationProperties[index];
 	}
 };
-getProperty = function(sEntityType, sProperty) {
+getProperty = function(oMetaModel,sEntityType, sProperty) {
 	var oEntityType = oMetaModel.getODataEntityType(sEntityType);
 	var properties = oEntityType.property;
 	for (var index = 0; index < properties.length; index++) {

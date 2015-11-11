@@ -93,7 +93,7 @@ sap.ui.commons.Link.extend("sparqlish.control.includeOptionalIgnore", {
 							}
 						}).open(false, this.getFocusDomRef(), eDock.BeginTop, eDock.beginBottom, this.getDomRef());
 			}
-		}).bindElement("queryModel>includeOptionalIgnore").addStyleClass("menuLink"));
+		}).bindElement("queryModel>includeOptionalIgnore").addStyleClass("conjunctionMenuLink"));
 	},
 	renderer : function(oRm, oControl) {
 		// oRm.writeControlData(oControl);

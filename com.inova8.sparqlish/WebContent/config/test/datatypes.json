@@ -11,6 +11,11 @@
 				},
 
 				{
+					"condition": "contains",
+					"name": "substringof"
+				},
+
+				{
 					"condition": "equals",
 					"name": "eq"
 				},
@@ -18,11 +23,6 @@
 				{
 					"condition": "not equals",
 					"name": "ne"
-				},
-
-				{
-					"condition": "contains",
-					"name": "substringof"
 				},
 
 				{
@@ -160,7 +160,7 @@
 				},
 
 				{
-					"condition": "after ",
+					"condition": "after",
 					"name": "gt"
 				},
 
@@ -560,6 +560,11 @@
 				},
 
 				{
+					"condition": "contains",
+					"name": "substringof"
+				},
+
+				{
 					"condition": "equals",
 					"name": "eq"
 				},
@@ -567,11 +572,6 @@
 				{
 					"condition": "not equals",
 					"name": "ne"
-				},
-
-				{
-					"condition": "contains",
-					"name": "substringof"
 				},
 
 				{
@@ -637,6 +637,11 @@
 				},
 
 				{
+					"condition": "contains",
+					"name": "substringof"
+				},
+
+				{
 					"condition": "equals",
 					"name": "eq"
 				},
@@ -644,11 +649,6 @@
 				{
 					"condition": "not equals",
 					"name": "ne"
-				},
-
-				{
-					"condition": "contains",
-					"name": "substringof"
 				},
 
 				{
@@ -1206,6 +1206,11 @@
 				},
 
 				{
+					"condition": "contains",
+					"name": "substringof"
+				},
+
+				{
 					"condition": "equals",
 					"name": "eq"
 				},
@@ -1213,11 +1218,6 @@
 				{
 					"condition": "not equals",
 					"name": "ne"
-				},
-
-				{
-					"condition": "contains",
-					"name": "substringof"
 				},
 
 				{

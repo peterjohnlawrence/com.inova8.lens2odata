@@ -62,7 +62,7 @@ sap.ui.core.Control.extend("sparqlish.control.propertyClause",
 					if (currentQueryContext.propertyClause == undefined) {
 						return null;
 					} else {
-						return getProperty(this.getDomainEntityTypeQName(), currentQueryContext.propertyClause.dataProperty);
+						return getProperty(this.getModel("metaModel"),this.getDomainEntityTypeQName(), currentQueryContext.propertyClause.dataProperty);
 					}
 				}
 			},
@@ -74,7 +74,7 @@ sap.ui.core.Control.extend("sparqlish.control.propertyClause",
 					if (currentQueryContext.propertyClause == undefined) {
 						return null
 					} else {
-						return getNavigationProperty(this.getDomainEntityTypeQName(), currentQueryContext.propertyClause.objectProperty);
+						return getNavigationProperty(this.getModel("metaModel"),this.getDomainEntityTypeQName(), currentQueryContext.propertyClause.objectProperty);
 					}
 				}
 			},
@@ -124,9 +124,12 @@ sap.ui.core.Control.extend("sparqlish.control.propertyClause",
 					currentModelData.clauses.clause.propertyClause._class = clauseClass;
 					currentModelData.clauses.clause.propertyClause[clauseProperty] = property;
 					if (clauseClass == "DataPropertyClause") {
+						currentModelData.clauses.clause.propertyClause.type= getProperty(this.getModel("metaModel"),this.getRangeEntityTypeQName(),property).type; 
 						currentModelData.clauses.clause.propertyClause.dataPropertyFilters = {};
 						currentModelData.clauses.clause.propertyClause.dataPropertyFilters._class = "DataPropertyFilters";
 					} else {
+						//add type = __metadata
+						//add multiplicity
 						currentModelData.clauses.clause.propertyClause.objectPropertyFilters = [];
 					}
 
@@ -145,9 +148,12 @@ sap.ui.core.Control.extend("sparqlish.control.propertyClause",
 					currentModelData.clauses.conjunctionClauses[last].clause.propertyClause._class = clauseClass;
 					currentModelData.clauses.conjunctionClauses[last].clause.propertyClause[clauseProperty] = property;
 					if (clauseClass == "DataPropertyClause") {
+						currentModelData.clauses.conjunctionClauses[last].clause.propertyClause.type= getProperty(this.getModel("metaModel"),this.getRangeEntityTypeQName(),property).type; 
 						currentModelData.clauses.conjunctionClauses[last].clause.propertyClause.dataPropertyFilters = {};
 						currentModelData.clauses.conjunctionClauses[last].clause.propertyClause.dataPropertyFilters._class = "DataPropertyFilters";
 					} else {
+						//add type = __metadata
+						//add multiplicity
 						currentModelData.clauses.conjunctionClauses[last].clause.propertyClause.objectPropertyFilters = [];
 					}
 				} else {
@@ -165,9 +171,12 @@ sap.ui.core.Control.extend("sparqlish.control.propertyClause",
 					currentModelData.clauses.conjunctionClauses[0].clause.propertyClause._class = clauseClass;
 					currentModelData.clauses.conjunctionClauses[0].clause.propertyClause[clauseProperty] = property;
 					if (clauseClass == "DataPropertyClause") {
+						currentModelData.clauses.conjunctionClauses[0].clause.propertyClause.type= getProperty(this.getModel("metaModel"),this.getRangeEntityTypeQName(),property).type; 
 						currentModelData.clauses.conjunctionClauses[0].clause.propertyClause.dataPropertyFilters = {};
 						currentModelData.clauses.conjunctionClauses[0].clause.propertyClause.dataPropertyFilters._class = "DataPropertyFilters";
 					} else {
+						//add type = __metadata
+						//add multiplicity
 						currentModelData.clauses.conjunctionClauses[0].clause.propertyClause.objectPropertyFilters = [];
 					}
 				}

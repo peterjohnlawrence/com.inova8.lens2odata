@@ -3,103 +3,77 @@
 	{
 		"0": 
 		{
-			"path": "/queries/9/clauses/clause/",
-			"sparqlish": "with shipCountry containing Fr or containing Ge",
-			"label": "Shipped to Country",
+			"keyVariable": "Order:ShipCountry",
+			"resultsPath": "/ShipCountry",
+			"field": "ShipCountry",
+			"type": "Edm.String",
+			"path": "clauses/clause/",
+			"sparqlish": "with ShipCountry containing Fr",
+			"label": "Ship To Country",
 			"hidden": false,
+			"includeOptionalIgnore": "include",
 			"variable": "?v_0",
 			"nameVariable": "",
-			"index": 7
+			"index": 8
 		},
 
 		"1": 
 		{
-			"path": "/queries/9/clauses/conjunctionClauses/0/",
-			"sparqlish": "and with shippedDate < 1998-01-01",
-			"label": "shippedDate",
+			"keyVariable": "Order:ShippedDate",
+			"resultsPath": "/ShippedDate",
+			"field": "ShippedDate",
+			"type": "Edm.DateTime",
+			"path": "clauses/conjunctionClauses/0/",
+			"sparqlish": "and with ShippedDate < 1998-01-01",
+			"label": "Shipping Date",
 			"hidden": false,
+			"includeOptionalIgnore": "include",
 			"variable": "?v_1",
 			"nameVariable": "",
-			"index": 1
+			"index": 5
 		},
 
 		"2": 
 		{
 			"0": 
 			{
-				"path": "/queries/9/clauses/conjunctionClauses/1/clause/propertyClause/clauses/clause/",
-				"sparqlish": "with companyName containing Bon",
-				"label": "companyName",
+				"keyVariable": "Order:Shipper:CompanyName",
+				"resultsPath": "/Shipper/CompanyName",
+				"field": "CompanyName",
+				"path": "clauses/conjunctionClauses/1/clause/propertyClause/clauses/clause/",
+				"sparqlish": "with CompanyName",
+				"label": "CompanyName",
 				"hidden": false,
+				"includeOptionalIgnore": "include",
 				"variable": "?v_2_0",
 				"nameVariable": "",
-				"index": 4
+				"index": 7
 			},
 
-			"1": 
-			{
-				"path": "/queries/9/clauses/conjunctionClauses/1/clause/propertyClause/clauses/conjunctionClauses/0/",
-				"sparqlish": "and with contactName containing Leb",
-				"label": "Contact name",
-				"hidden": false,
-				"variable": "?v_2_1",
-				"nameVariable": "",
-				"index": 3
-			},
-
-			"path": "/queries/9/clauses/conjunctionClauses/1/",
-			"sparqlish": "and with customer in <http://northwind.com/Customer-BONAP>,northwind:Customer-ANATR",
-			"label": "Customer",
+			"path": "clauses/conjunctionClauses/1/",
+			"sparqlish": "and with Shipper",
+			"keyVariable": "Order:Shipper",
+			"resultsPath": "/Shipper",
+			"field": "Shipper",
+			"type": "__metadata",
+			"label": "Shipper",
 			"hidden": false,
+			"includeOptionalIgnore": "include",
 			"variable": "?v_2",
 			"nameVariable": "?v_2_label",
-			"index": 2
+			"index": 6
 		},
 
-		"3": 
-		{
-			"0": 
-			{
-				"path": "/queries/9/clauses/conjunctionClauses/2/clause/propertyClause/clauses/clause/",
-				"sparqlish": "with firstName containing Nancy",
-				"label": "firstName",
-				"hidden": false,
-				"variable": "?v_3_0",
-				"nameVariable": "",
-				"index": 6,
-				"result_0_value": "Nancy",
-				"result_0_type": "typed-literal",
-				"result_0_datatype": "http://www.w3.org/2001/XMLSchema#string",
-				"result_1_value": "Nancy",
-				"result_1_type": "typed-literal",
-				"result_1_datatype": "http://www.w3.org/2001/XMLSchema#string"
-			},
-
-			"path": "/queries/9/clauses/conjunctionClauses/2/",
-			"sparqlish": "and with optionally employee",
-			"label": "employee",
-			"hidden": false,
-			"variable": "?v_3",
-			"nameVariable": "?v_3_label",
-			"index": 5,
-			"result_0_value": "http://northwind.com/Employee-1",
-			"result_0_type": "uri",
-			"result_0_label_value": "http://northwind.com/Employee-1",
-			"result_0_label_type": "typed-literal",
-			"result_0_label_datatype": "http://www.w3.org/2001/XMLSchema#string",
-			"result_1_value": "http://northwind.com/Employee-1",
-			"result_1_type": "uri",
-			"result_1_label_value": "http://northwind.com/Employee-1",
-			"result_1_label_type": "typed-literal",
-			"result_1_label_datatype": "http://www.w3.org/2001/XMLSchema#string"
-		},
-
-		"path": "/queries/9/",
-		"sparqlish": "Find Order in northwind:Order-10340",
-		"label": "Order",
+		"path": "",
+		"resultsPath": "",
+		"sparqlish": "Find Orders",
+		"label": "Orders",
 		"hidden": false,
 		"variable": "?v",
 		"nameVariable": "?v_label",
+		"keyVariable": "Order",
+		"field": "Order",
+		"type": "__metadata",
 		"index": 0
 	}
 }

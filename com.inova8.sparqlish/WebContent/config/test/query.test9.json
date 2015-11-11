@@ -1,0 +1,1263 @@
+{
+	"queries": 
+	[
+		{
+			"_class": "Query",
+			"name": "Test1:No clauses",
+			"concept": "Orders"
+		},
+
+		{
+			"_class": "Query",
+			"name": "Test2:Single clauses",
+			"concept": "Orders",
+			"label": "Order",
+			"clauses": 
+			{
+				"_class": "Clauses",
+				"clause": 
+				{
+					"_class": "Clause",
+					"label": "Ship To Country",
+					"propertyClause": 
+					{
+						"_class": "DataPropertyClause",
+						"dataProperty": "ShipCountry",
+						"type": "Edm.String",
+						"dataPropertyFilters": 
+						{
+							"_class": "DataPropertyFilters",
+							"dataPropertyFilter": 
+							{
+								"_class": "DataPropertyFilter",
+								"condition": "containing",
+								"value": "Fr",
+								"datatype": "<http://www.w3.org/2001/XMLSchema#string>",
+								"type": "Edm.String"
+							}
+						}
+					}
+				}
+			}
+		},
+
+		{
+			"_class": "Query",
+			"name": "Test3:Optional Single clauses",
+			"concept": "Orders",
+			"clauses": 
+			{
+				"_class": "Clauses",
+				"clause": 
+				{
+					"_class": "Clause",
+					"includeOptionalIgnore": "optional",
+					"ignore": false,
+					"optional": true,
+					"propertyClause": 
+					{
+						"_class": "DataPropertyClause",
+						"dataProperty": "ShipCountry",
+						"type": "Edm.String",
+						"dataPropertyFilters": 
+						{
+							"_class": "DataPropertyFilters",
+							"dataPropertyFilter": 
+							{
+								"_class": "DataPropertyFilter",
+								"condition": "containing",
+								"value": "Fr",
+								"datatype": "<http://www.w3.org/2001/XMLSchema#string>",
+								"type": "Edm.String"
+							}
+						}
+					}
+				}
+			}
+		},
+
+		{
+			"_class": "Query",
+			"name": "Test4:Optional two clauses",
+			"concept": "Orders",
+			"clauses": 
+			{
+				"_class": "Clauses",
+				"clause": 
+				{
+					"_class": "Clause",
+					"includeOptionalIgnore": "include",
+					"ignore": false,
+					"optional": true,
+					"label": "Ship To Country",
+					"propertyClause": 
+					{
+						"_class": "DataPropertyClause",
+						"dataProperty": "ShipCountry",
+						"type": "Edm.String",
+						"dataPropertyFilters": 
+						{
+							"_class": "DataPropertyFilters",
+							"dataPropertyFilter": 
+							{
+								"_class": "DataPropertyFilter",
+								"condition": "containing",
+								"value": "Fr",
+								"datatype": "<http://www.w3.org/2001/XMLSchema#string>",
+								"type": "Edm.String"
+							}
+						}
+					}
+				},
+
+				"conjunctionClauses": 
+				[
+					{
+						"_class": "ConjunctionClause",
+						"conjunction": "and",
+						"clause": 
+						{
+							"_class": "Clause",
+							"includeOptionalIgnore": "include",
+							"ignore": false,
+							"optional": false,
+							"label": "Shipping Date",
+							"propertyClause": 
+							{
+								"_class": "DataPropertyClause",
+								"dataProperty": "ShippedDate",
+								"type": "Edm.DateTime",
+								"dataPropertyFilters": 
+								{
+									"_class": "DataPropertyFilters",
+									"dataPropertyFilter": 
+									{
+										"_class": "DataPropertyFilter",
+										"condition": "<",
+										"value": "1998-01-01",
+										"datatype": "<http://www.w3.org/2001/XMLSchema#date>",
+										"type": "Edm.DateTime"
+									}
+								}
+							}
+						}
+					}
+				]
+			}
+		},
+
+		{
+			"_class": "Query",
+			"name": "Test5:Object clause",
+			"concept": "Orders",
+			"clauses": 
+			{
+				"_class": "Clauses",
+				"clause": 
+				{
+					"_class": "Clause",
+					"includeOptionalIgnore": "include",
+					"ignore": false,
+					"optional": false,
+					"propertyClause": 
+					{
+						"_class": "ObjectPropertyClause",
+						"objectProperty": "Customer",
+						"objectPropertyFilters": 
+						[
+							[
+								{
+									"key": "CustomerID",
+									"value": "ALFKI",
+									"type": "Edm.String"
+								}
+							],
+
+							[
+								{
+									"key": "CustomerID",
+									"value": "ANATR",
+									"type": "Edm.String"
+								}
+							]
+						]
+					}
+				}
+			}
+		},
+
+		{
+			"_class": "Query",
+			"name": "Test6:Object clauses",
+			"concept": "Orders",
+			"clauses": 
+			{
+				"_class": "Clauses",
+				"clause": 
+				{
+					"_class": "Clause",
+					"includeOptionalIgnore": "include",
+					"ignore": false,
+					"optional": false,
+					"propertyClause": 
+					{
+						"_class": "ObjectPropertyClause",
+						"objectProperty": "Customer"
+					}
+				},
+
+				"conjunctionClauses": 
+				[
+					{
+						"_class": "ConjunctionClause",
+						"conjunction": "and",
+						"clause": 
+						{
+							"_class": "Clause",
+							"includeOptionalIgnore": "include",
+							"ignore": false,
+							"optional": false,
+							"propertyClause": 
+							{
+								"_class": "ObjectPropertyClause",
+								"objectProperty": "Customer"
+							}
+						}
+					}
+				]
+			}
+		},
+
+		{
+			"_class": "Query",
+			"name": "Test7A:Object clauses w/error",
+			"concept": "Orders",
+			"clauses": 
+			{
+				"_class": "Clauses",
+				"clause": 
+				{
+					"_class": "Clause",
+					"includeOptionalIgnore": "include",
+					"ignore": false,
+					"optional": false,
+					"propertyClause": 
+					{
+						"_class": "ObjectPropertyClause",
+						"objectProperty": "Customer",
+						"clauses": 
+						{
+							"_class": "Clauses",
+							"clause": 
+							{
+								"_class": "Clause",
+								"includeOptionalIgnore": "include",
+								"ignore": false,
+								"optional": false,
+								"propertyClause": 
+								{
+									"_class": "DataPropertyClause",
+									"dataProperty": "ShippedDate",
+									"type": "Edm.DateTime",
+									"dataPropertyFilters": 
+									{
+										"_class": "DataPropertyFilters",
+										"dataPropertyFilter": 
+										{
+											"_class": "DataPropertyFilter",
+											"condition": "<",
+											"value": "1998-01-01",
+											"datatype": "<http://www.w3.org/2001/XMLSchema#date>",
+											"type": "Edm.DateTime"
+										}
+									}
+								}
+							}
+						}
+					}
+				},
+
+				"conjunctionClauses": 
+				[
+					{
+						"_class": "ConjunctionClause",
+						"conjunction": "and",
+						"clause": 
+						{
+							"_class": "Clause",
+							"includeOptionalIgnore": "include",
+							"ignore": false,
+							"optional": false,
+							"label": "Shipping Date",
+							"propertyClause": 
+							{
+								"_class": "DataPropertyClause",
+								"dataProperty": "ShippedDate",
+								"type": "Edm.DateTime",
+								"dataPropertyFilters": 
+								{
+									"_class": "DataPropertyFilters",
+									"dataPropertyFilter": 
+									{
+										"_class": "DataPropertyFilter",
+										"condition": "<",
+										"value": "1998-01-01",
+										"datatype": "<http://www.w3.org/2001/XMLSchema#date>",
+										"type": "Edm.DateTime"
+									}
+								}
+							}
+						}
+					}
+				]
+			}
+		},
+
+		{
+			"_class": "Query",
+			"name": "Test7B:Object clauses",
+			"concept": "Orders",
+			"clauses": 
+			{
+				"_class": "Clauses",
+				"clause": 
+				{
+					"_class": "Clause",
+					"includeOptionalIgnore": "include",
+					"ignore": false,
+					"optional": false,
+					"propertyClause": 
+					{
+						"_class": "ObjectPropertyClause",
+						"objectProperty": "Customer",
+						"clauses": 
+						{
+							"_class": "Clauses"
+						}
+					}
+				},
+
+				"conjunctionClauses": 
+				[
+					{
+						"_class": "ConjunctionClause",
+						"conjunction": "and",
+						"clause": 
+						{
+							"_class": "Clause",
+							"includeOptionalIgnore": "include",
+							"ignore": false,
+							"optional": false,
+							"label": "Shipping Date",
+							"propertyClause": 
+							{
+								"_class": "DataPropertyClause",
+								"dataProperty": "ShippedDate",
+								"type": "Edm.DateTime",
+								"dataPropertyFilters": 
+								{
+									"_class": "DataPropertyFilters",
+									"dataPropertyFilter": 
+									{
+										"_class": "DataPropertyFilter",
+										"condition": "<",
+										"value": "1998-01-01",
+										"datatype": "<http://www.w3.org/2001/XMLSchema#date>",
+										"type": "Edm.DateTime"
+									}
+								}
+							}
+						}
+					}
+				]
+			}
+		},
+
+		{
+			"_class": "Query",
+			"name": "Test8:Object object clauses, inverse property",
+			"concept": "Orders",
+			"clauses": 
+			{
+				"_class": "Clauses",
+				"clause": 
+				{
+					"_class": "Clause",
+					"includeOptionalIgnore": "include",
+					"ignore": false,
+					"optional": false,
+					"propertyClause": 
+					{
+						"_class": "ObjectPropertyClause",
+						"objectProperty": "Customer",
+						"clauses": 
+						{
+							"_class": "Clauses",
+							"clause": 
+							{
+								"_class": "Clause",
+								"includeOptionalIgnore": "include",
+								"ignore": false,
+								"optional": false,
+								"propertyClause": 
+								{
+									"_class": "InverseObjectPropertyClause",
+									"inverseObjectProperty": "isEmployeeOf"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+
+		{
+			"_class": "Query",
+			"name": "Test9:Object object clauses, inverse property",
+			"top": 100,
+			"skip": null,
+			"concept": "Orders",
+			"clauses": 
+			{
+				"_class": "Clauses",
+				"clause": 
+				{
+					"_class": "Clause",
+					"includeOptionalIgnore": "include",
+					"ignore": false,
+					"optional": false,
+					"propertyClause": 
+					{
+						"_class": "ObjectPropertyClause",
+						"objectProperty": "Customer",
+						"objectPropertyFilters": 
+						[
+							[
+								{
+									"key": "CustomerID",
+									"value": "ALFKI",
+									"type": "Edm.String"
+								}
+							],
+
+							[
+								{
+									"key": "CustomerID",
+									"value": "ANATR",
+									"type": "Edm.String"
+								}
+							]
+						],
+
+						"clauses": 
+						{
+							"_class": "Clauses",
+							"clause": 
+							{
+								"_class": "Clause",
+								"includeOptionalIgnore": "include",
+								"ignore": false,
+								"optional": false,
+								"propertyClause": 
+								{
+									"_class": "InverseObjectPropertyClause",
+									"inverseObjectProperty": "isEmployeeOf"
+								}
+							}
+						}
+					}
+				},
+
+				"conjunctionClauses": 
+				[
+					{
+						"_class": "ConjunctionClause",
+						"conjunction": "and",
+						"clause": 
+						{
+							"_class": "Clause",
+							"includeOptionalIgnore": "include",
+							"ignore": false,
+							"optional": false,
+							"propertyClause": 
+							{
+								"_class": "DataPropertyClause",
+								"dataProperty": "ShippedDate",
+								"type": "Edm.DateTime",
+								"dataPropertyFilters": 
+								{
+									"_class": "DataPropertyFilters",
+									"dataPropertyFilter": 
+									{
+										"_class": "DataPropertyFilter",
+										"condition": "<",
+										"value": "1998-01-01",
+										"datatype": "<http://www.w3.org/2001/XMLSchema#date>",
+										"type": "Edm.DateTime"
+									}
+								}
+							}
+						}
+					}
+				]
+			}
+		},
+
+		{
+			"_class": "Query",
+			"name": "Test10: Order query",
+			"top": 100,
+			"skip": 0,
+			"concept": "Orders",
+			"conceptFilters": 
+			[
+				[
+					{
+						"key": "OrderID",
+						"value": "10340",
+						"type": "Edm.Int32"
+					}
+				],
+
+				[
+					{
+						"key": "OrderID",
+						"value": "10999",
+						"type": "Edm.Int32"
+					}
+				]
+			],
+
+			"clauses": 
+			{
+				"_class": "Clauses",
+				"clause": 
+				{
+					"_class": "Clause",
+					"includeOptionalIgnore": "include",
+					"ignore": false,
+					"optional": false,
+					"label": "Shipped to Country",
+					"propertyClause": 
+					{
+						"_class": "DataPropertyClause",
+						"dataProperty": "ShipCountry",
+						"type": "Edm.String",
+						"dataPropertyFilters": 
+						{
+							"_class": "DataPropertyFilters",
+							"dataPropertyFilter": 
+							{
+								"_class": "DataPropertyFilter",
+								"condition": "contains",
+								"value": "Fr",
+								"datatype": "<http://www.w3.org/2001/XMLSchema#string>",
+								"type": "Edm.String"
+							},
+
+							"conjunctionFilters": 
+							[
+								{
+									"_class": "ConjunctionFilter",
+									"filterConjunction": "or",
+									"dataPropertyFilter": 
+									{
+										"_class": "DataPropertyFilter",
+										"condition": "contains",
+										"value": "Ge",
+										"datatype": "<http://www.w3.org/2001/XMLSchema#string>",
+										"type": "Edm.String"
+									}
+								}
+							]
+						}
+					}
+				},
+
+				"conjunctionClauses": 
+				[
+					{
+						"_class": "ConjunctionClause",
+						"conjunction": "and",
+						"clause": 
+						{
+							"_class": "Clause",
+							"includeOptionalIgnore": "include",
+							"ignore": false,
+							"optional": false,
+							"propertyClause": 
+							{
+								"_class": "DataPropertyClause",
+								"dataProperty": "ShippedDate",
+								"type": "Edm.DateTime",
+								"dataPropertyFilters": 
+								{
+									"_class": "DataPropertyFilters",
+									"dataPropertyFilter": 
+									{
+										"_class": "DataPropertyFilter",
+										"condition": "<",
+										"value": "1998-01-01",
+										"datatype": "<http://www.w3.org/2001/XMLSchema#date>",
+										"type": "Edm.DateTime"
+									}
+								}
+							}
+						}
+					},
+
+					{
+						"_class": "ConjunctionClause",
+						"conjunction": "and",
+						"clause": 
+						{
+							"_class": "Clause",
+							"includeOptionalIgnore": "include",
+							"ignore": false,
+							"optional": false,
+							"label": "Customer",
+							"propertyClause": 
+							{
+								"_class": "ObjectPropertyClause",
+								"objectProperty": "Customer",
+								"objectPropertyFilters": 
+								[
+									[
+										{
+											"key": "CustomerID",
+											"value": "ALFKI",
+											"type": "Edm.String"
+										}
+									],
+
+									[
+										{
+											"key": "CustomerID",
+											"value": "BONAP",
+											"type": "Edm.String"
+										}
+									]
+								],
+
+								"clauses": 
+								{
+									"_class": "Clauses",
+									"clause": 
+									{
+										"_class": "Clause",
+										"includeOptionalIgnore": "include",
+										"ignore": false,
+										"optional": false,
+										"propertyClause": 
+										{
+											"_class": "DataPropertyClause",
+											"dataProperty": "CompanyName",
+											"type": "Edm.String",
+											"dataPropertyFilters": 
+											{
+												"_class": "DataPropertyFilters",
+												"dataPropertyFilter": 
+												{
+													"_class": "DataPropertyFilter",
+													"condition": "contains",
+													"value": "Bon",
+													"datatype": "<http://www.w3.org/2001/XMLSchema#string>",
+													"type": "Edm.String"
+												}
+											}
+										}
+									},
+
+									"conjunctionClauses": 
+									[
+										{
+											"_class": "ConjunctionClause",
+											"conjunction": "and",
+											"clause": 
+											{
+												"_class": "Clause",
+												"includeOptionalIgnore": "include",
+												"ignore": false,
+												"optional": false,
+												"label": "Contact name",
+												"propertyClause": 
+												{
+													"_class": "DataPropertyClause",
+													"dataProperty": "ContactName",
+													"type": "Edm.String",
+													"dataPropertyFilters": 
+													{
+														"_class": "DataPropertyFilters",
+														"dataPropertyFilter": 
+														{
+															"_class": "DataPropertyFilter",
+															"condition": "contains",
+															"value": "Leb",
+															"datatype": "<http://www.w3.org/2001/XMLSchema#string>",
+															"type": "Edm.String"
+														}
+													}
+												}
+											}
+										}
+									]
+								}
+							}
+						}
+					},
+
+					{
+						"_class": "ConjunctionClause",
+						"conjunction": "and",
+						"clause": 
+						{
+							"_class": "Clause",
+							"includeOptionalIgnore": "include",
+							"ignore": false,
+							"optional": true,
+							"propertyClause": 
+							{
+								"_class": "ObjectPropertyClause",
+								"objectProperty": "Employee",
+								"clauses": 
+								{
+									"_class": "Clauses",
+									"clause": 
+									{
+										"_class": "Clause",
+										"includeOptionalIgnore": "include",
+										"ignore": false,
+										"optional": false,
+										"propertyClause": 
+										{
+											"_class": "DataPropertyClause",
+											"dataProperty": "FirstName",
+											"type": "Edm.String",
+											"dataPropertyFilters": 
+											{
+												"_class": "DataPropertyFilters",
+												"dataPropertyFilter": 
+												{
+													"_class": "DataPropertyFilter",
+													"condition": "contains",
+													"value": "Nancy",
+													"datatype": "<http://www.w3.org/2001/XMLSchema#string>",
+													"type": "Edm.String"
+												}
+											}
+										}
+									},
+
+									"conjunctionClauses": 
+									[
+										{
+											"_class": "ConjunctionClause",
+											"conjunction": "and",
+											"clause": 
+											{
+												"_class": "Clause",
+												"includeOptionalIgnore": "include",
+												"ignore": false,
+												"optional": false,
+												"propertyClause": 
+												{
+													"_class": "ObjectPropertyClause",
+													"objectProperty": "Employee1",
+													"clauses": 
+													{
+														"_class": "Clauses",
+														"clause": 
+														{
+															"_class": "Clause",
+															"includeOptionalIgnore": "include",
+															"ignore": false,
+															"optional": false,
+															"propertyClause": 
+															{
+																"_class": "DataPropertyClause",
+																"dataProperty": "LastName"
+															}
+														}
+													}
+												}
+											}
+										}
+									]
+								}
+							}
+						}
+					}
+				]
+			}
+		},
+
+		{
+			"_class": "Query",
+			"name": "Test11:Nested query",
+			"concept": "Orders",
+			"clauses": 
+			{
+				"_class": "Clauses",
+				"clause": 
+				{
+					"_class": "Clause",
+					"ignore": false,
+					"optional": false,
+					"propertyClause": 
+					{
+						"_class": "DataPropertyClause",
+						"dataProperty": "OrderID",
+						"dataPropertyFilters": 
+						{
+							"_class": "DataPropertyFilters"
+						}
+					}
+				},
+
+				"conjunctionClauses": 
+				[
+					{
+						"_class": "ConjunctionClause",
+						"conjunction": "and",
+						"clause": 
+						{
+							"_class": "Clause",
+							"ignore": false,
+							"optional": false,
+							"propertyClause": 
+							{
+								"_class": "ObjectPropertyClause",
+								"objectProperty": "Order_Details",
+								"objectPropertyFilters": 
+								[
+									
+								],
+
+								"clauses": 
+								{
+									"_class": "Clauses",
+									"clause": 
+									{
+										"_class": "Clause",
+										"ignore": false,
+										"optional": false,
+										"propertyClause": 
+										{
+											"_class": "DataPropertyClause",
+											"dataProperty": "ProductID",
+											"dataPropertyFilters": 
+											{
+												"_class": "DataPropertyFilters"
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				]
+			}
+		},
+
+		{
+			"_class": "Query",
+			"name": "Test12:Datastitching with operations",
+			"top": 100,
+			"skip": null,
+			"concept": "qb:Observation",
+			"clauses": 
+			{
+				"_class": "Clauses",
+				"clause": 
+				{
+					"_class": "Clause",
+					"includeOptionalIgnore": "include",
+					"ignore": false,
+					"optional": false,
+					"propertyClause": 
+					{
+						"_class": "ObjectPropertyClause",
+						"objectProperty": "qb:dataset",
+						"objectPropertyFilters": 
+						[
+							"DataSet:ZE015_designmatrix"
+						]
+					}
+				},
+
+				"conjunctionClauses": 
+				[
+					{
+						"_class": "ConjunctionClause",
+						"conjunction": "and",
+						"clause": 
+						{
+							"_class": "Clause",
+							"includeOptionalIgnore": "include",
+							"ignore": false,
+							"optional": false,
+							"propertyClause": 
+							{
+								"_class": "DataPropertyClause",
+								"type": "Edm.String",
+								"dataProperty": "computationalbiology:ecotype"
+							}
+						}
+					},
+
+					{
+						"_class": "ConjunctionClause",
+						"conjunction": "and",
+						"clause": 
+						{
+							"_class": "Clause",
+							"includeOptionalIgnore": "include",
+							"ignore": false,
+							"optional": false,
+							"propertyClause": 
+							{
+								"_class": "DataPropertyClause",
+								"type": "Edm.String",
+								"dataProperty": "computationalbiology:organism"
+							}
+						}
+					},
+
+					{
+						"_class": "ConjunctionClause",
+						"conjunction": "and",
+						"clause": 
+						{
+							"_class": "Clause",
+							"includeOptionalIgnore": "include",
+							"ignore": false,
+							"optional": false,
+							"propertyClause": 
+							{
+								"_class": "DataPropertyClause",
+								"type": "Edm.String",
+								"dataProperty": "computationalbiology:phenotype"
+							}
+						}
+					},
+
+					{
+						"_class": "ConjunctionClause",
+						"conjunction": "and",
+						"clause": 
+						{
+							"_class": "Clause",
+							"includeOptionalIgnore": "include",
+							"ignore": false,
+							"optional": false,
+							"propertyClause": 
+							{
+								"_class": "DataPropertyClause",
+								"type": "Edm.String",
+								"dataProperty": "computationalbiology:treatment"
+							}
+						}
+					},
+
+					{
+						"_class": "ConjunctionClause",
+						"conjunction": "and",
+						"clause": 
+						{
+							"_class": "Clause",
+							"includeOptionalIgnore": "include",
+							"ignore": false,
+							"optional": false,
+							"propertyClause": 
+							{
+								"_class": "OperationClause",
+								"operation": "qb:linkToOtherDatasetObservations",
+								"clauses": 
+								{
+									"_class": "Clauses",
+									"clause": 
+									{
+										"_class": "Clause",
+										"includeOptionalIgnore": "include",
+										"ignore": false,
+										"optional": false,
+										"propertyClause": 
+										{
+											"_class": "ObjectPropertyClause",
+											"objectProperty": "qb:targetDataset",
+											"objectPropertyFilters": 
+											[
+												"DataSet:rawZE015_fromRMA"
+											]
+										}
+									},
+
+									"conjunctionClauses": 
+									[
+										{
+											"_class": "ConjunctionClause",
+											"conjunction": "and",
+											"clause": 
+											{
+												"_class": "Clause",
+												"includeOptionalIgnore": "include",
+												"ignore": false,
+												"optional": false,
+												"propertyClause": 
+												{
+													"_class": "ObjectPropertyClause",
+													"objectProperty": "qb:targetProperty",
+													"objectPropertyFilters": 
+													[
+														"computationalbiology:sample"
+													]
+												}
+											}
+										},
+
+										{
+											"_class": "ConjunctionClause",
+											"conjunction": "and",
+											"clause": 
+											{
+												"_class": "Clause",
+												"includeOptionalIgnore": "include",
+												"ignore": false,
+												"optional": false,
+												"propertyClause": 
+												{
+													"_class": "ObjectPropertyClause",
+													"objectProperty": "qb:sourceProperty",
+													"objectPropertyFilters": 
+													[
+														"computationalbiology:sample"
+													]
+												}
+											}
+										},
+
+										{
+											"_class": "ConjunctionClause",
+											"conjunction": "and",
+											"clause": 
+											{
+												"_class": "Clause",
+												"includeOptionalIgnore": "include",
+												"ignore": false,
+												"optional": false,
+												"propertyClause": 
+												{
+													"_class": "DataPropertyClause",
+													"dataProperty": "computationalbiology:log2p_value"
+												}
+											}
+										},
+
+										{
+											"_class": "ConjunctionClause",
+											"conjunction": "and",
+											"clause": 
+											{
+												"_class": "Clause",
+												"includeOptionalIgnore": "include",
+												"ignore": false,
+												"optional": false,
+												"propertyClause": 
+												{
+													"_class": "OperationClause",
+													"operation": "qb:linkToOtherDatasetObservations",
+													"clauses": 
+													{
+														"_class": "Clauses",
+														"clause": 
+														{
+															"_class": "Clause",
+															"includeOptionalIgnore": "include",
+															"ignore": false,
+															"optional": false,
+															"propertyClause": 
+															{
+																"_class": "ObjectPropertyClause",
+																"objectProperty": "qb:targetDataset",
+																"objectPropertyFilters": 
+																[
+																	"DataSet:SYNG007a_REF3_Probeset2GeneMapp "
+																]
+															}
+														},
+
+														"conjunctionClauses": 
+														[
+															{
+																"_class": "ConjunctionClause",
+																"conjunction": "and",
+																"clause": 
+																{
+																	"_class": "Clause",
+																	"includeOptionalIgnore": "include",
+																	"ignore": false,
+																	"optional": false,
+																	"propertyClause": 
+																	{
+																		"_class": "ObjectPropertyClause",
+																		"objectProperty": "qb:targetProperty",
+																		"objectPropertyFilters": 
+																		[
+																			"computationalbiology:probeset"
+																		]
+																	}
+																}
+															},
+
+															{
+																"_class": "ConjunctionClause",
+																"conjunction": "and",
+																"clause": 
+																{
+																	"_class": "Clause",
+																	"includeOptionalIgnore": "include",
+																	"ignore": false,
+																	"optional": false,
+																	"propertyClause": 
+																	{
+																		"_class": "ObjectPropertyClause",
+																		"objectProperty": "qb:sourceProperty",
+																		"objectPropertyFilters": 
+																		[
+																			"computationalbiology:probeset"
+																		]
+																	}
+																}
+															},
+
+															{
+																"_class": "ConjunctionClause",
+																"conjunction": "and",
+																"clause": 
+																{
+																	"_class": "Clause",
+																	"includeOptionalIgnore": "include",
+																	"ignore": false,
+																	"optional": false,
+																	"propertyClause": 
+																	{
+																		"_class": "DataPropertyClause",
+																		"type": "Edm.String",
+																		"dataProperty": "computationalbiology:uniprotId"
+																	}
+																}
+															},
+
+															{
+																"_class": "ConjunctionClause",
+																"conjunction": "and",
+																"clause": 
+																{
+																	"_class": "Clause",
+																	"includeOptionalIgnore": "include",
+																	"ignore": false,
+																	"optional": false,
+																	"propertyClause": 
+																	{
+																		"_class": "OperationClause",
+																		"operation": "qb:linkToOtherDatasetObservations",
+																		"clauses": 
+																		{
+																			"_class": "Clauses",
+																			"clause": 
+																			{
+																				"_class": "Clause",
+																				"includeOptionalIgnore": "include",
+																				"ignore": false,
+																				"optional": false,
+																				"propertyClause": 
+																				{
+																					"_class": "ObjectPropertyClause",
+																					"objectProperty": "qb:targetDataset",
+																					"objectPropertyFilters": 
+																					[
+																						"DataSet:ZB015_maize_ABAvC_RAWresults-for_BioXM-signif"
+																					]
+																				}
+																			},
+
+																			"conjunctionClauses": 
+																			[
+																				{
+																					"_class": "ConjunctionClause",
+																					"conjunction": "and",
+																					"clause": 
+																					{
+																						"_class": "Clause",
+																						"includeOptionalIgnore": "include",
+																						"ignore": false,
+																						"optional": false,
+																						"propertyClause": 
+																						{
+																							"_class": "ObjectPropertyClause",
+																							"objectProperty": "qb:targetProperty",
+																							"objectPropertyFilters": 
+																							[
+																								"computationalbiology:probeset"
+																							]
+																						}
+																					}
+																				},
+
+																				{
+																					"_class": "ConjunctionClause",
+																					"conjunction": "and",
+																					"clause": 
+																					{
+																						"_class": "Clause",
+																						"includeOptionalIgnore": "include",
+																						"ignore": false,
+																						"optional": false,
+																						"propertyClause": 
+																						{
+																							"_class": "ObjectPropertyClause",
+																							"objectProperty": "qb:sourceProperty",
+																							"objectPropertyFilters": 
+																							[
+																								"computationalbiology:probeset"
+																							]
+																						}
+																					}
+																				},
+
+																				{
+																					"_class": "ConjunctionClause",
+																					"conjunction": "and",
+																					"clause": 
+																					{
+																						"_class": "Clause",
+																						"includeOptionalIgnore": "include",
+																						"ignore": false,
+																						"optional": false,
+																						"propertyClause": 
+																						{
+																							"_class": "DataPropertyClause",
+																							"dataProperty": "computationalbiology:log2FC"
+																						}
+																					}
+																				}
+																			]
+																		}
+																	}
+																}
+															}
+														]
+													}
+												}
+											}
+										}
+									]
+								}
+							}
+						}
+					}
+				]
+			}
+		}
+	]
+}

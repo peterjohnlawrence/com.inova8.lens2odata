@@ -135,13 +135,11 @@ sap.ui.core.Control
 							// TODO not always rerendering
 							var eDock = sap.ui.core.Popup.Dock;
 							self.oPropertyMenu.open(false, this.getFocusDomRef(), eDock.BeginTop, eDock.beginBottom, this.getDomRef());
-//							self.oPropertyMenu.open(false, oLink.getFocusDomRef(), eDock.BeginTop, eDock.beginBottom, oLink.getDomRef());
 						});
 
 						self.setAggregation("_property", oPropertyLink);
 					},
 					renderer : function(oRm, oControl) {
-						//oRm.writeControlData(oControl);
 						oRm.renderControl(oControl.getAggregation("_property"));
 					}
 				});

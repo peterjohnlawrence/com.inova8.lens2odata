@@ -2,7 +2,7 @@ jQuery.sap.require("sap.ui.commons.Button");
 sap.ui.jsfragment("sparqlish.query.preview", {
 	createContent : function(oController) {
 		var myButton = new sap.ui.commons.Button({
-			text : "Generate preview SPARQL",
+			text : "Generate preview SPARQL results",
 			tooltip : "This will generate the preview query to return the first  records",
 			press : function() {
 				var iLimit = 5;

@@ -97,7 +97,7 @@ sap.ui.core.Control.extend("sparqlish.control.conjunctionPropertyClause", {
 					}
 				}).open(false, this.getFocusDomRef(), eDock.BeginTop, eDock.beginBottom, this.getDomRef());
 			}
-		}).addStyleClass("menuLink"));
+		}).addStyleClass("conjunctionMenuLink"));
 		self.setAggregation("_propertyClause", new sparqlish.control.propertyClause({}).bindElement("queryModel>clause").attachChangedClause(function(oEvent) {
 			oEvent.getSource().getParent().fireChangedClause();
 		}).attachDeleted(function(oEvent) {

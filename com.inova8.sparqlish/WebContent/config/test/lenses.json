@@ -138,14 +138,21 @@
 					"R3-C1": 
 					{
 						"title": "Order Dates",
-						"type": "Components.queryResultsForm",
+						"type": "Components.lensResultsForm",
 						"query": "../proxy/http/services.odata.org/V2/Northwind/Northwind.svc/Orders()?&$expand=&$select=OrderDate,RequiredDate&"
+					},
+
+					"R3-C2": 
+					{
+						"title": "Order Details",
+						"type": "Components.lensResultsForm",
+						"query": "../proxy/http/services.odata.org/V2/Northwind/Northwind.svc/Orders()?&$expand=Order_Details&$select=OrderID,Order_Details/ProductID&"
 					},
 
 					"R1": 
 					{
 						"title": "Products",
-						"type": "Components.queryResultsTable",
+						"type": "Components.lensResultsTable",
 						"query": "../proxy/http/services.odata.org/V2/Northwind/Northwind.svc/Products()?&$expand=&$select=ProductID,ProductName,SupplierID,CategoryID,QuantityPerUnit,UnitPrice,UnitsInStock,UnitsOnOrder,ReorderLevel,Discontinued&"
 					}
 				}

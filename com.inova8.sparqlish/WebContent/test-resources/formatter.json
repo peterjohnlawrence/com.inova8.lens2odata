@@ -1,122 +1,64 @@
 {
-	"(default)": 
+	"root": 
 	{
-		"Northwind.Orders": 
+		"0": 
 		{
-			"title": "Orders Lens",
-			"content": 
-			{
-				"type": "rows",
-				"rows": 
-				[
-					{
-						"content": 
-						{
-							"type": "lens",
-							"lens": 
-							{
-								"title": "R1"
-							}
-						}
-					},
+			"keyVariable": "Order:OrderDate",
+			"resultsPath": "/OrderDate",
+			"field": "OrderDate",
+			"type": "Edm.DateTime",
+			"path": "clauses/clause/",
+			"sparqlish": "with OrderDate",
+			"label": "OrderDate",
+			"hidden": false,
+			"includeOptionalIgnore": "include",
+			"variable": "?v_0",
+			"nameVariable": "",
+			"index": 6
+		},
 
-					{
-						"title": "R2",
-						"content": 
-						{
-							"type": "columns",
-							"columns": 
-							[
-								{
-									"content": 
-									{
-										"type": "lens",
-										"lens": 
-										{
-											"title": "R2-C1"
-										}
-									}
-								},
+		"1": 
+		{
+			"keyVariable": "Order:CustomerID",
+			"resultsPath": "/CustomerID",
+			"field": "CustomerID",
+			"type": "Edm.String",
+			"path": "clauses/conjunctionClauses/0/",
+			"sparqlish": "and with CustomerID",
+			"label": "CustomerID",
+			"hidden": false,
+			"includeOptionalIgnore": "include",
+			"variable": "?v_1",
+			"nameVariable": "",
+			"index": 4
+		},
 
-								{
-									"title": "R2-C2",
-									"content": 
-									{
-										"type": "rows",
-										"rows": 
-										[
-											{
-												"content": 
-												{
-													"type": "lens",
-													"lens": 
-													{
-														"title": "R2-C2-R1"
-													}
-												}
-											},
+		"2": 
+		{
+			"path": "clauses/conjunctionClauses/1/",
+			"sparqlish": "and with Order_Details",
+			"keyVariable": "Order:Order_Details",
+			"resultsPath": "/Order_Details",
+			"field": "Order_Details",
+			"type": "__metadata",
+			"label": "Order_Details",
+			"hidden": false,
+			"includeOptionalIgnore": "include",
+			"variable": "?v_2",
+			"nameVariable": "?v_2_label",
+			"index": 5
+		},
 
-											{
-												"content": 
-												{
-													"type": "lens",
-													"lens": 
-													{
-														"title": "R2-C2-R2"
-													}
-												}
-											}
-										]
-									}
-								},
-
-								{
-									"content": 
-									{
-										"type": "lens",
-										"lens": 
-										{
-											"title": "R2-C3"
-										}
-									}
-								}
-							]
-						}
-					},
-
-					{
-						"title": "R3",
-						"content": 
-						{
-							"type": "columns",
-							"columns": 
-							[
-								{
-									"content": 
-									{
-										"type": "lens",
-										"lens": 
-										{
-											"title": "R3-C1"
-										}
-									}
-								},
-
-								{
-									"content": 
-									{
-										"type": "lens",
-										"lens": 
-										{
-											"title": "R3-C2"
-										}
-									}
-								}
-							]
-						}
-					}
-				]
-			}
-		}
+		"path": "",
+		"resultsPath": "",
+		"sparqlish": "Find Orders",
+		"label": "Orders",
+		"hidden": false,
+		"variable": "?v",
+		"nameVariable": "?v_label",
+		"keyVariable": "Order",
+		"field": "Order",
+		"type": "__metadata",
+		"index": 0
 	}
 }

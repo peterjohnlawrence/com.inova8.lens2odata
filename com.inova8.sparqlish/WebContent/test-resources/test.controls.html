@@ -3,25 +3,24 @@
 <head>
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
-<base href="../">
 
-<title>Sparqlish</title>
-<script id="sap-ui-bootstrap" src="openui5/resources/sap-ui-core.js" data-sap-ui-theme="sap_bluecrystal" data-sap-ui-libs="sap.ui.commons"
+<title>Controls</title>
+<script id="sap-ui-bootstrap" src="../openui5/sap-ui-core.js" data-sap-ui-theme="sap_bluecrystal" data-sap-ui-libs="sap.ui.commons"
 		data-sap-ui-libs="sap.ui.unified" data-sap-ui-resourceroots='{
-            "sparqlish":"./",
-					"sparqlish":"./sparqlish"
+            "sparqlish":"../",
+					"sparqlish":"../sparqlish"
         }'		data-sap-ui-xx-bindingSyntax="complex" type="text/javascript"></script>
-<script type="text/javascript" src="resources/jquery.rdfquery.core.min-1.0.js"></script>
-<script type="text/javascript" src="sparqlish/sparqlish.js"></script>
-<script type="text/javascript" src="sparqlish/utilities.js"></script>
-<script type="text/javascript" src="sparqlish/control/propertyMenu.js"></script>
-<script type="text/javascript" src="sparqlish/control/includeOptionalIgnore.js"></script>
-<script type="text/javascript" src="sparqlish/control/queryClause.js"></script>
-<script type="text/javascript" src="sparqlish/control/conceptClause.js"></script>
-<script type="text/javascript" src="sparqlish/control/propertyClause.js"></script>
-<script type="text/javascript" src="sparqlish/control/conjunctionPropertyClause.js"></script>
-<script type="text/javascript" src="sparqlish/control/query.js"></script>
-<link rel="stylesheet" type="text/css" href="sparqlish/sparqlish.css">
+<script type="text/javascript" src="../resources/jquery.rdfquery.core.min-1.0.js"></script>
+<script type="text/javascript" src="../sparqlish/sparqlish.js"></script>
+<script type="text/javascript" src="../sparqlish/utilities.js"></script>
+<script type="text/javascript" src="../sparqlish/control/propertyMenu.js"></script>
+<script type="text/javascript" src="../sparqlish/control/includeOptionalIgnore.js"></script>
+<script type="text/javascript" src="../sparqlish/control/queryClause.js"></script>
+<script type="text/javascript" src="../sparqlish/control/conceptClause.js"></script>
+<script type="text/javascript" src="../sparqlish/control/propertyClause.js"></script>
+<script type="text/javascript" src="../sparqlish/control/conjunctionPropertyClause.js"></script>
+<script type="text/javascript" src="../sparqlish/control/query.js"></script>
+<link rel="stylesheet" type="text/css" href="../sparqlish/sparqlish.css">
 <script type="text/javascript">
  jQuery.sap.log.setLevel(jQuery.sap.log.Level.DEBUG );
 //Mock OData server
@@ -31,7 +30,7 @@ var sUri = "/mock/";
 var oMockServer = new sap.ui.core.util.MockServer({
 	rootUri : sUri
 });
-var sMetadataUrl = "test-resources/northwind.v2.metadata.xml";
+var sMetadataUrl = "../config/test/northwind.v2.metadata.xml";
 oMockServer.simulate(sMetadataUrl);
 oMockServer.start();
 
@@ -47,22 +46,22 @@ sap.ui.getCore().setModel(oEntityContainerModel, "entityContainer");
 
 // set up models
 var i18nModel = new sap.ui.model.resource.ResourceModel({
-	bundleUrl : [ ".", "i18n/messageBundle.properties" ].join("/")
+	bundleUrl : [ ".", "../i18n/messageBundle.properties" ].join("/")
 });
 sap.ui.getCore().setModel(i18nModel, "i18nModel");
 
 var oQueryModel = new sap.ui.model.json.JSONModel();
-oQueryModel.loadData("test-resources/sparqlish.qunit.odata.json", null, false);
+oQueryModel.loadData("../config/test/query.test9.json", null, false);
 sap.ui.getCore().setModel(oQueryModel, "queryModel");
 
 // datatypesModel>
 var oDatatypesModel = new sap.ui.model.json.JSONModel();
-oDatatypesModel.loadData("test-resources/datatypesModel.json", null, false);
+oDatatypesModel.loadData("../config/test/datatypes.json", null, false);
 sap.ui.getCore().setModel(oDatatypesModel, "datatypesModel");
 
 // parametersModel>
 var oParametersModel = new sap.ui.model.json.JSONModel();;
-oParametersModel.setJSON('{"expandClause":true}', true);
+oParametersModel.setJSON('{"expandClause":false}', true);
 sap.ui.getCore().setModel(oParametersModel, "parametersModel");
 
 // var oPropertyMenu = new sparqlish.control.propertyMenu();
@@ -76,7 +75,7 @@ var oIncludeOptionalIgnore = new sparqlish.control.includeOptionalIgnore();
 oIncludeOptionalIgnore.setModel(oQueryModel, "queryModel");
 oIncludeOptionalIgnore.setModel(oMetaModel, "metaModel");
 oIncludeOptionalIgnore.setModel(oDatatypesModel, "datatypesModel");
-oIncludeOptionalIgnore.bindElement("queryModel>/queries/9/clauses/conjunctionClauses/1/clause");
+oIncludeOptionalIgnore.bindElement("queryModel>/queries/10/clauses/conjunctionClauses/1/clause");
 oIncludeOptionalIgnore.placeAt("uiIncludeOptionalIgnore");
 
 var oQueryClause1 = new sparqlish.control.queryClause();
@@ -84,7 +83,7 @@ oQueryClause1.setModel(oQueryModel, "queryModel");
 oQueryClause1.setModel(oMetaModel, "metaModel");
 oQueryClause1.setModel(oDatatypesModel, "datatypesModel");
 //oQueryClause1.setBindingContext(new sap.ui.model.Context(oQueryModel, "/queries/9/")  ,"queryModel");
-oQueryClause1.setClausePath("/queries/9/");
+oQueryClause1.setClausePath("/queries/10/");
 // oQueryClause1.bindElement("queryModel>/queries/9/");
 oQueryClause1.placeAt("uiQueryClause1");
 
@@ -93,7 +92,7 @@ oQueryClause2.setModel(oQueryModel, "queryModel");
 oQueryClause2.setModel(oMetaModel, "metaModel");
 oQueryClause2.setModel(oDatatypesModel, "datatypesModel");
 //oQueryClause2.setBindingContext(new sap.ui.model.Context(oQueryModel, "/queries/9/clauses/conjunctionClauses/1/clause")  ,"queryModel");
-oQueryClause2.setClausePath("/queries/9/clauses/conjunctionClauses/1/clause");
+oQueryClause2.setClausePath("/queries/10/clauses/conjunctionClauses/1/clause");
 // oQueryClause2.bindElement("queryModel>/queries/9/clauses/conjunctionClauses/1/clause");
 oQueryClause2.placeAt("uiQueryClause2");
 
@@ -102,7 +101,7 @@ oQueryClause3.setModel(oQueryModel, "queryModel");
 oQueryClause3.setModel(oMetaModel, "metaModel");
 oQueryClause3.setModel(oDatatypesModel, "datatypesModel");
 //oQueryClause3.setBindingContext(new sap.ui.model.Context(oQueryModel, "/queries/9/clauses/conjunctionClauses/1/clause/propertyClause/clauses/clause")  ,"queryModel");
-oQueryClause3.setClausePath("/queries/9/clauses/conjunctionClauses/1/clause/propertyClause/clauses/clause");
+oQueryClause3.setClausePath("/queries/10/clauses/conjunctionClauses/1/clause/propertyClause/clauses/clause");
 // oQueryClause3.bindElement("queryModel>/queries/9/clauses/conjunctionClauses/1/clause/propertyClause/clauses/clause");
 oQueryClause3.placeAt("uiQueryClause3");
 
@@ -111,7 +110,7 @@ oQueryClause4.setModel(oQueryModel, "queryModel");
 oQueryClause4.setModel(oMetaModel, "metaModel");
 oQueryClause4.setModel(oDatatypesModel, "datatypesModel");
 //oQueryClause4.setBindingContext(new sap.ui.model.Context(oQueryModel, "/queries/9/clauses/conjunctionClauses/1")  ,"queryModel");
-oQueryClause4.setClausePath("/queries/9/clauses/conjunctionClauses/1");
+oQueryClause4.setClausePath("/queries/10/clauses/conjunctionClauses/1");
 // oQueryClause4.bindElement("queryModel>/queries/9/clauses/conjunctionClauses/1");
 oQueryClause4.placeAt("uiQueryClause4");
 
@@ -119,21 +118,21 @@ var oConceptClause = new sparqlish.control.conceptClause();
 oConceptClause.setModel(oQueryModel, "queryModel");
 oConceptClause.setModel(oMetaModel, "metaModel");
 oConceptClause.setModel(oDatatypesModel, "datatypesModel");
-oConceptClause.bindElement("queryModel>/queries/9/");
+oConceptClause.bindElement("queryModel>/queries/10/");
 oConceptClause.placeAt("uiConceptClause");
 
 var oPropertyClause1 = new sparqlish.control.propertyClause();
 oPropertyClause1.setModel(oQueryModel, "queryModel");
 oPropertyClause1.setModel(oMetaModel, "metaModel");
 oPropertyClause1.setModel(oMetaModel, "datatypesModel");
-oPropertyClause1.bindElement("queryModel>/queries/9/clauses/conjunctionClauses/1/clause");
+oPropertyClause1.bindElement("queryModel>/queries/10/clauses/conjunctionClauses/1/clause");
 oPropertyClause1.placeAt("uiPropertyClause1");
 
 var oPropertyClause2 = new sparqlish.control.propertyClause();
 oPropertyClause2.setModel(oQueryModel, "queryModel");
 oPropertyClause2.setModel(oMetaModel, "metaModel");
 oPropertyClause2.setModel(oDatatypesModel, "datatypesModel");
-oPropertyClause2.bindElement("queryModel>/queries/9/clauses/conjunctionClauses/1/clause/propertyClause/clauses/clause");
+oPropertyClause2.bindElement("queryModel>/queries/10/clauses/conjunctionClauses/1/clause/propertyClause/clauses/clause");
 oPropertyClause2.placeAt("uiPropertyClause2");
 
 var oConceptClauseInitModel = new sap.ui.model.json.JSONModel();
@@ -258,14 +257,14 @@ var oQuery2b = new sparqlish.control.query();
 oQuery2b.setModel(oQueryModel, "queryModel");
 oQuery2b.setModel(oMetaModel, "metaModel");
 oQuery2b.setModel(oDatatypesModel, "datatypesModel");
-oQuery2b.bindElement("queryModel>/queries/9/clauses/clause/");
+oQuery2b.bindElement("queryModel>/queries/10/clauses/clause/");
 oQuery2b.placeAt("uiQuery2b");
 
 var oQuery3 = new sparqlish.control.query();
 oQuery3.setModel(oQueryModel, "queryModel");
 oQuery3.setModel(oMetaModel, "metaModel");
 oQuery3.setModel(oDatatypesModel, "datatypesModel");
-oQuery3.bindElement("queryModel>/queries/9/clauses/conjunctionClauses/0/");
+oQuery3.bindElement("queryModel>/queries/10/clauses/conjunctionClauses/0/");
 oQuery3.placeAt("uiQuery3");
 
 var oQuery4 = new sparqlish.control.query();

@@ -5,7 +5,7 @@
 <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
 <!-- <base href="../"> -->
 
-<title>Sparqlish</title>
+<title>Query test</title>
 <script  id="sap-ui-bootstrap" 
          src="../openui5/sap-ui-core.js" 
          data-sap-ui-theme="sap_bluecrystal" 
@@ -36,6 +36,8 @@
 <link rel="stylesheet" type="text/css" href="../sparqlish/sparqlish.css">
 
 <script type="text/javascript">
+var self =this;
+self.iCurrentQuery =0;
 jQuery.sap.log.setLevel(jQuery.sap.log.Level.DEBUG );
 //var sUrl = "http://services.odata.org/V2/Northwind/Northwind.svc/" ;
 var sUrl = "../proxy/http/services.odata.org/V2/Northwind/Northwind.svc/" ;
@@ -70,9 +72,9 @@ var i18nModel = new sap.ui.model.resource.ResourceModel({
 });
 sap.ui.getCore().setModel(i18nModel, "i18nModel");
 
-var oQueryModel = new sap.ui.model.json.JSONModel();
-oQueryModel.loadData("sparqlish.qunit.odata.json", null, false);
-sap.ui.getCore().setModel(oQueryModel, "queryModel");
+var oQueriesModel = new sap.ui.model.json.JSONModel();
+oQueriesModel.loadData("../config/test/query.test9.json", null, false);
+sap.ui.getCore().setModel(oQueriesModel, "queriesModel");
 
 // datatypesModel>
 var oDatatypesModel = new sap.ui.model.json.JSONModel();
@@ -89,186 +91,38 @@ var oLensesModel = new sap.ui.model.json.JSONModel();
 oLensesModel.loadData("../config/test/lenses.json", null, false);
 sap.ui.getCore().setModel(oLensesModel, "lensesModel");
 
-//queryModel>
-var oQueryModel = new sap.ui.model.json.JSONModel();
-oQueryModel.setData(
-// 		{
-// 	"_class": "Query",
-// 	"concept": "Orders"}
-
-//{"_class":"Query","concept":"Orders","clauses":{"_class":"Clauses","clause":{},"conjunctionClauses":[]}}
-
-		{
-	"_class": "Query",
-	"concept": "Orders",
-	"clauses": 
-	{
-		"_class": "Clauses",
-		"clause": 
-		{
-			"_class": "Clause",
-			"ignore": false,
-			"optional": false,
-			"propertyClause": 
-			{
-				"_class": "DataPropertyClause",
-				"dataProperty": "OrderDate",
-				"dataPropertyFilters": 
-				{
-					"_class": "DataPropertyFilters"
-				}
-			}
-		},
-
-		"conjunctionClauses": 
-		[
-			{
-				"_class": "ConjunctionClause",
-				"conjunction": "and",
-				"clause": 
-				{
-					"_class": "Clause",
-					"ignore": false,
-					"optional": false,
-					"propertyClause": 
-					{
-						"_class": "DataPropertyClause",
-						"dataProperty": "RequiredDate",
-						"dataPropertyFilters": 
-						{
-							"_class": "DataPropertyFilters"
-						}
-					}
-				}
-			}
-		]
-	}
-}
-		
-// {
-// 	"_class": "Query",
-// 	"concept": "Orders",
-// 	"clauses": 
-// 	{
-// 		"_class": "Clauses",
-// 		"clause": 
-// 		{
-// 			"_class": "Clause",
-// 			"ignore": false,
-// 			"optional": false,
-// 			"propertyClause": 
-// 			{
-// 				"_class": "DataPropertyClause",
-// 				"dataProperty": "ShipName",
-// 				"dataPropertyFilters": 
-// 				{
-// 					"_class": "DataPropertyFilters"
-// 				}
-// 			}
-// 		},
-
-// 		"conjunctionClauses": 
-// 		[
-// 			{
-// 				"_class": "ConjunctionClause",
-// 				"conjunction": "and",
-// 				"clause": 
-// 				{
-// 					"_class": "Clause",
-// 					"ignore": false,
-// 					"optional": false,
-// 					"propertyClause": 
-// 					{
-// 						"_class": "ObjectPropertyClause",
-// 						"objectProperty": "Shipper",
-// 						"objectPropertyFilters": 
-// 						[
-							
-// 						],
-
-// 						"clauses": 
-// 						{
-// 							"_class": "Clauses",
-// 							"clause": 
-// 							{
-// 								"_class": "Clause",
-// 								"ignore": false,
-// 								"optional": false,
-// 								"propertyClause": 
-// 								{
-// 									"_class": "DataPropertyClause",
-// 									"dataProperty": "CompanyName",
-// 									"dataPropertyFilters": 
-// 									{
-// 										"_class": "DataPropertyFilters"
-// 									}
-// 								}
-// 							},
-
-// 							"conjunctionClauses": 
-// 							[
-// 								{
-// 									"_class": "ConjunctionClause",
-// 									"conjunction": "and",
-// 									"clause": 
-// 									{
-// 										"_class": "Clause",
-// 										"ignore": false,
-// 										"optional": false,
-// 										"propertyClause": 
-// 										{
-// 											"_class": "ObjectPropertyClause",
-// 											"objectProperty": "Orders",
-// 											"objectPropertyFilters": 
-// 											[
-												
-// 											],
-
-// 											"clauses": 
-// 											{
-// 												"_class": "Clauses",
-// 												"clause": 
-// 												{
-// 													"_class": "Clause",
-// 													"ignore": false,
-// 													"optional": false,
-// 													"propertyClause": 
-// 													{
-// 														"_class": "DataPropertyClause",
-// 														"dataProperty": "OrderDate",
-// 														"dataPropertyFilters": 
-// 														{
-// 															"_class": "DataPropertyFilters"
-// 														}
-// 													}
-// 												}
-// 											}
-// 										}
-// 									}
-// 								}
-// 							]
-// 						}
-// 					}
-// 				}
-// 			}
-// 		]
-// 	}
-// }
-);
 var oQuery = new sparqlish.control.query();
+oQuery.setModel(oQueriesModel, "queriesModel");
+
+
+//temporary should really set the query to a single queryModel not a set of queryModels
+sap.ui.getCore().setModel(oQueriesModel, "queryModel");
+
+var queries = new Queries(oQueriesModel.getData());
+var oQueryModel = new sap.ui.model.json.JSONModel();
+
+querySelectionChange =function(iSelectedQuery){
+
+oQueryModel.setData(oQueriesModel.getData().queries[iSelectedQuery] );
 oQuery.setModel(oQueryModel, "queryModel");
 oQuery.setModel(oMetaModel, "metaModel");
 oQuery.setModel(oDatatypesModel, "datatypesModel");
+};
+
+querySelectionChange(0);
+
+
 oQuery.bindElement("queryModel>/");
-oQuery.placeAt("uiQueryClauseInit");
+
+//oQuery.placeAt("uiQuery");
 
 
 // Create a table component
 
 var oTableComponent = sap.ui.getCore().createComponent({
-	name : "Components.queryResultsTable",
+	name : "Components.lensResultsTable",
 	settings : {
-		title : "Hello World again",
+		title : "ODataTabularDisplay",
 		metaModel : oMetaModel
 	}
 });
@@ -276,20 +130,37 @@ var oTableComponentContainer = new sap.ui.core.ComponentContainer({
 	component : oTableComponent
 });
 
-displayQueryResultsTable = function() {
+displayLensResultsTable = function() {
 	var query = new Query(oQueryModel.getData());
 	var odataURL = sUrl + query.odataURI() + "&$format=json";
 	oTableComponent.renderResults(odataURL);
 };
-//Place controls
-oTableComponentContainer.placeAt("uiTablePanel");
 
-// Create a form component
+// Create a lens form component
+
+var oLensFormComponent = sap.ui.getCore().createComponent({
+	name : "Components.lensResultsForm",
+	settings : {
+		title : "ODataFormDisplay",
+		metaModel : oMetaModel
+	}
+});
+var oLensFormComponentContainer = new sap.ui.core.ComponentContainer({
+	component : oLensFormComponent
+});
+
+displayLensResultsForm = function() {
+	var query = new Query(oQueryModel.getData());
+	var odataURL = sUrl + query.odataURI() + "&$format=json";
+	oLensFormComponent.renderResults(odataURL);
+};
+
+// Create a query form component
 
 var oFormComponent = sap.ui.getCore().createComponent({
-	name : "Components.queryResultsForm",
+	name : "Components.queryPreviewForm",
 	settings : {
-		title : "Hello World again",
+		title : "Query preview form",
 		metaModel : oMetaModel
 	}
 });
@@ -299,37 +170,63 @@ var oFormComponentContainer = new sap.ui.core.ComponentContainer({
 
 displayQueryResultsForm = function() {
 	var query = new Query(oQueryModel.getData());
+	oFormComponent.setViewModel(query.viewModel());
+	oFormComponent.renderDisplay(odataURL);
 	var odataURL = sUrl + query.odataURI() + "&$format=json";
 	oFormComponent.renderResults(odataURL);
 };
 
-//Place controls
-oFormComponentContainer.placeAt("uiFormPanel");
+// Query list
+var oComboBox = sap.ui.jsfragment("sparqlish.query.queryList", this);
+oComboBox.placeAt("uiMenu");
 
-var oLenses = oLensesModel.getData()["lenses"]["(default)"]["Northwind.Orders"];
-var oContent = oLensesModel.getData()["templates"][ oLenses.template]; 
-var oFragments = {
-	"R3-C1" : oFormComponentContainer,
-	"R1" : oTableComponentContainer
-};
+var oVerticalSplitter = new sap.ui.layout.Splitter();
+oVerticalSplitter.setOrientation(sap.ui.core.Orientation.Vertical);
+oVerticalSplitter.setWidth("100%" );
+oVerticalSplitter.setHeight( "1200px" );	
+
+var oHorizontalSplitter = new sap.ui.layout.Splitter();
+oHorizontalSplitter.setOrientation(sap.ui.core.Orientation.Horizontal);
+oHorizontalSplitter.setWidth("100%" );
+oHorizontalSplitter.setHeight("100%");
+
+var oQueryPanel = new sap.ui.commons.Panel(
+			{
+				title : new sap.ui.core.Title().setText("Query panel"),
+				width : "100%",
+				showCollapseIcon : false,
+				borderDesign : sap.ui.commons.enums.BorderDesign.Box,
+				areaDesign : sap.ui.commons.enums.AreaDesign.Plain,
+				applyContentPadding : true,
+				height : "500px"
+			});
+oQueryPanel.addContent(oQuery);
+oHorizontalSplitter.addContentArea(oQueryPanel);
+oHorizontalSplitter.addContentArea(oFormComponentContainer);
+oVerticalSplitter.addContentArea(oHorizontalSplitter);
+oVerticalSplitter.addContentArea(oTableComponentContainer);
+oVerticalSplitter.addContentArea(oLensFormComponentContainer);
 
 
-
+oVerticalSplitter.placeAt("uiSplitter");
 </script>
 </head>
 <body>
 		<table border="1">		
 				<tr>
+						<td><div id="uiMenu">Select Query:</div></td>
 						<td><button onclick="alert(JSON.stringify(oQueryModel.getData()))">QueryData</button></td>
 						<td><button onclick="var query = new Query(oQueryModel.getData());alert(JSON.stringify(query.viewModel()))">ViewModel</button></td>
 						<td><button onclick="var query = new Query(oQueryModel.getData());alert(query.sparql())">SPARQLQuery</button></td>
 						<td><button onclick="var query = new Query(oQueryModel.getData());alert(sUrl + query.odataURI())">ODataQuery</button></td>
 						<td><button onclick="var query = new Query(oQueryModel.getData());window.open(sUrl + query.odataURI()+'&$format=json')">ODataResult</button></td>
-						<td><button onclick="displayQueryResultsTable()">ODataTabularDisplay</button></td>
-						<td><button onclick="displayQueryResultsForm()">ODataFormDisplay</button></td>
-						<td><div id="uiQueryClauseInit"></div></td>
+						<td><button onclick="displayLensResultsTable()">LensTabularDisplay</button></td>
+						<td><button onclick="displayLensResultsForm()">LensFormDisplay</button></td>
+						<td><button onclick="displayQueryResultsForm()">QueryFormDisplay</button></td>
+						<td><div id="uiQuery"></div></td>
 				</tr>	
 			</table>
+		<div id="uiSplitter"></div>	
 		<div id="uiTablePanel"></div>
 		<div id="uiFormPanel"></div>
 </body>

@@ -67,7 +67,7 @@ Components.lensPanel.Component.prototype.displayContent = function(oContent) {
 				propagateModel : true
 			});
 			oComponent.renderResults();
-			return oComponentContainer;
+			return oComponentContainer.addStyleClass("tile");
 		} else {
 			return new sap.ui.commons.Panel(
 			{

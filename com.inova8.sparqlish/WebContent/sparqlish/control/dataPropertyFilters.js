@@ -67,7 +67,7 @@ sap.ui.core.Control.extend("sparqlish.control.dataPropertyFilters", {
 			press : function(oEvent) {
 				var currentModel = self.getModel("queryModel");
 				var currentContext = oEvent.getSource().getBindingContext("queryModel");
-				// TODO make sure correct type for all occurences of filter
+				// TODO make sure correct type for all occurrences of filter
 				var keyProperty = oEvent.getSource().getParent().getParent().getDataProperty();
 				var type = keyProperty.type;
 				var currentModelData = currentModel.getProperty("", currentContext);
