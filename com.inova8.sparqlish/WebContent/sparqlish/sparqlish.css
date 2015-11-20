@@ -10,9 +10,9 @@
 	font-weight: normal; //
 	font-size: 100%;
 	display: inline-block;
-	line-height: 150%;
-	//background-color: lightgrey;
-   // border: 2px solid navy;
+	line-height: 150%; //
+	background-color: lightgrey; //
+	border: 2px solid navy;
 }
 
 .propertyClause {
@@ -20,9 +20,9 @@
 	font-weight: normal; //
 	font-size: 100%;
 	display: inline-block;
-	line-height: 150%;
-	//background-color: lightgrey;
-    //border: 2px solid navy;
+	line-height: 150%; //
+	background-color: lightgrey; //
+	border: 2px solid navy;
 }
 
 .objectPropertyClause {
@@ -30,9 +30,9 @@
 	font-weight: normal; //
 	font-size: 100%;
 	display: inline-block;
-	line-height: 150%;
-	//    background-color: lightgrey;
-    //border: 2px solid navy;
+	line-height: 150%; //
+	background-color: lightgrey; //
+	border: 2px solid navy;
 }
 
 .dataPropertyClause {
@@ -40,9 +40,9 @@
 	font-weight: normal; //
 	font-size: 100%;
 	display: inline-block;
-	line-height: 150%;
-	//    background-color: lightgrey;
-   // border: 2px solid navy;
+	line-height: 150%; //
+	background-color: lightgrey; //
+	border: 2px solid navy;
 }
 
 .dataPropertyValue {
@@ -50,9 +50,58 @@
 	font-weight: normal; //
 	font-size: 100%;
 	display: inline-block;
+	line-height: 150%; //
+	background-color: lightgrey; //
+	border: 2px solid navy;
+}
+
+.dataPropertyValue input {
+	font: 16px arial, sans-serif;
+	font-weight: normal; //
+	font-size: 100%;
+	display: inline-block;
+	line-height: 150%; //
+	background-color: lightgrey; //
+	border: 2px solid navy;
+}
+
+.dataPropertyValue>span {
+	display: none
+}
+
+.propertyConjunctionContainer {
+	display: -webkit-flex;
+	display: flex;
+	-webkit-flex-wrap: wrap;
+    flex-wrap: wrap;
+	justify-content: flex-end;
+	align-items: center;
+	width: 90px
+}
+
+.propertyContainer {
+	display: -webkit-flex;
+	display: flex;
+	-webkit-flex-wrap: wrap;
+    flex-wrap: wrap;
+    	justify-content: flex-start;
+	align-items: center;
+		width: auto
+}
+
+.propertyClauseContainer {
+	display: -webkit-flex;
+	display: flex;
+	align-items: center;
+}
+
+.resultValue {
+	font: 16px arial, sans-serif;
+	font-weight: normal; //
+	font-size: 100%;
+	display: inline-block;
 	line-height: 150%;
-	//    background-color: lightgrey;
-    //border: 2px solid navy;}
+}
 
 .clause {
 	font: 16px arial, sans-serif;
@@ -60,7 +109,6 @@
 	font-size: 100%;
 	display: inline-block;
 	line-height: 150%;
-	
 }
 
 .conjunctionClause {
@@ -73,21 +121,53 @@
 
 .menuLink {
 	font: 16px arial, sans-serif;
+	font-weight: bold; //
+	font-size: 100%;
+	display: inline-block;
+	line-height: 150%; //
+	background-color: lightgrey; //
+	border: 2px solid navy;
+}
+
+.conceptMenuLink {
+	font: 16px arial, sans-serif;
 	font-weight: bold;
-	font-size: 100%; //
-	//background-color: yellow;
+	font-size: 100%; // //
+	background-color: yellow;
 	display: inline-block;
 	line-height: 150%;
-    // background-color: lightgrey;
-   // border: 2px solid navy;
+	background-color: lightgrey;
+	border: 2px solid navy;
+}
+
+.objectPropertyMenuLink {
+	font: 16px arial, sans-serif;
+	font-weight: bold;
+	font-size: 100%; // //
+	background-color: yellow;
+	display: inline-block;
+	line-height: 150%;
+	background-color: lightgrey;
+	border: 2px solid navy;
+}
+
+.dataPropertyMenuLink {
+	font: 16px arial, sans-serif;
+	font-weight: bold;
+	font-size: 100%; // //
+	background-color: yellow;
+	display: inline-block;
+	line-height: 150%;
+	background-color: yellow;
+	border: 2px solid navy;
 }
 
 .conjunctionMenuLink {
 	font: 16px arial, sans-serif;
 	font-weight: bold;
 	font-style: italic;
-	font-size: 100%;
-	//background-color: yellow;
+	font-size: 100%; //
+	background-color: yellow;
 	display: inline-block;
 	line-height: 150%;
 }

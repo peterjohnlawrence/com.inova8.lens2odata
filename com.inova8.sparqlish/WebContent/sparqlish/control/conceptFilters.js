@@ -18,15 +18,19 @@ sap.ui.core.Control.extend("sparqlish.control.conceptFilters", {
 		if (currentQueryContext == undefined) {
 			this.getModel("queryModel").setProperty(this.getBindingContext("queryModel").getPath(), []);
 			return this.getModel("queryModel").getProperty("", this.getBindingContext("queryModel"));
-		}else{
+		} else {
 			return currentQueryContext;
 		}
 	},
 	extendFilter : function() {
 		var currentQueryContext = this.getCurrentQueryContext();
 		var keyId = this.getModel("metaModel").getODataEntityType(this.getParent().getRangeEntityTypeQName()).key.propertyRef[0].name;
-		var keyProperty = getProperty(this.getParent().getRangeEntityTypeQName(),keyId);
-		currentQueryContext.push([{key:keyId,value:"[enter new value]",type:keyProperty.type}]);
+		var keyProperty = this.getModel("metaModel").getDataProperty(this.getParent().getRangeEntityTypeQName(), keyId);
+		currentQueryContext.push([ {
+			key : keyId,
+			value : "[enter new value]",
+			type : keyProperty.type
+		} ]);
 	},
 	init : function() {
 		var self = this;
@@ -58,23 +62,31 @@ sap.ui.core.Control.extend("sparqlish.control.conceptFilters", {
 				self.getAggregation("_extendFilter").setVisible(true);
 				self.getModel("queryModel").refresh();
 				self.getParent().rerender();
-//				self.getAggregation("_conceptFilters")[1].oConceptFilterPopup.close();
-//				self.getAggregation("_conceptFilters")[1].oConceptFilterLink.firePress();
+				// self.getAggregation("_conceptFilters")[1].oConceptFilterPopup.close();
+				// self.getAggregation("_conceptFilters")[1].oConceptFilterLink.firePress();
 			}
 		}));
 	},
 	renderer : function(oRm, oControl) {
 		var conceptFilters = oControl.getAggregation("_conceptFilters");
-		if (conceptFilters != null) {
+		if (!jQuery.isEmptyObject(conceptFilters)) {
+			oRm.addClass("menuLink");
+			oRm.write("<div ");
+			oRm.writeControlData(oControl);
+			oRm.writeClasses();
+			oRm.write(">");
 			for (var i = 0; i < conceptFilters.length; i++) {
 				if (i > 0) {
-					oRm.write(sap.ui.getCore().getModel("i18nModel").getProperty("conceptClauseConjunction"));
+					oRm.renderControl(new sap.m.Label().setText(sap.ui.getCore().getModel("i18nModel").getProperty("conceptClauseConjunction")));
+					// oRm.write(sap.ui.getCore().getModel("i18nModel").getProperty("conceptClauseConjunction"));
 				} else {
 					oRm.write("&nbsp;");
-					oRm.write(sap.ui.getCore().getModel("i18nModel").getProperty("conceptClauseIn"));
+					oRm.renderControl(new sap.m.Label().setText(sap.ui.getCore().getModel("i18nModel").getProperty("conceptClauseIn")));
+					// oRm.write(sap.ui.getCore().getModel("i18nModel").getProperty("conceptClauseIn"));
 				}
 				oRm.renderControl(conceptFilters[i]);
 			}
+			oRm.write("</div>");
 		}
 		oRm.write("&nbsp;");
 		oRm.renderControl(oControl.getAggregation("_extendFilter"));

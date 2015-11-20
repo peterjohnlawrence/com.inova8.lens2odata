@@ -1,8 +1,12 @@
+jQuery.sap.require("sap.ui.model.type.Date"); 
 sap.ui.core.Control.extend("sparqlish.control.queryClausePreview", {
 	metadata : {
 		properties : {
-			resultsPath : {
+			viewContext : {
 				type : "object"
+			},
+			path : {
+				type : "string"
 			}
 		},
 		events : {},
@@ -10,46 +14,101 @@ sap.ui.core.Control.extend("sparqlish.control.queryClausePreview", {
 			_preview : {
 				type : "sap.ui.core.Control",
 				multiple : false
+			},
+			_paginator : {
+				type : "sap.ui.commons.Paginator",
+				multiple : false
 			}
 		}
 	},
-	setResultsPath : function(oResultsPath) {
-		this.setProperty("resultsPath", oResultsPath);
+	setViewContext : function(oViewContext) {
+		this.setProperty("viewContext", oViewContext);
 
 	},
 	init : function() {
 		var self = this;
-		// self.oTextView = new sap.ui.commons.TextView({
-		// text : {
-		// path : self.getProperty("resultsPath"),
-		// type : new sap.ui.model.type.String()
-		// }
-		// });
-		// self.setAggregation("_preview", self.oTextView);
-	},
+		this.oDateTimeFormat = sap.ui.core.format.DateFormat.getDateTimeInstance({pattern:  sap.ui.getCore().getModel("i18nModel").getProperty("Edm.DateTime")});
+		this.oDateFormat = sap.ui.core.format.DateFormat.getDateTimeInstance({pattern:  sap.ui.getCore().getModel("i18nModel").getProperty("Edm.Date")});
+		},
 	renderer : function(oRm, oControl) {
-		if (!jQuery.isEmptyObject(oControl.getResultsPath())) {
-			// oControl.setBindingContext(new sap.ui.model.Context(oResultsModel, oControl.getResultsPath()["resultsPath"]),
-			// "resultsModel")
-			// oControl.oTextView = new sap.ui.commons.TextView()//
-			// .setBindingContext(oControl.getBindingContext("resultsModel"))
-			switch (oControl.getResultsPath()["type"]) {
+		// Only required if we want the controls to be on the same line
+
+		if (!jQuery.isEmptyObject(oControl.getViewContext())) {
+			var oResultsModel = oControl.getModel("resultsModel");
+			var sCurrentResultsContext = oControl.getViewContext()["resultsContext"];
+
+			// Get the context path calculated from the values in the paginators section of the results model
+			// If this preview adds a new paginator then we are forced to revisit this after we have created it
+			var oPaginators = oResultsModel.getProperty("/paginators");
+			for ( var sPaginatorIndex in oPaginators) {
+				sCurrentResultsContext = sCurrentResultsContext.replace("{=" + sPaginatorIndex + "}", oPaginators[sPaginatorIndex].currentPage - 1);
+			}
+
+			// Build paginator if required
+			if (oControl.getViewContext()["type"] === "__metadata") {
+				if (oControl.getViewContext()["multiplicity"] === "*") {
+					if (!jQuery.isEmptyObject(oResultsModel)) {
+						var sCurrentResultsLength = 1
+						try {
+							// TODO is this really the best we can do!
+							sCurrentResultsLength = oControl.getModel("resultsModel").getProperty(sCurrentResultsContext.replace(/\/[={P0123456789}]+$/i, "")).length;
+						} catch (e) {
+						}
+						var sPaginatorIndex = "P" + oControl.getViewContext()["index"];
+
+						var oPaginator = sap.ui.getCore().byId(sPaginatorIndex);
+						if (jQuery.isEmptyObject(oPaginator)) {
+							oPaginator = new sap.ui.commons.Paginator(sPaginatorIndex);
+							oPaginator.attachPage(function(oEvent) {
+								oResultsModel.refresh(true);
+								oEvent.getSource().getParent().getParent().rerender();
+							});
+							if (jQuery.isEmptyObject(oResultsModel.getProperty("/paginators"))) {
+								oResultsModel.setProperty("/paginators", {});
+							}
+							if (jQuery.isEmptyObject(oResultsModel.getProperty("/paginators/" + sPaginatorIndex))) {
+								oResultsModel.setProperty("/paginators/" + sPaginatorIndex, {
+									"currentPage" : 1,
+									"numberOfPages" : sCurrentResultsLength
+								});
+							}
+						}
+						oResultsModel.setProperty("/paginators/" + sPaginatorIndex + "/numberOfPages", sCurrentResultsLength);
+						oPaginator.bindProperty("numberOfPages", {
+							path : "resultsModel>/paginators/" + sPaginatorIndex + "/numberOfPages"
+						});
+						oPaginator.bindProperty("currentPage", {
+							path : "resultsModel>/paginators/" + sPaginatorIndex + "/currentPage"
+						});
+						oControl.setAggregation("_paginator", oPaginator);
+					}
+				}
+			}
+
+			// Get the context path calculated from the values in the paginators section of the results model
+			// Revisiting after having created the paginators
+			var oPaginators = oResultsModel.getProperty("/paginators");
+			for ( var sPaginatorIndex in oPaginators) {
+				sCurrentResultsContext = sCurrentResultsContext.replace("{=" + sPaginatorIndex + "}", oPaginators[sPaginatorIndex].currentPage - 1);
+			}
+			// Build the display content
+			switch (oControl.getViewContext()["type"]) {
 			case "__metadata":
-				oControl.oLink = new sap.ui.commons.Link();
+				oControl.oLink = new sap.m.Link().addStyleClass("resultValue");
 				oControl.oLink.bindProperty("text", {
-					path : "resultsModel>" + oControl.getResultsPath()["resultsPath"] + "/__metadata/uri"
+					path : "resultsModel>" + sCurrentResultsContext + "/__metadata/uri"
 				}).bindProperty("href", {
-					path : "resultsModel>" + oControl.getResultsPath()["resultsPath"] + "/__metadata/uri"
-				})
+					path : "resultsModel>" + sCurrentResultsContext + "/__metadata/uri"
+				});
 				oControl.setAggregation("_preview", oControl.oLink);
 				break;
 			case "Edm.DateTime":
-				oControl.oTextView = new sap.ui.commons.TextView()
+				oControl.oTextView = new sap.m.Text().addStyleClass("resultValue");
 				oControl.oTextView.bindProperty("text", {
-					path : "resultsModel>" + oControl.getResultsPath()["resultsPath"],
+					path : "resultsModel>" + sCurrentResultsContext,
 					formatter : function(value) {
 						if (value != null) {
-							return new Date(parseInt(value.substr(6)));
+						  return oControl.oDateTimeFormat.format(new Date(parseInt(value.substr(6))));
 						} else {
 							return null;
 						}
@@ -58,15 +117,31 @@ sap.ui.core.Control.extend("sparqlish.control.queryClausePreview", {
 				oControl.setAggregation("_preview", oControl.oTextView);
 				break;
 			default:
-				oControl.oTextView = new sap.ui.commons.TextView()
+				oControl.oTextView = new  sap.m.Text().addStyleClass("resultValue");
 				oControl.oTextView.bindProperty("text", {
-					path : "resultsModel>" + oControl.getResultsPath()["resultsPath"],
+					path : "resultsModel>" + sCurrentResultsContext,
 					type : new sap.ui.model.type.String()
 				});
 				oControl.setAggregation("_preview", oControl.oTextView);
-			}
 
+			}
+			if ((oControl.getViewContext()["multiplicity"] === "*") && (oControl.getAggregation("_paginator").getProperty("numberOfPages") > 1)) {
+				oRm.write("<div ");
+				oRm.writeControlData(oControl);
+				oRm.writeClasses();
+				oRm.write(">");
+				oRm.renderControl(oControl.getAggregation("_paginator"));
+				oRm.write("</div>");
+			}
+			oRm.addClass("resultValue");
+			oRm.addClass("sapUiSizeCompact");
+			oRm.write("<div ");
+			oRm.writeControlData(oControl);
+			oRm.writeClasses();
+			oRm.write(">");
 			oRm.renderControl(oControl.getAggregation("_preview"));
+			oRm.write("</div>");
 		}
+
 	}
 });

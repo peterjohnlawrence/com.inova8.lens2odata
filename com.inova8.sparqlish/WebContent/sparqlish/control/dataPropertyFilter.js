@@ -1,13 +1,14 @@
 jQuery.sap.require("sap.ui.core.IconPool");
+jQuery.sap.require("sap.m.Input");
 sap.ui.core.Control.extend("sparqlish.control.dataPropertyFilter", {
 	metadata : {
 		aggregations : {
 			_condition : {
-				type : "sap.ui.commons.Link",
+				type : "sap.m.Link",
 				multiple : false
 			},
 			_value : {
-				type : "sap.ui.commons.InPlaceEdit",
+				type : "sap.m.Input",
 				multiple : false
 			}
 		},
@@ -20,7 +21,7 @@ sap.ui.core.Control.extend("sparqlish.control.dataPropertyFilter", {
 
 	init : function() {
 		var self = this;
-		self.setAggregation("_condition", new sap.ui.commons.Link({
+		self.setAggregation("_condition", new sap.m.Link({
 			text : "{queryModel>condition}",
 			tooltip : "Select a condition",
 			press : function(oEvent) {
@@ -39,7 +40,7 @@ sap.ui.core.Control.extend("sparqlish.control.dataPropertyFilter", {
 						})
 					}
 				});
-				// TODO Really need to add a delete menu item 
+				// TODO Really need to add a delete menu item
 				oConditionMenu.addItem(new sap.ui.unified.MenuItem({
 					text : '{i18nModel>dataPropertyFilterDELETE}',
 					icon : sap.ui.core.IconPool.getIconURI("delete")
@@ -56,13 +57,14 @@ sap.ui.core.Control.extend("sparqlish.control.dataPropertyFilter", {
 				}).open(false, this.getFocusDomRef(), eDock.BeginTop, eDock.beginBottom, this.getDomRef());
 			}
 		}).addStyleClass("menuLink"));
-		self.setAggregation("_value", new sap.ui.commons.InPlaceEdit({
-			content : new sap.ui.commons.TextField({
-				value : "{queryModel>value}",
-				tooltip : "Enter value for condition",
-				width : "auto"
-			}).addStyleClass("dataPropertyValue")
-		}));
+		self.setAggregation("_value", new sap.m.Input({
+			value : "{queryModel>value}",
+			tooltip : "Enter value for condition",
+			width : "auto",
+			placeholder : "Enter value for condition",
+			description : "",
+			editable : true
+		}).addStyleClass("dataPropertyValue"));
 	},
 	_clauseContext : function(me) {
 		var oClauseContext = me.getParent().getParent();
@@ -73,6 +75,12 @@ sap.ui.core.Control.extend("sparqlish.control.dataPropertyFilter", {
 	},
 	renderer : function(oRm, oControl) {
 
+		oRm.addClass("menuLink");
+		//oRm.addClass("sapUiSizeCompact");
+		oRm.write("<div ");
+		oRm.writeControlData(oControl);
+		oRm.writeClasses();
+		oRm.write(">");
 		if (oControl.getAggregation("_condition").getText() == "[enter condition]") {
 			// not yet defined so lets bind to the first concept in collection
 			// TODO DELETE is the first condition
@@ -84,6 +92,15 @@ sap.ui.core.Control.extend("sparqlish.control.dataPropertyFilter", {
 		oRm.write("&nbsp;");
 		oRm.renderControl(oControl.getAggregation("_condition"));
 		oRm.write("&nbsp;");
+		oRm.write("</div>");
+		
+		oRm.addClass("dataPropertyValue");
+		oRm.addClass("sapUiSizeCompact");
+		oRm.write("<div ");
+		oRm.writeControlData(oControl);
+		oRm.writeClasses();
+		oRm.write(">");		
 		oRm.renderControl(oControl.getAggregation("_value"));
+		oRm.write("</div>");
 	}
 });

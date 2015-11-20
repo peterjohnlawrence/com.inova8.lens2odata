@@ -1,0 +1,157 @@
+{
+	"_class": "Query",
+	"name": "Test11:Nested query",
+	"concept": "Orders",
+	"clauses": 
+	{
+		"_class": "Clauses",
+		"clause": 
+		{
+			"_class": "Clause",
+			"ignore": false,
+			"optional": false,
+			"propertyClause": 
+			{
+				"_class": "DataPropertyClause",
+				"dataProperty": "OrderID",
+				"type": "Edm.Int32",
+				"dataPropertyFilters": 
+				{
+					"_class": "DataPropertyFilters"
+				}
+			}
+		},
+
+		"conjunctionClauses": 
+		[
+			{
+				"_class": "ConjunctionClause",
+				"conjunction": "and",
+				"clause": 
+				{
+					"_class": "Clause",
+					"ignore": false,
+					"optional": false,
+					"propertyClause": 
+					{
+						"_class": "ObjectPropertyClause",
+						"multiplicity": "*",
+						"objectProperty": "Order_Details",
+						"objectPropertyFilters": 
+						[
+							
+						],
+
+						"clauses": 
+						{
+							"_class": "Clauses",
+							"clause": 
+							{
+								"_class": "Clause",
+								"ignore": false,
+								"optional": false,
+								"propertyClause": 
+								{
+									"_class": "DataPropertyClause",
+									"dataProperty": "ProductID",
+									"type": "Edm.Int32",
+									"dataPropertyFilters": 
+									{
+										"_class": "DataPropertyFilters"
+									}
+								}
+							},
+
+							"conjunctionClauses": 
+							[
+								{
+									"_class": "ConjunctionClause",
+									"conjunction": "and",
+									"clause": 
+									{
+										"_class": "Clause",
+										"ignore": false,
+										"optional": false,
+										"propertyClause": 
+										{
+											"_class": "DataPropertyClause",
+											"dataProperty": "Quantity",
+											"type": "Edm.Int16",
+											"dataPropertyFilters": 
+											{
+												"_class": "DataPropertyFilters"
+											}
+										}
+									}
+								},
+
+								{
+									"_class": "ConjunctionClause",
+									"conjunction": "and",
+									"clause": 
+									{
+										"_class": "Clause",
+										"ignore": false,
+										"optional": false,
+										"propertyClause": 
+										{
+											"_class": "DataPropertyClause",
+											"dataProperty": "Discount",
+											"type": "Edm.Single",
+											"dataPropertyFilters": 
+											{
+												"_class": "DataPropertyFilters"
+											}
+										}
+									}
+								}
+							]
+						}
+					}
+				}
+			},
+
+			{
+				"_class": "ConjunctionClause",
+				"conjunction": "and",
+				"clause": 
+				{
+					"_class": "Clause",
+					"ignore": false,
+					"optional": false,
+					"propertyClause": 
+					{
+						"_class": "ObjectPropertyClause",
+						"objectProperty": "Employee",
+						"multiplicity": "0..1",
+						"objectPropertyFilters": 
+						[
+							
+						],
+
+						"clauses": 
+						{
+							"_class": "Clauses",
+							"clause": 
+							{
+								"_class": "Clause",
+								"ignore": false,
+								"optional": false,
+								"propertyClause": 
+								{
+									"_class": "DataPropertyClause",
+									"dataProperty": "Photo",
+									"type": "Edm.Binary",
+									"dataPropertyFilters": 
+									{
+										"_class": "DataPropertyFilters"
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		]
+	}
+}

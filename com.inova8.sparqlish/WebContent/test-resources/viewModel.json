@@ -3,69 +3,127 @@
 	{
 		"0": 
 		{
-			"keyVariable": "Order:ShipCountry",
-			"resultsPath": "/ShipCountry",
-			"field": "ShipCountry",
-			"type": "Edm.String",
+			"keyVariable": "Order:OrderID",
+			"resultsPath": "/OrderID",
+			"resultsContext": "/d/results/{=P0}/OrderID",
+			"field": "OrderID",
+			"type": "Edm.Int32",
 			"path": "clauses/clause/",
-			"sparqlish": "with ShipCountry containing Fr",
-			"label": "Ship To Country",
+			"sparqlish": "with OrderID",
+			"label": "OrderID",
 			"hidden": false,
 			"includeOptionalIgnore": "include",
 			"variable": "?v_0",
 			"nameVariable": "",
-			"index": 8
+			"index": 14
 		},
 
 		"1": 
 		{
-			"keyVariable": "Order:ShippedDate",
-			"resultsPath": "/ShippedDate",
-			"field": "ShippedDate",
-			"type": "Edm.DateTime",
+			"0": 
+			{
+				"keyVariable": "Order:Order_Details:ProductID",
+				"resultsPath": "/Order_Details/ProductID",
+				"resultsContext": "/d/results/{=P0}/Order_Details/results/{=P8}/ProductID",
+				"field": "ProductID",
+				"type": "Edm.Int32",
+				"path": "clauses/conjunctionClauses/0/clause/propertyClause/clauses/clause/",
+				"sparqlish": "with ProductID",
+				"label": "ProductID",
+				"hidden": false,
+				"includeOptionalIgnore": "include",
+				"variable": "?v_1_0",
+				"nameVariable": "",
+				"index": 11
+			},
+
+			"1": 
+			{
+				"keyVariable": "Order:Order_Details:Quantity",
+				"resultsPath": "/Order_Details/Quantity",
+				"resultsContext": "/d/results/{=P0}/Order_Details/results/{=P8}/Quantity",
+				"field": "Quantity",
+				"type": "Edm.Int16",
+				"path": "clauses/conjunctionClauses/0/clause/propertyClause/clauses/conjunctionClauses/0/",
+				"sparqlish": "and with Quantity",
+				"label": "Quantity",
+				"hidden": false,
+				"includeOptionalIgnore": "include",
+				"variable": "?v_1_1",
+				"nameVariable": "",
+				"index": 9
+			},
+
+			"2": 
+			{
+				"keyVariable": "Order:Order_Details:Discount",
+				"resultsPath": "/Order_Details/Discount",
+				"resultsContext": "/d/results/{=P0}/Order_Details/results/{=P8}/Discount",
+				"field": "Discount",
+				"type": "Edm.Single",
+				"path": "clauses/conjunctionClauses/0/clause/propertyClause/clauses/conjunctionClauses/1/",
+				"sparqlish": "and...ount",
+				"hidden": false,
+				"includeOptionalIgnore": "include",
+				"variable": "?v_1_2",
+				"nameVariable": "",
+				"index": 10
+			},
+
 			"path": "clauses/conjunctionClauses/0/",
-			"sparqlish": "and with ShippedDate < 1998-01-01",
-			"label": "Shipping Date",
+			"sparqlish": "and with Order_Details",
+			"keyVariable": "Order:Order_Details",
+			"resultsPath": "/Order_Details",
+			"resultsContext": "/d/results/{=P0}/Order_Details/results/{=P8}",
+			"field": "Order_Details",
+			"multiplicity": "*",
+			"type": "__metadata",
+			"label": "Order_Details",
 			"hidden": false,
 			"includeOptionalIgnore": "include",
 			"variable": "?v_1",
-			"nameVariable": "",
-			"index": 5
+			"nameVariable": "?v_1_label",
+			"index": 8
 		},
 
 		"2": 
 		{
 			"0": 
 			{
-				"keyVariable": "Order:Shipper:CompanyName",
-				"resultsPath": "/Shipper/CompanyName",
-				"field": "CompanyName",
+				"keyVariable": "Order:Employee:Photo",
+				"resultsPath": "/Employee/Photo",
+				"resultsContext": "/d/results/{=P0}/Employee/Photo",
+				"field": "Photo",
+				"type": "Edm.Binary",
 				"path": "clauses/conjunctionClauses/1/clause/propertyClause/clauses/clause/",
-				"sparqlish": "with CompanyName",
-				"label": "CompanyName",
+				"sparqlish": "with Photo",
+				"label": "Photo",
 				"hidden": false,
 				"includeOptionalIgnore": "include",
 				"variable": "?v_2_0",
 				"nameVariable": "",
-				"index": 7
+				"index": 13
 			},
 
 			"path": "clauses/conjunctionClauses/1/",
-			"sparqlish": "and with Shipper",
-			"keyVariable": "Order:Shipper",
-			"resultsPath": "/Shipper",
-			"field": "Shipper",
+			"sparqlish": "and with Employee",
+			"keyVariable": "Order:Employee",
+			"resultsPath": "/Employee",
+			"resultsContext": "/d/results/{=P0}/Employee",
+			"field": "Employee",
+			"multiplicity": "0..1",
 			"type": "__metadata",
-			"label": "Shipper",
+			"label": "Employee",
 			"hidden": false,
 			"includeOptionalIgnore": "include",
 			"variable": "?v_2",
 			"nameVariable": "?v_2_label",
-			"index": 6
+			"index": 12
 		},
 
 		"path": "",
 		"resultsPath": "",
+		"resultsContext": "/d/results/{=P0}",
 		"sparqlish": "Find Orders",
 		"label": "Orders",
 		"hidden": false,
@@ -74,6 +132,7 @@
 		"keyVariable": "Order",
 		"field": "Order",
 		"type": "__metadata",
+		"multiplicity": "*",
 		"index": 0
 	}
 }

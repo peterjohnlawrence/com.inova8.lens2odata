@@ -3,11 +3,11 @@ jQuery.sap.require("sap.ui.core.IconPool");
 sap.ui.core.Control.extend("sparqlish.control.dataPropertyConjunctionFilter", {
 	metadata : {
 		properties : {
-//			dataPropertyConjunctionFilter : "object"
+		// dataPropertyConjunctionFilter : "object"
 		},
 		aggregations : {
 			_conjunction : {
-				type : "sap.ui.commons.Link",
+				type : "sap.m.Link",
 				multiple : false
 			},
 			_dataPropertyFilter : {
@@ -27,7 +27,7 @@ sap.ui.core.Control.extend("sparqlish.control.dataPropertyConjunctionFilter", {
 	init : function() {
 		var self = this;
 		// self.setAggregation("_conjunction", new sap.ui.commons.TextField({value:"{filterConjunction}"}));
-		self.setAggregation("_conjunction", new sap.ui.commons.Link({
+		self.setAggregation("_conjunction", new sap.m.Link({
 			text : "{queryModel>filterConjunction}",
 			tooltip : "Select a conjunction",
 			press : function(oEvent) {
@@ -54,7 +54,7 @@ sap.ui.core.Control.extend("sparqlish.control.dataPropertyConjunctionFilter", {
 					}
 				}).open(false, this.getFocusDomRef(), eDock.BeginTop, eDock.beginBottom, this.getDomRef());
 			}
-		}).addStyleClass("menuLink") );
+		}).addStyleClass("menuLink"));
 		self.setAggregation("_dataPropertyFilter", new sparqlish.control.dataPropertyFilter({
 			deleted : function(oEvent) {
 				// TODO Should not delete if there are still some conjunctions
@@ -75,12 +75,19 @@ sap.ui.core.Control.extend("sparqlish.control.dataPropertyConjunctionFilter", {
 			}
 		}).bindElement("queryModel>dataPropertyFilter"));
 	},
-//	setDataPropertyConjunctionFilter : function(oDataPropertyConjunctionFilter) {
-//	},
+	// setDataPropertyConjunctionFilter : function(oDataPropertyConjunctionFilter) {
+	// },
 	renderer : function(oRm, oControl) {
+		oRm.addClass("menuLink");
+		oRm.addClass("sapUiSizeCompact");
+		oRm.write("<div ");
+		oRm.writeControlData(oControl);
+		oRm.writeClasses();
+		oRm.write(">");
 		oRm.write("&nbsp;");
 		oRm.renderControl(oControl.getAggregation("_conjunction"));
 		oRm.write("&nbsp;");
+		oRm.write("</div>");
 		oRm.renderControl(oControl.getAggregation("_dataPropertyFilter"));
 	}
 });

@@ -3,7 +3,7 @@ sap.ui.core.Control.extend("sparqlish.control.objectPropertyFilter", {
 	metadata : {
 		aggregations : {
 			_objectPropertyFilter : {
-				type : "sap.ui.commons.Link",
+				type : "sap.m.Link",
 				multiple : false
 			}
 		},
@@ -15,7 +15,7 @@ sap.ui.core.Control.extend("sparqlish.control.objectPropertyFilter", {
 	},
 	init : function() {
 		var self = this;
-		this.setAggregation("_objectPropertyFilter", new sap.ui.commons.Link({
+		this.setAggregation("_objectPropertyFilter", new sap.m.Link({
 			//text : '{="queryModel>" + ${entityTypeModel>/Key/PropertyRef/name}}', //entityTypeModel/Key/PropertyRef/name
 			text : '{queryModel>0/value}',
 			tooltip : "Select a value",

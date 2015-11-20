@@ -25,7 +25,7 @@ sap.ui.core.Control.extend("sparqlish.control.objectPropertyFilters", {
 	extendFilter : function() {
 		var currentQueryContext = this.getCurrentQueryContext();
 		var keyId = this.getModel("metaModel").getODataEntityType(this.getParent().getRangeEntityTypeQName()).key.propertyRef[0].name;
-		var keyProperty = getProperty(this.getParent().getRangeEntityTypeQName(),keyId);
+		var keyProperty = this.getModel("metaModel").getDataProperty(this.getParent().getRangeEntityTypeQName(),keyId);
 		currentQueryContext.push([{key:keyId,value:"[enter new value]",type:keyProperty.type}]);
 	},
 	init : function() {
@@ -63,12 +63,13 @@ sap.ui.core.Control.extend("sparqlish.control.objectPropertyFilters", {
 	},
 	renderer : function(oRm, oControl) {
 		var objectPropertyFilters = oControl.getAggregation("_objectPropertyFilters");
-		if (objectPropertyFilters != null) {
+		if (!jQuery.isEmptyObject(objectPropertyFilters)) {
 			for (var i = 0; i < objectPropertyFilters.length; i++) {
 				if (i > 0) {
-					oRm.write(", ");
+					oRm.write(",");
 				} else {
-					oRm.write(" in ");
+					oRm.write("&nbsp;");
+					oRm.write("in");
 				}
 				oRm.write("&nbsp;");
 				oRm.renderControl(objectPropertyFilters[i]);

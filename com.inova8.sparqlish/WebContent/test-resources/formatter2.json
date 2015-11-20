@@ -1,6 +1,6 @@
 {
 	"_class": "Query",
-	"name": "Test4:Optional two clauses",
+	"name": "Test1:No clauses",
 	"concept": "Orders",
 	"clauses": 
 	{
@@ -8,89 +8,51 @@
 		"clause": 
 		{
 			"_class": "Clause",
-			"includeOptionalIgnore": "include",
 			"ignore": false,
-			"optional": true,
-			"label": "Ship To Country",
+			"optional": false,
 			"propertyClause": 
 			{
-				"_class": "DataPropertyClause",
-				"dataProperty": "ShipCountry",
-				"type": "Edm.String",
-				"dataPropertyFilters": 
+				"_class": "ObjectPropertyClause",
+				"objectProperty": "Order_Details",
+				"multiplicity": 
 				{
-					"_class": "DataPropertyFilters",
-					"dataPropertyFilter": 
-					{
-						"_class": "DataPropertyFilter",
-						"condition": "containing",
-						"value": "Fr",
-						"datatype": "<http://www.w3.org/2001/XMLSchema#string>",
-						"type": "Edm.String"
-					}
-				}
-			}
-		},
+					"role": "Order_Details",
+					"type": "NorthwindModel.Order_Detail",
+					"multiplicity": "*"
+				},
 
-		"conjunctionClauses": 
-		[
-			{
-				"_class": "ConjunctionClause",
-				"conjunction": "and",
-				"clause": 
-				{
-					"_class": "Clause",
-					"includeOptionalIgnore": "include",
-					"ignore": false,
-					"optional": false,
-					"label": "Shipping Date",
-					"propertyClause": 
-					{
-						"_class": "DataPropertyClause",
-						"dataProperty": "ShippedDate",
-						"type": "Edm.DateTime",
-						"dataPropertyFilters": 
-						{
-							"_class": "DataPropertyFilters",
-							"dataPropertyFilter": 
-							{
-								"_class": "DataPropertyFilter",
-								"condition": "<",
-								"value": "1998-01-01",
-								"datatype": "<http://www.w3.org/2001/XMLSchema#date>",
-								"type": "Edm.DateTime"
-							}
-						}
-					}
-				}
-			},
+				"objectPropertyFilters": 
+				[
+					
+				],
 
-			{
-				"_class": "ConjunctionClause",
-				"conjunction": "and",
-				"clause": 
+				"clauses": 
 				{
-					"_class": "Clause",
-					"ignore": false,
-					"optional": false,
-					"propertyClause": 
+					"_class": "Clauses",
+					"clause": 
 					{
-						"_class": "DataPropertyClause",
-						"dataProperty": "RequiredDate",
-						"dataPropertyFilters": 
+						"_class": "Clause",
+						"ignore": false,
+						"optional": false,
+						"propertyClause": 
 						{
-							"_class": "DataPropertyFilters",
-							"dataPropertyFilter": 
+							"_class": "ObjectPropertyClause",
+							"objectProperty": "Product",
+							"multiplicity": 
 							{
-								"_class": "DataPropertyFilter",
-								"condition": "on or before",
-								"value": "[enter value]",
-								"type": "Edm.DateTime"
-							}
+								"role": "Products",
+								"type": "NorthwindModel.Product",
+								"multiplicity": "1"
+							},
+
+							"objectPropertyFilters": 
+							[
+								
+							]
 						}
 					}
 				}
 			}
-		]
+		}
 	}
 }

@@ -10,7 +10,7 @@ sap.ui.core.Control
 						properties : {},
 						aggregations : {
 							_property : {
-								type : "sap.ui.commons.Link",
+								type : "sap.m.Link",
 								multiple : false
 							}
 						},
@@ -40,7 +40,9 @@ sap.ui.core.Control
 								}
 								currentPropertyClause._class = "DataPropertyClause";
 								currentPropertyClause.dataProperty = sSelectedProperty;
-								currentPropertyClause.dataPropertyFilters = {"_class":"DataPropertyFilters"};
+								currentPropertyClause.dataPropertyFilters = {
+									"_class" : "DataPropertyFilters"
+								};
 								delete currentPropertyClause.objectProperty;
 								delete currentPropertyClause.objectPropertyFilters;
 								// clauses only apply to objectProperties but we have switched to a dataProperty
@@ -89,11 +91,11 @@ sap.ui.core.Control
 								});
 							}
 						};
-						var oPropertyLink = new sap.ui.commons.Link(
+						var oPropertyLink = new sap.m.Link(
 								{
 									text : "{=  ${queryModel>propertyClause/_class} ==='DataPropertyClause'  ?   ${queryModel>propertyClause/dataProperty} : (${queryModel>propertyClause/_class} ==='ObjectPropertyClause' ? ${queryModel>propertyClause/objectProperty}: ${i18nModel>clauseSelectProperty})}",
 									tooltip : "{i18nModel>propertyMenuTooltip}"
-								}).addStyleClass("menuLink");
+								});// .addStyleClass("menuLink");
 						self.oObjectPropertyMenu = new sap.ui.unified.Menu({
 							items : {
 								path : "entityTypeModel>/navigationProperty",
@@ -117,7 +119,6 @@ sap.ui.core.Control
 						self.oPropertyMenu.addItem(self.oPropertyMenuItemObjectProperty).addItem(self.oPropertyMenuItemDataProperty);
 						self.oPropertyMenuItemObjectProperty.setSubmenu(self.oObjectPropertyMenu);
 						self.oPropertyMenuItemDataProperty.setSubmenu(self.oDataPropertyMenu);
-						// self.oPropertyMenu.attachItemSelect(dataPropertySelect);
 
 						oPropertyLink.attachPress(function(oEvent) {
 							var self = oEvent.getSource().getParent();
@@ -140,6 +141,10 @@ sap.ui.core.Control
 						self.setAggregation("_property", oPropertyLink);
 					},
 					renderer : function(oRm, oControl) {
-						oRm.renderControl(oControl.getAggregation("_property"));
+						if (!jQuery.isEmptyObject(oControl.getParent().getObjectProperty())) {
+							oRm.renderControl(oControl.getAggregation("_property").addStyleClass("objectPropertyMenuLink"));
+						} else {
+							oRm.renderControl(oControl.getAggregation("_property").addStyleClass("dataPropertyMenuLink"));
+						}
 					}
 				});

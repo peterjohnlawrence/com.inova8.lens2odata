@@ -10,7 +10,7 @@ sap.ui.commons.Link.extend("sparqlish.control.includeOptionalIgnore", {
 		},
 		aggregations : {
 			_includeOptionalIgnore : {
-				type : "sap.ui.commons.Link",
+				type : "sap.m.Link",
 				multiple : false
 			}
 		},
@@ -28,7 +28,7 @@ sap.ui.commons.Link.extend("sparqlish.control.includeOptionalIgnore", {
 	},
 	init : function() {
 		var self = this;
-		self.setAggregation("_includeOptionalIgnore", new sap.ui.commons.Link({
+		self.setAggregation("_includeOptionalIgnore", new sap.m.Link({
 			text : "{i18nModel>propertyClauseWith}",
 			tooltip : "{i18nModel>propertyClauseTooltipWith}",
 			press : function(oEvent) {

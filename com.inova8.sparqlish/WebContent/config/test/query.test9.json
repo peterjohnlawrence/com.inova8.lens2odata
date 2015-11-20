@@ -163,6 +163,7 @@
 					{
 						"_class": "ObjectPropertyClause",
 						"objectProperty": "Customer",
+						"multiplicity": "0..1",
 						"objectPropertyFilters": 
 						[
 							[
@@ -202,6 +203,7 @@
 					"propertyClause": 
 					{
 						"_class": "ObjectPropertyClause",
+						"multiplicity": "0..1",
 						"objectProperty": "Customer"
 					}
 				},
@@ -220,6 +222,7 @@
 							"propertyClause": 
 							{
 								"_class": "ObjectPropertyClause",
+								"multiplicity": "0..1",
 								"objectProperty": "Customer"
 							}
 						}
@@ -244,6 +247,7 @@
 					"propertyClause": 
 					{
 						"_class": "ObjectPropertyClause",
+						"multiplicity": "0..1",
 						"objectProperty": "Customer",
 						"clauses": 
 						{
@@ -329,6 +333,7 @@
 					"propertyClause": 
 					{
 						"_class": "ObjectPropertyClause",
+						"multiplicity": "0..1",
 						"objectProperty": "Customer",
 						"clauses": 
 						{
@@ -389,6 +394,7 @@
 					"propertyClause": 
 					{
 						"_class": "ObjectPropertyClause",
+						"multiplicity": "0..1",
 						"objectProperty": "Customer",
 						"clauses": 
 						{
@@ -402,6 +408,7 @@
 								"propertyClause": 
 								{
 									"_class": "InverseObjectPropertyClause",
+									"multiplicity": "0..1",
 									"inverseObjectProperty": "isEmployeeOf"
 								}
 							}
@@ -430,6 +437,7 @@
 					{
 						"_class": "ObjectPropertyClause",
 						"objectProperty": "Customer",
+						"multiplicity": "0..1",
 						"objectPropertyFilters": 
 						[
 							[
@@ -461,6 +469,7 @@
 								"propertyClause": 
 								{
 									"_class": "InverseObjectPropertyClause",
+									"multiplicity": "0..1",
 									"inverseObjectProperty": "isEmployeeOf"
 								}
 							}
@@ -620,6 +629,7 @@
 							{
 								"_class": "ObjectPropertyClause",
 								"objectProperty": "Customer",
+								"multiplicity": "0..1",
 								"objectPropertyFilters": 
 								[
 									[
@@ -718,6 +728,7 @@
 							"propertyClause": 
 							{
 								"_class": "ObjectPropertyClause",
+								"multiplicity": "0..1",
 								"objectProperty": "Employee",
 								"clauses": 
 								{
@@ -762,6 +773,7 @@
 												"propertyClause": 
 												{
 													"_class": "ObjectPropertyClause",
+													"multiplicity": "0..1",
 													"objectProperty": "Employee1",
 													"clauses": 
 													{
@@ -807,6 +819,7 @@
 					{
 						"_class": "DataPropertyClause",
 						"dataProperty": "OrderID",
+						"type": "Edm.Int32",
 						"dataPropertyFilters": 
 						{
 							"_class": "DataPropertyFilters"
@@ -827,6 +840,7 @@
 							"propertyClause": 
 							{
 								"_class": "ObjectPropertyClause",
+								"multiplicity": "*",
 								"objectProperty": "Order_Details",
 								"objectPropertyFilters": 
 								[
@@ -845,6 +859,7 @@
 										{
 											"_class": "DataPropertyClause",
 											"dataProperty": "ProductID",
+											"type": "Edm.Int32",
 											"dataPropertyFilters": 
 											{
 												"_class": "DataPropertyFilters"

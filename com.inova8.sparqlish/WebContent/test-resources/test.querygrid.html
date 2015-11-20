@@ -23,10 +23,8 @@
 <script type="text/javascript" src="../sparqlish/control/conjunctionPropertyClause.js"></script>
 <script type="text/javascript" src="../sparqlish/control/query.js"></script>
 <script type="text/javascript" src="../sparqlish/control/queryClausePreview.js"></script>
-
 <link rel="stylesheet" type="text/css" href="../sparqlish/sparqlish.css">
 <script type="text/javascript">
-
 	var self = this;
 	self.iCurrentQuery = 0;
 
@@ -102,10 +100,10 @@
 	sap.ui.getCore().setModel(oEntityContainerModel, "entityContainer");
 
 	//Results Model
-	
+
 	oResultsModel = new sap.ui.model.json.JSONModel({});
 	sap.ui.getCore().setModel(oResultsModel, "resultsModel");
-	
+
 	refresh = function(oEvent) {
 		var queryAST = oQueriesModel.getData();
 		var queries = new Queries(queryAST);
@@ -140,7 +138,7 @@
 			}),
 			templateShareable : false,
 			visible : true,
-			width : "600px"
+			width : "1000px"
 		}), new sap.ui.table.Column({
 			label : "Variable",
 			template : "viewModel>variable",
@@ -160,7 +158,7 @@
 			visible : false,
 			width : "40px"
 		}), new sap.ui.table.Column({
-			label : "Path",
+			label : "queryPath",
 			template : "viewModel>path",
 			templateShareable : false,
 			visible : false,
@@ -169,16 +167,42 @@
 			label : "KeyVariable",
 			template : "viewModel>keyVariable",
 			templateShareable : false,
+			visible : false,
 			width : "100px"
 		}), new sap.ui.table.Column({
 			label : "Label",
 			template : "viewModel>label",
+			visible : false,
 			templateShareable : false,
 			width : "100px"
 		}), new sap.ui.table.Column({
+			label : "index",
+			template : "viewModel>index",
+			visible : false,
+			templateShareable : false,
+			width : "100px"
+		}), new sap.ui.table.Column({
+			label : "multiplicity",
+			template : "viewModel>multiplicity",
+			visible : false,
+			templateShareable : false,
+			width : "100px"
+		}), new sap.ui.table.Column({
+			label : "resultsPath",
+			template : "viewModel>resultsPath",
+			visible : false,
+			templateShareable : false,
+			width : "100px"
+		}), new sap.ui.table.Column({
+			label : "resultsContext",
+			template : "viewModel>resultsContext",
+			visible : false,
+			templateShareable : false,
+			width : "100px"
+		}), new sap.ui.table.Column("results", {
 			label : "Preview result",
 			template : new sparqlish.control.queryClausePreview({
-				resultsPath : {
+				viewContext : {
 					path : "viewModel>"
 				}
 			}),
@@ -188,29 +212,21 @@
 
 		],
 		fixedColumnCount : 1,
+		//visibleRowCountMode : sap.ui.table.VisibleRowCountMode.Auto,
+		//minAutoRowCount : 1,
 		visibleRowCount : 12,
+		rowHeight : 50,
 		selectionMode : sap.ui.table.SelectionMode.Single,
 		enableColumnReordering : false,
 		expandFirstLevel : true,
 		expandTolevel : 3
-	})
-	//TODO TreeTable
-	.attachToggleOpenState(function(oEvent) {
-		// TODO workaround as exapnding Tree causes duplicate id
-		var myTable = oEvent.getSource();
-		// TODO need to expand/contract column count to show enough rows for query
-		//myTable.setVisibleRowCount(myTable.getVisibleRowCount() + 1);
-		var queryColumn = myTable.getColumns()[0];
-		//	oEvent.getSource().setVisibleRowCount =2;
-		queryColumn.destroyTemplate();
-		queryColumn.setTemplate(new sparqlish.control.queryClause({
-			clausePath : {
-				path : "viewModel>path"
-			},
-			changedClause : refresh
-		}));
-		myTable.expandToLevel(1);
 	});
+
+	//TODO Hide the rowes by filtering those without an index value ... but does not work
+	// 	var aFilters = [];
+	// 	var oFilter = new sap.ui.model.Filter("viewModel>index", sap.ui.model.FilterOperator.EQ, 2);
+	// 	aFilters.push(oFilter);
+	// 	this.oTable.bindRows("viewModel>/root", null, null, aFilters);
 
 	this.oTable.bindRows("viewModel>/root");
 
@@ -254,55 +270,39 @@
 	var oODataButton = sap.ui.jsfragment("sparqlish.query.odata", this);
 	oODataButton.placeAt("uiODataQuery");
 
-	// Preview action
-	var oButton = sap.ui.jsfragment("sparqlish.query.preview", this);
-	oButton.placeAt("uiPreview");
-
 	querySelectionChange = function(iSelectedQuery) {
 		oViewModel = new sap.ui.model.json.JSONModel();
 		oViewModel.setData(queries.oQueries[iSelectedQuery].oViewModel);
 		//oTable.unbindRows();
+
 		oResultsModel.setData({});
 		oTable.setModel(oViewModel, "viewModel");
 		oTable.bindRows("viewModel>/");
 	}
-	var oResultsModel;
-	var oAllResultsModel;
-	oTable.setModel(oResultsModel, "resultsModel");
 
-	var oPaginator = new sap.ui.commons.Paginator();
-	oPaginator.setNumberOfPages(10);
-	//oPaginator.setCurrentPage(13);
-	oPaginator.placeAt("uiPaginator");
-	oPaginator.attachPage(function(oEvent) {
-		oResultsModel.setData(oAllResultsModel.getProperty(oAllResultsModel.sBindPath + (oEvent.getParameter("targetPage")-1)));
-		oTable.setModel(oResultsModel, "resultsModel");
-		oTable.rerender();
-	});
+	oTable.setModel(oResultsModel, "resultsModel");
 
 	previewResults = function() {
 		var query = new Query(oQueriesModel.getData().queries[self.iCurrentQuery]);
 		var odataURL = sUrl + query.odataURI() + "&$format=json";
-		oAllResultsModel = new sap.ui.model.json.JSONModel({});
-		oAllResultsModel.loadData(odataURL);
-		oAllResultsModel.attachRequestCompleted(function(oEvent) {
+		oResultsModel = new sap.ui.model.json.JSONModel({});
+		oResultsModel.loadData(odataURL);
+		oResultsModel.attachRequestCompleted(function(oEvent) {
 			if (oEvent.getParameter("success")) {
 				try {
 					var nResults = 0;
-					oAllResultsModel.sBindPath = null;
-					if (jQuery.isEmptyObject(oAllResultsModel.getData().d.results)) {
-						if (oAllResultsModel.getData().d.length > 0) {
-							oAllResultsModel.sBindPath = "/d/";
+					oResultsModel.sBindPath = null;
+					if (jQuery.isEmptyObject(oResultsModel.getData().d.results)) {
+						if (oResultsModel.getData().d.length > 0) {
+							oResultsModel.sBindPath = "/d/";
 						} else {
 							throw "No results returned";
 						}
 					} else {
-						nResults = oAllResultsModel.getData().d.results.length;
-						oAllResultsModel.sBindPath = "/d/results/";
+						nResults = oResultsModel.getData().d.results.length;
+						oResultsModel.sBindPath = "/d/results/";
 					}
-					oPaginator.setNumberOfPages(nResults);
-					//oResultsModel = new sap.ui.model.json.JSONModel({});
-					oResultsModel.setData(oAllResultsModel.getProperty(oAllResultsModel.sBindPath + "0"));
+
 					oTable.setModel(oResultsModel, "resultsModel");
 					oTable.rerender();
 
@@ -325,10 +325,10 @@
 						<td><button onclick="var query = new Query(oQueriesModel.getData().queries[self.iCurrentQuery]);alert(JSON.stringify(query.viewModel()))">ViewModel</button></td>
 						<td><div id="uiSPARQLQuery"></div></td>
 						<td><div id="uiODataQuery"></div></td>
-						<td><button onclick="var query = new Query(oQueriesModel.getData().queries[self.iCurrentQuery]);window.open(sUrl + query.odataURI()+'&$format=json')">OData Query Results</button></td>
-						<td><div id="uiPreview"></div></td>
+						<td><button
+										onclick="var query = new Query(oQueriesModel.getData().queries[self.iCurrentQuery]);window.open(sUrl + query.odataURI()+'&$format=json')">OData
+										Query Results</button></td>
 						<td><button onclick="previewResults()">Preview Results</button></td>
-						<td><div id="uiPaginator"></div></td>
 						<td><button onclick="oResultsModel.setData({});">Clear Results</button></td>
 				</tr>
 		</table>

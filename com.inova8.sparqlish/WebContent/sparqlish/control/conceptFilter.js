@@ -7,7 +7,7 @@ sap.ui.core.Control.extend("sparqlish.control.conceptFilter", {
 	metadata : {
 		aggregations : {
 			_conceptFilter : {
-				type : "sap.ui.commons.Link",
+				type : "sap.m.Link",
 				multiple : false
 			}
 		},
@@ -20,7 +20,7 @@ sap.ui.core.Control.extend("sparqlish.control.conceptFilter", {
 	init : function() {
 		var self = this;
 
-		self.oConceptFilterLink = new sap.ui.commons.Link({
+		self.oConceptFilterLink = new sap.m.Link({
 			// TODO Only allows for a single valued primary key
 			// text : '{= "{queryModel>" + ${entityTypeModel>/key/propertyRef/0/name}+"}"}',
 			// text :{ path : "='queryModel>'+${entityTypeModel>/key/propertyRef/0/name}" },
@@ -88,7 +88,13 @@ sap.ui.core.Control.extend("sparqlish.control.conceptFilter", {
 		self.setAggregation("_conceptFilter", self.oConceptFilterLink)
 	},
 	renderer : function(oRm, oControl) {
+		oRm.addClass("menuLink");
+		oRm.write("<div ");
+		oRm.writeControlData(oControl);
+		oRm.writeClasses();
+		oRm.write(">");
 		oRm.write("&nbsp;");
 		oRm.renderControl(oControl.getAggregation("_conceptFilter"));
+		oRm.write("</div>");
 	}
 });

@@ -22,8 +22,22 @@ sap.ui.core.Control.extend("sparqlish.control.query", {
 		self.setAggregation("_conceptClause", new sparqlish.control.conceptClause().bindElement("queryModel>"));
 		self.setAggregation("_clauses", new sparqlish.control.clauses().bindElement("queryModel>clauses"));
 	},
+	checkClass : function(oControl, oRm, sModel, _class) {
+		if (oControl.getModel(sModel).getProperty("_class", oControl.getBindingContext(sModel)) != _class) {
+			oRm.addClass("error");
+			oRm.write("<div ");
+			oRm.writeControlData(oControl);
+			oRm.writeClasses();
+			oRm.write(">");
+			oRm.write("Not referencing a " + _class + " class");
+			oRm.write("</div>");
+			return false;
+		} else {
+			return true;
+		}
+	},
 	renderer : function(oRm, oControl) {
-		if (checkClass(oControl, oRm, "queryModel", "Query")) {
+		if (oControl.checkClass(oControl, oRm, "queryModel", "Query")) {
 			// oControl.getAggregation("_queryControl").bindElement(oControl.getClausePath());
 			oRm.addClass("query");
 			oRm.write("<div ");

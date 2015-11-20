@@ -135,7 +135,7 @@
 				"template": "testTemplate1",
 				"fragments": 
 				{
-					"R3-C1": 
+					"R2-C2-R1": 
 					{
 						"title": "Order Dates",
 						"type": "Components.lensResultsForm",

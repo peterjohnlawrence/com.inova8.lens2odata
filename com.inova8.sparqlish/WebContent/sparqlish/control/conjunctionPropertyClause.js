@@ -6,7 +6,7 @@ sap.ui.core.Control.extend("sparqlish.control.conjunctionPropertyClause", {
 		properties : {},
 		aggregations : {
 			_conjunction : {
-				type : "sap.ui.commons.Link",
+				type : "sap.m.Link",
 				multiple : false
 			},
 			_propertyClause : {
@@ -67,7 +67,7 @@ sap.ui.core.Control.extend("sparqlish.control.conjunctionPropertyClause", {
 	},
 	init : function() {
 		var self = this;
-		self.setAggregation("_conjunction", new sap.ui.commons.Link({
+		self.setAggregation("_conjunction", new sap.m.Link({
 			text : "{queryModel>conjunction}",
 			tooltip : "Select a conjunction",
 			press : function(oEvent) {
@@ -106,13 +106,25 @@ sap.ui.core.Control.extend("sparqlish.control.conjunctionPropertyClause", {
 	},
 	renderer : function(oRm, oControl) {
 
-		oRm.write("<div ");
-		oRm.writeControlData(oControl);
-		oRm.writeClasses();
-		oRm.write(">");
+						oRm.addClass("propertyClauseContainer");
+						oRm.write("<div ");
+						oRm.writeClasses();
+						oRm.write(">");
+						
+						oRm.addClass("propertyClause");
+						oRm.addClass("propertyConjunctionContainer");
+						oRm.write("<div ");
+						oRm.writeControlData(oControl);
+						oRm.writeClasses();
+						oRm.write(">");
+		
+//		oRm.write("<div ");
+//		oRm.writeControlData(oControl);
+//		oRm.writeClasses();
+//		oRm.write(">");
 		oRm.renderControl(oControl.getAggregation("_conjunction"));
 		oRm.write("&nbsp;");
-		oRm.renderControl(oControl.getAggregation("_propertyClause"));
-		oRm.write("</div>");
+		oRm.renderControl(oControl.getAggregation("_propertyClause").setConjunction(true));
+//		oRm.write("</div>");
 	}
 });

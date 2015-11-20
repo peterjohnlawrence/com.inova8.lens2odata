@@ -86,7 +86,7 @@ sap.ui.core.Control.extend("sparqlish.control.dataPropertyFilters", {
 						currentModelData.dataPropertyFilter = {
 							"_class" : "DataPropertyFilter",
 							"condition" : "[enter condition]",
-							"value" : "[enter value]",
+							//"value" : "[enter value]",
 							"type" : type
 						}
 					} else if (currentModelData.conjunctionFilters == null) {
@@ -96,7 +96,7 @@ sap.ui.core.Control.extend("sparqlish.control.dataPropertyFilters", {
 							"dataPropertyFilter" : {
 								"_class" : "DataPropertyFilter",
 								"condition" : "[enter condition]",
-								"value" : "[enter value]",
+								//"value" : "[enter value]",
 								"type" : type
 							}
 						} ]
@@ -107,7 +107,7 @@ sap.ui.core.Control.extend("sparqlish.control.dataPropertyFilters", {
 							"dataPropertyFilter" : {
 								"_class" : "DataPropertyFilter",
 								"condition" : "[enter condition]",
-								"value" : "[enter value]",
+								//"value" : "[enter value]",
 								"type" : type
 							}
 						});
@@ -125,7 +125,7 @@ sap.ui.core.Control.extend("sparqlish.control.dataPropertyFilters", {
 		if (oControl.getAggregation("_dataPropertyFilter") != null) {
 			oRm.renderControl(oControl.getAggregation("_dataPropertyFilter"));
 			var dataPropertyConjunctionFilters = oControl.getAggregation("_dataPropertyConjunctionFilters");
-			if (dataPropertyConjunctionFilters != null) {
+			if (!jQuery.isEmptyObject(dataPropertyConjunctionFilters)) {
 				for (var i = 0; i < dataPropertyConjunctionFilters.length; i++) {
 					oRm.renderControl(dataPropertyConjunctionFilters[i]);
 				}

@@ -8,7 +8,12 @@ jQuery.sap.require("sparqlish.control.clauses");
 sap.ui.core.Control.extend("sparqlish.control.propertyClause",
 		{
 			metadata : {
-				properties : {},
+				properties : {
+					conjunction : {
+						type : "boolean",
+						defaultValue : false
+					}
+				},
 				aggregations : {
 					_includeOptionalIgnore : {
 						type : "sparqlish.control.includeOptionalIgnore",
@@ -62,7 +67,7 @@ sap.ui.core.Control.extend("sparqlish.control.propertyClause",
 					if (currentQueryContext.propertyClause == undefined) {
 						return null;
 					} else {
-						return getProperty(this.getModel("metaModel"),this.getDomainEntityTypeQName(), currentQueryContext.propertyClause.dataProperty);
+						return this.getModel("metaModel").getDataProperty(this.getDomainEntityTypeQName(), currentQueryContext.propertyClause.dataProperty);
 					}
 				}
 			},
@@ -74,13 +79,13 @@ sap.ui.core.Control.extend("sparqlish.control.propertyClause",
 					if (currentQueryContext.propertyClause == undefined) {
 						return null
 					} else {
-						return getNavigationProperty(this.getModel("metaModel"),this.getDomainEntityTypeQName(), currentQueryContext.propertyClause.objectProperty);
+						return this.getModel("metaModel").getNavigationProperty(this.getDomainEntityTypeQName(), currentQueryContext.propertyClause.objectProperty);
 					}
 				}
 			},
 			// TODO oMetaModel declaration -- Where??
 			getDomainEntityTypeQName : function() {
-				return entityTypeQName(this.getModel("queryModel"), oMetaModel, this.getBindingContext("queryModel"));
+				return oMetaModel.entityTypeQName(this.getModel("queryModel"), this.getBindingContext("queryModel"));
 			},
 			getDomainEntityTypeContext : function() {
 				return oMetaModel.getODataEntityType(this.getDomainEntityTypeQName());
@@ -92,7 +97,9 @@ sap.ui.core.Control.extend("sparqlish.control.propertyClause",
 				return oMetaModel.getODataEntityType(this.getRangeEntityTypeQName());
 			},
 			deleteClause : function() {
+				// TODO This only works when we have a Query object, not when we have a QueryClause object
 				var oClausesContext = this.getParent().getCurrentQueryContext();
+				// var oClausesContext = this.getCurrentQueryContext();
 				if (!jQuery.isEmptyObject(oClausesContext.conjunctionClauses)) {
 					// get first conjunction clause and move up to this clause
 					oClausesContext.clause = oClausesContext.conjunctionClauses[0].clause;
@@ -124,12 +131,13 @@ sap.ui.core.Control.extend("sparqlish.control.propertyClause",
 					currentModelData.clauses.clause.propertyClause._class = clauseClass;
 					currentModelData.clauses.clause.propertyClause[clauseProperty] = property;
 					if (clauseClass == "DataPropertyClause") {
-						currentModelData.clauses.clause.propertyClause.type= getProperty(this.getModel("metaModel"),this.getRangeEntityTypeQName(),property).type; 
+						currentModelData.clauses.clause.propertyClause.type = this.getModel("metaModel").getDataProperty(this.getRangeEntityTypeQName(), property).type;
 						currentModelData.clauses.clause.propertyClause.dataPropertyFilters = {};
 						currentModelData.clauses.clause.propertyClause.dataPropertyFilters._class = "DataPropertyFilters";
 					} else {
-						//add type = __metadata
-						//add multiplicity
+						// add type = __metadata
+						currentModelData.clauses.clause.propertyClause.multiplicity = this.getModel("metaModel").getODataAssociationEnd(this.getRangeEntityTypeContext(),
+								property).multiplicity;
 						currentModelData.clauses.clause.propertyClause.objectPropertyFilters = [];
 					}
 
@@ -148,12 +156,14 @@ sap.ui.core.Control.extend("sparqlish.control.propertyClause",
 					currentModelData.clauses.conjunctionClauses[last].clause.propertyClause._class = clauseClass;
 					currentModelData.clauses.conjunctionClauses[last].clause.propertyClause[clauseProperty] = property;
 					if (clauseClass == "DataPropertyClause") {
-						currentModelData.clauses.conjunctionClauses[last].clause.propertyClause.type= getProperty(this.getModel("metaModel"),this.getRangeEntityTypeQName(),property).type; 
+						currentModelData.clauses.conjunctionClauses[last].clause.propertyClause.type = this.getModel("metaModel").getDataProperty(
+								this.getRangeEntityTypeQName(), property).type;
 						currentModelData.clauses.conjunctionClauses[last].clause.propertyClause.dataPropertyFilters = {};
 						currentModelData.clauses.conjunctionClauses[last].clause.propertyClause.dataPropertyFilters._class = "DataPropertyFilters";
 					} else {
-						//add type = __metadata
-						//add multiplicity
+						// add type = __metadata
+						currentModelData.clauses.conjunctionClauses[last].clause.propertyClause.multiplicity = this.getModel("metaModel").getODataAssociationEnd(
+								this.getRangeEntityTypeContext(), property).multiplicity;
 						currentModelData.clauses.conjunctionClauses[last].clause.propertyClause.objectPropertyFilters = [];
 					}
 				} else {
@@ -171,12 +181,14 @@ sap.ui.core.Control.extend("sparqlish.control.propertyClause",
 					currentModelData.clauses.conjunctionClauses[0].clause.propertyClause._class = clauseClass;
 					currentModelData.clauses.conjunctionClauses[0].clause.propertyClause[clauseProperty] = property;
 					if (clauseClass == "DataPropertyClause") {
-						currentModelData.clauses.conjunctionClauses[0].clause.propertyClause.type= getProperty(this.getModel("metaModel"),this.getRangeEntityTypeQName(),property).type; 
+						currentModelData.clauses.conjunctionClauses[0].clause.propertyClause.type = this.getModel("metaModel").getDataProperty(
+								this.getRangeEntityTypeQName(), property).type;
 						currentModelData.clauses.conjunctionClauses[0].clause.propertyClause.dataPropertyFilters = {};
 						currentModelData.clauses.conjunctionClauses[0].clause.propertyClause.dataPropertyFilters._class = "DataPropertyFilters";
 					} else {
-						//add type = __metadata
-						//add multiplicity
+						// add type = __metadata
+						currentModelData.clauses.conjunctionClauses[0].clause.propertyClause.multiplicity = this.getModel("metaModel").getODataAssociationEnd(
+								this.getRangeEntityTypeContext(), property).multiplicity;
 						currentModelData.clauses.conjunctionClauses[0].clause.propertyClause.objectPropertyFilters = [];
 					}
 				}
@@ -225,19 +237,41 @@ sap.ui.core.Control.extend("sparqlish.control.propertyClause",
 				var currentModel = oControl.getModel("queryModel");
 				var currentContext = oControl.getBindingContext("queryModel");
 				var currentContextClause = currentModel.getProperty("", currentContext);
-				if (currentContextClause != undefined) {
-
-					oRm.addClass("propertyClause");
-					oRm.write("<div ");
-					oRm.writeControlData(oControl);
-					oRm.writeClasses();
-					oRm.write(">");
+				if (!jQuery.isEmptyObject(currentContextClause)) {
 
 					var propertyClause = currentModel.getProperty("", currentContext).propertyClause;
-					if (propertyClause != undefined) {
+					if (!jQuery.isEmptyObject(propertyClause)) {
+						// TODO Horizontal alignment, conjunctions right justified in left, property and filters left-aligned in
+						// right
+
+						var oConjunctionContainer = new sap.m.HBox().setWidth("200px").setJustifyContent(sap.m.FlexJustifyContent.End);
+						var oPropertyContainer = new sap.m.HBox().setJustifyContent(sap.m.FlexJustifyContent.Start);
+						var oPropertyClauseContainer = new sap.m.HBox().addItem(oConjunctionContainer).addItem(oPropertyContainer);
+						if (!oControl.getConjunction()) {
+							oRm.addClass("propertyClauseContainer");
+							oRm.write("<div ");
+							oRm.writeClasses();
+							oRm.write(">");
+
+							oRm.addClass("propertyClause");
+							oRm.addClass("propertyConjunctionContainer");
+							oRm.write("<div ");
+							oRm.writeControlData(oControl);
+							oRm.writeClasses();
+							oRm.write(">");
+						}
+
 						oRm.renderControl(oControl.getAggregation("_includeOptionalIgnore"));
 						oRm.write("&nbsp;");
-						oRm.renderControl(oControl.getAggregation("_property"));
+						oRm.write("</div>");
+
+						oRm.addClass("propertyClause");
+						oRm.addClass("propertyContainer");
+						oRm.write("<div ");
+						oRm.writeControlData(oControl);
+						oRm.writeClasses();
+						oRm.write(">");
+						oRm.renderControl(oControl.getAggregation("_property").addStyleClass("objectPropertyMenuLink"));
 						var sPropertyClass = propertyClause._class;
 						if (sPropertyClass == "ObjectPropertyClause") {
 							oRm.renderControl(oControl.getAggregation("_objectPropertyFilters"));
@@ -255,8 +289,10 @@ sap.ui.core.Control.extend("sparqlish.control.propertyClause",
 							oRm.renderControl(oControl.getAggregation("_dataPropertyFilters"));
 							oRm.write("&nbsp;");
 						}
+						oRm.write("</div>");
+						oRm.write("</div>");
 					}
-					oRm.write("</div>");
+
 				}
 			}
 		});

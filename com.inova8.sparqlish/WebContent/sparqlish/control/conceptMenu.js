@@ -5,7 +5,7 @@ sap.ui.core.Control.extend("sparqlish.control.conceptMenu", {
 	metadata : {
 		aggregations : {
 			_concept : {
-				type : "sap.ui.commons.Link",
+				type : "sap.m.Link",
 				multiple : false
 			}
 		},
@@ -23,11 +23,11 @@ sap.ui.core.Control.extend("sparqlish.control.conceptMenu", {
 	},
 	init : function() {
 		var self = this;
-		self.oConceptLink = new sap.ui.commons.Link({
+		self.oConceptLink = new sap.m.Link({
 			text : "{queryModel>concept}",
 			tooltip : "Select a concept to find"
 		});
-		self.oConceptLink.addStyleClass("menuLink");
+		self.oConceptLink.addStyleClass("conceptMenuLink");
 
 		self.oConceptList = new sap.ui.commons.ListBox({
 			items : {
