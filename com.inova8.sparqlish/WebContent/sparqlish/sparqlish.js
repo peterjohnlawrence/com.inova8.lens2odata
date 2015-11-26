@@ -16,13 +16,14 @@ var sLabelPostfix = "_label";
 var defaultVersion = "V2";
 var metadata = "__metadata";
 sap.ui.base.Object.extend("Queries", {
-	constructor : function(oAST) {
+	constructor : function(oDataModel, oAST) {
 		this.oAST = oAST;
+		this.oDataModel = oDataModel;
 		this.oQueries = [];
 		try {
 			if (!jQuery.isEmptyObject(oAST["queries"])) {
 				for (var i = 0; i < oAST["queries"].length; i++) {
-					this.oQueries.push(new Query(oAST["queries"][i], "/queries/" + i + "/"));
+					this.oQueries.push(new Query(oDataModel, oAST["queries"][i], "/queries/" + i + "/"));
 				}
 			} else {
 				this.oQueries = null;
@@ -36,9 +37,11 @@ sap.ui.base.Object
 		.extend(
 				"Query",
 				{
-					constructor : function(oAST, sPath) {
-						sPath = sPath || "";
+					constructor : function(oDataModel, oAST, sPath) {
+						//TODO
+						sPath = sPath || "/";
 						this.oAST = oAST;
+						this.oDataModel = oDataModel;
 						this.oClauseReferences = [];
 						this.oViewModel = null;
 						try {
@@ -122,22 +125,35 @@ sap.ui.base.Object
 							return "Find " + labelFromURI(this.sConcept);
 						}
 					},
+					branchLength : function(oBranch) {
+						oBranch.branchLength = 1;
+						var nClause = 0;
+						while (!jQuery.isEmptyObject(oBranch[nClause])){
+							oBranch.branchLength += this.branchLength(oBranch[nClause]);
+							nClause++;
+						} 
+						return oBranch.branchLength;
+					},
+					queryModel:function(){
+						return this.oAST;
+					},
 					viewModel : function() {
 						try {
 							this.oClauseReferences[0] = this;
 							// TODO
-							var entitySetType = sap.ui.getCore().getModel("metaModel").getODataEntitySet(this.sConcept);
-							var entityType = sap.ui.getCore().getModel("metaModel").getODataEntityType(entitySetType.entityType);
+							var entitySetType = this.oDataModel.getMetaModel().getODataEntitySet(this.sConcept);
+							var entityType = this.oDataModel.getMetaModel().getODataEntityType(entitySetType.entityType);
 							var oViewModel = {
 								"root" : {}
 							};
 							if (!jQuery.isEmptyObject(this.oClauses)) {
-								extendj(oViewModel.root, this.oClauses.viewModel(this.sPath, this.oClauseReferences, entityType.name, "","/d/results/{=P0}"),0);
+								//TODO when do we need to prefix resultContext with /d ?
+								extendj(oViewModel.root, this.oClauses.viewModel(this.sPath, this.oClauseReferences, entityType.name, "", "/results/{=P0}"), 0);
 							}
 							extendj(oViewModel.root, {
 								"path" : this.sPath,
 								"resultsPath" : "",
-								"resultsContext" : "/d/results/{=P0}",
+								"resultsContext" : "/results/{=P0}",
 								"sparqlish" : this.sparqlish(),
 								"label" : this.sLabel,
 								"hidden" : this.bHidden,
@@ -149,6 +165,7 @@ sap.ui.base.Object
 								"multiplicity" : "*",
 								"index" : 0
 							});
+							oViewModel.root.branchLength = this.branchLength(oViewModel.root);
 							return oViewModel;
 						} catch (e) {
 							jQuery.sap.log.error(e);
@@ -298,20 +315,20 @@ sap.ui.base.Object.extend("Clauses", {
 			return "";
 		}
 	},
-	viewModel : function(sPath, oClauseReferences, sKeyVariable, sResultsPath, sResultsContext,iClauseIndex) {
+	viewModel : function(sPath, oClauseReferences, sKeyVariable, sResultsPath, sResultsContext, iClauseIndex) {
 		var oViewModel = {};
 		if (!jQuery.isEmptyObject(this.oConjunctionClauses)) {
 			for (var i = 0; i < this.oConjunctionClauses.length; i++) {
 				var iIndex = i + 1;
 				var oConjunctionClause = {};
 				oConjunctionClause[iIndex] = this.oConjunctionClauses[i].viewModel(sPath + "clauses/conjunctionClauses/" + (iIndex - 1) + "/", oClauseReferences,
-						sKeyVariable, sResultsPath, sResultsContext,iClauseIndex);
+						sKeyVariable, sResultsPath, sResultsContext, iClauseIndex);
 				extendj(oViewModel, oConjunctionClause);
 			}
 		}
 		if (!jQuery.isEmptyObject(this.oClause)) {
 			extendj(oViewModel, {
-				"0" : this.oClause.viewModel(sPath + "clauses/clause/", oClauseReferences, sKeyVariable, sResultsPath, sResultsContext,iClauseIndex)
+				"0" : this.oClause.viewModel(sPath + "clauses/clause/", oClauseReferences, sKeyVariable, sResultsPath, sResultsContext, iClauseIndex)
 			});
 		}
 		return oViewModel;
@@ -480,13 +497,14 @@ sap.ui.base.Object.extend("Clause", {
 			sSparqlish = sSparqlish + this.oPropertyClause.sparqlish();
 		return sSparqlish;
 	},
-	viewModel : function(sPath, oClauseReferences, sKeyVariable, sResultsPath, sResultsContext,iClauseIndex) {
+	viewModel : function(sPath, oClauseReferences, sKeyVariable, sResultsPath, sResultsContext, iClauseIndex) {
 		var iIndex = oClauseReferences.length;
 		oClauseReferences.push(this);
 		var oViewModel = {};
 		this.sNameVariable = "";
 		if (!jQuery.isEmptyObject(this.oPropertyClause)) {
-			extendj(oViewModel, this.oPropertyClause.viewModel(sPath + "clause/propertyClause/", oClauseReferences, sKeyVariable, sResultsPath, sResultsContext,iIndex));
+			extendj(oViewModel, this.oPropertyClause.viewModel(sPath + "clause/propertyClause/", oClauseReferences, sKeyVariable, sResultsPath, sResultsContext,
+					iIndex));
 			if (jQuery.isEmptyObject(this.oPropertyClause.oPropertyClause.sDataProperty)) {
 				// assume it must be an objectProperty
 				this.sNameVariable = sPrefix + this.oContext.sObject + sLabelPostfix;
@@ -570,9 +588,9 @@ sap.ui.base.Object.extend("ConjunctionClause", {
 	sparqlish : function() {
 		return (this.sConjunction + " " + this.oClause.sparqlish());
 	},
-	viewModel : function(sPath, oClauseReferences, sKeyVariable, sResultsPath, sResultsContext,iClauseIndex) {
+	viewModel : function(sPath, oClauseReferences, sKeyVariable, sResultsPath, sResultsContext, iClauseIndex) {
 		var oViewModel = {};
-		extendj(oViewModel, this.oClause.viewModel(sPath, oClauseReferences, sKeyVariable, sResultsPath, sResultsContext,iClauseIndex));
+		extendj(oViewModel, this.oClause.viewModel(sPath, oClauseReferences, sKeyVariable, sResultsPath, sResultsContext, iClauseIndex));
 		extendj(oViewModel, {
 			"path" : sPath,
 			"sparqlish" : this.sparqlish()
@@ -634,8 +652,8 @@ sap.ui.base.Object.extend("PropertyClause", {
 	sparqlish : function() {
 		return (this.oPropertyClause.sparqlish());
 	},
-	viewModel : function(sPath, oClauseReferences, sKeyVariable, sResultsPath, sResultsContext,iClauseIndex) {
-		return this.oPropertyClause.viewModel(sPath, oClauseReferences, sKeyVariable, sResultsPath, sResultsContext,iClauseIndex);
+	viewModel : function(sPath, oClauseReferences, sKeyVariable, sResultsPath, sResultsContext, iClauseIndex) {
+		return this.oPropertyClause.viewModel(sPath, oClauseReferences, sKeyVariable, sResultsPath, sResultsContext, iClauseIndex);
 	},
 	odataFilter : function(sVersion) {
 		return this.oPropertyClause.odataFilter(sVersion);
@@ -695,11 +713,11 @@ sap.ui.base.Object.extend("DataPropertyClause", {
 			return sSparqlish;
 		}
 	},
-	viewModel : function(sPath, oClauseReferences, sKeyVariable, sResultsPath, sResultsContext,iClauseIndex) {
+	viewModel : function(sPath, oClauseReferences, sKeyVariable, sResultsPath, sResultsContext, iClauseIndex) {
 		return {
 			"keyVariable" : sKeyVariable + ":" + this.sDataProperty,
 			"resultsPath" : sResultsPath + "/" + this.sDataProperty,
-			"resultsContext":  sResultsContext + "/" + this.sDataProperty,
+			"resultsContext" : sResultsContext + "/" + this.sDataProperty,
 			"field" : this.sDataProperty,
 			// TODO
 			"type" : this.type
@@ -934,13 +952,14 @@ sap.ui.base.Object.extend("ObjectPropertyClause", {
 			return labelFromURI(this.sObjectProperty);
 		}
 	},
-	viewModel : function(sPath, oClauseReferences, sKeyVariable, sResultsPath, sResultsContext,iClauseIndex) {
+	viewModel : function(sPath, oClauseReferences, sKeyVariable, sResultsPath, sResultsContext, iClauseIndex) {
 		var oViewModel = {};
-		var sContext ="";
-		if(this.oAST.multiplicity==="*") sContext = "/results/{=P"+iClauseIndex+"}";
+		var sContext = "";
+		if (this.oAST.multiplicity === "*")
+			sContext = "/results/{=P" + iClauseIndex + "}";
 		if (!jQuery.isEmptyObject(this.oClauses)) {
 			extendj(oViewModel, this.oClauses.viewModel(sPath, oClauseReferences, sKeyVariable + ":" + this.sObjectProperty, sResultsPath + "/"
-					+ this.sObjectProperty, sResultsContext + "/" + this.sObjectProperty +sContext,iClauseIndex ));
+					+ this.sObjectProperty, sResultsContext + "/" + this.sObjectProperty + sContext, iClauseIndex));
 		}
 		extendj(oViewModel, {
 			"path" : sPath,
@@ -1058,10 +1077,10 @@ sap.ui.base.Object.extend("InverseObjectPropertyClause", {
 	sparqlish : function() {
 		return "that which " + labelFromURI(this.sInverseObjectProperty);
 	},
-	viewModel : function(sPath, oClauseReferences, sKeyVariable, sResultsPath, sResultsContext,iClauseIndex) {
+	viewModel : function(sPath, oClauseReferences, sKeyVariable, sResultsPath, sResultsContext, iClauseIndex) {
 		var oViewModel = {};
 		if (!jQuery.isEmptyObject(this.oClauses)) {
-			extendj(oViewModel, this.oClauses.viewModel(sPath, oClauseReferences, sKeyVariable,sResultsPath, sResultsContext,iClauseIndex));
+			extendj(oViewModel, this.oClauses.viewModel(sPath, oClauseReferences, sKeyVariable, sResultsPath, sResultsContext, iClauseIndex));
 		}
 		extendj(oViewModel, {
 			"path" : sPath,
@@ -1121,10 +1140,10 @@ sap.ui.base.Object.extend("OperationClause", {
 	sparqlish : function() {
 		return " " + labelFromURI(this.sOperation);
 	},
-	viewModel : function(sPath, oClauseReferences, sKeyVariable, sResultsPath, sResultsContext,iClauseIndex) {
+	viewModel : function(sPath, oClauseReferences, sKeyVariable, sResultsPath, sResultsContext, iClauseIndex) {
 		var oViewModel = {};
 		if (!jQuery.isEmptyObject(this.oClauses)) {
-			extendj(oViewModel, this.oClauses.viewModel(sPath, oClauseReferences, sKeyVariable, sResultsPath, sResultsContext,iClauseIndex));
+			extendj(oViewModel, this.oClauses.viewModel(sPath, oClauseReferences, sKeyVariable, sResultsPath, sResultsContext, iClauseIndex));
 		}
 		extendj(oViewModel, {
 			"path" : sPath,

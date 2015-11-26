@@ -12,8 +12,8 @@ sap.ui.jsfragment("sparqlish.query.queryList", {
 		oComboBox.bindItems("/queries", oItemTemplate);
 		oComboBox.attachChange(function() {
 			var i;
-			for (i = 0; i < oController.queries.oQueries.length; i++) {
-				if (oController.queries.oQueries[i].sName == oComboBox.getValue()) {
+			for (i = 0; i < oController.oQueriesModel.getData().queries.length; i++) {
+				if (oController.oQueriesModel.getData().queries[i].name == oComboBox.getValue()) {
 					oController.iCurrentQuery = i;
 					break;
 				} else

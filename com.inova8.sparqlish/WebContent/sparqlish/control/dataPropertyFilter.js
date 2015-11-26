@@ -64,7 +64,11 @@ sap.ui.core.Control.extend("sparqlish.control.dataPropertyFilter", {
 			placeholder : "Enter value for condition",
 			description : "",
 			editable : true
-		}).addStyleClass("dataPropertyValue"));
+		}).addStyleClass("dataPropertyValue")
+//		.attachChange(function(oEvent) {
+//			oEvent.getSource().setWidth(oEvent.getSource().getValue().length*15 + "px");
+//		})
+		);
 	},
 	_clauseContext : function(me) {
 		var oClauseContext = me.getParent().getParent();
@@ -75,32 +79,28 @@ sap.ui.core.Control.extend("sparqlish.control.dataPropertyFilter", {
 	},
 	renderer : function(oRm, oControl) {
 
-		oRm.addClass("menuLink");
-		//oRm.addClass("sapUiSizeCompact");
-		oRm.write("<div ");
-		oRm.writeControlData(oControl);
-		oRm.writeClasses();
-		oRm.write(">");
-		if (oControl.getAggregation("_condition").getText() == "[enter condition]") {
-			// not yet defined so lets bind to the first concept in collection
-			// TODO DELETE is the first condition
-			var oClauseContext = oControl._clauseContext(oControl);
-			oControl.oDataPropertyType = oClauseContext.getDataProperty().type;
-			oControl.getAggregation("_condition").setText(
-					oControl.getModel("datatypesModel").getProperty("/datatypes/" + oControl.oDataPropertyType + "/conditions/1/condition"));
+		var oDataPropertyFilter = oControl.getModel("queryModel").getProperty("", oControl.getBindingContext("queryModel"));
+		if (!jQuery.isEmptyObject(oDataPropertyFilter)) {
+			if (oControl.getAggregation("_condition").getText() == "[enter condition]") {
+				// not yet defined so lets bind to the first concept in collection
+				// TODO DELETE is the first condition
+				var oClauseContext = oControl._clauseContext(oControl);
+				oControl.oDataPropertyType = oClauseContext.getDataProperty().type;
+				oControl.getAggregation("_condition").setText(
+						oControl.getModel("datatypesModel").getProperty("/datatypes/" + oControl.oDataPropertyType + "/conditions/1/condition"));
+			}
+			oRm.write("&nbsp;");
+			oRm.renderControl(oControl.getAggregation("_condition"));
+			oRm.write("&nbsp;");
+
+			oRm.addClass("sapUiSizeCompact");
+			oRm.addClass("dataPropertyValue");
+			oRm.write("<div ");
+			oRm.writeControlData(oControl);
+			oRm.writeClasses();
+			oRm.write(">");
+			oRm.renderControl(oControl.getAggregation("_value"));
+			oRm.write("</div>");
 		}
-		oRm.write("&nbsp;");
-		oRm.renderControl(oControl.getAggregation("_condition"));
-		oRm.write("&nbsp;");
-		oRm.write("</div>");
-		
-		oRm.addClass("dataPropertyValue");
-		oRm.addClass("sapUiSizeCompact");
-		oRm.write("<div ");
-		oRm.writeControlData(oControl);
-		oRm.writeClasses();
-		oRm.write(">");		
-		oRm.renderControl(oControl.getAggregation("_value"));
-		oRm.write("</div>");
 	}
 });

@@ -78,16 +78,16 @@ sap.ui.core.Control.extend("sparqlish.control.dataPropertyConjunctionFilter", {
 	// setDataPropertyConjunctionFilter : function(oDataPropertyConjunctionFilter) {
 	// },
 	renderer : function(oRm, oControl) {
-		oRm.addClass("menuLink");
-		oRm.addClass("sapUiSizeCompact");
-		oRm.write("<div ");
-		oRm.writeControlData(oControl);
-		oRm.writeClasses();
-		oRm.write(">");
+//		oRm.addClass("menuLink");
+//		oRm.addClass("sapUiSizeCompact");
+//		oRm.write("<div ");
+//		oRm.writeControlData(oControl);
+//		oRm.writeClasses();
+//		oRm.write(">");
 		oRm.write("&nbsp;");
 		oRm.renderControl(oControl.getAggregation("_conjunction"));
 		oRm.write("&nbsp;");
-		oRm.write("</div>");
+//		oRm.write("</div>");
 		oRm.renderControl(oControl.getAggregation("_dataPropertyFilter"));
 	}
 });

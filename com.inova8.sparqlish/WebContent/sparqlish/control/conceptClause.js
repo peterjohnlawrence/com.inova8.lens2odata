@@ -172,7 +172,7 @@ sap.ui.core.Control.extend("sparqlish.control.conceptClause", {
 		oRm.writeControlData(oControl);
 		oRm.writeClasses();
 		oRm.write(">");
-		var oFind = new sap.m.Label().setText(sap.ui.getCore().getModel("i18nModel").getProperty("conceptClauseFind"));
+		var oFind = new sap.m.Label().setText(sap.ui.getCore().getModel("i18nModel").getProperty("conceptClauseFind")).addStyleClass("conjunctionMenuLink");
 		oRm.renderControl(oFind);
 		oRm.write("&nbsp;");
 		oRm.renderControl(oControl.getAggregation("_concept"));

@@ -39,20 +39,28 @@ sap.ui.core.Control.extend("sparqlish.control.query", {
 	renderer : function(oRm, oControl) {
 		if (oControl.checkClass(oControl, oRm, "queryModel", "Query")) {
 			// oControl.getAggregation("_queryControl").bindElement(oControl.getClausePath());
-			oRm.addClass("query");
+			oRm.addClass("clauses");
+			oRm.addClass("clauseContainer");
 			oRm.write("<div ");
 			oRm.writeControlData(oControl);
 			oRm.writeClasses();
 			oRm.write(">");
 			oRm.renderControl(oControl.getAggregation("_conceptClause"));
+			oRm.write("</div>");
 			var currentModel = oControl.getModel("queryModel");
 			var currentContext = oControl.getBindingContext("queryModel");
 			var currentModelData = currentModel.getProperty("", currentContext);
 			// No point rendering clauses if empty
 			if (!jQuery.isEmptyObject(currentModelData.clauses)) {
+				oRm.addClass("clauses");
+				oRm.write("<div ");
+				oRm.writeControlData(oControl);
+				oRm.writeClasses();
+				oRm.write(">");
 				oRm.renderControl(oControl.getAggregation("_clauses"));
+				oRm.write("<div ");
 			}
-			oRm.write("</div>");
+
 		} else {
 			jQuery.sap.log.fatal("Incorrect query clause");
 		}

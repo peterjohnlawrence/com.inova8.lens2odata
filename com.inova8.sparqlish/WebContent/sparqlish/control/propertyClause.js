@@ -83,18 +83,18 @@ sap.ui.core.Control.extend("sparqlish.control.propertyClause",
 					}
 				}
 			},
-			// TODO oMetaModel declaration -- Where??
+			// TODO oDataModel declaration -- Where??
 			getDomainEntityTypeQName : function() {
-				return oMetaModel.entityTypeQName(this.getModel("queryModel"), this.getBindingContext("queryModel"));
+				return oDataModel.getMetaModel().entityTypeQName(this.getModel("queryModel"), this.getBindingContext("queryModel"));
 			},
 			getDomainEntityTypeContext : function() {
-				return oMetaModel.getODataEntityType(this.getDomainEntityTypeQName());
+				return oDataModel.getMetaModel().getODataEntityType(this.getDomainEntityTypeQName());
 			},
 			getRangeEntityTypeQName : function() {
-				return oMetaModel.getODataEntitySet(this.getObjectProperty().toRole).entityType;
+				return oDataModel.getMetaModel().getODataEntitySet(this.getObjectProperty().toRole).entityType;
 			},
 			getRangeEntityTypeContext : function() {
-				return oMetaModel.getODataEntityType(this.getRangeEntityTypeQName());
+				return oDataModel.getMetaModel().getODataEntityType(this.getRangeEntityTypeQName());
 			},
 			deleteClause : function() {
 				// TODO This only works when we have a Query object, not when we have a QueryClause object
@@ -253,8 +253,8 @@ sap.ui.core.Control.extend("sparqlish.control.propertyClause",
 							oRm.writeClasses();
 							oRm.write(">");
 
-							oRm.addClass("propertyClause");
 							oRm.addClass("propertyConjunctionContainer");
+//							oRm.addClass("propertyClause");
 							oRm.write("<div ");
 							oRm.writeControlData(oControl);
 							oRm.writeClasses();
@@ -265,7 +265,7 @@ sap.ui.core.Control.extend("sparqlish.control.propertyClause",
 						oRm.write("&nbsp;");
 						oRm.write("</div>");
 
-						oRm.addClass("propertyClause");
+						//oRm.addClass("propertyClause");
 						oRm.addClass("propertyContainer");
 						oRm.write("<div ");
 						oRm.writeControlData(oControl);

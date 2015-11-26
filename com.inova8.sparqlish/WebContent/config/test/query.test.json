@@ -43,6 +43,28 @@
 
 		{
 			"_class": "Query",
+			"name": "Test2A:Single clauses",
+			"concept": "Orders",
+			"label": "Order",
+			"clauses": 
+			{
+				"_class": "Clauses",
+				"clause": 
+				{
+					"_class": "Clause",
+					"label": "Ship To Country",
+					"propertyClause": 
+					{
+						"_class": "DataPropertyClause",
+						"dataProperty": "ShipCountry",
+						"type": "Edm.String"
+					}
+				}
+			}
+		},
+
+		{
+			"_class": "Query",
 			"name": "Test3:Optional Single clauses",
 			"concept": "Orders",
 			"clauses": 

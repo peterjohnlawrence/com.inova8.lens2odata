@@ -77,7 +77,6 @@ sap.ui.core.Control.extend("sparqlish.control.dataPropertyFilters", {
 						"dataPropertyFilter" : {
 							"_class" : "DataPropertyFilter",
 							"condition" : "[enter condition]",
-							"value" : "[enter value]",
 							"type" : type
 						}
 					};
@@ -86,7 +85,6 @@ sap.ui.core.Control.extend("sparqlish.control.dataPropertyFilters", {
 						currentModelData.dataPropertyFilter = {
 							"_class" : "DataPropertyFilter",
 							"condition" : "[enter condition]",
-							//"value" : "[enter value]",
 							"type" : type
 						}
 					} else if (currentModelData.conjunctionFilters == null) {
@@ -96,7 +94,6 @@ sap.ui.core.Control.extend("sparqlish.control.dataPropertyFilters", {
 							"dataPropertyFilter" : {
 								"_class" : "DataPropertyFilter",
 								"condition" : "[enter condition]",
-								//"value" : "[enter value]",
 								"type" : type
 							}
 						} ]
@@ -107,7 +104,6 @@ sap.ui.core.Control.extend("sparqlish.control.dataPropertyFilters", {
 							"dataPropertyFilter" : {
 								"_class" : "DataPropertyFilter",
 								"condition" : "[enter condition]",
-								//"value" : "[enter value]",
 								"type" : type
 							}
 						});
@@ -122,7 +118,7 @@ sap.ui.core.Control.extend("sparqlish.control.dataPropertyFilters", {
 	},
 
 	renderer : function(oRm, oControl) {
-		if (oControl.getAggregation("_dataPropertyFilter") != null) {
+		if (!jQuery.isEmptyObject(oControl.getAggregation("_dataPropertyFilter"))) {
 			oRm.renderControl(oControl.getAggregation("_dataPropertyFilter"));
 			var dataPropertyConjunctionFilters = oControl.getAggregation("_dataPropertyConjunctionFilters");
 			if (!jQuery.isEmptyObject(dataPropertyConjunctionFilters)) {
@@ -131,6 +127,7 @@ sap.ui.core.Control.extend("sparqlish.control.dataPropertyFilters", {
 				}
 			}
 		}
+		oRm.write("&nbsp;");
 		oRm.renderControl(oControl.getAggregation("_extendFilter"));
 	}
 });

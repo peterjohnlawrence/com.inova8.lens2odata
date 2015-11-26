@@ -70,23 +70,23 @@ sap.ui.core.Control.extend("sparqlish.control.conceptFilters", {
 	renderer : function(oRm, oControl) {
 		var conceptFilters = oControl.getAggregation("_conceptFilters");
 		if (!jQuery.isEmptyObject(conceptFilters)) {
-			oRm.addClass("menuLink");
-			oRm.write("<div ");
-			oRm.writeControlData(oControl);
-			oRm.writeClasses();
-			oRm.write(">");
+//			oRm.addClass("menuLink");
+//			oRm.write("<div ");
+//			oRm.writeControlData(oControl);
+//			oRm.writeClasses();
+//			oRm.write(">");
 			for (var i = 0; i < conceptFilters.length; i++) {
 				if (i > 0) {
-					oRm.renderControl(new sap.m.Label().setText(sap.ui.getCore().getModel("i18nModel").getProperty("conceptClauseConjunction")));
+					oRm.renderControl(new sap.m.Label().setText(sap.ui.getCore().getModel("i18nModel").getProperty("conceptClauseConjunction")).addStyleClass("conjunctionMenuLink"));
 					// oRm.write(sap.ui.getCore().getModel("i18nModel").getProperty("conceptClauseConjunction"));
 				} else {
 					oRm.write("&nbsp;");
-					oRm.renderControl(new sap.m.Label().setText(sap.ui.getCore().getModel("i18nModel").getProperty("conceptClauseIn")));
+					oRm.renderControl(new sap.m.Label().setText(sap.ui.getCore().getModel("i18nModel").getProperty("conceptClauseIn")).addStyleClass("conjunctionMenuLink"));
 					// oRm.write(sap.ui.getCore().getModel("i18nModel").getProperty("conceptClauseIn"));
 				}
 				oRm.renderControl(conceptFilters[i]);
 			}
-			oRm.write("</div>");
+//			oRm.write("</div>");
 		}
 		oRm.write("&nbsp;");
 		oRm.renderControl(oControl.getAggregation("_extendFilter"));

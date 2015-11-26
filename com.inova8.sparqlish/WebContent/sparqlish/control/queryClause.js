@@ -30,19 +30,6 @@ sap.ui.core.Control.extend("sparqlish.control.queryClause", {
 	},
 	init : function() {
 		var self = this;
-		// TODO setting aggregations here does not appear to setup the re-rendering correctly.
-		// self.setAggregation("_conceptClause", new sparqlish.control.conceptClause().attachChangedClause(function(oEvent)
-		// {
-		// self.fireChangedClause();
-		// }));
-		// self.setAggregation("_propertyClause", new
-		// sparqlish.control.propertyClause().attachChangedClause(function(oEvent) {
-		// self.fireChangedClause();
-		// }));
-		// self.setAggregation("_conjunctionPropertyClause", new
-		// sparqlish.control.conjunctionPropertyClause().attachChangedClause(function(oEvent) {
-		// self.fireChangedClause();
-		// }));
 	},
 	renderer : function(oRm, oControl) {
 		var self = this;
@@ -53,13 +40,11 @@ sap.ui.core.Control.extend("sparqlish.control.queryClause", {
 			oRm.writeClasses();
 			oRm.write(">");
 			var currentModel = oControl.getModel("queryModel");
-			// Set binding context, rather than just the binding path etc, as this seems essential for satisfactory binding of
-			// aggregations
-			//TODO should not rely on oQueryModel object existing in controller
-			oControl.setBindingContext(new sap.ui.model.Context(oQueryModel, oControl.getClausePath()), "queryModel")
+			// Set binding context, rather than just the binding path etc, as this seems essential for satisfactory binding of aggregations
+			oControl.setBindingContext(new sap.ui.model.Context(oControl.getModel("queryModel"), oControl.getClausePath()), "queryModel")
 			var currentCtx = oControl.getBindingContext("queryModel");
 			var currentContext = oControl.getModel("queryModel").getProperty("", currentCtx);
-			if (currentContext != undefined) {
+			if (!jQuery.isEmptyObject(currentContext)) {
 				var sClass = currentContext._class;
 				if (sClass == "Query") {
 					oControl.setAggregation("_conceptClause", new sparqlish.control.conceptClause().setBindingContext(oControl.getBindingContext("queryModel"))

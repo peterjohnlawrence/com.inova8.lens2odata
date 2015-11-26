@@ -111,20 +111,16 @@ sap.ui.core.Control.extend("sparqlish.control.conjunctionPropertyClause", {
 						oRm.writeClasses();
 						oRm.write(">");
 						
-						oRm.addClass("propertyClause");
 						oRm.addClass("propertyConjunctionContainer");
+//						oRm.addClass("propertyClause");
 						oRm.write("<div ");
 						oRm.writeControlData(oControl);
 						oRm.writeClasses();
 						oRm.write(">");
-		
-//		oRm.write("<div ");
-//		oRm.writeControlData(oControl);
-//		oRm.writeClasses();
-//		oRm.write(">");
+
 		oRm.renderControl(oControl.getAggregation("_conjunction"));
 		oRm.write("&nbsp;");
 		oRm.renderControl(oControl.getAggregation("_propertyClause").setConjunction(true));
-//		oRm.write("</div>");
+
 	}
 });

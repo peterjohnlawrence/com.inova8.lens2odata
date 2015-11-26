@@ -74,8 +74,7 @@
 
 	// queryModel>
 	var oQueriesModel = new sap.ui.model.json.JSONModel();
-	//oQueryModel.loadData("../config/test/query.test1.json", null, false);
-	oQueriesModel.loadData("../config/test/query.test9.json", null, false);
+	oQueriesModel.loadData("../config/test/query.test.json", null, false);
 	sap.ui.getCore().setModel(oQueriesModel, "queriesModel");
 
 	//viewModel>, not initialized until query chosen since it is specific to a single query
@@ -132,10 +131,10 @@
 			label : "Query",
 			template : new sparqlish.control.queryClause({
 				clausePath : {
-					path : "viewModel>path"
+					path : "viewModel>path",
 				},
 				changedClause : refresh
-			}),
+			}).setModel("queryModel",oQueriesModel),
 			templateShareable : false,
 			visible : true,
 			width : "1000px"
@@ -219,7 +218,14 @@
 		selectionMode : sap.ui.table.SelectionMode.Single,
 		enableColumnReordering : false,
 		expandFirstLevel : true,
-		expandTolevel : 3
+		expandTolevel : 3,
+		extension : [ new sap.ui.commons.Button({
+			text : "Preview results",
+			icon : sap.ui.core.IconPool.getIconURI("search"),
+			press : function() {
+				alert("Button pressed!");
+			}
+		}) ]
 	});
 
 	//TODO Hide the rowes by filtering those without an index value ... but does not work
@@ -276,6 +282,9 @@
 		//oTable.unbindRows();
 
 		oResultsModel.setData({});
+		oTable.setMinAutoRowCount(1);
+		oTable.setVisibleRowCount(oViewModel.getData().root.branchLength);
+		oTable.setVisibleRowCountMode(sap.ui.table.VisibleRowCountMode.Interactive);
 		oTable.setModel(oViewModel, "viewModel");
 		oTable.bindRows("viewModel>/");
 	}

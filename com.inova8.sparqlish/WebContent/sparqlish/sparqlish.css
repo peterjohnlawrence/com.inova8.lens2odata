@@ -5,6 +5,66 @@
 	display: inline-block;
 }
 
+.clauseContainer {
+	display: -webkit-flex;
+	display: flex;
+	-webkit-flex-wrap: wrap;
+	-webkit-flex-direction: column;
+	flex-direction: column;
+	flex-wrap: wrap;
+	justify-content: flex-start;
+	-webkit-align-content: flex-start;
+	align-content: flex-start; 
+	align-items: flex-start;
+	width: auto
+}
+
+.propertyClauseContainer {
+	display: -webkit-flex;
+	display: flex;
+	-webkit-flex-direction: row;
+	flex-direction: row;
+	align-items: center;
+		-webkit-flex-wrap: wrap;
+	flex-wrap: wrap;
+}
+
+.propertyConjunctionContainer {
+	display: -webkit-flex;
+	display: flex;
+	-webkit-flex-wrap: wrap;
+	flex-wrap: wrap;
+	-webkit-flex-direction: row;
+	flex-direction: row;
+	justify-content: flex-end;
+	align-items: flex-end;
+	//align-content: flex-end;
+	width: 90px
+}
+
+.propertyContainer {
+	display: -webkit-flex;
+	display: flex;
+	-webkit-flex-wrap: wrap;
+	flex-wrap: wrap;
+	-webkit-flex-direction: row;
+	flex-direction: row;
+	justify-content: flex-start;
+	align-items: flex-start;
+	align-content: flex-start;
+	width: auto
+}
+
+.clauses {
+	font: 16px arial, sans-serif;
+	font-weight: normal; //
+	font-size: 100%; //
+	display: inline-block;
+	line-height: 150%; //
+	background-color: lightgrey; //
+	border: 2px solid navy;
+}
+
 .conceptClause {
 	font: 16px arial, sans-serif;
 	font-weight: normal; //
@@ -53,46 +113,22 @@
 	line-height: 150%; //
 	background-color: lightgrey; //
 	border: 2px solid navy;
+	width: 120px;
 }
 
 .dataPropertyValue input {
 	font: 16px arial, sans-serif;
-	font-weight: normal; //
+	font-weight: bold; //
 	font-size: 100%;
 	display: inline-block;
 	line-height: 150%; //
 	background-color: lightgrey; //
 	border: 2px solid navy;
+	width: 100%;
 }
 
 .dataPropertyValue>span {
 	display: none
-}
-
-.propertyConjunctionContainer {
-	display: -webkit-flex;
-	display: flex;
-	-webkit-flex-wrap: wrap;
-    flex-wrap: wrap;
-	justify-content: flex-end;
-	align-items: center;
-	width: 90px
-}
-
-.propertyContainer {
-	display: -webkit-flex;
-	display: flex;
-	-webkit-flex-wrap: wrap;
-    flex-wrap: wrap;
-    	justify-content: flex-start;
-	align-items: center;
-		width: auto
-}
-
-.propertyClauseContainer {
-	display: -webkit-flex;
-	display: flex;
-	align-items: center;
 }
 
 .resultValue {
@@ -160,6 +196,7 @@
 	line-height: 150%;
 	background-color: yellow;
 	border: 2px solid navy;
+	border-radius: 10px;
 }
 
 .conjunctionMenuLink {
@@ -185,9 +222,4 @@
 	border: 5px solid #FFFFFF;
 	border-bottom: 1px solid #FFFFFF;
 	box-shadow: 5px 5px 7px #808888;
-	//10
-	px
-	5px
-	5px
-	black;
 }

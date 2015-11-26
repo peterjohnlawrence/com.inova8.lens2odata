@@ -66,10 +66,10 @@ sap.ui.core.Control.extend("sparqlish.control.objectPropertyFilters", {
 		if (!jQuery.isEmptyObject(objectPropertyFilters)) {
 			for (var i = 0; i < objectPropertyFilters.length; i++) {
 				if (i > 0) {
-					oRm.write(",");
-				} else {
+					oRm.renderControl(new sap.m.Label().setText(sap.ui.getCore().getModel("i18nModel").getProperty("conceptClauseConjunction")).addStyleClass("conjunctionMenuLink"));
+				} else {				
 					oRm.write("&nbsp;");
-					oRm.write("in");
+					oRm.renderControl(new sap.m.Label().setText(sap.ui.getCore().getModel("i18nModel").getProperty("conceptClauseIn")).addStyleClass("conjunctionMenuLink"));
 				}
 				oRm.write("&nbsp;");
 				oRm.renderControl(objectPropertyFilters[i]);
