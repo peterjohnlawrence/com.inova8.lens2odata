@@ -1,5 +1,5 @@
 jQuery.sap.require("sparqlish.control.objectPropertyFilter");
-jQuery.sap.require("sparqlish.control.iconLink");
+jQuery.sap.require("sparqlish.control.extendFilter");
 sap.ui.core.Control.extend("sparqlish.control.objectPropertyFilters", {
 	metadata : {
 		aggregations : {
@@ -8,7 +8,7 @@ sap.ui.core.Control.extend("sparqlish.control.objectPropertyFilters", {
 				multiple : true
 			},
 			_extendFilter : {
-				type : "sparqlish.control.iconLink",
+				type : "sparqlish.control.extendFilter",
 				multiple : false
 			}
 		}
@@ -48,7 +48,7 @@ sap.ui.core.Control.extend("sparqlish.control.objectPropertyFilters", {
 				self.getParent().rerender();
 			}
 		}));
-		self.setAggregation("_extendFilter", new sparqlish.control.iconLink({
+		self.setAggregation("_extendFilter", new sparqlish.control.extendFilter({
 			visible:true,
 			text : "[+]",
 			icon : "add-filter",

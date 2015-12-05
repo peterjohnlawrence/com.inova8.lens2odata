@@ -20,7 +20,7 @@ sap.ui.commons.Link.extend("sparqlish.control.addClause", {
 		var oLink = new sap.ui.core.Icon({
 			src : sap.ui.core.IconPool.getIconURI("add-process"),
 			tooltip : "{i18nModel>addClauseTooltip}"
-		}).setColor(sap.ui.core.IconColor.Neutral );
+		}).setColor(sap.ui.core.IconColor.Neutral ).addStyleClass("menuLink");
 		oLink.attachPress(function(oEvent) {
 			self.firePressed();
 		});

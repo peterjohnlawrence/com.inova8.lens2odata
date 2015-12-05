@@ -1,6 +1,6 @@
-jQuery.sap.require("sap.ui.commons.ListBox");
-jQuery.sap.require("sap.ui.core.ListItem");
-jQuery.sap.require("sap.ui.ux3.ToolPopup");
+jQuery.sap.require("sap.m.P13nDialog");
+jQuery.sap.require("sap.m.P13nColumnsPanel");
+jQuery.sap.require("sap.m.P13nItem");
 sap.ui.core.Control.extend("sparqlish.control.conceptMenu", {
 	metadata : {
 		aggregations : {
@@ -10,13 +10,7 @@ sap.ui.core.Control.extend("sparqlish.control.conceptMenu", {
 			}
 		},
 		events : {
-			selected : {
-				enablePreventDefault : true
-			},
-			unselected : {
-				enablePreventDefault : true
-			},
-			changed : {
+			conceptChanged : {
 				enablePreventDefault : true
 			}
 		}
@@ -25,45 +19,51 @@ sap.ui.core.Control.extend("sparqlish.control.conceptMenu", {
 		var self = this;
 		self.oConceptLink = new sap.m.Link({
 			text : "{queryModel>concept}",
-			tooltip : "Select a concept to find"
+			tooltip : "i18nModel>conceptTooltip"
 		});
 		self.oConceptLink.addStyleClass("conceptMenuLink");
-
-		self.oConceptList = new sap.ui.commons.ListBox({
+		self.oConceptList = new sap.m.P13nColumnsPanel({
+			title : "{i18nModel>conceptList}",
 			items : {
 				path : "entityContainer>/entitySet",
-				template : new sap.ui.core.ListItem({
+				template : new sap.m.P13nItem({
+					columnKey : "{entityContainer>name}",
 					text : "{entityContainer>name}"
 				})
+			},
+		});
+		// TODO Undocumented hack to make P13nColumnsPanel to be single select
+		self.oConceptList._oTable.setMode(sap.m.ListMode.SingleSelect);
+		self.oDialog = new sap.m.P13nDialog({
+			title : "{i18nModel>conceptSelectTitle}",
+			cancel : function() {
+				self.oDialog.close();
+			},
+			ok : function(oEvent) {
+				var newConcept = self.oConceptList.getOkPayload().selectedItems[0].columnKey;
+				if (self.getAggregation("_concept").getText() != newConcept) {
+
+					self.getAggregation("_concept").setText(newConcept);
+
+					self.fireConceptChanged({
+						concept : newConcept
+					});
+				}
+//				self.fireSelected({
+//					concept : newConcept
+//				});
+				self.oDialog.close();
 			}
 		});
-
-		self.oConceptPopup = new sap.ui.ux3.ToolPopup();
-		self.oConceptPopup.addContent(self.oConceptList);
-		self.oConceptPopup.setOpener(self.oConceptLink);
-		self.oConceptPopup.setAutoClose(true);
+		self.oDialog.addPanel(self.oConceptList);
 
 		self.oConceptLink.attachPress(function(oEvent) {
-			if (self.oConceptPopup.isOpen()) {
-				self.oConceptPopup.close();
+			if (self.oDialog.isOpen()) {
+				self.oDialog.close();
 			} else {
-				self.oConceptPopup.open();
+				self.oDialog.open();
 			}
 		});
-		self.conceptSelect = function(oEvent) {
-			if (self.getAggregation("_concept").getText() != oEvent.getParameter("selectedItem").getText()) {
-				self.fireChanged({
-					concept : oEvent.getParameter("selectedItem").getText()
-				});
-			}
-			self.getAggregation("_concept").setText(oEvent.getParameter("selectedItem").getText());
-			self.fireSelected({
-				concept : oEvent.getParameter("selectedItem").getText()
-			});
-			//Now close popup since select completed
-			self.oConceptPopup.close();
-		};
-		self.oConceptList.attachSelect(self.conceptSelect);
 		self.setAggregation("_concept", self.oConceptLink);
 	},
 	renderer : function(oRm, oControl) {

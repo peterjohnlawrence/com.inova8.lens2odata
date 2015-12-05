@@ -6,11 +6,6 @@
 			"conditions": 
 			[
 				{
-					"condition": "DELETE",
-					"name": "DELETE"
-				},
-
-				{
 					"condition": "contains",
 					"name": "substringof"
 				},
@@ -41,11 +36,6 @@
 		{
 			"conditions": 
 			[
-				{
-					"condition": "DELETE",
-					"name": "DELETE"
-				},
-
 				{
 					"condition": "equals",
 					"name": "eq"
@@ -83,11 +73,6 @@
 			"conditions": 
 			[
 				{
-					"condition": "DELETE",
-					"name": "DELETE"
-				},
-
-				{
 					"condition": "equals",
 					"name": "eq"
 				},
@@ -103,11 +88,6 @@
 		{
 			"conditions": 
 			[
-				{
-					"condition": "DELETE",
-					"name": "DELETE"
-				},
-
 				{
 					"condition": "equals",
 					"name": "eq"
@@ -145,11 +125,6 @@
 			"conditions": 
 			[
 				{
-					"condition": "DELETE",
-					"name": "DELETE"
-				},
-
-				{
 					"condition": "equals",
 					"name": "eq"
 				},
@@ -185,11 +160,6 @@
 		{
 			"conditions": 
 			[
-				{
-					"condition": "DELETE",
-					"name": "DELETE"
-				},
-
 				{
 					"condition": "equals",
 					"name": "eq"
@@ -227,11 +197,6 @@
 			"conditions": 
 			[
 				{
-					"condition": "DELETE",
-					"name": "DELETE"
-				},
-
-				{
 					"condition": "equals",
 					"name": "eq"
 				},
@@ -267,11 +232,6 @@
 		{
 			"conditions": 
 			[
-				{
-					"condition": "DELETE",
-					"name": "DELETE"
-				},
-
 				{
 					"condition": "equals",
 					"name": "eq"
@@ -309,11 +269,6 @@
 			"conditions": 
 			[
 				{
-					"condition": "DELETE",
-					"name": "DELETE"
-				},
-
-				{
 					"condition": "equals",
 					"name": "eq"
 				},
@@ -349,11 +304,6 @@
 		{
 			"conditions": 
 			[
-				{
-					"condition": "DELETE",
-					"name": "DELETE"
-				},
-
 				{
 					"condition": "equals",
 					"name": "eq"
@@ -391,11 +341,6 @@
 			"conditions": 
 			[
 				{
-					"condition": "DELETE",
-					"name": "DELETE"
-				},
-
-				{
 					"condition": "equals",
 					"name": "eq"
 				},
@@ -431,11 +376,6 @@
 		{
 			"conditions": 
 			[
-				{
-					"condition": "DELETE",
-					"name": "DELETE"
-				},
-
 				{
 					"condition": "equals",
 					"name": "eq"
@@ -473,11 +413,6 @@
 			"conditions": 
 			[
 				{
-					"condition": "DELETE",
-					"name": "DELETE"
-				},
-
-				{
 					"condition": "equals",
 					"name": "eq"
 				},
@@ -513,11 +448,6 @@
 		{
 			"conditions": 
 			[
-				{
-					"condition": "DELETE",
-					"name": "DELETE"
-				},
-
 				{
 					"condition": "equals",
 					"name": "eq"
@@ -555,11 +485,6 @@
 			"conditions": 
 			[
 				{
-					"condition": "DELETE",
-					"name": "DELETE"
-				},
-
-				{
 					"condition": "contains",
 					"name": "substringof"
 				},
@@ -590,11 +515,6 @@
 		{
 			"conditions": 
 			[
-				{
-					"condition": "DELETE",
-					"name": "DELETE"
-				},
-
 				{
 					"condition": "equals",
 					"name": "eq"
@@ -632,11 +552,6 @@
 			"conditions": 
 			[
 				{
-					"condition": "DELETE",
-					"name": "DELETE"
-				},
-
-				{
 					"condition": "contains",
 					"name": "substringof"
 				},
@@ -667,11 +582,6 @@
 		{
 			"conditions": 
 			[
-				{
-					"condition": "DELETE",
-					"name": "DELETE"
-				},
-
 				{
 					"condition": "equals",
 					"name": "eq"
@@ -709,11 +619,6 @@
 			"conditions": 
 			[
 				{
-					"condition": "DELETE",
-					"name": "DELETE"
-				},
-
-				{
 					"condition": "equals",
 					"name": "eq"
 				},
@@ -749,11 +654,6 @@
 		{
 			"conditions": 
 			[
-				{
-					"condition": "DELETE",
-					"name": "DELETE"
-				},
-
 				{
 					"condition": "equals",
 					"name": "eq"
@@ -791,11 +691,6 @@
 			"conditions": 
 			[
 				{
-					"condition": "DELETE",
-					"name": "DELETE"
-				},
-
-				{
 					"condition": "equals",
 					"name": "eq"
 				},
@@ -831,11 +726,6 @@
 		{
 			"conditions": 
 			[
-				{
-					"condition": "DELETE",
-					"name": "DELETE"
-				},
-
 				{
 					"condition": "equals",
 					"name": "eq"
@@ -873,11 +763,6 @@
 			"conditions": 
 			[
 				{
-					"condition": "DELETE",
-					"name": "DELETE"
-				},
-
-				{
 					"condition": "equals",
 					"name": "eq"
 				},
@@ -913,11 +798,6 @@
 		{
 			"conditions": 
 			[
-				{
-					"condition": "DELETE",
-					"name": "DELETE"
-				},
-
 				{
 					"condition": "equals",
 					"name": "eq"
@@ -955,11 +835,6 @@
 			"conditions": 
 			[
 				{
-					"condition": "DELETE",
-					"name": "DELETE"
-				},
-
-				{
 					"condition": "equals",
 					"name": "eq"
 				},
@@ -995,11 +870,6 @@
 		{
 			"conditions": 
 			[
-				{
-					"condition": "DELETE",
-					"name": "DELETE"
-				},
-
 				{
 					"condition": "equals",
 					"name": "eq"
@@ -1037,11 +907,6 @@
 			"conditions": 
 			[
 				{
-					"condition": "DELETE",
-					"name": "DELETE"
-				},
-
-				{
 					"condition": "equals",
 					"name": "eq"
 				},
@@ -1077,11 +942,6 @@
 		{
 			"conditions": 
 			[
-				{
-					"condition": "DELETE",
-					"name": "DELETE"
-				},
-
 				{
 					"condition": "equals",
 					"name": "eq"
@@ -1119,11 +979,6 @@
 			"conditions": 
 			[
 				{
-					"condition": "DELETE",
-					"name": "DELETE"
-				},
-
-				{
 					"condition": "equals",
 					"name": "eq"
 				},
@@ -1159,11 +1014,6 @@
 		{
 			"conditions": 
 			[
-				{
-					"condition": "DELETE",
-					"name": "DELETE"
-				},
-
 				{
 					"condition": "equals",
 					"name": "eq"
@@ -1201,11 +1051,6 @@
 			"conditions": 
 			[
 				{
-					"condition": "DELETE",
-					"name": "DELETE"
-				},
-
-				{
 					"condition": "contains",
 					"name": "substringof"
 				},
@@ -1236,11 +1081,6 @@
 		{
 			"conditions": 
 			[
-				{
-					"condition": "DELETE",
-					"name": "DELETE"
-				},
-
 				{
 					"condition": "equals",
 					"name": "eq"

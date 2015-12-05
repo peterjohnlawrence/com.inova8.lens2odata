@@ -1,6 +1,5 @@
-jQuery.sap.require("sap.m.P13nDialog");
-jQuery.sap.require("sap.m.P13nColumnsPanel");
-jQuery.sap.require("sap.m.P13nItem");
+// TODO why is this required
+jQuery.sap.require("sap.ui.unified.MenuItem");
 jQuery.sap.require("sap.ui.core.IconPool");
 jQuery.sap.require("sparqlish.utilities");
 sap.ui.core.Control
@@ -22,16 +21,16 @@ sap.ui.core.Control
 							unselected : {
 								enablePreventDefault : true
 							},
-							propertyChanged : {
+							changed : {
 								enablePreventDefault : true
 							}
 						}
 					},
 					init : function() {
 						var self = this;
-						var dataPropertySelect = function(sSelectedProperty) {
-							// var sSelectedProperty = oEvent.getParameter("item").getText();
-							if (self.getAggregation("_property").getText() != sSelectedProperty) {
+						var dataPropertySelect = function(oEvent) {
+							var sSelectedProperty = oEvent.getParameter("item").getText();
+							if (self.getAggregation("_property").getText() != oEvent.getParameter("item").getText()) {
 								var currentModel = self.getModel("queryModel");
 								var currentContext = self.getBindingContext("queryModel");
 								var currentPropertyClause = currentModel.getProperty("", currentContext).propertyClause;
@@ -48,7 +47,7 @@ sap.ui.core.Control
 								delete currentPropertyClause.objectPropertyFilters;
 								// clauses only apply to objectProperties but we have switched to a dataProperty
 								delete currentPropertyClause.clauses;
-								self.firePropertyChanged({
+								self.fireChanged({
 									dataProperty : sSelectedProperty
 								});
 								self.getAggregation("_property").setText(sSelectedProperty);
@@ -61,9 +60,9 @@ sap.ui.core.Control
 								});
 							}
 						};
-						var objectPropertySelect = function(sSelectedProperty) {
-							// var sSelectedProperty = oEvent.getParameter("item").getText();
-							if (self.getAggregation("_property").getText() != sSelectedProperty) {
+						var objectPropertySelect = function(oEvent) {
+							var sSelectedProperty = oEvent.getParameter("item").getText();
+							if (self.getAggregation("_property").getText() != oEvent.getParameter("item").getText()) {
 								var currentModel = self.getModel("queryModel");
 								var currentContext = self.getBindingContext("queryModel");
 								var currentPropertyClause = currentModel.getProperty("", currentContext).propertyClause;
@@ -97,57 +96,29 @@ sap.ui.core.Control
 									text : "{=  ${queryModel>propertyClause/_class} ==='DataPropertyClause'  ?   ${queryModel>propertyClause/dataProperty} : (${queryModel>propertyClause/_class} ==='ObjectPropertyClause' ? ${queryModel>propertyClause/objectProperty}: ${i18nModel>clauseSelectProperty})}",
 									tooltip : "{i18nModel>propertyMenuTooltip}"
 								});// .addStyleClass("menuLink");
-
-						self.oObjectPropertyMenu = new sap.m.P13nColumnsPanel({
-							// title : "{i18nModel>navigationProperties}",
+						self.oObjectPropertyMenu = new sap.ui.unified.Menu({
 							items : {
 								path : "entityTypeModel>/navigationProperty",
-								template : new sap.m.P13nItem({
-									columnKey : "{entityTypeModel>name}",
+								template : new sap.ui.unified.MenuItem({
 									text : "{entityTypeModel>name}"
-								})
-							// TODO .attachSelect(objectPropertySelect)
+								}).attachSelect(objectPropertySelect)
 							}
 						});
-						// TODO Undocumented hack to make P13nColumnsPanel to be single select
-						self.oObjectPropertyMenu._oTable.setMode(sap.m.ListMode.SingleSelect);
-						self.oDataPropertyMenu = new sap.m.P13nColumnsPanel({
-							// title : "{i18nModel>dataProperties}",
+						self.oDataPropertyMenu = new sap.ui.unified.Menu({
 							items : {
 								path : "entityTypeModel>/property",
-								template : new sap.m.P13nItem({
-									columnKey : "{entityTypeModel>name}",
+								template : new sap.ui.unified.MenuItem({
 									text : "{entityTypeModel>name}"
-								})
-							// TODO .attachSelect(dataPropertySelect)
+								}).attachSelect(dataPropertySelect)
 							}
 						});
-						// TODO Undocumented hack to make P13nColumnsPanel to be single select
-						self.oDataPropertyMenu._oTable.setMode(sap.m.ListMode.SingleSelect);
 
-						self.oDialog = new sap.m.P13nDialog({
-							title : "{i18nModel>editClauseTitle}",
-							cancel : function() {
-								self.oDialog.close();
-							},
-							ok : function(oEvent) {
-								// TODO is this the correct order?
-								self.oDialog.close();
-								switch (self.oDialog.indexOfPanel(self.oDialog.getVisiblePanel())) {
-								case 0:
-									if (!jQuery.isEmptyObject(self.oObjectPropertyMenu.getOkPayload().selectedItems[0]))
-										objectPropertySelect(self.oObjectPropertyMenu.getOkPayload().selectedItems[0].columnKey);
-									break;
-								case 1:
-									if (!jQuery.isEmptyObject(self.oDataPropertyMenu.getOkPayload().selectedItems[0]))
-										dataPropertySelect(self.oDataPropertyMenu.getOkPayload().selectedItems[0].columnKey);
-									break;
-								default:
-								}
-							}
-						});
-						self.oDialog.addPanel(self.oObjectPropertyMenu);
-						self.oDialog.addPanel(self.oDataPropertyMenu);
+						self.oPropertyMenuItemObjectProperty = new sap.ui.unified.MenuItem();
+						self.oPropertyMenuItemDataProperty = new sap.ui.unified.MenuItem();
+						self.oPropertyMenu = new sap.ui.unified.Menu();
+						self.oPropertyMenu.addItem(self.oPropertyMenuItemObjectProperty).addItem(self.oPropertyMenuItemDataProperty);
+						self.oPropertyMenuItemObjectProperty.setSubmenu(self.oObjectPropertyMenu);
+						self.oPropertyMenuItemDataProperty.setSubmenu(self.oDataPropertyMenu);
 
 						oPropertyLink.attachPress(function(oEvent) {
 							var self = oEvent.getSource().getParent();
@@ -156,15 +127,15 @@ sap.ui.core.Control
 							var sEntityTypeQName = self.getParent().getDomainEntityTypeQName();
 							self.oEntityTypeModel = new sap.ui.model.json.JSONModel();
 							self.oEntityTypeModel.setData(oEntityTypeContext);
-							self.oDialog.setModel(self.oEntityTypeModel, "entityTypeModel");
-							// TODO not setting title or at least not displaying
-							self.oObjectPropertyMenu.setTitle(oEntityTypeContext.name + " " + sap.ui.getCore().getModel("i18nModel").getProperty("propertyMenuLink"));
-							self.oDataPropertyMenu.setTitle(oEntityTypeContext.name + " " + sap.ui.getCore().getModel("i18nModel").getProperty("propertyMenuAttribute"));
-							if (self.oDialog.isOpen()) {
-								self.oDialog.close();
-							} else {
-								self.oDialog.open();
-							}
+							self.oPropertyMenu.setModel(self.oEntityTypeModel, "entityTypeModel");
+
+							self.oPropertyMenuItemObjectProperty.setText(oEntityTypeContext.name + " "
+									+ sap.ui.getCore().getModel("i18nModel").getProperty("propertyMenuLink"));
+							self.oPropertyMenuItemDataProperty.setText(oEntityTypeContext.name + " "
+									+ sap.ui.getCore().getModel("i18nModel").getProperty("propertyMenuAttribute"));
+							// TODO not always rerendering
+							var eDock = sap.ui.core.Popup.Dock;
+							self.oPropertyMenu.open(false, this.getFocusDomRef(), eDock.BeginTop, eDock.beginBottom, this.getDomRef());
 						});
 
 						self.setAggregation("_property", oPropertyLink);

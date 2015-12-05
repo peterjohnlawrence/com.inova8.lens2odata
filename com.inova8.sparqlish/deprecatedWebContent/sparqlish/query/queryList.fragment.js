@@ -9,11 +9,11 @@ sap.ui.jsfragment("sparqlish.query.queryList", {
 		oComboBox.setWidth("400px");
 		var oItemTemplate = new sap.ui.core.ListItem();
 		oItemTemplate.bindProperty("text", "name");
-		oComboBox.bindItems("/queries", oItemTemplate);
+		oComboBox.bindItems("/services/0/queries", oItemTemplate);
 		oComboBox.attachChange(function() {
 			var i;
-			for (i = 0; i < oController.oQueriesModel.getData().queries.length; i++) {
-				if (oController.oQueriesModel.getData().queries[i].name == oComboBox.getValue()) {
+			for (i = 0; i < oController.oQueriesModel.getData().services[0].queries.length; i++) {
+				if (oController.oQueriesModel.getData().services[0].queries[i].name == oComboBox.getValue()) {
 					oController.iCurrentQuery = i;
 					break;
 				} else

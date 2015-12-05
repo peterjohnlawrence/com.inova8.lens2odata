@@ -41,77 +41,89 @@ sap.ui.core.Control.extend("sparqlish.control.propertyClause",
 					}
 				},
 				events : {
-					selected : {
-						enablePreventDefault : true
-					},
-					deleted : {
-						enablePreventDefault : true
-					},
-					changed : {
-						enablePreventDefault : true
-					},
-					changedClause : {
+					propertyClauseChanged : {
 						enablePreventDefault : true
 					}
 				}
 			},
-
+			getClausesContext : function() {
+				var reClause = /\/clause\/$/;
+				var reConjunctionClause = /conjunctionClauses\/[0123456789]*\/clause$/;
+				this.sPath = this.getBindingContext("queryModel").getPath();
+				// TODO should be string.includes() if supported
+				if (this.sPath.search(reConjunctionClause) != -1) {
+					this.sPath = this.getBindingContext("queryModel").getPath().replace(reConjunctionClause, "");
+				} else {
+					this.sPath = this.getBindingContext("queryModel").getPath().replace(reClause, "");
+				}
+				return this.getModel("queryModel").getProperty(this.sPath);
+			},
 			getCurrentQueryContext : function() {
 				return this.getModel("queryModel").getProperty("", this.getBindingContext("queryModel"));
 			},
 			getDataProperty : function() {
 				var currentQueryContext = this.getCurrentQueryContext();
-				if (currentQueryContext == undefined) {
+				if (jQuery.isEmptyObject(currentQueryContext)) {
 					return null;
 				} else {
-					if (currentQueryContext.propertyClause == undefined) {
+					if (jQuery.isEmptyObject(currentQueryContext.propertyClause)) {
 						return null;
 					} else {
-						return this.getModel("metaModel").getDataProperty(this.getDomainEntityTypeQName(), currentQueryContext.propertyClause.dataProperty);
+						if (currentQueryContext.propertyClause._class == "DataPropertyClause") {
+							return this.getModel("metaModel").getDataProperty(this.getDomainEntityTypeQName(), currentQueryContext.propertyClause.dataProperty);
+						} else {
+							return null;
+						}
 					}
 				}
 			},
 			getObjectProperty : function() {
 				var currentQueryContext = this.getCurrentQueryContext();
-				if (currentQueryContext == undefined) {
+				if (jQuery.isEmptyObject(currentQueryContext)) {
 					return null;
 				} else {
-					if (currentQueryContext.propertyClause == undefined) {
+					if (jQuery.isEmptyObject(currentQueryContext.propertyClause)) {
 						return null
 					} else {
-						return this.getModel("metaModel").getNavigationProperty(this.getDomainEntityTypeQName(), currentQueryContext.propertyClause.objectProperty);
+						if (currentQueryContext.propertyClause._class == "ObjectPropertyClause") {
+							return this.getModel("metaModel").getNavigationProperty(this.getDomainEntityTypeQName(), currentQueryContext.propertyClause.objectProperty);
+						} else {
+							return null;
+						}
 					}
 				}
 			},
 			// TODO oDataModel declaration -- Where??
 			getDomainEntityTypeQName : function() {
-				return oDataModel.getMetaModel().entityTypeQName(this.getModel("queryModel"), this.getBindingContext("queryModel"));
+				return this.getModel("odataModel").getMetaModel().entityTypeQName(this.getModel("queryModel"), this.getBindingContext("queryModel"));
 			},
 			getDomainEntityTypeContext : function() {
-				return oDataModel.getMetaModel().getODataEntityType(this.getDomainEntityTypeQName());
+				return this.getModel("odataModel").getMetaModel().getODataEntityType(this.getDomainEntityTypeQName());
 			},
 			getRangeEntityTypeQName : function() {
-				return oDataModel.getMetaModel().getODataEntitySet(this.getObjectProperty().toRole).entityType;
+				return this.getModel("odataModel").getMetaModel().getODataEntitySet(this.getObjectProperty().toRole).entityType;
 			},
 			getRangeEntityTypeContext : function() {
-				return oDataModel.getMetaModel().getODataEntityType(this.getRangeEntityTypeQName());
+				return this.getModel("odataModel").getMetaModel().getODataEntityType(this.getRangeEntityTypeQName());
 			},
 			deleteClause : function() {
 				// TODO This only works when we have a Query object, not when we have a QueryClause object
-				var oClausesContext = this.getParent().getCurrentQueryContext();
-				// var oClausesContext = this.getCurrentQueryContext();
-				if (!jQuery.isEmptyObject(oClausesContext.conjunctionClauses)) {
+				// var oClausesContext = this.getParent().getCurrentQueryContext();
+				this.oClausesContext = this.getClausesContext();
+				if (!jQuery.isEmptyObject(this.oClausesContext.conjunctionClauses)) {
 					// get first conjunction clause and move up to this clause
-					oClausesContext.clause = oClausesContext.conjunctionClauses[0].clause;
-					oClausesContext.conjunctionClauses.splice(0, 1);
+					this.oClausesContext.clause = this.oClausesContext.conjunctionClauses[0].clause;
+					this.oClausesContext.conjunctionClauses.splice(0, 1);
 					// Now delete any conjunctionClauses if empty
-					if (oClausesContext.conjunctionClauses.length == 0) {
+					if (this.oClausesContext.conjunctionClauses.length == 0) {
 						// Now remove conjunctionClauses
-						delete oClausesContext.conjunctionClauses;
+						delete this.oClausesContext.conjunctionClauses;
 					}
 				} else {
 					// Just delete this one and only one clause
-					delete oClausesContext.clause;
+					// delete oClausesContext.clause;
+					delete this.oClausesContext.clause;
+					delete this.oClausesContext._class;
 				}
 				this.getParent().rerender();
 				// Goodbye
@@ -195,41 +207,47 @@ sap.ui.core.Control.extend("sparqlish.control.propertyClause",
 			}, // set up the inner controls
 			init : function() {
 				var self = this;
-				self.setAggregation("_includeOptionalIgnore", new sparqlish.control.includeOptionalIgnore().bindElement("queryModel>").attachDeleted(function(oEvent) {
+				self.setAggregation("_includeOptionalIgnore", new sparqlish.control.includeOptionalIgnore().bindElement("queryModel>").attachPropertyClauseDeleteRequested(function(oEvent) {
 					if (self.getParent().sParentAggregationName == "_conjunctionPropertyClauses") {
 						self.getParent().deleteConjunctionClause();
 					} else {
 						self.deleteClause();
 					}
+					self.firePropertyClauseChanged();
+				}).attachRerender(function(oEvent) {
+					alert("hi2");
+					//self.rerender();
 				}));
-				self.setAggregation("_property", new sparqlish.control.propertyMenu().bindElement("queryModel>").attachChanged(function(oEvent) {
+				self.setAggregation("_property", new sparqlish.control.propertyMenu().bindElement("queryModel>").attachPropertyChanged(function(oEvent) {
 					this.getModel("queryModel").refresh();
+					alert("hi3");
+					//self.rerender();
 				}));
-				// TODO defer binding until required?
 				self.setAggregation("_objectPropertyFilters", new sparqlish.control.objectPropertyFilters()
 						.bindElement("queryModel>propertyClause/objectPropertyFilters"));
-				// TODO defer binding until required?
-				self.setAggregation("_dataPropertyFilters", new sparqlish.control.dataPropertyFilters().bindElement("queryModel>propertyClause/dataPropertyFilters"));
+				self.setAggregation("_dataPropertyFilters", new sparqlish.control.dataPropertyFilters().bindElement("queryModel>propertyClause/dataPropertyFilters").attachDataPropertyFiltersChanged(function(oEvent) {
+								self.rerender();
+							})
+				);
 				self.setAggregation("_addClause", new sparqlish.control.addClauses({
-					pressed : function(oEvent) {
+					clausesSelected : function(oEvent) {
 
 						var currentModelData = self.getCurrentQueryContext().propertyClause;
 						// Now insert a first clause and move existing first clause if it exists into the first element of the
 						// array of conjunctionClauses
-						var selectedObjectProperties = oEvent.getSource().oObjectPropertyList.getSelectedItems()
-						var selectedDataProperties = oEvent.getSource().oDataPropertyList.getSelectedItems()
+						var selectedObjectProperties = oEvent.getParameter("objectPropertyPayload").selectedItems;// oEvent.getSource().oObjectPropertyList.getSelectedItems()
+						var selectedDataProperties = oEvent.getParameter("dataPropertyPayload").selectedItems;// oEvent.getSource().oDataPropertyList.getSelectedItems()
 
 						for (var i = 0; i < selectedDataProperties.length; i++) {
-							var dataProperty = selectedDataProperties[i].getText();
+							var dataProperty = selectedDataProperties[i].columnKey;// getText();
 							self.addClause(currentModelData, "DataPropertyClause", dataProperty);
 						}
 						for (var i = 0; i < selectedObjectProperties.length; i++) {
-							var objectProperty = selectedObjectProperties[i].getText();
+							var objectProperty = selectedObjectProperties[i].columnKey;// getText();
 							self.addClause(currentModelData, "ObjectPropertyClause", objectProperty);
 						}
 						self.getModel("queryModel").refresh();
-						self.getParent().rerender();
-						self.fireChangedClause();
+						self.firePropertyClauseChanged();
 					}
 				}).bindElement("queryModel>"));
 			},
@@ -238,15 +256,9 @@ sap.ui.core.Control.extend("sparqlish.control.propertyClause",
 				var currentContext = oControl.getBindingContext("queryModel");
 				var currentContextClause = currentModel.getProperty("", currentContext);
 				if (!jQuery.isEmptyObject(currentContextClause)) {
-
 					var propertyClause = currentModel.getProperty("", currentContext).propertyClause;
 					if (!jQuery.isEmptyObject(propertyClause)) {
-						// TODO Horizontal alignment, conjunctions right justified in left, property and filters left-aligned in
-						// right
 
-						var oConjunctionContainer = new sap.m.HBox().setWidth("200px").setJustifyContent(sap.m.FlexJustifyContent.End);
-						var oPropertyContainer = new sap.m.HBox().setJustifyContent(sap.m.FlexJustifyContent.Start);
-						var oPropertyClauseContainer = new sap.m.HBox().addItem(oConjunctionContainer).addItem(oPropertyContainer);
 						if (!oControl.getConjunction()) {
 							oRm.addClass("propertyClauseContainer");
 							oRm.write("<div ");
@@ -254,19 +266,17 @@ sap.ui.core.Control.extend("sparqlish.control.propertyClause",
 							oRm.write(">");
 
 							oRm.addClass("propertyConjunctionContainer");
-//							oRm.addClass("propertyClause");
 							oRm.write("<div ");
 							oRm.writeControlData(oControl);
 							oRm.writeClasses();
 							oRm.write(">");
 						}
-
-						oRm.renderControl(oControl.getAggregation("_includeOptionalIgnore"));
+						oRm.renderControl(oControl.getAggregation("_includeOptionalIgnore").setConjunction(oControl.getConjunction()));
 						oRm.write("&nbsp;");
 						oRm.write("</div>");
-
-						//oRm.addClass("propertyClause");
 						oRm.addClass("propertyContainer");
+						if (currentContextClause.ignore)
+							oRm.addClass("strikethrough");
 						oRm.write("<div ");
 						oRm.writeControlData(oControl);
 						oRm.writeClasses();

@@ -1,6 +1,6 @@
 jQuery.sap.require("sparqlish.control.dataPropertyFilter");
 jQuery.sap.require("sparqlish.control.dataPropertyConjunctionFilter");
-jQuery.sap.require("sparqlish.control.iconLink");
+jQuery.sap.require("sparqlish.control.extendFilter");
 sap.ui.core.Control.extend("sparqlish.control.dataPropertyFilters", {
 	metadata : {
 		properties : {},
@@ -14,16 +14,20 @@ sap.ui.core.Control.extend("sparqlish.control.dataPropertyFilters", {
 				multiple : true
 			},
 			_extendFilter : {
-				type : "sparqlish.control.iconLink",
+				type : "sparqlish.control.extendFilter",
 				multiple : false
+			}
+		},
+		events : {
+			dataPropertyFiltersChanged : {
+				enablePreventDefault : true
 			}
 		}
 	},
 	init : function() {
 		var self = this;
 		self.setAggregation("_dataPropertyFilter", new sparqlish.control.dataPropertyFilter({
-			deleted : function(oEvent) {
-				// TODO Should not delete if there are still some conjunctions
+			dataPropertyFilterDeleted : function(oEvent) {
 				// TODO is this really the best way to delete an element?
 				var currentModel = oEvent.getSource().getModel("queryModel");
 				var currentContext = oEvent.getSource().getBindingContext("queryModel");
@@ -32,11 +36,15 @@ sap.ui.core.Control.extend("sparqlish.control.dataPropertyFilters", {
 				var dataPropertyFiltersContextPath = currentContext.getPath().slice(0, -(1 + index.length))
 				var dataPropertyFiltersContext = new sap.ui.model.Context("queryModel", dataPropertyFiltersContextPath);
 				var currentModelData = currentModel.getProperty("", dataPropertyFiltersContext);
-				// TODO
-				currentModelData.dataPropertyFilter = {};
-				// currentModel.setData(currentModelData,"queryModel");
+				if (jQuery.isEmptyObject(currentModelData.conjunctionFilters)) {
+					currentModelData.dataPropertyFilter = {};
+				} else {
+					currentModelData.dataPropertyFilter = currentModelData.conjunctionFilters[0].dataPropertyFilter;
+					currentModelData.conjunctionFilters.splice(0, 1);
+				}
 				currentModel.refresh();
-				self.getParent().rerender();
+				self.fireDataPropertyFiltersChanged();
+			//	self.getParent().getParent().rerender();
 			}
 		}).bindElement("queryModel>dataPropertyFilter"));
 		// TODO should we use a factory function to ensure correct binding of context?
@@ -52,14 +60,14 @@ sap.ui.core.Control.extend("sparqlish.control.dataPropertyFilters", {
 				var currentModelData = currentModel.getProperty("", dataPropertyFiltersContext);
 				// TODO
 				currentModelData.splice(index, 1);
-				// currentModel.setData(currentModelData);
 				currentModel.refresh();
-				self.getParent().rerender();
+				self.fireDataPropertyFiltersChanged();
+				//self.getParent().getParent().rerender();
 			}
 		})// .bindElement("conjunctionFilters")
 		);
 
-		self.setAggregation("_extendFilter", new sparqlish.control.iconLink({
+		self.setAggregation("_extendFilter", new sparqlish.control.extendFilter({
 			visible : true,
 			text : "[+]",
 			icon : "add-filter",
@@ -71,7 +79,7 @@ sap.ui.core.Control.extend("sparqlish.control.dataPropertyFilters", {
 				var keyProperty = oEvent.getSource().getParent().getParent().getDataProperty();
 				var type = keyProperty.type;
 				var currentModelData = currentModel.getProperty("", currentContext);
-				if (currentModelData == null) {
+				if (jQuery.isEmptyObject(currentModelData)) {
 					currentModelData = {
 						"_class" : "DataPropertyFilters",
 						"dataPropertyFilter" : {
@@ -81,13 +89,13 @@ sap.ui.core.Control.extend("sparqlish.control.dataPropertyFilters", {
 						}
 					};
 				} else {
-					if (currentModelData.dataPropertyFilter == null) {
+					if (jQuery.isEmptyObject(currentModelData.dataPropertyFilter)) {
 						currentModelData.dataPropertyFilter = {
 							"_class" : "DataPropertyFilter",
 							"condition" : "[enter condition]",
 							"type" : type
 						}
-					} else if (currentModelData.conjunctionFilters == null) {
+					} else if (jQuery.isEmptyObject(currentModelData.conjunctionFilters)) {
 						currentModelData.conjunctionFilters = [ {
 							"_class" : "ConjunctionFilter",
 							"filterConjunction" : sap.ui.getCore().getModel("i18nModel").getProperty("conjunctionClauseAnd"),
@@ -109,10 +117,10 @@ sap.ui.core.Control.extend("sparqlish.control.dataPropertyFilters", {
 						});
 					}
 				}
-				// currentModel.setData(currentModelData, "queryModel");
 				self.getAggregation("_extendFilter").setVisible(true);
 				currentModel.refresh();
-				self.getParent().rerender();
+				self.fireDataPropertyFiltersChanged();
+			//	self.getParent().getParent().rerender();
 			}
 		}));
 	},

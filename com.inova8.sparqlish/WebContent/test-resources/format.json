@@ -1,0 +1,125 @@
+{
+	"_class": "Query",
+	"name": "ProductCatalog2",
+	"concept": "ProductCatalog",
+	"clauses": 
+	{
+		"_class": "Clauses",
+		"clause": 
+		{
+			"_class": "Clause",
+			"ignore": false,
+			"optional": false,
+			"propertyClause": 
+			{
+				"_class": "DataPropertyClause",
+				"dataProperty": "CultureID",
+				"type": "Edm.String",
+				"dataPropertyFilters": 
+				{
+					"_class": "DataPropertyFilters",
+					"dataPropertyFilter": 
+					{
+						
+					}
+				}
+			}
+		},
+
+		"conjunctionClauses": 
+		[
+			{
+				"_class": "ConjunctionClause",
+				"conjunction": "and",
+				"clause": 
+				{
+					"_class": "Clause",
+					"ignore": false,
+					"optional": false,
+					"propertyClause": 
+					{
+						"_class": "DataPropertyClause",
+						"dataProperty": "ProductSubcategory",
+						"type": "Edm.String",
+						"dataPropertyFilters": 
+						{
+							"_class": "DataPropertyFilters",
+							"dataPropertyFilter": 
+							{
+								"_class": "DataPropertyFilter",
+								"condition": "equals",
+								"type": "Edm.String",
+								"value": "Pedals"
+							}
+						}
+					}
+				}
+			},
+
+			{
+				"_class": "ConjunctionClause",
+				"conjunction": "and",
+				"clause": 
+				{
+					"_class": "Clause",
+					"ignore": false,
+					"optional": false,
+					"propertyClause": 
+					{
+						"_class": "DataPropertyClause",
+						"dataProperty": "Description",
+						"type": "Edm.String",
+						"dataPropertyFilters": 
+						{
+							"_class": "DataPropertyFilters",
+							"dataPropertyFilter": 
+							{
+								
+							}
+						}
+					}
+				}
+			},
+
+			{
+				"_class": "ConjunctionClause",
+				"conjunction": "and",
+				"clause": 
+				{
+					"_class": "Clause",
+					"ignore": false,
+					"optional": false,
+					"propertyClause": 
+					{
+						"_class": "DataPropertyClause",
+						"dataProperty": "ListPrice",
+						"type": "Edm.Decimal",
+						"dataPropertyFilters": 
+						{
+							"_class": "DataPropertyFilters",
+							"dataPropertyFilter": 
+							{
+								
+							},
+
+							"conjunctionFilters": 
+							[
+								{
+									"_class": "ConjunctionFilter",
+									"filterConjunction": "and",
+									"dataPropertyFilter": 
+									{
+										"_class": "DataPropertyFilter",
+										"condition": "less than",
+										"type": "Edm.Decimal",
+										"value": "80"
+									}
+								}
+							]
+						}
+					}
+				}
+			}
+		]
+	}
+}

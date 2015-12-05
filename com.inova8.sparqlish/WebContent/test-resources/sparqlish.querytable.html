@@ -1,0 +1,100 @@
+<!doctype html>
+<html>
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+<!-- <base href="../"> -->
+<title>QueryTable</title>
+<script id="sap-ui-bootstrap" src="../openui5/sap-ui-core.js" data-sap-ui-theme="sap_bluecrystal" 
+		data-sap-ui-libs="sap.m,sap.ui.unified,sap.ui.table"
+		data-sap-ui-resourceroots='{
+            "sparqlish":"../",
+					"sparqlish":"../sparqlish",
+			 "Components":"../",
+					"Components":"../Components"
+        }'
+		data-sap-ui-xx-bindingSyntax="complex" type="text/javascript"></script>
+<script type="text/javascript" src="../resources/jquery.rdfquery.core.min-1.0.js"></script>
+
+<link rel="stylesheet" type="text/css" href="../sparqlish/sparqlish.css">
+<script type="text/javascript">
+	var self = this;
+
+	/*
+	 SPARQLish requires a  query model (queryModel>) from which it derives a viewModel (viewModel>)
+	 To control the construction of the queryModel and hence the SPARQL or OData query the application also requires an OData metaModel (metamodel>). 
+	 The metamodel can be derived from the OData model (dataModel>) which is delivered by the Odata server.
+	 In the absence of an actual OData server we can create a 'mock' server by providing a suitable metadata
+	 The final model is ResourceModel to support resource bundles used for language based labels (i18nModel>). 
+	 In summary the models are:
+	 i18nModel>: the ResourceModel created using new sap.ui.model.resource.ResourceModel.
+	 dataModel>: the ODataModel provided by the ODataserver (or Mockserver) using new sap.ui.model.odata.ODataModel(sUri, true).
+	 metaModel>: the MetaModel that is provided by the OData using  oDataModel.getMetaModel().
+	 queryModel>: the JSONModel that conatins the 0, 1 or many queriues in SPARQLish format, created by loading the coirresponding queryModel file.
+	 viewModel>: The JSONModel derived from the queryModel so that it conatins the requisite indenting etc for displaying a particular query in a tree format. 
+	 datatypesModel>: The JSONModel containing the different conditions for differenbt datatypes.
+	 */
+	jQuery.sap.log.setLevel(jQuery.sap.log.Level.DEBUG);
+
+	// set up models
+	// i18nModel>
+	var i18nModel = new sap.ui.model.resource.ResourceModel({
+		bundleUrl : [ ".", "../i18n/messageBundle.properties" ].join("/")
+	});
+	sap.ui.getCore().setModel(i18nModel, "i18nModel");
+
+	// datatypesModel>
+	var oDatatypesModel = new sap.ui.model.json.JSONModel();
+	oDatatypesModel.loadData("../config/test/datatypes.json", null, false);
+	sap.ui.getCore().setModel(oDatatypesModel, "datatypesModel");
+
+	// parametersModel>
+	var oParametersModel = new sap.ui.model.json.JSONModel();
+	oParametersModel.setJSON('{"expandClause":false}', true);
+	sap.ui.getCore().setModel(oParametersModel, "parametersModel");
+
+	//Mock OData mock server
+		jQuery.sap.require("sap.ui.core.util.MockServer");
+		var sMockUri = "/mock/";
+		var oMockServer = new sap.ui.core.util.MockServer({
+			rootUri : sMockUri
+		});
+// 	var sMetadataUrl = "test-resources/northwind.v2.metadata.xml"; 
+// 	var sMetadataUrl = "test-resources/lenspoc.v2.metadata.xml"; 
+	var sMetadataUrl = "../config/test/northwind.v2.metadata.xml";
+	oMockServer.simulate(sMetadataUrl);
+	oMockServer.start();
+	
+	// dataModel>
+	var sServiceUrl = "../proxy/http/services.odata.org/V2/Northwind/Northwind.svc/";
+	var oDataModel = new sap.ui.model.odata.ODataModel(sServiceUrl, true);
+
+
+	var oServiceQueriesModel = new sap.ui.model.json.JSONModel();
+	oServiceQueriesModel.loadData("../config/test/service.query.test.json", null, false);
+	sap.ui.getCore().setModel(oServiceQueriesModel, "serviceQueriesModel");
+	
+	// Create a query form component
+	var oQueryEditorPreviewTreeTableComponent = sap.ui.getCore().createComponent({
+		name : "Components.queryEditorPreviewTreeTable",
+		settings : {
+			title : "queryEditorPreviewTreeTable",
+			serviceQueriesModel: oServiceQueriesModel,
+			odataModel : oDataModel,
+			i18nModel : i18nModel, //TODO or specific one for this component?
+			datatypesModel : oDatatypesModel
+		}
+	});
+
+	var oQueryEditorPreviewTreeTableComponentContainer = new sap.ui.core.ComponentContainer({
+		component : oQueryEditorPreviewTreeTableComponent
+	});
+
+	oQueryEditorPreviewTreeTableComponentContainer.placeAt("uiTable");
+	
+</script>
+</head>
+<body>
+		<div id="uiTable"></div>
+</body>
+</html>

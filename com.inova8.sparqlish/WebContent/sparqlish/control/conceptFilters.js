@@ -1,5 +1,5 @@
 jQuery.sap.require("sparqlish.control.conceptFilter");
-jQuery.sap.require("sparqlish.control.iconLink");
+jQuery.sap.require("sparqlish.control.extendFilter");
 sap.ui.core.Control.extend("sparqlish.control.conceptFilters", {
 	metadata : {
 		aggregations : {
@@ -8,8 +8,13 @@ sap.ui.core.Control.extend("sparqlish.control.conceptFilters", {
 				multiple : true
 			},
 			_extendFilter : {
-				type : "sparqlish.control.iconLink",
+				type : "sparqlish.control.extendFilter",
 				multiple : false
+			}
+		},
+		events : {
+			conceptFiltersChanged : {
+				enablePreventDefault : true
 			}
 		}
 	},
@@ -35,7 +40,6 @@ sap.ui.core.Control.extend("sparqlish.control.conceptFilters", {
 	init : function() {
 		var self = this;
 		self.bindAggregation("_conceptFilters", "queryModel>", new sparqlish.control.conceptFilter({
-			// conceptFilter : "{Id}",
 			deleted : function(oEvent) {
 				// TODO is this really the best way to delete an element?
 				var me = oEvent.getSource().me;
@@ -49,10 +53,11 @@ sap.ui.core.Control.extend("sparqlish.control.conceptFilters", {
 				currentModelData.splice(index, 1);
 
 				self.getModel("queryModel").refresh();
-				self.getParent().rerender();
+				//TODO Not required 
+				//self.fireConceptFiltersChanged(oEvent);
 			}
 		}));
-		self.setAggregation("_extendFilter", new sparqlish.control.iconLink({
+		self.setAggregation("_extendFilter", new sparqlish.control.extendFilter({
 			text : "add-filter",
 			icon : "add-filter",
 			tooltip : "Add a filter value",
@@ -60,33 +65,27 @@ sap.ui.core.Control.extend("sparqlish.control.conceptFilters", {
 			press : function(oEvent) {
 				self.extendFilter();
 				self.getAggregation("_extendFilter").setVisible(true);
+
 				self.getModel("queryModel").refresh();
-				self.getParent().rerender();
-				// self.getAggregation("_conceptFilters")[1].oConceptFilterPopup.close();
-				// self.getAggregation("_conceptFilters")[1].oConceptFilterLink.firePress();
+				//TODO Not required 
+				//self.fireConceptFiltersChanged(oEvent);
 			}
 		}));
 	},
 	renderer : function(oRm, oControl) {
 		var conceptFilters = oControl.getAggregation("_conceptFilters");
 		if (!jQuery.isEmptyObject(conceptFilters)) {
-//			oRm.addClass("menuLink");
-//			oRm.write("<div ");
-//			oRm.writeControlData(oControl);
-//			oRm.writeClasses();
-//			oRm.write(">");
 			for (var i = 0; i < conceptFilters.length; i++) {
 				if (i > 0) {
-					oRm.renderControl(new sap.m.Label().setText(sap.ui.getCore().getModel("i18nModel").getProperty("conceptClauseConjunction")).addStyleClass("conjunctionMenuLink"));
-					// oRm.write(sap.ui.getCore().getModel("i18nModel").getProperty("conceptClauseConjunction"));
+					oRm.renderControl(new sap.m.Label().setText(sap.ui.getCore().getModel("i18nModel").getProperty("conceptClauseConjunction")).addStyleClass(
+							"conjunctionMenuLink"));
 				} else {
 					oRm.write("&nbsp;");
-					oRm.renderControl(new sap.m.Label().setText(sap.ui.getCore().getModel("i18nModel").getProperty("conceptClauseIn")).addStyleClass("conjunctionMenuLink"));
-					// oRm.write(sap.ui.getCore().getModel("i18nModel").getProperty("conceptClauseIn"));
+					oRm.renderControl(new sap.m.Label().setText(sap.ui.getCore().getModel("i18nModel").getProperty("conceptClauseIn")).addStyleClass(
+							"conjunctionMenuLink"));
 				}
 				oRm.renderControl(conceptFilters[i]);
 			}
-//			oRm.write("</div>");
 		}
 		oRm.write("&nbsp;");
 		oRm.renderControl(oControl.getAggregation("_extendFilter"));

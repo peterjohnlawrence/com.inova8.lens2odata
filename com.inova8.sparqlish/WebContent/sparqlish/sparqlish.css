@@ -1,10 +1,13 @@
 .error {
 	font: 16px arial, sans-serif;
-	font-weight: normal; //
-	font-size: 100%;
+	font-weight: normal; 
 	display: inline-block;
 }
-
+.menuText {
+	font: 16px arial, sans-serif;
+//	font-family:SAP-icons;
+	font-weight: normal; 
+}
 .clauseContainer {
 	display: -webkit-flex;
 	display: flex;
@@ -18,14 +21,25 @@
 	align-items: flex-start;
 	width: auto
 }
-
+.conceptClauseContainer {
+	display: -webkit-flex;
+	display: flex;
+	-webkit-flex-wrap: wrap;
+	flex-wrap: wrap;
+	-webkit-flex-direction: row;
+	flex-direction: row;
+	justify-content: flex-start;
+	align-items: center;
+	width: auto
+}
 .propertyClauseContainer {
 	display: -webkit-flex;
 	display: flex;
 	-webkit-flex-direction: row;
 	flex-direction: row;
 	align-items: center;
-		-webkit-flex-wrap: wrap;
+	align-content: center; 
+	-webkit-flex-wrap: wrap;
 	flex-wrap: wrap;
 }
 
@@ -38,7 +52,6 @@
 	flex-direction: row;
 	justify-content: flex-end;
 	align-items: flex-end;
-	//align-content: flex-end;
 	width: 90px
 }
 
@@ -50,80 +63,51 @@
 	-webkit-flex-direction: row;
 	flex-direction: row;
 	justify-content: flex-start;
-	align-items: flex-start;
-	align-content: flex-start;
+	align-items: center;
 	width: auto
 }
 
 .clauses {
 	font: 16px arial, sans-serif;
-	font-weight: normal; //
-	font-size: 100%; //
-	display: inline-block;
-	line-height: 150%; //
-	background-color: lightgrey; //
-	border: 2px solid navy;
+	font-weight: normal; 
 }
 
 .conceptClause {
 	font: 16px arial, sans-serif;
-	font-weight: normal; //
-	font-size: 100%;
+	font-weight: normal; 
 	display: inline-block;
-	line-height: 150%; //
-	background-color: lightgrey; //
-	border: 2px solid navy;
+	vertical-align: middle;
 }
 
 .propertyClause {
 	font: 16px arial, sans-serif;
-	font-weight: normal; //
-	font-size: 100%;
+	font-weight: normal; 
 	display: inline-block;
-	line-height: 150%; //
-	background-color: lightgrey; //
-	border: 2px solid navy;
 }
 
 .objectPropertyClause {
 	font: 16px arial, sans-serif;
-	font-weight: normal; //
-	font-size: 100%;
+	font-weight: normal; 
 	display: inline-block;
-	line-height: 150%; //
-	background-color: lightgrey; //
-	border: 2px solid navy;
 }
 
 .dataPropertyClause {
 	font: 16px arial, sans-serif;
-	font-weight: normal; //
-	font-size: 100%;
+	font-weight: normal; 
 	display: inline-block;
-	line-height: 150%; //
-	background-color: lightgrey; //
-	border: 2px solid navy;
 }
 
 .dataPropertyValue {
 	font: 16px arial, sans-serif;
-	font-weight: normal; //
-	font-size: 100%;
+	font-weight: normal; 
 	display: inline-block;
-	line-height: 150%; //
-	background-color: lightgrey; //
-	border: 2px solid navy;
 	width: 120px;
 }
 
 .dataPropertyValue input {
 	font: 16px arial, sans-serif;
-	font-weight: bold; //
-	font-size: 100%;
+	font-weight: bold; 
 	display: inline-block;
-	line-height: 150%; //
-	background-color: lightgrey; //
-	border: 2px solid navy;
 	width: 100%;
 }
 
@@ -133,69 +117,53 @@
 
 .resultValue {
 	font: 16px arial, sans-serif;
-	font-weight: normal; //
-	font-size: 100%;
+	font-weight: normal; 
 	display: inline-block;
-	line-height: 150%;
 }
 
 .clause {
 	font: 16px arial, sans-serif;
-	font-weight: normal; //
-	font-size: 100%;
+	font-weight: normal; 
 	display: inline-block;
-	line-height: 150%;
 }
 
 .conjunctionClause {
 	font: 16px arial, sans-serif;
-	font-weight: normal; //
-	font-size: 100%;
+	font-weight: normal; 
 	display: inline-block;
-	line-height: 150%;
 }
 
 .menuLink {
 	font: 16px arial, sans-serif;
-	font-weight: bold; //
-	font-size: 100%;
+	font-weight: bold; 
 	display: inline-block;
-	line-height: 150%; //
-	background-color: lightgrey; //
-	border: 2px solid navy;
 }
 
 .conceptMenuLink {
 	font: 16px arial, sans-serif;
 	font-weight: bold;
-	font-size: 100%; // //
-	background-color: yellow;
 	display: inline-block;
-	line-height: 150%;
 	background-color: lightgrey;
 	border: 2px solid navy;
+	padding: 5px;
 }
 
 .objectPropertyMenuLink {
 	font: 16px arial, sans-serif;
 	font-weight: bold;
-	font-size: 100%; // //
-	background-color: yellow;
 	display: inline-block;
-	line-height: 150%;
 	background-color: lightgrey;
 	border: 2px solid navy;
-}
+	padding: 5px;
+	}
 
 .dataPropertyMenuLink {
 	font: 16px arial, sans-serif;
 	font-weight: bold;
-	font-size: 100%; // //
-	background-color: yellow;
 	display: inline-block;
-	line-height: 150%;
 	background-color: yellow;
 	border: 2px solid navy;
+	padding: 5px;
 	border-radius: 10px;
 }
 
@@ -203,10 +171,12 @@
 	font: 16px arial, sans-serif;
 	font-weight: bold;
 	font-style: italic;
-	font-size: 100%; //
-	background-color: yellow;
 	display: inline-block;
-	line-height: 150%;
+}
+
+.strikethrough {
+	text-decoration: line-through;
+	font-color: lightgrey;
 }
 
 .tile-hdr {

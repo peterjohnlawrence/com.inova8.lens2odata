@@ -2,7 +2,7 @@ jQuery.sap.require("sap.ui.commons.ListBox");
 jQuery.sap.require("sap.ui.core.ListItem");
 jQuery.sap.require("sap.ui.ux3.ToolPopup");
 jQuery.sap.require("sap.ui.core.IconPool");
-jQuery.sap.require("sparqlish.control.iconLink");
+jQuery.sap.require("sparqlish.control.extendFilter");
 sap.ui.core.Control.extend("sparqlish.control.conceptFilter", {
 	metadata : {
 		aggregations : {
@@ -53,7 +53,7 @@ sap.ui.core.Control.extend("sparqlish.control.conceptFilter", {
 				text : 'northwind:Order-3'
 			}) ]
 		});
-		self.oConceptFilterDelete = new sparqlish.control.iconLink({
+		self.oConceptFilterDelete = new sparqlish.control.extendFilter({
 			icon : "delete"
 		});
 		self.oConceptFilterPopup = new sap.ui.ux3.ToolPopup();
@@ -88,13 +88,7 @@ sap.ui.core.Control.extend("sparqlish.control.conceptFilter", {
 		self.setAggregation("_conceptFilter", self.oConceptFilterLink)
 	},
 	renderer : function(oRm, oControl) {
-		oRm.addClass("menuLink");
-		oRm.write("<div ");
-		oRm.writeControlData(oControl);
-		oRm.writeClasses();
-		oRm.write(">");
 		oRm.write("&nbsp;");
 		oRm.renderControl(oControl.getAggregation("_conceptFilter"));
-		oRm.write("</div>");
 	}
 });

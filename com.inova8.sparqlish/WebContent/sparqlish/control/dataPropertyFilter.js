@@ -2,6 +2,12 @@ jQuery.sap.require("sap.ui.core.IconPool");
 jQuery.sap.require("sap.m.Input");
 sap.ui.core.Control.extend("sparqlish.control.dataPropertyFilter", {
 	metadata : {
+		properties : {
+			conjunction : {
+				type : "boolean",
+				defaultValue : false
+			}
+		},
 		aggregations : {
 			_condition : {
 				type : "sap.m.Link",
@@ -13,12 +19,14 @@ sap.ui.core.Control.extend("sparqlish.control.dataPropertyFilter", {
 			}
 		},
 		events : {
-			deleted : {
+			dataPropertyFilterDeleted : {
+				enablePreventDefault : true
+			},
+			rerender : {
 				enablePreventDefault : true
 			}
 		}
 	},
-
 	init : function() {
 		var self = this;
 		self.setAggregation("_condition", new sap.m.Link({
@@ -29,9 +37,8 @@ sap.ui.core.Control.extend("sparqlish.control.dataPropertyFilter", {
 				var oClauseContext = self._clauseContext(me);
 
 				this.oDataPropertyType = oClauseContext.getDataProperty().type;
-				//
-				var eDock = sap.ui.core.Popup.Dock;
 
+				var eDock = sap.ui.core.Popup.Dock;
 				var oConditionMenu = new sap.ui.unified.Menu({
 					items : {
 						path : "datatypesModel>/datatypes/" + this.oDataPropertyType + "/conditions",
@@ -40,17 +47,16 @@ sap.ui.core.Control.extend("sparqlish.control.dataPropertyFilter", {
 						})
 					}
 				});
-				// TODO Really need to add a delete menu item
-				oConditionMenu.addItem(new sap.ui.unified.MenuItem({
-					text : '{i18nModel>dataPropertyFilterDELETE}',
-					icon : sap.ui.core.IconPool.getIconURI("delete")
-				}));
-
+				if (!me.getConjunction()) {
+					oConditionMenu.insertItem(new sap.ui.unified.MenuItem({
+						text : '{i18nModel>dataPropertyFilterDELETE}',
+						icon : sap.ui.core.IconPool.getIconURI("delete")
+					}), -1);
+				}
 				oConditionMenu.attachItemSelect(function(oEvent) {
-					// var me = oEvent.getSource().getParent();
 					var selectedItem = oEvent.getParameter("item").getText();
 					if (selectedItem == 'DELETE') {
-						me.fireDeleted();
+						me.fireDataPropertyFilterDeleted();
 					} else {
 						me.getAggregation("_condition").setText(selectedItem);
 					}
@@ -65,9 +71,9 @@ sap.ui.core.Control.extend("sparqlish.control.dataPropertyFilter", {
 			description : "",
 			editable : true
 		}).addStyleClass("dataPropertyValue")
-//		.attachChange(function(oEvent) {
-//			oEvent.getSource().setWidth(oEvent.getSource().getValue().length*15 + "px");
-//		})
+		// .attachChange(function(oEvent) {
+		// oEvent.getSource().setWidth(oEvent.getSource().getValue().length*15 + "px");
+		// })
 		);
 	},
 	_clauseContext : function(me) {

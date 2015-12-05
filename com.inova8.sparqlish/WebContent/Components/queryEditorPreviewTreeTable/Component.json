@@ -1,0 +1,17 @@
+{
+	"name": "Components.queryEditorPreviewTreeTable.Component",
+	"version": "0.1.0",
+	"description": "Components.queryEditorPreviewTreeTable.Component",
+	"keywords": 
+	[
+		"query",
+		"editor",
+		"preview",
+		"treeTable"
+	],
+
+	"dependencies": 
+	{
+		
+	}
+}

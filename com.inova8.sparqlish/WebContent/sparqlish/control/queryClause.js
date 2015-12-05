@@ -9,7 +9,7 @@ sap.ui.core.Control.extend("sparqlish.control.queryClause", {
 			}
 		},
 		events : {
-			changedClause : {
+			queryChanged : {
 				enablePreventDefault : true
 			}
 		},
@@ -34,7 +34,6 @@ sap.ui.core.Control.extend("sparqlish.control.queryClause", {
 	renderer : function(oRm, oControl) {
 		var self = this;
 		if (oControl.getClausePath() != undefined) {
-			// TODO no point if path not yet defined
 			oRm.write("<div ");
 			oRm.writeControlData(oControl);
 			oRm.writeClasses();
@@ -46,22 +45,22 @@ sap.ui.core.Control.extend("sparqlish.control.queryClause", {
 			var currentContext = oControl.getModel("queryModel").getProperty("", currentCtx);
 			if (!jQuery.isEmptyObject(currentContext)) {
 				var sClass = currentContext._class;
-				if (sClass == "Query") {
+				if (sClass == "Query") { 
 					oControl.setAggregation("_conceptClause", new sparqlish.control.conceptClause().setBindingContext(oControl.getBindingContext("queryModel"))
-							.attachChangedClause(function(oEvent) {
-								oControl.fireChangedClause();
+							.attachConceptClauseChanged(function(oEvent) {
+								oControl.fireQueryChanged(oEvent);
 							}));
 					oRm.renderControl(oControl.getAggregation("_conceptClause"));
 				} else if (sClass == "Clause") {
 					oControl.setAggregation("_propertyClause", new sparqlish.control.propertyClause().setBindingContext(oControl.getBindingContext("queryModel"))
-							.attachChangedClause(function(oEvent) {
-								oControl.fireChangedClause();
+							.attachPropertyClauseChanged(function(oEvent) {
+								oControl.fireQueryChanged();
 							}));
 					oRm.renderControl(oControl.getAggregation("_propertyClause"));
 				} else if (sClass == "ConjunctionClause") {
 					oControl.setAggregation("_conjunctionPropertyClause", new sparqlish.control.conjunctionPropertyClause().setBindingContext(
-							oControl.getBindingContext("queryModel")).attachChangedClause(function(oEvent) {
-						oControl.fireChangedClause();
+							oControl.getBindingContext("queryModel")).attachConjunctionPropertyClauseChanged(function(oEvent) {
+						oControl.fireQueryChanged();
 					}));
 					oRm.renderControl(oControl.getAggregation("_conjunctionPropertyClause"));
 				} else {
@@ -70,7 +69,7 @@ sap.ui.core.Control.extend("sparqlish.control.queryClause", {
 			}
 			oRm.write("</div>");
 		} else {
-			jQuery.sap.log.fatal("clausePath not defined");
+		//TODO Not really an error	jQuery.sap.log.fatal("clausePath not defined");
 		}
 	}
 });

@@ -1,3 +1,4 @@
+//jQuery.sap.require("resources.jquery.rdfquery.core-1.0")
 jQuery.sap.declare("Queries");
 jQuery.sap.declare("Query");
 jQuery.sap.declare("Clauses");
@@ -38,16 +39,24 @@ sap.ui.base.Object
 				"Query",
 				{
 					constructor : function(oDataModel, oAST, sPath) {
-						//TODO
-						sPath = sPath || "/";
-						this.oAST = oAST;
+						this.queryRestoreList = {
+							current : jQuery.extend(true, {}, oAST),
+							prior : null
+						};
 						this.oDataModel = oDataModel;
+						this.init(oAST, sPath);
+					},
+					init : function(oAST, sPath) {
+						// TODO
+						sPath = sPath || "/";
+						this.oAST = oAST || this.oAST;
+
 						this.oClauseReferences = [];
 						this.oViewModel = null;
 						try {
-							if (oAST["_class"] != "Query")
+							if (this.oAST["_class"] != "Query")
 								throw "notQueryException";
-							this.sName = oAST["name"];
+							this.sName = this.oAST["name"];
 							this.sPath = sPath;
 							this.oContext = {
 								sOdataEntityPath : "",
@@ -55,19 +64,19 @@ sap.ui.base.Object
 								sObject : "",
 								iLevel : 0
 							};
-							this.sTop = (jQuery.isEmptyObject(oAST["top"])) ? null : oAST["top"];
-							this.sSkip = (jQuery.isEmptyObject(oAST["skip"])) ? null : oAST["skip"];
-							this.sConcept = oAST["concept"];
-							this.sLabel = (jQuery.isEmptyObject(oAST["label"])) ? labelFromURI(this.sConcept) : oAST["label"];
-							this.bHidden = (jQuery.isEmptyObject(oAST["hidden"])) ? false : oAST["hidden"];
+							this.sTop = (jQuery.isEmptyObject(this.oAST["top"])) ? null : this.oAST["top"];
+							this.sSkip = (jQuery.isEmptyObject(this.oAST["skip"])) ? null : this.oAST["skip"];
+							this.sConcept = this.oAST["concept"];
+							this.sLabel = (jQuery.isEmptyObject(this.oAST["label"])) ? labelFromURI(this.sConcept) : this.oAST["label"];
+							this.bHidden = (jQuery.isEmptyObject(this.oAST["hidden"])) ? false : this.oAST["hidden"];
 
-							if (!jQuery.isEmptyObject(oAST["conceptFilters"])) {
-								this.oConceptFilters = oAST["conceptFilters"];
+							if (!jQuery.isEmptyObject(this.oAST["conceptFilters"])) {
+								this.oConceptFilters = this.oAST["conceptFilters"];
 							} else {
 								this.oConceptFilters = null;
 							}
-							if (!jQuery.isEmptyObject(oAST["clauses"])) {
-								this.oClauses = new Clauses(oAST["clauses"], this.oContext);
+							if (!jQuery.isEmptyObject(this.oAST["clauses"])) {
+								this.oClauses = new Clauses(this.oAST["clauses"], this.oContext);
 							} else {
 								this.oClauses = null;
 							}
@@ -87,6 +96,32 @@ sap.ui.base.Object
 						} catch (e) {
 							jQuery.sap.log.error(e);
 						}
+						return this;
+					},
+					clearQuery : function() {
+						this.pushQuery();
+						this.oAST = {
+							"_class" : "Query",
+							"name" : "",
+							"concept" : "Orders"
+						};
+						this.init(this.oAST);
+					},
+					pushQuery : function() {
+						var prior = this.queryRestoreList;
+						// prior.current = jQuery.extend(true, {}, this.oAST);
+						this.queryRestoreList = {
+							current : jQuery.extend(true, {}, this.oAST),
+							prior : prior
+						};
+					},
+					undo : function() {
+						if (this.queryRestoreList.prior != null) {
+							this.oAST = this.queryRestoreList.prior.current;
+							// this.oAST = this.queryRestoreList.current;
+							this.queryRestoreList = this.queryRestoreList.prior;
+						}
+						// this.init(this.oAST);
 					},
 					selectDistinct : function() {
 						return "SELECT DISTINCT " + sPrefix + this.oContext.sSubject + " " + this.sNameVariable;
@@ -128,13 +163,13 @@ sap.ui.base.Object
 					branchLength : function(oBranch) {
 						oBranch.branchLength = 1;
 						var nClause = 0;
-						while (!jQuery.isEmptyObject(oBranch[nClause])){
+						while (!jQuery.isEmptyObject(oBranch[nClause])) {
 							oBranch.branchLength += this.branchLength(oBranch[nClause]);
 							nClause++;
-						} 
+						}
 						return oBranch.branchLength;
 					},
-					queryModel:function(){
+					queryModel : function() {
 						return this.oAST;
 					},
 					viewModel : function() {
@@ -147,7 +182,7 @@ sap.ui.base.Object
 								"root" : {}
 							};
 							if (!jQuery.isEmptyObject(this.oClauses)) {
-								//TODO when do we need to prefix resultContext with /d ?
+								// TODO when do we need to prefix resultContext with /d ?
 								extendj(oViewModel.root, this.oClauses.viewModel(this.sPath, this.oClauseReferences, entityType.name, "", "/results/{=P0}"), 0);
 							}
 							extendj(oViewModel.root, {
@@ -798,6 +833,7 @@ sap.ui.base.Object.extend("DataPropertyFilters", {
 		}
 	},
 	odataFilter : function(sVersion) {
+		// TODO why empty when filter on a conjunctionProperty ... sometimes
 		if (!jQuery.isEmptyObject(this.oFilter)) {
 			var sOdataFilter = this.oFilter.odataFilter(sVersion);
 			if (!jQuery.isEmptyObject(this.oConjunctionFilters)) {
@@ -1372,13 +1408,28 @@ odataFilterCondition = function(sVersion, sVariable, sCondition, sValue, sType) 
 	}
 };
 odataValue = function(sVersion, sValue, sType) {
+	/*
+	 * Edm.Binary Edm.Boolean Edm.Byte Edm.DateTime Edm.Decimal Edm.Double Edm.Single Edm.Guid Edm.Int16 Edm.Int32
+	 * Edm.Int64 Edm.SByte Edm.String Edm.Time Edm.DateTimeOffset Edm.Geography Edm.GeographyPoint Edm.GeographyLineString
+	 * Edm.GeographyPolygon Edm.GeographyMultiPoint Edm.GeographyMultiLineString Edm.GeographyMultiPolygon
+	 * Edm.GeographyCollection Edm.Geometry Edm.GeometryPoint Edm.GeometryLineString Edm.GeometryPolygon
+	 * Edm.GeometryMultiPoint Edm.GeometryMultiLineString Edm.GeometryMultiPolygon Edm.GeometryCollection Edm.Stream
+	 */
 	switch (sType) {
-	case "Edm.Int32": {
+	case "Edm.Decimal":
+	case "Edm.Double":
+	case "Edm.Single":
+	case "Edm.Guid":
+	case "Edm.Int16":
+	case "Edm.Int32":
+	case "Edm.Int64":
+	case "Edm.SByte": {
 		return sValue;
 	}
 	case "Edm.String": {
 		return "'" + sValue + "'";
 	}
+	case "Edm.Time":
 	case "Edm.DateTime": {
 		if (sVersion == "V4") {
 			return sValue;
@@ -1389,19 +1440,35 @@ odataValue = function(sVersion, sValue, sType) {
 	}
 };
 sparqlValue = function(sValue, sType) {
+	/*
+	 * Edm.Binary Edm.Boolean Edm.Byte Edm.DateTime Edm.Decimal Edm.Double Edm.Single Edm.Guid Edm.Int16 Edm.Int32
+	 * Edm.Int64 Edm.SByte Edm.String Edm.Time Edm.DateTimeOffset Edm.Geography Edm.GeographyPoint Edm.GeographyLineString
+	 * Edm.GeographyPolygon Edm.GeographyMultiPoint Edm.GeographyMultiLineString Edm.GeographyMultiPolygon
+	 * Edm.GeographyCollection Edm.Geometry Edm.GeometryPoint Edm.GeometryLineString Edm.GeometryPolygon
+	 * Edm.GeometryMultiPoint Edm.GeometryMultiLineString Edm.GeometryMultiPolygon Edm.GeometryCollection Edm.Stream
+	 */
 	switch (sType) {
-	case "Edm.Int32": {
+	case "Edm.Decimal":
+	case "Edm.Double":
+	case "Edm.Single":
+	case "Edm.Guid":
+	case "Edm.Int16":
+	case "Edm.Int32":
+	case "Edm.Int64":
+	case "Edm.SByte": {
 		return sValue + sparqlCast(edmToXSD(sType));
 	}
 	case "Edm.String": {
 		return "'" + sValue + "'" + sparqlCast(edmToXSD(sType));
 	}
+	case "Edm.Time":
 	case "Edm.DateTime": {
 		return "'" + sValue + "'" + sparqlCast(edmToXSD(sType));
 	}
 	default:
 		return "'" + sValue + "'";
 	}
+
 };
 sparqlCast = function(sXSDtype) {
 	if (sXSDtype == "") {

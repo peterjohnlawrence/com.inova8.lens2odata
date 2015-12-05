@@ -21,6 +21,9 @@ sap.ui.core.Control.extend("sparqlish.control.dataPropertyConjunctionFilter", {
 			},
 			changed : {
 				enablePreventDefault : true
+			},
+			rerender : {
+				enablePreventDefault : true
 			}
 		}
 	},
@@ -36,13 +39,13 @@ sap.ui.core.Control.extend("sparqlish.control.dataPropertyConjunctionFilter", {
 				var eDock = sap.ui.core.Popup.Dock;
 				var oConjunctionMenu = new sap.ui.unified.Menu({
 					items : [ new sap.ui.unified.MenuItem({
-						text : '{i18nModel>dataPropertyClauseDELETE}',
-						icon : sap.ui.core.IconPool.getIconURI("delete")
-					}), new sap.ui.unified.MenuItem({
 						text : '{i18nModel>dataPropertyClauseAnd}'
 					}), new sap.ui.unified.MenuItem({
 						text : '{i18nModel>dataPropertyClauseOr}'
-					}) ]
+					}),new sap.ui.unified.MenuItem({
+						text : '{i18nModel>dataPropertyClauseDELETE}',
+						icon : sap.ui.core.IconPool.getIconURI("delete")
+					})]
 				});
 				oConjunctionMenu.attachItemSelect(function(oEvent) {
 					var selectedItem = oEvent.getParameter("item").getText();
@@ -70,6 +73,7 @@ sap.ui.core.Control.extend("sparqlish.control.dataPropertyConjunctionFilter", {
 				currentModelData.dataPropertyfilter = {};
 				// currentModel.setData(currentModelData,"queryModel");
 				currentModel.refresh();
+				self.fireRerender();
 				oEvent.getSource().getParent().rerender();
 
 			}
@@ -78,16 +82,8 @@ sap.ui.core.Control.extend("sparqlish.control.dataPropertyConjunctionFilter", {
 	// setDataPropertyConjunctionFilter : function(oDataPropertyConjunctionFilter) {
 	// },
 	renderer : function(oRm, oControl) {
-//		oRm.addClass("menuLink");
-//		oRm.addClass("sapUiSizeCompact");
-//		oRm.write("<div ");
-//		oRm.writeControlData(oControl);
-//		oRm.writeClasses();
-//		oRm.write(">");
 		oRm.write("&nbsp;");
 		oRm.renderControl(oControl.getAggregation("_conjunction"));
-		oRm.write("&nbsp;");
-//		oRm.write("</div>");
-		oRm.renderControl(oControl.getAggregation("_dataPropertyFilter"));
+		oRm.renderControl(oControl.getAggregation("_dataPropertyFilter").setConjunction(true));
 	}
 });

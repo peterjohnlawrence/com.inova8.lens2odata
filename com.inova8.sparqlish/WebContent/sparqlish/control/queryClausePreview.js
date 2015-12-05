@@ -114,7 +114,7 @@ sap.ui.core.Control.extend("sparqlish.control.queryClausePreview", {
 						formatter : function(value) {
 							if (value != null) {
 								return oControl.oDateTimeFormat.format(value);
-//								return oControl.oDateTimeFormat.format(new Date(parseInt(value.substr(6))));
+								// return oControl.oDateTimeFormat.format(new Date(parseInt(value.substr(6))));
 							} else {
 								return null;
 							}
@@ -122,8 +122,15 @@ sap.ui.core.Control.extend("sparqlish.control.queryClausePreview", {
 					});
 					oControl.setAggregation("_preview", oControl.oTextView);
 					break;
+				case "Edm.Stream":
+					oControl.oTextView = new sap.m.Image();
+					oControl.oTextView.bindProperty("src", {
+						path : "resultsModel>" + sCurrentResultsContext
+					});
+					oControl.setAggregation("_preview", oControl.oTextView);
+					break;
 				default:
-					oControl.oTextView = new sap.m.Text().addStyleClass("resultValue");
+					oControl.oTextView = new sap.m.Text().addStyleClass("resultValue").setWrapping(false);
 					oControl.oTextView.bindProperty("text", {
 						path : "resultsModel>" + sCurrentResultsContext,
 						type : new sap.ui.model.type.String()

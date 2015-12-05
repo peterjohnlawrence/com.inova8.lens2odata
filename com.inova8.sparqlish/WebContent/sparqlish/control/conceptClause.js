@@ -1,6 +1,7 @@
 jQuery.sap.require("sparqlish.control.conceptMenu");
 jQuery.sap.require("sparqlish.control.conceptFilters");
 jQuery.sap.require("sparqlish.control.addClauses");
+jQuery.sap.require("sparqlish.control.includeOptionalIgnore");
 sap.ui.core.Control.extend("sparqlish.control.conceptClause", {
 	metadata : {
 		properties : {},
@@ -21,6 +22,11 @@ sap.ui.core.Control.extend("sparqlish.control.conceptClause", {
 			_addClause : {
 				type : "sparqlish.control.addClauses",
 				multiple : false
+			}
+		},
+		events : {
+			conceptClauseChanged : {
+				enablePreventDefault : true
 			}
 		}
 	},
@@ -59,7 +65,7 @@ sap.ui.core.Control.extend("sparqlish.control.conceptClause", {
 			currentModelData.clauses.clause.propertyClause._class = clauseClass;
 			currentModelData.clauses.clause.propertyClause[clauseProperty] = property;
 			if (clauseClass == "DataPropertyClause") {
-				currentModelData.clauses.clause.propertyClause.type = this.getModel("metaModel").getDataProperty( this.getConcept().entityType, property).type;
+				currentModelData.clauses.clause.propertyClause.type = this.getModel("metaModel").getDataProperty(this.getConcept().entityType, property).type;
 				currentModelData.clauses.clause.propertyClause.dataPropertyFilters = {};
 				currentModelData.clauses.clause.propertyClause.dataPropertyFilters._class = "DataPropertyFilters";
 			} else {
@@ -83,7 +89,7 @@ sap.ui.core.Control.extend("sparqlish.control.conceptClause", {
 			currentModelData.clauses.conjunctionClauses[last].clause.propertyClause._class = clauseClass;
 			currentModelData.clauses.conjunctionClauses[last].clause.propertyClause[clauseProperty] = property;
 			if (clauseClass == "DataPropertyClause") {
-				currentModelData.clauses.conjunctionClauses[last].clause.propertyClause.type = this.getModel("metaModel").getDataProperty( this.getConcept().entityType,
+				currentModelData.clauses.conjunctionClauses[last].clause.propertyClause.type = this.getModel("metaModel").getDataProperty(this.getConcept().entityType,
 						property).type;
 				currentModelData.clauses.conjunctionClauses[last].clause.propertyClause.dataPropertyFilters = {};
 				currentModelData.clauses.conjunctionClauses[last].clause.propertyClause.dataPropertyFilters._class = "DataPropertyFilters";
@@ -108,7 +114,7 @@ sap.ui.core.Control.extend("sparqlish.control.conceptClause", {
 			currentModelData.clauses.conjunctionClauses[0].clause.propertyClause._class = clauseClass;
 			currentModelData.clauses.conjunctionClauses[0].clause.propertyClause[clauseProperty] = property;
 			if (clauseClass == "DataPropertyClause") {
-				currentModelData.clauses.conjunctionClauses[0].clause.propertyClause.type = this.getModel("metaModel").getDataProperty( this.getConcept().entityType,
+				currentModelData.clauses.conjunctionClauses[0].clause.propertyClause.type = this.getModel("metaModel").getDataProperty(this.getConcept().entityType,
 						property).type;
 				currentModelData.clauses.conjunctionClauses[0].clause.propertyClause.dataPropertyFilters = {};
 				currentModelData.clauses.conjunctionClauses[0].clause.propertyClause.dataPropertyFilters._class = "DataPropertyFilters";
@@ -122,7 +128,7 @@ sap.ui.core.Control.extend("sparqlish.control.conceptClause", {
 	},
 	init : function() {
 		var self = this;
-		var conceptSelect = function(oEvent) {
+		var conceptChanged = function(oEvent) {
 			self.resetCurrentQueryContext();
 			// Now find corresponding entityType of concept to setup model
 			var sConcept = oEvent.getParameter("concept");
@@ -135,39 +141,39 @@ sap.ui.core.Control.extend("sparqlish.control.conceptClause", {
 			self.getAggregation("_conceptFilters").setModel(self.oEntityTypeModel, "entityTypeModel");
 			self.getAggregation("_conceptFilters").getAggregation("_extendFilter").setVisible(true);
 			self.getModel("queryModel").refresh();
-			self.rerender();
+			self.fireConceptClauseChanged(oEvent);
 		};
 		self.setAggregation("_concept", new sparqlish.control.conceptMenu({
-			selected : function(oEvent) {
-				self.getAggregation("_conceptFilters").getAggregation("_extendFilter").setVisible(true);
-			},
-			changed : conceptSelect
+			conceptChanged : conceptChanged
 		}).bindElement("queryModel>"));
-		self.setAggregation("_conceptFilters", new sparqlish.control.conceptFilters().bindElement("queryModel>conceptFilters"));
+		self.setAggregation("_conceptFilters", new sparqlish.control.conceptFilters().bindElement("queryModel>conceptFilters").attachConceptFiltersChanged(
+				function() {
+					self.rerender();
+				}));
 		self.setAggregation("_addClause", new sparqlish.control.addClauses({
-			pressed : function(oEvent) {
+			clausesSelected : function(oEvent) {
 				var currentModelData = self.getCurrentQueryContext()
-				// Now insert a first clause and move existing first clause if it exists into the first element of the
-				// array of conjunctionClauses
-				var selectedObjectProperties = oEvent.getSource().oObjectPropertyList.getSelectedItems()
-				var selectedDataProperties = oEvent.getSource().oDataPropertyList.getSelectedItems()
+				// Now insert a first clause and move existing first clause if it exists into the first element of the array of
+				// conjunctionClauses
+				var selectedObjectProperties = (oEvent.getParameter("objectPropertyPayload")) ? oEvent.getParameter("objectPropertyPayload").selectedItems : []; // oEvent.getSource().oObjectPropertyList.getSelectedItems()
+				var selectedDataProperties = (oEvent.getParameter("dataPropertyPayload")) ? oEvent.getParameter("dataPropertyPayload").selectedItems : []; // oEvent.getSource().oDataPropertyList.getSelectedItems()
 
 				for (var i = 0; i < selectedDataProperties.length; i++) {
-					var dataProperty = selectedDataProperties[i].getText();
+					var dataProperty = selectedDataProperties[i].columnKey;// getText();
 					self.addClause(currentModelData, "DataPropertyClause", dataProperty);
 				}
 				for (var i = 0; i < selectedObjectProperties.length; i++) {
-					var objectProperty = selectedObjectProperties[i].getText();
+					var objectProperty = selectedObjectProperties[i].columnKey;// getText();
 					self.addClause(currentModelData, "ObjectPropertyClause", objectProperty);
 				}
-				self.getModel("queryModel").refresh();
-				self.fireChangedClause();
+				self.fireConceptClauseChanged(oEvent);
 			}
 		}).bindElement("entityTypeModel>"));
 	},
 
 	renderer : function(oRm, oControl) {
-		oRm.addClass("conceptClause");
+		oRm.addClass("conceptClauseContainer");
+		// oRm.addClass("conceptClause");
 		oRm.write("<div ");
 		oRm.writeControlData(oControl);
 		oRm.writeClasses();

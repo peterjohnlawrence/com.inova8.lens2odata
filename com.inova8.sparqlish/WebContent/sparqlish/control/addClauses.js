@@ -1,107 +1,77 @@
-jQuery.sap.require("sap.ui.core.IconPool");
-jQuery.sap.require("sap.ui.ux3.ToolPopup");
-jQuery.sap.require("sap.ui.commons.Panel");
-jQuery.sap.require("sparqlish.control.treeNodeCheckBox");
+jQuery.sap.require("sap.m.P13nDialog");
+jQuery.sap.require("sap.m.P13nColumnsPanel");
+jQuery.sap.require("sap.m.P13nItem");
+jQuery.sap.require("sparqlish.control.extendFilter");
 sap.ui.commons.Link.extend("sparqlish.control.addClauses", {
 	metadata : {
 		properties : {},
 		aggregations : {
 			_icon : {
-				type : "sap.ui.core.Icon",
+				type : "sparqlish.control.extendFilter", //"sap.ui.core.Icon",
 				multiple : false
 			}
 		},
 		events : {
-			pressed : {
+			clausesSelected : {
 				enablePreventDefault : true
 			}
 		}
 	},
 	initData : function() {
 		var self = this;
-		// create Property lists
-		self.oToolPopup.destroyContent();
-		self.oObjectPropertyList = new sap.ui.commons.ListBox({
+
+		self.oDialog.destroyContent();
+
+		self.oObjectPropertyList = new sap.m.P13nColumnsPanel({
+			title : "{i18nModel>navigationProperties}",
 			items : {
 				path : "entityTypeModel>/navigationProperty",
-				template : new sap.ui.core.ListItem({
+				template : new sap.m.P13nItem({
+					columnKey : "{entityTypeModel>name}",
 					text : "{entityTypeModel>name}"
 				})
 			}
 		});
-		self.oObjectPropertyList.setAllowMultiSelect(true);
-		self.oDataPropertyList = new sap.ui.commons.ListBox({
+
+		self.oDataPropertyList = new sap.m.P13nColumnsPanel({
+			title : "{i18nModel>dataProperties}",
 			items : {
 				path : "entityTypeModel>/property",
-				template : new sap.ui.core.ListItem({
+				template : new sap.m.P13nItem({
+					columnKey : "{entityTypeModel>name}",
 					text : "{entityTypeModel>name}"
 				})
 			}
 		});
-		self.oDataPropertyList.setAllowMultiSelect(true);
-		self.oToolPopup.addContent(self.oObjectPropertyList);
-		self.oToolPopup.addContent(self.oDataPropertyList);
-		self.oToggleDataPropertiesCheckBox.setPressed(false);
-		self.oToggleObjectPropertiesCheckBox.setPressed(false);
+		self.oDialog.addPanel(self.oObjectPropertyList);
+		self.oDialog.addPanel(self.oDataPropertyList);
 
 	},
 	init : function() {
 		var self = this;
-		self.oAddClauseLink = new sap.ui.core.Icon({
-			src : sap.ui.core.IconPool.getIconURI("add-process"),
-			tooltip : "{i18nModel>addClauseTooltip}"
-		}).setColor(sap.ui.core.IconColor.Neutral);
-
-		// create the core panel for the popup
-		// self.oClausePanel = new sap.ui.commons.Panel();
-		// self.oClausePanel.setShowCollapseIcon(false);
-		self.oSaveButton = new sap.ui.commons.Button({
-			text : "{i18nModel>addClauses}"
+	
+		self.oAddClauseLink =	 new sparqlish.control.extendFilter({
+			visible:true,
+			icon : "add-process",
+			tooltip : "{i18nModel>addClauseTooltip}" 
 		});
-		self.oSaveButton.attachPress(function(oEvent) {
-			self.oToolPopup.close();
-			self.firePressed();
-		});
-
-		self.oToggleDataPropertiesCheckBox = new sap.ui.commons.ToggleButton({
-			text : "{i18nModel>toogleDataProperties}"
-		});
-		self.oToggleDataPropertiesCheckBox.attachPress(function(oEvent) {
-			if (oEvent.getSource().getPressed()) {
-				for (var i = 0; i < self.oDataPropertyList.getItems().length; i++) {
-					self.oDataPropertyList.addSelectedIndex(i);
-				}
-			} else {
-				self.oDataPropertyList.clearSelection();
+		self.oDialog = new sap.m.P13nDialog({
+			title: "{i18nModel>conceptAddClausesTitle}",
+			cancel : function() {
+				self.oDialog.close();
+			},
+			ok : function() {
+				//TODO is this the correct order?
+				self.oDialog.close();
+				self.fireClausesSelected({
+					objectPropertyPayload : self.oObjectPropertyList.getOkPayload(),
+					dataPropertyPayload : self.oDataPropertyList.getOkPayload()
+				});
 			}
 		});
-		self.oToggleObjectPropertiesCheckBox = new sap.ui.commons.ToggleButton({
-			text : "{i18nModel>toogleObjectProperties}"
-		});
-		self.oToggleObjectPropertiesCheckBox.attachPress(function(oEvent) {
-			if (oEvent.getSource().getPressed()) {
-				for (var i = 0; i < self.oObjectPropertyList.getItems().length; i++) {
-					self.oObjectPropertyList.addSelectedIndex(i);
-				}
-			} else {
-				self.oObjectPropertyList.clearSelection();
-			}
-		});
-
-		self.oToolPopup = new sap.ui.ux3.ToolPopup();
-		self.oToolPopup.addContent(self.oClausePanel);
-		self.oToolPopup.bindElement("queryModel>");
-		self.oToolPopup.setOpener(self.oAddClauseLink);
-		self.oToolPopup.setAutoClose(true);
-
-		self.oToolPopup.addButton(self.oSaveButton);
-		self.oToolPopup.addButton(self.oToggleDataPropertiesCheckBox);
-		self.oToolPopup.addButton(self.oToggleObjectPropertiesCheckBox);
+		self.oDialog.bindElement("queryModel>");
 
 		self.oAddClauseLink.attachPress(function(oEvent) {
-			// This would be used for just pressing the addlink. Need to show menu of clauses to add
-			// self.firePressed();
-
 			var self = oEvent.getSource().getParent();
 			// Setup property menu according to current model context if not already set
 			var oEntityTypeContext = self.getParent().getRangeEntityTypeContext();
@@ -110,12 +80,12 @@ sap.ui.commons.Link.extend("sparqlish.control.addClauses", {
 			self.oEntityTypeModel = new sap.ui.model.json.JSONModel();
 			self.oEntityTypeModel.setData(oEntityTypeContext);
 
-			self.oToolPopup.setModel(self.oEntityTypeModel, "entityTypeModel");
+			self.oDialog.setModel(self.oEntityTypeModel, "entityTypeModel");
 			self.initData();
-			if (self.oToolPopup.isOpen()) {
-				self.oToolPopup.close();
+			if (self.oDialog.isOpen()) {
+				self.oDialog.close();
 			} else {
-				self.oToolPopup.open();
+				self.oDialog.open();
 			}
 		});
 		self.setAggregation("_icon", self.oAddClauseLink);

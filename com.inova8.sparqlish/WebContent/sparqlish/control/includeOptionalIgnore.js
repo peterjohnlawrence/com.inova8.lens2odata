@@ -1,11 +1,15 @@
 jQuery.sap.require("sap.ui.unified.MenuItem");
 jQuery.sap.require("sap.ui.core.IconPool");
-sap.ui.commons.Link.extend("sparqlish.control.includeOptionalIgnore", {
+sap.m.Link.extend("sparqlish.control.includeOptionalIgnore", {
 	metadata : {
 		properties : {
 			state : {
 				type : "string",
 				defaultValue : "include"
+			},
+			conjunction : {
+				type : "boolean",
+				defaultValue : false
 			}
 		},
 		aggregations : {
@@ -15,13 +19,10 @@ sap.ui.commons.Link.extend("sparqlish.control.includeOptionalIgnore", {
 			}
 		},
 		events : {
-			selected : {
+			propertyClauseDeleteRequested : {
 				enablePreventDefault : true
 			},
-			deleted : {
-				enablePreventDefault : true
-			},
-			changed : {
+			rerender : {
 				enablePreventDefault : true
 			}
 		}
@@ -29,7 +30,7 @@ sap.ui.commons.Link.extend("sparqlish.control.includeOptionalIgnore", {
 	init : function() {
 		var self = this;
 		self.setAggregation("_includeOptionalIgnore", new sap.m.Link({
-			text : "{i18nModel>propertyClauseWith}",
+			text : "{= ${queryModel>ignore} ? 'excl':'incl'  }",// "{i18nModel>propertyClauseWith}",
 			tooltip : "{i18nModel>propertyClauseTooltipWith}",
 			press : function(oEvent) {
 				self.oIncludeOptionalIgnoreMenuItemDelete = new sap.ui.unified.MenuItem({
@@ -37,10 +38,10 @@ sap.ui.commons.Link.extend("sparqlish.control.includeOptionalIgnore", {
 					icon : sap.ui.core.IconPool.getIconURI("delete")
 				});
 				self.oIncludeOptionalIgnoreMenuItemDelete.attachSelect(function(oEvent) {
-					self.fireDeleted();
+					self.firePropertyClauseDeleteRequested();
 				});
 				self.oIncludeOptionalIgnoreMenu = new sap.ui.unified.Menu({
-					items : [ self.oIncludeOptionalIgnoreMenuItemDelete, new sap.ui.unified.MenuItem({
+					items : [ new sap.ui.unified.MenuItem({
 						text : '{i18nModel>propertyClauseWith}'
 					}), new sap.ui.unified.MenuItem({
 						text : '{i18nModel>propertyClauseOptionallyWith}'
@@ -48,20 +49,14 @@ sap.ui.commons.Link.extend("sparqlish.control.includeOptionalIgnore", {
 						text : '{i18nModel>propertyClauseIgnoreWith}'
 					}) ]
 				});
+				if (!self.getConjunction()) {
+					self.oIncludeOptionalIgnoreMenu.addItem(self.oIncludeOptionalIgnoreMenuItemDelete);
+				}
 				var eDock = sap.ui.core.Popup.Dock;
 				self.oIncludeOptionalIgnoreMenu.attachItemSelect(
 						function(oEvent) {
 							var sIncludeOptionalIgnore = oEvent.getParameter("item").getText();
 							if (sIncludeOptionalIgnore != "DELETE ") {
-								if (self.getAggregation("_includeOptionalIgnore").getText() != sIncludeOptionalIgnore) {
-									self.fireChanged({
-										conjunction : sIncludeOptionalIgnore
-									});
-								} else {
-									self.fireSelected({
-										conjunction : sIncludeOptionalIgnore
-									});
-								}
 								self.getAggregation("_includeOptionalIgnore").setText(sIncludeOptionalIgnore);
 
 								var currentModel = self.getModel("queryModel");
@@ -90,6 +85,9 @@ sap.ui.commons.Link.extend("sparqlish.control.includeOptionalIgnore", {
 									break;
 								}
 								currentModel.refresh();
+								// TODO is this correct?
+								self.fireRerender();
+							//	self.getParent().getParent().rerender()
 							}
 						}).open(false, this.getFocusDomRef(), eDock.BeginTop, eDock.beginBottom, this.getDomRef());
 			}
@@ -97,6 +95,15 @@ sap.ui.commons.Link.extend("sparqlish.control.includeOptionalIgnore", {
 	},
 	renderer : function(oRm, oControl) {
 		// oRm.writeControlData(oControl);
-		oRm.renderControl(oControl.getAggregation("_includeOptionalIgnore"));
+		var oClause = oControl.getModel("queryModel").getProperty("", oControl.getBindingContext("queryModel"));
+		var oText = "";
+		if (oClause.ignore) {
+			oText = sap.ui.getCore().getModel("i18nModel").getProperty("propertyClauseIgnoreWith");
+		} else if (oClause.optional) {
+			oText = sap.ui.getCore().getModel("i18nModel").getProperty("propertyClauseTooltipOptionallyWith");
+		} else {
+			oText = sap.ui.getCore().getModel("i18nModel").getProperty("propertyClauseWith");
+		}
+		oRm.renderControl(oControl.getAggregation("_includeOptionalIgnore").setText(oText));
 	}
 });
