@@ -53,8 +53,8 @@ sap.ui.core.Control.extend("sparqlish.control.conceptFilters", {
 				currentModelData.splice(index, 1);
 
 				self.getModel("queryModel").refresh();
-				//TODO Not required 
-				//self.fireConceptFiltersChanged(oEvent);
+				//TODO Required? or rerender
+				self.fireConceptFiltersChanged(oEvent);
 			}
 		}));
 		self.setAggregation("_extendFilter", new sparqlish.control.extendFilter({
@@ -67,8 +67,8 @@ sap.ui.core.Control.extend("sparqlish.control.conceptFilters", {
 				self.getAggregation("_extendFilter").setVisible(true);
 
 				self.getModel("queryModel").refresh();
-				//TODO Not required 
-				//self.fireConceptFiltersChanged(oEvent);
+				//TODO Required? or rerender
+				self.fireConceptFiltersChanged(oEvent);
 			}
 		}));
 	},

@@ -1,5 +1,7 @@
 jQuery.sap.require("sap.ui.core.IconPool");
 jQuery.sap.require("sap.m.Input");
+jQuery.sap.require("sap.m.P13nDialog");
+jQuery.sap.require("sap.m.P13nFilterPanel");
 sap.ui.core.Control.extend("sparqlish.control.dataPropertyFilter", {
 	metadata : {
 		properties : {
@@ -21,9 +23,6 @@ sap.ui.core.Control.extend("sparqlish.control.dataPropertyFilter", {
 		events : {
 			dataPropertyFilterDeleted : {
 				enablePreventDefault : true
-			},
-			rerender : {
-				enablePreventDefault : true
 			}
 		}
 	},
@@ -35,9 +34,42 @@ sap.ui.core.Control.extend("sparqlish.control.dataPropertyFilter", {
 			press : function(oEvent) {
 				var me = oEvent.getSource().getParent();
 				var oClauseContext = self._clauseContext(me);
-
 				this.oDataPropertyType = oClauseContext.getDataProperty().type;
 
+				// ***Start of P13n definition
+				self.oFilterPanel = new sap.m.P13nFilterPanel({
+					filterItems : {
+						path : "datatypesModel>/datatypes/" + this.oDataPropertyType + "/conditions",
+						template : new sap.m.P13nFilterItem({
+							columnKey : "{entityTypeModel>name}",
+							operation : "{datatypesModel>condition}",
+							value1 : "",
+							value2 : "",
+							text : "{entityTypeModel>name}"
+						})
+					}
+				});
+				self.oDialog = new sap.m.P13nDialog({
+					title : "{i18nModel>editDataPropertyFilterTitle}",
+					cancel : function() {
+						self.oDialog.close();
+					},
+					ok : function(oEvent) {
+						// TODO is this the correct order?
+						self.oDialog.close();
+						switch (self.oDialog.indexOfPanel(self.oDialog.getVisiblePanel())) {
+						}
+					}
+				});
+				self.oDialog.addPanel(self.oFilterPanel);
+				if (self.oDialog.isOpen()) {
+					self.oDialog.close();
+				} else {
+					self.oDialog.open();
+				}
+				// self.oDialog.setModel(self.oEntityTypeModel, "datatypesModel");
+
+				// ***After this is a 'traditional' menu
 				var eDock = sap.ui.core.Popup.Dock;
 				var oConditionMenu = new sap.ui.unified.Menu({
 					items : {
@@ -48,10 +80,10 @@ sap.ui.core.Control.extend("sparqlish.control.dataPropertyFilter", {
 					}
 				});
 				if (!me.getConjunction()) {
-					oConditionMenu.insertItem(new sap.ui.unified.MenuItem({
+					oConditionMenu.addItem(new sap.ui.unified.MenuItem({
 						text : '{i18nModel>dataPropertyFilterDELETE}',
 						icon : sap.ui.core.IconPool.getIconURI("delete")
-					}), -1);
+					}));
 				}
 				oConditionMenu.attachItemSelect(function(oEvent) {
 					var selectedItem = oEvent.getParameter("item").getText();
@@ -61,6 +93,7 @@ sap.ui.core.Control.extend("sparqlish.control.dataPropertyFilter", {
 						me.getAggregation("_condition").setText(selectedItem);
 					}
 				}).open(false, this.getFocusDomRef(), eDock.BeginTop, eDock.beginBottom, this.getDomRef());
+				// ***Until here
 			}
 		}).addStyleClass("menuLink"));
 		self.setAggregation("_value", new sap.m.Input({

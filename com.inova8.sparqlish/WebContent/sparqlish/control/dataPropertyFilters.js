@@ -120,7 +120,6 @@ sap.ui.core.Control.extend("sparqlish.control.dataPropertyFilters", {
 				self.getAggregation("_extendFilter").setVisible(true);
 				currentModel.refresh();
 				self.fireDataPropertyFiltersChanged();
-			//	self.getParent().getParent().rerender();
 			}
 		}));
 	},

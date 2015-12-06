@@ -46,6 +46,57 @@ sap.ui.core.Control.extend("sparqlish.control.propertyClause",
 					}
 				}
 			},
+			init : function() {
+				var self = this;
+				self.setAggregation("_includeOptionalIgnore", new sparqlish.control.includeOptionalIgnore().bindElement("queryModel>")
+						.attachPropertyClauseDeleteRequested(function(oEvent) {
+							if (self.getParent().sParentAggregationName == "_conjunctionPropertyClauses") {
+								self.getParent().deleteConjunctionClause();
+							} else {
+								self.deleteClause();
+							}
+							self.firePropertyClauseChanged();
+						}).attachIncludeOptionalIgnoreChanged(function(oEvent) {
+							alert("hi2");
+							// self.rerender();
+							self.firePropertyClauseChanged();
+						}));
+				self.setAggregation("_property", new sparqlish.control.propertyMenu().bindElement("queryModel>").attachPropertyChanged(function(oEvent) {
+					this.getModel("queryModel").refresh();
+					alert("hi3");
+					// self.rerender();
+					self.firePropertyClauseChanged();
+				}));
+				self.setAggregation("_objectPropertyFilters", new sparqlish.control.objectPropertyFilters()
+						.bindElement("queryModel>propertyClause/objectPropertyFilters"));
+				self.setAggregation("_dataPropertyFilters", new sparqlish.control.dataPropertyFilters().bindElement("queryModel>propertyClause/dataPropertyFilters")
+						.attachDataPropertyFiltersChanged(function(oEvent) {
+							alert("hi4");
+							//self.rerender();
+							self.firePropertyClauseChanged();
+						}));
+				self.setAggregation("_addClause", new sparqlish.control.addClauses({
+					clausesSelected : function(oEvent) {
+
+						var currentModelData = self.getCurrentQueryContext().propertyClause;
+						// Now insert a first clause and move existing first clause if it exists into the first element of the
+						// array of conjunctionClauses
+						var selectedObjectProperties = oEvent.getParameter("objectPropertyPayload").selectedItems;// oEvent.getSource().oObjectPropertyList.getSelectedItems()
+						var selectedDataProperties = oEvent.getParameter("dataPropertyPayload").selectedItems;// oEvent.getSource().oDataPropertyList.getSelectedItems()
+
+						for (var i = 0; i < selectedDataProperties.length; i++) {
+							var dataProperty = selectedDataProperties[i].columnKey;// getText();
+							self.addClause(currentModelData, "DataPropertyClause", dataProperty);
+						}
+						for (var i = 0; i < selectedObjectProperties.length; i++) {
+							var objectProperty = selectedObjectProperties[i].columnKey;// getText();
+							self.addClause(currentModelData, "ObjectPropertyClause", objectProperty);
+						}
+						self.getModel("queryModel").refresh();
+						self.firePropertyClauseChanged();
+					}
+				}).bindElement("queryModel>"));
+			},
 			getClausesContext : function() {
 				var reClause = /\/clause\/$/;
 				var reConjunctionClause = /conjunctionClauses\/[0123456789]*\/clause$/;
@@ -204,53 +255,8 @@ sap.ui.core.Control.extend("sparqlish.control.propertyClause",
 						currentModelData.clauses.conjunctionClauses[0].clause.propertyClause.objectPropertyFilters = [];
 					}
 				}
-			}, // set up the inner controls
-			init : function() {
-				var self = this;
-				self.setAggregation("_includeOptionalIgnore", new sparqlish.control.includeOptionalIgnore().bindElement("queryModel>").attachPropertyClauseDeleteRequested(function(oEvent) {
-					if (self.getParent().sParentAggregationName == "_conjunctionPropertyClauses") {
-						self.getParent().deleteConjunctionClause();
-					} else {
-						self.deleteClause();
-					}
-					self.firePropertyClauseChanged();
-				}).attachRerender(function(oEvent) {
-					alert("hi2");
-					//self.rerender();
-				}));
-				self.setAggregation("_property", new sparqlish.control.propertyMenu().bindElement("queryModel>").attachPropertyChanged(function(oEvent) {
-					this.getModel("queryModel").refresh();
-					alert("hi3");
-					//self.rerender();
-				}));
-				self.setAggregation("_objectPropertyFilters", new sparqlish.control.objectPropertyFilters()
-						.bindElement("queryModel>propertyClause/objectPropertyFilters"));
-				self.setAggregation("_dataPropertyFilters", new sparqlish.control.dataPropertyFilters().bindElement("queryModel>propertyClause/dataPropertyFilters").attachDataPropertyFiltersChanged(function(oEvent) {
-								self.rerender();
-							})
-				);
-				self.setAggregation("_addClause", new sparqlish.control.addClauses({
-					clausesSelected : function(oEvent) {
-
-						var currentModelData = self.getCurrentQueryContext().propertyClause;
-						// Now insert a first clause and move existing first clause if it exists into the first element of the
-						// array of conjunctionClauses
-						var selectedObjectProperties = oEvent.getParameter("objectPropertyPayload").selectedItems;// oEvent.getSource().oObjectPropertyList.getSelectedItems()
-						var selectedDataProperties = oEvent.getParameter("dataPropertyPayload").selectedItems;// oEvent.getSource().oDataPropertyList.getSelectedItems()
-
-						for (var i = 0; i < selectedDataProperties.length; i++) {
-							var dataProperty = selectedDataProperties[i].columnKey;// getText();
-							self.addClause(currentModelData, "DataPropertyClause", dataProperty);
-						}
-						for (var i = 0; i < selectedObjectProperties.length; i++) {
-							var objectProperty = selectedObjectProperties[i].columnKey;// getText();
-							self.addClause(currentModelData, "ObjectPropertyClause", objectProperty);
-						}
-						self.getModel("queryModel").refresh();
-						self.firePropertyClauseChanged();
-					}
-				}).bindElement("queryModel>"));
 			},
+
 			renderer : function(oRm, oControl) {
 				var currentModel = oControl.getModel("queryModel");
 				var currentContext = oControl.getBindingContext("queryModel");

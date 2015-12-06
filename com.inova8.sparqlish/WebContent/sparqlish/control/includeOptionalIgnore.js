@@ -22,7 +22,7 @@ sap.m.Link.extend("sparqlish.control.includeOptionalIgnore", {
 			propertyClauseDeleteRequested : {
 				enablePreventDefault : true
 			},
-			rerender : {
+			includeOptionalIgnoreChanged : {
 				enablePreventDefault : true
 			}
 		}
@@ -86,7 +86,7 @@ sap.m.Link.extend("sparqlish.control.includeOptionalIgnore", {
 								}
 								currentModel.refresh();
 								// TODO is this correct?
-								self.fireRerender();
+								self.fireIncludeOptionalIgnoreChanged();
 							//	self.getParent().getParent().rerender()
 							}
 						}).open(false, this.getFocusDomRef(), eDock.BeginTop, eDock.beginBottom, this.getDomRef());
@@ -100,7 +100,7 @@ sap.m.Link.extend("sparqlish.control.includeOptionalIgnore", {
 		if (oClause.ignore) {
 			oText = sap.ui.getCore().getModel("i18nModel").getProperty("propertyClauseIgnoreWith");
 		} else if (oClause.optional) {
-			oText = sap.ui.getCore().getModel("i18nModel").getProperty("propertyClauseTooltipOptionallyWith");
+			oText = sap.ui.getCore().getModel("i18nModel").getProperty("propertyClauseOptionallyWith");
 		} else {
 			oText = sap.ui.getCore().getModel("i18nModel").getProperty("propertyClauseWith");
 		}
