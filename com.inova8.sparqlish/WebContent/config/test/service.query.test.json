@@ -1518,6 +1518,20 @@
 					"concept": "Dinners"
 				}
 			]
+		},
+
+		{
+			"name": "Test",
+			"serviceUrl": "../proxy/http/services.odata.org/V2/Northwind/Northwind.svc/",
+			"version": "V2",
+			"queries": 
+			[
+				{
+					"_class": "Query",
+					"name": "Orders",
+					"concept": "Orders"
+				}
+			]
 		}
 	]
 }

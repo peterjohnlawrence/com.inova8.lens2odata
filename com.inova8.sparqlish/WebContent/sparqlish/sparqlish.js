@@ -31,6 +31,7 @@ sap.ui.base.Object.extend("Queries", {
 			}
 		} catch (e) {
 			jQuery.sap.log.error(e);
+			throw (e);
 		}
 	}
 });
@@ -95,6 +96,7 @@ sap.ui.base.Object
 
 						} catch (e) {
 							jQuery.sap.log.error(e);
+							throw (e);
 						}
 						return this;
 					},
@@ -204,6 +206,7 @@ sap.ui.base.Object
 							return oViewModel;
 						} catch (e) {
 							jQuery.sap.log.error(e);
+							throw e;
 						}
 					},
 					odataPath : function(sVersion) {
@@ -215,10 +218,12 @@ sap.ui.base.Object
 							sClausesFilter = this.oClauses.odataFilter(sVersion);
 						}
 						if (!jQuery.isEmptyObject(this.oConceptFilters)) {
+							var sOdataKeyFilters = odataKeyFilters(sVersion, this.oContext.sOdataEntityPath, this.oConceptFilters);
 							if (sClausesFilter != "") {
-								return "$filter=((" + odataKeyFilters(sVersion, this.oContext.sOdataEntityPath, this.oConceptFilters) + ")and(" + sClausesFilter + "))";
+								return jQuery.isEmptyObject(sOdataKeyFilters) ? "$filter=(" + sClausesFilter + ")" : "$filter=((" + sOdataKeyFilters + ")and(" + sClausesFilter
+										+ "))";
 							} else {
-								return "$filter=(" + odataKeyFilters(sVersion, this.oContext.sOdataEntityPath, this.oConceptFilters) + ")";
+								return jQuery.isEmptyObject(sOdataKeyFilters) ? "" : "$filter=(" + sOdataKeyFilters + ")";
 							}
 						} else {
 							if (sClausesFilter != "") {
@@ -234,10 +239,11 @@ sap.ui.base.Object
 							sSelect = this.oClauses.odataSelect(sVersion);
 						}
 						if (!jQuery.isEmptyObject(this.oConceptFilters)) {
+							var sOdataKeys = odataKeys(sVersion, this.oContext.sOdataEntityPath, this.oConceptFilters);
 							if (sSelect != "") {
-								return "$select=" + odataKeys(sVersion, this.oContext.sOdataEntityPath, this.oConceptFilters) + "," + sSelect;
+								return jQuery.isEmptyObject(sOdataKeys) ? "$select=" + sSelect : "$select=" + sOdataKeys + "," + sSelect;
 							} else {
-								return "$select=" + odataKeys(sVersion, this.oContext.sOdataEntityPath, this.oConceptFilters);
+								return jQuery.isEmptyObject(sOdataKeys) ? "" : "$select=" + sOdataKeys;
 							}
 						} else {
 							if (sSelect != "") {
@@ -318,6 +324,7 @@ sap.ui.base.Object.extend("Clauses", {
 			}
 		} catch (e) {
 			jQuery.sap.log.error(e);
+			throw (e);
 		}
 	},
 	sparql : function() {
@@ -498,6 +505,7 @@ sap.ui.base.Object.extend("Clause", {
 			this.bHidden = (jQuery.isEmptyObject(oAST["hidden"])) ? (this.oPropertyClause.bHidden) : oAST["hidden"];
 		} catch (e) {
 			jQuery.sap.log.error(e);
+			throw (e);
 		}
 	},
 	selectDistinct : function() {
@@ -615,6 +623,8 @@ sap.ui.base.Object.extend("ConjunctionClause", {
 			this.oClause = new Clause(oAST["clause"], oContext);
 		} catch (e) {
 			jQuery.sap.log.error(e);
+			throw (e);
+
 		}
 	},
 	sparql : function() {
@@ -676,6 +686,7 @@ sap.ui.base.Object.extend("PropertyClause", {
 				throw "notPropertyClauseException";
 		} catch (e) {
 			jQuery.sap.log.error(e);
+			throw (e);
 		}
 	},
 	sparql : function() {
@@ -727,6 +738,7 @@ sap.ui.base.Object.extend("DataPropertyClause", {
 			}
 		} catch (e) {
 			jQuery.sap.log.error(e);
+			throw (e);
 		}
 	},
 	sparql : function() {
@@ -800,6 +812,7 @@ sap.ui.base.Object.extend("DataPropertyFilters", {
 
 		} catch (e) {
 			jQuery.sap.log.error(e);
+			throw (e);
 		}
 	},
 	sparql : function() {
@@ -871,6 +884,7 @@ sap.ui.base.Object.extend("DataPropertyFilter", {
 			this.sType = oAST["type"];
 		} catch (e) {
 			jQuery.sap.log.error(e);
+			throw (e);
 		}
 	},
 	sparql : function() {
@@ -909,6 +923,7 @@ sap.ui.base.Object.extend("ConjunctionFilter", {
 			this.oFilter = new DataPropertyFilter(oAST["dataPropertyFilter"], oContext);
 		} catch (e) {
 			jQuery.sap.log.error(e);
+			throw (e);
 		}
 	},
 	sparql : function() {
@@ -965,6 +980,7 @@ sap.ui.base.Object.extend("ObjectPropertyClause", {
 			}
 		} catch (e) {
 			jQuery.sap.log.error(e);
+			throw (e);
 		}
 	},
 	sparql : function() {
@@ -1095,6 +1111,7 @@ sap.ui.base.Object.extend("InverseObjectPropertyClause", {
 
 		} catch (e) {
 			jQuery.sap.log.error(e);
+			throw (e);
 		}
 	},
 	sparql : function() {
@@ -1159,6 +1176,7 @@ sap.ui.base.Object.extend("OperationClause", {
 
 		} catch (e) {
 			jQuery.sap.log.error(e);
+			throw (e);
 		}
 	},
 	sparql : function() {
@@ -1501,7 +1519,7 @@ sparqlishKeyFilters = function(oKeyFilters) {
 	return sSparqlishKeyFilters;
 };
 odataKeyFilters = function(sVersion, sOdataEntityPath, oKeyFilters) {
-	var sOdataKeyFilters = "(";
+	var sOdataKeyFilters = "";
 	for (var keys = 0; keys < oKeyFilters.length; keys++) {
 		if (keys > 0) {
 			sOdataKeyFilters = sOdataKeyFilters + "or(";
@@ -1517,7 +1535,7 @@ odataKeyFilters = function(sVersion, sOdataEntityPath, oKeyFilters) {
 		}
 		sOdataKeyFilters = sOdataKeyFilters + ")";
 	}
-	return sOdataKeyFilters + ")";
+	return jQuery.isEmptyObject(sOdataKeyFilters) ? "" : "(" + sOdataKeyFilters + ")";
 };
 odataKeys = function(sVersion, sOdataEntityPath, oKeyFilters) {
 	var oOdataKeys = [];

@@ -35,6 +35,7 @@ Components.lensResultsTable.Component.prototype.renderResults = function(query) 
 	var self = this;
 	var odataResults = new sap.ui.model.json.JSONModel({});
 	var odataURL = query || self.getProperty("query");
+	self.oTable.setBusy(true).setBusyIndicatorDelay(0);
 	odataResults.loadData(odataURL);
 	odataResults.attachRequestCompleted(function(oEvent) {
 		if (oEvent.getParameter("success")) {
@@ -69,6 +70,7 @@ Components.lensResultsTable.Component.prototype.renderResults = function(query) 
 			self.oTable.getTitle().setText(JSON.stringify(oEvent.getParameter("errorobject")));
 			self.oTable.destroyColumns();
 		}
+		self.oTable.setBusy(false);
 	});
 	return this;
 };

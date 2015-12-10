@@ -65,30 +65,104 @@ sap.m.Toolbar.extend("sparqlish.control.serviceQueryMenu", {
 						text : "{serviceQueriesModel>name}"
 					})
 				});
-				self.oQuerySelect.setSelectedItem( self.oQuerySelect.getFirstItem());
-				self.fireQueryChanged({
-					query : self.getModel("serviceQueriesModel").getProperty(self.oQuerySelect.getSelectedItem().getBindingContext("serviceQueriesModel").getPath())
-				})
+				self.oQuerySelect.setSelectedItem(self.oQuerySelect.getFirstItem());
+//				self.fireQueryChanged({
+//					query : self.getModel("serviceQueriesModel").getProperty(self.oQuerySelect.getSelectedItem().getBindingContext("serviceQueriesModel").getPath())
+//				})
 			}
-		}).addStyleClass("menuText").attachChange(function(oEvent){
-					self.fireServiceChanged({
-					service : self.getModel("serviceQueriesModel").getProperty(self.oServiceSelect.getSelectedItem().getBindingContext("serviceQueriesModel").getPath()),
-					query : self.getModel("serviceQueriesModel").getProperty(self.oQuerySelect.getSelectedItem().getBindingContext("serviceQueriesModel").getPath())
-				})			
+		}).addStyleClass("menuText").attachChange(function(oEvent) {
+			self.fireServiceChanged({
+				service : self.getModel("serviceQueriesModel").getProperty(self.oServiceSelect.getSelectedItem().getBindingContext("serviceQueriesModel").getPath()),
+				query : self.getModel("serviceQueriesModel").getProperty(self.oQuerySelect.getSelectedItem().getBindingContext("serviceQueriesModel").getPath())
+			})
 		});
 
 		self.oServiceSelect.addButton(new sap.m.Button({
 			text : "{i18nModel>serviceDelete}",
 			icon : sap.ui.core.IconPool.getIconURI("delete"),
 			press : function(oEvent) {
-				sap.m.MessageToast.show("serviceDelete")
+				var oServiceDeleteDialog = new sap.m.Dialog({
+					title : 'Delete OData Service',
+					type : 'Message',
+					beginButton : new sap.m.Button({
+						text : 'Confirm',
+						press : function() {
+							self.getModel("serviceQueriesModel").getData().services.removeValue("name",self.oServiceSelect.getSelectedItem().getText());
+							self.getModel("serviceQueriesModel").refresh();
+							sap.m.MessageToast.show('Service and associated queries removed');
+							oServiceDeleteDialog.close();
+						}
+					}),
+					endButton : new sap.m.Button({
+						text : 'Cancel',
+						press : function() {
+							oServiceDeleteDialog.close();
+						}
+					}),
+					afterClose : function() {
+						oServiceDeleteDialog.destroy();
+					}
+				});
+				oServiceDeleteDialog.open();
 			}
 		}));
 		self.oServiceSelect.addButton(new sap.m.Button({
 			text : "{i18nModel>serviceAdd}",
 			icon : sap.ui.core.IconPool.getIconURI("add"),
 			press : function(oEvent) {
-				sap.m.MessageToast.show("serviceAdd")
+				var oServiceAddDialog = new sap.m.Dialog({
+					title : 'Add OData Service',
+					type : 'Message',
+					content : [ new sap.m.Input({
+						class : "sapUiSmallMarginBottom",
+						type : "Text",
+						placeholder : "Enter OData service name ...",
+						valueStateText : "Entry must be a valid name"
+					}), new sap.m.Input({
+						class : "sapUiSmallMarginBottom",
+						type : "Url",
+						placeholder : "Enter OData service URL ...",
+						valueStateText : "Entry must be a valid OData service URL."
+					}) ],
+					beginButton : new sap.m.Button({
+						text : 'Add',
+						press : function() {
+							var validateService = function(sUrl) {
+								var testService = new sap.ui.model.odata.ODataMetadata(sUrl + "$metadata", {
+									async : false
+								});
+								return !testService.isFailed();
+							};
+							if (validateService(oServiceAddDialog.getContent()[1].getValue())) {
+								self.getModel("serviceQueriesModel").getData().services.push({
+									"name" : oServiceAddDialog.getContent()[0].getValue(),
+									"serviceUrl" : oServiceAddDialog.getContent()[1].getValue(),
+									"version" : "V2",
+									"queries" : [ {
+										"_class" : "Query",
+										"name" : "RSVPs",
+										"concept" : "RSVPs"
+									} ]
+								});
+								self.getModel("serviceQueriesModel").refresh();
+								sap.m.MessageToast.show('Service validated and added');
+								oServiceAddDialog.close();
+							} else {
+								sap.m.MessageToast.show('Invalid Odata service!');
+							}
+						}
+					}),
+					endButton : new sap.m.Button({
+						text : 'Cancel',
+						press : function() {
+							oServiceAddDialog.close();
+						}
+					}),
+					afterClose : function() {
+						oServiceAddDialog.destroy();
+					}
+				});
+				oServiceAddDialog.open();
 			}
 		}));
 		self.oServiceSelect.addButton(new sap.m.Button({
@@ -158,7 +232,7 @@ sap.m.Toolbar.extend("sparqlish.control.serviceQueryMenu", {
 			tooltip : "{i18nModel>saveTooltip}",
 			icon : sap.ui.core.IconPool.getIconURI("save"),
 			press : function(oEvent) {
-					self.fireSave(oEvent);
+				self.fireSave(oEvent);
 			}
 		});
 		self.oSaveAs = new sap.m.Button({
@@ -187,7 +261,7 @@ sap.m.Toolbar.extend("sparqlish.control.serviceQueryMenu", {
 				.addContent(self.oSettings);
 		self.setAggregation("_toolbar", self.oToolbar);
 	},
-	addContent:function(oControl){
+	addContent : function(oControl) {
 		this.oToolbar.addContent(oControl);
 		return this;
 	},
