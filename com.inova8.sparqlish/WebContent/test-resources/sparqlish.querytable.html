@@ -54,21 +54,17 @@
 	sap.ui.getCore().setModel(oParametersModel, "parametersModel");
 
 	//Mock OData mock server
-		jQuery.sap.require("sap.ui.core.util.MockServer");
-		var sMockUri = "/mock/";
-		var oMockServer = new sap.ui.core.util.MockServer({
-			rootUri : sMockUri
-		});
+// 		jQuery.sap.require("sap.ui.core.util.MockServer");
+// 		var sMockUri = "/mock/";
+// 		var oMockServer = new sap.ui.core.util.MockServer({
+// 			rootUri : sMockUri
+// 		});
 // 	var sMetadataUrl = "test-resources/northwind.v2.metadata.xml"; 
 // 	var sMetadataUrl = "test-resources/lenspoc.v2.metadata.xml"; 
-	var sMetadataUrl = "../config/test/northwind.v2.metadata.xml";
-	oMockServer.simulate(sMetadataUrl);
-	oMockServer.start();
+// 	var sMetadataUrl = "../config/test/northwind.v2.metadata.xml";
+// 	oMockServer.simulate(sMetadataUrl);
+// 	oMockServer.start();
 	
-	// dataModel>
-	var sServiceUrl = "../proxy/http/services.odata.org/V2/Northwind/Northwind.svc/";
-	var oDataModel = new sap.ui.model.odata.ODataModel(sServiceUrl, true);
-
 
 	var oServiceQueriesModel = new sap.ui.model.json.JSONModel();
 	oServiceQueriesModel.loadData("../config/test/service.query.test.json", null, false);
@@ -80,7 +76,6 @@
 		settings : {
 			title : "queryEditorPreviewTreeTable",
 			serviceQueriesModel: oServiceQueriesModel,
-			odataModel : oDataModel,
 			i18nModel : i18nModel, //TODO or specific one for this component?
 			datatypesModel : oDatatypesModel
 		}

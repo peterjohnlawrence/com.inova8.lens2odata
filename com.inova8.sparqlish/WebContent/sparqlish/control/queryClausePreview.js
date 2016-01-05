@@ -113,8 +113,11 @@ sap.ui.core.Control.extend("sparqlish.control.queryClausePreview", {
 						path : "resultsModel>" + sCurrentResultsContext,
 						formatter : function(value) {
 							if (value != null) {
+								if (typeof (value) == 'string') {
+									//TODO when the Odata atom/xml response or json does not annotate the type of the response
+									value = oControl.oDateTimeFormat.parse(value);
+								}
 								return oControl.oDateTimeFormat.format(value);
-								// return oControl.oDateTimeFormat.format(new Date(parseInt(value.substr(6))));
 							} else {
 								return null;
 							}

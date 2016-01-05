@@ -57,13 +57,11 @@ sap.ui.core.Control.extend("sparqlish.control.propertyClause",
 							}
 							self.firePropertyClauseChanged();
 						}).attachIncludeOptionalIgnoreChanged(function(oEvent) {
-							alert("hi2");
 							// self.rerender();
 							self.firePropertyClauseChanged();
 						}));
 				self.setAggregation("_property", new sparqlish.control.propertyMenu().bindElement("queryModel>").attachPropertyChanged(function(oEvent) {
 					this.getModel("queryModel").refresh();
-					alert("hi3");
 					// self.rerender();
 					self.firePropertyClauseChanged();
 				}));
@@ -71,7 +69,6 @@ sap.ui.core.Control.extend("sparqlish.control.propertyClause",
 						.bindElement("queryModel>propertyClause/objectPropertyFilters"));
 				self.setAggregation("_dataPropertyFilters", new sparqlish.control.dataPropertyFilters().bindElement("queryModel>propertyClause/dataPropertyFilters")
 						.attachDataPropertyFiltersChanged(function(oEvent) {
-							alert("hi4");
 							//self.rerender();
 							self.firePropertyClauseChanged();
 						}));
@@ -258,6 +255,7 @@ sap.ui.core.Control.extend("sparqlish.control.propertyClause",
 			},
 
 			renderer : function(oRm, oControl) {
+				//TODO oControl.getModel("metaModel").entityTypeKeyProperties("northwind.OrderDetail")
 				var currentModel = oControl.getModel("queryModel");
 				var currentContext = oControl.getBindingContext("queryModel");
 				var currentContextClause = currentModel.getProperty("", currentContext);

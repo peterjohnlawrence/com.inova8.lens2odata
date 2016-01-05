@@ -156,7 +156,7 @@
 									{
 										"_class": "DataPropertyFilter",
 										"condition": "<",
-										"value": "1998-01-01",
+										"value": "1998-01-01T00:00:00.000Z",
 										"datatype": "<http://www.w3.org/2001/XMLSchema#date>",
 										"type": "Edm.DateTime"
 									}
@@ -292,7 +292,7 @@
 										{
 											"_class": "DataPropertyFilter",
 											"condition": "<",
-											"value": "1998-01-01",
+											"value": "1998-01-01T00:00:00.000Z",
 											"datatype": "<http://www.w3.org/2001/XMLSchema#date>",
 											"type": "Edm.DateTime"
 										}
@@ -327,7 +327,7 @@
 									{
 										"_class": "DataPropertyFilter",
 										"condition": "<",
-										"value": "1998-01-01",
+										"value": "1998-01-01T00:00:00.000Z",
 										"datatype": "<http://www.w3.org/2001/XMLSchema#date>",
 										"type": "Edm.DateTime"
 									}
@@ -388,7 +388,7 @@
 									{
 										"_class": "DataPropertyFilter",
 										"condition": "<",
-										"value": "1998-01-01",
+										"value": "1998-01-01T00:00:00.000Z",
 										"datatype": "<http://www.w3.org/2001/XMLSchema#date>",
 										"type": "Edm.DateTime"
 									}
@@ -522,7 +522,7 @@
 									{
 										"_class": "DataPropertyFilter",
 										"condition": "<",
-										"value": "1998-01-01",
+										"value": "1998-01-01T00:00:00.000Z",
 										"datatype": "<http://www.w3.org/2001/XMLSchema#date>",
 										"type": "Edm.DateTime"
 									}
@@ -628,7 +628,7 @@
 									{
 										"_class": "DataPropertyFilter",
 										"condition": "<",
-										"value": "1998-01-01",
+										"value": "1998-01-01T00:00:00.000Z",
 										"datatype": "<http://www.w3.org/2001/XMLSchema#date>",
 										"type": "Edm.DateTime"
 									}

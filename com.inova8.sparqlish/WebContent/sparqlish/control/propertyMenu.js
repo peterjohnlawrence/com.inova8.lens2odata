@@ -99,7 +99,7 @@ sap.ui.core.Control
 								});// .addStyleClass("menuLink");
 
 						self.oObjectPropertyMenu = new sap.m.P13nColumnsPanel({
-							// title : "{i18nModel>navigationProperties}",
+						 title : "{i18nModel>navigationProperties}",
 							items : {
 								path : "entityTypeModel>/navigationProperty",
 								template : new sap.m.P13nItem({
@@ -112,7 +112,7 @@ sap.ui.core.Control
 						// TODO Undocumented hack to make P13nColumnsPanel to be single select
 						self.oObjectPropertyMenu._oTable.setMode(sap.m.ListMode.SingleSelect);
 						self.oDataPropertyMenu = new sap.m.P13nColumnsPanel({
-							// title : "{i18nModel>dataProperties}",
+							title : "{i18nModel>dataProperties}",
 							items : {
 								path : "entityTypeModel>/property",
 								template : new sap.m.P13nItem({
@@ -154,9 +154,8 @@ sap.ui.core.Control
 							// Setup property menu according to current model context if not already set
 							var oEntityTypeContext = self.getParent().getDomainEntityTypeContext();
 							var sEntityTypeQName = self.getParent().getDomainEntityTypeQName();
-							self.oEntityTypeModel = new sap.ui.model.json.JSONModel();
-							self.oEntityTypeModel.setData(oEntityTypeContext);
-							self.oDialog.setModel(self.oEntityTypeModel, "entityTypeModel");
+							self.oDialog.setModel(self.getModel("metaModel").getEntityTypeModel(sEntityTypeQName),"entityTypeModel");
+
 							// TODO not setting title or at least not displaying
 							self.oObjectPropertyMenu.setTitle(oEntityTypeContext.name + " " + sap.ui.getCore().getModel("i18nModel").getProperty("propertyMenuLink"));
 							self.oDataPropertyMenu.setTitle(oEntityTypeContext.name + " " + sap.ui.getCore().getModel("i18nModel").getProperty("propertyMenuAttribute"));

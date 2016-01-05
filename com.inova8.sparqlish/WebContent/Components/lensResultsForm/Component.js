@@ -47,6 +47,12 @@ Components.lensResultsForm.Component.prototype.createContent = function() {
 	this.oPaginator.setNumberOfPages(100);
 	this.oFormPanel.addContent(this.oForm);
 	this.oFormPanel.addContent(this.oPaginator);
+	this.oFormPanel.addButton(new sap.ui.commons.Button({
+		icon : sap.ui.core.IconPool.getIconURI("settings"),
+		press : function(oEvent) {
+			sap.m.MessageToast.show("settings for form")
+		}
+	}));
 	return this.oFormPanel;
 };
 

@@ -1,123 +1,65 @@
 {
-	"_class": "Query",
-	"name": "ProductCatalog2",
-	"concept": "ProductCatalog",
-	"clauses": 
+	"d": 
 	{
-		"_class": "Clauses",
-		"clause": 
-		{
-			"_class": "Clause",
-			"ignore": false,
-			"optional": false,
-			"propertyClause": 
-			{
-				"_class": "DataPropertyClause",
-				"dataProperty": "CultureID",
-				"type": "Edm.String",
-				"dataPropertyFilters": 
-				{
-					"_class": "DataPropertyFilters",
-					"dataPropertyFilter": 
-					{
-						
-					}
-				}
-			}
-		},
-
-		"conjunctionClauses": 
+		"results": 
 		[
 			{
-				"_class": "ConjunctionClause",
-				"conjunction": "and",
-				"clause": 
+				"__metadata": 
 				{
-					"_class": "Clause",
-					"ignore": false,
-					"optional": false,
-					"propertyClause": 
-					{
-						"_class": "DataPropertyClause",
-						"dataProperty": "ProductSubcategory",
-						"type": "Edm.String",
-						"dataPropertyFilters": 
-						{
-							"_class": "DataPropertyFilters",
-							"dataPropertyFilter": 
-							{
-								"_class": "DataPropertyFilter",
-								"condition": "equals",
-								"type": "Edm.String",
-								"value": "Pedals"
-							}
-						}
-					}
-				}
-			},
+					"id": "http://localhost:8080/olingo2sparql/sparql/2.0/NW/Order('northwind%3AOrder-10248')",
+					"uri": "http://localhost:8080/olingo2sparql/sparql/2.0/NW/Order('northwind%3AOrder-10248')",
+					"type": "northwind.Order"
+				},
 
-			{
-				"_class": "ConjunctionClause",
-				"conjunction": "and",
-				"clause": 
+				"subject": "northwind:Order-10248",
+				"hasOrderDetail": 
 				{
-					"_class": "Clause",
-					"ignore": false,
-					"optional": false,
-					"propertyClause": 
-					{
-						"_class": "DataPropertyClause",
-						"dataProperty": "Description",
-						"type": "Edm.String",
-						"dataPropertyFilters": 
+					"results": 
+					[
 						{
-							"_class": "DataPropertyFilters",
-							"dataPropertyFilter": 
+							"__metadata": 
 							{
-								
-							}
-						}
-					}
-				}
-			},
-
-			{
-				"_class": "ConjunctionClause",
-				"conjunction": "and",
-				"clause": 
-				{
-					"_class": "Clause",
-					"ignore": false,
-					"optional": false,
-					"propertyClause": 
-					{
-						"_class": "DataPropertyClause",
-						"dataProperty": "ListPrice",
-						"type": "Edm.Decimal",
-						"dataPropertyFilters": 
-						{
-							"_class": "DataPropertyFilters",
-							"dataPropertyFilter": 
-							{
-								
+								"id": "http://localhost:8080/olingo2sparql/sparql/2.0/NW/OrderDetail('northwind%3AOrderDetail-159')",
+								"uri": "http://localhost:8080/olingo2sparql/sparql/2.0/NW/OrderDetail('northwind%3AOrderDetail-159')",
+								"type": "northwind.OrderDetail"
 							},
 
-							"conjunctionFilters": 
-							[
-								{
-									"_class": "ConjunctionFilter",
-									"filterConjunction": "and",
-									"dataPropertyFilter": 
-									{
-										"_class": "DataPropertyFilter",
-										"condition": "less than",
-										"type": "Edm.Decimal",
-										"value": "80"
-									}
-								}
-							]
+							"subject": "northwind:OrderDetail-159"
+						},
+
+						{
+							"__metadata": 
+							{
+								"id": "http://localhost:8080/olingo2sparql/sparql/2.0/NW/OrderDetail('northwind%3AOrderDetail-2312')",
+								"uri": "http://localhost:8080/olingo2sparql/sparql/2.0/NW/OrderDetail('northwind%3AOrderDetail-2312')",
+								"type": "northwind.OrderDetail"
+							},
+
+							"subject": "northwind:OrderDetail-2312"
+						},
+
+						{
+							"__metadata": 
+							{
+								"id": "http://localhost:8080/olingo2sparql/sparql/2.0/NW/OrderDetail('northwind%3AOrderDetail-157')",
+								"uri": "http://localhost:8080/olingo2sparql/sparql/2.0/NW/OrderDetail('northwind%3AOrderDetail-157')",
+								"type": "northwind.OrderDetail"
+							},
+
+							"subject": "northwind:OrderDetail-157"
+						},
+
+						{
+							"__metadata": 
+							{
+								"id": "http://localhost:8080/olingo2sparql/sparql/2.0/NW/OrderDetail('northwind%3AOrderDetail-158')",
+								"uri": "http://localhost:8080/olingo2sparql/sparql/2.0/NW/OrderDetail('northwind%3AOrderDetail-158')",
+								"type": "northwind.OrderDetail"
+							},
+
+							"subject": "northwind:OrderDetail-158"
 						}
-					}
+					]
 				}
 			}
 		]

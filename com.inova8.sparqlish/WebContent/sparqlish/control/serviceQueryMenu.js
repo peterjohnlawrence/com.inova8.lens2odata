@@ -1,16 +1,17 @@
 jQuery.sap.require("sap.m.ActionSelect");
 jQuery.sap.require("sap.ui.core.ListItem");
 jQuery.sap.require("sap.ui.core.IconPool");
-sap.m.Toolbar.extend("sparqlish.control.serviceQueryMenu", {
+jQuery.sap.require("sparqlish.control.parameterDialog");
+sap.m.OverflowToolbar.extend("sparqlish.control.serviceQueryMenu", {
 	metadata : {
 		properties : {
 			serviceUrl : {
 				type : "string",
-				defaultValue : "Select a service"
+				defaultValue : "{i18nModel>selectService}"
 			},
 			query : {
 				type : "string",
-				defaultValue : "Select a query"
+				defaultValue : "{i18nModel>selectQuery}"
 			},
 		},
 		aggregations : {
@@ -66,9 +67,10 @@ sap.m.Toolbar.extend("sparqlish.control.serviceQueryMenu", {
 					})
 				});
 				self.oQuerySelect.setSelectedItem(self.oQuerySelect.getFirstItem());
-//				self.fireQueryChanged({
-//					query : self.getModel("serviceQueriesModel").getProperty(self.oQuerySelect.getSelectedItem().getBindingContext("serviceQueriesModel").getPath())
-//				})
+				// self.fireQueryChanged({
+				// query :
+				// self.getModel("serviceQueriesModel").getProperty(self.oQuerySelect.getSelectedItem().getBindingContext("serviceQueriesModel").getPath())
+				// })
 			}
 		}).addStyleClass("menuText").attachChange(function(oEvent) {
 			self.fireServiceChanged({
@@ -82,14 +84,14 @@ sap.m.Toolbar.extend("sparqlish.control.serviceQueryMenu", {
 			icon : sap.ui.core.IconPool.getIconURI("delete"),
 			press : function(oEvent) {
 				var oServiceDeleteDialog = new sap.m.Dialog({
-					title : 'Delete OData Service',
+					title : '{i18nModel>Delete OData Service}',
 					type : 'Message',
 					beginButton : new sap.m.Button({
 						text : 'Confirm',
 						press : function() {
-							self.getModel("serviceQueriesModel").getData().services.removeValue("name",self.oServiceSelect.getSelectedItem().getText());
+							self.getModel("serviceQueriesModel").getData().services.removeValue("name", self.oServiceSelect.getSelectedItem().getText());
 							self.getModel("serviceQueriesModel").refresh();
-							sap.m.MessageToast.show('Service and associated queries removed');
+							sap.m.MessageToast.show(sap.ui.getCore().getModel("i18nModel").getProperty("serviceQueriesRemoved"));
 							oServiceDeleteDialog.close();
 						}
 					}),
@@ -116,13 +118,13 @@ sap.m.Toolbar.extend("sparqlish.control.serviceQueryMenu", {
 					content : [ new sap.m.Input({
 						class : "sapUiSmallMarginBottom",
 						type : "Text",
-						placeholder : "Enter OData service name ...",
-						valueStateText : "Entry must be a valid name"
+						placeholder : "{i18nModel>Enter OData service name ...}",
+						valueStateText : "{i18nModel>Entry must be a valid name}"
 					}), new sap.m.Input({
 						class : "sapUiSmallMarginBottom",
 						type : "Url",
-						placeholder : "Enter OData service URL ...",
-						valueStateText : "Entry must be a valid OData service URL."
+						placeholder : "{i18nModel>Enter OData service URL ...}",
+						valueStateText : "{i18nModel>Entry must be a valid OData service URL}"
 					}) ],
 					beginButton : new sap.m.Button({
 						text : 'Add',
@@ -145,10 +147,10 @@ sap.m.Toolbar.extend("sparqlish.control.serviceQueryMenu", {
 									} ]
 								});
 								self.getModel("serviceQueriesModel").refresh();
-								sap.m.MessageToast.show('Service validated and added');
+								sap.m.MessageToast.show(sap.ui.getCore().getModel("i18nModel").getProperty('validOdataService'));
 								oServiceAddDialog.close();
 							} else {
-								sap.m.MessageToast.show('Invalid Odata service!');
+								sap.m.MessageToast.show(sap.ui.getCore().getModel("i18nModel").getProperty('invalidOdataService'));
 							}
 						}
 					}),
@@ -195,21 +197,21 @@ sap.m.Toolbar.extend("sparqlish.control.serviceQueryMenu", {
 			text : "{i18nModel>queryDelete}",
 			icon : sap.ui.core.IconPool.getIconURI("add"),
 			press : function(oEvent) {
-				sap.m.MessageToast.show("queryDelete")
+				sap.m.MessageToast.show(sap.ui.getCore().getModel("i18nModel").getProperty("queryDelete"))
 			}
 		}));
 		self.oQuerySelect.addButton(new sap.m.Button({
 			text : "{i18nModel>queryAdd}",
 			icon : sap.ui.core.IconPool.getIconURI("add"),
 			press : function(oEvent) {
-				sap.m.MessageToast.show("queryAdd")
+				sap.m.MessageToast.show(sap.ui.getCore().getModel("i18nModel").getProperty("queryAdd"))
 			}
 		}));
 		self.oQuerySelect.addButton(new sap.m.Button({
 			text : "{i18nModel>queryClear}",
 			icon : sap.ui.core.IconPool.getIconURI("restart"),
 			press : function(oEvent) {
-				sap.m.MessageToast.show("queryClear")
+				sap.m.MessageToast.show(sap.ui.getCore().getModel("i18nModel").getProperty("queryClear"))
 			}
 		}));
 		self.oPreview = new sap.m.Button({
@@ -217,6 +219,22 @@ sap.m.Toolbar.extend("sparqlish.control.serviceQueryMenu", {
 			icon : sap.ui.core.IconPool.getIconURI("search"),
 			press : function(oEvent) {
 				self.firePreview({})
+			}
+		});
+		self.oEnterQueryParameters = new sap.m.Button({
+			text : "{i18nModel>enterQueryParameters}",
+			tooltip : "{i18nModel>enterQueryParametersTooltip}",
+			icon : sap.ui.core.IconPool.getIconURI("form"),
+			press : function(oEvent) {
+				var oQueryContext = self.oQuerySelect.getSelectedItem().getBindingContext("serviceQueriesModel");
+				var oParameters = oQueryContext.getProperty("parameters");
+				if (!jQuery.isEmptyObject(oParameters) && (oParameters.length > 0)) {
+					var enterQueryParametersDialog = new sparqlish.control.parameterDialog();
+					enterQueryParametersDialog.setQueryContext(oQueryContext);
+					enterQueryParametersDialog.open();
+				} else {
+					sap.m.MessageToast.show(sap.ui.getCore().getModel("i18nModel").getProperty("noQueryParams") )
+				}
 			}
 		});
 		self.oUndo = new sap.m.Button({
@@ -256,9 +274,9 @@ sap.m.Toolbar.extend("sparqlish.control.serviceQueryMenu", {
 			}
 		});
 		self.oToolbar = new sap.m.Toolbar();
-		self.oToolbar.addContent(self.oInova8).addContent(self.oServiceSelect).addContent(self.oQuerySelect).addContent(self.oUndo).addContent(self.oRedo)
-				.addContent(self.oSave).addContent(self.oSaveAs).addContent(new sap.m.ToolbarSpacer()).addContent(self.oPreview).addContent(new sap.m.ToolbarSpacer())
-				.addContent(self.oSettings);
+		self.oToolbar.addContent(self.oInova8).addContent(self.oServiceSelect).addContent(self.oQuerySelect).addContent(self.oEnterQueryParameters).addContent(
+				self.oUndo).addContent(self.oRedo).addContent(self.oSave).addContent(self.oSaveAs).addContent(new sap.m.ToolbarSpacer()).addContent(self.oPreview)
+				.addContent(new sap.m.ToolbarSpacer()).addContent(self.oSettings);
 		self.setAggregation("_toolbar", self.oToolbar);
 	},
 	addContent : function(oControl) {

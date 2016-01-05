@@ -44,25 +44,25 @@ var sUrl = "../proxy/http/services.odata.org/V2/Northwind/Northwind.svc/" ;
 jQuery.sap.require("sap.ui.core.util.MockServer");
 
 
-var sUri = "test-resources/";
-var oMockServer = new sap.ui.core.util.MockServer({
-	rootUri : sUri
-});
-var sMetadataUrl = "../config/test/northwind.v2.metadata.xml";
-oMockServer.simulate(sMetadataUrl,{
-                'bGenerateMissingMockData' : true
-            });
-oMockServer.start();
+// var sUri = "test-resources/";
+// var oMockServer = new sap.ui.core.util.MockServer({
+// 	rootUri : sUri
+// });
+// var sMetadataUrl = "../config/test/northwind.v2.metadata.xml";
+// oMockServer.simulate(sMetadataUrl,{
+//                 'bGenerateMissingMockData' : true
+//             });
+// oMockServer.start();
 
-var oDataModel = new sap.ui.model.odata.ODataModel(sUri, true);
+var oDataModel = new sap.ui.model.odata.ODataModel(sUrl, true);
 var oMetaModel = oDataModel.getMetaModel();
 sap.ui.getCore().setModel(oMetaModel, "metaModel");
 
 // TODO this should be part of the control
-var oMetaModelEntityContainer = oMetaModel.getODataEntityContainer();
-var oEntityContainerModel = new sap.ui.model.json.JSONModel();
-oEntityContainerModel.setData(oMetaModelEntityContainer);
-sap.ui.getCore().setModel(oEntityContainerModel, "entityContainer");
+// var oMetaModelEntityContainer = oMetaModel.getODataEntityContainer();
+// var oEntityContainerModel = new sap.ui.model.json.JSONModel();
+// oEntityContainerModel.setData(oMetaModelEntityContainer);
+// sap.ui.getCore().setModel(oEntityContainerModel, "entityContainer");
 
 // set up models
 var i18nModel = new sap.ui.model.resource.ResourceModel({
@@ -71,7 +71,7 @@ var i18nModel = new sap.ui.model.resource.ResourceModel({
 sap.ui.getCore().setModel(i18nModel, "i18nModel");
 
 var oQueryModel = new sap.ui.model.json.JSONModel();
-oQueryModel.loadData("sparqlish.qunit.odata.json", null, false);
+oQueryModel.loadData("../config/test/service.query.test.json", null, false);
 sap.ui.getCore().setModel(oQueryModel, "queryModel");
 
 // datatypesModel>
@@ -95,7 +95,7 @@ var oLensPanelComponent = sap.ui.getCore().createComponent({
 	name : "Components.lensPanel",
 	settings : {
 		role:"(default)",
-		concept:"Northwind.Orders"
+		concept:"Test"//"Northwind.Orders"//
 	}
 });
 var oLensPanelComponentContainer = new sap.ui.core.ComponentContainer({

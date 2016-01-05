@@ -2,6 +2,7 @@ jQuery.sap.require("sap.ui.core.IconPool");
 jQuery.sap.require("sap.m.Input");
 jQuery.sap.require("sap.m.P13nDialog");
 jQuery.sap.require("sap.m.P13nFilterPanel");
+jQuery.sap.require("sparqlish.control.parameterMenu");
 sap.ui.core.Control.extend("sparqlish.control.dataPropertyFilter", {
 	metadata : {
 		properties : {
@@ -15,9 +16,14 @@ sap.ui.core.Control.extend("sparqlish.control.dataPropertyFilter", {
 				type : "sap.m.Link",
 				multiple : false
 			},
-			_value : {
-				type : "sap.m.Input",
+			_parameterValueHelp : {
+				type : "sparqlish.control.parameterMenu",
 				multiple : false
+			},
+			_value : {
+				type : "sap.ui.base.Object",
+				multiple : false,
+				bindable : true
 			}
 		},
 		events : {
@@ -28,6 +34,7 @@ sap.ui.core.Control.extend("sparqlish.control.dataPropertyFilter", {
 	},
 	init : function() {
 		var self = this;
+		self.setAggregation("_parameterValueHelp", new sparqlish.control.parameterMenu());
 		self.setAggregation("_condition", new sap.m.Link({
 			text : "{queryModel>condition}",
 			tooltip : "Select a condition",
@@ -35,41 +42,6 @@ sap.ui.core.Control.extend("sparqlish.control.dataPropertyFilter", {
 				var me = oEvent.getSource().getParent();
 				var oClauseContext = self._clauseContext(me);
 				this.oDataPropertyType = oClauseContext.getDataProperty().type;
-
-				// ***Start of P13n definition
-				self.oFilterPanel = new sap.m.P13nFilterPanel({
-					filterItems : {
-						path : "datatypesModel>/datatypes/" + this.oDataPropertyType + "/conditions",
-						template : new sap.m.P13nFilterItem({
-							columnKey : "{entityTypeModel>name}",
-							operation : "{datatypesModel>condition}",
-							value1 : "",
-							value2 : "",
-							text : "{entityTypeModel>name}"
-						})
-					}
-				});
-				self.oDialog = new sap.m.P13nDialog({
-					title : "{i18nModel>editDataPropertyFilterTitle}",
-					cancel : function() {
-						self.oDialog.close();
-					},
-					ok : function(oEvent) {
-						// TODO is this the correct order?
-						self.oDialog.close();
-						switch (self.oDialog.indexOfPanel(self.oDialog.getVisiblePanel())) {
-						}
-					}
-				});
-				self.oDialog.addPanel(self.oFilterPanel);
-				if (self.oDialog.isOpen()) {
-					self.oDialog.close();
-				} else {
-					self.oDialog.open();
-				}
-				// self.oDialog.setModel(self.oEntityTypeModel, "datatypesModel");
-
-				// ***After this is a 'traditional' menu
 				var eDock = sap.ui.core.Popup.Dock;
 				var oConditionMenu = new sap.ui.unified.Menu({
 					items : {
@@ -79,12 +51,13 @@ sap.ui.core.Control.extend("sparqlish.control.dataPropertyFilter", {
 						})
 					}
 				});
-				if (!me.getConjunction()) {
-					oConditionMenu.addItem(new sap.ui.unified.MenuItem({
-						text : '{i18nModel>dataPropertyFilterDELETE}',
-						icon : sap.ui.core.IconPool.getIconURI("delete")
-					}));
-				}
+				// TODO need to add ability to delete filter to drop menu
+				// if (!me.getConjunction()) {
+				// oConditionMenu.addItem(new sap.ui.unified.MenuItem({
+				// text : '{i18nModel>dataPropertyFilterDELETE}',
+				// icon : sap.ui.core.IconPool.getIconURI("delete")
+				// }));
+				// }
 				oConditionMenu.attachItemSelect(function(oEvent) {
 					var selectedItem = oEvent.getParameter("item").getText();
 					if (selectedItem == 'DELETE') {
@@ -93,21 +66,8 @@ sap.ui.core.Control.extend("sparqlish.control.dataPropertyFilter", {
 						me.getAggregation("_condition").setText(selectedItem);
 					}
 				}).open(false, this.getFocusDomRef(), eDock.BeginTop, eDock.beginBottom, this.getDomRef());
-				// ***Until here
 			}
 		}).addStyleClass("menuLink"));
-		self.setAggregation("_value", new sap.m.Input({
-			value : "{queryModel>value}",
-			tooltip : "Enter value for condition",
-			width : "auto",
-			placeholder : "Enter value for condition",
-			description : "",
-			editable : true
-		}).addStyleClass("dataPropertyValue")
-		// .attachChange(function(oEvent) {
-		// oEvent.getSource().setWidth(oEvent.getSource().getValue().length*15 + "px");
-		// })
-		);
 	},
 	_clauseContext : function(me) {
 		var oClauseContext = me.getParent().getParent();
@@ -116,9 +76,118 @@ sap.ui.core.Control.extend("sparqlish.control.dataPropertyFilter", {
 		}
 		return oClauseContext;
 	},
-	renderer : function(oRm, oControl) {
+	_initValueInput : function(oDataPropertyFilter) {
+		var self = this;
+		var oInputValue = null
+		var sPathPattern = /{(.*)}/;
 
-		var oDataPropertyFilter = oControl.getModel("queryModel").getProperty("", oControl.getBindingContext("queryModel"));
+		switch (oDataPropertyFilter.type) {
+		case "Edm.Date":
+			oInputValue = (new sap.m.DatePicker({
+				// value : "{queryModel>value}",
+				valueFormat : 'yyyy-MM-ddThh:mm:ssXX',
+				tooltip : "Enter value for condition",
+				width : "auto",
+				placeholder : "Enter date",
+				description : "",
+				editable : true,
+				showValueHelp : true,
+				valueHelpRequest : ""
+			})).addStyleClass("dataPropertyValue");
+			break;
+		case "Edm.DateTime":
+			oInputValue = (new sap.m.DatePicker({
+				// value : "{queryModel>value}",
+				valueFormat : 'yyyy-MM-ddThh:mm:ssXX',
+				tooltip : "Enter date/time",
+				width : "auto",
+				placeholder : "Enter date/time",
+				description : "",
+				editable : true,
+				showValueHelp : true,
+				valueHelpRequest : ""
+			})).addStyleClass("dataPropertyValue");
+			break;
+		case "Edm.Time":
+			oInputValue = (new sap.m.TimePicker({
+				// value : "{queryModel>value}",
+				valueFormat : 'yyyy-MM-ddThh:mm:ssXX',
+				tooltip : "Enter value for condition",
+				width : "auto",
+				placeholder : "Enter time",
+				description : "",
+				editable : true,
+				showValueHelp : true,
+				valueHelpRequest : ""
+			})).addStyleClass("dataPropertyValue");
+			break;
+		case "Edm.Decimal":
+		case "Edm.Double":
+		case "Edm.Single":
+		case "Edm.Int16":
+		case "Edm.Int32":
+		case "Edm.Int64":
+			oInputValue = (new sap.m.Input({
+				type : sap.m.InputType.Number,
+				// value : "{queryModel>value}",
+				tooltip : "Enter number",
+				width : "auto",
+				placeholder : "Enter value for condition",
+				description : "",
+				editable : true,
+				showValueHelp : true,
+				valueHelpRequest : function(oEvent) {
+					// var oQueryContext = self.getBindingContext("queryModel");
+					// self.getAggregation("_parameterValueHelp").setQueryContext(oQueryContext);
+					//self.getAggregation("_parameterValueHelp").setModel("queryModel",self.getModel("queryModel")).open();
+					self.getAggregation("_parameterValueHelp").open();
+				}
+			})).addStyleClass("dataPropertyValue");
+			break;
+		default:
+			oInputValue = (new sap.m.Input({
+				// value : "{queryModel>value}",
+				tooltip : "Enter value for condition",
+				width : "auto",
+				placeholder : "Enter value for condition",
+				description : "",
+				editable : true,
+				showValueHelp : true,
+				valueHelpRequest : function(oEvent) {
+					// var oQueryContext = self.oQuerySelect.getSelectedItem().getBindingContext("serviceQueriesModel");
+					//self.getAggregation("_parameterValueHelp").setModel("queryModel",self.getModel("queryModel")).open();
+					//var oParameterValueHelp = new sparqlish.control.parameterMenu();
+					//oParameterValueHelp.open();
+					self.getAggregation("_parameterValueHelp").open();
+				}
+			})).addStyleClass("dataPropertyValue");
+
+		}
+		// TODO what about date/time?
+		// oInputValue.attachValueHelpRequest(
+		// function(oEvent){
+		// alert("hi");
+		// }
+		// );
+
+		// Check if a value or a parameter path
+		if (sPathPattern.test(oDataPropertyFilter.value)) {
+			var sParam = sPathPattern.exec(oDataPropertyFilter.value)[1];
+			var oParameters = this.getModel("queryModel").getData().parameters;
+			for (i = 0; oParameters.length; i++) {
+				if ((oParameters[i].name == sParam)) {
+					oInputValue.bindProperty("value", "queryModel>/parameters/" + i + "/defaultValue")
+					return oInputValue;
+				}
+			}
+		} else {
+			oInputValue.bindProperty("value", "queryModel>value")
+			return oInputValue;
+		}
+	},
+	renderer : function(oRm, oControl) {
+		var oDataPropertyFilter =oControl.getBindingContext("queryModel").getProperty("");
+		//var oDataPropertyFilter = oControl.getModel("queryModel").getProperty("", oControl.getBindingContext("queryModel"));
 		if (!jQuery.isEmptyObject(oDataPropertyFilter)) {
 			if (oControl.getAggregation("_condition").getText() == "[enter condition]") {
 				// not yet defined so lets bind to the first concept in collection
@@ -138,6 +207,7 @@ sap.ui.core.Control.extend("sparqlish.control.dataPropertyFilter", {
 			oRm.writeControlData(oControl);
 			oRm.writeClasses();
 			oRm.write(">");
+			oControl.setAggregation("_value", oControl._initValueInput(oDataPropertyFilter));
 			oRm.renderControl(oControl.getAggregation("_value"));
 			oRm.write("</div>");
 		}

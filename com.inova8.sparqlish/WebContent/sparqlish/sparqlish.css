@@ -101,7 +101,7 @@
 	font: 16px arial, sans-serif;
 	font-weight: normal; 
 	display: inline-block;
-	width: 120px;
+	//width: 120px;
 }
 
 .dataPropertyValue input {
@@ -142,9 +142,10 @@
 .conceptMenuLink {
 	font: 16px arial, sans-serif;
 	font-weight: bold;
+	color:white;
 	display: inline-block;
-	background-color: lightgrey;
-	border: 2px solid navy;
+	background-color: #633990;//lightgrey;
+	border: 2px solid #666690;//navy;
 	padding: 5px;
 }
 
@@ -152,17 +153,18 @@
 	font: 16px arial, sans-serif;
 	font-weight: bold;
 	display: inline-block;
-	background-color: lightgrey;
-	border: 2px solid navy;
+	background-color: #FF9966;//lightgrey;
+	border: 2px solid #EF7200;//navy;
 	padding: 5px;
 	}
 
 .dataPropertyMenuLink {
 	font: 16px arial, sans-serif;
 	font-weight: bold;
+	color:white;
 	display: inline-block;
-	background-color: yellow;
-	border: 2px solid navy;
+	background-color:  #669999; //yellow;
+	border: 2px solid  #048C9D; //navy;
 	padding: 5px;
 	border-radius: 10px;
 }
@@ -176,7 +178,7 @@
 
 .strikethrough {
 	text-decoration: line-through;
-	font-color: lightgrey;
+	color: lightgrey;
 }
 
 .tile-hdr {
@@ -192,4 +194,5 @@
 	border: 5px solid #FFFFFF;
 	border-bottom: 1px solid #FFFFFF;
 	box-shadow: 5px 5px 7px #808888;
+	margin-right: 10px;
 }

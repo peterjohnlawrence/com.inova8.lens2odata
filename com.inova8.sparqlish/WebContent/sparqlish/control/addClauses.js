@@ -77,10 +77,11 @@ sap.ui.commons.Link.extend("sparqlish.control.addClauses", {
 			var oEntityTypeContext = self.getParent().getRangeEntityTypeContext();
 			var sEntityTypeQName = self.getParent().getRangeEntityTypeQName();
 
-			self.oEntityTypeModel = new sap.ui.model.json.JSONModel();
-			self.oEntityTypeModel.setData(oEntityTypeContext);
-
-			self.oDialog.setModel(self.oEntityTypeModel, "entityTypeModel");
+//			self.oEntityTypeModel = new sap.ui.model.json.JSONModel();
+//			self.oEntityTypeModel.setData(oEntityTypeContext);
+//			self.oDialog.setModel(self.oEntityTypeModel, "entityTypeModel");
+			
+			self.oDialog.setModel(self.getModel("metaModel").getEntityTypeModel(sEntityTypeQName),"entityTypeModel");
 			self.initData();
 			if (self.oDialog.isOpen()) {
 				self.oDialog.close();

@@ -22,6 +22,12 @@ Components.lensResultsTable.Component.prototype.createContent = function() {
 		// enableGrouping : true,
 		visibleRowCount : 7
 	});
+//	this.oTable.getToolbar().addItem(new sap.ui.commons.Button({
+//		icon : sap.ui.core.IconPool.getIconURI("settings"),
+//		press : function(oEvent) {
+//			sap.m.MessageToast.show("settings for table")
+//		}
+//	}));
 	return this.oTable;
 };
 
@@ -57,7 +63,7 @@ Components.lensResultsTable.Component.prototype.renderResults = function(query) 
 				}
 				self.oTable.getTitle().setText((jQuery.isEmptyObject(self.getProperty("title"))) ? oRecordTemplate.__metadata.type : self.getProperty("title"));
 				self.oTable.setModel(odataResults);
-				var oPrimaryEntityType =  oMetaModel.getODataEntityType(oRecordTemplate.__metadata.type);
+				var oPrimaryEntityType = oMetaModel.getODataEntityType(oRecordTemplate.__metadata.type);
 				self.oTable.destroyColumns();
 				self.bindTableColumns(self.getProperty("metaModel"), self.oTable, oRecordTemplate, oPrimaryEntityType.name, "");
 				self.oTable.bindRows(sBindPath);
@@ -84,9 +90,9 @@ Components.lensResultsTable.Component.prototype.bindTableColumns = function(oMet
 	for ( var column in oTemplate) {
 		if (column == "__metadata") {
 			// ignore metadata column
-			//var contents = oTemplate[column].__metadata;
-			var sMetadataPath =( sCurrentPath!="")? sCurrentPath + "/__metadata/uri": "__metadata/uri";
-			var sMetaLabel =sCurrentLabel;
+			// var contents = oTemplate[column].__metadata;
+			var sMetadataPath = (sCurrentPath != "") ? sCurrentPath + "/__metadata/uri" : "__metadata/uri";
+			var sMetaLabel = sCurrentLabel;
 			oTable.addColumn(new sap.ui.table.Column({
 				label : sMetaLabel,
 				template : new sap.ui.commons.Link().bindProperty("text", sMetadataPath).bindProperty("href", sMetadataPath)
@@ -120,7 +126,7 @@ Components.lensResultsTable.Component.prototype.bindTableColumns = function(oMet
 						template : oInnerTable
 					}));
 				} else if (!jQuery.isEmptyObject(oTemplate[column].__deferred)) {
-					//var contents = oTemplate[column].__deferred;
+					// var contents = oTemplate[column].__deferred;
 					oTable.addColumn(new sap.ui.table.Column({
 						label : sLabel,
 						template : new sap.ui.commons.Link().bindProperty("text", sPath + "/__deferred/uri").bindProperty("href", sPath + "/__deferred/uri")

@@ -17,14 +17,14 @@ var sLabelPostfix = "_label";
 var defaultVersion = "V2";
 var metadata = "__metadata";
 sap.ui.base.Object.extend("Queries", {
-	constructor : function(oDataModel, oAST) {
+	constructor : function(oDataMetaModel, oAST) {
+		this.oDataMetaModel = oDataMetaModel;
 		this.oAST = oAST;
-		this.oDataModel = oDataModel;
 		this.oQueries = [];
 		try {
 			if (!jQuery.isEmptyObject(oAST["queries"])) {
 				for (var i = 0; i < oAST["queries"].length; i++) {
-					this.oQueries.push(new Query(oDataModel, oAST["queries"][i], "/queries/" + i + "/"));
+					this.oQueries.push(new Query(this.oDataMetaModel, oAST["queries"][i], "/queries/" + i + "/"));
 				}
 			} else {
 				this.oQueries = null;
@@ -39,12 +39,12 @@ sap.ui.base.Object
 		.extend(
 				"Query",
 				{
-					constructor : function(oDataModel, oAST, sPath) {
+					constructor : function(oDataMetaModel, oAST, sPath) {
 						this.queryRestoreList = {
 							current : jQuery.extend(true, {}, oAST),
 							prior : null
 						};
-						this.oDataModel = oDataModel;
+						this.oDataMetaModel = oDataMetaModel;
 						this.init(oAST, sPath);
 					},
 					init : function(oAST, sPath) {
@@ -77,7 +77,7 @@ sap.ui.base.Object
 								this.oConceptFilters = null;
 							}
 							if (!jQuery.isEmptyObject(this.oAST["clauses"])) {
-								this.oClauses = new Clauses(this.oAST["clauses"], this.oContext);
+								this.oClauses = new Clauses(this.oDataMetaModel, this.oAST["clauses"], this.oContext);
 							} else {
 								this.oClauses = null;
 							}
@@ -178,8 +178,8 @@ sap.ui.base.Object
 						try {
 							this.oClauseReferences[0] = this;
 							// TODO
-							var entitySetType = this.oDataModel.getMetaModel().getODataEntitySet(this.sConcept);
-							var entityType = this.oDataModel.getMetaModel().getODataEntityType(entitySetType.entityType);
+							var entitySetType = this.oDataMetaModel.getODataEntitySet(this.sConcept);
+							var entityType = this.oDataMetaModel.getODataEntityType(entitySetType.entityType);
 							var oViewModel = {
 								"root" : {}
 							};
@@ -215,10 +215,10 @@ sap.ui.base.Object
 					odataFilter : function(sVersion) {
 						var sClausesFilter = "";
 						if (!jQuery.isEmptyObject(this.oClauses)) {
-							sClausesFilter = this.oClauses.odataFilter(sVersion);
+							sClausesFilter = this.oClauses.odataFilter(sVersion, this.oAST.parameters);
 						}
 						if (!jQuery.isEmptyObject(this.oConceptFilters)) {
-							var sOdataKeyFilters = odataKeyFilters(sVersion, this.oContext.sOdataEntityPath, this.oConceptFilters);
+							var sOdataKeyFilters = odataKeyFilters(sVersion, this.oContext.sOdataEntityPath, this.oConceptFilters, this.oAST.parameters);
 							if (sClausesFilter != "") {
 								return jQuery.isEmptyObject(sOdataKeyFilters) ? "$filter=(" + sClausesFilter + ")" : "$filter=((" + sOdataKeyFilters + ")and(" + sClausesFilter
 										+ "))";
@@ -254,11 +254,17 @@ sap.ui.base.Object
 						}
 					},
 					odataExpand : function(sVersion) {
+						var sOdataExpand = "";
 						if (!jQuery.isEmptyObject(this.oClauses)) {
 							if (sVersion == "V4") {
 								return this.odataExpandSelect(sVersion);
 							} else {
-								return "$expand=" + this.oClauses.odataExpand(sVersion);
+								sOdataExpand = this.oClauses.odataExpand(sVersion);
+								if (jQuery.isEmptyObject(sOdataExpand)) {
+									return "";
+								} else {
+									return "$expand=" + sOdataExpand;
+								}
 							}
 						} else
 							return "";
@@ -291,7 +297,8 @@ sap.ui.base.Object
 					}
 				});
 sap.ui.base.Object.extend("Clauses", {
-	constructor : function(oAST, oContext) {
+	constructor : function(oDataMetaModel, oAST, oContext) {
+		this.oDataMetaModel = oDataMetaModel;
 		this.oAST = oAST;
 		this.oContext = oContext;
 		try {
@@ -304,7 +311,7 @@ sap.ui.base.Object.extend("Clauses", {
 				iLevel : oContext.iLevel
 			};
 			if (!jQuery.isEmptyObject(oAST["clause"])) {
-				this.oClause = new Clause(oAST["clause"], oFirstContext);
+				this.oClause = new Clause(this.oDataMetaModel, oAST["clause"], oFirstContext);
 				if (!jQuery.isEmptyObject(oAST["conjunctionClauses"])) {
 					this.oConjunctionClauses = [];
 					for (var i = 0; i < oAST["conjunctionClauses"].length; i++) {
@@ -314,7 +321,7 @@ sap.ui.base.Object.extend("Clauses", {
 							sObject : oContext.sSubject + "_" + (i + 1),
 							iLevel : oContext.iLevel
 						};
-						this.oConjunctionClauses[i] = new ConjunctionClause(oAST["conjunctionClauses"][i], oNewContext);
+						this.oConjunctionClauses[i] = new ConjunctionClause(this.oDataMetaModel, oAST["conjunctionClauses"][i], oNewContext);
 					}
 				} else {
 					this.oConjunctionClauses = null;
@@ -375,18 +382,18 @@ sap.ui.base.Object.extend("Clauses", {
 		}
 		return oViewModel;
 	},
-	odataFilter : function(sVersion) {
+	odataFilter : function(sVersion, oParameters) {
 		if (!jQuery.isEmptyObject(this.oClause)) {
-			var sOdataFilter = this.oClause.odataFilter(sVersion);
-			if (!jQuery.isEmptyObject(this.oConjunctionClauses)) {
-				var sOdataConjunctionClause0Filter = this.oConjunctionClauses[0].odataFilter(sVersion);
+			var sOdataFilter = this.oClause.odataFilter(sVersion, oParameters);
+			if (!jQuery.isEmptyObject(this.oConjunctionClauses) && (this.oConjunctionClauses.length > 0)) {
+				var sOdataConjunctionClause0Filter = this.oConjunctionClauses[0].odataFilter(sVersion, oParameters);
 				if ((sOdataFilter != "") && (sOdataConjunctionClause0Filter != "")) {
 					sOdataFilter = sOdataFilter + "and" + sOdataConjunctionClause0Filter;
 				} else {
 					sOdataFilter = sOdataFilter + sOdataConjunctionClause0Filter;
 				}
 				for (var i = 1; i < this.oConjunctionClauses.length; i++) {
-					var sOdataConjunctionClauseFilter = this.oConjunctionClauses[i].odataFilter(sVersion);
+					var sOdataConjunctionClauseFilter = this.oConjunctionClauses[i].odataFilter(sVersion, oParameters);
 					if (!jQuery.isEmptyObject(sOdataConjunctionClauseFilter)) {
 						sOdataFilter = sOdataFilter + odataClauseConjunction(this.oConjunctionClauses[i].sConjunction) + sOdataConjunctionClauseFilter;
 					}
@@ -487,7 +494,8 @@ sap.ui.base.Object.extend("Clauses", {
 	}
 });
 sap.ui.base.Object.extend("Clause", {
-	constructor : function(oAST, oContext) {
+	constructor : function(oDataMetaModel, oAST, oContext) {
+		this.oDataMetaModel = oDataMetaModel;
 		this.oAST = oAST;
 		this.oContext = oContext;
 		try {
@@ -500,7 +508,7 @@ sap.ui.base.Object.extend("Clause", {
 			} else {
 				this.sIncludeOptionalIgnore = oAST["includeOptionalIgnore"];
 			}
-			this.oPropertyClause = new PropertyClause(oAST["propertyClause"], oContext);
+			this.oPropertyClause = new PropertyClause(this.oDataMetaModel, oAST["propertyClause"], oContext);
 			this.sLabel = (jQuery.isEmptyObject(oAST["label"])) ? (this.oPropertyClause.sLabel) : oAST["label"];
 			this.bHidden = (jQuery.isEmptyObject(oAST["hidden"])) ? (this.oPropertyClause.bHidden) : oAST["hidden"];
 		} catch (e) {
@@ -576,9 +584,9 @@ sap.ui.base.Object.extend("Clause", {
 		});
 		return oViewModel;
 	},
-	odataFilter : function(sVersion) {
+	odataFilter : function(sVersion, oParameters) {
 		if (!jQuery.isEmptyObject(this.oPropertyClause)) {
-			return this.oPropertyClause.odataFilter(sVersion);
+			return this.oPropertyClause.odataFilter(sVersion, oParameters);
 		} else {
 			return "";
 		}
@@ -613,14 +621,15 @@ sap.ui.base.Object.extend("Clause", {
 	}
 });
 sap.ui.base.Object.extend("ConjunctionClause", {
-	constructor : function(oAST, oContext) {
+	constructor : function(oDataMetaModel, oAST, oContext) {
+		this.oDataMetaModel = oDataMetaModel;
 		this.oAST = oAST;
 		this.oContext = oContext;
 		try {
 			if (oAST["_class"] != "ConjunctionClause")
 				throw "notConjunctionClauseException";
 			this.sConjunction = oAST["conjunction"];
-			this.oClause = new Clause(oAST["clause"], oContext);
+			this.oClause = new Clause(this.oDataMetaModel, oAST["clause"], oContext);
 		} catch (e) {
 			jQuery.sap.log.error(e);
 			throw (e);
@@ -642,12 +651,12 @@ sap.ui.base.Object.extend("ConjunctionClause", {
 		});
 		return oViewModel;
 	},
-	odataFilter : function(sVersion) {
-		var sOdataFilter = this.oClause.odataFilter(sVersion);
+	odataFilter : function(sVersion, oParameters) {
+		var sOdataFilter = this.oClause.odataFilter(sVersion, oParameters);
 		if (sOdataFilter == "") {
 			return "";
 		} else {
-			return /* odataClauseConjunction(this.sConjunction) + */this.oClause.odataFilter(sVersion);
+			return /* odataClauseConjunction(this.sConjunction) + */this.oClause.odataFilter(sVersion, oParameters);
 		}
 	},
 	odataSelect : function(sVersion) {
@@ -664,23 +673,24 @@ sap.ui.base.Object.extend("ConjunctionClause", {
 	}
 });
 sap.ui.base.Object.extend("PropertyClause", {
-	constructor : function(oAST, oContext) {
+	constructor : function(oDataMetaModel, oAST, oContext) {
+		this.oDataMetaModel = oDataMetaModel;
 		this.oAST = oAST;
 		this.oContext = oContext;
 		this.bHidden = false;
 
 		try {
 			if (oAST["_class"] == "DataPropertyClause") {
-				this.oPropertyClause = new DataPropertyClause(oAST, oContext);
+				this.oPropertyClause = new DataPropertyClause(this.oDataMetaModel, oAST, oContext);
 				this.sLabel = labelFromURI(this.oPropertyClause.sDataProperty);
 			} else if (oAST["_class"] == "ObjectPropertyClause") {
-				this.oPropertyClause = new ObjectPropertyClause(oAST, oContext);
+				this.oPropertyClause = new ObjectPropertyClause(this.oDataMetaModel, oAST, oContext);
 				this.sLabel = labelFromURI(this.oPropertyClause.sObjectProperty);
 			} else if (oAST["_class"] == "InverseObjectPropertyClause") {
-				this.oPropertyClause = new InverseObjectPropertyClause(oAST, oContext);
+				this.oPropertyClause = new InverseObjectPropertyClause(this.oDataMetaModel, oAST, oContext);
 				this.sLabel = labelFromURI(this.oPropertyClause.sInverseObjectProperty);
 			} else if (oAST["_class"] == "OperationClause") {
-				this.oPropertyClause = new OperationClause(oAST, oContext);
+				this.oPropertyClause = new OperationClause(this.oDataMetaModel, oAST, oContext);
 				this.sLabel = labelFromURI(this.oPropertyClause.sOperationProperty);
 			} else
 				throw "notPropertyClauseException";
@@ -701,8 +711,8 @@ sap.ui.base.Object.extend("PropertyClause", {
 	viewModel : function(sPath, oClauseReferences, sKeyVariable, sResultsPath, sResultsContext, iClauseIndex) {
 		return this.oPropertyClause.viewModel(sPath, oClauseReferences, sKeyVariable, sResultsPath, sResultsContext, iClauseIndex);
 	},
-	odataFilter : function(sVersion) {
-		return this.oPropertyClause.odataFilter(sVersion);
+	odataFilter : function(sVersion, oParameters) {
+		return this.oPropertyClause.odataFilter(sVersion, oParameters);
 	},
 	odataSelect : function(sVersion) {
 		return this.oPropertyClause.odataSelect(sVersion);
@@ -718,15 +728,15 @@ sap.ui.base.Object.extend("PropertyClause", {
 	}
 });
 sap.ui.base.Object.extend("DataPropertyClause", {
-	constructor : function(oAST, oContext) {
+	constructor : function(oDataMetaModel, oAST, oContext) {
+		this.oDataMetaModel = oDataMetaModel;
 		this.oAST = oAST;
-
 		try {
 			if (oAST["_class"] != "DataPropertyClause")
 				throw "notDataPropertyClauseException";
 			this.sDataProperty = oAST["dataProperty"];
 			if (!jQuery.isEmptyObject(oAST["dataPropertyFilters"])) {
-				this.oFilters = new DataPropertyFilters(oAST["dataPropertyFilters"], oContext);
+				this.oFilters = new DataPropertyFilters(this.oDataMetaModel, oAST["dataPropertyFilters"], oContext);
 			} else {
 				this.oFilters = null;
 			}
@@ -770,10 +780,10 @@ sap.ui.base.Object.extend("DataPropertyClause", {
 			"type" : this.type
 		};
 	},
-	odataFilter : function(sVersion) {
+	odataFilter : function(sVersion, oParameters) {
 		var sOdataFilter = "";
 		if (!jQuery.isEmptyObject(this.oFilters)) {
-			return sOdataFilter + this.oFilters.odataFilter(sVersion);
+			return sOdataFilter + this.oFilters.odataFilter(sVersion, oParameters);
 		} else {
 			return sOdataFilter;
 		}
@@ -792,19 +802,20 @@ sap.ui.base.Object.extend("DataPropertyClause", {
 	}
 });
 sap.ui.base.Object.extend("DataPropertyFilters", {
-	constructor : function(oAST, oContext) {
+	constructor : function(oDataMetaModel, oAST, oContext) {
+		this.oDataMetaModel = oDataMetaModel;
 		this.oAST = oAST;
 		this.oContext = oContext;
 		try {
 			if (oAST["_class"] != "DataPropertyFilters")
 				throw "notFiltersException";
 			if (!jQuery.isEmptyObject(oAST["dataPropertyFilter"])) {
-				this.oFilter = new DataPropertyFilter(oAST["dataPropertyFilter"], oContext);
+				this.oFilter = new DataPropertyFilter(this.oDataMetaModel, oAST["dataPropertyFilter"], oContext);
 			}
 			if (!jQuery.isEmptyObject(oAST["conjunctionFilters"])) {
 				this.oConjunctionFilters = [];
 				for (var i = 0; i < oAST["conjunctionFilters"].length; i++) {
-					this.oConjunctionFilters[i] = new ConjunctionFilter(oAST["conjunctionFilters"][i], oContext);
+					this.oConjunctionFilters[i] = new ConjunctionFilter(this.oDataMetaModel, oAST["conjunctionFilters"][i], oContext);
 				}
 			} else {
 				this.oConjunctionFilters = null;
@@ -845,13 +856,13 @@ sap.ui.base.Object.extend("DataPropertyFilters", {
 			return "";
 		}
 	},
-	odataFilter : function(sVersion) {
+	odataFilter : function(sVersion, oParameters) {
 		// TODO why empty when filter on a conjunctionProperty ... sometimes
 		if (!jQuery.isEmptyObject(this.oFilter)) {
-			var sOdataFilter = this.oFilter.odataFilter(sVersion);
+			var sOdataFilter = this.oFilter.odataFilter(sVersion, oParameters);
 			if (!jQuery.isEmptyObject(this.oConjunctionFilters)) {
 				for (var i = 0; i < this.oConjunctionFilters.length; i++) {
-					sOdataFilter = sOdataFilter + this.oConjunctionFilters[i].odataFilter(sVersion);
+					sOdataFilter = sOdataFilter + this.oConjunctionFilters[i].odataFilter(sVersion, oParameters);
 				}
 				return "(" + sOdataFilter + ")";
 			} else {
@@ -872,7 +883,8 @@ sap.ui.base.Object.extend("DataPropertyFilters", {
 	}
 });
 sap.ui.base.Object.extend("DataPropertyFilter", {
-	constructor : function(oAST, oContext) {
+	constructor : function(oDataMetaModel, oAST, oContext) {
+		this.oDataMetaModel = oDataMetaModel;
 		this.oAST = oAST;
 		this.oContext = oContext;
 		try {
@@ -895,8 +907,8 @@ sap.ui.base.Object.extend("DataPropertyFilter", {
 		var sSparqlish = this.sCondition + " " + this.sValue;
 		return sSparqlish;
 	},
-	odataFilter : function(sVersion) {
-		var sOdataFilter = odataFilterCondition(sVersion, this.oContext.sOdataEntityPath, this.sCondition, this.sValue, this.sType);
+	odataFilter : function(sVersion, oParameters) {
+		var sOdataFilter = odataFilterCondition(sVersion, this.oContext.sOdataEntityPath, this.sCondition, this.sValue, this.sType, oParameters);
 		return sOdataFilter;
 	},
 	odataSelect : function(sVersion) {
@@ -913,14 +925,15 @@ sap.ui.base.Object.extend("DataPropertyFilter", {
 	}
 });
 sap.ui.base.Object.extend("ConjunctionFilter", {
-	constructor : function(oAST, oContext) {
+	constructor : function(oDataMetaModel, oAST, oContext) {
+		this.oDataMetaModel = oDataMetaModel;
 		this.oAST = oAST;
 		this.oContext = oContext;
 		try {
 			if (oAST["_class"] != "ConjunctionFilter")
 				throw "notConjunctionFilterException";
 			this.sFilterConjunction = oAST["filterConjunction"];
-			this.oFilter = new DataPropertyFilter(oAST["dataPropertyFilter"], oContext);
+			this.oFilter = new DataPropertyFilter(this.oDataMetaModel, oAST["dataPropertyFilter"], oContext);
 		} catch (e) {
 			jQuery.sap.log.error(e);
 			throw (e);
@@ -932,8 +945,8 @@ sap.ui.base.Object.extend("ConjunctionFilter", {
 	sparqlish : function() {
 		return " " + this.sFilterConjunction + " " + this.oFilter.sparqlish();
 	},
-	odataFilter : function(sVersion) {
-		return odataFilterConjunction(sVersion, this.sFilterConjunction) + this.oFilter.odataFilter(sVersion);
+	odataFilter : function(sVersion, oParameters) {
+		return odataFilterConjunction(sVersion, this.sFilterConjunction) + this.oFilter.odataFilter(sVersion, oParameters);
 	},
 	odataSelect : function(sVersion) {
 		return this.oFilter.odataSelect(sVersion);
@@ -949,7 +962,8 @@ sap.ui.base.Object.extend("ConjunctionFilter", {
 	}
 });
 sap.ui.base.Object.extend("ObjectPropertyClause", {
-	constructor : function(oAST, oContext) {
+	constructor : function(oDataMetaModel, oAST, oContext) {
+		this.oDataMetaModel = oDataMetaModel;
 		this.oAST = oAST;
 		try {
 			if (oAST["_class"] != "ObjectPropertyClause")
@@ -974,7 +988,7 @@ sap.ui.base.Object.extend("ObjectPropertyClause", {
 					sObject : oContext.sObject + "_",
 					iLevel : oContext.iLevel + 1
 				};
-				this.oClauses = new Clauses(oAST["clauses"], oNewContext);
+				this.oClauses = new Clauses(this.oDataMetaModel, oAST["clauses"], oNewContext);
 			} else {
 				this.oClauses = null;
 			}
@@ -1025,16 +1039,16 @@ sap.ui.base.Object.extend("ObjectPropertyClause", {
 		});
 		return oViewModel;
 	},
-	odataFilter : function(sVersion) {
+	odataFilter : function(sVersion, oParameters) {
 		var sOdataFilter = "";
 		if (!jQuery.isEmptyObject(this.oClauses)) {
-			sOdataFilter = this.oClauses.odataFilter(sVersion);
+			sOdataFilter = this.oClauses.odataFilter(sVersion, oParameters);
 		}
-		if (!jQuery.isEmptyObject(this.oObjectPropertyFilters)) {
+		if (!jQuery.isEmptyObject(this.oObjectPropertyFilters) && (this.oObjectPropertyFilters.length > 0)) {
 			if (sOdataFilter != "") {
-				sOdataFilter = "(" + odataKeyFilters(sVersion, this.oContext.sOdataEntityPath, this.oObjectPropertyFilters) + ")and" + sOdataFilter;
+				sOdataFilter = "(" + odataKeyFilters(sVersion, this.oContext.sOdataEntityPath, this.oObjectPropertyFilters, oParameters) + ")and" + sOdataFilter;
 			} else {
-				sOdataFilter = "(" + odataKeyFilters(sVersion, this.oContext.sOdataEntityPath, this.oObjectPropertyFilters) + ")";
+				sOdataFilter = "(" + odataKeyFilters(sVersion, this.oContext.sOdataEntityPath, this.oObjectPropertyFilters, oParameters) + ")";
 			}
 		}
 		return sOdataFilter;
@@ -1044,14 +1058,25 @@ sap.ui.base.Object.extend("ObjectPropertyClause", {
 			return "";
 		} else {
 			var sOdataSelect = "";
-			if (!jQuery.isEmptyObject(this.oClauses)) {
+			if (!jQuery.isEmptyObject(this.oClauses) && !jQuery.isEmptyObject(this.oClauses.oClause)) {
 				sOdataSelect = this.oClauses.odataSelect(sVersion);
 			}
-			if (!jQuery.isEmptyObject(this.oObjectPropertyFilters)) {
+			if (!jQuery.isEmptyObject(this.oObjectPropertyFilters) && (this.oObjectPropertyFilters.length > 0)) {
 				if (sOdataSelect != "") {
 					sOdataSelect = odataKeys(sVersion, this.oContext.sOdataEntityPath, this.oObjectPropertyFilters) + "," + sOdataSelect;
 				} else {
 					sOdataSelect = odataKeys(sVersion, this.oContext.sOdataEntityPath, this.oObjectPropertyFilters);
+				}
+			} else if (!(!jQuery.isEmptyObject(this.oClauses) && !jQuery.isEmptyObject(this.oClauses.oClause))) {
+				// TODO must be an object property without any properties so need to add its subject, but only applicable to
+				// OlingoToSparql.
+				// so shuld detect the Key of the entity type and add to the select
+				// oDataMetaModel.getODataEntityType("NorthwindModel.Order_Detail").key.propertyRef is an array of keys
+				// oDataMetaModel.getODataEntityType("NorthwindModel.Order_Detail").key.propertyRef[0].name value of property
+				if (sOdataSelect != "") {
+					sOdataSelect = this.oContext.sOdataEntityPath + "," + sOdataSelect;
+				} else {
+					sOdataSelect = this.oContext.sOdataEntityPath;
 				}
 			}
 			return sOdataSelect;
@@ -1089,7 +1114,8 @@ sap.ui.base.Object.extend("ObjectPropertyClause", {
 	}
 });
 sap.ui.base.Object.extend("InverseObjectPropertyClause", {
-	constructor : function(oAST, oContext) {
+	constructor : function(oDataMetaModel, oAST, oContext) {
+		this.oDataMetaModel = oDataMetaModel;
 		this.oAST = oAST;
 		this.oContext = oContext;
 		try {
@@ -1104,7 +1130,7 @@ sap.ui.base.Object.extend("InverseObjectPropertyClause", {
 					sObject : oContext.sSubject + "_",
 					iLevel : oContext.iLevel + 1
 				};
-				this.oClauses = new Clauses(oAST["clauses"], oNewContext);
+				this.oClauses = new Clauses(this.oDataMetaModel, oAST["clauses"], oNewContext);
 			} else {
 				this.oClauses = null;
 			}
@@ -1141,7 +1167,7 @@ sap.ui.base.Object.extend("InverseObjectPropertyClause", {
 		});
 		return oViewModel;
 	},
-	odataFilter : function(sVersion) {
+	odataFilter : function(sVersion, oParameters) {
 		return "";
 	},
 	odataSelect : function(sVersion) {
@@ -1155,7 +1181,8 @@ sap.ui.base.Object.extend("InverseObjectPropertyClause", {
 	}
 });
 sap.ui.base.Object.extend("OperationClause", {
-	constructor : function(oAST, oContext) {
+	constructor : function(oDataMetaModel, oAST, oContext) {
+		this.oDataMetaModel = oDataMetaModel;
 		this.oAST = oAST;
 		this.oContext = oContext;
 		try {
@@ -1169,7 +1196,7 @@ sap.ui.base.Object.extend("OperationClause", {
 					sObject : oContext.sSubject + "_",
 					iLevel : oContext.iLevel + 1
 				};
-				this.oClauses = new Clauses(oAST["clauses"], oNewContext);
+				this.oClauses = new Clauses(this.oDataMetaModel, oAST["clauses"], oNewContext);
 			} else {
 				this.oClauses = null;
 			}
@@ -1205,7 +1232,7 @@ sap.ui.base.Object.extend("OperationClause", {
 		});
 		return oViewModel;
 	},
-	odataFilter : function(sVersion) {
+	odataFilter : function(sVersion, oParameters) {
 		return "";
 	},
 	odataSelect : function(sVersion) {
@@ -1354,50 +1381,51 @@ sparqlFilterCondition = function(sVariable, sCondition, sValue, sType) {
 		throw "illegalFilterCondition";
 	}
 };
-odataFilterCondition = function(sVersion, sVariable, sCondition, sValue, sType) {
+odataFilterCondition = function(sVersion, sVariable, sCondition, sValue, sType, oParameters) {
 	switch (sCondition) {
 	case "=":
 	case "is":
 	case "equals": {
-		return "(" + sVariable + " eq " + odataValue(sVersion, sValue, sType) + ")";
+		return "(" + sVariable + " eq " + odataValue(sVersion, sValue, sType, oParameters) + ")";
 	}
 		;
 	case "!=":
 	case "is not":
 	case "not equals": {
-		return "(" + sVariable + " ne " + odataValue(sVersion, sValue, sType) + ")";
+		return "(" + sVariable + " ne " + odataValue(sVersion, sValue, sType, oParameters) + ")";
 	}
 		;
 	case ">":
 	case "after":
 	case "greater than": {
-		return "(" + sVariable + " gt " + odataValue(sVersion, sValue, sType) + ")";
+		return "(" + sVariable + " gt " + odataValue(sVersion, sValue, sType, oParameters) + ")";
 	}
 		;
 	case ">=":
 	case "on or after":
 	case "greater than or equal": {
-		return "(" + sVariable + " ge " + odataValue(sVersion, sValue, sType) + ")";
+		return "(" + sVariable + " ge " + odataValue(sVersion, sValue, sType, oParameters) + ")";
 	}
 		;
 	case "<":
 	case "before":
 	case "less than": {
-		return "(" + sVariable + " lt " + odataValue(sVersion, sValue, sType) + ")";
+		return "(" + sVariable + " lt " + odataValue(sVersion, sValue, sType, oParameters) + ")";
 	}
 		;
 	case "<=":
 	case "on or before":
 	case "less than or equal": {
-		return "(" + sVariable + " le " + odataValue(sVersion, sValue, sType) + ")";
+		return "(" + sVariable + " le " + odataValue(sVersion, sValue, sType, oParameters) + ")";
 	}
 		;
 	case "containing":
 	case "contains": {
+		// TODO
 		if (sVersion == "V4") {
-			return "(contains(" + sVariable + ",'" + sValue + "'))";
+			return "(contains(" + sVariable + "," + odataValue(sVersion, sValue, sType, oParameters) + "))";
 		} else {
-			return "(substringof('" + sValue + "'," + sVariable + "))";
+			return "(substringof(" + odataValue(sVersion, sValue, sType, oParameters) + "," + sVariable + "))";
 		}
 	}
 		;
@@ -1414,18 +1442,18 @@ odataFilterCondition = function(sVersion, sVariable, sCondition, sValue, sType) 
 	}
 		;
 	case "after": {
-		return "(" + sVariable + " gt '" + sValue + "')";
+		return "(" + sVariable + " gt " + odataValue(sVersion, sValue, sType, oParameters) + ")";
 	}
 		;
 	case "before": {
-		return "(" + sVariable + " lt '" + sValue + "')";
+		return "(" + sVariable + " lt " + odataValue(sVersion, sValue, sType, oParameters) + ")";
 	}
 		;
 	default:
 		throw "illegalFilterCondition";
 	}
 };
-odataValue = function(sVersion, sValue, sType) {
+odataValue = function(sVersion, sValue, sType, oParameters) {
 	/*
 	 * Edm.Binary Edm.Boolean Edm.Byte Edm.DateTime Edm.Decimal Edm.Double Edm.Single Edm.Guid Edm.Int16 Edm.Int32
 	 * Edm.Int64 Edm.SByte Edm.String Edm.Time Edm.DateTimeOffset Edm.Geography Edm.GeographyPoint Edm.GeographyLineString
@@ -1442,19 +1470,41 @@ odataValue = function(sVersion, sValue, sType) {
 	case "Edm.Int32":
 	case "Edm.Int64":
 	case "Edm.SByte": {
-		return sValue;
+		return deparamterizeValue(sValue, sType, oParameters);
 	}
 	case "Edm.String": {
-		return "'" + sValue + "'";
+		return "'" + deparamterizeValue(sValue, sType, oParameters) + "'";
 	}
 	case "Edm.Time":
 	case "Edm.DateTime": {
 		if (sVersion == "V4") {
-			return sValue;
+			return deparamterizeValue(sValue, sType, oParameters);
 		} else {
-			return "datetime'" + sValue + "'";
+			// TODO need to simplify this. The idea is to convert to UTC as this is the lowest common denominator of V2 Odata
+			// services. Not all (Olingo for example) support timezones.
+			var oDateTime = sap.ui.core.format.DateFormat.getDateTimeInstance({
+				pattern : "yyyy-MM-dd'T'HH:mm:ssXXXXX"
+			}).parse(deparamterizeValue(sValue, sType, oParameters));
+			var sDateTime = "datetime'" + sap.ui.core.format.DateFormat.getDateTimeInstance({
+				pattern : "yyyy-MM-dd'T'HH:mm:ss",
+				UTC : true
+			}).format(oDateTime) + "'";
+			return sDateTime;
 		}
 	}
+	}
+};
+deparamterizeValue = function(sValue, sType, oParameters) {
+	var sPathPattern = /{(.*)}/;
+	if (sPathPattern.test(sValue)) {
+		var sParam = sPathPattern.exec(sValue)[1];
+		for (i = 0; oParameters.length; i++) {
+			if ((oParameters[i].name == sParam))
+				return oParameters[i].defaultValue;
+		}
+		return null;
+	} else {
+		return sValue;
 	}
 };
 sparqlValue = function(sValue, sType) {
@@ -1518,7 +1568,7 @@ sparqlishKeyFilters = function(oKeyFilters) {
 	}
 	return sSparqlishKeyFilters;
 };
-odataKeyFilters = function(sVersion, sOdataEntityPath, oKeyFilters) {
+odataKeyFilters = function(sVersion, sOdataEntityPath, oKeyFilters, oParameters) {
 	var sOdataKeyFilters = "";
 	for (var keys = 0; keys < oKeyFilters.length; keys++) {
 		if (keys > 0) {
@@ -1531,7 +1581,7 @@ odataKeyFilters = function(sVersion, sOdataEntityPath, oKeyFilters) {
 				sOdataKeyFilters = sOdataKeyFilters + "and";
 			}
 			sOdataKeyFilters = sOdataKeyFilters + "(" + ((sOdataEntityPath.length == 0) ? "" : (sOdataEntityPath + "/")) + oKeyFilters[keys][key].key + " eq "
-					+ odataValue(sVersion, oKeyFilters[keys][key].value, oKeyFilters[keys][key].type) + ")";
+					+ odataValue(sVersion, oKeyFilters[keys][key].value, oKeyFilters[keys][key].type, oParameters) + ")";
 		}
 		sOdataKeyFilters = sOdataKeyFilters + ")";
 	}
@@ -1548,6 +1598,15 @@ odataKeys = function(sVersion, sOdataEntityPath, oKeyFilters) {
 		}
 	}
 	return oOdataKeys.toString();
+};
+entityTypeKeyProperties = function(sEntityType) {
+	var oEntityType = oDataMetaModel.getODataEntityType(sEntityType);
+	if ((jQuery.isEmptyObject(oEntityType.key) && (!jQuery.isEmptyObject(oEntityType.baseType)))) {
+		return entityTypeKeyProperties(oEntityType.baseType);
+	} else {
+		return oEntityType.key.propertyRef;
+	}
+	return null;
 };
 labelFromURI = function(sUri) {
 	if (RegExp("^<.*>$").test(sUri)) {

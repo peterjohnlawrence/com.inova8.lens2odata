@@ -26,9 +26,7 @@ sap.ui.core.UIComponent.extend("Components.queryEditorPreviewTreeTable.Component
 });
 Components.queryEditorPreviewTreeTable.Component.prototype.setServiceQueriesModel = function(serviceQueriesModel) {
 	this.setProperty("serviceQueriesModel", serviceQueriesModel);
-	this.setService(serviceQueriesModel.getData().services[0].serviceUrl);
-	this.setQuery(serviceQueriesModel.getData().services[0].queries[0]);
-
+	this.setService(serviceQueriesModel.getData().services[0].serviceUrl,serviceQueriesModel.getData().services[0].queries[0]);
 }
 
 Components.queryEditorPreviewTreeTable.Component.prototype.createContent = function() {
@@ -215,7 +213,8 @@ Components.queryEditorPreviewTreeTable.Component.prototype.setService = function
 Components.queryEditorPreviewTreeTable.Component.prototype.setQuery = function(queryModel) {
 	var self = this;
 	try {
-		var query = new Query(this.getOdataModel(), queryModel);
+		var query = new Query(this.oTable.getModel("metaModel"), queryModel);
+		//var query = new Query(this.getOdataModel(), queryModel);
 		this.setProperty("query", query);
 
 		var oQueryModel = new sap.ui.model.json.JSONModel();
@@ -275,10 +274,12 @@ Components.queryEditorPreviewTreeTable.Component.prototype.previewResults = func
 		}
 	};
 	reportFailure = function(oData, response) {
+		self.oTable.setBusy(false);
 		sap.m.MessageToast.show(JSON.stringify(oData, null, 2));
 	};
 	self.oTable.setBusy(true).setBusyIndicatorDelay(0);
-	self.getProperty("odataModel").read("/" + query.odataURI(), {
+	//self.getProperty("odataModel").read("/" + query.odataURI(), {
+	self.getProperty("odataModel").read("/" + query.odataURI() +"&$top=10", {
 		success : handleResults,
 		error : reportFailure
 	});

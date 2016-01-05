@@ -118,7 +118,23 @@
 					"content": 
 					{
 						"type": "lens",
-						"id": "R3-C1"
+						"id": "R2"
+					}
+				},
+
+				{
+					"content": 
+					{
+						"type": "lens",
+						"id": "R3"
+					}
+				},
+
+				{
+					"content": 
+					{
+						"type": "lens",
+						"id": "R4"
 					}
 				}
 			]
@@ -139,21 +155,98 @@
 					{
 						"title": "Order Dates",
 						"type": "Components.lensResultsForm",
-						"query": "../proxy/http/services.odata.org/V2/Northwind/Northwind.svc/Orders()?&$expand=&$select=OrderDate,RequiredDate&"
+						"query": "../proxy/http/services.odata.org/V2/Northwind/Northwind.svc/Orders()?&$expand=&$select=OrderDate,RequiredDate&",
+						"querydetails": 
+						{
+							"serviceUrl": "../proxy/http/services.odata.org/V2/Northwind/Northwind.svc/",
+							"resourcePath": "Orders()",
+							"filter": "",
+							"expand": "",
+							"select": "OrderDate,RequiredDate",
+							"orderby": "",
+							"top": "",
+							"skip": ""
+						}
 					},
 
 					"R3-C2": 
 					{
 						"title": "Order Details",
 						"type": "Components.lensResultsForm",
-						"query": "../proxy/http/services.odata.org/V2/Northwind/Northwind.svc/Orders()?&$expand=Order_Details&$select=OrderID,Order_Details/ProductID&"
+						"query": "../proxy/http/services.odata.org/V2/Northwind/Northwind.svc/Orders()?&$expand=Order_Details&$select=OrderID,Order_Details/ProductID&",
+						"querydetails": 
+						{
+							"serviceUrl": "../proxy/http/services.odata.org/V2/Northwind/Northwind.svc/",
+							"resourcePath": "Orders()",
+							"filter": "",
+							"expand": "Order_Details",
+							"select": "OrderID,Order_Details/ProductID",
+							"orderby": "",
+							"top": "",
+							"skip": ""
+						}
 					},
 
 					"R1": 
 					{
 						"title": "Products",
 						"type": "Components.lensResultsTable",
-						"query": "../proxy/http/services.odata.org/V2/Northwind/Northwind.svc/Products()?&$expand=&$select=ProductID,ProductName,SupplierID,CategoryID,QuantityPerUnit,UnitPrice,UnitsInStock,UnitsOnOrder,ReorderLevel,Discontinued&"
+						"query": "../proxy/http/services.odata.org/V2/Northwind/Northwind.svc/Products()?&$expand=&$select=ProductID,ProductName,SupplierID,CategoryID,QuantityPerUnit,UnitPrice,UnitsInStock,UnitsOnOrder,ReorderLevel,Discontinued&",
+						"querydetails": 
+						{
+							"serviceUrl": "../proxy/http/services.odata.org/V2/Northwind/Northwind.svc/",
+							"resourcePath": "Products()",
+							"filter": "",
+							"expand": "",
+							"select": "ProductID,ProductName,SupplierID,CategoryID,QuantityPerUnit,UnitPrice,UnitsInStock,UnitsOnOrder,ReorderLevel,Discontinued",
+							"orderby": "",
+							"top": "",
+							"skip": ""
+						}
+					}
+				}
+			},
+
+			"Test": 
+			{
+				"title": "Test Lens",
+				"template": "testTemplate2",
+				"fragments": 
+				{
+					"R1": 
+					{
+						"title": "Order Details",
+						"type": "Components.lensResultsForm",
+						"query": "../proxy/http/services.odata.org/V2/Northwind/Northwind.svc/Orders()?&$expand=Order_Details&$select=OrderID,Order_Details/ProductID&",
+						"querydetails": 
+						{
+							"serviceUrl": "../proxy/http/services.odata.org/V2/Northwind/Northwind.svc/",
+							"resourcePath": "Orders()",
+							"filter": "",
+							"expand": "Order_Details",
+							"select": "OrderID,Order_Details/ProductID",
+							"orderby": "",
+							"top": "",
+							"skip": ""
+						}
+					},
+
+					"R2": 
+					{
+						"title": "Order Details",
+						"type": "Components.lensResultsTable",
+						"query": "../proxy/http/services.odata.org/V2/Northwind/Northwind.svc/Orders()?&$expand=Order_Details&$select=OrderID,Order_Details/ProductID&",
+						"querydetails": 
+						{
+							"serviceUrl": "../proxy/http/services.odata.org/V2/Northwind/Northwind.svc/",
+							"resourcePath": "Orders()",
+							"filter": "",
+							"expand": "Order_Details",
+							"select": "OrderID,Order_Details/ProductID",
+							"orderby": "",
+							"top": "",
+							"skip": ""
+						}
 					}
 				}
 			}
