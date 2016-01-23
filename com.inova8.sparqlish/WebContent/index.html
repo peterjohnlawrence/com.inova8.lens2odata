@@ -3,34 +3,39 @@
 <head>
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <title>Lens</title>
-<script src="openui5/sap-ui-core.js" id="sap-ui-bootstrap"
-	data-sap-ui-libs="sap.m" data-sap-ui-theme="sap_bluecrystal"
-	data-sap-ui-xx-bindingSyntax="complex"
+<script 
+	id="sap-ui-bootstrap" 
+	src="openui5/sap-ui-core.js" 
+	data-sap-ui-libs="sap.m" 
+	data-sap-ui-theme="sap_bluecrystal"
+	data-sap-ui-xx-bindingSyntax="complex" 
 	data-sap-ui-resourceroots='{
             "Lens":"./",
-					"lens":"./lens"
+			"lens":"./lens",
+			"i18n":"./i18n",
+			"sparqlish":"./sparqlish",
+			"controller":"./controller"
         }'>
+	
 </script>
 <!-- add sap.ui.table,sap.ui.ux3 and/or other libraries to 'data-sap-ui-libs' if required -->
 <script>
-// src="https://openui5.netweaver.ondemand.com/resources/sap-ui-core.js" id="sap-ui-bootstrap"
-//src="openui5/sap-ui-core.js"
-// data-sap-ui-xx-fakeOS="ios" You must specify the target mobile platform to run SAPUI5 mobile on desktop computers. Set the URL parameter "sap-ui-xx-fakeOS" to either "ios", "android", "blackberry" (in Chrome/Safari), or "winphone" (in Internet Explorer 10). IE10 can also be used without the "fakeOS" parameter.
+	// src="https://openui5.netweaver.ondemand.com/resources/sap-ui-core.js" id="sap-ui-bootstrap"
+	//src="openui5/sap-ui-core.js"
+	// data-sap-ui-xx-fakeOS="ios" You must specify the target mobile platform to run SAPUI5 mobile on desktop computers. Set the URL parameter "sap-ui-xx-fakeOS" to either "ios", "android", "blackberry" (in Chrome/Safari), or "winphone" (in Internet Explorer 10). IE10 can also be used without the "fakeOS" parameter.
 
-
-jQuery.sap.registerModulePath('rdfquery', 'resources/jquery.rdfquery.core.min-1.0');
-jQuery.sap.registerModulePath('xml2json', 'resources/jquery.xml2json');
+//	jQuery.sap.registerModulePath('rdfquery', 'resources/jquery.rdfquery.core.min-1.0');
 	sap.ui.getCore().attachInit(function() {
-	   new sap.m.Shell("Shell", {
-		   app : new sap.ui.core.ComponentContainer({
-		      height : "100%",
-		      name : "Lens"
-		   })
-	   }).placeAt("content");
-   });
+		new sap.m.Shell("Shell", {
+			app : new sap.ui.core.ComponentContainer({
+				height : "100%",
+				name : "Lens"
+			})
+		}).placeAt("content");
+	});
 </script>
 </head>
 <body class="sapUiBody" role="application">
-	<div id="content"></div>
+		<div id="content"></div>
 </body>
 </html>

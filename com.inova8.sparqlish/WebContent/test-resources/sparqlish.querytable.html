@@ -7,6 +7,7 @@
 <title>QueryTable</title>
 <script id="sap-ui-bootstrap" src="../openui5/sap-ui-core.js" data-sap-ui-theme="sap_bluecrystal" 
 		data-sap-ui-libs="sap.m,sap.ui.unified,sap.ui.table"
+		data-sap-ui-xx-supportedLanguages="en"
 		data-sap-ui-resourceroots='{
             "sparqlish":"../",
 					"sparqlish":"../sparqlish",
@@ -34,7 +35,7 @@
 	 viewModel>: The JSONModel derived from the queryModel so that it conatins the requisite indenting etc for displaying a particular query in a tree format. 
 	 datatypesModel>: The JSONModel containing the different conditions for differenbt datatypes.
 	 */
-	jQuery.sap.log.setLevel(jQuery.sap.log.Level.DEBUG);
+	jQuery.sap.log.setLevel(jQuery.sap.log.Level.ERROR);
 
 	// set up models
 	// i18nModel>

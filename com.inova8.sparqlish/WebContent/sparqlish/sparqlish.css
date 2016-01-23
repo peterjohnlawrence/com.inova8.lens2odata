@@ -1,10 +1,10 @@
 .error {
-	font: 16px arial, sans-serif;
+	font: 12px arial, sans-serif;
 	font-weight: normal; 
 	display: inline-block;
 }
 .menuText {
-	font: 16px arial, sans-serif;
+	font: 12px arial, sans-serif;
 //	font-family:SAP-icons;
 	font-weight: normal; 
 }
@@ -52,7 +52,7 @@
 	flex-direction: row;
 	justify-content: flex-end;
 	align-items: flex-end;
-	width: 90px
+	width: 60px
 }
 
 .propertyContainer {
@@ -68,44 +68,44 @@
 }
 
 .clauses {
-	font: 16px arial, sans-serif;
+	font: 12px arial, sans-serif;
 	font-weight: normal; 
 }
 
 .conceptClause {
-	font: 16px arial, sans-serif;
+	font: 12px arial, sans-serif;
 	font-weight: normal; 
 	display: inline-block;
 	vertical-align: middle;
 }
 
 .propertyClause {
-	font: 16px arial, sans-serif;
+	font: 12px arial, sans-serif;
 	font-weight: normal; 
 	display: inline-block;
 }
 
 .objectPropertyClause {
-	font: 16px arial, sans-serif;
+	font: 12px arial, sans-serif;
 	font-weight: normal; 
 	display: inline-block;
 }
 
 .dataPropertyClause {
-	font: 16px arial, sans-serif;
+	font: 12px arial, sans-serif;
 	font-weight: normal; 
 	display: inline-block;
 }
 
 .dataPropertyValue {
-	font: 16px arial, sans-serif;
+	font: 12px arial, sans-serif;
 	font-weight: normal; 
 	display: inline-block;
 	//width: 120px;
 }
 
 .dataPropertyValue input {
-	font: 16px arial, sans-serif;
+	font: 12px arial, sans-serif;
 	font-weight: bold; 
 	display: inline-block;
 	width: 100%;
@@ -116,31 +116,31 @@
 }
 
 .resultValue {
-	font: 16px arial, sans-serif;
+	font: 12px arial, sans-serif;
 	font-weight: normal; 
 	display: inline-block;
 }
 
 .clause {
-	font: 16px arial, sans-serif;
+	font: 12px arial, sans-serif;
 	font-weight: normal; 
 	display: inline-block;
 }
 
 .conjunctionClause {
-	font: 16px arial, sans-serif;
+	font: 12px arial, sans-serif;
 	font-weight: normal; 
 	display: inline-block;
 }
 
 .menuLink {
-	font: 16px arial, sans-serif;
+	font: 12px arial, sans-serif;
 	font-weight: bold; 
 	display: inline-block;
 }
 
 .conceptMenuLink {
-	font: 16px arial, sans-serif;
+	font: 12px arial, sans-serif;
 	font-weight: bold;
 	color:white;
 	display: inline-block;
@@ -150,7 +150,7 @@
 }
 
 .objectPropertyMenuLink {
-	font: 16px arial, sans-serif;
+	font: 12px arial, sans-serif;
 	font-weight: bold;
 	display: inline-block;
 	background-color: #FF9966;//lightgrey;
@@ -159,7 +159,7 @@
 	}
 
 .dataPropertyMenuLink {
-	font: 16px arial, sans-serif;
+	font: 12px arial, sans-serif;
 	font-weight: bold;
 	color:white;
 	display: inline-block;
@@ -170,7 +170,7 @@
 }
 
 .conjunctionMenuLink {
-	font: 16px arial, sans-serif;
+	font: 12px arial, sans-serif;
 	font-weight: bold;
 	font-style: italic;
 	display: inline-block;

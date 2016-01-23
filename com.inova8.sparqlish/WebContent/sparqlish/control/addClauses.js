@@ -17,11 +17,62 @@ sap.ui.commons.Link.extend("sparqlish.control.addClauses", {
 			}
 		}
 	},
-	initData : function() {
+//	initData : function() {
+//		var self = this;
+////		self.oObjectPropertyList.
+////		self.oDataPropertyList.
+//
+////		self.oDialog.destroyPanels();
+//
+////		self.oObjectPropertyList = new sap.m.P13nColumnsPanel({
+////			title : "{i18nModel>navigationProperties}",
+////			items : {
+////				path : "entityTypeModel>/navigationProperty",
+////				template : new sap.m.P13nItem({
+////					columnKey : "{entityTypeModel>name}",
+////					text : "{entityTypeModel>name}"
+////				})
+////			}
+////		});
+////
+////		self.oDataPropertyList = new sap.m.P13nColumnsPanel({
+////			title : "{i18nModel>dataProperties}",
+////			items : {
+////				path : "entityTypeModel>/property",
+////				template : new sap.m.P13nItem({
+////					columnKey : "{entityTypeModel>name}",
+////					text : "{entityTypeModel>name}"
+////				})
+////			}
+////		});
+////		self.oDialog.addPanel(self.oObjectPropertyList);
+////		self.oDialog.addPanel(self.oDataPropertyList);
+//
+//	},
+	init : function() {
 		var self = this;
-
-		self.oDialog.destroyContent();
-
+	
+		self.oAddClauseLink =	 new sparqlish.control.extendFilter({
+			visible:true,
+			icon : "add-process",
+			tooltip : "{i18nModel>addClauseTooltip}" 
+		});
+		self.oDialog = new sap.m.P13nDialog({
+			title: "{i18nModel>conceptAddClausesTitle}",
+			cancel : function() {
+				self.oDialog.close();
+			},
+			ok : function() {
+				//TODO is this the correct order?
+				self.oDialog.close();
+				self.fireClausesSelected({
+					objectPropertyPayload : self.oObjectPropertyList.getOkPayload(),
+					dataPropertyPayload : self.oDataPropertyList.getOkPayload()
+				});
+			}
+		});
+		
+		self.oDialog.bindElement("queryModel>");
 		self.oObjectPropertyList = new sap.m.P13nColumnsPanel({
 			title : "{i18nModel>navigationProperties}",
 			items : {
@@ -45,44 +96,17 @@ sap.ui.commons.Link.extend("sparqlish.control.addClauses", {
 		});
 		self.oDialog.addPanel(self.oObjectPropertyList);
 		self.oDialog.addPanel(self.oDataPropertyList);
-
-	},
-	init : function() {
-		var self = this;
-	
-		self.oAddClauseLink =	 new sparqlish.control.extendFilter({
-			visible:true,
-			icon : "add-process",
-			tooltip : "{i18nModel>addClauseTooltip}" 
-		});
-		self.oDialog = new sap.m.P13nDialog({
-			title: "{i18nModel>conceptAddClausesTitle}",
-			cancel : function() {
-				self.oDialog.close();
-			},
-			ok : function() {
-				//TODO is this the correct order?
-				self.oDialog.close();
-				self.fireClausesSelected({
-					objectPropertyPayload : self.oObjectPropertyList.getOkPayload(),
-					dataPropertyPayload : self.oDataPropertyList.getOkPayload()
-				});
-			}
-		});
-		self.oDialog.bindElement("queryModel>");
-
+		
+		
 		self.oAddClauseLink.attachPress(function(oEvent) {
 			var self = oEvent.getSource().getParent();
 			// Setup property menu according to current model context if not already set
 			var oEntityTypeContext = self.getParent().getRangeEntityTypeContext();
 			var sEntityTypeQName = self.getParent().getRangeEntityTypeQName();
 
-//			self.oEntityTypeModel = new sap.ui.model.json.JSONModel();
-//			self.oEntityTypeModel.setData(oEntityTypeContext);
-//			self.oDialog.setModel(self.oEntityTypeModel, "entityTypeModel");
 			
 			self.oDialog.setModel(self.getModel("metaModel").getEntityTypeModel(sEntityTypeQName),"entityTypeModel");
-			self.initData();
+//			self.initData();
 			if (self.oDialog.isOpen()) {
 				self.oDialog.close();
 			} else {

@@ -20,6 +20,7 @@ sap.ui.core.UIComponent.extend("Components.lensResultsForm.Component", {
 
 Components.lensResultsForm.Component.prototype.createContent = function() {
 	var self = this;
+
 	this.oFormPanel = new sap.ui.commons.Panel({
 		title : new sap.ui.core.Title().setText("OData Display Form"),
 		width : "100%",
@@ -38,15 +39,7 @@ Components.lensResultsForm.Component.prototype.createContent = function() {
 		width : "100%",
 		formContainers : this.oFormContainer
 	});
-	this.oPaginator = new sap.ui.commons.Paginator({
-		currentPage : 1,
-		page : function(oEvent) {
-			self.oForm.bindElement("/d/results/" + (parseInt(oEvent.getParameter("targetPage")) - 1).toString());
-		}
-	});
-	this.oPaginator.setNumberOfPages(100);
 	this.oFormPanel.addContent(this.oForm);
-	this.oFormPanel.addContent(this.oPaginator);
 	this.oFormPanel.addButton(new sap.ui.commons.Button({
 		icon : sap.ui.core.IconPool.getIconURI("settings"),
 		press : function(oEvent) {
@@ -64,124 +57,169 @@ Components.lensResultsForm.Component.prototype.renderResults = function(query) {
 	odataResults.loadData(odataURL);
 	odataResults.attachRequestCompleted(function(oEvent) {
 		if (oEvent.getParameter("success")) {
-			try {
-				var nResults = 0;
-				var oRecordTemplate = null;
-				var sBindPath = null;
-				if (jQuery.isEmptyObject(odataResults.getData().d.results)) {
-					if (odataResults.getData().d.length > 0) {
-						oRecordTemplate = odataResults.getData().d[0];
-						sBindPath = "/d/0";
-					} else {
-						throw "No results returned";
-					}
+			// try {
+			var nResults = 0;
+			var oRecordTemplate = null;
+			var sBindPath = null;
+			if (jQuery.isEmptyObject(odataResults.getData().d.results)) {
+				if (odataResults.getData().d.length > 0) {
+					oRecordTemplate = odataResults.getData().d[0];
+					sBindPath = "/d";
 				} else {
-					nResults = odataResults.getData().d.results.length;
-					oRecordTemplate = odataResults.getData().d.results[0];
-					sBindPath = "/d/results/0";
+					throw "No results returned";
 				}
-				self.oFormPanel.getTitle().setText((jQuery.isEmptyObject(self.getProperty("title"))) ? oRecordTemplate.__metadata.type : self.getProperty("title"));
-				self.oFormPanel.setModel(odataResults);
-				var oPrimaryEntityType = oMetaModel.getODataEntityType(oRecordTemplate.__metadata.type);
-				self.oFormContainer.destroyFormElements();
-				self.bindFormFields(oMetaModel, self.oFormContainer, oRecordTemplate, oPrimaryEntityType.name, "", 0);
-				self.oForm.bindElement(sBindPath);
-				self.oPaginator.setNumberOfPages(nResults);
-			} catch (err) {
-				self.oFormPanel.getTitle().setText(err);
-				self.oFormContainer.destroyFormElements();
+			} else {
+				nResults = odataResults.getData().d.results.length;
+				oRecordTemplate = odataResults.getData().d.results[0];
+				sBindPath = "/d/results";
 			}
+			self.oFormPanel.getTitle().setText((jQuery.isEmptyObject(self.getProperty("title"))) ? oRecordTemplate.__metadata.type : self.getProperty("title"));
+			self.oFormPanel.setModel(odataResults);
+			var oPrimaryEntityType = oMetaModel.getODataEntityType(oRecordTemplate.__metadata.type);
+			self.oFormContainer.destroyFormElements();
+			self.bindFormFields(oMetaModel, "d", oRecordTemplate, oPrimaryEntityType.name, sBindPath, 0, 0);
+			self.oForm.bindElement(sBindPath);
+			// } catch (err) {
+			// self.oFormPanel.getTitle().setText(err);
+			// self.oFormContainer.destroyFormElements();
+			// }
 		} else {
 			// Failed request
 			self.oFormPanel.getTitle().setText(JSON.stringify(oEvent.getParameter("errorobject")));
 			self.oFormContainer.destroyFormElements();
 		}
+		self.oFormPanel.addStyleClass("sapUiNoContentPadding");
+		// self.oFormContainer.addStyleClass("sapUiNoContentPadding") ;
 		self.oForm.setBusy(false);
 	});
 	return this;
 };
-Components.lensResultsForm.Component.prototype.nextFormElement = function(oFormContainer, sLabel, nStartRow, oField) {
-	var nRow = nStartRow;
+
+Components.lensResultsForm.Component.prototype.nextFormElement = function(sLabel, nLevel, bObjectProperty, oField) {
+	nLevel < 0 ? nLevel = 0 : nLevel = nLevel;
+	oField.setLayoutData(new sap.ui.layout.form.GridElementData({
+		hCells : (12 - nLevel).toString()
+	}));
+	for (var i = 0; i < nLevel * 5; i++)
+		sLabel = "\u00a0" + sLabel;
 	var oFormElement = new sap.ui.layout.form.FormElement({
 		label : new sap.ui.commons.Label({
 			text : sLabel,
-			textAlign : "Right",
+			textAlign : sap.ui.core.TextAlign.Left,
+			width : "100%",
+			design : bObjectProperty ? sap.ui.commons.LabelDesign.Bold : sap.ui.commons.LabelDesign.Standard,
 			layoutData : new sap.ui.layout.form.GridElementData({
-				hCells : "5"
+				hCells : (4 + nLevel).toString()
 			})
 		}),
-		layoutData : new sap.ui.layout.form.GridElementData({
-			hCells : "auto"
-		})
+		fields : [ oField ]
 	});
-	oFormContainer.insertFormElement(oFormElement, nRow);
-	oFormElement.insertField(oField);
-	nRow++;
-	return nRow;
+	this.oFormContainer.addFormElement(oFormElement);
+	return oFormElement;
 };
 
-Components.lensResultsForm.Component.prototype.bindFormFields = function(oMetaModel, oFormContainer, oTemplate, sCurrentLabel, sCurrentPath, nStartRow) {
+Components.lensResultsForm.Component.prototype.bindFormFields = function(oMetaModel, sColumn, oTemplate, sCurrentLabel, sCurrentPath, nStartRow, nLevel,
+		bResults) {
+	bResults = typeof bResults === 'undefined' ? true : bResults;
 	var sEntityType;
 	var oEntityType;
 	var nRow = nStartRow;
+	var elementCollection = [];
+	var paginatorCollection = [];
+	var innerPaginatorCollection = [];
+	var oDateTimeFormat = sap.ui.core.format.DateFormat.getDateTimeInstance({
+		pattern : sap.ui.getCore().getModel("i18nModel").getProperty("Edm.DateTime")
+	});
+	var oDateFormat = sap.ui.core.format.DateFormat.getDateTimeInstance({
+		pattern : sap.ui.getCore().getModel("i18nModel").getProperty("Edm.Date")
+	});
 	if (!jQuery.isEmptyObject(oTemplate.__metadata)) {
 		sEntityType = oTemplate.__metadata.type;
 		oEntityType = oMetaModel.getODataEntityType(sEntityType);
 	}
 	for ( var column in oTemplate) {
+		var sPathPrefix = (bResults) ? "" : sCurrentPath + "/";
 		if (column == "__metadata") {
-			// ignore metadata column
-			var sMetadataPath = (sCurrentPath != "") ? sCurrentPath + "/__metadata/uri" : "__metadata/uri";
 			var sMetaLabel = sCurrentLabel;
-			nRow = this.nextFormElement(oFormContainer, sMetaLabel, nRow, new sap.ui.commons.Link().bindProperty("text", {
-				path : sMetadataPath
+			if (bResults) {
+				oPaginator = new sap.ui.commons.Paginator({
+					currentPage : 1
+				});
+				oPaginator.bindColumn = sColumn;
+				paginatorCollection.push(oPaginator);
+				elementCollection.push(this.nextFormElement(sMetaLabel, nLevel - 1, true, oPaginator));
+				nRow++;
+				oPaginator.attachPage(function(oEvent) {
+					var sBindColumn = oEvent.getSource().bindColumn;
+					var sBindPath = oEvent.getParameter("path");
+					if (jQuery.isEmptyObject(sBindPath)) {
+						sBindPath = oEvent.getSource().bindPath;
+						if (jQuery.isEmptyObject(sBindPath))
+							sBindPath = "/";
+					} else {
+						sBindPath += "/";
+					}
+					oEvent.getSource().bindPath = sBindPath;
+					var sContext = sBindPath + sBindColumn + "/";
+					if (!jQuery.isEmptyObject(oEvent.getSource().getModel().getProperty(sContext).results))
+						sContext += "results/";
+					oEvent.getSource().setNumberOfPages(oEvent.getSource().getModel().getProperty(sContext).length);
+					for (var i = 0; i < elementCollection.length; i++) {
+						elementCollection[i].bindElement(sContext + (parseInt(oEvent.getParameter("targetPage")) - 1).toString());
+					}
+					for (var i = 0; i < innerPaginatorCollection.length; i++) {
+						innerPaginatorCollection[i].setProperty("currentPage", 1);
+						innerPaginatorCollection[i].firePage({
+							path : sContext + (parseInt(oEvent.getParameter("targetPage")) - 1).toString(),
+							targetPage : 1,
+							numberOfPages : 10,
+						});
+					}
+				});
+			}
+			elementCollection.push(this.nextFormElement(bResults ? "" : sMetaLabel, nLevel - 1, true, new sap.ui.commons.Link().bindProperty("text", {
+				parts : [ {
+					path : sPathPrefix + "__metadata/uri",
+					type : new sap.ui.model.type.String()
+				} ],
+				formatter : function(uri) {
+					return jQuery.isEmptyObject(uri) ? "" : uri.split("/").pop();
+				}
+			// path : sPathPrefix + "__metadata/uri"
 			}).bindProperty("href", {
-				path : sMetadataPath
-			}));
+				path : sPathPrefix + "__metadata/uri"
+			})));
+			nRow++;
 		} else {
-			var sLabel = (sCurrentLabel == "") ? column : sCurrentLabel + ":" + column;
-			var sPath = (sCurrentPath == "") ? column : sCurrentPath + "/" + column;
+			// var sLabel = (sCurrentLabel == "") ? column : sCurrentLabel + ":" + column;
+			var sLabel = (sCurrentLabel == "") ? column : "\u21AA" + column;
+
 			if (oTemplate[column] != null) {
-				if (!jQuery.isEmptyObject(oTemplate[column].__metadata)) {
-					// Must be a compound column so iterate through these as well
-					nRow = this.bindFormFields(oMetaModel, oFormContainer, oTemplate[column], sLabel, sPath, nRow);
-				} else if (!jQuery.isEmptyObject(oTemplate[column].results)) {
+				if (!jQuery.isEmptyObject(oTemplate[column].results)) {
 					// Must be a repeating record set
 					var oInnerTemplate = oTemplate[column].results[0];
-					var oInnerPanel = new sap.ui.commons.Panel({
-						title : new sap.ui.core.Title().setText(sLabel + " Form"),
-						width : "100%"
-					});
-					var oInnerFormLayout = new sap.ui.layout.form.GridLayout({
-						singleColumn : false
-					});
-					var oInnerFormContainer = new sap.ui.layout.form.FormContainer({
-						expandable : true
-					});
-					var oInnerForm = new sap.ui.layout.form.Form({
-						layout : oInnerFormLayout,
-						width : "100%",
-						formContainers : oInnerFormContainer
-					});
-					oInnerForm.bindElement(sPath + "/results/0");
-					oInnerPaginator = new sap.ui.commons.Paginator({
-						currentPage : 1,
-						page : function(oEvent) {
-							oInnerForm.bindElement(sPath + "/results/" + (parseInt(oEvent.getParameter("targetPage")) - 1).toString());
-						}
-					});
-					oInnerPaginator.setNumberOfPages(100);
-					oInnerPanel.addContent(oInnerForm);
-					oInnerPanel.addContent(oInnerPaginator);
-					this.bindFormFields(oMetaModel, oInnerFormContainer, oInnerTemplate, "", "", 0);
-					nRow = this.nextFormElement(oFormContainer, sLabel, nRow, oInnerPanel)
+					innerPaginatorCollection = this.bindFormFields(oMetaModel, column, oInnerTemplate, sLabel, sCurrentPath + "/0/" + column + "/results", nRow,
+							nLevel + 1);
+				} else if (!jQuery.isEmptyObject(oTemplate[column].__metadata)) {
+					// Must be a compound column so iterate through these as well
+					elementCollection = elementCollection.concat(this.bindFormFields(oMetaModel, column, oTemplate[column], sLabel, sPathPrefix + column, nRow,
+							nLevel + 1, false));
 				} else if (!jQuery.isEmptyObject(oTemplate[column].__deferred)) {
 					var contents = oTemplate[column].__deferred;
-					nRow = this.nextFormElement(oFormContainer, sLabel, nRow, new sap.ui.commons.Link().bindProperty("text", {
-						path : sPath + "/__deferred/uri"
+					// format for text of URL: oTemplate.__metadata.uri.split("/").pop()
+					elementCollection.push(this.nextFormElement(sLabel,  nLevel, true, new sap.ui.commons.Link().bindProperty("text", {
+						parts : [ {
+							path : sPathPrefix + "__deferred/uri",
+							type : new sap.ui.model.type.String()
+						} ],
+						formatter : function(uri) {
+							return jQuery.isEmptyObject(uri) ? "" : uri.split("/").pop();
+						}
+					// path : sPathPrefix + "__deferred/uri"
 					}).bindProperty("href", {
-						path : sPath + "/__deferred/uri"
-					}));
+						path : sPathPrefix + "__deferred/uri"
+					})));
+					nRow++;
 				} else {
 					// Should format according to type found in metadata
 					var oProperty
@@ -191,32 +229,66 @@ Components.lensResultsForm.Component.prototype.bindFormFields = function(oMetaMo
 						throw "getODataProperty" + ":" + oEntityType + ":" + column;
 					}
 					if (oProperty.type == "Edm.DateTime") {
-						nRow = this.nextFormElement(oFormContainer, sLabel, nRow, new sap.ui.commons.TextView({
+						elementCollection.push(this.nextFormElement(sLabel, nLevel, false, new sap.ui.commons.TextView({
 							text : {
-								path : sPath,
+								path : column,
 								formatter : function(value) {
 									if (value != null) {
-										return new Date(parseInt(value.substr(6)));
+										if (typeof (value) == 'string') {
+											// TODO when the Odata atom/xml response or json does not annotate the type of the response
+											var rExp = /\/Date\((.+)\)\//;
+											var sDate = rExp.exec(value)[1];
+											// return eval("new " + rExp.$1);
+											if (jQuery.isEmptyObject(sDate)) {
+												value = oDateTimeFormat.parse(value);
+											} else {
+												value = new Date(sDate * 1);
+											}
+										}
+										return oDateTimeFormat.format(value);
 									} else {
 										return null;
 									}
 								}
 							}
-						}));
+						})));
+						nRow++;
+					} else if (oProperty.type == "Edm.Stream") {
+						elementCollection.push(this.nextFormElement(sLabel, nLevel, false, new sap.m.Image({
+							"src" : {
+								path : sPathPrefix + column
+							}
+						})));
+						nRow++;
 					} else {
-						nRow = this.nextFormElement(oFormContainer, sLabel, nRow, new sap.ui.commons.TextView().bindProperty("text", {
-							path : sPath,
+						elementCollection.push(this.nextFormElement(sLabel, nLevel, false, new sap.ui.commons.TextView().bindProperty("text", {
+							path : sPathPrefix + column,
 							type : new sap.ui.model.type.String()
-						}));
+						})));
+						nRow++;
 					}
 				}
 			} else {
-				nRow = this.nextFormElement(oFormContainer, sLabel, nRow, new sap.ui.commons.TextView().bindProperty("text", {
-					path : sPath,
+				elementCollection.push(this.nextFormElement(sLabel, nLevel, false, new sap.ui.commons.TextView().bindProperty("text", {
+					path : sPathPrefix + column,
 					type : new sap.ui.model.type.String()
-				}));
+				})));
+				nRow++;
 			}
 		}
 	}
-	return nRow;
+	// Initialize the binding since we are not using Form binding
+	for (var i = 0; i < elementCollection.length; i++)
+		if (bResults) {
+			elementCollection[i].bindElement(sCurrentPath + "/0/");
+		} else {
+			elementCollection[i].bindElement(sCurrentPath + "/");
+		}
+	if (bResults) {
+		for (var i = 0; i < paginatorCollection.length; i++)
+			paginatorCollection[i].setNumberOfPages(oPaginator.getModel().getProperty(sCurrentPath).length);
+		return paginatorCollection;
+	} else {
+		return elementCollection;
+	}
 };

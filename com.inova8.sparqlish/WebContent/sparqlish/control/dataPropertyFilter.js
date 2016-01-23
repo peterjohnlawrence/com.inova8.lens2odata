@@ -86,13 +86,10 @@ sap.ui.core.Control.extend("sparqlish.control.dataPropertyFilter", {
 			oInputValue = (new sap.m.DatePicker({
 				// value : "{queryModel>value}",
 				valueFormat : 'yyyy-MM-ddThh:mm:ssXX',
-				tooltip : "Enter value for condition",
-				width : "auto",
+				tooltip : "{i18n>dataFilterTooltip}",
+				width : "150px",
 				placeholder : "Enter date",
-				description : "",
-				editable : true,
-				showValueHelp : true,
-				valueHelpRequest : ""
+				editable : true
 			})).addStyleClass("dataPropertyValue");
 			break;
 		case "Edm.DateTime":
@@ -100,20 +97,17 @@ sap.ui.core.Control.extend("sparqlish.control.dataPropertyFilter", {
 				// value : "{queryModel>value}",
 				valueFormat : 'yyyy-MM-ddThh:mm:ssXX',
 				tooltip : "Enter date/time",
-				width : "auto",
+				width : "150px",
 				placeholder : "Enter date/time",
-				description : "",
-				editable : true,
-				showValueHelp : true,
-				valueHelpRequest : ""
+				editable : true
 			})).addStyleClass("dataPropertyValue");
 			break;
 		case "Edm.Time":
 			oInputValue = (new sap.m.TimePicker({
 				// value : "{queryModel>value}",
 				valueFormat : 'yyyy-MM-ddThh:mm:ssXX',
-				tooltip : "Enter value for condition",
-				width : "auto",
+				tooltip : "{i18n>dataFilterTooltip}",
+				width : "150px",
 				placeholder : "Enter time",
 				description : "",
 				editable : true,
@@ -129,10 +123,9 @@ sap.ui.core.Control.extend("sparqlish.control.dataPropertyFilter", {
 		case "Edm.Int64":
 			oInputValue = (new sap.m.Input({
 				type : sap.m.InputType.Number,
-				// value : "{queryModel>value}",
-				tooltip : "Enter number",
-				width : "auto",
-				placeholder : "Enter value for condition",
+				tooltip : "{i18n>dataFilterTooltip}",
+				width : "150px",
+				//placeholder : "{i18n>dataFilterTooltip}",
 				description : "",
 				editable : true,
 				showValueHelp : true,
@@ -146,9 +139,8 @@ sap.ui.core.Control.extend("sparqlish.control.dataPropertyFilter", {
 			break;
 		default:
 			oInputValue = (new sap.m.Input({
-				// value : "{queryModel>value}",
-				tooltip : "Enter value for condition",
-				width : "auto",
+				tooltip : "{i18n>dataFilterTooltip}",
+				width : "150px",
 				placeholder : "Enter value for condition",
 				description : "",
 				editable : true,

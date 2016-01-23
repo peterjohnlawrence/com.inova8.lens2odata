@@ -6,60 +6,40 @@
 			{
 				"__metadata": 
 				{
-					"id": "http://localhost:8080/olingo2sparql/sparql/2.0/NW/Order('northwind%3AOrder-10248')",
-					"uri": "http://localhost:8080/olingo2sparql/sparql/2.0/NW/Order('northwind%3AOrder-10248')",
-					"type": "northwind.Order"
+					"uri": "http://services.odata.org/V2/Northwind/Northwind.svc/Orders(10308)",
+					"type": "NorthwindModel.Order"
 				},
 
-				"subject": "northwind:Order-10248",
-				"hasOrderDetail": 
+				"Customer": 
 				{
-					"results": 
-					[
-						{
-							"__metadata": 
-							{
-								"id": "http://localhost:8080/olingo2sparql/sparql/2.0/NW/OrderDetail('northwind%3AOrderDetail-159')",
-								"uri": "http://localhost:8080/olingo2sparql/sparql/2.0/NW/OrderDetail('northwind%3AOrderDetail-159')",
-								"type": "northwind.OrderDetail"
-							},
+					"__metadata": 
+					{
+						"uri": "http://services.odata.org/V2/Northwind/Northwind.svc/Customers('ANATR')",
+						"type": "NorthwindModel.Customer"
+					},
 
-							"subject": "northwind:OrderDetail-159"
-						},
+					"CustomerID": "ANATR",
+					"CompanyName": "Ana Trujillo Emparedados y helados"
+				}
+			},
 
-						{
-							"__metadata": 
-							{
-								"id": "http://localhost:8080/olingo2sparql/sparql/2.0/NW/OrderDetail('northwind%3AOrderDetail-2312')",
-								"uri": "http://localhost:8080/olingo2sparql/sparql/2.0/NW/OrderDetail('northwind%3AOrderDetail-2312')",
-								"type": "northwind.OrderDetail"
-							},
+			{
+				"__metadata": 
+				{
+					"uri": "http://services.odata.org/V2/Northwind/Northwind.svc/Orders(10625)",
+					"type": "NorthwindModel.Order"
+				},
 
-							"subject": "northwind:OrderDetail-2312"
-						},
+				"Customer": 
+				{
+					"__metadata": 
+					{
+						"uri": "http://services.odata.org/V2/Northwind/Northwind.svc/Customers('ANATR')",
+						"type": "NorthwindModel.Customer"
+					},
 
-						{
-							"__metadata": 
-							{
-								"id": "http://localhost:8080/olingo2sparql/sparql/2.0/NW/OrderDetail('northwind%3AOrderDetail-157')",
-								"uri": "http://localhost:8080/olingo2sparql/sparql/2.0/NW/OrderDetail('northwind%3AOrderDetail-157')",
-								"type": "northwind.OrderDetail"
-							},
-
-							"subject": "northwind:OrderDetail-157"
-						},
-
-						{
-							"__metadata": 
-							{
-								"id": "http://localhost:8080/olingo2sparql/sparql/2.0/NW/OrderDetail('northwind%3AOrderDetail-158')",
-								"uri": "http://localhost:8080/olingo2sparql/sparql/2.0/NW/OrderDetail('northwind%3AOrderDetail-158')",
-								"type": "northwind.OrderDetail"
-							},
-
-							"subject": "northwind:OrderDetail-158"
-						}
-					]
+					"CustomerID": "ANATR",
+					"CompanyName": "Ana Trujillo Emparedados y helados"
 				}
 			}
 		]

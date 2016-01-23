@@ -1,10 +1,19 @@
 jQuery.sap.require("sap.ui.model.MetaModel");
+//TODO note that this causes some OpenUI5 errors as they use for(... in ... ) to iterate over arrays
 Array.prototype.removeValue = function(name, value) {
 	var array = $.map(this, function(v, i) {
 		return v[name] === value ? null : v;
 	});
 	this.length = 0; // clear original array
 	this.push.apply(this, array); // push all elements except the one we want to delete
+};
+//TODO note that this causes some OpenUI5 errors as they use for(... in ... ) to iterate over arrays
+Array.prototype.lookup = function(name, value) {
+	var lookup = [];
+	for (var i = 0, len = this.length; i < len; i++) {
+		if (this[i][name]===value) lookup.push( this[i]);
+	}
+	return lookup;
 };
 
 sap.ui.model.MetaModel.prototype.entityTypeContext = function(oQueryModel, oContext) {

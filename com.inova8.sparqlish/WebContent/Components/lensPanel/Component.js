@@ -25,7 +25,7 @@ Components.lensPanel.Component.prototype.createContent = function() {
 Components.lensPanel.Component.prototype.renderFragments = function() {
 	this.oLensPanel.removeAllContent();
 	var oLens = oLensesModel.getData()["lenses"][this.getRole()][this.getConcept()];
-	//var oLens = oLensesModel.getData()["lenses"]["(default)"]["Northwind.Orders"];
+	// var oLens = oLensesModel.getData()["lenses"]["(default)"]["Northwind.Orders"];
 	var oContent = sap.ui.getCore().getModel("lensesModel").getData()["templates"][oLens.template];
 	this.setProperty("_fragmentModel", oLens["fragments"]);
 	this.oLensPanel.addContent(this.displayContent(oContent));
@@ -39,7 +39,15 @@ Components.lensPanel.Component.prototype.displayContent = function(oContent) {
 		oHorizontalSplitter.setHeight((jQuery.isEmptyObject(oContent.height)) ? "100%" : oContent.height);
 		for (var oLensColumn = 0; oLensColumn < oContent["columns"].length; oLensColumn++) {
 			var oCurrentContent = this.displayContent(oContent["columns"][oLensColumn]["content"]);
-			oHorizontalSplitter.addContentArea(oCurrentContent);
+			// oCurrentContent could be a collection/array
+			if (Array.isArray(oCurrentContent)) {
+				var oContentSplitter = new sap.ui.layout.Splitter({orientation:sap.ui.core.Orientation.Vertical,width:"auto"});
+				for (var i = 0, len = oCurrentContent.length; i < len; i++)
+					oContentSplitter.addContentArea(oCurrentContent[i]);	
+				oHorizontalSplitter.addContentArea(oContentSplitter);
+			} else {
+				oHorizontalSplitter.addContentArea(oCurrentContent);
+			}
 		}
 		return oHorizontalSplitter;
 	} else if (oContent.type === "rows") {
@@ -49,26 +57,42 @@ Components.lensPanel.Component.prototype.displayContent = function(oContent) {
 		oVerticalSplitter.setHeight((jQuery.isEmptyObject(oContent.height)) ? "100%" : oContent.height);
 		for (var oLensRow = 0; oLensRow < oContent["rows"].length; oLensRow++) {
 			var oCurrentContent = this.displayContent(oContent["rows"][oLensRow]["content"]);
-			oVerticalSplitter.addContentArea(oCurrentContent);
+			// oCurrentContent could be a collection/array
+			if (Array.isArray(oCurrentContent)) {
+								var oContentSplitter = new sap.ui.layout.Splitter({orientation:sap.ui.core.Orientation.Horizontal,height:"auto"});
+				for (var i = 0, len = oCurrentContent.length; i < len; i++)
+					oContentSplitter.addContentArea(oCurrentContent[i]);	
+				oVerticalSplitter.addContentArea(oContentSplitter);
+			} else {
+				oVerticalSplitter.addContentArea(oCurrentContent);
+			}
 		}
 		return oVerticalSplitter;
 	} else if (oContent.type === "lens") {
-		var oFragment = this.getProperty("_fragmentModel")[oContent.id];
-		if (!jQuery.isEmptyObject(oFragment)) {
-			var oComponent = sap.ui.getCore().createComponent({
-				name : oFragment.type,
-				settings : {
-					title : oFragment.title,
-					query : oFragment.query,
-					metaModel : oMetaModel
-				}
-			});
-			var oComponentContainer = new sap.ui.core.ComponentContainer({
-				component : oComponent,
-				propagateModel : true
-			});
-			oComponent.renderResults();
-			return oComponentContainer.addStyleClass("tile");
+		// var oFragment = this.getProperty("_fragmentModel")[oContent.id];
+		var oFragments = this.getProperty("_fragmentModel").lookup("position", oContent.id);
+
+		if (!jQuery.isEmptyObject(oFragments)) {
+			oComponentContainers=[];
+			for (var i = 0, len = oFragments.length; i < len; i++) {
+				var oFragment=oFragments[i];
+				var oComponent = sap.ui.getCore().createComponent({
+					name : oFragment.type,
+					settings : {
+						title : oFragment.title,
+						query : oFragment.query,
+						metaModel : oMetaModel
+					}
+				});
+				var oComponentContainer = new sap.ui.core.ComponentContainer({
+					component : oComponent,
+					propagateModel : true
+				});
+				oComponentContainer.addStyleClass("tile");
+				oComponent.renderResults();
+				oComponentContainers.push(oComponentContainer);
+			}
+			return oComponentContainers;
 		} else {
 			var oPanel = new sap.ui.commons.Panel({
 				title : new sap.ui.core.Title().setText(oContent.id),
@@ -85,7 +109,8 @@ Components.lensPanel.Component.prototype.displayContent = function(oContent) {
 					sap.m.MessageToast.show("settings for " + oContent.id)
 				}
 			}));
-			return oPanel.addStyleClass("tile");
+			oPanel.addStyleClass("tile");
+			return oPanel;
 		}
 	}
 };

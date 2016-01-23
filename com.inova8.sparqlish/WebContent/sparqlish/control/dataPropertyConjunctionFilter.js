@@ -59,7 +59,7 @@ sap.ui.core.Control.extend("sparqlish.control.dataPropertyConjunctionFilter", {
 			}
 		}).addStyleClass("menuLink"));
 		self.setAggregation("_dataPropertyFilter", new sparqlish.control.dataPropertyFilter({
-			deleted : function(oEvent) {
+			dataPropertyFilterDeleted : function(oEvent) {
 				// TODO Should not delete if there are still some conjunctions
 				// TODO is this really the best way to delete an element?
 				var currentModel = oEvent.getSource().getModel("queryModel");
