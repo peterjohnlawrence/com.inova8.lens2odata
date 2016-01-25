@@ -1,0 +1,21 @@
+<template data-controller-name="lens.Lens">
+<div data-sap-ui-type="sap.m.Page" data-title="{i18n>Lens}" id="lensPage">
+		<div data-sap-ui-aggregation="customHeader">
+				<div data-sap-ui-type="sap.m.Bar">
+						<div data-sap-ui-aggregation="contentLeft">
+								<div data-sap-ui-type="sap.m.Button" data-icon="sap-icon://media-reverse" data-press="onNavBack"></div>
+						</div>
+						<div data-sap-ui-aggregation="contentMiddle">
+								<div id="lensTitle" data-sap-ui-type="sap.m.Label" data-text="{i18n>Lens}" data-design="Bold"></div>
+						</div>
+						<div data-sap-ui-aggregation="contentRight">
+								<div data-sap-ui-type="sap.m.Button" data-icon="sap-icon://media-play" data-press="onNavForward"></div>
+						</div>
+				</div>
+		</div>
+		<div  id="uiPanel" data-sap-ui-aggregation="content">
+				<div  data-sap-ui-type="sap.ui.core.ComponentContainer"></div>
+		</div>
+</div>
+</div>
+</template>

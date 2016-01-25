@@ -1,0 +1,15 @@
+{
+	"name": "Components.lensResultsNestedForm.Component",
+	"version": "0.1.0",
+	"description": "Components.lensResultsNestedForm.Component",
+	"keywords": 
+	[
+		"form",
+		"query"
+	],
+
+	"dependencies": 
+	{
+		
+	}
+}

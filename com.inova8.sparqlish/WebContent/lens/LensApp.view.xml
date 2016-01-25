@@ -1,0 +1,7 @@
+<mvc:View
+	controllerName="lens.LensApp"
+	xmlns="sap.m"
+	xmlns:mvc="sap.ui.core.mvc"
+	displayBlock="true">
+	<App id="lensApp"/>
+</mvc:View>
