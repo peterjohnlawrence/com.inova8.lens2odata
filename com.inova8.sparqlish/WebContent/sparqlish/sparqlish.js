@@ -1,4 +1,3 @@
-//jQuery.sap.require("resources.jquery.rdfquery.core-1.0")
 jQuery.sap.declare("Queries");
 jQuery.sap.declare("Query");
 jQuery.sap.declare("Clauses");

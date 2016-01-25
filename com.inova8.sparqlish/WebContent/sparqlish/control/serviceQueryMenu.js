@@ -233,7 +233,7 @@ sap.m.OverflowToolbar.extend("sparqlish.control.serviceQueryMenu", {
 					enterQueryParametersDialog.setQueryContext(oQueryContext);
 					enterQueryParametersDialog.open();
 				} else {
-					sap.m.MessageToast.show(sap.ui.getCore().getModel("i18nModel").getProperty("noQueryParams") )
+					sap.m.MessageToast.show(sap.ui.getCore().getModel("i18nModel").getProperty("noQueryParams"))
 				}
 			}
 		});
@@ -268,7 +268,7 @@ sap.m.OverflowToolbar.extend("sparqlish.control.serviceQueryMenu", {
 			}
 		});
 		self.oInova8 = new sap.m.Button({
-			icon : "../resources/inova8.png",
+			icon : "resources/inova8.png",
 			press : function(oEvent) {
 				window.open("http://www.inova8.com");
 			}

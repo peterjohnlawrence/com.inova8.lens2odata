@@ -24,6 +24,7 @@ Components.lensPanel.Component.prototype.createContent = function() {
 };
 Components.lensPanel.Component.prototype.renderFragments = function() {
 	this.oLensPanel.removeAllContent();
+	var oLensesModel=sap.ui.getCore().getModel("lensesModel");
 	var oLens = oLensesModel.getData()["lenses"][this.getRole()][this.getConcept()];
 	// var oLens = oLensesModel.getData()["lenses"]["(default)"]["Northwind.Orders"];
 	var oContent = sap.ui.getCore().getModel("lensesModel").getData()["templates"][oLens.template];
@@ -81,7 +82,7 @@ Components.lensPanel.Component.prototype.displayContent = function(oContent) {
 					settings : {
 						title : oFragment.title,
 						query : oFragment.query,
-						metaModel : oMetaModel
+						metaModel : sap.ui.getCore().getModel("metaModel") //oMetaModel
 					}
 				});
 				var oComponentContainer = new sap.ui.core.ComponentContainer({

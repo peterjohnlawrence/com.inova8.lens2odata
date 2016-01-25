@@ -1,104 +1,105 @@
-jQuery.sap.require("jquery.sap.storage");
-jQuery.sap.declare("Lens.Component");
-
-sap.ui.core.UIComponent.extend("Lens.Component", {
-	metadata : {
-		// manifest:"json",
-		rootView : "lens.LensApp",
-		models : {
-			i18n : {
-				type : "sap.ui.model.resource.ResourceModel",
-				bundleName : "i18n.lens"
-			}
-		},
-		routing : {
-			config : {
-				routerClass : "sap.m.routing.Router",
-				viewType : "HTML",
-				viewPath : "lens",
-				controlId : "lensApp",
-				controlAggregation : "pages",
-				transistion : "slide",
-				bypassed : {
-					target : "notFound"
+sap.ui.define([ "sap/ui/core/UIComponent" ], function(UIComponent) {
+	"use strict";
+	return UIComponent.extend("Lens.Component", {
+		metadata : {
+			// manifest:"json",
+			rootView : "lens.LensApp",
+			models : {
+				i18n : {
+					type : "sap.ui.model.resource.ResourceModel",
+					bundleName : "i18n.lens"
 				}
 			},
-			routes : [ {
-				pattern : "",
-				name : "search",
-				target : "search"
-			}, {
-				pattern : "query",
-				name : "query",
-				target : "query"
-			}, {
-				pattern : "lens",
-				name : "lens",
-				target : "lens"
-			}
-			// , {
-			// pattern : "search/:queryName:",
-			// name : "search",
-			// view : "QueryView"
-			// }
-			// , {
-			// pattern : "results/{queryName}",
-			// name : "results",
-			// view : "ResultsView"
-			// }, {
-			// pattern : "lens/:focus::?entity:",
-			// name : "lens",
-			// view : "LensView"
-			// }, {
-			// pattern : ":all*:",
-			// name : "catchallMaster",
-			// view : "CatchallView"
-			// }
-			],
-			targets : {
-				search : {
-					viewName : "Search",
-					viewLevel : 1
+			routing : {
+				config : {
+					routerClass : "sap.m.routing.Router",
+					viewType : "HTML",
+					viewPath : "lens",
+					controlId : "lensApp",
+					controlAggregation : "pages",
+					transistion : "slide",
+					bypassed : {
+						target : "notFound"
+					}
 				},
-				query : {
-					viewName : "Query",
-					viewLevel : 1,
-					transition:"flip"
-				},
-				lens : {
-					viewName : "Lens",
-					viewLevel : 1
-				},
-				notFound : {
-					viewName : "NotFound",
-					transition : "show"
+				routes : [ {
+					pattern : "",
+					name : "search",
+					target : "search"
+				}, {
+					pattern : "search/:query:",
+					name : "searchWithQuery",
+					target : "search"
+				}, {
+					pattern : "query/:query:",
+					name : "query",
+					target : "query"
+				}, {
+					pattern : "lens/{entity}/:role:",
+					name : "lens",
+					target : "lens"
+				} ],
+				targets : {
+					search : {
+						viewName : "Search",
+						viewLevel : 1
+					},
+					query : {
+						viewName : "Query",
+						viewLevel : 1,
+						transition : "flip"
+					},
+					lens : {
+						viewName : "Lens",
+						viewLevel : 1
+					},
+					notFound : {
+						viewName : "NotFound",
+						transition : "show"
+					}
 				}
 			}
 		}
-	}
+	});
 });
 
 Lens.Component.prototype.init = function() {
-	// jQuery.sap.require("sap.ui.core.routing.History");
-	// jQuery.sap.require("sap.m.routing.RouteMatchedHandler");
-
 	sap.ui.core.UIComponent.prototype.init.apply(this, arguments);
-
 	this.getRouter().initialize();
 
+	// i18n>
+	var oI18n = new sap.ui.model.resource.ResourceModel({
+		bundleName : "i18n.lens"
+	});
+	sap.ui.getCore().setModel(oI18n, "i18n");
+	sap.ui.getCore().setModel(oI18n, "i18nModel");
+
+	// queryModel>
+	var oQueryModel = new sap.ui.model.json.JSONModel();
+	oQueryModel.loadData("config/test/service.query.test.json", null, false);
+	sap.ui.getCore().setModel(oQueryModel, "queryModel");
+	sap.ui.getCore().setModel(oQueryModel, "serviceQueriesModel");
+
+	// datatypesModel>
+	var oDatatypesModel = new sap.ui.model.json.JSONModel();
+	oDatatypesModel.loadData("config/test/datatypes.json", null, false);
+	sap.ui.getCore().setModel(oDatatypesModel, "datatypesModel");
+
+	// parametersModel>
+	var oParametersModel = new sap.ui.model.json.JSONModel();
+	;
+	oParametersModel.setJSON('{"expandClause":true}', true);
+	sap.ui.getCore().setModel(oParametersModel, "parametersModel");
+
+	// lensesModel>
+	var oLensesModel = new sap.ui.model.json.JSONModel();
+	oLensesModel.loadData("config/test/lenses.json", null, false);
+	sap.ui.getCore().setModel(oLensesModel, "lensesModel");
+
+	// Should not be here
+	var sUrl = "proxy/http/services.odata.org/V2/Northwind/Northwind.svc/";
+	var oDataModel = new sap.ui.model.odata.ODataModel(sUrl, true);
+	var oMetaModel = oDataModel.getMetaModel();
+	sap.ui.getCore().setModel(oMetaModel, "metaModel");
+
 };
-// Lens.Component.prototype.destroy = function() {
-// if (this.routeHandler) {
-// this.routeHandler.destroy();
-// }
-// sap.ui.core.UIComponent.destroy.apply(this, arguments);
-// };
-//
-// Lens.Component.prototype.createContent = function() {
-// this.view = sap.ui.view({
-// id : "app",
-// viewName : "lens.App",
-// type : sap.ui.core.mvc.ViewType.JS
-// });
-// return this.view;
-// };

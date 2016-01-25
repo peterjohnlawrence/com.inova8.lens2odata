@@ -3,42 +3,41 @@
 <head>
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
-<!-- <base href="../"> -->
-
 <title>Lens Test</title>
 <script  id="sap-ui-bootstrap" 
-         src="../openui5/sap-ui-core.js" 
+         src="openui5/sap-ui-core.js" 
          data-sap-ui-theme="sap_bluecrystal" 
          data-sap-ui-libs="sap.ui.commons"
 		 data-sap-ui-libs="sap.ui.unified" 
 		 data-sap-ui-libs="sap.ui.table" 
 		 data-sap-ui-resourceroots='{
-            "sparqlish":"../",
-					"sparqlish":"../sparqlish",
-			 "lens":"../",
-					"lens":"../lens",
-			 "Components":"../",
-					"Components":"../Components"
+			"test-resources":"./test-resources",
+			"i18n":"./i18n",
+			"sparqlish":"./sparqlish",
+			"controller":"./controller",
+			"config":"./config",
+			"resources":"./resources",
+			"Components":"./Components"
         }'		
         data-sap-ui-xx-bindingSyntax="complex" 
         type="text/javascript"></script>
-<script type="text/javascript" src="../resources/jquery.rdfquery.core.min-1.0.js"></script>
-<script type="text/javascript" src="../sparqlish/sparqlish.js"></script>
-<script type="text/javascript" src="../sparqlish/utilities.js"></script>
-<script type="text/javascript" src="../sparqlish/control/propertyMenu.js"></script>
-<script type="text/javascript" src="../sparqlish/control/includeOptionalIgnore.js"></script>
-<script type="text/javascript" src="../sparqlish/control/queryClause.js"></script>
-<script type="text/javascript" src="../sparqlish/control/conceptClause.js"></script>
-<script type="text/javascript" src="../sparqlish/control/propertyClause.js"></script>
-<script type="text/javascript" src="../sparqlish/control/conjunctionPropertyClause.js"></script>
-<script type="text/javascript" src="../sparqlish/control/query.js"></script>
+<script type="text/javascript" src="resources/jquery.rdfquery.core.min-1.0.js"></script>
+<script type="text/javascript" src="sparqlish/sparqlish.js"></script>
+<script type="text/javascript" src="sparqlish/utilities.js"></script>
+<script type="text/javascript" src="sparqlish/control/propertyMenu.js"></script>
+<script type="text/javascript" src="sparqlish/control/includeOptionalIgnore.js"></script>
+<script type="text/javascript" src="sparqlish/control/queryClause.js"></script>
+<script type="text/javascript" src="sparqlish/control/conceptClause.js"></script>
+<script type="text/javascript" src="sparqlish/control/propertyClause.js"></script>
+<script type="text/javascript" src="sparqlish/control/conjunctionPropertyClause.js"></script>
+<script type="text/javascript" src="sparqlish/control/query.js"></script>
 
-<link rel="stylesheet" type="text/css" href="../sparqlish/sparqlish.css">
+<link rel="stylesheet" type="text/css" href="sparqlish/sparqlish.css">
 
 <script type="text/javascript">
 jQuery.sap.log.setLevel(jQuery.sap.log.Level.DEBUG );
 //var sUrl = "http://services.odata.org/V2/Northwind/Northwind.svc/" ;
-var sUrl = "../proxy/http/services.odata.org/V2/Northwind/Northwind.svc/" ;
+var sUrl = "proxy/http/services.odata.org/V2/Northwind/Northwind.svc/" ;
 //var sUrl = "test-resources/" ;
 //Mock OData server
 jQuery.sap.require("sap.ui.core.util.MockServer");
@@ -66,17 +65,17 @@ sap.ui.getCore().setModel(oMetaModel, "metaModel");
 
 // set up models
 var i18nModel = new sap.ui.model.resource.ResourceModel({
-	bundleUrl : [ ".", "../i18n/messageBundle.properties" ].join("/")
+	bundleUrl : [ ".", "i18n/messageBundle.properties" ].join("/")
 });
 sap.ui.getCore().setModel(i18nModel, "i18nModel");
 
 var oQueryModel = new sap.ui.model.json.JSONModel();
-oQueryModel.loadData("../config/test/service.query.test.json", null, false);
+oQueryModel.loadData("config/test/service.query.test.json", null, false);
 sap.ui.getCore().setModel(oQueryModel, "queryModel");
 
 // datatypesModel>
 var oDatatypesModel = new sap.ui.model.json.JSONModel();
-oDatatypesModel.loadData("../config/test/datatypes.json", null, false);
+oDatatypesModel.loadData("config/test/datatypes.json", null, false);
 sap.ui.getCore().setModel(oDatatypesModel, "datatypesModel");
 
 // parametersModel>
@@ -86,7 +85,7 @@ sap.ui.getCore().setModel(oParametersModel, "parametersModel");
 
 //lensesModel>
 var oLensesModel = new sap.ui.model.json.JSONModel();
-oLensesModel.loadData("../config/test/lenses.json", null, false);
+oLensesModel.loadData("config/test/lenses.json", null, false);
 sap.ui.getCore().setModel(oLensesModel, "lensesModel");
 
 // Create a lensPanel component

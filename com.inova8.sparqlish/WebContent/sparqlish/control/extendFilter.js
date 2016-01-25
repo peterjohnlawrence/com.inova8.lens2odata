@@ -1,4 +1,5 @@
 jQuery.sap.require("sap.ui.core.IconPool");
+
 sap.ui.commons.Link.extend("sparqlish.control.extendFilter", {
 	metadata : {
 		properties : {
@@ -28,7 +29,7 @@ sap.ui.commons.Link.extend("sparqlish.control.extendFilter", {
 		var oLink = new sap.ui.core.Icon({
 			src : sap.ui.core.IconPool.getIconURI(self.getProperty("icon")),
 			tooltip : self.getProperty("tooltip")
-		}).setColor(sap.ui.core.IconColor.Neutral ).addStyleClass("menuLink");
+		}).setColor(sap.ui.core.IconColor.Neutral).addStyleClass("menuLink");
 		oLink.attachPress(function(oEvent) {
 			self.firePress();
 		});

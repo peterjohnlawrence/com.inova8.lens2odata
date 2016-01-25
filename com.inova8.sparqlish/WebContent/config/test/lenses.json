@@ -154,7 +154,7 @@
 					{
 						"title": "Order Dates",
 						"type": "Components.lensResultsForm",
-						"query": "../proxy/http/services.odata.org/V2/Northwind/Northwind.svc/Orders()?&$expand=&$select=OrderDate,RequiredDate&",
+						"query": "proxy/http/services.odata.org/V2/Northwind/Northwind.svc/Orders()?&$expand=&$select=OrderDate,RequiredDate&",
 						"querydetails": 
 						{
 							"serviceUrl": "../proxy/http/services.odata.org/V2/Northwind/Northwind.svc/",
@@ -172,10 +172,10 @@
 					{
 						"title": "Order Details",
 						"type": "Components.lensResultsForm",
-						"query": "../proxy/http/services.odata.org/V2/Northwind/Northwind.svc/Orders()?&$expand=Order_Details&$select=OrderID,Order_Details/ProductID&",
+						"query": "proxy/http/services.odata.org/V2/Northwind/Northwind.svc/Orders()?&$expand=Order_Details&$select=OrderID,Order_Details/ProductID&",
 						"querydetails": 
 						{
-							"serviceUrl": "../proxy/http/services.odata.org/V2/Northwind/Northwind.svc/",
+							"serviceUrl": "proxy/http/services.odata.org/V2/Northwind/Northwind.svc/",
 							"resourcePath": "Orders()",
 							"filter": "",
 							"expand": "Order_Details",
@@ -190,10 +190,10 @@
 					{
 						"title": "Products",
 						"type": "Components.lensResultsTable",
-						"query": "../proxy/http/services.odata.org/V2/Northwind/Northwind.svc/Products()?&$expand=&$select=ProductID,ProductName,SupplierID,CategoryID,QuantityPerUnit,UnitPrice,UnitsInStock,UnitsOnOrder,ReorderLevel,Discontinued&",
+						"query": "proxy/http/services.odata.org/V2/Northwind/Northwind.svc/Products()?&$expand=&$select=ProductID,ProductName,SupplierID,CategoryID,QuantityPerUnit,UnitPrice,UnitsInStock,UnitsOnOrder,ReorderLevel,Discontinued&",
 						"querydetails": 
 						{
-							"serviceUrl": "../proxy/http/services.odata.org/V2/Northwind/Northwind.svc/",
+							"serviceUrl": "proxy/http/services.odata.org/V2/Northwind/Northwind.svc/",
 							"resourcePath": "Products()",
 							"filter": "",
 							"expand": "",
@@ -216,10 +216,10 @@
 						"title": "Order and Details",
 						"position": "R1-C1",
 						"type": "Components.lensResultsForm",
-						"query": "../proxy/http/services.odata.org/V2/Northwind/Northwind.svc/Orders()?&$expand=Order_Details&$select=OrderID,Order_Details/ProductID&",
+						"query": "proxy/http/services.odata.org/V2/Northwind/Northwind.svc/Orders()?&$expand=Order_Details&$select=OrderID,Order_Details/ProductID&",
 						"querydetails": 
 						{
-							"serviceUrl": "../proxy/http/services.odata.org/V2/Northwind/Northwind.svc/",
+							"serviceUrl": "proxy/http/services.odata.org/V2/Northwind/Northwind.svc/",
 							"resourcePath": "Orders()",
 							"filter": "",
 							"expand": "Order_Details",
@@ -234,10 +234,10 @@
 						"title": "Order Customer",
 						"position": "R1-C1",
 						"type": "Components.lensResultsForm",
-						"query": "../proxy/http/services.odata.org/V2/Northwind/Northwind.svc/Orders()?$filter=(((((Customer/CustomerID%20eq%20%27ALFKI%27))or((Customer/CustomerID%20eq%20%27ANATR%27)))))&$expand=Customer&$select=Customer/CustomerID,Customer/CompanyName&$top=4",
+						"query": "proxy/http/services.odata.org/V2/Northwind/Northwind.svc/Orders()?$filter=(((((Customer/CustomerID%20eq%20%27ALFKI%27))or((Customer/CustomerID%20eq%20%27ANATR%27)))))&$expand=Customer&$select=Customer/CustomerID,Customer/CompanyName&$top=4",
 						"querydetails": 
 						{
-							"serviceUrl": "../proxy/http/services.odata.org/V2/Northwind/Northwind.svc/",
+							"serviceUrl": "proxy/http/services.odata.org/V2/Northwind/Northwind.svc/",
 							"resourcePath": "Orders()",
 							"filter": "",
 							"expand": "Order_Details",
@@ -252,10 +252,10 @@
 						"title": "Order with Customer personnel",
 						"position": "R1-C2",
 						"type": "Components.lensResultsForm",
-						"query": "../proxy/http/services.odata.org/V2/Northwind/Northwind.svc/Orders()?$filter=(((((OrderID%20eq%2010340))or((OrderID%20eq%2010999))))and(((substringof(%27Fr%27,ShipCountry))or(substringof(%27Ge%27,ShipCountry)))and(ShippedDate%20lt%20datetime%271998-01-01T00:00:00%27)and((((Customer/CustomerID%20eq%20%27ALFKI%27))or((Customer/CustomerID%20eq%20%27BONAP%27))))and(substringof(%27Bon%27,Customer/CompanyName))and(substringof(%27Leb%27,Customer/ContactName))and(substringof(%27Nancy%27,Employee/FirstName))))&$expand=Customer,Employee,Employee/Employee1&$select=OrderID,ShipCountry,ShippedDate,Customer/CustomerID,Customer/CompanyName,Customer/ContactName,Employee/FirstName,Employee/Employee1/LastName&",
+						"query": "proxy/http/services.odata.org/V2/Northwind/Northwind.svc/Orders()?$filter=(((((OrderID%20eq%2010340))or((OrderID%20eq%2010999))))and(((substringof(%27Fr%27,ShipCountry))or(substringof(%27Ge%27,ShipCountry)))and(ShippedDate%20lt%20datetime%271998-01-01T00:00:00%27)and((((Customer/CustomerID%20eq%20%27ALFKI%27))or((Customer/CustomerID%20eq%20%27BONAP%27))))and(substringof(%27Bon%27,Customer/CompanyName))and(substringof(%27Leb%27,Customer/ContactName))and(substringof(%27Nancy%27,Employee/FirstName))))&$expand=Customer,Employee,Employee/Employee1&$select=OrderID,ShipCountry,ShippedDate,Customer/CustomerID,Customer/CompanyName,Customer/ContactName,Employee/FirstName,Employee/Employee1/LastName&",
 						"querydetails": 
 						{
-							"serviceUrl": "../proxy/http/services.odata.org/V2/Northwind/Northwind.svc/",
+							"serviceUrl": "proxy/http/services.odata.org/V2/Northwind/Northwind.svc/",
 							"resourcePath": "Orders()",
 							"filter": "$filter=(((((OrderID eq 10340))or((OrderID eq 10999))))and(((substringof('Fr',ShipCountry))or(substringof('Ge',ShipCountry)))and(ShippedDate lt datetime'1998-01-01T00:00:00')and((((Customer/CustomerID eq 'ALFKI'))or((Customer/CustomerID eq 'BONAP'))))and(substringof('Bon',Customer/CompanyName))and(substringof('Leb',Customer/ContactName))and(substringof('Nancy',Employee/FirstName))))",
 							"expand": "$expand=Customer,Employee,Employee/Employee1",
@@ -269,10 +269,10 @@
 						"title": "Order Details Nested Grid",
 						"position": "R2a",
 						"type": "Components.lensResultsTable",
-						"query": "../proxy/http/services.odata.org/V2/Northwind/Northwind.svc/Orders()?&$expand=Order_Details&$select=OrderID,Order_Details/ProductID&",
+						"query": "proxy/http/services.odata.org/V2/Northwind/Northwind.svc/Orders()?&$expand=Order_Details&$select=OrderID,Order_Details/ProductID&",
 						"querydetails": 
 						{
-							"serviceUrl": "../proxy/http/services.odata.org/V2/Northwind/Northwind.svc/",
+							"serviceUrl": "proxy/http/services.odata.org/V2/Northwind/Northwind.svc/",
 							"resourcePath": "Orders()",
 							"filter": "",
 							"expand": "Order_Details",

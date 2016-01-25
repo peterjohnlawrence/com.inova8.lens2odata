@@ -3,7 +3,7 @@
 	[
 		{
 			"name": "LocalNorthwindV2",
-			"serviceUrl": "../proxy/http/localhost:8080/olingo2sparql/sparql/2.0/NW/",
+			"serviceUrl": "proxy/http/localhost:8080/olingo2sparql/sparql/2.0/NW/",
 			"version": "V2",
 			"queries": 
 			[
@@ -1117,7 +1117,7 @@
 
 		{
 			"name": "NorthwindV2",
-			"serviceUrl": "../proxy/http/services.odata.org/V2/Northwind/Northwind.svc/",
+			"serviceUrl": "proxy/http/services.odata.org/V2/Northwind/Northwind.svc/",
 			"version": "V2",
 			"queries": 
 			[
@@ -2520,7 +2520,7 @@
 
 		{
 			"name": "NorthwindV4",
-			"serviceUrl": "../proxy/http/services.odata.org/V4/Northwind/Northwind.svc/",
+			"serviceUrl": "proxy/http/services.odata.org/V4/Northwind/Northwind.svc/",
 			"version": "V2",
 			"queries": 
 			[
@@ -2534,7 +2534,7 @@
 
 		{
 			"name": "AdventureWorks",
-			"serviceUrl": "../proxy/http/services.odata.org/AdventureWorksV3/AdventureWorks.svc/",
+			"serviceUrl": "proxy/http/services.odata.org/AdventureWorksV3/AdventureWorks.svc/",
 			"version": "V2",
 			"queries": 
 			[
@@ -2715,7 +2715,7 @@
 
 		{
 			"name": "NerdDinner",
-			"serviceUrl": "../proxy/http/www.nerddinner.com/Services/OData.svc/",
+			"serviceUrl": "proxy/http/www.nerddinner.com/Services/OData.svc/",
 			"version": "V2",
 			"queries": 
 			[
@@ -2735,7 +2735,7 @@
 
 		{
 			"name": "LL",
-			"serviceUrl": "../proxy/http/localhost:8080/olingo2sparql/sparql/2.0/LL/",
+			"serviceUrl": "proxy/http/localhost:8080/olingo2sparql/sparql/2.0/LL/",
 			"version": "V2",
 			"queries": 
 			[

@@ -3,21 +3,25 @@
 <head>
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
-<!-- <base href="../"> -->
 <title>QueryTable</title>
-<script id="sap-ui-bootstrap" src="../openui5/sap-ui-core.js" data-sap-ui-theme="sap_bluecrystal" 
+<script id="sap-ui-bootstrap" 
+		src="openui5/sap-ui-core.js" 
+		data-sap-ui-theme="sap_bluecrystal" 
+		data-sap-ui-xx-bindingSyntax="complex"
 		data-sap-ui-libs="sap.m,sap.ui.unified,sap.ui.table"
 		data-sap-ui-xx-supportedLanguages="en"
-		data-sap-ui-resourceroots='{
-            "sparqlish":"../",
-					"sparqlish":"../sparqlish",
-			 "Components":"../",
-					"Components":"../Components"
+		data-sap-ui-resourceroots='{      
+			"test-resources":"./test-resources",
+			"i18n":"./i18n",
+			"sparqlish":"./sparqlish",
+			"controller":"./controller",
+			"config":"./config",
+			"resources":"./resources",
+			"Components":"./Components"
         }'
-		data-sap-ui-xx-bindingSyntax="complex" type="text/javascript"></script>
-<script type="text/javascript" src="../resources/jquery.rdfquery.core.min-1.0.js"></script>
-
-<link rel="stylesheet" type="text/css" href="../sparqlish/sparqlish.css">
+></script>
+<script type="text/javascript" src="resources/jquery.rdfquery.core.min-1.0.js"></script>
+<link rel="stylesheet" type="text/css" href="sparqlish/sparqlish.css">
 <script type="text/javascript">
 	var self = this;
 
@@ -40,13 +44,13 @@
 	// set up models
 	// i18nModel>
 	var i18nModel = new sap.ui.model.resource.ResourceModel({
-		bundleUrl : [ ".", "../i18n/messageBundle.properties" ].join("/")
+		bundleUrl : [ ".", "i18n/messageBundle.properties" ].join("/")
 	});
 	sap.ui.getCore().setModel(i18nModel, "i18nModel");
 
 	// datatypesModel>
 	var oDatatypesModel = new sap.ui.model.json.JSONModel();
-	oDatatypesModel.loadData("../config/test/datatypes.json", null, false);
+	oDatatypesModel.loadData("config/test/datatypes.json", null, false);
 	sap.ui.getCore().setModel(oDatatypesModel, "datatypesModel");
 
 	// parametersModel>
@@ -68,7 +72,7 @@
 	
 
 	var oServiceQueriesModel = new sap.ui.model.json.JSONModel();
-	oServiceQueriesModel.loadData("../config/test/service.query.test.json", null, false);
+	oServiceQueriesModel.loadData("config/test/service.query.test.json", null, false);
 	sap.ui.getCore().setModel(oServiceQueriesModel, "serviceQueriesModel");
 	
 	// Create a query form component

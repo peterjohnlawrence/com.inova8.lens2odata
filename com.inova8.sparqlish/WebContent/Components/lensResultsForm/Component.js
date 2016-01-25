@@ -75,6 +75,7 @@ Components.lensResultsForm.Component.prototype.renderResults = function(query) {
 			}
 			self.oFormPanel.getTitle().setText((jQuery.isEmptyObject(self.getProperty("title"))) ? oRecordTemplate.__metadata.type : self.getProperty("title"));
 			self.oFormPanel.setModel(odataResults);
+			var oMetaModel= self.getMetaModel();//sap.ui.getCore().getModel("metaModel");
 			var oPrimaryEntityType = oMetaModel.getODataEntityType(oRecordTemplate.__metadata.type);
 			self.oFormContainer.destroyFormElements();
 			self.bindFormFields(oMetaModel, "d", oRecordTemplate, oPrimaryEntityType.name, sBindPath, 0, 0);
@@ -128,10 +129,10 @@ Components.lensResultsForm.Component.prototype.bindFormFields = function(oMetaMo
 	var paginatorCollection = [];
 	var innerPaginatorCollection = [];
 	var oDateTimeFormat = sap.ui.core.format.DateFormat.getDateTimeInstance({
-		pattern : sap.ui.getCore().getModel("i18nModel").getProperty("Edm.DateTime")
+		pattern : sap.ui.getCore().getModel("i18n").getProperty("Edm.DateTime")
 	});
 	var oDateFormat = sap.ui.core.format.DateFormat.getDateTimeInstance({
-		pattern : sap.ui.getCore().getModel("i18nModel").getProperty("Edm.Date")
+		pattern : sap.ui.getCore().getModel("i18n").getProperty("Edm.Date")
 	});
 	if (!jQuery.isEmptyObject(oTemplate.__metadata)) {
 		sEntityType = oTemplate.__metadata.type;

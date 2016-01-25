@@ -87,7 +87,7 @@ sap.m.Link.extend("sparqlish.control.includeOptionalIgnore", {
 								currentModel.refresh();
 								// TODO is this correct?
 								self.fireIncludeOptionalIgnoreChanged();
-							//	self.getParent().getParent().rerender()
+								// self.getParent().getParent().rerender()
 							}
 						}).open(false, this.getFocusDomRef(), eDock.BeginTop, eDock.beginBottom, this.getDomRef());
 			}
