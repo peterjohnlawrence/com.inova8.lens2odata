@@ -1,23 +1,17 @@
 <template data-controller-name="lens.Search">
-<div data-sap-ui-type="sap.m.Page" data-title="{i18n>Search}">
-	<div data-sap-ui-aggregation="customHeader">
-		<div data-sap-ui-type="sap.m.Bar">
-			<div data-sap-ui-aggregation="contentMiddle">
-				<div data-sap-ui-type="sap.m.Label"
-					data-text="{i18n>Search}" data-design="Bold"></div>
-			</div>
-			<div data-sap-ui-aggregation="contentRight">
-				<div data-sap-ui-type="sap.m.Button" data-icon="sap-icon://search"
-					data-press="onNavToQuery"></div>
-			</div>
+<div data-sap-ui-type="sap.m.Page" data-title="{i18n>Search}" id="searchPage">
+		<div data-sap-ui-aggregation="customHeader">
+				<div data-sap-ui-type="sap.m.Bar">
+						<div data-sap-ui-aggregation="contentLeft">
+								<div data-sap-ui-type="sap.m.Button" data-icon="sap-icon://nav-back" data-press="onNavBack"></div>
+						</div>
+						<div data-sap-ui-aggregation="contentMiddle">
+								<div data-sap-ui-type="sap.m.Label" data-text="{i18n>Search}" data-design="Bold"></div>
+						</div>
+						<div data-sap-ui-aggregation="contentRight">
+								<div data-sap-ui-type="sap.m.Button" data-icon="sap-icon://wrench" data-press="onNavToQuery"></div>
+						</div>
+				</div>
 		</div>
-	</div>
-		<div data-sap-ui-aggregation="content"
-			data-sap-ui-type="sap.m.Button" data-text="{i18n>DisplayNotFound}"  data-press="onDisplayNotFound" class="sapUiTinyMarginEnd">
-		</div>
-		<div data-sap-ui-aggregation="content"
-			data-sap-ui-type="sap.m.Button" data-text="{i18n>Lens}"  data-press="onNavToLens" class="sapUiTinyMarginEnd">
-		</div>
-	</div>
 </div>
 </template>

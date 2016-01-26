@@ -28,13 +28,13 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 		init : function() {
 			var self = this;
 			self.setAggregation("_propertyClause", new sparqlish.control.propertyClause({}).bindElement("queryModel>clause")
-					//TODO Required? .attachChangedClause(function(oEvent) {	oEvent.getSource().getParent().fireChangedClause();	})
+					 .attachPropertyClauseChanged(function(oEvent) {	oEvent.getSource().getParent().fireChangedClause();	})
 			);
 			// TODO using factory function as this ensures context is bound correctly
 			self.bindAggregation("_conjunctionPropertyClauses", "queryModel>conjunctionClauses", function(sId, oContext) {
-				return new sparqlish.control.conjunctionPropertyClause(sId).setBindingContext(oContext).attachChangedClause(function(oEvent) {
-					oEvent.getSource().getParent().fireChangedClause();
-				});
+				return new sparqlish.control.conjunctionPropertyClause(sId).setBindingContext(oContext)
+				 .attachConjunctionPropertyClauseChanged(function(oEvent) {	oEvent.getSource().getParent().fireChangedClause();})
+				;
 			});
 			// self.setAggregation("_conjunctionPropertyClauses", new
 			// sparqlish.control.conjunctionPropertyClause().bindElement( "queryModel>conjunctionClauses/0"));

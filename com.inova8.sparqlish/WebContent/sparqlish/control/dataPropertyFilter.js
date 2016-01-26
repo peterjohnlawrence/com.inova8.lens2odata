@@ -168,7 +168,7 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 			if (sPathPattern.test(oDataPropertyFilter.value)) {
 				var sParam = sPathPattern.exec(oDataPropertyFilter.value)[1];
 				var oParameters = this.getModel("queryModel").getData().parameters;
-				for (i = 0; oParameters.length; i++) {
+				for (var i = 0; oParameters.length; i++) {
 					if ((oParameters[i].name == sParam)) {
 						oInputValue.bindProperty("value", "queryModel>/parameters/" + i + "/defaultValue")
 						return oInputValue;

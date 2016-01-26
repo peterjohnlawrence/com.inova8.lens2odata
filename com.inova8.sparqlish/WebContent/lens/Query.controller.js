@@ -3,7 +3,7 @@ sap.ui.define([ "controller/BaseController" ], function(BaseController) {
 	return BaseController.extend("lens.Query", {
 		onInit : function() {
 			var oRouter = this.getRouter();
-			oRouter.getRoute("lens").attachMatched(this._onRouteMatched, this);
+			oRouter.getRoute("query").attachMatched(this._onRouteMatched, this);
 
 			var oQueryEditorPreviewTreeTableComponent = sap.ui.getCore().createComponent({
 				name : "Components.queryEditorPreviewTreeTable",

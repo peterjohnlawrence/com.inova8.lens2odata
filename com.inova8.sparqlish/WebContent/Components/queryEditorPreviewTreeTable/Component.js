@@ -157,7 +157,7 @@ Components.queryEditorPreviewTreeTable.Component.prototype.createContent = funct
 				sap.m.URLHelper.redirect(self.getOdataModel().sServiceUrl + "/$metadata", true);
 			}
 		}));
-		this.oTable.getToolbar().addContent(this.oDebug);
+		//this.oTable.getToolbar().addContent(this.oDebug);
 
 	}
 	return this.oTable;

@@ -65,7 +65,7 @@ sap.ui.define([ "sap/ui/core/UIComponent" ], function(UIComponent) {
 
 Lens.Component.prototype.init = function() {
 	sap.ui.core.UIComponent.prototype.init.apply(this, arguments);
-	this.getRouter().initialize();
+	
 
 	// i18n>
 	var oI18n = new sap.ui.model.resource.ResourceModel({
@@ -87,8 +87,7 @@ Lens.Component.prototype.init = function() {
 
 	// parametersModel>
 	var oParametersModel = new sap.ui.model.json.JSONModel();
-	;
-	oParametersModel.setJSON('{"expandClause":true}', true);
+	oParametersModel.setJSON('{"expandClause":false}', true);
 	sap.ui.getCore().setModel(oParametersModel, "parametersModel");
 
 	// lensesModel>
@@ -102,4 +101,6 @@ Lens.Component.prototype.init = function() {
 	var oMetaModel = oDataModel.getMetaModel();
 	sap.ui.getCore().setModel(oMetaModel, "metaModel");
 
+	// Do this last so models are initialized
+	this.getRouter().initialize();
 };
