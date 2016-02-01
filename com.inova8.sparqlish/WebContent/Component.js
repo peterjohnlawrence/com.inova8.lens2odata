@@ -23,19 +23,19 @@ sap.ui.define([ "sap/ui/core/UIComponent" ], function(UIComponent) {
 					}
 				},
 				routes : [ {
-					pattern : "",
+					pattern : ":service:",
 					name : "search",
 					target : "search"
 				}, {
-					pattern : "search/:query:",
+					pattern : "{service}/search/:query:",
 					name : "searchWithQuery",
 					target : "search"
 				}, {
-					pattern : "query/:query:",
+					pattern : "{service}/query/:query:",
 					name : "query",
 					target : "query"
 				}, {
-					pattern : "lens/{entity}/:role:",
+					pattern : "{service}/lens/{entity}/:role:",
 					name : "lens",
 					target : "lens"
 				} ],
@@ -76,13 +76,13 @@ Lens.Component.prototype.init = function() {
 
 	// queryModel>
 	var oQueryModel = new sap.ui.model.json.JSONModel();
-	oQueryModel.loadData("config/test/service.query.test.json", null, false);
+	oQueryModel.loadData("config/service.query.test.json", null, false);
 	sap.ui.getCore().setModel(oQueryModel, "queryModel");
 	sap.ui.getCore().setModel(oQueryModel, "serviceQueriesModel");
 
 	// datatypesModel>
 	var oDatatypesModel = new sap.ui.model.json.JSONModel();
-	oDatatypesModel.loadData("config/test/datatypes.json", null, false);
+	oDatatypesModel.loadData("i18n/datatypes_en.json", null, false);
 	sap.ui.getCore().setModel(oDatatypesModel, "datatypesModel");
 
 	// parametersModel>
@@ -92,7 +92,7 @@ Lens.Component.prototype.init = function() {
 
 	// lensesModel>
 	var oLensesModel = new sap.ui.model.json.JSONModel();
-	oLensesModel.loadData("config/test/lenses.json", null, false);
+	oLensesModel.loadData("config/lenses.json", null, false);
 	sap.ui.getCore().setModel(oLensesModel, "lensesModel");
 
 	// Should not be here

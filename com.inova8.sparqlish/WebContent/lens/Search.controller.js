@@ -4,37 +4,39 @@ sap.ui.define([ "controller/BaseController" ], function(BaseController) {
 		onInit : function() {
 			var oRouter = this.getRouter();
 			oRouter.getRoute("search").attachMatched(this._onRouteMatched, this);
-
-			var oSearchFormComponent = sap.ui.getCore().createComponent({
+			oRouter.getRoute("searchWithQuery").attachMatched(this._onRouteMatched, this);
+			this.oSearchFormComponent = sap.ui.getCore().createComponent({
 				name : "Components.searchForm",
 				settings : {
 					title : "SearchForm",
-					metaModel : sap.ui.getCore().getModel("metaModel"),
-					query :   "proxy/http/services.odata.org/V2/Northwind/Northwind.svc/Orders()?&$expand=Order_Details&$select=OrderID,Order_Details/ProductID&"
 				}
 			});
-
-			var oSearchFormComponentContainer = new sap.ui.core.ComponentContainer({
-				component : oSearchFormComponent
+			// Initialize search form
+			this.oSearchFormComponent.setTitle("SearchForm");
+			//this.oSearchFormComponent.setMetaModel(sap.ui.getCore().getModel("metaModel"));
+			this.oSearchFormComponentContainer = new sap.ui.core.ComponentContainer({
+				component : this.oSearchFormComponent
 			});
-			this.getView().byId("searchPage").addContent(oSearchFormComponentContainer);
-			
-			oSearchFormComponent.setModel(sap.ui.getCore().getModel("serviceQueriesModel"));
-			//this.setBindingContext("/services/0/queries/1/","serviceQueriesModel");
-			var oQueryBindingContext = new sap.ui.model.Context(sap.ui.getCore().getModel("serviceQueriesModel"),"/services/0/queries/1")
-			oSearchFormComponent.setQueryContext(oQueryBindingContext);
-			oSearchFormComponent.renderResults( "proxy/http/services.odata.org/V2/Northwind/Northwind.svc/Orders()?&$expand=Order_Details&$select=OrderID,Order_Details/ProductID&");
-
-		},		onDisplayNotFound : function() {
+			this.getView().byId("searchPage").addContent(this.oSearchFormComponentContainer);
+		},
+		_onRouteMatched : function(oEvent) {
+			this.oArgs = oEvent.getParameter("arguments");
+			this.oArgs.service=this.oArgs.service||"RNW2";
+			// TODO Might be undefined in which case we should prompt for a query to execute
+			this.oArgs.query=this.oArgs.query||"Test1a: date clause";
+			this.oSearchFormComponent.setServiceCode(this.oArgs.service);
+			this.oSearchFormComponent.setQueryName(this.oArgs.query);
+		},
+		onDisplayNotFound : function() {
 			this.getRouter().getTargets().display("notFound", {
 				fromTarget : "search"
 			});
 		},
 		onNavToQuery : function(oEvent) {
 			this.getRouter().navTo("query", {
-				query : "thisQuery"
+				query : this.oArgs.query,
+				service : this.oArgs.service
 			});
 		}
 	});
 });
-

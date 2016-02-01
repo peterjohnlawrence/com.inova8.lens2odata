@@ -177,7 +177,7 @@ sap.m.OverflowToolbar.extend("sparqlish.control.serviceQueryMenu", {
 		self.oQuerySelect = new sap.m.ActionSelect({
 			tooltip : "{i18nModel>querySelectTooltip}",
 			items : {
-				path : "serviceQueriesModel>/services/0/queries",
+				path : "serviceQueriesModel>/services/LNW2/queries",
 				sorter : {
 					path : "serviceQueriesModel>name"
 				},

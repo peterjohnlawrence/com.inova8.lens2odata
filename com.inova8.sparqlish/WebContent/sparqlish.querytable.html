@@ -50,7 +50,7 @@
 
 	// datatypesModel>
 	var oDatatypesModel = new sap.ui.model.json.JSONModel();
-	oDatatypesModel.loadData("config/test/datatypes.json", null, false);
+	oDatatypesModel.loadData("i18n/datatypes_en.json", null, false);
 	sap.ui.getCore().setModel(oDatatypesModel, "datatypesModel");
 
 	// parametersModel>
@@ -72,7 +72,7 @@
 	
 
 	var oServiceQueriesModel = new sap.ui.model.json.JSONModel();
-	oServiceQueriesModel.loadData("config/test/service.query.test.json", null, false);
+	oServiceQueriesModel.loadData("config/service.query.test.json", null, false);
 	sap.ui.getCore().setModel(oServiceQueriesModel, "serviceQueriesModel");
 	
 	// Create a query form component

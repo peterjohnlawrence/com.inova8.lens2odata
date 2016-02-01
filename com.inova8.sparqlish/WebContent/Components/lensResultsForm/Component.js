@@ -48,51 +48,62 @@ Components.lensResultsForm.Component.prototype.createContent = function() {
 	}));
 	return this.oFormPanel;
 };
-
-Components.lensResultsForm.Component.prototype.renderResults = function(query) {
+Components.lensResultsForm.Component.prototype.setTitle = function(title) {
+	this.setProperty("title", title);
+	this.oFormPanel.getTitle().setText(title);
+};
+Components.lensResultsForm.Component.prototype.clearContents = function() {
+	this.oFormContainer.destroyFormElements();
+};
+Components.lensResultsForm.Component.prototype.renderResults = function(queryUrl) {
 	var self = this;
 	var odataResults = new sap.ui.model.json.JSONModel({});
-	var odataURL = query || self.getProperty("query");
-	self.oForm.setBusy(true).setBusyIndicatorDelay(0);
-	odataResults.loadData(odataURL);
-	odataResults.attachRequestCompleted(function(oEvent) {
-		if (oEvent.getParameter("success")) {
-			// try {
-			var nResults = 0;
-			var oRecordTemplate = null;
-			var sBindPath = null;
-			if (jQuery.isEmptyObject(odataResults.getData().d.results)) {
-				if (odataResults.getData().d.length > 0) {
-					oRecordTemplate = odataResults.getData().d[0];
-					sBindPath = "/d";
+	var odataURL = queryUrl || self.getProperty("query");
+	if (!jQuery.isEmptyObject(odataURL)) {
+		self.oForm.setBusy(true).setBusyIndicatorDelay(0);
+		odataResults.loadData(odataURL);
+		odataResults.attachRequestCompleted(function(oEvent) {
+			if (oEvent.getParameter("success")) {
+				// try {
+				var nResults = 0;
+				var oRecordTemplate = null;
+				var sBindPath = null;
+				if (jQuery.isEmptyObject(odataResults.getData().d.results)) {
+					if (odataResults.getData().d.length > 0) {
+						oRecordTemplate = odataResults.getData().d[0];
+						sBindPath = "/d";
+					} else {
+						throw "No results returned";
+					}
 				} else {
-					throw "No results returned";
+					nResults = odataResults.getData().d.results.length;
+					oRecordTemplate = odataResults.getData().d.results[0];
+					sBindPath = "/d/results";
 				}
+				self.oFormPanel.getTitle().setText((jQuery.isEmptyObject(self.getProperty("title"))) ? oRecordTemplate.__metadata.type : self.getProperty("title"));
+				self.oFormPanel.setModel(odataResults);
+				var oMetaModel = self.getMetaModel();// sap.ui.getCore().getModel("metaModel");
+				var oPrimaryEntityType = oMetaModel.getODataEntityType(oRecordTemplate.__metadata.type);
+				self.oFormContainer.destroyFormElements();
+				self.bindFormFields(oMetaModel, "d", oRecordTemplate, oPrimaryEntityType.name, sBindPath, 0, 0);
+				self.oForm.bindElement(sBindPath);
+				// } catch (err) {
+				// self.oFormPanel.getTitle().setText(err);
+				// self.oFormContainer.destroyFormElements();
+				// }
 			} else {
-				nResults = odataResults.getData().d.results.length;
-				oRecordTemplate = odataResults.getData().d.results[0];
-				sBindPath = "/d/results";
+				// Failed request
+				sap.m.MessageToast.show(JSON.stringify(oEvent.getParameter("errorobject")))
+				// self.oFormPanel.getTitle().setText(JSON.stringify(oEvent.getParameter("errorobject")));
+				self.oFormContainer.destroyFormElements();
 			}
-			self.oFormPanel.getTitle().setText((jQuery.isEmptyObject(self.getProperty("title"))) ? oRecordTemplate.__metadata.type : self.getProperty("title"));
-			self.oFormPanel.setModel(odataResults);
-			var oMetaModel= self.getMetaModel();//sap.ui.getCore().getModel("metaModel");
-			var oPrimaryEntityType = oMetaModel.getODataEntityType(oRecordTemplate.__metadata.type);
-			self.oFormContainer.destroyFormElements();
-			self.bindFormFields(oMetaModel, "d", oRecordTemplate, oPrimaryEntityType.name, sBindPath, 0, 0);
-			self.oForm.bindElement(sBindPath);
-			// } catch (err) {
-			// self.oFormPanel.getTitle().setText(err);
-			// self.oFormContainer.destroyFormElements();
-			// }
-		} else {
-			// Failed request
-			self.oFormPanel.getTitle().setText(JSON.stringify(oEvent.getParameter("errorobject")));
-			self.oFormContainer.destroyFormElements();
-		}
-		self.oFormPanel.addStyleClass("sapUiNoContentPadding");
-		// self.oFormContainer.addStyleClass("sapUiNoContentPadding") ;
-		self.oForm.setBusy(false);
-	});
+			self.oFormPanel.addStyleClass("sapUiNoContentPadding");
+			// self.oFormContainer.addStyleClass("sapUiNoContentPadding") ;
+			self.oForm.setBusy(false);
+		});
+	} else {
+		sap.m.MessageToast.show(sap.ui.getCore().getModel("i18nModel").getProperty("lensResultsForm.queryUndefined"));
+	}
 	return this;
 };
 
@@ -188,7 +199,14 @@ Components.lensResultsForm.Component.prototype.bindFormFields = function(oMetaMo
 				}
 			// path : sPathPrefix + "__metadata/uri"
 			}).bindProperty("href", {
-				path : sPathPrefix + "__metadata/uri"
+				// path : sPathPrefix + "__metadata/uri"
+				parts : [ {
+					path : sPathPrefix + "__metadata/uri",
+					type : new sap.ui.model.type.String()
+				} ],
+				formatter : function(uri) {
+					return jQuery.isEmptyObject(uri) ? "" : "../com.inova8.sparqlish/#/LNW2/lens/" + uri.split("/").pop() + "/guest";
+				}
 			})));
 			nRow++;
 		} else {
@@ -208,9 +226,9 @@ Components.lensResultsForm.Component.prototype.bindFormFields = function(oMetaMo
 				} else if (!jQuery.isEmptyObject(oTemplate[column].__deferred)) {
 					var contents = oTemplate[column].__deferred;
 					// format for text of URL: oTemplate.__metadata.uri.split("/").pop()
-					elementCollection.push(this.nextFormElement(sLabel,  nLevel, true, new sap.ui.commons.Link().bindProperty("text", {
+					elementCollection.push(this.nextFormElement(sLabel, nLevel, true, new sap.ui.commons.Link().bindProperty("text", {
 						parts : [ {
-							path : sPathPrefix + "__deferred/uri",
+							path : column + "/__deferred/uri",
 							type : new sap.ui.model.type.String()
 						} ],
 						formatter : function(uri) {
@@ -218,14 +236,28 @@ Components.lensResultsForm.Component.prototype.bindFormFields = function(oMetaMo
 						}
 					// path : sPathPrefix + "__deferred/uri"
 					}).bindProperty("href", {
-						path : sPathPrefix + "__deferred/uri"
+						// path : sPathPrefix + "__deferred/uri"
+						parts : [ {
+							path : column + "/__deferred/uri",
+							type : new sap.ui.model.type.String()
+						} ],
+						formatter : function(uri) {
+							if (jQuery.isEmptyObject(uri)){
+								return "";
+							}else{
+								var parts = uri.split("/");
+								var collection = parts.pop();
+								return "../com.inova8.sparqlish/#/LNW2/lens/" + parts.pop()+ "/"+collection  + "/guest";
+							}
+						}
 					})));
 					nRow++;
 				} else {
 					// Should format according to type found in metadata
 					var oProperty
 					try {
-						oProperty = oMetaModel.getODataProperty(oEntityType, column);
+						//oProperty = oMetaModel.getDataProperty(oEntityType.name, column);
+						oProperty = oMetaModel.getODataInheritedProperty(oEntityType, column);
 					} catch (e) {
 						throw "getODataProperty" + ":" + oEntityType + ":" + column;
 					}

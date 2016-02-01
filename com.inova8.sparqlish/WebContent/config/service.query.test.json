@@ -1,7 +1,9 @@
 {
 	"services": 
-	[
+	{
+		"LNW2": 
 		{
+			"code": "LNW2",
 			"name": "LocalNorthwindV2",
 			"serviceUrl": "proxy/http/localhost:8080/olingo2sparql/sparql/2.0/NW/",
 			"version": "V2",
@@ -1115,7 +1117,9 @@
 			]
 		},
 
+		"RNW2": 
 		{
+			"code": "RNW2",
 			"name": "NorthwindV2",
 			"serviceUrl": "proxy/http/services.odata.org/V2/Northwind/Northwind.svc/",
 			"version": "V2",
@@ -2518,7 +2522,9 @@
 			]
 		},
 
+		"RNW4": 
 		{
+			"code": "RNW4",
 			"name": "NorthwindV4",
 			"serviceUrl": "proxy/http/services.odata.org/V4/Northwind/Northwind.svc/",
 			"version": "V2",
@@ -2532,7 +2538,9 @@
 			]
 		},
 
+		"AW": 
 		{
+			"code": "AW",
 			"name": "AdventureWorks",
 			"serviceUrl": "proxy/http/services.odata.org/AdventureWorksV3/AdventureWorks.svc/",
 			"version": "V2",
@@ -2713,7 +2721,9 @@
 			]
 		},
 
+		"ND": 
 		{
+			"code": "ND",
 			"name": "NerdDinner",
 			"serviceUrl": "proxy/http/www.nerddinner.com/Services/OData.svc/",
 			"version": "V2",
@@ -2733,7 +2743,9 @@
 			]
 		},
 
+		"LL": 
 		{
+			"code": "LL",
 			"name": "LL",
 			"serviceUrl": "proxy/http/localhost:8080/olingo2sparql/sparql/2.0/LL/",
 			"version": "V2",
@@ -2746,5 +2758,5 @@
 				}
 			]
 		}
-	]
+	}
 }

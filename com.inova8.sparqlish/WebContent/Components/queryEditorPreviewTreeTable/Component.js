@@ -26,7 +26,9 @@ sap.ui.core.UIComponent.extend("Components.queryEditorPreviewTreeTable.Component
 });
 Components.queryEditorPreviewTreeTable.Component.prototype.setServiceQueriesModel = function(serviceQueriesModel) {
 	this.setProperty("serviceQueriesModel", serviceQueriesModel);
-	this.setService(serviceQueriesModel.getData().services[0].serviceUrl, serviceQueriesModel.getData().services[0].queries[0]);
+	var oFirstService = serviceQueriesModel.getData().services[Object.keys(serviceQueriesModel.getData().services)[0]];
+	var oFirstQuery = oFirstService.queries[Object.keys(oFirstService.queries)[0]];
+	this.setService(oFirstService, oFirstQuery);
 }
 
 Components.queryEditorPreviewTreeTable.Component.prototype.createContent = function() {
@@ -71,7 +73,7 @@ Components.queryEditorPreviewTreeTable.Component.prototype.createContent = funct
 				}).attachQueryChanged(function(oEvent) {
 			self.setQuery(oEvent.getParameter("query"));
 		}).attachServiceChanged(function(oEvent) {
-			self.setService(oEvent.getParameter("service").serviceUrl, oEvent.getParameter("query"));
+			self.setService(oEvent.getParameter("service"), oEvent.getParameter("query"));
 		}).attachUndo(function(oEvent) {
 			self.getQuery().undo();
 			self.refreshQuery(self);
@@ -157,7 +159,7 @@ Components.queryEditorPreviewTreeTable.Component.prototype.createContent = funct
 				sap.m.URLHelper.redirect(self.getOdataModel().sServiceUrl + "/$metadata", true);
 			}
 		}));
-		//this.oTable.getToolbar().addContent(this.oDebug);
+		// this.oTable.getToolbar().addContent(this.oDebug);
 
 	}
 	return this.oTable;
@@ -192,15 +194,12 @@ Components.queryEditorPreviewTreeTable.Component.prototype.refreshQuery = functi
 	self.oTable.getModel("viewModel").refresh();
 	self.oTable.rerender();
 };
-Components.queryEditorPreviewTreeTable.Component.prototype.setService = function(serviceUrl, query) {
+Components.queryEditorPreviewTreeTable.Component.prototype.setService = function(service, query) {
 	var self = this;
-	this.setOdataModel(new sap.ui.model.odata.ODataModel(serviceUrl, {
-		// maxDataServiceVersion : "3.0",
-		loadMetadataAsync : false
-	}));
-	this.oTable.setModel(this.getOdataModel(), "odataModel");
+	var odataModel = this.getCachedOdataModel(service);
+	this.oTable.setModel(odataModel, "odataModel");
 
-	var oDataMetaModel = this.getOdataModel().getMetaModel();
+	var oDataMetaModel = odataModel.getMetaModel();
 	var oMetaModelEntityContainer;
 	self.oTable.setBusy(true).setBusyIndicatorDelay(0);
 	var oEntityContainerModel = new sap.ui.model.json.JSONModel();
@@ -220,7 +219,25 @@ Components.queryEditorPreviewTreeTable.Component.prototype.setService = function
 		self.oTable.setBusy(false);
 		throw ("metamodel error");
 	});
-}
+};
+Components.queryEditorPreviewTreeTable.Component.prototype.getCachedOdataModel = function(service) {
+	var odataModel = sap.ui.getCore().getModel("odataModel_" + service.code);
+	if (jQuery.isEmptyObject(odataModel)) {
+		// TODO should be sap.ui.model.odata.v2.ODataModel but throws inexplicable errors
+		try {
+			odataModel = new sap.ui.model.odata.ODataModel(service.serviceUrl, {
+			// maxDataServiceVersion : "3.0",
+			// loadMetadataAsync : false
+			});
+		} catch (e) {
+			//do nothing at present
+		}
+		sap.ui.getCore().setModel(odataModel, "odataModel_" + service.code);
+	}
+	this.setOdataModel(odataModel);
+	return odataModel;
+};
+
 Components.queryEditorPreviewTreeTable.Component.prototype.setQuery = function(queryModel) {
 	var self = this;
 	try {

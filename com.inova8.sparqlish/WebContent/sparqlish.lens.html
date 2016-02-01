@@ -67,15 +67,15 @@ sap.ui.getCore().setModel(oMetaModel, "metaModel");
 var i18nModel = new sap.ui.model.resource.ResourceModel({
 	bundleUrl : [ ".", "i18n/messageBundle.properties" ].join("/")
 });
-sap.ui.getCore().setModel(i18nModel, "i18nModel");
+sap.ui.getCore().setModel(i18nModel, "i18n");
 
 var oQueryModel = new sap.ui.model.json.JSONModel();
-oQueryModel.loadData("config/test/service.query.test.json", null, false);
+oQueryModel.loadData("config/service.query.test.json", null, false);
 sap.ui.getCore().setModel(oQueryModel, "queryModel");
 
 // datatypesModel>
 var oDatatypesModel = new sap.ui.model.json.JSONModel();
-oDatatypesModel.loadData("config/test/datatypes.json", null, false);
+oDatatypesModel.loadData("i18n/datatypes_en.json", null, false);
 sap.ui.getCore().setModel(oDatatypesModel, "datatypesModel");
 
 // parametersModel>
@@ -85,7 +85,7 @@ sap.ui.getCore().setModel(oParametersModel, "parametersModel");
 
 //lensesModel>
 var oLensesModel = new sap.ui.model.json.JSONModel();
-oLensesModel.loadData("config/test/lenses.json", null, false);
+oLensesModel.loadData("config/lenses.json", null, false);
 sap.ui.getCore().setModel(oLensesModel, "lensesModel");
 
 // Create a lensPanel component

@@ -1,6 +1,23 @@
 {
 	"templates": 
 	{
+		"{default}": 
+		{
+			"type": "rows",
+			"width": "100%",
+			"height": "100%",
+			"rows": 
+			[
+				{
+					"content": 
+					{
+						"type": "lens",
+						"id": "{default}"
+					}
+				}
+			]
+		},
+
 		"testTemplate1": 
 		{
 			"type": "rows",
@@ -142,8 +159,24 @@
 
 	"lenses": 
 	{
-		"(default)": 
+		"{default}": 
 		{
+			"{default}": 
+			{
+				"title": "Default Lens",
+				"template": "{default}",
+				"fragments": 
+				[
+					{
+						"position": "{default}",
+						"title": "Default Fragment",
+						"type": "Components.lensResultsForm",
+						"query": "proxy/http/services.odata.org/V2/Northwind/Northwind.svc/Orders(10248)/Order_Details",
+						"querytemplate": "{default}"
+					}
+				]
+			},
+
 			"Northwind.Orders": 
 			{
 				"title": "Orders Lens",

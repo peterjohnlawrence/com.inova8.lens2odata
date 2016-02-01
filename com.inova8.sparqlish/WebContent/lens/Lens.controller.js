@@ -13,10 +13,14 @@ sap.ui.define([ "controller/BaseController" ], function(BaseController) {
 			var oLensPanelComponent = sap.ui.getCore().createComponent({
 				name : "Components.lensPanel",
 				settings : {
-					role : "(default)",
-					concept : "Test"// "Northwind.Orders"//
+					role : "{default}",
+					concept : "{default}"// "Northwind.Orders"//
 				}
 			});
+			//TODO settings does not seem to set the properties
+			oLensPanelComponent.setConcept("{default}");
+			oLensPanelComponent.setRole("{default}"); 
+			
 			var oLensPanelComponentContainer = new sap.ui.core.ComponentContainer({
 				component : oLensPanelComponent,
 				propagateModel : true
