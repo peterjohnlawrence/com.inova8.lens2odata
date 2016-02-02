@@ -5,7 +5,7 @@
 		{
 			"code": "LNW2",
 			"name": "LocalNorthwindV2",
-			"serviceUrl": "proxy/http/localhost:8080/olingo2sparql/sparql/2.0/NW/",
+			"serviceUrl": "http://localhost:8080/olingo2sparql/sparql/2.0/NW/",
 			"version": "V2",
 			"queries": 
 			[
@@ -40,6 +40,87 @@
 							"type": "Edm.Int32",
 							"prompt": "Enter value for Orders",
 							"defaultValue": "10289"
+						}
+					],
+
+					"clauses": 
+					{
+						"_class": "Clauses",
+						"clause": 
+						{
+							"_class": "Clause",
+							"ignore": false,
+							"optional": false,
+							"propertyClause": 
+							{
+								"_class": "DataPropertyClause",
+								"dataProperty": "orderDate",
+								"type": "Edm.DateTime",
+								"dataPropertyFilters": 
+								{
+									"_class": "DataPropertyFilters",
+									"dataPropertyFilter": 
+									{
+										"_class": "DataPropertyFilter",
+										"condition": "not equals",
+										"type": "Edm.DateTime",
+										"value": "{Order Date}"
+									}
+								}
+							}
+						},
+
+						"conjunctionClauses": 
+						[
+							{
+								"_class": "ConjunctionClause",
+								"conjunction": "and",
+								"clause": 
+								{
+									"_class": "Clause",
+									"ignore": false,
+									"optional": false,
+									"propertyClause": 
+									{
+										"_class": "DataPropertyClause",
+										"dataProperty": "shipCity",
+										"type": "Edm.String",
+										"dataPropertyFilters": 
+										{
+											"_class": "DataPropertyFilters",
+											"dataPropertyFilter": 
+											{
+												"_class": "DataPropertyFilter",
+												"condition": "contains",
+												"type": "Edm.String",
+												"value": "{Ship City}"
+											}
+										}
+									}
+								}
+							}
+						]
+					}
+				},
+
+				{
+					"_class": "Query",
+					"name": "Test1b: date clause",
+					"concept": "Order",
+					"parameters": 
+					[
+						{
+							"name": "Order Date",
+							"type": "Edm.DateTime",
+							"prompt": "Enter value for Order Date",
+							"defaultValue": "2015-12-20T05:00:00"
+						},
+
+						{
+							"name": "Ship City",
+							"type": "Edm.String",
+							"prompt": "Enter value for Ship City",
+							"defaultValue": "London"
 						}
 					],
 

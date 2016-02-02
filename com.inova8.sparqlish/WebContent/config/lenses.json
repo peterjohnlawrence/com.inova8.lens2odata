@@ -171,7 +171,7 @@
 						"position": "{default}",
 						"title": "Default Fragment",
 						"type": "Components.lensResultsForm",
-						"query": "proxy/http/services.odata.org/V2/Northwind/Northwind.svc/Orders(10248)/Order_Details",
+						"query": "{queryUri}",
 						"querytemplate": "{default}"
 					}
 				]

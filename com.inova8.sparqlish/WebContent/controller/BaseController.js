@@ -14,7 +14,7 @@ sap.ui.define([
 			if (sPreviousHash !== undefined) {
 				window.history.go(-1);
 			} else {
-				this.getRouter().navTo("search", {}, true /*no history*/);
+				this.getRouter().navTo("search", {service:oHistory.aHistory[0].split("/")[0]}, true /*no history*/);
 			}
 		},
 		onNavToLens: function (oEvent) {

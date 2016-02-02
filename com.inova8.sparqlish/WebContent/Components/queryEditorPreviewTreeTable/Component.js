@@ -230,7 +230,7 @@ Components.queryEditorPreviewTreeTable.Component.prototype.getCachedOdataModel =
 			// loadMetadataAsync : false
 			});
 		} catch (e) {
-			//do nothing at present
+			// do nothing at present
 		}
 		sap.ui.getCore().setModel(odataModel, "odataModel_" + service.code);
 	}
@@ -286,11 +286,15 @@ Components.queryEditorPreviewTreeTable.Component.prototype.previewResults = func
 				if (oData.length > 0) {
 					self.oResultsModel.sBindPath = "/";
 				} else {
-					throw "No results returned";
+					sap.m.MessageToast.show(sap.ui.getCore().getModel("i18nModel").getProperty("queryForm.noResults"));
 				}
 			} else {
 				nResults = oData.results.length;
-				self.oResultsModel.sBindPath = "/results/";
+				if (nResults === 0) {
+					sap.m.MessageToast.show(sap.ui.getCore().getModel("i18nModel").getProperty("queryForm.noResults"));
+				} else {
+					self.oResultsModel.sBindPath = "/results/";
+				}
 			}
 			self.oTable.setBusy(false);
 

@@ -21,9 +21,9 @@ sap.ui.define([ "controller/BaseController" ], function(BaseController) {
 		},
 		_onRouteMatched : function(oEvent) {
 			this.oArgs = oEvent.getParameter("arguments");
-			this.oArgs.service=this.oArgs.service||"RNW2";
-			// TODO Might be undefined in which case we should prompt for a query to execute
-			this.oArgs.query=this.oArgs.query||"Test1a: date clause";
+//			this.oArgs.service=this.oArgs.service||"LNW2";
+//			// TODO Might be undefined in which case we should prompt for a query to execute
+//			this.oArgs.query=this.oArgs.query||"Test1a: date clause";
 			this.oSearchFormComponent.setServiceCode(this.oArgs.service);
 			this.oSearchFormComponent.setQueryName(this.oArgs.query);
 		},

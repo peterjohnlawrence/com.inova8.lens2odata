@@ -23,20 +23,28 @@ sap.ui.define([ "sap/ui/core/UIComponent" ], function(UIComponent) {
 					}
 				},
 				routes : [ {
-					pattern : ":service:",
+					pattern : "{service}",
 					name : "search",
 					target : "search"
 				}, {
-					pattern : "{service}/search/:query:",
+					//example   #LNW2/search
+					//example   #LNW2/search/Test 1
+					pattern : "{service}/search/:querycode:",
 					name : "searchWithQuery",
 					target : "search"
 				}, {
-					pattern : "{service}/query/:query:",
+					pattern : "{service}/query/:querycode:",
 					name : "query",
 					target : "query"
 				}, {
-					pattern : "{service}/lens/{entity}/:role:",
+					//example   #LNW2/lens/manager?resourcePath=Orders()
+					pattern : "{service}/lens/{role}/:?query:",
 					name : "lens",
+					target : "lens"
+				}, {
+					//example   #LNW2/lens?resourcePath=Orders()
+					pattern : "{service}/lens/:?query:",
+					name : "defaultLens",
 					target : "lens"
 				} ],
 				targets : {
@@ -65,7 +73,6 @@ sap.ui.define([ "sap/ui/core/UIComponent" ], function(UIComponent) {
 
 Lens.Component.prototype.init = function() {
 	sap.ui.core.UIComponent.prototype.init.apply(this, arguments);
-	
 
 	// i18n>
 	var oI18n = new sap.ui.model.resource.ResourceModel({
@@ -103,4 +110,5 @@ Lens.Component.prototype.init = function() {
 
 	// Do this last so models are initialized
 	this.getRouter().initialize();
+	this.getRouter().register("lensRouter");
 };

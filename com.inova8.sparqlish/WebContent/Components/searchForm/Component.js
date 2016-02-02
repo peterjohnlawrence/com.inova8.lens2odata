@@ -31,6 +31,7 @@ sap.ui.core.UIComponent.extend("Components.searchForm.Component", {
 });
 Components.searchForm.Component.prototype.setQueryName = function(sQueryName) {
 	var self = this;
+	if(self.getProperty("queryName")===sQueryName) return;
 	self.setProperty("queryName", sQueryName);
 	self.oQuerySelect.setSelectedKey(sQueryName);
 		
@@ -45,6 +46,7 @@ Components.searchForm.Component.prototype.setQueryName = function(sQueryName) {
 };
 Components.searchForm.Component.prototype.setServiceCode = function(sServiceCode) {
 	var self = this;
+	if(self.getProperty("serviceCode")===sServiceCode) return;
 	self.setProperty("serviceCode", sServiceCode);
 	var service = sap.ui.getCore().getModel("serviceQueriesModel").getData().services[sServiceCode];
 	self.oQuerySelect.bindItems({
@@ -71,6 +73,7 @@ Components.searchForm.Component.prototype.setServiceCode = function(sServiceCode
 		self.oFormPanel.setBusy(false);
 		throw ("metamodel error");
 	});
+	sap.ui.core.routing.Router.getRouter("lensRouter").navTo("search",{service:sServiceCode});
 };
 Components.searchForm.Component.prototype.createContent = function() {
 	var self = this;
@@ -193,12 +196,13 @@ Components.searchForm.Component.prototype.getCachedOdataModel = function(service
 	return odataModel;
 };
 Components.searchForm.Component.prototype.renderResults = function(query) {
-	var queryURL = sap.ui.getCore().getModel("serviceQueriesModel").getData()["services"][this.getServiceCode()].serviceUrl + query.odataURI("V2");
+	var service =sap.ui.getCore().getModel("serviceQueriesModel").getData()["services"][this.getServiceCode()];
+	var queryURL = service.serviceUrl + query.odataURI(service.version);
 
 	this.oSearchResultsComponent.setTitle(this.getQueryName() + " " + sap.ui.getCore().getModel("i18nModel").getProperty("searchForm.searchResults"));
 	this.oSearchResultsComponent.setMetaModel(this.getMetaModel());
 
-	this.oSearchResultsComponent.renderResults(queryURL);
+	this.oSearchResultsComponent.renderResults(queryURL,this.getServiceCode());
 
 };
 Components.searchForm.Component.prototype._initValueInputFactory = function(sId, oContext) {
@@ -279,9 +283,4 @@ Components.searchForm.Component.prototype._initValueInputFactory = function(sId,
 	});
 	return oFormElement;
 };
-// Components.searchForm.Component.prototype.setQueryContext = function(oQueryContext) {
-// var self = this;
-// self.oParameterForm.getFormContainers()[0].bindAggregation("formElements", "serviceQueriesModel>" +
-// oQueryContext.getPath() + "/parameters",
-// this._initValueInputFactory.bind(this));
-// };
+

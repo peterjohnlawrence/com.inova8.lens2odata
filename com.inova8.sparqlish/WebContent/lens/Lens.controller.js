@@ -9,30 +9,30 @@ sap.ui.define([ "controller/BaseController" ], function(BaseController) {
 		onInit : function() {
 			var oRouter = this.getRouter();
 			oRouter.getRoute("lens").attachMatched(this._onRouteMatched, this);
-
-			var oLensPanelComponent = sap.ui.getCore().createComponent({
+			oRouter.getRoute("defaultLens").attachMatched(this._onRouteMatched, this);
+			this.oLensPanelComponent = sap.ui.getCore().createComponent({
 				name : "Components.lensPanel",
-				settings : {
-					role : "{default}",
-					concept : "{default}"// "Northwind.Orders"//
-				}
 			});
 			//TODO settings does not seem to set the properties
-			oLensPanelComponent.setConcept("{default}");
-			oLensPanelComponent.setRole("{default}"); 
+			this.oLensPanelComponent.setConcept("{default}");
+			this.oLensPanelComponent.setRole("{default}"); 
 			
 			var oLensPanelComponentContainer = new sap.ui.core.ComponentContainer({
-				component : oLensPanelComponent,
+				component : this.oLensPanelComponent,
 				propagateModel : true
 			});
 			this.getView().byId("lensPage").addContent(oLensPanelComponentContainer);
-			oLensPanelComponent.renderFragments();
+		//	oLensPanelComponent.renderFragments();
 		},
 		_onRouteMatched : function(oEvent) {
-			var oArgs, oView;
-			oArgs = oEvent.getParameter("arguments");
-			oView = this.getView();
-			oView.byId("lensTitle").setText(oArgs.entity);
+			//var oArgs
+			this.oArgs = oEvent.getParameter("arguments");
+			//oView = this.getView();
+			this.oLensPanelComponent.setProperty("serviceCode",this.oArgs.service);
+			this.oLensPanelComponent.setProperty("role",this.oArgs.role||"{default}");
+			this.oLensPanelComponent.setProperty("query",this.oArgs["?query"]);
+			//this.oLensPanelComponent.byId("lensTitle").setText(oArgs["?query"].resourcePath);
+			this.oLensPanelComponent.renderFragments();
 		},
 		_onBindingChange : function(oEvent) {
 			var oElementBinding = this.getView().getElementBinding();

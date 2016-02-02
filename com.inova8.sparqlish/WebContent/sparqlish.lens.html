@@ -72,6 +72,7 @@ sap.ui.getCore().setModel(i18nModel, "i18n");
 var oQueryModel = new sap.ui.model.json.JSONModel();
 oQueryModel.loadData("config/service.query.test.json", null, false);
 sap.ui.getCore().setModel(oQueryModel, "queryModel");
+sap.ui.getCore().setModel(oQueryModel, "serviceQueriesModel");
 
 // datatypesModel>
 var oDatatypesModel = new sap.ui.model.json.JSONModel();
@@ -92,11 +93,10 @@ sap.ui.getCore().setModel(oLensesModel, "lensesModel");
 
 var oLensPanelComponent = sap.ui.getCore().createComponent({
 	name : "Components.lensPanel",
-	settings : {
-		role:"(default)",
-		concept:"Test"//"Northwind.Orders"//
-	}
 });
+oLensPanelComponent.setRole("{default}");
+oLensPanelComponent.setConcept("Test");
+oLensPanelComponent.setServiceCode("RNW2");
 var oLensPanelComponentContainer = new sap.ui.core.ComponentContainer({
 	component : oLensPanelComponent,
 	propagateModel:true

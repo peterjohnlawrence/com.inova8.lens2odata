@@ -9,7 +9,8 @@ sap.ui.core.UIComponent.extend("Components.lensResultsTable.Component", {
 		properties : {
 			title : "string",
 			metaModel : "object",
-			query : "string"
+			query : "string",
+			serviceCode:"string"
 		}
 	}
 });
