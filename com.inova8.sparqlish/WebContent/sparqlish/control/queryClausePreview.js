@@ -9,7 +9,8 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 				},
 				path : {
 					type : "string"
-				}
+				},
+				serviceCode:"string"
 			},
 			events : {},
 			aggregations : {
@@ -36,9 +37,11 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 				pattern : sap.ui.getCore().getModel("i18nModel").getProperty("Edm.Date")
 			});
 		},
+
 		renderer : function(oRm, oControl) {
 			// Only required if we want the controls to be on the same line
-
+			var self = this;
+			var serviceCode =oControl.getProperty("serviceCode")
 			if (!jQuery.isEmptyObject(oControl.getViewContext())) {
 				var oResultsModel = oControl.getModel("resultsModel");
 				if (!jQuery.isEmptyObject(oResultsModel.getData())) {
@@ -113,7 +116,15 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 								}
 							// path : "resultsModel>" + sCurrentResultsContext + "/__metadata/uri"
 							}).bindProperty("href", {
-								path : "resultsModel>" + sCurrentResultsContext + "/__metadata/uri"
+								//path : "resultsModel>" + sCurrentResultsContext + "/__metadata/uri"
+								parts : [ {
+									path : "resultsModel>" + sCurrentResultsContext + "/__metadata/uri",
+									type : new sap.ui.model.type.String()
+								} ],
+								formatter : function(uri) {
+									return jQuery.isEmptyObject(uri) ? "" : "../com.inova8.sparqlish/#/" + serviceCode + "/lens?queryUri=" + uri;
+									// return jQuery.isEmptyObject(uri) ? "" : uri.split("/").pop();
+								}
 							});
 							oControl.setAggregation("_preview", oControl.oLink);
 							break;

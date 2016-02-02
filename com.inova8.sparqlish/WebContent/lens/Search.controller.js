@@ -32,10 +32,10 @@ sap.ui.define([ "controller/BaseController" ], function(BaseController) {
 				fromTarget : "search"
 			});
 		},
-		onNavToQuery : function(oEvent) {
+		onNavToQuery : function(oEvent) {	
 			this.getRouter().navTo("query", {
-				query : this.oArgs.query,
-				service : this.oArgs.service
+				query :this.oSearchFormComponent.getQueryName()|| this.oArgs.query,
+				service : this.oSearchFormComponent.getServiceCode() || this.oArgs.service
 			});
 		}
 	});

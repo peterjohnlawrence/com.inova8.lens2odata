@@ -67,10 +67,6 @@ sap.m.OverflowToolbar.extend("sparqlish.control.serviceQueryMenu", {
 					})
 				});
 				self.oQuerySelect.setSelectedItem(self.oQuerySelect.getFirstItem());
-				// self.fireQueryChanged({
-				// query :
-				// self.getModel("serviceQueriesModel").getProperty(self.oQuerySelect.getSelectedItem().getBindingContext("serviceQueriesModel").getPath())
-				// })
 			}
 		}).addStyleClass("menuText").attachChange(function(oEvent) {
 			self.fireServiceChanged({

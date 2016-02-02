@@ -5,7 +5,7 @@ sap.ui.define([ "controller/BaseController" ], function(BaseController) {
 			var oRouter = this.getRouter();
 			oRouter.getRoute("query").attachMatched(this._onRouteMatched, this);
 
-			var oQueryEditorPreviewTreeTableComponent = sap.ui.getCore().createComponent({
+			this.oQueryEditorPreviewTreeTableComponent = sap.ui.getCore().createComponent({
 				name : "Components.queryEditorPreviewTreeTable",
 				settings : {
 					title : "queryEditorPreviewTreeTable",
@@ -15,12 +15,18 @@ sap.ui.define([ "controller/BaseController" ], function(BaseController) {
 				}
 			});
 
-			var oQueryEditorPreviewTreeTableComponentContainer = new sap.ui.core.ComponentContainer({
-				component : oQueryEditorPreviewTreeTableComponent
+			this.oQueryEditorPreviewTreeTableComponentContainer = new sap.ui.core.ComponentContainer({
+				component : this.oQueryEditorPreviewTreeTableComponent
 			});
-			this.getView().byId("queryPage").addContent(oQueryEditorPreviewTreeTableComponentContainer);
+			this.getView().byId("queryPage").addContent(this.oQueryEditorPreviewTreeTableComponentContainer);
 
 		},
-
+		_onRouteMatched : function(oEvent) {
+			this.oArgs = oEvent.getParameter("arguments");
+			this.oQueryEditorPreviewTreeTableComponent.setService(sap.ui.getCore().getModel("serviceQueriesModel").getData().services[this.oArgs.service],this.oArgs.query);
+		},
+		onSearch: function (oEvent) {
+				this.getRouter().navTo("search",{service:"xyz"});
+		}
 	});
 });

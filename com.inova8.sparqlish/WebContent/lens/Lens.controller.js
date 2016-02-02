@@ -41,7 +41,11 @@ sap.ui.define([ "controller/BaseController" ], function(BaseController) {
 			if (oElementBinding && !oElementBinding.getBoundContext()) {
 				this.getRouter().getTargets().display("notFound");
 			}
+		},
+		onSearch: function (oEvent) {
+				this.getRouter().navTo("search",{service:this.oLensPanelComponent.getProperty("serviceCode")});
 		}
+
 
 	});
 });

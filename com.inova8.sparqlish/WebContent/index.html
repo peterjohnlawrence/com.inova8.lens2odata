@@ -17,6 +17,7 @@
 			"controller":"./controller",
 			"config":"./config",
 			"resources":"./resources",
+			"lib":"./lib",
 			"Components":"./Components"
         }'>
 	
@@ -36,6 +37,8 @@ jQuery.sap.log.setLevel(jQuery.sap.log.Level.DEBUG );
 			})
 		}).placeAt("content");
 	});
+jQuery.sap.require("lib.constants");
+jQuery.sap.require("lib.utils");	
 </script>
 </head>
 <body class="sapUiBody" role="application">

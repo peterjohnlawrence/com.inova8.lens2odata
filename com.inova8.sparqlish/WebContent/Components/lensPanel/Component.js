@@ -114,7 +114,7 @@ Components.lensPanel.Component.prototype.displayContent = function(oContent) {
 					settings : {
 						title : oFragment.title,
 						query : queryUri,
-						metaModel : this.getCachedOdataModel(service).getMetaModel(),
+						metaModel : utils.getCachedOdataModel(service).getMetaModel(),
 						serviceCode: 	this.getProperty("serviceCode")
 					// oMetaModel
 					}
@@ -149,19 +149,4 @@ Components.lensPanel.Component.prototype.displayContent = function(oContent) {
 		}
 	}
 };
-Components.lensPanel.Component.prototype.getCachedOdataModel = function(service) {
-	var odataModel = sap.ui.getCore().getModel("odataModel_" + service.code);
-	if (jQuery.isEmptyObject(odataModel)) {
-		// TODO should be sap.ui.model.odata.v2.ODataModel but throws inexplicable errors
-		try {
-			odataModel = new sap.ui.model.odata.ODataModel(service.serviceUrl, {
-			// maxDataServiceVersion : "3.0",
-			// loadMetadataAsync : false
-			});
-		} catch (e) {
-			// do nothing at present
-		}
-		sap.ui.getCore().setModel(odataModel, "odataModel_" + service.code);
-	}
-	return odataModel;
-};
+

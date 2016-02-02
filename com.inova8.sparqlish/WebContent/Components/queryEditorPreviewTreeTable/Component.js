@@ -35,7 +35,7 @@ Components.queryEditorPreviewTreeTable.Component.prototype.createContent = funct
 	var self = this;
 	this.oTable = new sap.ui.table.TreeTable({
 		columns : [ new sap.ui.table.Column({
-			label : "Query",
+			label : "{i18nModel>queryForm.query}",
 			template : new sparqlish.control.queryClause({
 				clausePath : {
 					path : "viewModel>path"
@@ -50,11 +50,12 @@ Components.queryEditorPreviewTreeTable.Component.prototype.createContent = funct
 			resizable : true,
 			autoResizable : true
 		}), new sap.ui.table.Column("results", {
-			label : "Preview result",
+			label : "{i18nModel>queryForm.previewResult}",
 			template : new sparqlish.control.queryClausePreview({
 				viewContext : {
-					path : "viewModel>"
-				}
+					path : "viewModel>",
+				},
+				serviceCode : "LNW2"
 			}),
 			flexible : true,
 			resizable : true,
@@ -85,7 +86,7 @@ Components.queryEditorPreviewTreeTable.Component.prototype.createContent = funct
 	// TODO need to provide i18n on component construction as it is required when i18n appears in path expressions
 	}).setModel(sap.ui.getCore().getModel("i18nModel"), "i18nModel").setModel(sap.ui.getCore().getModel("datatypesModel"), "datatypesModel");
 	// TODO add debug menu
-	if (jQuery.sap.log.getLevel() === jQuery.sap.log.Level.ERROR) {
+	if (jQuery.sap.log.getLevel() === jQuery.sap.log.Level.DEBUG) {
 		this.oDebug = new sap.m.ActionSelect({
 			text : "View Model"
 		}).addButton(new sap.m.Button({
@@ -159,7 +160,7 @@ Components.queryEditorPreviewTreeTable.Component.prototype.createContent = funct
 				sap.m.URLHelper.redirect(self.getOdataModel().sServiceUrl + "/$metadata", true);
 			}
 		}));
-		// this.oTable.getToolbar().addContent(this.oDebug);
+		this.oTable.getToolbar().addContent(this.oDebug);
 
 	}
 	return this.oTable;
@@ -196,7 +197,8 @@ Components.queryEditorPreviewTreeTable.Component.prototype.refreshQuery = functi
 };
 Components.queryEditorPreviewTreeTable.Component.prototype.setService = function(service, query) {
 	var self = this;
-	var odataModel = this.getCachedOdataModel(service);
+	var odataModel = utils.getCachedOdataModel(service);
+	this.setOdataModel(odataModel);
 	this.oTable.setModel(odataModel, "odataModel");
 
 	var oDataMetaModel = odataModel.getMetaModel();
@@ -207,7 +209,12 @@ Components.queryEditorPreviewTreeTable.Component.prototype.setService = function
 		self.oTable.setModel(oDataMetaModel, "metaModel")
 		oMetaModelEntityContainer = oDataMetaModel.getODataEntityContainer();
 		self.oTable.setModel(self.getDatatypesModel(), "datatypesModel");
-
+		self.oTable.getColumns()[1].setTemplate(new sparqlish.control.queryClausePreview({
+			viewContext : {
+				path : "viewModel>",
+			},
+			serviceCode : service.code
+		}));
 		oEntityContainerModel.setData(oMetaModelEntityContainer);
 		// TODO this does not work so need to set Core
 		self.oTable.setModel(oEntityContainerModel, "entityContainer");
@@ -219,23 +226,9 @@ Components.queryEditorPreviewTreeTable.Component.prototype.setService = function
 		self.oTable.setBusy(false);
 		throw ("metamodel error");
 	});
-};
-Components.queryEditorPreviewTreeTable.Component.prototype.getCachedOdataModel = function(service) {
-	var odataModel = sap.ui.getCore().getModel("odataModel_" + service.code);
-	if (jQuery.isEmptyObject(odataModel)) {
-		// TODO should be sap.ui.model.odata.v2.ODataModel but throws inexplicable errors
-		try {
-			odataModel = new sap.ui.model.odata.ODataModel(service.serviceUrl, {
-			// maxDataServiceVersion : "3.0",
-			// loadMetadataAsync : false
-			});
-		} catch (e) {
-			// do nothing at present
-		}
-		sap.ui.getCore().setModel(odataModel, "odataModel_" + service.code);
-	}
-	this.setOdataModel(odataModel);
-	return odataModel;
+//	sap.ui.core.routing.Router.getRouter("lensRouter").navTo("query", {
+//		service : service.code
+//	});
 };
 
 Components.queryEditorPreviewTreeTable.Component.prototype.setQuery = function(queryModel) {
