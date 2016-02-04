@@ -99,7 +99,7 @@ Components.lensPanel.Component.prototype.displayContent = function(oContent) {
 		return oVerticalSplitter;
 	} else if (oContent.type === "lens") {
 		// var oFragment = this.getProperty("_fragmentModel")[oContent.id];
-		var oFragments = this.getProperty("_fragmentModel").lookup("position", oContent.id);
+		var oFragments = utils.lookup(this.getProperty("_fragmentModel"),"position", oContent.id);   //this.getProperty("_fragmentModel").lookup("position", oContent.id);
 
 		if (!jQuery.isEmptyObject(oFragments)) {
 			oComponentContainers = [];

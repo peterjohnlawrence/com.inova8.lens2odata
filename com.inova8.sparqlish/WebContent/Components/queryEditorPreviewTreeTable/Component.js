@@ -18,6 +18,7 @@ sap.ui.core.UIComponent.extend("Components.queryEditorPreviewTreeTable.Component
 			serviceQueriesModel : "object",
 			odataModel : "object",
 			queryModel : "object",
+			service : "object",
 			query : "object",
 			i18nModel : "object", // TODO or specific one for this component?
 			datatypesModel : "object"
@@ -86,10 +87,8 @@ Components.queryEditorPreviewTreeTable.Component.prototype.createContent = funct
 	// TODO need to provide i18n on component construction as it is required when i18n appears in path expressions
 	}).setModel(sap.ui.getCore().getModel("i18nModel"), "i18nModel").setModel(sap.ui.getCore().getModel("datatypesModel"), "datatypesModel");
 	// TODO add debug menu
-	if (jQuery.sap.log.getLevel() === jQuery.sap.log.Level.DEBUG) {
-		this.oDebug = new sap.m.ActionSelect({
-			text : "View Model"
-		}).addButton(new sap.m.Button({
+	if (jQuery.sap.log.getLevel() === jQuery.sap.log.Level.ERROR) {
+		this.oDebug = new sap.m.ActionSelect().addButton(new sap.m.Button({
 			text : "Query Model",
 			press : function() {
 				alert(JSON.stringify(self.getProperty("query").queryModel(), null, 2), {
@@ -197,6 +196,7 @@ Components.queryEditorPreviewTreeTable.Component.prototype.refreshQuery = functi
 };
 Components.queryEditorPreviewTreeTable.Component.prototype.setService = function(service, query) {
 	var self = this;
+	self.setProperty("service", service);
 	var odataModel = utils.getCachedOdataModel(service);
 	this.setOdataModel(odataModel);
 	this.oTable.setModel(odataModel, "odataModel");
@@ -226,9 +226,9 @@ Components.queryEditorPreviewTreeTable.Component.prototype.setService = function
 		self.oTable.setBusy(false);
 		throw ("metamodel error");
 	});
-//	sap.ui.core.routing.Router.getRouter("lensRouter").navTo("query", {
-//		service : service.code
-//	});
+	// sap.ui.core.routing.Router.getRouter("lensRouter").navTo("query", {
+	// service : service.code
+	// });
 };
 
 Components.queryEditorPreviewTreeTable.Component.prototype.setQuery = function(queryModel) {
@@ -263,12 +263,54 @@ Components.queryEditorPreviewTreeTable.Component.prototype.setQuery = function(q
 	}
 };
 Components.queryEditorPreviewTreeTable.Component.prototype.previewResults = function(self) {
+	var query = this.getProperty("query").init(this.getProperty("query").oAST);
+	var serviceURL = this.getProperty("service").serviceUrl;
+	var odataURL = serviceURL + "/" + query.odataURI() + "&$top=10";
+	self.clearResults(self);
+	self.oResultsModel = new sap.ui.model.json.JSONModel({});
+	if (!jQuery.isEmptyObject(odataURL)) {
+		self.oTable.setBusy(true);//.setBusyIndicatorDelay(0);
+		self.oResultsModel.loadData(odataURL);
+		self.oResultsModel.attachRequestCompleted(function(oEvent) {
+			if (oEvent.getParameter("success")) {
+				var nResults = 0;
+				self.oResultsModel.sBindPath = null;
+				var oData = self.oResultsModel.getData();
+				if (jQuery.isEmptyObject(oData.d.results)) {
+					if (oData.d.length > 0) {
+						self.oResultsModel.sBindPath = "/d";
+					} else {
+						sap.m.MessageToast.show(sap.ui.getCore().getModel("i18nModel").getProperty("queryForm.noResults"));
+					}
+				} else {
+					nResults = oData.d.results.length;
+					if (nResults === 0) {
+						sap.m.MessageToast.show(sap.ui.getCore().getModel("i18nModel").getProperty("queryForm.noResults"));
+					} else {
+						self.oResultsModel.sBindPath = "/d/results";
+					}
+				}
+				self.oTable.setBusy(false);
+				self.oTable.setModel(self.oResultsModel, "resultsModel");
+				self.oTable.rerender();			
+				
+				
+			} else {
+				sap.m.MessageToast.show(oEvent.getParameter("errorobject").statusText);
+			}
+		}).attachRequestFailed(function(oEvent) {
+			sap.m.MessageToast.show(oEvent.getParameter("statusText"));
+		});
+	} else {
+		sap.m.MessageToast.show(sap.ui.getCore().getModel("i18nModel").getProperty("lensResultsForm.queryUndefined"));
+	}
+};
+Components.queryEditorPreviewTreeTable.Component.prototype.previewResultsOld = function(self) {
 	// TODO
 	// var query = new Query(this.getOdataModel(), this.getProperty("query").oAST);
 	var query = this.getProperty("query").init(this.getProperty("query").oAST);
 	this.setProperty("query", query);
 	self.clearResults(self);
-
 	self.oResultsModel = new sap.ui.model.json.JSONModel({});
 	handleResults = function(oData, response) {
 		try {
@@ -290,12 +332,9 @@ Components.queryEditorPreviewTreeTable.Component.prototype.previewResults = func
 				}
 			}
 			self.oTable.setBusy(false);
-
 			self.oTable.setModel(self.oResultsModel, "resultsModel");
 			self.oTable.rerender();
-
 		} catch (err) {
-
 		}
 	};
 	reportFailure = function(oData, response) {
@@ -303,10 +342,8 @@ Components.queryEditorPreviewTreeTable.Component.prototype.previewResults = func
 		sap.m.MessageToast.show(JSON.stringify(oData, null, 2));
 	};
 	self.oTable.setBusy(true).setBusyIndicatorDelay(0);
-	// self.getProperty("odataModel").read("/" + query.odataURI(), {
 	self.getProperty("odataModel").read("/" + query.odataURI() + "&$top=10", {
 		success : handleResults,
 		error : reportFailure
 	});
-
 };

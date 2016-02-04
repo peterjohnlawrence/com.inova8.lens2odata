@@ -38,7 +38,7 @@ Components.searchForm.Component.prototype.setQueryName = function(sQueryName) {
 
 	var service = sap.ui.getCore().getModel("serviceQueriesModel").getData()["services"][self.getServiceCode()]
 	if (service) {
-		var queryIndex = service.queries.lookupIndex("name", sQueryName);
+		var queryIndex = utils.lookupIndex(service.queries, "name", sQueryName); //service.queries.lookupIndex("name", sQueryName);
 
 		self.oParameterForm.getFormContainers()[0].bindAggregation("formElements", "serviceQueriesModel>/services/" + self.getServiceCode() + "/queries/"
 				+ queryIndex + "/parameters", this._initValueInputFactory.bind(this));
@@ -69,11 +69,12 @@ Components.searchForm.Component.prototype.setServiceCode = function(sServiceCode
 		var odataModel = utils.getCachedOdataModel(service);
 		self.setProperty("serviceCode", service.code);
 		var oDataMetaModel = odataModel.getMetaModel();
+		self.setMetaModel(oDataMetaModel, "metaModel");
 		var oMetaModelEntityContainer;
 		self.oFormPanel.setBusy(true).setBusyIndicatorDelay(0);
 		var oEntityContainerModel = new sap.ui.model.json.JSONModel();
 		oDataMetaModel.loaded().then(function() {
-			self.setMetaModel(oDataMetaModel, "metaModel")
+		//	self.setMetaModel(oDataMetaModel, "metaModel");
 			self.setQueryName(service.queries[0].name);
 			self.oFormPanel.setBusy(false);
 		}, function() {

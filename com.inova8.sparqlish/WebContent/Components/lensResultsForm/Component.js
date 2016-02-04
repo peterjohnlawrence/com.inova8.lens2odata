@@ -63,7 +63,6 @@ Components.lensResultsForm.Component.prototype.renderResults = function(queryUrl
 	var odataURL = queryUrl || self.getProperty("query");
 	if (!jQuery.isEmptyObject(odataURL)) {
 		self.oForm.setBusy(true).setBusyIndicatorDelay(0);
-		//odataURL.replace(."http://","proxy/http/")
 		odataResults.loadData(odataURL.replace("http://","proxy/http/"));
 		odataResults.attachRequestCompleted(function(oEvent) {
 			if (oEvent.getParameter("success")) {
@@ -80,11 +79,8 @@ Components.lensResultsForm.Component.prototype.renderResults = function(queryUrl
 							oRecordTemplate = odataResults.getData().d;
 							sBindPath = "/d";
 							bResults = false;
-							// sap.m.MessageToast.show(sap.ui.getCore().getModel("i18nModel").getProperty("queryForm.noResults"));
-							// throw "No results returned";
 						}
 					} else {
-
 						nResults = odataResults.getData().d.results.length;
 						if (nResults === 0) {
 							sap.m.MessageToast.show(sap.ui.getCore().getModel("i18nModel").getProperty("queryForm.noResults"));

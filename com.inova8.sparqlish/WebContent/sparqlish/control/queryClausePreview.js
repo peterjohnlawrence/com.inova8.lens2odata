@@ -10,7 +10,7 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 				path : {
 					type : "string"
 				},
-				serviceCode:"string"
+				serviceCode : "string"
 			},
 			events : {},
 			aggregations : {
@@ -41,11 +41,17 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 		renderer : function(oRm, oControl) {
 			// Only required if we want the controls to be on the same line
 			var self = this;
-			var serviceCode =oControl.getProperty("serviceCode")
+			var oDateTimeFormat = sap.ui.core.format.DateFormat.getDateTimeInstance({
+				pattern : sap.ui.getCore().getModel("i18n").getProperty("Edm.DateTime")
+			});
+			var oDateFormat = sap.ui.core.format.DateFormat.getDateTimeInstance({
+				pattern : sap.ui.getCore().getModel("i18n").getProperty("Edm.Date")
+			});
+			var serviceCode = oControl.getProperty("serviceCode")
 			if (!jQuery.isEmptyObject(oControl.getViewContext())) {
 				var oResultsModel = oControl.getModel("resultsModel");
 				if (!jQuery.isEmptyObject(oResultsModel.getData())) {
-					var sCurrentResultsContext = oControl.getViewContext()["resultsContext"];
+					var sCurrentResultsContext = oControl.getViewContext()["resultsContext"].replace("{path}", oResultsModel.sBindPath);
 					if (!jQuery.isEmptyObject(oResultsModel) && !jQuery.isEmptyObject(sCurrentResultsContext)) {
 
 						// Get the context path calculated from the values in the paginators section of the results model
@@ -116,7 +122,7 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 								}
 							// path : "resultsModel>" + sCurrentResultsContext + "/__metadata/uri"
 							}).bindProperty("href", {
-								//path : "resultsModel>" + sCurrentResultsContext + "/__metadata/uri"
+								// path : "resultsModel>" + sCurrentResultsContext + "/__metadata/uri"
 								parts : [ {
 									path : "resultsModel>" + sCurrentResultsContext + "/__metadata/uri",
 									type : new sap.ui.model.type.String()
@@ -136,12 +142,29 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 									if (value != null) {
 										if (typeof (value) == 'string') {
 											// TODO when the Odata atom/xml response or json does not annotate the type of the response
-											value = oControl.oDateTimeFormat.parse(value);
+											var rExp = /\/Date\((.+)\)\//;
+											var sDate = rExp.exec(value)[1];
+											// return eval("new " + rExp.$1);
+											if (jQuery.isEmptyObject(sDate)) {
+												value = oDateTimeFormat.parse(value);
+											} else {
+												value = new Date(sDate * 1);
+											}
 										}
-										return oControl.oDateTimeFormat.format(value);
+										return oDateTimeFormat.format(value);
 									} else {
 										return null;
 									}
+
+									// if (value != null) {
+									// if (typeof (value) == 'string') {
+									// // TODO when the Odata atom/xml response or json does not annotate the type of the response
+									// value = oControl.oDateTimeFormat.parse(value);
+									// }
+									// return oControl.oDateTimeFormat.format(value);
+									// } else {
+									// return null;
+									// }
 								}
 							});
 							oControl.setAggregation("_preview", oControl.oTextView);

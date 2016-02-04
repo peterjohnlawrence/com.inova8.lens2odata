@@ -184,12 +184,12 @@ sap.ui.base.Object
 							};
 							if (!jQuery.isEmptyObject(this.oClauses)) {
 								// TODO when do we need to prefix resultContext with /d ?
-								extendj(oViewModel.root, this.oClauses.viewModel(this.sPath, this.oClauseReferences, entityType.name, "", "/results/{=P0}"), 0);
+								extendj(oViewModel.root, this.oClauses.viewModel(this.sPath, this.oClauseReferences, entityType.name, "", "{path}/{=P0}"), 0);//"/d/results/{=P0}"), 0);
 							}
 							extendj(oViewModel.root, {
 								"path" : this.sPath,
 								"resultsPath" : "",
-								"resultsContext" : "/results/{=P0}",
+								"resultsContext" : "{path}/{=P0}",//"/d/results/{=P0}",
 								"sparqlish" : this.sparqlish(),
 								"label" : this.sLabel,
 								"hidden" : this.bHidden,

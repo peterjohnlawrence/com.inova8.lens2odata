@@ -1,58 +1,447 @@
 {
-	"_class": "Query",
-	"name": "Test1:No clauses",
-	"concept": "Orders",
-	"clauses": 
+	"d": 
 	{
-		"_class": "Clauses",
-		"clause": 
-		{
-			"_class": "Clause",
-			"ignore": false,
-			"optional": false,
-			"propertyClause": 
+		"results": 
+		[
 			{
-				"_class": "ObjectPropertyClause",
-				"objectProperty": "Order_Details",
-				"multiplicity": 
+				"__metadata": 
 				{
-					"role": "Order_Details",
-					"type": "NorthwindModel.Order_Detail",
-					"multiplicity": "*"
+					"uri": "http://services.odata.org/V2/Northwind/Northwind.svc/Orders(10248)",
+					"type": "NorthwindModel.Order"
 				},
 
-				"objectPropertyFilters": 
-				[
-					
-				],
-
-				"clauses": 
+				"OrderID": 10248,
+				"Order_Details": 
 				{
-					"_class": "Clauses",
-					"clause": 
-					{
-						"_class": "Clause",
-						"ignore": false,
-						"optional": false,
-						"propertyClause": 
+					"results": 
+					[
 						{
-							"_class": "ObjectPropertyClause",
-							"objectProperty": "Product",
-							"multiplicity": 
+							"__metadata": 
 							{
-								"role": "Products",
-								"type": "NorthwindModel.Product",
-								"multiplicity": "1"
+								"uri": "http://services.odata.org/V2/Northwind/Northwind.svc/Order_Details(OrderID=10248,ProductID=11)",
+								"type": "NorthwindModel.Order_Detail"
 							},
 
-							"objectPropertyFilters": 
-							[
-								
-							]
+							"ProductID": 11
+						},
+
+						{
+							"__metadata": 
+							{
+								"uri": "http://services.odata.org/V2/Northwind/Northwind.svc/Order_Details(OrderID=10248,ProductID=42)",
+								"type": "NorthwindModel.Order_Detail"
+							},
+
+							"ProductID": 42
+						},
+
+						{
+							"__metadata": 
+							{
+								"uri": "http://services.odata.org/V2/Northwind/Northwind.svc/Order_Details(OrderID=10248,ProductID=72)",
+								"type": "NorthwindModel.Order_Detail"
+							},
+
+							"ProductID": 72
 						}
-					}
+					]
+				}
+			},
+
+			{
+				"__metadata": 
+				{
+					"uri": "http://services.odata.org/V2/Northwind/Northwind.svc/Orders(10249)",
+					"type": "NorthwindModel.Order"
+				},
+
+				"OrderID": 10249,
+				"Order_Details": 
+				{
+					"results": 
+					[
+						{
+							"__metadata": 
+							{
+								"uri": "http://services.odata.org/V2/Northwind/Northwind.svc/Order_Details(OrderID=10249,ProductID=14)",
+								"type": "NorthwindModel.Order_Detail"
+							},
+
+							"ProductID": 14
+						},
+
+						{
+							"__metadata": 
+							{
+								"uri": "http://services.odata.org/V2/Northwind/Northwind.svc/Order_Details(OrderID=10249,ProductID=51)",
+								"type": "NorthwindModel.Order_Detail"
+							},
+
+							"ProductID": 51
+						}
+					]
+				}
+			},
+
+			{
+				"__metadata": 
+				{
+					"uri": "http://services.odata.org/V2/Northwind/Northwind.svc/Orders(10250)",
+					"type": "NorthwindModel.Order"
+				},
+
+				"OrderID": 10250,
+				"Order_Details": 
+				{
+					"results": 
+					[
+						{
+							"__metadata": 
+							{
+								"uri": "http://services.odata.org/V2/Northwind/Northwind.svc/Order_Details(OrderID=10250,ProductID=41)",
+								"type": "NorthwindModel.Order_Detail"
+							},
+
+							"ProductID": 41
+						},
+
+						{
+							"__metadata": 
+							{
+								"uri": "http://services.odata.org/V2/Northwind/Northwind.svc/Order_Details(OrderID=10250,ProductID=51)",
+								"type": "NorthwindModel.Order_Detail"
+							},
+
+							"ProductID": 51
+						},
+
+						{
+							"__metadata": 
+							{
+								"uri": "http://services.odata.org/V2/Northwind/Northwind.svc/Order_Details(OrderID=10250,ProductID=65)",
+								"type": "NorthwindModel.Order_Detail"
+							},
+
+							"ProductID": 65
+						}
+					]
+				}
+			},
+
+			{
+				"__metadata": 
+				{
+					"uri": "http://services.odata.org/V2/Northwind/Northwind.svc/Orders(10251)",
+					"type": "NorthwindModel.Order"
+				},
+
+				"OrderID": 10251,
+				"Order_Details": 
+				{
+					"results": 
+					[
+						{
+							"__metadata": 
+							{
+								"uri": "http://services.odata.org/V2/Northwind/Northwind.svc/Order_Details(OrderID=10251,ProductID=22)",
+								"type": "NorthwindModel.Order_Detail"
+							},
+
+							"ProductID": 22
+						},
+
+						{
+							"__metadata": 
+							{
+								"uri": "http://services.odata.org/V2/Northwind/Northwind.svc/Order_Details(OrderID=10251,ProductID=57)",
+								"type": "NorthwindModel.Order_Detail"
+							},
+
+							"ProductID": 57
+						},
+
+						{
+							"__metadata": 
+							{
+								"uri": "http://services.odata.org/V2/Northwind/Northwind.svc/Order_Details(OrderID=10251,ProductID=65)",
+								"type": "NorthwindModel.Order_Detail"
+							},
+
+							"ProductID": 65
+						}
+					]
+				}
+			},
+
+			{
+				"__metadata": 
+				{
+					"uri": "http://services.odata.org/V2/Northwind/Northwind.svc/Orders(10252)",
+					"type": "NorthwindModel.Order"
+				},
+
+				"OrderID": 10252,
+				"Order_Details": 
+				{
+					"results": 
+					[
+						{
+							"__metadata": 
+							{
+								"uri": "http://services.odata.org/V2/Northwind/Northwind.svc/Order_Details(OrderID=10252,ProductID=20)",
+								"type": "NorthwindModel.Order_Detail"
+							},
+
+							"ProductID": 20
+						},
+
+						{
+							"__metadata": 
+							{
+								"uri": "http://services.odata.org/V2/Northwind/Northwind.svc/Order_Details(OrderID=10252,ProductID=33)",
+								"type": "NorthwindModel.Order_Detail"
+							},
+
+							"ProductID": 33
+						},
+
+						{
+							"__metadata": 
+							{
+								"uri": "http://services.odata.org/V2/Northwind/Northwind.svc/Order_Details(OrderID=10252,ProductID=60)",
+								"type": "NorthwindModel.Order_Detail"
+							},
+
+							"ProductID": 60
+						}
+					]
+				}
+			},
+
+			{
+				"__metadata": 
+				{
+					"uri": "http://services.odata.org/V2/Northwind/Northwind.svc/Orders(10253)",
+					"type": "NorthwindModel.Order"
+				},
+
+				"OrderID": 10253,
+				"Order_Details": 
+				{
+					"results": 
+					[
+						{
+							"__metadata": 
+							{
+								"uri": "http://services.odata.org/V2/Northwind/Northwind.svc/Order_Details(OrderID=10253,ProductID=31)",
+								"type": "NorthwindModel.Order_Detail"
+							},
+
+							"ProductID": 31
+						},
+
+						{
+							"__metadata": 
+							{
+								"uri": "http://services.odata.org/V2/Northwind/Northwind.svc/Order_Details(OrderID=10253,ProductID=39)",
+								"type": "NorthwindModel.Order_Detail"
+							},
+
+							"ProductID": 39
+						},
+
+						{
+							"__metadata": 
+							{
+								"uri": "http://services.odata.org/V2/Northwind/Northwind.svc/Order_Details(OrderID=10253,ProductID=49)",
+								"type": "NorthwindModel.Order_Detail"
+							},
+
+							"ProductID": 49
+						}
+					]
+				}
+			},
+
+			{
+				"__metadata": 
+				{
+					"uri": "http://services.odata.org/V2/Northwind/Northwind.svc/Orders(10254)",
+					"type": "NorthwindModel.Order"
+				},
+
+				"OrderID": 10254,
+				"Order_Details": 
+				{
+					"results": 
+					[
+						{
+							"__metadata": 
+							{
+								"uri": "http://services.odata.org/V2/Northwind/Northwind.svc/Order_Details(OrderID=10254,ProductID=24)",
+								"type": "NorthwindModel.Order_Detail"
+							},
+
+							"ProductID": 24
+						},
+
+						{
+							"__metadata": 
+							{
+								"uri": "http://services.odata.org/V2/Northwind/Northwind.svc/Order_Details(OrderID=10254,ProductID=55)",
+								"type": "NorthwindModel.Order_Detail"
+							},
+
+							"ProductID": 55
+						},
+
+						{
+							"__metadata": 
+							{
+								"uri": "http://services.odata.org/V2/Northwind/Northwind.svc/Order_Details(OrderID=10254,ProductID=74)",
+								"type": "NorthwindModel.Order_Detail"
+							},
+
+							"ProductID": 74
+						}
+					]
+				}
+			},
+
+			{
+				"__metadata": 
+				{
+					"uri": "http://services.odata.org/V2/Northwind/Northwind.svc/Orders(10255)",
+					"type": "NorthwindModel.Order"
+				},
+
+				"OrderID": 10255,
+				"Order_Details": 
+				{
+					"results": 
+					[
+						{
+							"__metadata": 
+							{
+								"uri": "http://services.odata.org/V2/Northwind/Northwind.svc/Order_Details(OrderID=10255,ProductID=2)",
+								"type": "NorthwindModel.Order_Detail"
+							},
+
+							"ProductID": 2
+						},
+
+						{
+							"__metadata": 
+							{
+								"uri": "http://services.odata.org/V2/Northwind/Northwind.svc/Order_Details(OrderID=10255,ProductID=16)",
+								"type": "NorthwindModel.Order_Detail"
+							},
+
+							"ProductID": 16
+						},
+
+						{
+							"__metadata": 
+							{
+								"uri": "http://services.odata.org/V2/Northwind/Northwind.svc/Order_Details(OrderID=10255,ProductID=36)",
+								"type": "NorthwindModel.Order_Detail"
+							},
+
+							"ProductID": 36
+						},
+
+						{
+							"__metadata": 
+							{
+								"uri": "http://services.odata.org/V2/Northwind/Northwind.svc/Order_Details(OrderID=10255,ProductID=59)",
+								"type": "NorthwindModel.Order_Detail"
+							},
+
+							"ProductID": 59
+						}
+					]
+				}
+			},
+
+			{
+				"__metadata": 
+				{
+					"uri": "http://services.odata.org/V2/Northwind/Northwind.svc/Orders(10256)",
+					"type": "NorthwindModel.Order"
+				},
+
+				"OrderID": 10256,
+				"Order_Details": 
+				{
+					"results": 
+					[
+						{
+							"__metadata": 
+							{
+								"uri": "http://services.odata.org/V2/Northwind/Northwind.svc/Order_Details(OrderID=10256,ProductID=53)",
+								"type": "NorthwindModel.Order_Detail"
+							},
+
+							"ProductID": 53
+						},
+
+						{
+							"__metadata": 
+							{
+								"uri": "http://services.odata.org/V2/Northwind/Northwind.svc/Order_Details(OrderID=10256,ProductID=77)",
+								"type": "NorthwindModel.Order_Detail"
+							},
+
+							"ProductID": 77
+						}
+					]
+				}
+			},
+
+			{
+				"__metadata": 
+				{
+					"uri": "http://services.odata.org/V2/Northwind/Northwind.svc/Orders(10257)",
+					"type": "NorthwindModel.Order"
+				},
+
+				"OrderID": 10257,
+				"Order_Details": 
+				{
+					"results": 
+					[
+						{
+							"__metadata": 
+							{
+								"uri": "http://services.odata.org/V2/Northwind/Northwind.svc/Order_Details(OrderID=10257,ProductID=27)",
+								"type": "NorthwindModel.Order_Detail"
+							},
+
+							"ProductID": 27
+						},
+
+						{
+							"__metadata": 
+							{
+								"uri": "http://services.odata.org/V2/Northwind/Northwind.svc/Order_Details(OrderID=10257,ProductID=39)",
+								"type": "NorthwindModel.Order_Detail"
+							},
+
+							"ProductID": 39
+						},
+
+						{
+							"__metadata": 
+							{
+								"uri": "http://services.odata.org/V2/Northwind/Northwind.svc/Order_Details(OrderID=10257,ProductID=77)",
+								"type": "NorthwindModel.Order_Detail"
+							},
+
+							"ProductID": 77
+						}
+					]
 				}
 			}
-		}
+		]
 	}
 }

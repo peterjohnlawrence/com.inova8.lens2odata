@@ -2603,12 +2603,28 @@
 			]
 		},
 
+		"RNW3": 
+		{
+			"code": "RNW3",
+			"name": "NorthwindV3",
+			"serviceUrl": "proxy/http/services.odata.org/V3/Northwind/Northwind.svc/",
+			"version": "V2",
+			"queries": 
+			[
+				{
+					"_class": "Query",
+					"name": "TestA:No clauses",
+					"concept": "Customers"
+				}
+			]
+		},
+
 		"RNW4": 
 		{
 			"code": "RNW4",
 			"name": "NorthwindV4",
 			"serviceUrl": "proxy/http/services.odata.org/V4/Northwind/Northwind.svc/",
-			"version": "V2",
+			"version": "V4",
 			"queries": 
 			[
 				{
