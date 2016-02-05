@@ -27,11 +27,14 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 			self.oConceptLink.addStyleClass("conceptMenuLink");
 			self.oConceptList = new sap.m.P13nColumnsPanel({
 				title : "{i18nModel>conceptList}",
+				type:"columns",
+				visible: true,
 				items : {
 					path : "entityContainer>/entitySet",
 					template : new sap.m.P13nItem({
 						columnKey : "{entityContainer>name}",
-						text : "{entityContainer>name}"
+						text : "{entityContainer>name}",
+						visible: true
 					})
 				},
 			});
@@ -64,6 +67,7 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 				if (self.oDialog.isOpen()) {
 					self.oDialog.close();
 				} else {
+					
 					self.oDialog.open();
 				}
 			});

@@ -8,9 +8,9 @@ jQuery.sap.require("sap.m.Toolbar");
 jQuery.sap.require("sap.m.Button");
 jQuery.sap.require("sap.ui.core.IconPool");
 
-jQuery.sap.declare("Components.queryEditorPreviewTreeTable.Component");
+jQuery.sap.declare("Components.queryForm.Component");
 
-sap.ui.core.UIComponent.extend("Components.queryEditorPreviewTreeTable.Component", {
+sap.ui.core.UIComponent.extend("Components.queryForm.Component", {
 	metadata : {
 		// manifest : "json",
 		properties : {
@@ -25,14 +25,11 @@ sap.ui.core.UIComponent.extend("Components.queryEditorPreviewTreeTable.Component
 		}
 	}
 });
-Components.queryEditorPreviewTreeTable.Component.prototype.setServiceQueriesModel = function(serviceQueriesModel) {
+Components.queryForm.Component.prototype.setServiceQueriesModel = function(serviceQueriesModel) {
 	this.setProperty("serviceQueriesModel", serviceQueriesModel);
-	var oFirstService = serviceQueriesModel.getData().services[Object.keys(serviceQueriesModel.getData().services)[0]];
-	var oFirstQuery = oFirstService.queries[Object.keys(oFirstService.queries)[0]];
-	this.setService(oFirstService, oFirstQuery);
-}
+};
 
-Components.queryEditorPreviewTreeTable.Component.prototype.createContent = function() {
+Components.queryForm.Component.prototype.createContent = function() {
 	var self = this;
 	this.oTable = new sap.ui.table.TreeTable({
 		columns : [ new sap.ui.table.Column({
@@ -87,7 +84,7 @@ Components.queryEditorPreviewTreeTable.Component.prototype.createContent = funct
 	// TODO need to provide i18n on component construction as it is required when i18n appears in path expressions
 	}).setModel(sap.ui.getCore().getModel("i18nModel"), "i18nModel").setModel(sap.ui.getCore().getModel("datatypesModel"), "datatypesModel");
 	// TODO add debug menu
-	if (jQuery.sap.log.getLevel() === jQuery.sap.log.Level.ERROR) {
+	if (jQuery.sap.log.getLevel() === jQuery.sap.log.Level.INFO) {
 		this.oDebug = new sap.m.ActionSelect().addButton(new sap.m.Button({
 			text : "Query Model",
 			press : function() {
@@ -164,13 +161,13 @@ Components.queryEditorPreviewTreeTable.Component.prototype.createContent = funct
 	}
 	return this.oTable;
 };
-Components.queryEditorPreviewTreeTable.Component.prototype.clearResults = function(self) {
+Components.queryForm.Component.prototype.clearResults = function(self) {
 	self.oResultsModel = new sap.ui.model.json.JSONModel({});
 	self.oTable.setModel(self.oResultsModel, "resultsModel");
 	self.oTable.rerender();
 };
 // TODO delegate to Query object
-Components.queryEditorPreviewTreeTable.Component.prototype.resetQuery = function(self) {
+Components.queryForm.Component.prototype.resetQuery = function(self) {
 	this.clearResults(this);
 	this.setQuery({
 		"_class" : "Query",
@@ -178,7 +175,7 @@ Components.queryEditorPreviewTreeTable.Component.prototype.resetQuery = function
 		"concept" : "Orders"
 	});
 };
-Components.queryEditorPreviewTreeTable.Component.prototype.refreshQuery = function(self) {
+Components.queryForm.Component.prototype.refreshQuery = function(self) {
 	self.clearResults(self);
 	// TODO
 	// var query = new Query(this.getOdataModel(), this.getProperty("query").oAST);
@@ -194,44 +191,64 @@ Components.queryEditorPreviewTreeTable.Component.prototype.refreshQuery = functi
 	self.oTable.getModel("viewModel").refresh();
 	self.oTable.rerender();
 };
-Components.queryEditorPreviewTreeTable.Component.prototype.setService = function(service, query) {
+Components.queryForm.Component.prototype.setService = function(service, query) {
 	var self = this;
-	self.setProperty("service", service);
-	var odataModel = utils.getCachedOdataModel(service);
-	this.setOdataModel(odataModel);
-	this.oTable.setModel(odataModel, "odataModel");
-
-	var oDataMetaModel = odataModel.getMetaModel();
-	var oMetaModelEntityContainer;
-	self.oTable.setBusy(true).setBusyIndicatorDelay(0);
-	var oEntityContainerModel = new sap.ui.model.json.JSONModel();
-	oDataMetaModel.loaded().then(function() {
-		self.oTable.setModel(oDataMetaModel, "metaModel")
-		oMetaModelEntityContainer = oDataMetaModel.getODataEntityContainer();
-		self.oTable.setModel(self.getDatatypesModel(), "datatypesModel");
-		self.oTable.getColumns()[1].setTemplate(new sparqlish.control.queryClausePreview({
-			viewContext : {
-				path : "viewModel>",
+	var odataModel = utils.getCachedOdataModel(service, function() {
+		self.oTable.setBusy(false);
+	}, function(odataModel) {
+		self.setProperty("service", service);
+		self.setOdataModel(odataModel);
+		self.oTable.setModel(odataModel, "odataModel");
+		// Setup service list
+		self.oTable.getToolbar().oServiceSelect.setSelectedKey(service.code);
+		// Setup query list
+		self.oTable.getToolbar().oQuerySelect.bindItems({
+			path : "serviceQueriesModel>/services/" + service.code + "/queries",
+			sorter : {
+				path : "serviceQueriesModel>name"
 			},
-			serviceCode : service.code
-		}));
-		oEntityContainerModel.setData(oMetaModelEntityContainer);
-		// TODO this does not work so need to set Core
-		self.oTable.setModel(oEntityContainerModel, "entityContainer");
-		sap.ui.getCore().setModel(oEntityContainerModel, "entityContainer");
-		self.oTable.setBusy(false);
-		self.setQuery(query);
+			template : new sap.ui.core.ListItem({
+				key : "{serviceQueriesModel>name}",
+				text : "{serviceQueriesModel>name}"
+			})
+		});
+		self.oTable.getToolbar().oQuerySelect.setSelectedItem(self.oTable.getToolbar().oQuerySelect.getFirstItem());
 
-	}, function() {
-		self.oTable.setBusy(false);
-		throw ("metamodel error");
+		// Setup metamodel to drive the query composition before settimng the query
+		var oDataMetaModel = odataModel.getMetaModel();
+		self.oTable.setBusy(true).setBusyIndicatorDelay(0);
+		oDataMetaModel.loaded().then(
+				function() {
+					var oMetaModelEntityContainer;
+					var oEntityContainerModel = new sap.ui.model.json.JSONModel();
+					self.oTable.setModel(oDataMetaModel, "metaModel")
+					oMetaModelEntityContainer = oDataMetaModel.getODataEntityContainer();
+					self.oTable.setModel(self.getDatatypesModel(), "datatypesModel");
+					self.oTable.getColumns()[1].setTemplate(new sparqlish.control.queryClausePreview({
+						viewContext : {
+							path : "viewModel>",
+						},
+						serviceCode : service.code
+					}));
+					oEntityContainerModel.setData(oMetaModelEntityContainer);
+					// TODO this does not work so need to set Core
+					self.oTable.setModel(oEntityContainerModel, "entityContainer");
+					sap.ui.getCore().setModel(oEntityContainerModel, "entityContainer");
+					self.oTable.setBusy(false);
+					self.setQuery(self.getProperty("serviceQueriesModel").getProperty(
+							self.oTable.getToolbar().oQuerySelect.getFirstItem().getBindingContext("serviceQueriesModel").getPath()));
+
+					if (!jQuery.isEmptyObject(query))
+						self.setQuery(query);
+
+				}, function() {
+					self.oTable.setBusy(false);
+					throw ("metamodel error");
+				});
 	});
-	// sap.ui.core.routing.Router.getRouter("lensRouter").navTo("query", {
-	// service : service.code
-	// });
 };
 
-Components.queryEditorPreviewTreeTable.Component.prototype.setQuery = function(queryModel) {
+Components.queryForm.Component.prototype.setQuery = function(queryModel) {
 	var self = this;
 	try {
 		var query = new Query(this.oTable.getModel("metaModel"), queryModel);
@@ -262,14 +279,14 @@ Components.queryEditorPreviewTreeTable.Component.prototype.setQuery = function(q
 		sap.m.MessageToast.show(e);
 	}
 };
-Components.queryEditorPreviewTreeTable.Component.prototype.previewResults = function(self) {
+Components.queryForm.Component.prototype.previewResults = function(self) {
 	var query = this.getProperty("query").init(this.getProperty("query").oAST);
 	var serviceURL = this.getProperty("service").serviceUrl;
 	var odataURL = serviceURL + "/" + query.odataURI() + "&$top=10";
 	self.clearResults(self);
 	self.oResultsModel = new sap.ui.model.json.JSONModel({});
 	if (!jQuery.isEmptyObject(odataURL)) {
-		self.oTable.setBusy(true);//.setBusyIndicatorDelay(0);
+		self.oTable.setBusy(true);// .setBusyIndicatorDelay(0);
 		self.oResultsModel.loadData(odataURL);
 		self.oResultsModel.attachRequestCompleted(function(oEvent) {
 			if (oEvent.getParameter("success")) {
@@ -292,9 +309,8 @@ Components.queryEditorPreviewTreeTable.Component.prototype.previewResults = func
 				}
 				self.oTable.setBusy(false);
 				self.oTable.setModel(self.oResultsModel, "resultsModel");
-				self.oTable.rerender();			
-				
-				
+				self.oTable.rerender();
+
 			} else {
 				sap.m.MessageToast.show(oEvent.getParameter("errorobject").statusText);
 			}
@@ -305,7 +321,7 @@ Components.queryEditorPreviewTreeTable.Component.prototype.previewResults = func
 		sap.m.MessageToast.show(sap.ui.getCore().getModel("i18nModel").getProperty("lensResultsForm.queryUndefined"));
 	}
 };
-Components.queryEditorPreviewTreeTable.Component.prototype.previewResultsOld = function(self) {
+Components.queryForm.Component.prototype.previewResultsOld = function(self) {
 	// TODO
 	// var query = new Query(this.getOdataModel(), this.getProperty("query").oAST);
 	var query = this.getProperty("query").init(this.getProperty("query").oAST);

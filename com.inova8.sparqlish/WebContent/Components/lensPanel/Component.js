@@ -44,17 +44,18 @@ Components.lensPanel.Component.prototype.setConfig = function(sConfig) {
 Components.lensPanel.Component.prototype.renderFragments = function() {
 	// Check sConfig to see if it has changed
 
-		this.oLensPanel.removeAllContent();
-		var oLensesModel = sap.ui.getCore().getModel("lensesModel");
-		var oLens = oLensesModel.getData()["lenses"][this.getRole()][this.getConcept()];
-		// var oLens = oLensesModel.getData()["lenses"]["(default)"]["Northwind.Orders"];
-		var oContent = sap.ui.getCore().getModel("lensesModel").getData()["templates"][oLens.template];
-		this.setProperty("_fragmentModel", oLens["fragments"]);
-		this.oLensPanel.addContent(this.displayContent(oContent));
-		this.oLensPanel.getTitle().setText(oLens.title);
+	this.oLensPanel.removeAllContent();
+	var oLensesModel = sap.ui.getCore().getModel("lensesModel");
+	var oLens = oLensesModel.getData()["lenses"][this.getRole()][this.getConcept()];
+	// var oLens = oLensesModel.getData()["lenses"]["(default)"]["Northwind.Orders"];
+	var oContent = sap.ui.getCore().getModel("lensesModel").getData()["templates"][oLens.template];
+	this.setProperty("_fragmentModel", oLens["fragments"]);
+	this.oLensPanel.addContent(this.displayContent(oContent));
+	this.oLensPanel.getTitle().setText(oLens.title);
 
 };
 Components.lensPanel.Component.prototype.displayContent = function(oContent) {
+	var self=this;
 	if (oContent.type === "columns") {
 		var oHorizontalSplitter = new sap.ui.layout.Splitter();
 		oHorizontalSplitter.setOrientation(sap.ui.core.Orientation.Horizontal);
@@ -99,8 +100,8 @@ Components.lensPanel.Component.prototype.displayContent = function(oContent) {
 		return oVerticalSplitter;
 	} else if (oContent.type === "lens") {
 		// var oFragment = this.getProperty("_fragmentModel")[oContent.id];
-		var oFragments = utils.lookup(this.getProperty("_fragmentModel"),"position", oContent.id);   //this.getProperty("_fragmentModel").lookup("position", oContent.id);
-
+		var oFragments = utils.lookup(this.getProperty("_fragmentModel"), "position", oContent.id); // this.getProperty("_fragmentModel").lookup("position",
+																																																// oContent.id);
 		if (!jQuery.isEmptyObject(oFragments)) {
 			oComponentContainers = [];
 			for (var i = 0, len = oFragments.length; i < len; i++) {
@@ -109,23 +110,28 @@ Components.lensPanel.Component.prototype.displayContent = function(oContent) {
 				if (queryUri === "{queryUri}")
 					queryUri = this.getProperty("query").queryUri;
 				var service = sap.ui.getCore().getModel("serviceQueriesModel").getData().services[this.getProperty("serviceCode")];
-				var oComponent = sap.ui.getCore().createComponent({
-					name : oFragment.type,
-					settings : {
-						title : oFragment.title,
-						query : queryUri,
-						metaModel : utils.getCachedOdataModel(service).getMetaModel(),
-						serviceCode: 	this.getProperty("serviceCode")
-					// oMetaModel
-					}
-				});
-				var oComponentContainer = new sap.ui.core.ComponentContainer({
-					component : oComponent,
-					propagateModel : true
-				});
-				oComponentContainer.addStyleClass("tile");
-				oComponent.renderResults();
-				oComponentContainers.push(oComponentContainer);
+				utils.getCachedOdataModel(service, function() {
+					sap.ui.MessageToast("lens.invalidService");
+				}, function(odataModel) {
+					var oComponent = sap.ui.getCore().createComponent({
+						name : oFragment.type,
+						settings : {
+							title : oFragment.title,
+							query : queryUri,
+							metaModel : odataModel.getMetaModel(),
+							serviceCode : self.getProperty("serviceCode")
+						// oMetaModel
+						}
+					});
+					var oComponentContainer = new sap.ui.core.ComponentContainer({
+						component : oComponent,
+						propagateModel : true
+					});
+					oComponentContainer.addStyleClass("tile");
+					oComponent.renderResults();
+					oComponentContainers.push(oComponentContainer);
+				}
+				);
 			}
 			return oComponentContainers;
 		} else {
@@ -149,4 +155,3 @@ Components.lensPanel.Component.prototype.displayContent = function(oContent) {
 		}
 	}
 };
-

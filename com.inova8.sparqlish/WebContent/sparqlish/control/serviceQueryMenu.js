@@ -51,7 +51,7 @@ sap.m.OverflowToolbar.extend("sparqlish.control.serviceQueryMenu", {
 					path : "serviceQueriesModel>name"
 				},
 				template : new sap.ui.core.ListItem({
-					key : "{serviceQueriesModel>serviceUrl}",
+					key : "{serviceQueriesModel>code}",
 					text : "{serviceQueriesModel>name}"
 				})
 			},
@@ -210,14 +210,14 @@ sap.m.OverflowToolbar.extend("sparqlish.control.serviceQueryMenu", {
 				sap.m.MessageToast.show(sap.ui.getCore().getModel("i18nModel").getProperty("queryClear"))
 			}
 		}));
-		self.oPreview = new sap.m.OverflowToolbarButton({
+		self.oPreview = new sap.m.Button({
 			text : "{i18nModel>preview}",
 			icon : sap.ui.core.IconPool.getIconURI("search"),
 			press : function(oEvent) {
 				self.firePreview({})
 			}
 		});
-		self.oEnterQueryParameters = new sap.m.OverflowToolbarButton({
+		self.oEnterQueryParameters = new sap.m.Button({
 			text : "{i18nModel>enterQueryParameters}",
 			tooltip : "{i18nModel>enterQueryParametersTooltip}",
 			icon : sap.ui.core.IconPool.getIconURI("form"),
@@ -233,7 +233,7 @@ sap.m.OverflowToolbar.extend("sparqlish.control.serviceQueryMenu", {
 				}
 			}
 		});
-		self.oUndo = new sap.m.OverflowToolbarButton({
+		self.oUndo = new sap.m.Button({
 			text : "{i18nModel>undo}",
 			tooltip : "{i18nModel>undoTooltip}",
 			icon : sap.ui.core.IconPool.getIconURI("undo"),
@@ -241,7 +241,7 @@ sap.m.OverflowToolbar.extend("sparqlish.control.serviceQueryMenu", {
 				self.fireUndo(oEvent);
 			}
 		});
-		self.oSave = new sap.m.OverflowToolbarButton({
+		self.oSave = new sap.m.Button({
 			text : "{i18nModel>save}",
 			tooltip : "{i18nModel>saveTooltip}",
 			icon : sap.ui.core.IconPool.getIconURI("save"),
@@ -249,7 +249,7 @@ sap.m.OverflowToolbar.extend("sparqlish.control.serviceQueryMenu", {
 				self.fireSave(oEvent);
 			}
 		});
-		self.oSaveAs = new sap.m.OverflowToolbarButton({
+		self.oSaveAs = new sap.m.Button({
 			text : "{i18nModel>saveAs}",
 			tooltip : "{i18nModel>saveAsTooltip}",
 			icon : sap.ui.core.IconPool.getIconURI("duplicate"),
@@ -257,7 +257,7 @@ sap.m.OverflowToolbar.extend("sparqlish.control.serviceQueryMenu", {
 				self.fireSaveAs(oEvent);
 			}
 		});
-		self.oSettings = new sap.m.OverflowToolbarButton({
+		self.oSettings = new sap.m.Button({
 			icon : sap.ui.core.IconPool.getIconURI("settings"),
 			press : function(oEvent) {
 				sap.m.MessageToast.show("settings")
@@ -269,10 +269,12 @@ sap.m.OverflowToolbar.extend("sparqlish.control.serviceQueryMenu", {
 				window.open("http://www.inova8.com");
 			}
 		});
-		self.oToolbar = new sap.m.OverflowToolbar();
+		self.oToolbar = new sap.m.Toolbar();
 		self.oToolbar.addContent(self.oInova8).addContent(self.oServiceSelect).addContent(self.oQuerySelect).addContent(self.oEnterQueryParameters)
 		.addContent(self.oUndo).addContent(self.oRedo).addContent(self.oSave).addContent(self.oSaveAs).addContent(new sap.m.ToolbarSpacer())
 		.addContent(self.oPreview).addContent(new sap.m.ToolbarSpacer()).addContent(self.oSettings);
+// self.oToolbar.addContent(self.oServiceSelect).addContent(self.oQuerySelect)
+//		.addContent(self.oPreview);
 		self.setAggregation("_toolbar", self.oToolbar);
 	},
 	addContent : function(oControl) {
