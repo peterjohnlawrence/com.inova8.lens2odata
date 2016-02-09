@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>com.inova8.sparqlish</name>
+	<name>lens2odata</name>
 	<comment></comment>
 	<projects>
 	</projects>
@@ -43,7 +43,7 @@
 	</linkedResources>
 	<filteredResources>
 		<filter>
-			<id>1424737200236</id>
+			<id>0</id>
 			<name></name>
 			<type>26</type>
 			<matcher>
