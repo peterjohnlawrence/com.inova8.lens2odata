@@ -35,9 +35,6 @@ sap.m.OverflowToolbar.extend("sparqlish.control.serviceQueryMenu", {
 			},
 			save : {
 				enablePreventDefault : true
-			},
-			saveAs : {
-				enablePreventDefault : true
 			}
 		}
 	},
@@ -85,7 +82,9 @@ sap.m.OverflowToolbar.extend("sparqlish.control.serviceQueryMenu", {
 					beginButton : new sap.m.Button({
 						text : 'Confirm',
 						press : function() {
-							self.getModel("serviceQueriesModel").getData().services.removeValue("name", self.oServiceSelect.getSelectedItem().getText());
+							delete self.getModel("serviceQueriesModel").getData().services[self.oServiceSelect.getSelectedKey()];
+							// utils.removeValue(self.getModel("serviceQueriesModel").getData().services,"name",
+							// self.oServiceSelect.getSelectedItem().getText());
 							self.getModel("serviceQueriesModel").refresh();
 							sap.m.MessageToast.show(sap.ui.getCore().getModel("i18nModel").getProperty("serviceQueriesRemoved"));
 							oServiceDeleteDialog.close();
@@ -125,23 +124,24 @@ sap.m.OverflowToolbar.extend("sparqlish.control.serviceQueryMenu", {
 					beginButton : new sap.m.Button({
 						text : 'Add',
 						press : function() {
-							var validateService = function(sUrl) {
-								var testService = new sap.ui.model.odata.ODataMetadata(sUrl + "$metadata", {
-									async : false
-								});
-								return !testService.isFailed();
+							var validateService = function(service) {
+								utils.getCachedOdataModel(service, this.onFailure, this.onSuccess)
+								this.onFailure = function() {
+									return false;
+								};
+								this.onSuccess = function() {
+									return true;
+								};
 							};
-							if (validateService(oServiceAddDialog.getContent()[1].getValue())) {
-								self.getModel("serviceQueriesModel").getData().services.push({
-									"name" : oServiceAddDialog.getContent()[0].getValue(),
-									"serviceUrl" : oServiceAddDialog.getContent()[1].getValue(),
-									"version" : "V2",
-									"queries" : [ {
-										"_class" : "Query",
-										"name" : "RSVPs",
-										"concept" : "RSVPs"
-									} ]
-								});
+							var service = {
+								"code" : "T1",
+								"name" : oServiceAddDialog.getContent()[0].getValue(),
+								"serviceUrl" : oServiceAddDialog.getContent()[1].getValue(),
+								"version" : "V2",
+								"queries" : []
+							};
+							if (validateService(service)) {
+								self.getModel("serviceQueriesModel").getData().services.push(service);
 								self.getModel("serviceQueriesModel").refresh();
 								sap.m.MessageToast.show(sap.ui.getCore().getModel("i18nModel").getProperty('validOdataService'));
 								oServiceAddDialog.close();
@@ -249,14 +249,6 @@ sap.m.OverflowToolbar.extend("sparqlish.control.serviceQueryMenu", {
 				self.fireSave(oEvent);
 			}
 		});
-		self.oSaveAs = new sap.m.Button({
-			text : "{i18nModel>saveAs}",
-			tooltip : "{i18nModel>saveAsTooltip}",
-			icon : sap.ui.core.IconPool.getIconURI("duplicate"),
-			press : function(oEvent) {
-				self.fireSaveAs(oEvent);
-			}
-		});
 		self.oSettings = new sap.m.Button({
 			icon : sap.ui.core.IconPool.getIconURI("settings"),
 			press : function(oEvent) {
@@ -270,11 +262,11 @@ sap.m.OverflowToolbar.extend("sparqlish.control.serviceQueryMenu", {
 			}
 		});
 		self.oToolbar = new sap.m.Toolbar();
-		self.oToolbar.addContent(self.oInova8).addContent(self.oServiceSelect).addContent(self.oQuerySelect).addContent(self.oEnterQueryParameters)
-		.addContent(self.oUndo).addContent(self.oRedo).addContent(self.oSave).addContent(self.oSaveAs).addContent(new sap.m.ToolbarSpacer())
-		.addContent(self.oPreview).addContent(new sap.m.ToolbarSpacer()).addContent(self.oSettings);
-// self.oToolbar.addContent(self.oServiceSelect).addContent(self.oQuerySelect)
-//		.addContent(self.oPreview);
+		self.oToolbar.addContent(self.oInova8).addContent(self.oServiceSelect).addContent(self.oQuerySelect).addContent(self.oEnterQueryParameters).addContent(
+				self.oUndo).addContent(self.oRedo).addContent(self.oSave).addContent(self.oSaveAs).addContent(new sap.m.ToolbarSpacer()).addContent(self.oPreview)
+				.addContent(new sap.m.ToolbarSpacer()).addContent(self.oSettings);
+		// self.oToolbar.addContent(self.oServiceSelect).addContent(self.oQuerySelect)
+		// .addContent(self.oPreview);
 		self.setAggregation("_toolbar", self.oToolbar);
 	},
 	addContent : function(oControl) {

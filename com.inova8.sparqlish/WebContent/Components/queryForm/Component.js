@@ -48,7 +48,7 @@ Components.queryForm.Component.prototype.createContent = function() {
 			resizable : true,
 			autoResizable : true
 		}), new sap.ui.table.Column("results", {
-			label : "{i18nModel>queryForm.previewResult}",
+			label : "{i18nModel>queryForm.resultsPreview}",
 			template : new sparqlish.control.queryClausePreview({
 				viewContext : {
 					path : "viewModel>",
@@ -78,13 +78,11 @@ Components.queryForm.Component.prototype.createContent = function() {
 			self.refreshQuery(self);
 		}).attachSave(function(oEvent) {
 			self.setQuery(oEvent.getParameter("query"));
-		}).attachSaveAs(function(oEvent) {
-			self.setQuery(oEvent.getParameter("query"));
 		})
 	// TODO need to provide i18n on component construction as it is required when i18n appears in path expressions
 	}).setModel(sap.ui.getCore().getModel("i18nModel"), "i18nModel").setModel(sap.ui.getCore().getModel("datatypesModel"), "datatypesModel");
 	// TODO add debug menu
-	if (jQuery.sap.log.getLevel() === jQuery.sap.log.Level.INFO) {
+	if (jQuery.sap.log.getLevel() === jQuery.sap.log.Level.DEBUG) {
 		this.oDebug = new sap.m.ActionSelect().addButton(new sap.m.Button({
 			text : "Query Model",
 			press : function() {
@@ -281,7 +279,7 @@ Components.queryForm.Component.prototype.setQuery = function(queryModel) {
 };
 Components.queryForm.Component.prototype.previewResults = function(self) {
 	var query = this.getProperty("query").init(this.getProperty("query").oAST);
-	var serviceURL = this.getProperty("service").serviceUrl;
+	var serviceURL = utils.proxyUrl(this.getProperty("service").serviceUrl);
 	var odataURL = serviceURL + "/" + query.odataURI() + "&$top=10";
 	self.clearResults(self);
 	self.oResultsModel = new sap.ui.model.json.JSONModel({});
@@ -311,14 +309,17 @@ Components.queryForm.Component.prototype.previewResults = function(self) {
 				self.oTable.setModel(self.oResultsModel, "resultsModel");
 				self.oTable.rerender();
 
-			} else {
-				sap.m.MessageToast.show(oEvent.getParameter("errorobject").statusText);
-			}
+			} 
+//TODO not required with Requestfailed handler
+//			else {
+//				sap.m.MessageToast.show(oEvent.getParameter("errorobject").statusText);
+//			}
 		}).attachRequestFailed(function(oEvent) {
-			sap.m.MessageToast.show(oEvent.getParameter("statusText"));
+			sap.m.MessageToast.show(sap.ui.getCore().getModel("i18nModel").getProperty("queryForm.queryResponseError") + oEvent.getParameter("statusText"));
+			self.oTable.setBusy(false);
 		});
 	} else {
-		sap.m.MessageToast.show(sap.ui.getCore().getModel("i18nModel").getProperty("lensResultsForm.queryUndefined"));
+		sap.m.MessageToast.show(sap.ui.getCore().getModel("i18nModel").getProperty("queryForm.queryUndefined"));
 	}
 };
 Components.queryForm.Component.prototype.previewResultsOld = function(self) {

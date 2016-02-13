@@ -27,8 +27,8 @@ sap.ui.define([ "sap/ui/core/UIComponent" ], function(UIComponent) {
 					name : "search",
 					target : "search"
 				}, {
-					//example   #LNW2/search
-					//example   #LNW2/search/Test 1
+					// example #LNW2/search
+					// example #LNW2/search/Test 1
 					pattern : "{service}/search/:querycode:",
 					name : "searchWithQuery",
 					target : "search"
@@ -37,12 +37,12 @@ sap.ui.define([ "sap/ui/core/UIComponent" ], function(UIComponent) {
 					name : "query",
 					target : "query"
 				}, {
-					//example   #LNW2/lens/manager?resourcePath=Orders()
+					// example #LNW2/lens/manager?resourcePath=Orders()
 					pattern : "{service}/lens/{role}/:?query:",
 					name : "lens",
 					target : "lens"
 				}, {
-					//example   #LNW2/lens?resourcePath=Orders()
+					// example #LNW2/lens?resourcePath=Orders()
 					pattern : "{service}/lens/:?query:",
 					name : "defaultLens",
 					target : "lens"
@@ -73,7 +73,7 @@ sap.ui.define([ "sap/ui/core/UIComponent" ], function(UIComponent) {
 
 Lens.Component.prototype.init = function() {
 	sap.ui.core.UIComponent.prototype.init.apply(this, arguments);
-
+	jQuery.sap.require("jquery.sap.storage");
 	// i18n>
 	var oI18n = new sap.ui.model.resource.ResourceModel({
 		bundleName : "i18n.lens"
@@ -83,7 +83,13 @@ Lens.Component.prototype.init = function() {
 
 	// queryModel>
 	var oQueryModel = new sap.ui.model.json.JSONModel();
-	oQueryModel.loadData("config/service.query.test.json", null, false);
+	var localQueryData = utils.getLocalStorage();
+	var remoteQueryData = new sap.ui.model.json.JSONModel();
+	remoteQueryData.loadData("config/service.query.test.json", null, false);
+
+	var queryData = jQuery.extend(true, {}, localQueryData, remoteQueryData.getData());
+
+	oQueryModel.setData(queryData);
 	sap.ui.getCore().setModel(oQueryModel, "queryModel");
 	sap.ui.getCore().setModel(oQueryModel, "serviceQueriesModel");
 

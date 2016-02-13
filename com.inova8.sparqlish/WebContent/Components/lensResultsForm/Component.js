@@ -103,15 +103,18 @@ Components.lensResultsForm.Component.prototype.renderResults = function(queryUrl
 					self.oFormContainer.destroyFormElements();
 					self.oForm.setBusy(false);
 				}
-			} else {
-				// Failed request
-				sap.m.MessageToast.show(oEvent.getParameter("errorobject").statusText);
-				self.oFormContainer.destroyFormElements();
 			}
+//TODO not required with RequestFailed handler?
+//			else {
+//				// Failed request
+//				sap.m.MessageToast.show(oEvent.getParameter("errorobject").statusText);
+//				self.oFormContainer.destroyFormElements();
+//			}
 			self.oFormPanel.addStyleClass("sapUiNoContentPadding");
 			self.oForm.setBusy(false);
 		}).attachRequestFailed(function(oEvent) {
-			sap.m.MessageToast.show(oEvent.getParameter("statusText"));
+			sap.m.MessageToast.show(sap.ui.getCore().getModel("i18nModel").getProperty("lensResultsForm.queryResponseError")+ oEvent.getParameter("statusText"));
+			self.oForm.setBusy(false);
 		});
 	} else {
 		sap.m.MessageToast.show(sap.ui.getCore().getModel("i18nModel").getProperty("lensResultsForm.queryUndefined"));
@@ -127,7 +130,7 @@ Components.lensResultsForm.Component.prototype.nextFormElement = function(sLabel
 	for (var i = 0; i < nLevel * 5; i++)
 		sLabel = "\u00a0" + sLabel;
 	var oFormElement = new sap.ui.layout.form.FormElement({
-		label : new sap.ui.commons.Label({
+		label : new sap.m.Label({
 			text : sLabel,
 			textAlign : sap.ui.core.TextAlign.Left,
 			width : "100%",
@@ -140,28 +143,6 @@ Components.lensResultsForm.Component.prototype.nextFormElement = function(sLabel
 	});
 	this.oFormContainer.addFormElement(oFormElement);
 	return oFormElement;
-};
-Components.lensResultsForm.Component.prototype.lensUri = function(odataUri,serviceCode) {
-	return jQuery.isEmptyObject(odataUri) ? "" : "../com.inova8.sparqlish/#/"+serviceCode+"/lens?queryUri=" + odataUri;
-};
-Components.lensResultsForm.Component.prototype.lensUriLabel = function(odataUri) {
-	return jQuery.isEmptyObject(odataUri) ? "" : odataUri.split("/").pop();
-};
-Components.lensResultsForm.Component.prototype.lensDeferredUri = function(odataUri,serviceCode) {
-	if (jQuery.isEmptyObject(odataUri)) {
-		return "";
-	} else {
-		var parts = odataUri.split("/");
-		var collection = parts.pop();
-		return "../com.inova8.sparqlish/#/"+serviceCode+"/lens?queryUri=" + odataUri;
-	}
-};
-Components.lensResultsForm.Component.prototype.lensDeferredUriLabel = function(odataUri) {
-	if (jQuery.isEmptyObject(odataUri)) {
-		return "";
-	} else {
-		return odataUri.split("/").pop();
-	}
 };
 Components.lensResultsForm.Component.prototype.bindFormFields = function(oMetaModel, sColumn, oTemplate, sCurrentLabel, sCurrentPath, nStartRow, nLevel,
 		bResults) {
@@ -223,13 +204,13 @@ Components.lensResultsForm.Component.prototype.bindFormFields = function(oMetaMo
 					}
 				});
 			}
-			elementCollection.push(this.nextFormElement(bResults ? "" : sMetaLabel, nLevel - 1, true, new sap.ui.commons.Link().bindProperty("text", {
+			elementCollection.push(this.nextFormElement(bResults ? "" : sMetaLabel, nLevel - 1, true, new sap.m.Link().bindProperty("text", {
 				parts : [ {
 					path : sPathPrefix + "__metadata/uri",
 					type : new sap.ui.model.type.String()
 				} ],
 				formatter : function(uri) {
-					return Components.lensResultsForm.Component.prototype.lensUriLabel(uri);
+					return utils.lensUriLabel(uri);
 				}
 			}).bindProperty("href", {
 				parts : [ {
@@ -237,7 +218,7 @@ Components.lensResultsForm.Component.prototype.bindFormFields = function(oMetaMo
 					type : new sap.ui.model.type.String()
 				} ],
 				formatter : function(uri) {
-					return Components.lensResultsForm.Component.prototype.lensUri(uri, self.getProperty("serviceCode"));
+					return utils.lensUri(uri, self.getProperty("serviceCode"));
 				}
 			})));
 			nRow++;
@@ -257,13 +238,13 @@ Components.lensResultsForm.Component.prototype.bindFormFields = function(oMetaMo
 				} else if (!jQuery.isEmptyObject(oTemplate[column].__deferred)) {
 					var contents = oTemplate[column].__deferred;
 					// format for text of URL: oTemplate.__metadata.uri.split("/").pop()
-					elementCollection.push(this.nextFormElement(sLabel, nLevel, true, new sap.ui.commons.Link().bindProperty("text", {
+					elementCollection.push(this.nextFormElement(sLabel, nLevel, true, new sap.m.Link().bindProperty("text", {
 						parts : [ {
 							path : column + "/__deferred/uri",
 							type : new sap.ui.model.type.String()
 						} ],
 						formatter : function(uri) {
-							return Components.lensResultsForm.Component.prototype.lensDeferredUriLabel(uri);
+							return utils.lensDeferredUriLabel(uri);
 						}
 					}).bindProperty("href", {
 						parts : [ {
@@ -271,7 +252,7 @@ Components.lensResultsForm.Component.prototype.bindFormFields = function(oMetaMo
 							type : new sap.ui.model.type.String()
 						} ],
 						formatter : function(uri) {
-							return Components.lensResultsForm.Component.prototype.lensDeferredUri(uri, self.getProperty("serviceCode"));
+							return utils.lensDeferredUri(uri, self.getProperty("serviceCode"));
 
 						}
 					})));
@@ -286,7 +267,7 @@ Components.lensResultsForm.Component.prototype.bindFormFields = function(oMetaMo
 						throw "getODataProperty" + ":" + oEntityType + ":" + column;
 					}
 					if (oProperty.type == "Edm.DateTime") {
-						elementCollection.push(this.nextFormElement(sLabel, nLevel, false, new sap.ui.commons.TextView({
+						elementCollection.push(this.nextFormElement(sLabel, nLevel, false, new sap.m.Text({
 							text : {
 								path : column,
 								formatter : function(value) {
@@ -318,7 +299,7 @@ Components.lensResultsForm.Component.prototype.bindFormFields = function(oMetaMo
 						})));
 						nRow++;
 					} else {
-						elementCollection.push(this.nextFormElement(sLabel, nLevel, false, new sap.ui.commons.TextView({
+						elementCollection.push(this.nextFormElement(sLabel, nLevel, false, new sap.m.Text({
 							wrapping : true
 						}).bindProperty("text", {
 							path : sPathPrefix + column,
@@ -328,7 +309,7 @@ Components.lensResultsForm.Component.prototype.bindFormFields = function(oMetaMo
 					}
 				}
 			} else {
-				elementCollection.push(this.nextFormElement(sLabel, nLevel, false, new sap.ui.commons.TextView({
+				elementCollection.push(this.nextFormElement(sLabel, nLevel, false, new sap.m.Text({
 					wrapping : true
 				}).bindProperty("text", {
 					path : sPathPrefix + column,

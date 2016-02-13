@@ -118,18 +118,15 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 									type : new sap.ui.model.type.String()
 								} ],
 								formatter : function(uri) {
-									return jQuery.isEmptyObject(uri) ? "" : uri.split("/").pop();
+									return utils.lensUriLabel(uri);
 								}
-							// path : "resultsModel>" + sCurrentResultsContext + "/__metadata/uri"
 							}).bindProperty("href", {
-								// path : "resultsModel>" + sCurrentResultsContext + "/__metadata/uri"
 								parts : [ {
 									path : "resultsModel>" + sCurrentResultsContext + "/__metadata/uri",
 									type : new sap.ui.model.type.String()
 								} ],
 								formatter : function(uri) {
-									return jQuery.isEmptyObject(uri) ? "" : "../com.inova8.sparqlish/#/" + serviceCode + "/lens?queryUri=" + uri;
-									// return jQuery.isEmptyObject(uri) ? "" : uri.split("/").pop();
+									return utils.lensUri( uri,serviceCode);
 								}
 							});
 							oControl.setAggregation("_preview", oControl.oLink);
@@ -155,16 +152,6 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 									} else {
 										return null;
 									}
-
-									// if (value != null) {
-									// if (typeof (value) == 'string') {
-									// // TODO when the Odata atom/xml response or json does not annotate the type of the response
-									// value = oControl.oDateTimeFormat.parse(value);
-									// }
-									// return oControl.oDateTimeFormat.format(value);
-									// } else {
-									// return null;
-									// }
 								}
 							});
 							oControl.setAggregation("_preview", oControl.oTextView);
@@ -177,7 +164,7 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 							oControl.setAggregation("_preview", oControl.oTextView);
 							break;
 						default:
-							oControl.oTextView = new sap.m.Text().addStyleClass("resultValue").setWrapping(false);
+							oControl.oTextView = new sap.m.Text({wrapping:true,styleClass:"resultValue"});
 							oControl.oTextView.bindProperty("text", {
 								path : "resultsModel>" + sCurrentResultsContext,
 								type : new sap.ui.model.type.String()

@@ -361,13 +361,13 @@
 							"propertyClause": 
 							{
 								"_class": "ObjectPropertyClause",
-								"objectProperty": "Order_customer",
+								"objectProperty": "customer",
 								"multiplicity": "0..1",
 								"objectPropertyFilters": 
 								[
 									[
 										{
-											"key": "subject",
+											"key": "subjectId",
 											"value": "northwind:Customer-ALFKI",
 											"type": "Edm.String"
 										}
@@ -375,7 +375,7 @@
 
 									[
 										{
-											"key": "subject",
+											"key": "subjectId",
 											"value": "northwind:Customer-ANATR",
 											"type": "Edm.String"
 										}
@@ -402,13 +402,13 @@
 							"propertyClause": 
 							{
 								"_class": "ObjectPropertyClause",
-								"objectProperty": "Order_customer",
+								"objectProperty": "customer",
 								"multiplicity": "0..1",
 								"objectPropertyFilters": 
 								[
 									[
 										{
-											"key": "subject",
+											"key": "subjectId",
 											"value": "northwind:Customer-ALFKI",
 											"type": "Edm.String"
 										}
@@ -416,7 +416,7 @@
 
 									[
 										{
-											"key": "subject",
+											"key": "subjectId",
 											"value": "northwind:Customer-ANATR",
 											"type": "Edm.String"
 										}
@@ -473,7 +473,7 @@
 							"propertyClause": 
 							{
 								"_class": "ObjectPropertyClause",
-								"objectProperty": "Order_customer",
+								"objectProperty": "customer",
 								"multiplicity": "0..1",
 								"clauses": 
 								{
@@ -526,7 +526,7 @@
 							{
 								"_class": "ObjectPropertyClause",
 								"multiplicity": "0..1",
-								"objectProperty": "Order_customer"
+								"objectProperty": "customer"
 							}
 						},
 
@@ -545,7 +545,7 @@
 									{
 										"_class": "ObjectPropertyClause",
 										"multiplicity": "0..1",
-										"objectProperty": "Order_customer"
+										"objectProperty": "customer"
 									}
 								}
 							}
@@ -656,7 +656,7 @@
 							{
 								"_class": "ObjectPropertyClause",
 								"multiplicity": "0..1",
-								"objectProperty": "Order_customer",
+								"objectProperty": "customer",
 								"clauses": 
 								{
 									"_class": "Clauses"
@@ -717,7 +717,7 @@
 							{
 								"_class": "ObjectPropertyClause",
 								"multiplicity": "0..1",
-								"objectProperty": "Order_customer",
+								"objectProperty": "customer",
 								"clauses": 
 								{
 									"_class": "Clauses",
@@ -758,13 +758,13 @@
 							"propertyClause": 
 							{
 								"_class": "ObjectPropertyClause",
-								"objectProperty": "Order_customer",
+								"objectProperty": "customer",
 								"multiplicity": "0..1",
 								"objectPropertyFilters": 
 								[
 									[
 										{
-											"key": "subject",
+											"key": "subjectId",
 											"value": "northwind:Customer-ALFKI",
 											"type": "Edm.String"
 										}
@@ -772,7 +772,7 @@
 
 									[
 										{
-											"key": "subject",
+											"key": "subjectId",
 											"value": "northwind:Customer-ANATR",
 											"type": "Edm.String"
 										}
@@ -844,7 +844,7 @@
 					[
 						[
 							{
-								"key": "subject",
+								"key": "subjectId",
 								"value": "northwind:Order-10340",
 								"type": "Edm.String"
 							}
@@ -852,7 +852,7 @@
 
 						[
 							{
-								"key": "subject",
+								"key": "subjectId",
 								"value": "northwind:Order-10999",
 								"type": "Edm.String"
 							}
@@ -950,13 +950,13 @@
 									"propertyClause": 
 									{
 										"_class": "ObjectPropertyClause",
-										"objectProperty": "Order_customer",
+										"objectProperty": "customer",
 										"multiplicity": "0..1",
 										"objectPropertyFilters": 
 										[
 											[
 												{
-													"key": "subject",
+													"key": "subjectId",
 													"value": "northwind:Customer-ALFKI",
 													"type": "Edm.String"
 												}
@@ -964,7 +964,7 @@
 
 											[
 												{
-													"key": "subject",
+													"key": "subjectId",
 													"value": "northwind:Customer-BONAP",
 													"type": "Edm.String"
 												}
@@ -1051,7 +1051,7 @@
 									{
 										"_class": "ObjectPropertyClause",
 										"multiplicity": "0..1",
-										"objectProperty": "Order_employee",
+										"objectProperty": "employee",
 										"clauses": 
 										{
 											"_class": "Clauses",
@@ -1096,7 +1096,7 @@
 														{
 															"_class": "ObjectPropertyClause",
 															"multiplicity": "0..1",
-															"objectProperty": "Employee_reportsTo",
+															"objectProperty": "reportsTo",
 															"clauses": 
 															{
 																"_class": "Clauses",
@@ -1202,7 +1202,7 @@
 		{
 			"code": "RNW2",
 			"name": "NorthwindV2",
-			"serviceUrl": "proxy/http/services.odata.org/V2/Northwind/Northwind.svc/",
+			"serviceUrl": "http://services.odata.org/V2/Northwind/Northwind.svc/",
 			"version": "V2",
 			"queries": 
 			[
@@ -2607,7 +2607,7 @@
 		{
 			"code": "RNW3",
 			"name": "NorthwindV3",
-			"serviceUrl": "proxy/http/services.odata.org/V3/Northwind/Northwind.svc/",
+			"serviceUrl": "http://services.odata.org/V3/Northwind/Northwind.svc/",
 			"version": "V2",
 			"queries": 
 			[
@@ -2623,7 +2623,7 @@
 		{
 			"code": "RNW4",
 			"name": "NorthwindV4",
-			"serviceUrl": "proxy/http/services.odata.org/V4/Northwind/Northwind.svc/",
+			"serviceUrl": "http://services.odata.org/V4/Northwind/Northwind.svc/",
 			"version": "V4",
 			"queries": 
 			[
@@ -2639,7 +2639,7 @@
 		{
 			"code": "AW",
 			"name": "AdventureWorks",
-			"serviceUrl": "proxy/http/services.odata.org/AdventureWorksV3/AdventureWorks.svc/",
+			"serviceUrl": "http://services.odata.org/AdventureWorksV3/AdventureWorks.svc/",
 			"version": "V2",
 			"queries": 
 			[
@@ -2822,7 +2822,7 @@
 		{
 			"code": "ND",
 			"name": "NerdDinner",
-			"serviceUrl": "proxy/http/www.nerddinner.com/Services/OData.svc/",
+			"serviceUrl": "http://www.nerddinner.com/Services/OData.svc/",
 			"version": "V2",
 			"queries": 
 			[
@@ -2844,7 +2844,7 @@
 		{
 			"code": "LL",
 			"name": "LL",
-			"serviceUrl": "proxy/http/localhost:8080/olingo2sparql/sparql/2.0/LL/",
+			"serviceUrl": "http://localhost:8080/olingo2sparql/sparql/2.0/LL/",
 			"version": "V2",
 			"queries": 
 			[

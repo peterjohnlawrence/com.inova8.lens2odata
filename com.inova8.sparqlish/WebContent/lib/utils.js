@@ -5,17 +5,17 @@
 
 	window.utils = {};
 
-	utils.getCachedOdataModel = function(service,onFailure,onSuccess) {
+	utils.getCachedOdataModel = function(service, onFailure, onSuccess) {
 		var odataModel = sap.ui.getCore().getModel(constants.ODATACACHE + service.code);
 		if (jQuery.isEmptyObject(odataModel)) {
 			// TODO should set maxDataServiceVersion based on declaration
 			try {
-				odataModel = new sap.ui.model.odata.v2.ODataModel(service.serviceUrl,{maxDataServiceVersion:"2.0"})
-				.attachMetadataFailed(function(oEvent) {
+				odataModel = new sap.ui.model.odata.v2.ODataModel(utils.proxyUrl(service.serviceUrl), {
+					maxDataServiceVersion : "2.0"
+				}).attachMetadataFailed(function(oEvent) {
 					sap.m.MessageToast.show("Metada failed to load. Check < OdataV4 also check source: " + service.serviceUrl);
 					onFailure();
-				})
-				.attachMetadataLoaded(function(oEvent) {
+				}).attachMetadataLoaded(function(oEvent) {
 					sap.ui.getCore().setModel(odataModel, constants.ODATACACHE + service.code);
 					odataModel.setUseBatch(false);
 					onSuccess(odataModel);
@@ -27,12 +27,19 @@
 		}
 		onSuccess(odataModel);
 	};
-	utils.removeValue = function(thisArray, name, value) {
-		var array = $.map(thisArray, function(v, i) {
-			return v[name] === value ? null : v;
+	utils.removeValue = function(thisArray, property, value) {
+		thisArray.forEach(function(result, index) {
+			if (result[property] === value) {
+				// Remove from array
+				array.splice(index, 1);
+			}
 		});
-		thisArray.length = 0; // clear original array
-		thisArray.push.apply(this, array); // push all elements except the one we want to delete
+
+		// var array = $.map(thisArray, function(v, i) {
+		// return v[property] === value ? null : v;
+		// });
+		// thisArray.length = 0; // clear original array
+		// thisArray.push.apply(this, array); // push all elements except the one we want to delete
 	};
 	utils.lookup = function(thisArray, name, value) {
 		var lookup = [];
@@ -48,5 +55,38 @@
 				return i;
 		}
 		return undefined;
+	};
+	utils.getLocalStorage = function() {
+		var oStorage = jQuery.sap.storage(jQuery.sap.storage.Type.local);
+		return oStorage.get("lens2odata.queries");
+	};
+	utils.saveToLocalStorage = function() {
+		var oStorage = jQuery.sap.storage(jQuery.sap.storage.Type.local);
+		oStorage.put("lens2odata.queries", sap.ui.getCore().getModel("queryModel").getData());
+	};
+	utils.proxyUrl = function(url) {
+		return url.replace("http://", "proxy/http/");
+	}
+	utils.lensUri = function(odataUri, serviceCode) {
+		return jQuery.isEmptyObject(odataUri) ? "" : "../lens2odata/#/" + serviceCode + "/lens?queryUri=" + odataUri;
+	};
+	utils.lensUriLabel = function(odataUri) {
+		return jQuery.isEmptyObject(odataUri) ? "" : decodeURIComponent(odataUri.split("/").pop());
+	};
+	utils.lensDeferredUri = function(odataUri, serviceCode) {
+		if (jQuery.isEmptyObject(odataUri)) {
+			return "";
+		} else {
+			var parts = odataUri.split("/");
+			var collection = parts.pop();
+			return "../lens2odata/#/" + serviceCode + "/lens?queryUri=" + odataUri;
+		}
+	};
+	utils.lensDeferredUriLabel = function(odataUri) {
+		if (jQuery.isEmptyObject(odataUri)) {
+			return "";
+		} else {
+			return decodeURIComponent(odataUri.split("/").pop());
+		}
 	};
 })(window);

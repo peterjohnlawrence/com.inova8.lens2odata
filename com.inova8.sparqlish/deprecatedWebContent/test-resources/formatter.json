@@ -1,544 +1,267 @@
 {
 	"d": 
-	[
-		{
-			"__metadata": 
+	{
+		"results": 
+		[
 			{
-				"uri": "http://services.odata.org/V2/Northwind/Northwind.svc/Orders(10248)",
-				"type": "NorthwindModel.Order"
-			},
-
-			"OrderID": 10248,
-			"CustomerID": "VINET",
-			"EmployeeID": 5,
-			"OrderDate": "\/Date(836438400000)\/",
-			"RequiredDate": "\/Date(838857600000)\/",
-			"ShippedDate": "\/Date(837475200000)\/",
-			"ShipVia": 3,
-			"Freight": "32.3800",
-			"ShipName": "Vins et alcools Chevalier",
-			"ShipAddress": "59 rue de l'Abbaye",
-			"ShipCity": "Reims",
-			"ShipRegion": null,
-			"ShipPostalCode": "51100",
-			"ShipCountry": "France",
-			"Customer": 
-			{
-				"__deferred": 
+				"__metadata": 
 				{
-					"uri": "http://services.odata.org/V2/Northwind/Northwind.svc/Orders(10248)/Customer"
+					"id": "http://localhost:8080/odata2sparql/2.0/NW/Order('northwind%3AOrder-10625')",
+					"uri": "http://localhost:8080/odata2sparql/2.0/NW/Order('northwind%3AOrder-10625')",
+					"type": "northwind.Order"
+				},
+
+				"customer": 
+				{
+					"results": 
+					[
+						{
+							"__metadata": 
+							{
+								"id": "http://localhost:8080/odata2sparql/2.0/NW/Customer('northwind%3ACustomer-ANATR')",
+								"uri": "http://localhost:8080/odata2sparql/2.0/NW/Customer('northwind%3ACustomer-ANATR')",
+								"type": "northwind.Customer"
+							},
+
+							"subjectId": "northwind:Customer-ANATR"
+						}
+					]
 				}
 			},
 
-			"Employee": 
 			{
-				"__deferred": 
+				"__metadata": 
 				{
-					"uri": "http://services.odata.org/V2/Northwind/Northwind.svc/Orders(10248)/Employee"
+					"id": "http://localhost:8080/odata2sparql/2.0/NW/Order('northwind%3AOrder-10702')",
+					"uri": "http://localhost:8080/odata2sparql/2.0/NW/Order('northwind%3AOrder-10702')",
+					"type": "northwind.Order"
+				},
+
+				"customer": 
+				{
+					"results": 
+					[
+						{
+							"__metadata": 
+							{
+								"id": "http://localhost:8080/odata2sparql/2.0/NW/Customer('northwind%3ACustomer-ALFKI')",
+								"uri": "http://localhost:8080/odata2sparql/2.0/NW/Customer('northwind%3ACustomer-ALFKI')",
+								"type": "northwind.Customer"
+							},
+
+							"subjectId": "northwind:Customer-ALFKI"
+						}
+					]
 				}
 			},
 
-			"Order_Details": 
 			{
-				"__deferred": 
+				"__metadata": 
 				{
-					"uri": "http://services.odata.org/V2/Northwind/Northwind.svc/Orders(10248)/Order_Details"
+					"id": "http://localhost:8080/odata2sparql/2.0/NW/Order('northwind%3AOrder-10835')",
+					"uri": "http://localhost:8080/odata2sparql/2.0/NW/Order('northwind%3AOrder-10835')",
+					"type": "northwind.Order"
+				},
+
+				"customer": 
+				{
+					"results": 
+					[
+						{
+							"__metadata": 
+							{
+								"id": "http://localhost:8080/odata2sparql/2.0/NW/Customer('northwind%3ACustomer-ALFKI')",
+								"uri": "http://localhost:8080/odata2sparql/2.0/NW/Customer('northwind%3ACustomer-ALFKI')",
+								"type": "northwind.Customer"
+							},
+
+							"subjectId": "northwind:Customer-ALFKI"
+						}
+					]
 				}
 			},
 
-			"Shipper": 
 			{
-				"__deferred": 
+				"__metadata": 
 				{
-					"uri": "http://services.odata.org/V2/Northwind/Northwind.svc/Orders(10248)/Shipper"
-				}
-			}
-		},
+					"id": "http://localhost:8080/odata2sparql/2.0/NW/Order('northwind%3AOrder-10643')",
+					"uri": "http://localhost:8080/odata2sparql/2.0/NW/Order('northwind%3AOrder-10643')",
+					"type": "northwind.Order"
+				},
 
-		{
-			"__metadata": 
-			{
-				"uri": "http://services.odata.org/V2/Northwind/Northwind.svc/Orders(10249)",
-				"type": "NorthwindModel.Order"
-			},
-
-			"OrderID": 10249,
-			"CustomerID": "TOMSP",
-			"EmployeeID": 6,
-			"OrderDate": "\/Date(836524800000)\/",
-			"RequiredDate": "\/Date(840153600000)\/",
-			"ShippedDate": "\/Date(836956800000)\/",
-			"ShipVia": 1,
-			"Freight": "11.6100",
-			"ShipName": "Toms Spezialit\u00e4ten",
-			"ShipAddress": "Luisenstr. 48",
-			"ShipCity": "M\u00fcnster",
-			"ShipRegion": null,
-			"ShipPostalCode": "44087",
-			"ShipCountry": "Germany",
-			"Customer": 
-			{
-				"__deferred": 
+				"customer": 
 				{
-					"uri": "http://services.odata.org/V2/Northwind/Northwind.svc/Orders(10249)/Customer"
+					"results": 
+					[
+						{
+							"__metadata": 
+							{
+								"id": "http://localhost:8080/odata2sparql/2.0/NW/Customer('northwind%3ACustomer-ALFKI')",
+								"uri": "http://localhost:8080/odata2sparql/2.0/NW/Customer('northwind%3ACustomer-ALFKI')",
+								"type": "northwind.Customer"
+							},
+
+							"subjectId": "northwind:Customer-ALFKI"
+						}
+					]
 				}
 			},
 
-			"Employee": 
 			{
-				"__deferred": 
+				"__metadata": 
 				{
-					"uri": "http://services.odata.org/V2/Northwind/Northwind.svc/Orders(10249)/Employee"
+					"id": "http://localhost:8080/odata2sparql/2.0/NW/Order('northwind%3AOrder-10952')",
+					"uri": "http://localhost:8080/odata2sparql/2.0/NW/Order('northwind%3AOrder-10952')",
+					"type": "northwind.Order"
+				},
+
+				"customer": 
+				{
+					"results": 
+					[
+						{
+							"__metadata": 
+							{
+								"id": "http://localhost:8080/odata2sparql/2.0/NW/Customer('northwind%3ACustomer-ALFKI')",
+								"uri": "http://localhost:8080/odata2sparql/2.0/NW/Customer('northwind%3ACustomer-ALFKI')",
+								"type": "northwind.Customer"
+							},
+
+							"subjectId": "northwind:Customer-ALFKI"
+						}
+					]
 				}
 			},
 
-			"Order_Details": 
 			{
-				"__deferred": 
+				"__metadata": 
 				{
-					"uri": "http://services.odata.org/V2/Northwind/Northwind.svc/Orders(10249)/Order_Details"
+					"id": "http://localhost:8080/odata2sparql/2.0/NW/Order('northwind%3AOrder-10692')",
+					"uri": "http://localhost:8080/odata2sparql/2.0/NW/Order('northwind%3AOrder-10692')",
+					"type": "northwind.Order"
+				},
+
+				"customer": 
+				{
+					"results": 
+					[
+						{
+							"__metadata": 
+							{
+								"id": "http://localhost:8080/odata2sparql/2.0/NW/Customer('northwind%3ACustomer-ALFKI')",
+								"uri": "http://localhost:8080/odata2sparql/2.0/NW/Customer('northwind%3ACustomer-ALFKI')",
+								"type": "northwind.Customer"
+							},
+
+							"subjectId": "northwind:Customer-ALFKI"
+						}
+					]
 				}
 			},
 
-			"Shipper": 
 			{
-				"__deferred": 
+				"__metadata": 
 				{
-					"uri": "http://services.odata.org/V2/Northwind/Northwind.svc/Orders(10249)/Shipper"
-				}
-			}
-		},
+					"id": "http://localhost:8080/odata2sparql/2.0/NW/Order('northwind%3AOrder-11011')",
+					"uri": "http://localhost:8080/odata2sparql/2.0/NW/Order('northwind%3AOrder-11011')",
+					"type": "northwind.Order"
+				},
 
-		{
-			"__metadata": 
-			{
-				"uri": "http://services.odata.org/V2/Northwind/Northwind.svc/Orders(10250)",
-				"type": "NorthwindModel.Order"
-			},
-
-			"OrderID": 10250,
-			"CustomerID": "HANAR",
-			"EmployeeID": 4,
-			"OrderDate": "\/Date(836784000000)\/",
-			"RequiredDate": "\/Date(839203200000)\/",
-			"ShippedDate": "\/Date(837129600000)\/",
-			"ShipVia": 2,
-			"Freight": "65.8300",
-			"ShipName": "Hanari Carnes",
-			"ShipAddress": "Rua do Pa\u00e7o, 67",
-			"ShipCity": "Rio de Janeiro",
-			"ShipRegion": "RJ",
-			"ShipPostalCode": "05454-876",
-			"ShipCountry": "Brazil",
-			"Customer": 
-			{
-				"__deferred": 
+				"customer": 
 				{
-					"uri": "http://services.odata.org/V2/Northwind/Northwind.svc/Orders(10250)/Customer"
+					"results": 
+					[
+						{
+							"__metadata": 
+							{
+								"id": "http://localhost:8080/odata2sparql/2.0/NW/Customer('northwind%3ACustomer-ALFKI')",
+								"uri": "http://localhost:8080/odata2sparql/2.0/NW/Customer('northwind%3ACustomer-ALFKI')",
+								"type": "northwind.Customer"
+							},
+
+							"subjectId": "northwind:Customer-ALFKI"
+						}
+					]
 				}
 			},
 
-			"Employee": 
 			{
-				"__deferred": 
+				"__metadata": 
 				{
-					"uri": "http://services.odata.org/V2/Northwind/Northwind.svc/Orders(10250)/Employee"
+					"id": "http://localhost:8080/odata2sparql/2.0/NW/Order('northwind%3AOrder-10308')",
+					"uri": "http://localhost:8080/odata2sparql/2.0/NW/Order('northwind%3AOrder-10308')",
+					"type": "northwind.Order"
+				},
+
+				"customer": 
+				{
+					"results": 
+					[
+						{
+							"__metadata": 
+							{
+								"id": "http://localhost:8080/odata2sparql/2.0/NW/Customer('northwind%3ACustomer-ANATR')",
+								"uri": "http://localhost:8080/odata2sparql/2.0/NW/Customer('northwind%3ACustomer-ANATR')",
+								"type": "northwind.Customer"
+							},
+
+							"subjectId": "northwind:Customer-ANATR"
+						}
+					]
 				}
 			},
 
-			"Order_Details": 
 			{
-				"__deferred": 
+				"__metadata": 
 				{
-					"uri": "http://services.odata.org/V2/Northwind/Northwind.svc/Orders(10250)/Order_Details"
+					"id": "http://localhost:8080/odata2sparql/2.0/NW/Order('northwind%3AOrder-10759')",
+					"uri": "http://localhost:8080/odata2sparql/2.0/NW/Order('northwind%3AOrder-10759')",
+					"type": "northwind.Order"
+				},
+
+				"customer": 
+				{
+					"results": 
+					[
+						{
+							"__metadata": 
+							{
+								"id": "http://localhost:8080/odata2sparql/2.0/NW/Customer('northwind%3ACustomer-ANATR')",
+								"uri": "http://localhost:8080/odata2sparql/2.0/NW/Customer('northwind%3ACustomer-ANATR')",
+								"type": "northwind.Customer"
+							},
+
+							"subjectId": "northwind:Customer-ANATR"
+						}
+					]
 				}
 			},
 
-			"Shipper": 
 			{
-				"__deferred": 
+				"__metadata": 
 				{
-					"uri": "http://services.odata.org/V2/Northwind/Northwind.svc/Orders(10250)/Shipper"
-				}
-			}
-		},
+					"id": "http://localhost:8080/odata2sparql/2.0/NW/Order('northwind%3AOrder-10926')",
+					"uri": "http://localhost:8080/odata2sparql/2.0/NW/Order('northwind%3AOrder-10926')",
+					"type": "northwind.Order"
+				},
 
-		{
-			"__metadata": 
-			{
-				"uri": "http://services.odata.org/V2/Northwind/Northwind.svc/Orders(10251)",
-				"type": "NorthwindModel.Order"
-			},
-
-			"OrderID": 10251,
-			"CustomerID": "VICTE",
-			"EmployeeID": 3,
-			"OrderDate": "\/Date(836784000000)\/",
-			"RequiredDate": "\/Date(839203200000)\/",
-			"ShippedDate": "\/Date(837388800000)\/",
-			"ShipVia": 1,
-			"Freight": "41.3400",
-			"ShipName": "Victuailles en stock",
-			"ShipAddress": "2, rue du Commerce",
-			"ShipCity": "Lyon",
-			"ShipRegion": null,
-			"ShipPostalCode": "69004",
-			"ShipCountry": "France",
-			"Customer": 
-			{
-				"__deferred": 
+				"customer": 
 				{
-					"uri": "http://services.odata.org/V2/Northwind/Northwind.svc/Orders(10251)/Customer"
-				}
-			},
+					"results": 
+					[
+						{
+							"__metadata": 
+							{
+								"id": "http://localhost:8080/odata2sparql/2.0/NW/Customer('northwind%3ACustomer-ANATR')",
+								"uri": "http://localhost:8080/odata2sparql/2.0/NW/Customer('northwind%3ACustomer-ANATR')",
+								"type": "northwind.Customer"
+							},
 
-			"Employee": 
-			{
-				"__deferred": 
-				{
-					"uri": "http://services.odata.org/V2/Northwind/Northwind.svc/Orders(10251)/Employee"
-				}
-			},
-
-			"Order_Details": 
-			{
-				"__deferred": 
-				{
-					"uri": "http://services.odata.org/V2/Northwind/Northwind.svc/Orders(10251)/Order_Details"
-				}
-			},
-
-			"Shipper": 
-			{
-				"__deferred": 
-				{
-					"uri": "http://services.odata.org/V2/Northwind/Northwind.svc/Orders(10251)/Shipper"
-				}
-			}
-		},
-
-		{
-			"__metadata": 
-			{
-				"uri": "http://services.odata.org/V2/Northwind/Northwind.svc/Orders(10252)",
-				"type": "NorthwindModel.Order"
-			},
-
-			"OrderID": 10252,
-			"CustomerID": "SUPRD",
-			"EmployeeID": 4,
-			"OrderDate": "\/Date(836870400000)\/",
-			"RequiredDate": "\/Date(839289600000)\/",
-			"ShippedDate": "\/Date(837043200000)\/",
-			"ShipVia": 2,
-			"Freight": "51.3000",
-			"ShipName": "Supr\u00eames d\u00e9lices",
-			"ShipAddress": "Boulevard Tirou, 255",
-			"ShipCity": "Charleroi",
-			"ShipRegion": null,
-			"ShipPostalCode": "B-6000",
-			"ShipCountry": "Belgium",
-			"Customer": 
-			{
-				"__deferred": 
-				{
-					"uri": "http://services.odata.org/V2/Northwind/Northwind.svc/Orders(10252)/Customer"
-				}
-			},
-
-			"Employee": 
-			{
-				"__deferred": 
-				{
-					"uri": "http://services.odata.org/V2/Northwind/Northwind.svc/Orders(10252)/Employee"
-				}
-			},
-
-			"Order_Details": 
-			{
-				"__deferred": 
-				{
-					"uri": "http://services.odata.org/V2/Northwind/Northwind.svc/Orders(10252)/Order_Details"
-				}
-			},
-
-			"Shipper": 
-			{
-				"__deferred": 
-				{
-					"uri": "http://services.odata.org/V2/Northwind/Northwind.svc/Orders(10252)/Shipper"
+							"subjectId": "northwind:Customer-ANATR"
+						}
+					]
 				}
 			}
-		},
-
-		{
-			"__metadata": 
-			{
-				"uri": "http://services.odata.org/V2/Northwind/Northwind.svc/Orders(10253)",
-				"type": "NorthwindModel.Order"
-			},
-
-			"OrderID": 10253,
-			"CustomerID": "HANAR",
-			"EmployeeID": 3,
-			"OrderDate": "\/Date(836956800000)\/",
-			"RequiredDate": "\/Date(838166400000)\/",
-			"ShippedDate": "\/Date(837475200000)\/",
-			"ShipVia": 2,
-			"Freight": "58.1700",
-			"ShipName": "Hanari Carnes",
-			"ShipAddress": "Rua do Pa\u00e7o, 67",
-			"ShipCity": "Rio de Janeiro",
-			"ShipRegion": "RJ",
-			"ShipPostalCode": "05454-876",
-			"ShipCountry": "Brazil",
-			"Customer": 
-			{
-				"__deferred": 
-				{
-					"uri": "http://services.odata.org/V2/Northwind/Northwind.svc/Orders(10253)/Customer"
-				}
-			},
-
-			"Employee": 
-			{
-				"__deferred": 
-				{
-					"uri": "http://services.odata.org/V2/Northwind/Northwind.svc/Orders(10253)/Employee"
-				}
-			},
-
-			"Order_Details": 
-			{
-				"__deferred": 
-				{
-					"uri": "http://services.odata.org/V2/Northwind/Northwind.svc/Orders(10253)/Order_Details"
-				}
-			},
-
-			"Shipper": 
-			{
-				"__deferred": 
-				{
-					"uri": "http://services.odata.org/V2/Northwind/Northwind.svc/Orders(10253)/Shipper"
-				}
-			}
-		},
-
-		{
-			"__metadata": 
-			{
-				"uri": "http://services.odata.org/V2/Northwind/Northwind.svc/Orders(10254)",
-				"type": "NorthwindModel.Order"
-			},
-
-			"OrderID": 10254,
-			"CustomerID": "CHOPS",
-			"EmployeeID": 5,
-			"OrderDate": "\/Date(837043200000)\/",
-			"RequiredDate": "\/Date(839462400000)\/",
-			"ShippedDate": "\/Date(838080000000)\/",
-			"ShipVia": 2,
-			"Freight": "22.9800",
-			"ShipName": "Chop-suey Chinese",
-			"ShipAddress": "Hauptstr. 31",
-			"ShipCity": "Bern",
-			"ShipRegion": null,
-			"ShipPostalCode": "3012",
-			"ShipCountry": "Switzerland",
-			"Customer": 
-			{
-				"__deferred": 
-				{
-					"uri": "http://services.odata.org/V2/Northwind/Northwind.svc/Orders(10254)/Customer"
-				}
-			},
-
-			"Employee": 
-			{
-				"__deferred": 
-				{
-					"uri": "http://services.odata.org/V2/Northwind/Northwind.svc/Orders(10254)/Employee"
-				}
-			},
-
-			"Order_Details": 
-			{
-				"__deferred": 
-				{
-					"uri": "http://services.odata.org/V2/Northwind/Northwind.svc/Orders(10254)/Order_Details"
-				}
-			},
-
-			"Shipper": 
-			{
-				"__deferred": 
-				{
-					"uri": "http://services.odata.org/V2/Northwind/Northwind.svc/Orders(10254)/Shipper"
-				}
-			}
-		},
-
-		{
-			"__metadata": 
-			{
-				"uri": "http://services.odata.org/V2/Northwind/Northwind.svc/Orders(10255)",
-				"type": "NorthwindModel.Order"
-			},
-
-			"OrderID": 10255,
-			"CustomerID": "RICSU",
-			"EmployeeID": 9,
-			"OrderDate": "\/Date(837129600000)\/",
-			"RequiredDate": "\/Date(839548800000)\/",
-			"ShippedDate": "\/Date(837388800000)\/",
-			"ShipVia": 3,
-			"Freight": "148.3300",
-			"ShipName": "Richter Supermarkt",
-			"ShipAddress": "Starenweg 5",
-			"ShipCity": "Gen\u00e8ve",
-			"ShipRegion": null,
-			"ShipPostalCode": "1204",
-			"ShipCountry": "Switzerland",
-			"Customer": 
-			{
-				"__deferred": 
-				{
-					"uri": "http://services.odata.org/V2/Northwind/Northwind.svc/Orders(10255)/Customer"
-				}
-			},
-
-			"Employee": 
-			{
-				"__deferred": 
-				{
-					"uri": "http://services.odata.org/V2/Northwind/Northwind.svc/Orders(10255)/Employee"
-				}
-			},
-
-			"Order_Details": 
-			{
-				"__deferred": 
-				{
-					"uri": "http://services.odata.org/V2/Northwind/Northwind.svc/Orders(10255)/Order_Details"
-				}
-			},
-
-			"Shipper": 
-			{
-				"__deferred": 
-				{
-					"uri": "http://services.odata.org/V2/Northwind/Northwind.svc/Orders(10255)/Shipper"
-				}
-			}
-		},
-
-		{
-			"__metadata": 
-			{
-				"uri": "http://services.odata.org/V2/Northwind/Northwind.svc/Orders(10256)",
-				"type": "NorthwindModel.Order"
-			},
-
-			"OrderID": 10256,
-			"CustomerID": "WELLI",
-			"EmployeeID": 3,
-			"OrderDate": "\/Date(837388800000)\/",
-			"RequiredDate": "\/Date(839808000000)\/",
-			"ShippedDate": "\/Date(837561600000)\/",
-			"ShipVia": 2,
-			"Freight": "13.9700",
-			"ShipName": "Wellington Importadora",
-			"ShipAddress": "Rua do Mercado, 12",
-			"ShipCity": "Resende",
-			"ShipRegion": "SP",
-			"ShipPostalCode": "08737-363",
-			"ShipCountry": "Brazil",
-			"Customer": 
-			{
-				"__deferred": 
-				{
-					"uri": "http://services.odata.org/V2/Northwind/Northwind.svc/Orders(10256)/Customer"
-				}
-			},
-
-			"Employee": 
-			{
-				"__deferred": 
-				{
-					"uri": "http://services.odata.org/V2/Northwind/Northwind.svc/Orders(10256)/Employee"
-				}
-			},
-
-			"Order_Details": 
-			{
-				"__deferred": 
-				{
-					"uri": "http://services.odata.org/V2/Northwind/Northwind.svc/Orders(10256)/Order_Details"
-				}
-			},
-
-			"Shipper": 
-			{
-				"__deferred": 
-				{
-					"uri": "http://services.odata.org/V2/Northwind/Northwind.svc/Orders(10256)/Shipper"
-				}
-			}
-		},
-
-		{
-			"__metadata": 
-			{
-				"uri": "http://services.odata.org/V2/Northwind/Northwind.svc/Orders(10257)",
-				"type": "NorthwindModel.Order"
-			},
-
-			"OrderID": 10257,
-			"CustomerID": "HILAA",
-			"EmployeeID": 4,
-			"OrderDate": "\/Date(837475200000)\/",
-			"RequiredDate": "\/Date(839894400000)\/",
-			"ShippedDate": "\/Date(837993600000)\/",
-			"ShipVia": 3,
-			"Freight": "81.9100",
-			"ShipName": "HILARION-Abastos",
-			"ShipAddress": "Carrera 22 con Ave. Carlos Soublette #8-35",
-			"ShipCity": "San Crist\u00f3bal",
-			"ShipRegion": "T\u00e1chira",
-			"ShipPostalCode": "5022",
-			"ShipCountry": "Venezuela",
-			"Customer": 
-			{
-				"__deferred": 
-				{
-					"uri": "http://services.odata.org/V2/Northwind/Northwind.svc/Orders(10257)/Customer"
-				}
-			},
-
-			"Employee": 
-			{
-				"__deferred": 
-				{
-					"uri": "http://services.odata.org/V2/Northwind/Northwind.svc/Orders(10257)/Employee"
-				}
-			},
-
-			"Order_Details": 
-			{
-				"__deferred": 
-				{
-					"uri": "http://services.odata.org/V2/Northwind/Northwind.svc/Orders(10257)/Order_Details"
-				}
-			},
-
-			"Shipper": 
-			{
-				"__deferred": 
-				{
-					"uri": "http://services.odata.org/V2/Northwind/Northwind.svc/Orders(10257)/Shipper"
-				}
-			}
-		}
-	]
+		]
+	}
 }
