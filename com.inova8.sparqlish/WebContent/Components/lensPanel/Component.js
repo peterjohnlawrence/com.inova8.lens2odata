@@ -13,10 +13,6 @@ sap.ui.core.UIComponent.extend("Components.lensPanel.Component", {
 				type : "string",
 				defaultValue : "{default}"
 			},
-			concept : {
-				type : "string",
-				defaultValue : "{default}"
-			},
 			query : {
 				type : "object"
 			}
@@ -46,16 +42,28 @@ Components.lensPanel.Component.prototype.renderFragments = function() {
 
 	this.oLensPanel.removeAllContent();
 	var oLensesModel = sap.ui.getCore().getModel("lensesModel");
-	var oLens = oLensesModel.getData()["lenses"][this.getRole()][this.getConcept()];
-	// var oLens = oLensesModel.getData()["lenses"]["(default)"]["Northwind.Orders"];
+	var oLens;
+	if (this.getQuery().deferred) {
+		oLens = oLensesModel.getData()["lenses"][this.getRole()]["{deferred}"];
+		var deferredUri =utils.parseDeferredUri(this.getQuery().uri);
+	  this.titleBindings ={serviceCode:this.getServiceCode(),entityType:deferredUri.entityType, entity:deferredUri.entity ,navigationProperty:deferredUri.navigationProperty,role:this.getRole()}
+	} else {
+		oLens = oLensesModel.getData()["lenses"][this.getRole()][this.getQuery().type];
+		if (jQuery.isEmptyObject(oLens))
+			oLens = oLensesModel.getData()["lenses"][this.getRole()]["{default}"];
+		var metadatadUri =utils.parseMetadataUri(this.getQuery().uri);
+		this.titleBindings ={serviceCode:this.getServiceCode(),entityType:this.getQuery().type, entity:metadatadUri.entity,role:this.getRole()}
+	}
 	var oContent = sap.ui.getCore().getModel("lensesModel").getData()["templates"][oLens.template];
+	//this.oLensPanel.getTitle().setText("Default lens for " + this.getQuery().type);
+
+	
+	this.oLensPanel.getTitle().setText(utils.bindStringToValues(oLens.title,this.titleBindings));
 	this.setProperty("_fragmentModel", oLens["fragments"]);
 	this.oLensPanel.addContent(this.displayContent(oContent));
-	this.oLensPanel.getTitle().setText(oLens.title);
-
 };
 Components.lensPanel.Component.prototype.displayContent = function(oContent) {
-	var self=this;
+	var self = this;
 	if (oContent.type === "columns") {
 		var oHorizontalSplitter = new sap.ui.layout.Splitter();
 		oHorizontalSplitter.setOrientation(sap.ui.core.Orientation.Horizontal);
@@ -101,14 +109,14 @@ Components.lensPanel.Component.prototype.displayContent = function(oContent) {
 	} else if (oContent.type === "lens") {
 		// var oFragment = this.getProperty("_fragmentModel")[oContent.id];
 		var oFragments = utils.lookup(this.getProperty("_fragmentModel"), "position", oContent.id); // this.getProperty("_fragmentModel").lookup("position",
-																																																// oContent.id);
+		// oContent.id);
 		if (!jQuery.isEmptyObject(oFragments)) {
 			oComponentContainers = [];
 			for (var i = 0, len = oFragments.length; i < len; i++) {
 				var oFragment = oFragments[i];
 				var queryUri = oFragment.query;
-				if (queryUri === "{queryUri}")
-					queryUri = this.getProperty("query").queryUri;
+				if (queryUri === "{uri}")
+					queryUri = this.getQuery().uri;
 				var service = sap.ui.getCore().getModel("serviceQueriesModel").getData().services[this.getProperty("serviceCode")];
 				utils.getCachedOdataModel(service, function() {
 					sap.ui.MessageToast("lens.invalidService");
@@ -116,7 +124,7 @@ Components.lensPanel.Component.prototype.displayContent = function(oContent) {
 					var oComponent = sap.ui.getCore().createComponent({
 						name : oFragment.type,
 						settings : {
-							title : oFragment.title,
+							title : utils.bindStringToValues(oFragment.title,self.titleBindings) ,
 							query : queryUri,
 							metaModel : odataModel.getMetaModel(),
 							serviceCode : self.getProperty("serviceCode")
@@ -130,8 +138,7 @@ Components.lensPanel.Component.prototype.displayContent = function(oContent) {
 					oComponentContainer.addStyleClass("tile");
 					oComponent.renderResults();
 					oComponentContainers.push(oComponentContainer);
-				}
-				);
+				});
 			}
 			return oComponentContainers;
 		} else {

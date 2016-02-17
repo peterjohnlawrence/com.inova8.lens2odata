@@ -23,7 +23,7 @@ Components.lensResultsForm.Component.prototype.createContent = function() {
 	var self = this;
 
 	this.oFormPanel = new sap.ui.commons.Panel({
-		title : new sap.ui.core.Title().setText("OData Display Form"),
+		title : new sap.ui.core.Title(),
 		width : "100%",
 		showCollapseIcon : false,
 		borderDesign : sap.ui.commons.enums.BorderDesign.Box
@@ -49,10 +49,7 @@ Components.lensResultsForm.Component.prototype.createContent = function() {
 	}));
 	return this.oFormPanel;
 };
-Components.lensResultsForm.Component.prototype.setTitle = function(title) {
-	this.setProperty("title", title);
-	this.oFormPanel.getTitle().setText(title);
-};
+
 Components.lensResultsForm.Component.prototype.clearContents = function() {
 	this.oFormContainer.destroyFormElements();
 };
@@ -63,7 +60,7 @@ Components.lensResultsForm.Component.prototype.renderResults = function(queryUrl
 	var odataURL = queryUrl || self.getProperty("query");
 	if (!jQuery.isEmptyObject(odataURL)) {
 		self.oForm.setBusy(true).setBusyIndicatorDelay(0);
-		odataResults.loadData(odataURL.replace("http://","proxy/http/"));
+		odataResults.loadData(utils.proxyUrl(odataURL));
 		odataResults.attachRequestCompleted(function(oEvent) {
 			if (oEvent.getParameter("success")) {
 				try {
@@ -154,12 +151,6 @@ Components.lensResultsForm.Component.prototype.bindFormFields = function(oMetaMo
 	var elementCollection = [];
 	var paginatorCollection = [];
 	var innerPaginatorCollection = [];
-	var oDateTimeFormat = sap.ui.core.format.DateFormat.getDateTimeInstance({
-		pattern : sap.ui.getCore().getModel("i18n").getProperty("Edm.DateTime")
-	});
-	var oDateFormat = sap.ui.core.format.DateFormat.getDateTimeInstance({
-		pattern : sap.ui.getCore().getModel("i18n").getProperty("Edm.Date")
-	});
 	if (!jQuery.isEmptyObject(oTemplate.__metadata)) {
 		sEntityType = oTemplate.__metadata.type;
 		oEntityType = oMetaModel.getODataEntityType(sEntityType);
@@ -216,9 +207,12 @@ Components.lensResultsForm.Component.prototype.bindFormFields = function(oMetaMo
 				parts : [ {
 					path : sPathPrefix + "__metadata/uri",
 					type : new sap.ui.model.type.String()
-				} ],
-				formatter : function(uri) {
-					return utils.lensUri(uri, self.getProperty("serviceCode"));
+				} ,{
+					path : sPathPrefix + "__metadata/type",
+					type : new sap.ui.model.type.String()
+				}  ],
+				formatter : function(uri,type) {
+					return utils.lensUri(uri, type, self.getProperty("serviceCode"));
 				}
 			})));
 			nRow++;
@@ -270,28 +264,18 @@ Components.lensResultsForm.Component.prototype.bindFormFields = function(oMetaMo
 						elementCollection.push(this.nextFormElement(sLabel, nLevel, false, new sap.m.Text({
 							text : {
 								path : column,
-								formatter : function(value) {
-									if (value != null) {
-										if (typeof (value) == 'string') {
-											// TODO when the Odata atom/xml response or json does not annotate the type of the response
-											var rExp = /\/Date\((.+)\)\//;
-											var sDate = rExp.exec(value)[1];
-											// return eval("new " + rExp.$1);
-											if (jQuery.isEmptyObject(sDate)) {
-												value = oDateTimeFormat.parse(value);
-											} else {
-												value = new Date(sDate * 1);
-											}
-										}
-										return oDateTimeFormat.format(value);
-									} else {
-										return null;
-									}
-								}
+								formatter : utils.edmDateTimeFormatter
 							}
 						})));
 						nRow++;
 					} else if (oProperty.type == "Edm.Stream") {
+						elementCollection.push(this.nextFormElement(sLabel, nLevel, false, new sap.m.Image({
+							"src" : {
+								path : sPathPrefix + column
+							}
+						})));
+						nRow++;
+					} else if (oProperty.type == "Edm.Binary") {
 						elementCollection.push(this.nextFormElement(sLabel, nLevel, false, new sap.m.Image({
 							"src" : {
 								path : sPathPrefix + column

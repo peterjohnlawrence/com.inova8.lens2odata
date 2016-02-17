@@ -68,6 +68,33 @@ sap.ui.model.MetaModel.prototype.getNavigationProperties = function(sEntityType)
 		throw ('Failed to locate navigation properties ' + sEntityType + " with error " + error.message);
 	}
 };
+sap.ui.model.MetaModel.prototype.getODataInheritedNavigationProperty = function(oEntityType, sObjectProperty) {
+	var oObjectProperty = this.getODataNavigationProperty(oEntityType, sObjectProperty);
+	if (jQuery.isEmptyObject(oObjectProperty)) {
+		if (!jQuery.isEmptyObject(oEntityType.baseType)) {
+			return this.getODataInheritedNavigationProperty(this.getODataEntityType(oEntityType.baseType), sObjectProperty);
+		} else {
+			return null;
+		}
+	} else {
+		return oObjectProperty;
+	}
+};
+sap.ui.model.MetaModel.prototype.getODataNavigationProperty = function(oEntityType, sObjectProperty) {
+	try {
+		var navigationProperties = oEntityType.navigationProperty;
+		if (jQuery.isEmptyObject(navigationProperties)) {
+			return null;
+		} else {
+			for (var index = 0; index < navigationProperties.length; index++) {
+				if (navigationProperties[index].name == sObjectProperty)
+					return navigationProperties[index];
+			}
+		}
+	} catch (error) {
+		return null;
+	}
+};
 sap.ui.model.MetaModel.prototype.getNavigationProperty = function(sEntityType, sObjectProperty) {
 	try {
 		var oEntityType = this.getODataEntityType(sEntityType);
@@ -81,6 +108,7 @@ sap.ui.model.MetaModel.prototype.getNavigationProperty = function(sEntityType, s
 			}
 		}
 	} catch (error) {
+		//return null;
 		jQuery.sap.log.fatal(error, 'Failed to locate navigation property ' + sEntityType + " " + sObjectProperty + " with error " + error.message);
 		throw ('Failed to locate navigation property ' + sEntityType + " " + sObjectProperty + " with error " + error.message);
 	}

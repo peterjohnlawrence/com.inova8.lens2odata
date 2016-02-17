@@ -37,12 +37,12 @@ sap.ui.define([ "sap/ui/core/UIComponent" ], function(UIComponent) {
 					name : "query",
 					target : "query"
 				}, {
-					// example #LNW2/lens/manager?resourcePath=Orders()
+					// example #LNW2/lens/manager?uri=http://service/Orders()
 					pattern : "{service}/lens/{role}/:?query:",
 					name : "lens",
 					target : "lens"
 				}, {
-					// example #LNW2/lens?resourcePath=Orders()
+					// example #LNW2/lens?uri=http://service/Orders()
 					pattern : "{service}/lens/:?query:",
 					name : "defaultLens",
 					target : "lens"

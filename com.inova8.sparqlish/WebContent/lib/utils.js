@@ -1,10 +1,17 @@
 (function(window) {
 	"use strict";
-
+	jQuery.sap.require("sap.ui.core.format.DateFormat");
 	jQuery.sap.declare('lib.utils');
-
 	window.utils = {};
-
+	var oDateTimeFormat = sap.ui.core.format.DateFormat.getDateTimeInstance({
+		pattern : constants.DATETIMEFORMAT
+	});
+	var oDateFormat = sap.ui.core.format.DateFormat.getDateTimeInstance({
+		pattern : constants.DATEFORMAT
+	});
+	var oTimeFormat = sap.ui.core.format.DateFormat.getDateTimeInstance({
+		pattern : constants.TIMEFORMAT
+	});
 	utils.getCachedOdataModel = function(service, onFailure, onSuccess) {
 		var odataModel = sap.ui.getCore().getModel(constants.ODATACACHE + service.code);
 		if (jQuery.isEmptyObject(odataModel)) {
@@ -34,12 +41,6 @@
 				array.splice(index, 1);
 			}
 		});
-
-		// var array = $.map(thisArray, function(v, i) {
-		// return v[property] === value ? null : v;
-		// });
-		// thisArray.length = 0; // clear original array
-		// thisArray.push.apply(this, array); // push all elements except the one we want to delete
 	};
 	utils.lookup = function(thisArray, name, value) {
 		var lookup = [];
@@ -67,26 +68,103 @@
 	utils.proxyUrl = function(url) {
 		return url.replace("http://", "proxy/http/");
 	}
-	utils.lensUri = function(odataUri, serviceCode) {
-		return jQuery.isEmptyObject(odataUri) ? "" : "../lens2odata/#/" + serviceCode + "/lens?queryUri=" + odataUri;
+	utils.lensUri = function(uri, type, serviceCode) {
+		// Workaround to avoid issue with sapui5 router that will not ignore '=' even if encoded
+		return jQuery.isEmptyObject(uri) ? "" : "../lens2odata/#/" + serviceCode + "/lens?type=" + type + "&uri=" + uri.replace(/=/g, "~");
 	};
-	utils.lensUriLabel = function(odataUri) {
-		return jQuery.isEmptyObject(odataUri) ? "" : decodeURIComponent(odataUri.split("/").pop());
+	utils.lensUriLabel = function(uri) {
+		return jQuery.isEmptyObject(uri) ? "" : decodeURIComponent(uri).split("/").pop();
 	};
-	utils.lensDeferredUri = function(odataUri, serviceCode) {
-		if (jQuery.isEmptyObject(odataUri)) {
+	utils.lensDeferredUri = function(uri, serviceCode) {
+		if (jQuery.isEmptyObject(uri)) {
 			return "";
 		} else {
-			var parts = odataUri.split("/");
+			var parts = uri.split("/");
 			var collection = parts.pop();
-			return "../lens2odata/#/" + serviceCode + "/lens?queryUri=" + odataUri;
+			// Workaround to avoid issue with sapui5 router that will not ignore '=' even if encoded
+			return "../lens2odata/#/" + serviceCode + "/lens?deferred=true&uri=" + uri.replace(/=/g, "~");
 		}
 	};
-	utils.lensDeferredUriLabel = function(odataUri) {
-		if (jQuery.isEmptyObject(odataUri)) {
+	utils.lensDeferredUriLabel = function(uri) {
+		if (jQuery.isEmptyObject(uri)) {
 			return "";
 		} else {
-			return decodeURIComponent(odataUri.split("/").pop());
+			return decodeURIComponent(uri).split("/").pop();
 		}
+	};
+	utils.edmDateTimeFormatter = function(value) {
+		if (value != null) {
+			if (typeof (value) == 'string') {
+				// TODO when the Odata atom/xml response or json does not annotate the type of the response
+				var rExp = /\/Date\((.+)\)\//;
+				var sDate = rExp.exec(value)[1];
+				// return eval("new " + rExp.$1);
+				if (jQuery.isEmptyObject(sDate)) {
+					value = oDateTimeFormat.parse(value);
+				} else {
+					value = new Date(sDate * 1);
+				}
+			}
+			return oDateTimeFormat.format(value);
+		} else {
+			return null;
+		}
+	};
+	utils.edmTimeFormatter = function(value) {
+		if (value != null) {
+			if (typeof (value) == 'string') {
+				// TODO when the Odata atom/xml response or json does not annotate the type of the response
+				var rExp = /\/Date\((.+)\)\//;
+				var sDate = rExp.exec(value)[1];
+				// return eval("new " + rExp.$1);
+				if (jQuery.isEmptyObject(sDate)) {
+					value = oTimeFormat.parse(value);
+				} else {
+					value = new Date(sDate * 1);
+				}
+			}
+			return oTimeFormat.format(value);
+		} else {
+			return null;
+		}
+	};
+	utils.columnWidth = function() {
+		var args = [];
+		var max = 0;
+		for (var i = 0; i < arguments.length; ++i)
+			max = Math.max(arguments[i].length, max);
+		return max / constants.REMRATIO + "rem"
+	};
+	utils.bindStringToValues = function(sBindString, oBindValues) {
+		var matches;
+		do {
+			matches = /\{(.*?)\}/g.exec(sBindString);
+			if (matches) {
+				if (!jQuery.isEmptyObject(oBindValues[matches[1]])) {
+					sBindString = sBindString.replace(matches[0], oBindValues[matches[1]]);
+				} else {
+					sBindString = sBindString.replace(matches[0], "#"+matches[1]+"#");
+				}
+			}
+		} while (matches);
+		return sBindString
+	};
+	utils.parseDeferredUri = function(sDeferredUri) {
+		var matches = /.*\/(.*?)\((.*?)\)\/(.*?)$/g.exec(sDeferredUri);
+		var deferredUri = {
+			entityType : matches[1],
+			entity : matches[2],
+			navigationProperty : matches[3]
+		};
+		return deferredUri;
+	};
+	utils.parseMetadataUri = function(sMetadataUri) {
+		var matches = /.*\/(.*?)\((.*?)\)$/g.exec(sMetadataUri);
+		var metadataUri = {
+			entityType : matches[1],
+			entity : matches[2]
+		};
+
+		return metadataUri;
 	};
 })(window);

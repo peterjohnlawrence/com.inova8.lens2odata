@@ -16,9 +16,6 @@ sap.ui.define([
 			} else {
 				this.getRouter().navTo("search", {service:oHistory.aHistory[0].split("/")[0]}, true /*no history*/);
 			}
-		},
-//		onNavToLens: function (oEvent) {
-//				this.getRouter().navTo("lens",{entity:"Orders()"});
-//		},
+		}
 	});
 });

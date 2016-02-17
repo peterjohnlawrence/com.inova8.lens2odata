@@ -163,34 +163,50 @@
 		{
 			"{default}": 
 			{
-				"title": "Default Lens",
+				"title": "Default Lens for {entityType}: {entity}",
 				"template": "{default}",
 				"fragments": 
 				[
 					{
 						"position": "{default}",
-						"title": "Default Fragment",
+						"title": "Properties of {entity}",
 						"type": "Components.lensResultsForm",
-						"query": "{queryUri}",
+						"query": "{uri}",
 						"querytemplate": "{default}"
 					}
 				]
 			},
 
-			"Northwind.Orders": 
+			"{deferred}": 
+			{
+				"title": "Default Lens for {navigationProperty} values for {entityType}: {entity}",
+				"template": "{default}",
+				"fragments": 
+				[
+					{
+						"position": "{default}",
+						"title": "Values of {navigationProperty}",
+						"type": "Components.lensResultsTable",
+						"query": "{uri}",
+						"querytemplate": "{default}"
+					}
+				]
+			},
+
+			"NorthwindModel.Orders": 
 			{
 				"title": "Orders Lens",
 				"template": "testTemplate1",
 				"fragments": 
-				{
-					"R2-C2-R1": 
+				[
 					{
+						"position": "R2-C2-R1",
 						"title": "Order Dates",
 						"type": "Components.lensResultsForm",
 						"query": "http://services.odata.org/V2/Northwind/Northwind.svc/Orders()?&$expand=&$select=OrderDate,RequiredDate&",
 						"querydetails": 
 						{
-							"serviceUrl": "../http://services.odata.org/V2/Northwind/Northwind.svc/",
+							"serviceUrl": "http://services.odata.org/V2/Northwind/Northwind.svc/",
 							"resourcePath": "Orders()",
 							"filter": "",
 							"expand": "",
@@ -201,8 +217,8 @@
 						}
 					},
 
-					"R3-C2": 
 					{
+						"position": "R3-C2",
 						"title": "Order Details",
 						"type": "Components.lensResultsForm",
 						"query": "http://services.odata.org/V2/Northwind/Northwind.svc/Orders()?&$expand=Order_Details&$select=OrderID,Order_Details/ProductID&",
@@ -219,10 +235,10 @@
 						}
 					},
 
-					"R1": 
 					{
+						"position": "R1",
 						"title": "Products",
-						"type": "Components.lensResultsTable",
+						"type": "Components.lensResultsForm",
 						"query": "http://services.odata.org/V2/Northwind/Northwind.svc/Products()?&$expand=&$select=ProductID,ProductName,SupplierID,CategoryID,QuantityPerUnit,UnitPrice,UnitsInStock,UnitsOnOrder,ReorderLevel,Discontinued&",
 						"querydetails": 
 						{
@@ -236,10 +252,10 @@
 							"skip": ""
 						}
 					}
-				}
+				]
 			},
 
-			"Test": 
+			"NorthwindModel.Order": 
 			{
 				"title": "Test Lens",
 				"template": "testTemplate2",
@@ -300,7 +316,7 @@
 
 					{
 						"title": "Order Details Nested Grid",
-						"position": "R2a",
+						"position": "R2",
 						"type": "Components.lensResultsTable",
 						"query": "http://services.odata.org/V2/Northwind/Northwind.svc/Orders()?&$expand=Order_Details&$select=OrderID,Order_Details/ProductID&",
 						"querydetails": 

@@ -5,6 +5,10 @@
     
     window.constants = {
         ODATACACHE : "odataModel_",
-        CONSTANT_TWO : "My Constant 2 Value"
+        DATETIMEFORMAT: "dd/MM/yyyy HH:mm",
+        DATEFORMAT: "d/MM/yyyy",
+        TIMEFORMAT: "HH:mm",
+        DEFAULTTABLECOLUMNWIDTH:10,
+        REMRATIO:2
     };
 }(window));

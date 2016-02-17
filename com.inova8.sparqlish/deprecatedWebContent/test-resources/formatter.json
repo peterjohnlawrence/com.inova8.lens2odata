@@ -6,260 +6,144 @@
 			{
 				"__metadata": 
 				{
-					"id": "http://localhost:8080/odata2sparql/2.0/NW/Order('northwind%3AOrder-10625')",
-					"uri": "http://localhost:8080/odata2sparql/2.0/NW/Order('northwind%3AOrder-10625')",
-					"type": "northwind.Order"
+					"id": "http://localhost:8080/odata2sparql/2.0/NW/OrderDetail('northwind%3AOrderDetail-2383')",
+					"uri": "http://localhost:8080/odata2sparql/2.0/NW/OrderDetail('northwind%3AOrderDetail-2383')",
+					"type": "northwind.OrderDetail"
 				},
 
-				"customer": 
+				"subjectId": "northwind:OrderDetail-2383",
+				"unitPrice": null,
+				"discount": null,
+				"rdfs_Statement": 
 				{
-					"results": 
-					[
-						{
-							"__metadata": 
-							{
-								"id": "http://localhost:8080/odata2sparql/2.0/NW/Customer('northwind%3ACustomer-ANATR')",
-								"uri": "http://localhost:8080/odata2sparql/2.0/NW/Customer('northwind%3ACustomer-ANATR')",
-								"type": "northwind.Customer"
-							},
+					"__deferred": 
+					{
+						"uri": "http://localhost:8080/odata2sparql/2.0/NW/OrderDetail('northwind%3AOrderDetail-2383')/rdfs_Statement"
+					}
+				},
 
-							"subjectId": "northwind:Customer-ANATR"
-						}
-					]
+				"product": 
+				{
+					"__deferred": 
+					{
+						"uri": "http://localhost:8080/odata2sparql/2.0/NW/OrderDetail('northwind%3AOrderDetail-2383')/product"
+					}
+				},
+
+				"order": 
+				{
+					"__deferred": 
+					{
+						"uri": "http://localhost:8080/odata2sparql/2.0/NW/OrderDetail('northwind%3AOrderDetail-2383')/order"
+					}
 				}
 			},
 
 			{
 				"__metadata": 
 				{
-					"id": "http://localhost:8080/odata2sparql/2.0/NW/Order('northwind%3AOrder-10702')",
-					"uri": "http://localhost:8080/odata2sparql/2.0/NW/Order('northwind%3AOrder-10702')",
-					"type": "northwind.Order"
+					"id": "http://localhost:8080/odata2sparql/2.0/NW/OrderDetail('northwind%3AOrderDetail-344')",
+					"uri": "http://localhost:8080/odata2sparql/2.0/NW/OrderDetail('northwind%3AOrderDetail-344')",
+					"type": "northwind.OrderDetail"
 				},
 
-				"customer": 
+				"subjectId": "northwind:OrderDetail-344",
+				"unitPrice": "31.2",
+				"discount": "0.0",
+				"rdfs_Statement": 
 				{
-					"results": 
-					[
-						{
-							"__metadata": 
-							{
-								"id": "http://localhost:8080/odata2sparql/2.0/NW/Customer('northwind%3ACustomer-ALFKI')",
-								"uri": "http://localhost:8080/odata2sparql/2.0/NW/Customer('northwind%3ACustomer-ALFKI')",
-								"type": "northwind.Customer"
-							},
+					"__deferred": 
+					{
+						"uri": "http://localhost:8080/odata2sparql/2.0/NW/OrderDetail('northwind%3AOrderDetail-344')/rdfs_Statement"
+					}
+				},
 
-							"subjectId": "northwind:Customer-ALFKI"
-						}
-					]
+				"product": 
+				{
+					"__deferred": 
+					{
+						"uri": "http://localhost:8080/odata2sparql/2.0/NW/OrderDetail('northwind%3AOrderDetail-344')/product"
+					}
+				},
+
+				"order": 
+				{
+					"__deferred": 
+					{
+						"uri": "http://localhost:8080/odata2sparql/2.0/NW/OrderDetail('northwind%3AOrderDetail-344')/order"
+					}
 				}
 			},
 
 			{
 				"__metadata": 
 				{
-					"id": "http://localhost:8080/odata2sparql/2.0/NW/Order('northwind%3AOrder-10835')",
-					"uri": "http://localhost:8080/odata2sparql/2.0/NW/Order('northwind%3AOrder-10835')",
-					"type": "northwind.Order"
+					"id": "http://localhost:8080/odata2sparql/2.0/NW/OrderDetail('northwind%3AOrderDetail-345')",
+					"uri": "http://localhost:8080/odata2sparql/2.0/NW/OrderDetail('northwind%3AOrderDetail-345')",
+					"type": "northwind.OrderDetail"
 				},
 
-				"customer": 
+				"subjectId": "northwind:OrderDetail-345",
+				"unitPrice": "36.4",
+				"discount": "0.0",
+				"rdfs_Statement": 
 				{
-					"results": 
-					[
-						{
-							"__metadata": 
-							{
-								"id": "http://localhost:8080/odata2sparql/2.0/NW/Customer('northwind%3ACustomer-ALFKI')",
-								"uri": "http://localhost:8080/odata2sparql/2.0/NW/Customer('northwind%3ACustomer-ALFKI')",
-								"type": "northwind.Customer"
-							},
+					"__deferred": 
+					{
+						"uri": "http://localhost:8080/odata2sparql/2.0/NW/OrderDetail('northwind%3AOrderDetail-345')/rdfs_Statement"
+					}
+				},
 
-							"subjectId": "northwind:Customer-ALFKI"
-						}
-					]
+				"product": 
+				{
+					"__deferred": 
+					{
+						"uri": "http://localhost:8080/odata2sparql/2.0/NW/OrderDetail('northwind%3AOrderDetail-345')/product"
+					}
+				},
+
+				"order": 
+				{
+					"__deferred": 
+					{
+						"uri": "http://localhost:8080/odata2sparql/2.0/NW/OrderDetail('northwind%3AOrderDetail-345')/order"
+					}
 				}
 			},
 
 			{
 				"__metadata": 
 				{
-					"id": "http://localhost:8080/odata2sparql/2.0/NW/Order('northwind%3AOrder-10643')",
-					"uri": "http://localhost:8080/odata2sparql/2.0/NW/Order('northwind%3AOrder-10643')",
-					"type": "northwind.Order"
+					"id": "http://localhost:8080/odata2sparql/2.0/NW/OrderDetail('northwind%3AOrderDetail-346')",
+					"uri": "http://localhost:8080/odata2sparql/2.0/NW/OrderDetail('northwind%3AOrderDetail-346')",
+					"type": "northwind.OrderDetail"
 				},
 
-				"customer": 
+				"subjectId": "northwind:OrderDetail-346",
+				"unitPrice": "14.4",
+				"discount": "0.0",
+				"rdfs_Statement": 
 				{
-					"results": 
-					[
-						{
-							"__metadata": 
-							{
-								"id": "http://localhost:8080/odata2sparql/2.0/NW/Customer('northwind%3ACustomer-ALFKI')",
-								"uri": "http://localhost:8080/odata2sparql/2.0/NW/Customer('northwind%3ACustomer-ALFKI')",
-								"type": "northwind.Customer"
-							},
-
-							"subjectId": "northwind:Customer-ALFKI"
-						}
-					]
-				}
-			},
-
-			{
-				"__metadata": 
-				{
-					"id": "http://localhost:8080/odata2sparql/2.0/NW/Order('northwind%3AOrder-10952')",
-					"uri": "http://localhost:8080/odata2sparql/2.0/NW/Order('northwind%3AOrder-10952')",
-					"type": "northwind.Order"
+					"__deferred": 
+					{
+						"uri": "http://localhost:8080/odata2sparql/2.0/NW/OrderDetail('northwind%3AOrderDetail-346')/rdfs_Statement"
+					}
 				},
 
-				"customer": 
+				"product": 
 				{
-					"results": 
-					[
-						{
-							"__metadata": 
-							{
-								"id": "http://localhost:8080/odata2sparql/2.0/NW/Customer('northwind%3ACustomer-ALFKI')",
-								"uri": "http://localhost:8080/odata2sparql/2.0/NW/Customer('northwind%3ACustomer-ALFKI')",
-								"type": "northwind.Customer"
-							},
-
-							"subjectId": "northwind:Customer-ALFKI"
-						}
-					]
-				}
-			},
-
-			{
-				"__metadata": 
-				{
-					"id": "http://localhost:8080/odata2sparql/2.0/NW/Order('northwind%3AOrder-10692')",
-					"uri": "http://localhost:8080/odata2sparql/2.0/NW/Order('northwind%3AOrder-10692')",
-					"type": "northwind.Order"
+					"__deferred": 
+					{
+						"uri": "http://localhost:8080/odata2sparql/2.0/NW/OrderDetail('northwind%3AOrderDetail-346')/product"
+					}
 				},
 
-				"customer": 
+				"order": 
 				{
-					"results": 
-					[
-						{
-							"__metadata": 
-							{
-								"id": "http://localhost:8080/odata2sparql/2.0/NW/Customer('northwind%3ACustomer-ALFKI')",
-								"uri": "http://localhost:8080/odata2sparql/2.0/NW/Customer('northwind%3ACustomer-ALFKI')",
-								"type": "northwind.Customer"
-							},
-
-							"subjectId": "northwind:Customer-ALFKI"
-						}
-					]
-				}
-			},
-
-			{
-				"__metadata": 
-				{
-					"id": "http://localhost:8080/odata2sparql/2.0/NW/Order('northwind%3AOrder-11011')",
-					"uri": "http://localhost:8080/odata2sparql/2.0/NW/Order('northwind%3AOrder-11011')",
-					"type": "northwind.Order"
-				},
-
-				"customer": 
-				{
-					"results": 
-					[
-						{
-							"__metadata": 
-							{
-								"id": "http://localhost:8080/odata2sparql/2.0/NW/Customer('northwind%3ACustomer-ALFKI')",
-								"uri": "http://localhost:8080/odata2sparql/2.0/NW/Customer('northwind%3ACustomer-ALFKI')",
-								"type": "northwind.Customer"
-							},
-
-							"subjectId": "northwind:Customer-ALFKI"
-						}
-					]
-				}
-			},
-
-			{
-				"__metadata": 
-				{
-					"id": "http://localhost:8080/odata2sparql/2.0/NW/Order('northwind%3AOrder-10308')",
-					"uri": "http://localhost:8080/odata2sparql/2.0/NW/Order('northwind%3AOrder-10308')",
-					"type": "northwind.Order"
-				},
-
-				"customer": 
-				{
-					"results": 
-					[
-						{
-							"__metadata": 
-							{
-								"id": "http://localhost:8080/odata2sparql/2.0/NW/Customer('northwind%3ACustomer-ANATR')",
-								"uri": "http://localhost:8080/odata2sparql/2.0/NW/Customer('northwind%3ACustomer-ANATR')",
-								"type": "northwind.Customer"
-							},
-
-							"subjectId": "northwind:Customer-ANATR"
-						}
-					]
-				}
-			},
-
-			{
-				"__metadata": 
-				{
-					"id": "http://localhost:8080/odata2sparql/2.0/NW/Order('northwind%3AOrder-10759')",
-					"uri": "http://localhost:8080/odata2sparql/2.0/NW/Order('northwind%3AOrder-10759')",
-					"type": "northwind.Order"
-				},
-
-				"customer": 
-				{
-					"results": 
-					[
-						{
-							"__metadata": 
-							{
-								"id": "http://localhost:8080/odata2sparql/2.0/NW/Customer('northwind%3ACustomer-ANATR')",
-								"uri": "http://localhost:8080/odata2sparql/2.0/NW/Customer('northwind%3ACustomer-ANATR')",
-								"type": "northwind.Customer"
-							},
-
-							"subjectId": "northwind:Customer-ANATR"
-						}
-					]
-				}
-			},
-
-			{
-				"__metadata": 
-				{
-					"id": "http://localhost:8080/odata2sparql/2.0/NW/Order('northwind%3AOrder-10926')",
-					"uri": "http://localhost:8080/odata2sparql/2.0/NW/Order('northwind%3AOrder-10926')",
-					"type": "northwind.Order"
-				},
-
-				"customer": 
-				{
-					"results": 
-					[
-						{
-							"__metadata": 
-							{
-								"id": "http://localhost:8080/odata2sparql/2.0/NW/Customer('northwind%3ACustomer-ANATR')",
-								"uri": "http://localhost:8080/odata2sparql/2.0/NW/Customer('northwind%3ACustomer-ANATR')",
-								"type": "northwind.Customer"
-							},
-
-							"subjectId": "northwind:Customer-ANATR"
-						}
-					]
+					"__deferred": 
+					{
+						"uri": "http://localhost:8080/odata2sparql/2.0/NW/OrderDetail('northwind%3AOrderDetail-346')/order"
+					}
 				}
 			}
 		]

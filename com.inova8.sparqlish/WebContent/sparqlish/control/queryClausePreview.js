@@ -124,9 +124,12 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 								parts : [ {
 									path : "resultsModel>" + sCurrentResultsContext + "/__metadata/uri",
 									type : new sap.ui.model.type.String()
-								} ],
-								formatter : function(uri) {
-									return utils.lensUri( uri,serviceCode);
+								},{
+									path : "resultsModel>" + sCurrentResultsContext + "/__metadata/type",
+									type : new sap.ui.model.type.String()
+								}],
+								formatter : function(uri,type) {
+									return utils.lensUri( uri,type,serviceCode);
 								}
 							});
 							oControl.setAggregation("_preview", oControl.oLink);
