@@ -148,10 +148,11 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 			self.setAggregation("_concept", new sparqlish.control.conceptMenu({
 				conceptChanged : conceptChanged
 			}).bindElement("queryModel>"));
-			self.setAggregation("_conceptFilters", new sparqlish.control.conceptFilters().bindElement("queryModel>conceptFilters").attachConceptFiltersChanged(
-					function() {
-						self.rerender();
-					}));
+//TODO temporarily removed as difficult to support entity selection
+//			self.setAggregation("_conceptFilters", new sparqlish.control.conceptFilters().bindElement("queryModel>conceptFilters").attachConceptFiltersChanged(
+//					function() {
+//						self.rerender();
+//					}));
 			self.setAggregation("_addClause", new sparqlish.control.addClauses({
 				clausesSelected : function(oEvent) {
 					var currentModelData = self.getCurrentQueryContext()
@@ -185,7 +186,8 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 			oRm.renderControl(oFind);
 			oRm.write("&nbsp;");
 			oRm.renderControl(oControl.getAggregation("_concept"));
-			oRm.renderControl(oControl.getAggregation("_conceptFilters"));
+//TODO temporarily removed as difficult to support entity selection
+//			oRm.renderControl(oControl.getAggregation("_conceptFilters"));
 			oRm.write("&nbsp;");
 			oRm.renderControl(oControl.getAggregation("_addClause"));
 			oRm.write("</div>");

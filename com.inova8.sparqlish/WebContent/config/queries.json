@@ -11,12 +11,14 @@
 			[
 				{
 					"_class": "Query",
+					"code": "1",
 					"name": "Test1:No clauses",
 					"concept": "Order"
 				},
 
 				{
 					"_class": "Query",
+					"code": "1a",
 					"name": "Test1a: date clause",
 					"concept": "Order",
 					"parameters": 
@@ -105,6 +107,7 @@
 
 				{
 					"_class": "Query",
+					"code": "1b",
 					"name": "Test1b: date clause",
 					"concept": "Order",
 					"parameters": 
@@ -186,6 +189,7 @@
 
 				{
 					"_class": "Query",
+					"code": "2",
 					"name": "Test2:Single clauses",
 					"concept": "Order",
 					"label": "Order",
@@ -220,6 +224,7 @@
 
 				{
 					"_class": "Query",
+					"code": "2a",
 					"name": "Test2A:Single clauses",
 					"concept": "Order",
 					"label": "Order",
@@ -242,6 +247,7 @@
 
 				{
 					"_class": "Query",
+					"code": "3",
 					"name": "Test3:Optional Single clauses",
 					"concept": "Order",
 					"clauses": 
@@ -277,6 +283,7 @@
 
 				{
 					"_class": "Query",
+					"code": "4",
 					"name": "Test4:Optional two clauses",
 					"concept": "Order",
 					"clauses": 
@@ -347,6 +354,7 @@
 
 				{
 					"_class": "Query",
+					"code": "5",
 					"name": "Test5:Object clause",
 					"concept": "Order",
 					"clauses": 
@@ -388,6 +396,7 @@
 
 				{
 					"_class": "Query",
+					"code": "5a",
 					"name": "Test5A:Object clause",
 					"concept": "Order",
 					"clauses": 
@@ -459,6 +468,7 @@
 
 				{
 					"_class": "Query",
+					"code": "5b",
 					"name": "Test5B:Object clause",
 					"concept": "Order",
 					"clauses": 
@@ -511,6 +521,7 @@
 
 				{
 					"_class": "Query",
+					"code": "6",
 					"name": "Test6:Object clauses",
 					"concept": "Order",
 					"clauses": 
@@ -555,6 +566,7 @@
 
 				{
 					"_class": "Query",
+					"code": "7",
 					"name": "Test7A:Object clauses w/error",
 					"concept": "Order",
 					"clauses": 
@@ -641,6 +653,7 @@
 
 				{
 					"_class": "Query",
+					"code": "7b",
 					"name": "Test7B:Object clauses",
 					"concept": "Order",
 					"clauses": 
@@ -702,6 +715,7 @@
 
 				{
 					"_class": "Query",
+					"code": "8",
 					"name": "Test8:Object object clauses, inverse property",
 					"concept": "Order",
 					"clauses": 
@@ -742,6 +756,7 @@
 
 				{
 					"_class": "Query",
+					"code": "9",
 					"name": "Test9:Object object clauses, inverse property",
 					"top": 100,
 					"skip": null,
@@ -836,6 +851,7 @@
 
 				{
 					"_class": "Query",
+					"code": "10",
 					"name": "Test10: Order query",
 					"top": 100,
 					"skip": 0,
@@ -1127,6 +1143,7 @@
 
 				{
 					"_class": "Query",
+					"code": "11",
 					"name": "Test11:Nested query",
 					"concept": "Order",
 					"clauses": 
@@ -1208,12 +1225,14 @@
 			[
 				{
 					"_class": "Query",
+					"code": "1",
 					"name": "Test1:No clauses",
 					"concept": "Orders"
 				},
 
 				{
 					"_class": "Query",
+					"code": "1a",
 					"name": "Test1a: date clause",
 					"concept": "Orders",
 					"parameters": 
@@ -1313,6 +1332,7 @@
 
 				{
 					"_class": "Query",
+					"code": "2",
 					"name": "Test2:Single clauses",
 					"concept": "Orders",
 					"label": "Order",
@@ -1347,6 +1367,7 @@
 
 				{
 					"_class": "Query",
+					"code": "2a",
 					"name": "Test2A:Single clauses",
 					"concept": "Orders",
 					"label": "Order",
@@ -1369,6 +1390,7 @@
 
 				{
 					"_class": "Query",
+					"code": "3",
 					"name": "Test3:Optional Single clauses",
 					"concept": "Orders",
 					"clauses": 
@@ -1404,6 +1426,7 @@
 
 				{
 					"_class": "Query",
+					"code": "4",
 					"name": "Test4:Optional two clauses",
 					"concept": "Orders",
 					"clauses": 
@@ -1474,6 +1497,7 @@
 
 				{
 					"_class": "Query",
+					"code": "5",
 					"name": "Test5:Object clause",
 					"concept": "Orders",
 					"clauses": 
@@ -1515,6 +1539,7 @@
 
 				{
 					"_class": "Query",
+					"code": "6",
 					"name": "Test6:Object clauses",
 					"concept": "Orders",
 					"clauses": 
@@ -1559,6 +1584,7 @@
 
 				{
 					"_class": "Query",
+					"code": "7a",
 					"name": "Test7A:Object clauses w/error",
 					"concept": "Orders",
 					"clauses": 
@@ -1645,6 +1671,7 @@
 
 				{
 					"_class": "Query",
+					"code": "7b",
 					"name": "Test7B:Object clauses",
 					"concept": "Orders",
 					"clauses": 
@@ -1706,6 +1733,7 @@
 
 				{
 					"_class": "Query",
+					"code": "8",
 					"name": "Test8:Object object clauses, inverse property",
 					"concept": "Orders",
 					"clauses": 
@@ -1746,6 +1774,7 @@
 
 				{
 					"_class": "Query",
+					"code": "9",
 					"name": "Test9:Object object clauses, inverse property",
 					"top": 100,
 					"skip": null,
@@ -1840,6 +1869,7 @@
 
 				{
 					"_class": "Query",
+					"code": "10",
 					"name": "Test10: Order query",
 					"top": 100,
 					"skip": 0,
@@ -2131,6 +2161,7 @@
 
 				{
 					"_class": "Query",
+					"code": "11",
 					"name": "Test11:Nested query",
 					"concept": "Orders",
 					"clauses": 
@@ -2202,6 +2233,7 @@
 
 				{
 					"_class": "Query",
+					"code": "12",
 					"name": "Test12:Datastitching with operations",
 					"top": 100,
 					"skip": null,
@@ -2613,6 +2645,7 @@
 			[
 				{
 					"_class": "Query",
+					"code": "a",
 					"name": "TestA:No clauses",
 					"concept": "Customers"
 				}
@@ -2629,6 +2662,7 @@
 			[
 				{
 					"_class": "Query",
+					"code": "a",
 					"name": "TestA:No clauses",
 					"concept": "Customers"
 				}
@@ -2645,12 +2679,14 @@
 			[
 				{
 					"_class": "Query",
+					"code": "a",
 					"name": "ProductCatalog",
 					"concept": "ProductCatalog"
 				},
 
 				{
 					"_class": "Query",
+					"code": "b",
 					"name": "ProductCatalog2",
 					"concept": "ProductCatalog",
 					"clauses": 
@@ -2765,6 +2801,7 @@
 
 				{
 					"_class": "Query",
+					"code": "c",
 					"name": "Q1Q2 sales",
 					"concept": "CompanySales",
 					"conceptFilters": 
@@ -2828,12 +2865,14 @@
 			[
 				{
 					"_class": "Query",
+					"code": "a",
 					"name": "RSVPs",
 					"concept": "RSVPs"
 				},
 
 				{
 					"_class": "Query",
+					"code": "b",
 					"name": "Dinners",
 					"concept": "Dinners"
 				}
@@ -2850,6 +2889,7 @@
 			[
 				{
 					"_class": "Query",
+					"code": "m",
 					"name": "Matters",
 					"concept": "Matter"
 				}

@@ -107,7 +107,7 @@ Components.queryForm.Component.prototype.createContent = function() {
 		})).addButton(new sap.m.Button({
 			text : "OData Query V2",
 			press : function() {
-				sap.m.MessageToast.show(self.getProperty("query").odataURI("V4"), {
+				sap.m.MessageToast.show(self.getProperty("query").odataURI("V2"), {
 					width : "50em"
 				});
 			}

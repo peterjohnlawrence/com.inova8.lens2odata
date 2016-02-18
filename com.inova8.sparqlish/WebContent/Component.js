@@ -28,12 +28,15 @@ sap.ui.define([ "sap/ui/core/UIComponent" ], function(UIComponent) {
 					target : "search"
 				}, {
 					// example #LNW2/search
-					// example #LNW2/search/Test 1
-					pattern : "{service}/search/:querycode:",
+					// example #LNW2/search/1a
+					// example #LNW2/search/1a?city=London&status=true
+					pattern : "{service}/search/:querycode:/:?params:",
 					name : "searchWithQuery",
 					target : "search"
 				}, {
-					pattern : "{service}/query/:querycode:",
+					// example #LNW2/query/1a
+					// example #LNW2/query/1a?city=London&status=true
+					pattern : "{service}/query/:querycode:/:?params:",
 					name : "query",
 					target : "query"
 				}, {
@@ -85,7 +88,7 @@ Lens.Component.prototype.init = function() {
 	var oQueryModel = new sap.ui.model.json.JSONModel();
 	var localQueryData = utils.getLocalStorage();
 	var remoteQueryData = new sap.ui.model.json.JSONModel();
-	remoteQueryData.loadData("config/service.query.test.json", null, false);
+	remoteQueryData.loadData("config/queries.json", null, false);
 
 	var queryData = jQuery.extend(true, {}, localQueryData, remoteQueryData.getData());
 

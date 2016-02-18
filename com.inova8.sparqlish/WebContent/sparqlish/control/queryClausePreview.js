@@ -132,6 +132,7 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 									return utils.lensUri( uri,type,serviceCode);
 								}
 							});
+
 							oControl.setAggregation("_preview", oControl.oLink);
 							break;
 						case "Edm.DateTime":

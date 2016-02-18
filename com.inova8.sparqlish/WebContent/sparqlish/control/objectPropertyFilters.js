@@ -26,7 +26,8 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 		},
 		extendFilter : function() {
 			var currentQueryContext = this.getCurrentQueryContext();
-			var keyId = this.getModel("metaModel").getODataEntityType(this.getParent().getRangeEntityTypeQName()).key.propertyRef[0].name;
+			//var keyId = this.getModel("metaModel").getODataEntityType(this.getParent().getRangeEntityTypeQName()).key.propertyRef[0].name;
+			var keyId = this.getModel("metaModel").getODataEntityType(this.getParent().getRangeEntityTypeQName()).property[0].name;
 			var keyProperty = this.getModel("metaModel").getDataProperty(this.getParent().getRangeEntityTypeQName(), keyId);
 			currentQueryContext.push([ {
 				key : keyId,

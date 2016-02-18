@@ -16,15 +16,15 @@ sap.ui.core.UIComponent.extend("Components.lensResultsTable.Component", {
 });
 
 Components.lensResultsTable.Component.prototype.createContent = function() {
-		this.oTablePanel = new sap.ui.commons.Panel({
+	this.oTablePanel = new sap.ui.commons.Panel({
 		title : new sap.ui.core.Title(),
 		width : "100%",
 		showCollapseIcon : false,
 		borderDesign : sap.ui.commons.enums.BorderDesign.Box
 	});
-	
+
 	this.oTable = new sap.ui.table.Table({
-		//title : "empty so far",
+		// title : "empty so far",
 		showNoData : true,
 		editable : false,
 		// columnHeaderHeight : 10,
@@ -36,8 +36,8 @@ Components.lensResultsTable.Component.prototype.createContent = function() {
 		navigationMode : sap.ui.table.NavigationMode.Paginator,
 		fixedColumnCount : 1
 	});
-	
-	return	this.oTablePanel.addContent(this.oTable);
+
+	return this.oTablePanel.addContent(this.oTable);
 };
 
 Components.lensResultsTable.Component.prototype.renderResults = function(query) {
@@ -110,42 +110,51 @@ Components.lensResultsTable.Component.prototype.bindTableColumns = function(oMet
 	}
 	for ( var column in oTemplate) {
 		if (column == "__metadata") {
-			var sPathPrefix = (sCurrentPath != "") ? sCurrentPath + "/" : "";
-			var sMetadataPath = (sCurrentPath != "") ? sCurrentPath + "/__metadata/uri" : "__metadata/uri";
-			var sLabel = oEntityType["com.sap.vocabularies.Common.v1.Label"] ? oEntityType["com.sap.vocabularies.Common.v1.Label"].String : column;
-			oTable.addColumn(new sap.ui.table.Column({
-				label : new sap.ui.commons.Label({
-					text : sLabel,
-					textAlign : "Center"// ,
-				// width : "100%"
-				}),
-				flexible : false,
-				resizable : true,
-				autoResizable : false,
-				width : utils.columnWidth(utils.lensUriLabel(oTemplate.__metadata.uri)),
-				sortProperty : sLabel,
-				filterProperty : sLabel,
-				template : new sap.m.Link().bindProperty("text", {
-					parts : [ {
-						path : sPathPrefix + "__metadata/uri",
-						type : new sap.ui.model.type.String()
-					} ],
-					formatter : function(uri) {
-						return utils.lensUriLabel(uri);
-					}
-				}).bindProperty("href", {
-					parts : [ {
-						path : sPathPrefix + "__metadata/uri",
-						type : new sap.ui.model.type.String()
-					}, {
-						path : sPathPrefix + "__metadata/type",
-						type : new sap.ui.model.type.String()
-					} ],
-					formatter : function(uri, type) {
-						return utils.lensUri(uri, type, self.getProperty("serviceCode"));
-					}
-				})
-			}));
+		
+			if (!jQuery.isEmptyObject(oTemplate[column].uri)) {
+				var sPathPrefix = (sCurrentPath != "") ? sCurrentPath + "/" : "";
+				var sMetadataPath = (sCurrentPath != "") ? sCurrentPath + "/__metadata/uri" : "__metadata/uri";
+				var sLabel = oEntityType["com.sap.vocabularies.Common.v1.Label"] ? oEntityType["com.sap.vocabularies.Common.v1.Label"].String : column;
+				var sTooltip = oEntityType["com.sap.vocabularies.Common.v1.QuickInfo"] ? oEntityType["com.sap.vocabularies.Common.v1.QuickInfo"].String : sLabel;
+				oTable.addColumn(new sap.ui.table.Column({
+					label : new sap.ui.commons.Label({
+						text : sLabel,
+						textAlign : "Center"
+					}),
+					flexible : false,
+					resizable : true,
+					autoResizable : false,
+					width : utils.columnWidth(utils.lensUriLabel(oTemplate.__metadata.uri)),
+					sortProperty : sLabel,
+					filterProperty : sLabel,
+					template : new sap.m.Link({
+						tooltip : sTooltip
+					}).bindProperty("text", {
+						parts : [ {
+							path : sPathPrefix + "__metadata/uri",
+							type : new sap.ui.model.type.String()
+						} ],
+						formatter : function(uri) {
+							return utils.lensUriLabel(uri);
+						}
+					}).bindProperty("href", {
+						parts : [ {
+							path : sPathPrefix + "__metadata/uri",
+							type : new sap.ui.model.type.String()
+						}, {
+							path : sPathPrefix + "__metadata/type",
+							type : new sap.ui.model.type.String()
+						} ],
+						formatter : function(uri, type) {
+							return utils.lensUri(uri, type, self.getProperty("serviceCode"));
+						}
+					})
+				}));
+			} else {
+				//TODO Must be a complex type. Need to add values for each filed of complex type if available
+	// oMetaModel.getODataComplexType(sEntityType)
+			}
+
 		} else {
 			var sLabel = ":" + column;// (sCurrentLabel == "") ? column : sCurrentLabel + ":" + column;
 			var sPath = (sCurrentPath == "") ? column : sCurrentPath + "/" + column;

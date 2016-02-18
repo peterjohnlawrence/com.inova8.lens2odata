@@ -47,17 +47,5 @@ sap.ui.define([ "controller/BaseController" ], function(BaseController) {
 		onSearch: function (oEvent) {
 				this.getRouter().navTo("search",{service:this.oLensPanelComponent.getProperty("serviceCode")});
 		}
-
-
 	});
 });
-
-/*
- * var oLensPanelComponent = sap.ui.getCore().createComponent({ name : "Components.lensPanel", settings : {
- * role:"(default)", concept:"Test"//"Northwind.Orders"// } }); var oLensPanelComponentContainer = new
- * sap.ui.core.ComponentContainer({ component : oLensPanelComponent, propagateModel:true });
- * 
- * oLensPanelComponentContainer.placeAt("uiPanel");
- * 
- * displayLensPanel = function() { oLensPanelComponent.renderFragments(); };
- */

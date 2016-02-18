@@ -11,11 +11,12 @@ sap.ui.define([
 			var oHistory, sPreviousHash;
 			oHistory = History.getInstance();
 			sPreviousHash = oHistory.getPreviousHash();
-			if (sPreviousHash !== undefined) {
+			//TODO This uses 'normal' browser navigation so that the URL link navigation is included.
+			//if (sPreviousHash !== undefined) {
 				window.history.go(-1);
-			} else {
-				this.getRouter().navTo("search", {service:oHistory.aHistory[0].split("/")[0]}, true /*no history*/);
-			}
+			//} else {
+			//	this.getRouter().navTo("search", {service:oHistory.aHistory[0].split("/")[0]}, true /*no history*/);
+			//}
 		}
 	});
 });

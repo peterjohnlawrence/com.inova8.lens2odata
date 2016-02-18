@@ -59,7 +59,7 @@ sap.m.OverflowToolbar.extend("sparqlish.control.serviceQueryMenu", {
 						path : "serviceQueriesModel>name"
 					},
 					template : new sap.ui.core.ListItem({
-						key : "{serviceQueriesModel>name}",
+						key : "{serviceQueriesModel>code}",
 						text : "{serviceQueriesModel>name}"
 					})
 				});
@@ -73,11 +73,11 @@ sap.m.OverflowToolbar.extend("sparqlish.control.serviceQueryMenu", {
 		});
 
 		self.oServiceSelect.addButton(new sap.m.Button({
-			text : "{i18nModel>serviceDelete}",
+			text : "{i18nModel>queryForm.serviceDelete}",
 			icon : sap.ui.core.IconPool.getIconURI("delete"),
 			press : function(oEvent) {
 				var oServiceDeleteDialog = new sap.m.Dialog({
-					title : '{i18nModel>Delete OData Service}',
+					title : '{i18nModel>queryForm.serviceDelete}',
 					type : 'Message',
 					beginButton : new sap.m.Button({
 						text : 'Confirm',
@@ -104,22 +104,22 @@ sap.m.OverflowToolbar.extend("sparqlish.control.serviceQueryMenu", {
 			}
 		}));
 		self.oServiceSelect.addButton(new sap.m.Button({
-			text : "{i18nModel>serviceAdd}",
+			text : "{i18nModel>queryForm.serviceAdd}",
 			icon : sap.ui.core.IconPool.getIconURI("add"),
 			press : function(oEvent) {
 				var oServiceAddDialog = new sap.m.Dialog({
-					title : 'Add OData Service',
+					title : '{i18nModel>queryForm.serviceAdd}',
 					type : 'Message',
-					content : [ new sap.m.Input({
+					content : [   new sap.m.Label({text:"{i18nModel>queryForm.serviceId}"}), new sap.m.Input({
 						class : "sapUiSmallMarginBottom",
 						type : "Text",
-						placeholder : "{i18nModel>Enter OData service name ...}",
+						placeholder : "{i18nModel>queryForm.serviceIdPrompt}",
 						valueStateText : "{i18nModel>Entry must be a valid name}"
-					}), new sap.m.Input({
+					}), new sap.m.Label({text:"{i18nModel>queryForm.serviceUrl}"}), new sap.m.Input({
 						class : "sapUiSmallMarginBottom",
 						type : "Url",
-						placeholder : "{i18nModel>Enter OData service URL ...}",
-						valueStateText : "{i18nModel>Entry must be a valid OData service URL}"
+						placeholder : "{i18nModel>queryForm.serviceUrlPrompt}",
+						valueStateText : "{i18nModel>queryForm.serviceUrlState}"
 					}) ],
 					beginButton : new sap.m.Button({
 						text : 'Add',
@@ -164,7 +164,7 @@ sap.m.OverflowToolbar.extend("sparqlish.control.serviceQueryMenu", {
 			}
 		}));
 		self.oServiceSelect.addButton(new sap.m.Button({
-			text : "{i18nModel>serviceEdit}",
+			text : "{i18nModel>queryForm.serviceEdit}",
 			icon : sap.ui.core.IconPool.getIconURI("edit"),
 			press : function(oEvent) {
 				sap.m.MessageToast.show("serviceEdit")
@@ -200,7 +200,7 @@ sap.m.OverflowToolbar.extend("sparqlish.control.serviceQueryMenu", {
 			text : "{i18nModel>queryAdd}",
 			icon : sap.ui.core.IconPool.getIconURI("add"),
 			press : function(oEvent) {
-				sap.m.MessageToast.show(sap.ui.getCore().getModel("i18nModel").getProperty("queryAdd"))
+				sap.m.MessageToast.show(utils.generateUUID())
 			}
 		}));
 		self.oQuerySelect.addButton(new sap.m.Button({

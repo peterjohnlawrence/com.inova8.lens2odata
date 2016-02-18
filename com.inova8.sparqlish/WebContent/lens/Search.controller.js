@@ -13,7 +13,6 @@ sap.ui.define([ "controller/BaseController" ], function(BaseController) {
 			});
 			// Initialize search form
 			this.oSearchFormComponent.setTitle("SearchForm");
-			//this.oSearchFormComponent.setMetaModel(sap.ui.getCore().getModel("metaModel"));
 			this.oSearchFormComponentContainer = new sap.ui.core.ComponentContainer({
 				component : this.oSearchFormComponent
 			});
@@ -21,11 +20,9 @@ sap.ui.define([ "controller/BaseController" ], function(BaseController) {
 		},
 		_onRouteMatched : function(oEvent) {
 			this.oArgs = oEvent.getParameter("arguments");
-//			this.oArgs.service=this.oArgs.service||"LNW2";
-//			// TODO Might be undefined in which case we should prompt for a query to execute
-//			this.oArgs.query=this.oArgs.query||"Test1a: date clause";
 			this.oSearchFormComponent.setServiceCode(this.oArgs.service);
-			this.oSearchFormComponent.setQueryName(this.oArgs.query);
+			this.oSearchFormComponent.setQueryCode(this.oArgs.querycode);
+			this.oSearchFormComponent.setParams(this.oArgs["?params"]);
 		},
 		onDisplayNotFound : function() {
 			this.getRouter().getTargets().display("notFound", {
@@ -34,9 +31,9 @@ sap.ui.define([ "controller/BaseController" ], function(BaseController) {
 		},
 		onNavToQuery : function(oEvent) {	
 			this.getRouter().navTo("query", {
-				query :this.oSearchFormComponent.getQueryName()|| this.oArgs.query,
+				querycode:this.oSearchFormComponent.getQueryCode()|| this.oArgs.querycode,
 				service : this.oSearchFormComponent.getServiceCode() || this.oArgs.service
-			});
+			},false);
 		}
 	});
 });

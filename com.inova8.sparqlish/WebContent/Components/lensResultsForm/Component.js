@@ -14,7 +14,7 @@ sap.ui.core.UIComponent.extend("Components.lensResultsForm.Component", {
 			title : "string",
 			metaModel : "object",
 			query : "string",
-			serviceCode:"string"
+			serviceCode : "string"
 		}
 	}
 });
@@ -49,13 +49,16 @@ Components.lensResultsForm.Component.prototype.createContent = function() {
 	}));
 	return this.oFormPanel;
 };
-
+Components.lensResultsForm.Component.prototype.setTitle = function(sTitle) {
+	this.setProperty("title", sTitle);
+	this.oFormPanel.getTitle().setText(sTitle);
+};
 Components.lensResultsForm.Component.prototype.clearContents = function() {
 	this.oFormContainer.destroyFormElements();
 };
-Components.lensResultsForm.Component.prototype.renderResults = function(queryUrl,serviceCode) {
+Components.lensResultsForm.Component.prototype.renderResults = function(queryUrl, serviceCode) {
 	var self = this;
-	self.setProperty("serviceCode",serviceCode|| self.getProperty("serviceCode"));
+	self.setProperty("serviceCode", serviceCode || self.getProperty("serviceCode"));
 	var odataResults = new sap.ui.model.json.JSONModel({});
 	var odataURL = queryUrl || self.getProperty("query");
 	if (!jQuery.isEmptyObject(odataURL)) {
@@ -101,16 +104,10 @@ Components.lensResultsForm.Component.prototype.renderResults = function(queryUrl
 					self.oForm.setBusy(false);
 				}
 			}
-//TODO not required with RequestFailed handler?
-//			else {
-//				// Failed request
-//				sap.m.MessageToast.show(oEvent.getParameter("errorobject").statusText);
-//				self.oFormContainer.destroyFormElements();
-//			}
 			self.oFormPanel.addStyleClass("sapUiNoContentPadding");
 			self.oForm.setBusy(false);
 		}).attachRequestFailed(function(oEvent) {
-			sap.m.MessageToast.show(sap.ui.getCore().getModel("i18nModel").getProperty("lensResultsForm.queryResponseError")+ oEvent.getParameter("statusText"));
+			sap.m.MessageToast.show(sap.ui.getCore().getModel("i18nModel").getProperty("lensResultsForm.queryResponseError") + oEvent.getParameter("statusText"));
 			self.oForm.setBusy(false);
 		});
 	} else {
@@ -143,7 +140,7 @@ Components.lensResultsForm.Component.prototype.nextFormElement = function(sLabel
 };
 Components.lensResultsForm.Component.prototype.bindFormFields = function(oMetaModel, sColumn, oTemplate, sCurrentLabel, sCurrentPath, nStartRow, nLevel,
 		bResults) {
-	var self=this;
+	var self = this;
 	bResults = typeof bResults === 'undefined' ? true : bResults;
 	var sEntityType;
 	var oEntityType;
@@ -157,68 +154,76 @@ Components.lensResultsForm.Component.prototype.bindFormFields = function(oMetaMo
 	}
 	for ( var column in oTemplate) {
 		var sPathPrefix = (bResults) ? "" : sCurrentPath + "/";
+		var sTooltip;
 		if (column == "__metadata") {
-			var sMetaLabel = sCurrentLabel;
-			if (bResults) {
-				oPaginator = new sap.ui.commons.Paginator({
-					currentPage : 1
-				});
-				oPaginator.bindColumn = sColumn;
-				paginatorCollection.push(oPaginator);
-				elementCollection.push(this.nextFormElement(sMetaLabel, nLevel - 1, true, oPaginator));
+			if (!jQuery.isEmptyObject(oTemplate[column].uri)) {
+				var sLabel = oEntityType["com.sap.vocabularies.Common.v1.Label"] ? oEntityType["com.sap.vocabularies.Common.v1.Label"].String : sCurrentLabel;
+				sTooltip = oEntityType["com.sap.vocabularies.Common.v1.QuickInfo"] ? oEntityType["com.sap.vocabularies.Common.v1.QuickInfo"].String : sCurrentLabel;
+				if (bResults) {
+					oPaginator = new sap.ui.commons.Paginator({
+						currentPage : 1
+					});
+					oPaginator.bindColumn = sColumn;
+					paginatorCollection.push(oPaginator);
+					elementCollection.push(this.nextFormElement(sLabel, nLevel - 1, true, oPaginator));
+					nRow++;
+					oPaginator.attachPage(function(oEvent) {
+						var sBindColumn = oEvent.getSource().bindColumn;
+						var sBindPath = oEvent.getParameter("path");
+						if (jQuery.isEmptyObject(sBindPath)) {
+							sBindPath = oEvent.getSource().bindPath;
+							if (jQuery.isEmptyObject(sBindPath))
+								sBindPath = "/";
+						} else {
+							sBindPath += "/";
+						}
+						oEvent.getSource().bindPath = sBindPath;
+						var sContext = sBindPath + sBindColumn + "/";
+						if (!jQuery.isEmptyObject(oEvent.getSource().getModel().getProperty(sContext).results))
+							sContext += "results/";
+						oEvent.getSource().setNumberOfPages(oEvent.getSource().getModel().getProperty(sContext).length);
+						for (var i = 0; i < elementCollection.length; i++) {
+							elementCollection[i].bindElement(sContext + (parseInt(oEvent.getParameter("targetPage")) - 1).toString());
+						}
+						for (var i = 0; i < innerPaginatorCollection.length; i++) {
+							innerPaginatorCollection[i].setProperty("currentPage", 1);
+							innerPaginatorCollection[i].firePage({
+								path : sContext + (parseInt(oEvent.getParameter("targetPage")) - 1).toString(),
+								targetPage : 1,
+								numberOfPages : 10,
+							});
+						}
+					});
+				}
+				elementCollection.push(this.nextFormElement(bResults ? "" : sLabel, nLevel - 1, true, new sap.m.Link({
+					tooltip : sTooltip
+				}).bindProperty("text", {
+					parts : [ {
+						path : sPathPrefix + "__metadata/uri",
+						type : new sap.ui.model.type.String()
+					} ],
+					formatter : function(uri) {
+						return utils.lensUriLabel(uri);
+					}
+				}).bindProperty("href", {
+					parts : [ {
+						path : sPathPrefix + "__metadata/uri",
+						type : new sap.ui.model.type.String()
+					}, {
+						path : sPathPrefix + "__metadata/type",
+						type : new sap.ui.model.type.String()
+					} ],
+					formatter : function(uri, type) {
+						return utils.lensUri(uri, type, self.getProperty("serviceCode"));
+					}
+				})));
 				nRow++;
-				oPaginator.attachPage(function(oEvent) {
-					var sBindColumn = oEvent.getSource().bindColumn;
-					var sBindPath = oEvent.getParameter("path");
-					if (jQuery.isEmptyObject(sBindPath)) {
-						sBindPath = oEvent.getSource().bindPath;
-						if (jQuery.isEmptyObject(sBindPath))
-							sBindPath = "/";
-					} else {
-						sBindPath += "/";
-					}
-					oEvent.getSource().bindPath = sBindPath;
-					var sContext = sBindPath + sBindColumn + "/";
-					if (!jQuery.isEmptyObject(oEvent.getSource().getModel().getProperty(sContext).results))
-						sContext += "results/";
-					oEvent.getSource().setNumberOfPages(oEvent.getSource().getModel().getProperty(sContext).length);
-					for (var i = 0; i < elementCollection.length; i++) {
-						elementCollection[i].bindElement(sContext + (parseInt(oEvent.getParameter("targetPage")) - 1).toString());
-					}
-					for (var i = 0; i < innerPaginatorCollection.length; i++) {
-						innerPaginatorCollection[i].setProperty("currentPage", 1);
-						innerPaginatorCollection[i].firePage({
-							path : sContext + (parseInt(oEvent.getParameter("targetPage")) - 1).toString(),
-							targetPage : 1,
-							numberOfPages : 10,
-						});
-					}
-				});
+			} else {
+				// TODO Must be a complex type. Need to add values for each field of complex type if available
+				// oMetaModel.getODataComplexType(sEntityType)
 			}
-			elementCollection.push(this.nextFormElement(bResults ? "" : sMetaLabel, nLevel - 1, true, new sap.m.Link().bindProperty("text", {
-				parts : [ {
-					path : sPathPrefix + "__metadata/uri",
-					type : new sap.ui.model.type.String()
-				} ],
-				formatter : function(uri) {
-					return utils.lensUriLabel(uri);
-				}
-			}).bindProperty("href", {
-				parts : [ {
-					path : sPathPrefix + "__metadata/uri",
-					type : new sap.ui.model.type.String()
-				} ,{
-					path : sPathPrefix + "__metadata/type",
-					type : new sap.ui.model.type.String()
-				}  ],
-				formatter : function(uri,type) {
-					return utils.lensUri(uri, type, self.getProperty("serviceCode"));
-				}
-			})));
-			nRow++;
 		} else {
 			var sLabel = (sCurrentLabel == "") ? column : "\u21AA" + column;
-
 			if (oTemplate[column] != null) {
 				if (!jQuery.isEmptyObject(oTemplate[column].results)) {
 					// Must be a repeating record set
@@ -232,7 +237,12 @@ Components.lensResultsForm.Component.prototype.bindFormFields = function(oMetaMo
 				} else if (!jQuery.isEmptyObject(oTemplate[column].__deferred)) {
 					var contents = oTemplate[column].__deferred;
 					// format for text of URL: oTemplate.__metadata.uri.split("/").pop()
-					elementCollection.push(this.nextFormElement(sLabel, nLevel, true, new sap.m.Link().bindProperty("text", {
+					var oProperty = oMetaModel.getODataInheritedNavigationProperty(oEntityType, column);
+					sLabel = oProperty["com.sap.vocabularies.Common.v1.Label"] ? "\u21AA" + oProperty["com.sap.vocabularies.Common.v1.Label"].String : "\u21AA" + column;
+					sTooltip = oProperty["com.sap.vocabularies.Common.v1.QuickInfo"] ? oProperty["com.sap.vocabularies.Common.v1.QuickInfo"].String : column;
+					elementCollection.push(this.nextFormElement(sLabel, nLevel, true, new sap.m.Link({
+						tooltip : sTooltip
+					}).bindProperty("text", {
 						parts : [ {
 							path : column + "/__deferred/uri",
 							type : new sap.ui.model.type.String()
@@ -247,16 +257,17 @@ Components.lensResultsForm.Component.prototype.bindFormFields = function(oMetaMo
 						} ],
 						formatter : function(uri) {
 							return utils.lensDeferredUri(uri, self.getProperty("serviceCode"));
-
 						}
 					})));
 					nRow++;
 				} else {
 					// Should format according to type found in metadata
-					var oProperty
+					var oProperty;
 					try {
 						// oProperty = oMetaModel.getDataProperty(oEntityType.name, column);
 						oProperty = oMetaModel.getODataInheritedProperty(oEntityType, column);
+						sLabel = oProperty["com.sap.vocabularies.Common.v1.Label"] ? "\u21AA" + oProperty["com.sap.vocabularies.Common.v1.Label"].String : sLabel;
+						sTooltip = oProperty["com.sap.vocabularies.Common.v1.QuickInfo"] ? oProperty["com.sap.vocabularies.Common.v1.QuickInfo"].String : column;
 					} catch (e) {
 						throw "getODataProperty" + ":" + oEntityType + ":" + column;
 					}
@@ -265,26 +276,30 @@ Components.lensResultsForm.Component.prototype.bindFormFields = function(oMetaMo
 							text : {
 								path : column,
 								formatter : utils.edmDateTimeFormatter
-							}
+							},
+							tooltip : sTooltip
 						})));
 						nRow++;
 					} else if (oProperty.type == "Edm.Stream") {
 						elementCollection.push(this.nextFormElement(sLabel, nLevel, false, new sap.m.Image({
 							"src" : {
 								path : sPathPrefix + column
-							}
+							},
+							tooltip : sTooltip
 						})));
 						nRow++;
 					} else if (oProperty.type == "Edm.Binary") {
 						elementCollection.push(this.nextFormElement(sLabel, nLevel, false, new sap.m.Image({
 							"src" : {
 								path : sPathPrefix + column
-							}
+							},
+							tooltip : sTooltip
 						})));
 						nRow++;
 					} else {
 						elementCollection.push(this.nextFormElement(sLabel, nLevel, false, new sap.m.Text({
-							wrapping : true
+							wrapping : true,
+							tooltip : sTooltip
 						}).bindProperty("text", {
 							path : sPathPrefix + column,
 							type : new sap.ui.model.type.String()
@@ -294,7 +309,8 @@ Components.lensResultsForm.Component.prototype.bindFormFields = function(oMetaMo
 				}
 			} else {
 				elementCollection.push(this.nextFormElement(sLabel, nLevel, false, new sap.m.Text({
-					wrapping : true
+					wrapping : true,
+					tooltip : sTooltip
 				}).bindProperty("text", {
 					path : sPathPrefix + column,
 					type : new sap.ui.model.type.String()

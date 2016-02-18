@@ -143,7 +143,7 @@
 				if (!jQuery.isEmptyObject(oBindValues[matches[1]])) {
 					sBindString = sBindString.replace(matches[0], oBindValues[matches[1]]);
 				} else {
-					sBindString = sBindString.replace(matches[0], "#"+matches[1]+"#");
+					sBindString = sBindString.replace(matches[0], "#" + matches[1] + "#");
 				}
 			}
 		} while (matches);
@@ -167,4 +167,17 @@
 
 		return metadataUri;
 	};
+	utils.generateUUID = function() {
+		var d = new Date().getTime();
+		if (window.performance && typeof window.performance.now === "function") {
+			d += performance.now(); // use high-precision timer if available
+		}
+		// 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'
+		var uuid = 'xxxxxxxx'.replace(/[xy]/g, function(c) {
+			var r = (d + Math.random() * 16) % 16 | 0;
+			d = Math.floor(d / 16);
+			return (c == 'x' ? r : (r & 0x3 | 0x8)).toString(16);
+		});
+		return uuid;
+	}
 })(window);

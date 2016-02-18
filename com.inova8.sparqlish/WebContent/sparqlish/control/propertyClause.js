@@ -67,8 +67,9 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 				// self.rerender();
 				self.firePropertyClauseChanged();
 			}));
-			self.setAggregation("_objectPropertyFilters", new sparqlish.control.objectPropertyFilters()
-					.bindElement("queryModel>propertyClause/objectPropertyFilters"));
+//TODO temporarily removed as difficult to support entity selection
+//			self.setAggregation("_objectPropertyFilters", new sparqlish.control.objectPropertyFilters()
+//					.bindElement("queryModel>propertyClause/objectPropertyFilters"));
 			self.setAggregation("_dataPropertyFilters", new sparqlish.control.dataPropertyFilters().bindElement("queryModel>propertyClause/dataPropertyFilters")
 					.attachDataPropertyFiltersChanged(function(oEvent) {
 						//self.rerender();
@@ -290,7 +291,8 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 					oRm.renderControl(oControl.getAggregation("_property").addStyleClass("objectPropertyMenuLink"));
 					var sPropertyClass = propertyClause._class;
 					if (sPropertyClass == "ObjectPropertyClause") {
-						oRm.renderControl(oControl.getAggregation("_objectPropertyFilters"));
+						//TODO temporarily removed as difficult to support entity selection
+						//oRm.renderControl(oControl.getAggregation("_objectPropertyFilters"));
 						oRm.write("&nbsp;");
 						oRm.renderControl(oControl.getAggregation("_addClause"));
 						// TODO need to remove remnants
