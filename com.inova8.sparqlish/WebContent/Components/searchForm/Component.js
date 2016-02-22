@@ -167,7 +167,6 @@ Components.searchForm.Component.prototype.createContent = function() {
 		propagateModel : true
 	});
 	this.oSearchResultsTableComponentContainer.addStyleClass("tile").setVisible(false);
-	this.oToggleButton.setPressed(false);
 
 	this.oFormPanel.addContent(this.oSearchResultsFormComponentContainer);
 	this.oFormPanel.addContent(this.oSearchResultsTableComponentContainer);
@@ -199,15 +198,20 @@ Components.searchForm.Component.prototype.createToggleViewButton = function() {
 			var me = oEvent.getSource();
 			if (me.getPressed()) {
 				me.setIcon(sap.ui.core.IconPool.getIconURI("form"));
+				me.setTooltip(sap.ui.getCore().getModel("i18nModel").getProperty("searchForm.switchToFormView"));
 				self.oSearchResultsFormComponentContainer.setVisible(false);
 				self.oSearchResultsTableComponentContainer.setVisible(true);
 			} else {
 				me.setIcon(sap.ui.core.IconPool.getIconURI("table-view"));
+				me.setTooltip(sap.ui.getCore().getModel("i18nModel").getProperty("searchForm.switchToTableView"));
 				self.oSearchResultsFormComponentContainer.setVisible(true);
 				self.oSearchResultsTableComponentContainer.setVisible(false);
 			}
 		}
 	});
+	self.oToggleButton.setIcon(sap.ui.core.IconPool.getIconURI("table-view"));
+	self.oToggleButton.setTooltip(sap.ui.getCore().getModel("i18nModel").getProperty("searchForm.switchToTableView"));
+	self.oToggleButton.setPressed(false);
 	this.oFormPanel.addContent(self.oToggleButton);
 };
 Components.searchForm.Component.prototype.createServiceMenu = function() {

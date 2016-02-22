@@ -41,12 +41,13 @@ Components.lensResultsForm.Component.prototype.createContent = function() {
 		formContainers : this.oFormContainer
 	});
 	this.oFormPanel.addContent(this.oForm);
-	this.oFormPanel.addButton(new sap.ui.commons.Button({
-		icon : sap.ui.core.IconPool.getIconURI("settings"),
-		press : function(oEvent) {
-			sap.m.MessageToast.show("settings for form")
-		}
-	}));
+//TODO n need for settings button...clogs up view
+//	this.oFormPanel.addButton(new sap.ui.commons.Button({
+//		icon : sap.ui.core.IconPool.getIconURI("settings"),
+//		press : function(oEvent) {
+//			sap.m.MessageToast.show("settings for form")
+//		}
+//	}));
 	return this.oFormPanel;
 };
 Components.lensResultsForm.Component.prototype.setTitle = function(sTitle) {
