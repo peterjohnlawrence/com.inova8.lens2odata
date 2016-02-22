@@ -101,15 +101,15 @@ sap.ui
 													{
 														text : "{=  ${queryModel>propertyClause/_class} ==='DataPropertyClause'  ?   ${queryModel>propertyClause/dataProperty} : (${queryModel>propertyClause/_class} ==='ObjectPropertyClause' ? ${queryModel>propertyClause/objectProperty}: ${i18nModel>clauseSelectProperty})}",
 														tooltip : "{i18nModel>propertyMenuTooltip}"
-													});// .addStyleClass("menuLink");
+													});
 
 											self.oObjectPropertyMenu = new sap.m.P13nColumnsPanel({
-												title : "{i18nModel>navigationProperties}",
+												title : "{= ${i18nModel>navigationProperties}}",
 												items : {
 													path : "entityTypeModel>/navigationProperty",
 													template : new sap.m.P13nItem({
 														columnKey : "{entityTypeModel>name}",
-														text : "{entityTypeModel>name}"
+														text : "{entityTypeModel>sap:label}"
 													})
 												// TODO .attachSelect(objectPropertySelect)
 												}
@@ -122,7 +122,7 @@ sap.ui
 													path : "entityTypeModel>/property",
 													template : new sap.m.P13nItem({
 														columnKey : "{entityTypeModel>name}",
-														text : "{entityTypeModel>name}"
+														text : "{entityTypeModel>sap:label}"
 													})
 												// TODO .attachSelect(dataPropertySelect)
 												}
@@ -162,10 +162,10 @@ sap.ui
 												self.oDialog.setModel(self.getModel("metaModel").getEntityTypeModel(sEntityTypeQName), "entityTypeModel");
 
 												// TODO not setting title or at least not displaying
-												self.oObjectPropertyMenu.setTitle(oEntityTypeContext.name + " "
-														+ sap.ui.getCore().getModel("i18nModel").getProperty("propertyMenuLink"));
-												self.oDataPropertyMenu.setTitle(oEntityTypeContext.name + " "
-														+ sap.ui.getCore().getModel("i18nModel").getProperty("propertyMenuAttribute"));
+//												self.oObjectPropertyMenu.setTitle(oEntityTypeContext.name + " "
+//														+ sap.ui.getCore().getModel("i18nModel").getProperty("propertyMenuLink"));
+//												self.oDataPropertyMenu.setTitle(oEntityTypeContext.name + " "
+//														+ sap.ui.getCore().getModel("i18nModel").getProperty("propertyMenuAttribute"));
 												if (self.oDialog.isOpen()) {
 													self.oDialog.close();
 												} else {

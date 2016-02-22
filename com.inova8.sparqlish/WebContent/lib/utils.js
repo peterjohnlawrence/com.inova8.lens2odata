@@ -31,8 +31,9 @@
 				sap.m.MessageToast.show("Metada load error. Check < OdataV4 also check source: " + service.serviceUrl);
 				throw new Error("MetadataFailed");
 			}
+		} else {
+			onSuccess(odataModel);
 		}
-		onSuccess(odataModel);
 	};
 	utils.removeValue = function(thisArray, property, value) {
 		thisArray.forEach(function(result, index) {

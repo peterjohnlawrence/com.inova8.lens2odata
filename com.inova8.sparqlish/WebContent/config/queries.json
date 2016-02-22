@@ -8,7 +8,15 @@
 			"serviceUrl": "http://localhost:8080/odata2sparql/2.0/NW/",
 			"version": "V2",
 			"queries": 
-			[
+			{
+				"0": 
+				{
+					"_class": "Query",
+					"code": "0",
+					"name": "Test0:No concept"
+				},
+
+				"1": 
 				{
 					"_class": "Query",
 					"code": "1",
@@ -16,6 +24,7 @@
 					"concept": "Order"
 				},
 
+				"1a": 
 				{
 					"_class": "Query",
 					"code": "1a",
@@ -27,7 +36,7 @@
 							"name": "Order Date",
 							"type": "Edm.DateTime",
 							"prompt": "Enter value for Order Date",
-							"defaultValue": "2015-12-20T05:00:00"
+							"defaultValue": "2015-12-20T00:00:00"
 						},
 
 						{
@@ -105,6 +114,7 @@
 					}
 				},
 
+				"1b": 
 				{
 					"_class": "Query",
 					"code": "1b",
@@ -116,7 +126,7 @@
 							"name": "Order Date",
 							"type": "Edm.DateTime",
 							"prompt": "Enter value for Order Date",
-							"defaultValue": "2015-12-20T05:00:00"
+							"defaultValue": "2015-12-20T00:00:00"
 						},
 
 						{
@@ -187,6 +197,7 @@
 					}
 				},
 
+				"2": 
 				{
 					"_class": "Query",
 					"code": "2",
@@ -222,6 +233,7 @@
 					}
 				},
 
+				"2a": 
 				{
 					"_class": "Query",
 					"code": "2a",
@@ -245,6 +257,7 @@
 					}
 				},
 
+				"3": 
 				{
 					"_class": "Query",
 					"code": "3",
@@ -281,6 +294,7 @@
 					}
 				},
 
+				"4": 
 				{
 					"_class": "Query",
 					"code": "4",
@@ -352,6 +366,7 @@
 					}
 				},
 
+				"5": 
 				{
 					"_class": "Query",
 					"code": "5",
@@ -394,6 +409,7 @@
 					}
 				},
 
+				"5a": 
 				{
 					"_class": "Query",
 					"code": "5a",
@@ -466,6 +482,7 @@
 					}
 				},
 
+				"5b": 
 				{
 					"_class": "Query",
 					"code": "5b",
@@ -519,6 +536,7 @@
 					}
 				},
 
+				"6": 
 				{
 					"_class": "Query",
 					"code": "6",
@@ -564,6 +582,7 @@
 					}
 				},
 
+				"7": 
 				{
 					"_class": "Query",
 					"code": "7",
@@ -651,6 +670,7 @@
 					}
 				},
 
+				"7b": 
 				{
 					"_class": "Query",
 					"code": "7b",
@@ -713,6 +733,7 @@
 					}
 				},
 
+				"8": 
 				{
 					"_class": "Query",
 					"code": "8",
@@ -754,6 +775,7 @@
 					}
 				},
 
+				"9": 
 				{
 					"_class": "Query",
 					"code": "9",
@@ -849,6 +871,7 @@
 					}
 				},
 
+				"10": 
 				{
 					"_class": "Query",
 					"code": "10",
@@ -1141,6 +1164,272 @@
 					}
 				},
 
+				"10a": 
+				{
+					"_class": "Query",
+					"code": "10a",
+					"name": "Test10a: Order query",
+					"top": 100,
+					"skip": 0,
+					"concept": "Order",
+					"conceptFilters": 
+					[
+						
+					],
+
+					"clauses": 
+					{
+						"_class": "Clauses",
+						"clause": 
+						{
+							"_class": "Clause",
+							"includeOptionalIgnore": "include",
+							"ignore": false,
+							"optional": false,
+							"label": "Shipped to Country",
+							"propertyClause": 
+							{
+								"_class": "DataPropertyClause",
+								"dataProperty": "shipCountry",
+								"type": "Edm.String",
+								"dataPropertyFilters": 
+								{
+									"_class": "DataPropertyFilters",
+									"dataPropertyFilter": 
+									{
+										"_class": "DataPropertyFilter",
+										"condition": "contains",
+										"value": "Fr",
+										"datatype": "<http://www.w3.org/2001/XMLSchema#string>",
+										"type": "Edm.String"
+									},
+
+									"conjunctionFilters": 
+									[
+										{
+											"_class": "ConjunctionFilter",
+											"filterConjunction": "or",
+											"dataPropertyFilter": 
+											{
+												"_class": "DataPropertyFilter",
+												"condition": "contains",
+												"value": "Ge",
+												"datatype": "<http://www.w3.org/2001/XMLSchema#string>",
+												"type": "Edm.String"
+											}
+										}
+									]
+								}
+							}
+						},
+
+						"conjunctionClauses": 
+						[
+							{
+								"_class": "ConjunctionClause",
+								"conjunction": "and",
+								"clause": 
+								{
+									"_class": "Clause",
+									"includeOptionalIgnore": "include",
+									"ignore": false,
+									"optional": false,
+									"propertyClause": 
+									{
+										"_class": "DataPropertyClause",
+										"dataProperty": "shippedDate",
+										"type": "Edm.DateTime",
+										"dataPropertyFilters": 
+										{
+											"_class": "DataPropertyFilters",
+											"dataPropertyFilter": 
+											{
+												"_class": "DataPropertyFilter",
+												"condition": "<",
+												"value": "1998-01-01T00:00:00",
+												"datatype": "<http://www.w3.org/2001/XMLSchema#date>",
+												"type": "Edm.DateTime"
+											}
+										}
+									}
+								}
+							},
+
+							{
+								"_class": "ConjunctionClause",
+								"conjunction": "and",
+								"clause": 
+								{
+									"_class": "Clause",
+									"includeOptionalIgnore": "include",
+									"ignore": false,
+									"optional": false,
+									"label": "Customer",
+									"propertyClause": 
+									{
+										"_class": "ObjectPropertyClause",
+										"objectProperty": "customer",
+										"multiplicity": "0..1",
+										"objectPropertyFilters": 
+										[
+											
+										],
+
+										"clauses": 
+										{
+											"_class": "Clauses",
+											"clause": 
+											{
+												"_class": "Clause",
+												"includeOptionalIgnore": "include",
+												"ignore": false,
+												"optional": false,
+												"propertyClause": 
+												{
+													"_class": "DataPropertyClause",
+													"dataProperty": "companyName",
+													"type": "Edm.String",
+													"dataPropertyFilters": 
+													{
+														"_class": "DataPropertyFilters",
+														"dataPropertyFilter": 
+														{
+															"_class": "DataPropertyFilter",
+															"condition": "contains",
+															"value": "Bon",
+															"datatype": "<http://www.w3.org/2001/XMLSchema#string>",
+															"type": "Edm.String"
+														}
+													}
+												}
+											},
+
+											"conjunctionClauses": 
+											[
+												{
+													"_class": "ConjunctionClause",
+													"conjunction": "and",
+													"clause": 
+													{
+														"_class": "Clause",
+														"includeOptionalIgnore": "include",
+														"ignore": false,
+														"optional": false,
+														"label": "Contact name",
+														"propertyClause": 
+														{
+															"_class": "DataPropertyClause",
+															"dataProperty": "contactName",
+															"type": "Edm.String",
+															"dataPropertyFilters": 
+															{
+																"_class": "DataPropertyFilters",
+																"dataPropertyFilter": 
+																{
+																	"_class": "DataPropertyFilter",
+																	"condition": "contains",
+																	"value": "Leb",
+																	"datatype": "<http://www.w3.org/2001/XMLSchema#string>",
+																	"type": "Edm.String"
+																}
+															}
+														}
+													}
+												}
+											]
+										}
+									}
+								}
+							},
+
+							{
+								"_class": "ConjunctionClause",
+								"conjunction": "and",
+								"clause": 
+								{
+									"_class": "Clause",
+									"includeOptionalIgnore": "include",
+									"ignore": false,
+									"optional": true,
+									"propertyClause": 
+									{
+										"_class": "ObjectPropertyClause",
+										"multiplicity": "0..1",
+										"objectProperty": "employee",
+										"clauses": 
+										{
+											"_class": "Clauses",
+											"clause": 
+											{
+												"_class": "Clause",
+												"includeOptionalIgnore": "include",
+												"ignore": false,
+												"optional": false,
+												"propertyClause": 
+												{
+													"_class": "DataPropertyClause",
+													"dataProperty": "firstName",
+													"type": "Edm.String",
+													"dataPropertyFilters": 
+													{
+														"_class": "DataPropertyFilters",
+														"dataPropertyFilter": 
+														{
+															"_class": "DataPropertyFilter",
+															"condition": "contains",
+															"value": "Nancy",
+															"datatype": "<http://www.w3.org/2001/XMLSchema#string>",
+															"type": "Edm.String"
+														}
+													}
+												}
+											},
+
+											"conjunctionClauses": 
+											[
+												{
+													"_class": "ConjunctionClause",
+													"conjunction": "and",
+													"clause": 
+													{
+														"_class": "Clause",
+														"includeOptionalIgnore": "include",
+														"ignore": false,
+														"optional": false,
+														"propertyClause": 
+														{
+															"_class": "ObjectPropertyClause",
+															"multiplicity": "0..1",
+															"objectProperty": "reportsTo",
+															"clauses": 
+															{
+																"_class": "Clauses",
+																"clause": 
+																{
+																	"_class": "Clause",
+																	"includeOptionalIgnore": "include",
+																	"ignore": false,
+																	"optional": false,
+																	"propertyClause": 
+																	{
+																		"_class": "DataPropertyClause",
+																		"dataProperty": "lastName"
+																	}
+																}
+															}
+														}
+													}
+												}
+											]
+										}
+									}
+								}
+							}
+						]
+					}
+				},
+
+				"11": 
 				{
 					"_class": "Query",
 					"code": "11",
@@ -1212,7 +1501,7 @@
 						]
 					}
 				}
-			]
+			}
 		},
 
 		"RNW2": 
@@ -1222,7 +1511,8 @@
 			"serviceUrl": "http://services.odata.org/V2/Northwind/Northwind.svc/",
 			"version": "V2",
 			"queries": 
-			[
+			{
+				"1": 
 				{
 					"_class": "Query",
 					"code": "1",
@@ -1230,6 +1520,7 @@
 					"concept": "Orders"
 				},
 
+				"1a": 
 				{
 					"_class": "Query",
 					"code": "1a",
@@ -1330,6 +1621,7 @@
 					]
 				},
 
+				"2": 
 				{
 					"_class": "Query",
 					"code": "2",
@@ -1365,6 +1657,7 @@
 					}
 				},
 
+				"2a": 
 				{
 					"_class": "Query",
 					"code": "2a",
@@ -1388,6 +1681,7 @@
 					}
 				},
 
+				"3": 
 				{
 					"_class": "Query",
 					"code": "3",
@@ -1424,6 +1718,7 @@
 					}
 				},
 
+				"4": 
 				{
 					"_class": "Query",
 					"code": "4",
@@ -1495,6 +1790,7 @@
 					}
 				},
 
+				"5": 
 				{
 					"_class": "Query",
 					"code": "5",
@@ -1537,6 +1833,7 @@
 					}
 				},
 
+				"6": 
 				{
 					"_class": "Query",
 					"code": "6",
@@ -1582,6 +1879,7 @@
 					}
 				},
 
+				"7a": 
 				{
 					"_class": "Query",
 					"code": "7a",
@@ -1669,6 +1967,7 @@
 					}
 				},
 
+				"7b": 
 				{
 					"_class": "Query",
 					"code": "7b",
@@ -1731,6 +2030,7 @@
 					}
 				},
 
+				"8": 
 				{
 					"_class": "Query",
 					"code": "8",
@@ -1772,6 +2072,7 @@
 					}
 				},
 
+				"9": 
 				{
 					"_class": "Query",
 					"code": "9",
@@ -1867,6 +2168,7 @@
 					}
 				},
 
+				"10": 
 				{
 					"_class": "Query",
 					"code": "10",
@@ -2159,6 +2461,7 @@
 					}
 				},
 
+				"11": 
 				{
 					"_class": "Query",
 					"code": "11",
@@ -2231,6 +2534,7 @@
 					}
 				},
 
+				"12": 
 				{
 					"_class": "Query",
 					"code": "12",
@@ -2632,7 +2936,7 @@
 						]
 					}
 				}
-			]
+			}
 		},
 
 		"RNW3": 
@@ -2642,14 +2946,23 @@
 			"serviceUrl": "http://services.odata.org/V3/Northwind/Northwind.svc/",
 			"version": "V2",
 			"queries": 
-			[
+			{
+				"a": 
 				{
 					"_class": "Query",
 					"code": "a",
 					"name": "TestA:No clauses",
 					"concept": "Customers"
+				},
+
+				"b": 
+				{
+					"_class": "Query",
+					"code": "b",
+					"name": "TestB:No clauses",
+					"concept": "Orders"
 				}
-			]
+			}
 		},
 
 		"RNW4": 
@@ -2659,14 +2972,15 @@
 			"serviceUrl": "http://services.odata.org/V4/Northwind/Northwind.svc/",
 			"version": "V4",
 			"queries": 
-			[
+			{
+				"a": 
 				{
 					"_class": "Query",
 					"code": "a",
 					"name": "TestA:No clauses",
 					"concept": "Customers"
 				}
-			]
+			}
 		},
 
 		"AW": 
@@ -2676,7 +2990,8 @@
 			"serviceUrl": "http://services.odata.org/AdventureWorksV3/AdventureWorks.svc/",
 			"version": "V2",
 			"queries": 
-			[
+			{
+				"a": 
 				{
 					"_class": "Query",
 					"code": "a",
@@ -2684,6 +2999,7 @@
 					"concept": "ProductCatalog"
 				},
 
+				"b": 
 				{
 					"_class": "Query",
 					"code": "b",
@@ -2799,6 +3115,7 @@
 					}
 				},
 
+				"c": 
 				{
 					"_class": "Query",
 					"code": "c",
@@ -2852,7 +3169,7 @@
 						}
 					}
 				}
-			]
+			}
 		},
 
 		"ND": 
@@ -2862,7 +3179,8 @@
 			"serviceUrl": "http://www.nerddinner.com/Services/OData.svc/",
 			"version": "V2",
 			"queries": 
-			[
+			{
+				"a": 
 				{
 					"_class": "Query",
 					"code": "a",
@@ -2870,30 +3188,32 @@
 					"concept": "RSVPs"
 				},
 
+				"b": 
 				{
 					"_class": "Query",
 					"code": "b",
 					"name": "Dinners",
 					"concept": "Dinners"
 				}
-			]
+			}
 		},
 
 		"LL": 
 		{
 			"code": "LL",
 			"name": "LL",
-			"serviceUrl": "http://localhost:8080/olingo2sparql/sparql/2.0/LL/",
+			"serviceUrl": "http://localhost:8080/odata2sparql/2.0/LLL/",
 			"version": "V2",
 			"queries": 
-			[
+			{
+				"m": 
 				{
 					"_class": "Query",
 					"code": "m",
 					"name": "Matters",
 					"concept": "Matter"
 				}
-			]
+			}
 		}
 	}
 }

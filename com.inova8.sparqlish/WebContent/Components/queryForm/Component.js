@@ -20,6 +20,10 @@ sap.ui.core.UIComponent.extend("Components.queryForm.Component", {
 			queryModel : "object",
 			service : "object",
 			query : "object",
+			queryCode : "string",
+			params : {
+				type : "object"
+			},
 			i18nModel : "object", // TODO or specific one for this component?
 			datatypesModel : "object"
 		}
@@ -31,6 +35,7 @@ Components.queryForm.Component.prototype.setServiceQueriesModel = function(servi
 
 Components.queryForm.Component.prototype.createContent = function() {
 	var self = this;
+
 	this.oTable = new sap.ui.table.TreeTable({
 		columns : [ new sap.ui.table.Column({
 			label : "{i18nModel>queryForm.query}",
@@ -70,9 +75,16 @@ Components.queryForm.Component.prototype.createContent = function() {
 				function(oEvent) {
 					self.previewResults(self);
 				}).attachQueryChanged(function(oEvent) {
-			self.setQuery(oEvent.getParameter("query"));
+			sap.ui.core.routing.Router.getRouter("lensRouter").navTo("query", {
+				service : oEvent.getParameter("service").code,
+				querycode : oEvent.getParameter("query").code,
+			});
 		}).attachServiceChanged(function(oEvent) {
-			self.setService(oEvent.getParameter("service"), oEvent.getParameter("query"));
+			// self.setService(oEvent.getParameter("service"), oEvent.getParameter("query"));
+			sap.ui.core.routing.Router.getRouter("lensRouter").navTo("query", {
+				service : oEvent.getParameter("service").code,
+				querycode : oEvent.getParameter("query").code,
+			});
 		}).attachUndo(function(oEvent) {
 			self.getQuery().undo();
 			self.refreshQuery(self);
@@ -122,8 +134,14 @@ Components.queryForm.Component.prototype.createContent = function() {
 				queryDetails.select = self.getProperty("query").odataSelect("V2");
 				queryDetails.orderby = "";
 				queryDetails.options = self.getProperty("query").odataOptions("V2");
-				alert(JSON.stringify(queryDetails), {
-					width : "50em"
+				var fragment = {};
+				fragment.position = "R1";
+				fragment.title = "title";
+				fragment.type = "Components.lensResultsForm|Components.lensResultsTable";
+				fragment.query = self.getProperty("query").odataURI("V2");
+				fragment.querydetails = queryDetails;
+				alert(JSON.stringify(fragment, null, 2), {
+					width : "100em"
 				});
 			}
 		})).addButton(new sap.m.Button({
@@ -189,61 +207,64 @@ Components.queryForm.Component.prototype.refreshQuery = function(self) {
 	self.oTable.getModel("viewModel").refresh();
 	self.oTable.rerender();
 };
-Components.queryForm.Component.prototype.setService = function(service, query) {
+Components.queryForm.Component.prototype.setService = function(service, query, params) {
 	var self = this;
-	var odataModel = utils.getCachedOdataModel(service, function() {
-		self.oTable.setBusy(false);
-	}, function(odataModel) {
-		self.setProperty("service", service);
-		self.setOdataModel(odataModel);
-		self.oTable.setModel(odataModel, "odataModel");
-		// Setup service list
-		self.oTable.getToolbar().oServiceSelect.setSelectedKey(service.code);
-		// Setup query list
-		self.oTable.getToolbar().oQuerySelect.bindItems({
-			path : "serviceQueriesModel>/services/" + service.code + "/queries",
-			sorter : {
-				path : "serviceQueriesModel>name"
-			},
-			template : new sap.ui.core.ListItem({
-				key : "{serviceQueriesModel>name}",
-				text : "{serviceQueriesModel>name}"
-			})
+	self.setProperty("params",params);
+	if (jQuery.isEmptyObject( self.getQuery()) || (self.getQuery().oAST !== query) || (self.getService() !== service)) {
+		var odataModel = utils.getCachedOdataModel(service, function() {
+			self.oTable.setBusy(false);
+		}, function(odataModel) {
+			self.setProperty("service", service);
+			self.setOdataModel(odataModel);
+			self.oTable.setModel(odataModel, "odataModel");
+			// Setup service list
+			self.oTable.getToolbar().oServiceSelect.setSelectedKey(service.code);
+			// Setup query list
+			self.oTable.getToolbar().oQuerySelect.bindItems({
+				path : "serviceQueriesModel>/services/" + service.code + "/queries",
+				sorter : {
+					path : "serviceQueriesModel>name"
+				},
+				template : new sap.ui.core.ListItem({
+					key : "{serviceQueriesModel>code}",
+					text : "{serviceQueriesModel>name}"
+				})
+			});
+			// Delay this
+			// self.oTable.getToolbar().oQuerySelect.setSelectedItem(self.oTable.getToolbar().oQuerySelect.getFirstItem());
+			// Setup metamodel to drive the query composition before setting the query
+			var oDataMetaModel = odataModel.getMetaModel();
+			self.oTable.setBusy(true).setBusyIndicatorDelay(0);
+			oDataMetaModel.loaded().then(function() {
+				var oMetaModelEntityContainer;
+				var oEntityContainerModel = new sap.ui.model.json.JSONModel();
+				self.oTable.setModel(oDataMetaModel, "metaModel")
+				oMetaModelEntityContainer = oDataMetaModel.getODataEntityContainer();
+				self.oTable.setModel(self.getDatatypesModel(), "datatypesModel");
+				self.oTable.getColumns()[1].setTemplate(new sparqlish.control.queryClausePreview({
+					viewContext : {
+						path : "viewModel>",
+					},
+					serviceCode : service.code
+				}));
+				oEntityContainerModel.setData(oMetaModelEntityContainer);
+				// TODO this does not work so need to set Core
+				self.oTable.setModel(oEntityContainerModel, "entityContainer");
+				sap.ui.getCore().setModel(oEntityContainerModel, "entityContainer");
+				self.oTable.setBusy(false);
+				if (jQuery.isEmptyObject(query)) {
+					query = service.queries[0];
+				}
+				self.oTable.getToolbar().oQuerySelect.setSelectedKey(query.code);
+				self.setQuery(query);
+				self.setProperty("queryCode",query.code)
+
+			}, function() {
+				self.oTable.setBusy(false);
+				throw ("metamodel error");
+			});
 		});
-		self.oTable.getToolbar().oQuerySelect.setSelectedItem(self.oTable.getToolbar().oQuerySelect.getFirstItem());
-
-		// Setup metamodel to drive the query composition before settimng the query
-		var oDataMetaModel = odataModel.getMetaModel();
-		self.oTable.setBusy(true).setBusyIndicatorDelay(0);
-		oDataMetaModel.loaded().then(
-				function() {
-					var oMetaModelEntityContainer;
-					var oEntityContainerModel = new sap.ui.model.json.JSONModel();
-					self.oTable.setModel(oDataMetaModel, "metaModel")
-					oMetaModelEntityContainer = oDataMetaModel.getODataEntityContainer();
-					self.oTable.setModel(self.getDatatypesModel(), "datatypesModel");
-					self.oTable.getColumns()[1].setTemplate(new sparqlish.control.queryClausePreview({
-						viewContext : {
-							path : "viewModel>",
-						},
-						serviceCode : service.code
-					}));
-					oEntityContainerModel.setData(oMetaModelEntityContainer);
-					// TODO this does not work so need to set Core
-					self.oTable.setModel(oEntityContainerModel, "entityContainer");
-					sap.ui.getCore().setModel(oEntityContainerModel, "entityContainer");
-					self.oTable.setBusy(false);
-					self.setQuery(self.getProperty("serviceQueriesModel").getProperty(
-							self.oTable.getToolbar().oQuerySelect.getFirstItem().getBindingContext("serviceQueriesModel").getPath()));
-
-					if (!jQuery.isEmptyObject(query))
-						self.setQuery(query);
-
-				}, function() {
-					self.oTable.setBusy(false);
-					throw ("metamodel error");
-				});
-	});
+	}
 };
 
 Components.queryForm.Component.prototype.setQuery = function(queryModel) {
@@ -309,11 +330,11 @@ Components.queryForm.Component.prototype.previewResults = function(self) {
 				self.oTable.setModel(self.oResultsModel, "resultsModel");
 				self.oTable.rerender();
 
-			} 
-//TODO not required with Requestfailed handler
-//			else {
-//				sap.m.MessageToast.show(oEvent.getParameter("errorobject").statusText);
-//			}
+			}
+			// TODO not required with Requestfailed handler
+			// else {
+			// sap.m.MessageToast.show(oEvent.getParameter("errorobject").statusText);
+			// }
 		}).attachRequestFailed(function(oEvent) {
 			sap.m.MessageToast.show(sap.ui.getCore().getModel("i18nModel").getProperty("queryForm.queryResponseError") + oEvent.getParameter("statusText"));
 			self.oTable.setBusy(false);
@@ -321,46 +342,4 @@ Components.queryForm.Component.prototype.previewResults = function(self) {
 	} else {
 		sap.m.MessageToast.show(sap.ui.getCore().getModel("i18nModel").getProperty("queryForm.queryUndefined"));
 	}
-};
-Components.queryForm.Component.prototype.previewResultsOld = function(self) {
-	// TODO
-	// var query = new Query(this.getOdataModel(), this.getProperty("query").oAST);
-	var query = this.getProperty("query").init(this.getProperty("query").oAST);
-	this.setProperty("query", query);
-	self.clearResults(self);
-	self.oResultsModel = new sap.ui.model.json.JSONModel({});
-	handleResults = function(oData, response) {
-		try {
-			var nResults = 0;
-			self.oResultsModel.sBindPath = null;
-			self.oResultsModel.setData(oData);
-			if (jQuery.isEmptyObject(oData.results)) {
-				if (oData.length > 0) {
-					self.oResultsModel.sBindPath = "/";
-				} else {
-					sap.m.MessageToast.show(sap.ui.getCore().getModel("i18nModel").getProperty("queryForm.noResults"));
-				}
-			} else {
-				nResults = oData.results.length;
-				if (nResults === 0) {
-					sap.m.MessageToast.show(sap.ui.getCore().getModel("i18nModel").getProperty("queryForm.noResults"));
-				} else {
-					self.oResultsModel.sBindPath = "/results/";
-				}
-			}
-			self.oTable.setBusy(false);
-			self.oTable.setModel(self.oResultsModel, "resultsModel");
-			self.oTable.rerender();
-		} catch (err) {
-		}
-	};
-	reportFailure = function(oData, response) {
-		self.oTable.setBusy(false);
-		sap.m.MessageToast.show(JSON.stringify(oData, null, 2));
-	};
-	self.oTable.setBusy(true).setBusyIndicatorDelay(0);
-	self.getProperty("odataModel").read("/" + query.odataURI() + "&$top=10", {
-		success : handleResults,
-		error : reportFailure
-	});
 };

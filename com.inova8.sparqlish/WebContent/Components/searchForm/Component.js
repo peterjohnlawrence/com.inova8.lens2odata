@@ -34,32 +34,33 @@ sap.ui.core.UIComponent.extend("Components.searchForm.Component", {
 });
 Components.searchForm.Component.prototype.setQueryCode = function(sQueryCode) {
 	var self = this;
-	if ((self.getProperty("queryCode") === sQueryCode) && !jQuery.isEmptyObject(sQueryCode))
-		return;
-	self.setProperty("queryCode", sQueryCode);
-	self.oQuerySelect.setSelectedKey(sQueryCode);
-
 	var service = sap.ui.getCore().getModel("serviceQueriesModel").getData()["services"][self.getServiceCode()]
-	if (service) {
-		var queryIndex = utils.lookupIndex(service.queries, "code", sQueryCode); // service.queries.lookupIndex("name",
-		// sQueryName);
-
-		self.oParameterForm.getFormContainers()[0].bindAggregation("formElements", "serviceQueriesModel>/services/" + self.getServiceCode() + "/queries/"
-				+ queryIndex + "/parameters", this._initValueInputFactory.bind(this));
-		self.oSearchResultsComponent.clearContents();
-		self.oSearchResultsComponent.setTitle(sap.ui.getCore().getModel("i18nModel").getProperty("searchForm.waitingOnResults"));
-
-	} else {
-		sap.m.MessageToast.show(sap.ui.getCore().getModel("i18nModel").getProperty("searchForm.invalidService") + " " + self.getServiceCode());
+	// Could be just specifying the service so select the first saved query
+	if (jQuery.isEmptyObject(sQueryCode)) {
+		sQueryCode = Object.keys(service.queries)[0];
 	}
+	// and if nothing has changed lets leave well alone
+	if ((self.getProperty("queryCode") === sQueryCode) && !jQuery.isEmptyObject(sQueryCode)) {
+	} else {
+		self.setProperty("queryCode", sQueryCode);
+		self.oQuerySelect.setSelectedKey(sQueryCode);
+		// Initialize the paramter form if required
+		if (service) {
+			// var queryIndex = utils.lookupIndex(service.queries, "code", sQueryCode);
+			self.oParameterForm.getFormContainers()[0].bindAggregation("formElements", "serviceQueriesModel>/services/" + self.getServiceCode() + "/queries/"
+					+ sQueryCode + "/parameters", this._initValueInputFactory.bind(this));
+			self.oSearchResultsFormComponent.clearContents();
+			self.oSearchResultsFormComponent.setTitle(sap.ui.getCore().getModel("i18nModel").getProperty("searchForm.waitingOnResults"));
+			self.oSearchResultsTableComponent.setTitle(sap.ui.getCore().getModel("i18nModel").getProperty("searchForm.waitingOnResults"));
+		} else {
+			sap.m.MessageToast.show(sap.ui.getCore().getModel("i18nModel").getProperty("searchForm.invalidService") + " " + self.getServiceCode());
+		}
+	}
+	return;
 };
 Components.searchForm.Component.prototype.setServiceCode = function(sServiceCode) {
 	var self = this;
 	if (self.getProperty("serviceCode") === sServiceCode && !jQuery.isEmptyObject(sServiceCode)) {
-//		sap.ui.core.routing.Router.getRouter("lensRouter").navTo("searchWithQuery", {
-//			service : sServiceCode,
-//			querycode : self.getProperty("queryCode")
-//		});
 	} else {
 		self.setProperty("serviceCode", sServiceCode);
 		var service = sap.ui.getCore().getModel("serviceQueriesModel").getData().services[sServiceCode];
@@ -86,7 +87,7 @@ Components.searchForm.Component.prototype.setServiceCode = function(sServiceCode
 				var oEntityContainerModel = new sap.ui.model.json.JSONModel();
 				oDataMetaModel.loaded().then(function() {
 					// self.setMetaModel(oDataMetaModel, "metaModel");
-					self.setQueryCode(service.queries[0].code);
+					self.setQueryCode(Object.keys(service.queries)[0].code);
 					self.oFormPanel.setBusy(false);
 				}, function() {
 					self.oFormPanel.setBusy(false);
@@ -94,7 +95,7 @@ Components.searchForm.Component.prototype.setServiceCode = function(sServiceCode
 				});
 				sap.ui.core.routing.Router.getRouter("lensRouter").navTo("searchWithQuery", {
 					service : sServiceCode,
-					querycode : service.queries[0].code,
+					querycode : Object.keys(service.queries)[0].code,
 				});
 			});
 		} else {
@@ -120,6 +121,7 @@ Components.searchForm.Component.prototype.createContent = function() {
 	this.createServiceMenu();
 	this.createQueryMenu();
 	this.createSearchButton();
+	this.createToggleViewButton();
 
 	var oParameterFormLayout = new sap.ui.layout.form.GridLayout({
 		singleColumn : false
@@ -149,15 +151,26 @@ Components.searchForm.Component.prototype.createContent = function() {
 	});
 	this.oFormPanel.addContent(this.oForm);
 
-	this.oSearchResultsComponent = sap.ui.getCore().createComponent({
+	this.oSearchResultsFormComponent = sap.ui.getCore().createComponent({
 		name : "Components.lensResultsForm",
 	});
-	this.oSearchResultsComponentContainer = new sap.ui.core.ComponentContainer({
-		component : this.oSearchResultsComponent,
+	this.oSearchResultsTableComponent = sap.ui.getCore().createComponent({
+		name : "Components.lensResultsTable",
+	});
+	this.oSearchResultsFormComponentContainer = new sap.ui.core.ComponentContainer({
+		component : this.oSearchResultsFormComponent,
 		propagateModel : true
 	});
-	this.oSearchResultsComponentContainer.addStyleClass("tile");
-	this.oFormPanel.addContent(this.oSearchResultsComponentContainer);
+	this.oSearchResultsFormComponentContainer.addStyleClass("tile");
+	this.oSearchResultsTableComponentContainer = new sap.ui.core.ComponentContainer({
+		component : this.oSearchResultsTableComponent,
+		propagateModel : true
+	});
+	this.oSearchResultsTableComponentContainer.addStyleClass("tile").setVisible(false);
+	this.oToggleButton.setPressed(false);
+
+	this.oFormPanel.addContent(this.oSearchResultsFormComponentContainer);
+	this.oFormPanel.addContent(this.oSearchResultsTableComponentContainer);
 
 	this.oFormPanel.setModel(sap.ui.getCore().getModel("serviceQueriesModel"), "serviceQueriesModel");
 
@@ -176,6 +189,26 @@ Components.searchForm.Component.prototype.createSearchButton = function() {
 		}
 	});
 	this.oFormPanel.addContent(self.oPreview);
+};
+Components.searchForm.Component.prototype.createToggleViewButton = function() {
+	var self = this;
+	self.oToggleButton = new sap.m.ToggleButton({
+		text : "{i18nModel>searchForm.tableSearch}",
+		icon : sap.ui.core.IconPool.getIconURI("table-view"),
+		press : function(oEvent) {
+			var me = oEvent.getSource();
+			if (me.getPressed()) {
+				me.setIcon(sap.ui.core.IconPool.getIconURI("form"));
+				self.oSearchResultsFormComponentContainer.setVisible(false);
+				self.oSearchResultsTableComponentContainer.setVisible(true);
+			} else {
+				me.setIcon(sap.ui.core.IconPool.getIconURI("table-view"));
+				self.oSearchResultsFormComponentContainer.setVisible(true);
+				self.oSearchResultsTableComponentContainer.setVisible(false);
+			}
+		}
+	});
+	this.oFormPanel.addContent(self.oToggleButton);
 };
 Components.searchForm.Component.prototype.createServiceMenu = function() {
 	var self = this;
@@ -214,11 +247,17 @@ Components.searchForm.Component.prototype.createQueryMenu = function() {
 Components.searchForm.Component.prototype.renderResults = function(query) {
 	var service = sap.ui.getCore().getModel("serviceQueriesModel").getData()["services"][this.getServiceCode()];
 	var queryURL = service.serviceUrl + query.odataURI(service.version);
-	this.oSearchResultsComponent.setTitle(utils.lookup(service.queries, "code", this.getQueryCode())[0].name + " "
+	this.oSearchResultsFormComponent.setTitle(service.queries[this.getQueryCode()].name + " "
 			+ sap.ui.getCore().getModel("i18nModel").getProperty("searchForm.searchResults"));
-	this.oSearchResultsComponent.setMetaModel(this.getMetaModel());
+	this.oSearchResultsFormComponent.setMetaModel(this.getMetaModel());
 
-	this.oSearchResultsComponent.renderResults(queryURL, this.getServiceCode());
+	this.oSearchResultsFormComponent.renderResults(queryURL, this.getServiceCode());
+
+	this.oSearchResultsTableComponent.setTitle(service.queries[this.getQueryCode()].name + " "
+			+ sap.ui.getCore().getModel("i18nModel").getProperty("searchForm.searchResults"));
+	this.oSearchResultsTableComponent.setMetaModel(this.getMetaModel());
+
+	this.oSearchResultsTableComponent.renderResults(queryURL, this.getServiceCode());
 
 };
 Components.searchForm.Component.prototype._initValueInputFactory = function(sId, oContext) {

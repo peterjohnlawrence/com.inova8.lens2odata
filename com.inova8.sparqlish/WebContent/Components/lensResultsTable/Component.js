@@ -26,6 +26,7 @@ Components.lensResultsTable.Component.prototype.createContent = function() {
 	this.oTable = new sap.ui.table.Table({
 		// title : "empty so far",
 		showNoData : true,
+		noData: new  sap.m.Text({	text : "{i18nModel>lensResultsTable.noData}"}),
 		editable : false,
 		// columnHeaderHeight : 10,
 		// enableGrouping : true,

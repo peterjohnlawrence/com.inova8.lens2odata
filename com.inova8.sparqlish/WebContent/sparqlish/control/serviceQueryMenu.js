@@ -79,14 +79,17 @@ sap.m.OverflowToolbar.extend("sparqlish.control.serviceQueryMenu", {
 				var oServiceDeleteDialog = new sap.m.Dialog({
 					title : '{i18nModel>queryForm.serviceDelete}',
 					type : 'Message',
+					content : [ new sap.m.Label({
+						text : "{i18nModel>queryForm.serviceId}"
+					}), new sap.m.Input({
+						placeholder : self.oServiceSelect.getSelectedItem().getText()
+					}) ],
 					beginButton : new sap.m.Button({
 						text : 'Confirm',
 						press : function() {
 							delete self.getModel("serviceQueriesModel").getData().services[self.oServiceSelect.getSelectedKey()];
-							// utils.removeValue(self.getModel("serviceQueriesModel").getData().services,"name",
-							// self.oServiceSelect.getSelectedItem().getText());
 							self.getModel("serviceQueriesModel").refresh();
-							sap.m.MessageToast.show(sap.ui.getCore().getModel("i18nModel").getProperty("serviceQueriesRemoved"));
+							sap.m.MessageToast.show(sap.ui.getCore().getModel("i18nModel").getProperty("queryForm.serviceDeleted"));
 							oServiceDeleteDialog.close();
 						}
 					}),
@@ -110,12 +113,23 @@ sap.m.OverflowToolbar.extend("sparqlish.control.serviceQueryMenu", {
 				var oServiceAddDialog = new sap.m.Dialog({
 					title : '{i18nModel>queryForm.serviceAdd}',
 					type : 'Message',
-					content : [   new sap.m.Label({text:"{i18nModel>queryForm.serviceId}"}), new sap.m.Input({
+					content : [ new sap.m.Label({
+						text : "{i18nModel>queryForm.serviceId}"
+					}), new sap.m.Input({
 						class : "sapUiSmallMarginBottom",
 						type : "Text",
 						placeholder : "{i18nModel>queryForm.serviceIdPrompt}",
-						valueStateText : "{i18nModel>Entry must be a valid name}"
-					}), new sap.m.Label({text:"{i18nModel>queryForm.serviceUrl}"}), new sap.m.Input({
+						valueStateText : "{i18nModel>queryForm.serviceIdState}"
+					}), new sap.m.Label({
+						text : "{i18nModel>queryForm.serviceName}"
+					}), new sap.m.Input({
+						class : "sapUiSmallMarginBottom",
+						type : "Text",
+						placeholder : "{i18nModel>queryForm.serviceNamePrompt}",
+						valueStateText : "{i18nModel>queryForm.serviceNameState}"
+					}), new sap.m.Label({
+						text : "{i18nModel>queryForm.serviceUrl}"
+					}), new sap.m.Input({
 						class : "sapUiSmallMarginBottom",
 						type : "Url",
 						placeholder : "{i18nModel>queryForm.serviceUrlPrompt}",
@@ -124,30 +138,25 @@ sap.m.OverflowToolbar.extend("sparqlish.control.serviceQueryMenu", {
 					beginButton : new sap.m.Button({
 						text : 'Add',
 						press : function() {
-							var validateService = function(service) {
-								utils.getCachedOdataModel(service, this.onFailure, this.onSuccess)
-								this.onFailure = function() {
-									return false;
-								};
-								this.onSuccess = function() {
-									return true;
-								};
-							};
+
 							var service = {
-								"code" : "T1",
-								"name" : oServiceAddDialog.getContent()[0].getValue(),
-								"serviceUrl" : oServiceAddDialog.getContent()[1].getValue(),
+								"code" : oServiceAddDialog.getContent()[1].getValue(),
+								"name" : oServiceAddDialog.getContent()[3].getValue(),
+								"serviceUrl" : oServiceAddDialog.getContent()[5].getValue(),
 								"version" : "V2",
 								"queries" : []
 							};
-							if (validateService(service)) {
-								self.getModel("serviceQueriesModel").getData().services.push(service);
-								self.getModel("serviceQueriesModel").refresh();
-								sap.m.MessageToast.show(sap.ui.getCore().getModel("i18nModel").getProperty('validOdataService'));
-								oServiceAddDialog.close();
-							} else {
-								sap.m.MessageToast.show(sap.ui.getCore().getModel("i18nModel").getProperty('invalidOdataService'));
-							}
+							var validateService = function(service) {
+								utils.getCachedOdataModel(service, function() {
+									sap.m.MessageToast.show(sap.ui.getCore().getModel("i18nModel").getProperty('queryForm.serviceInvalid'));
+								}, function() {
+									self.getModel("serviceQueriesModel").getData().services[service.code] = service;
+									self.getModel("serviceQueriesModel").refresh();
+									sap.m.MessageToast.show(sap.ui.getCore().getModel("i18nModel").getProperty('queryForm.serviceValid'));
+									oServiceAddDialog.close();
+								})
+							};
+							validateService(service);
 						}
 					}),
 					endButton : new sap.m.Button({
@@ -167,7 +176,40 @@ sap.m.OverflowToolbar.extend("sparqlish.control.serviceQueryMenu", {
 			text : "{i18nModel>queryForm.serviceEdit}",
 			icon : sap.ui.core.IconPool.getIconURI("edit"),
 			press : function(oEvent) {
-				sap.m.MessageToast.show("serviceEdit")
+				var oServiceEditDialog = new sap.m.Dialog({
+					title : '{i18nModel>queryForm.serviceEdit}',
+					type : 'Message',
+					content : [ new sap.m.Label({
+						text : "{i18nModel>queryForm.serviceName}"
+					}), new sap.m.Input({
+						value : {
+							path : "serviceQueriesModel>/services/" + self.oServiceSelect.getSelectedKey() + "/name"
+						}
+					}), new sap.m.Label({
+						text : "{i18nModel>queryForm.serviceUrl}"
+					}), new sap.m.Input({
+						value : {
+							path : "serviceQueriesModel>/services/" + self.oServiceSelect.getSelectedKey() + "/serviceUrl"
+						}
+					}) ],
+					beginButton : new sap.m.Button({
+						text : 'Confirm',
+						press : function() {
+							self.getModel("serviceQueriesModel").refresh();
+							oServiceEditDialog.close();
+						}
+					}),
+					endButton : new sap.m.Button({
+						text : 'Cancel',
+						press : function() {
+							oServiceEditDialog.close();
+						}
+					}),
+					afterClose : function() {
+						oServiceEditDialog.destroy();
+					}
+				});
+				oServiceEditDialog.open();
 			}
 		}));
 		self.oQuerySelect = new sap.m.ActionSelect({
@@ -190,24 +232,197 @@ sap.m.OverflowToolbar.extend("sparqlish.control.serviceQueryMenu", {
 			}
 		});
 		self.oQuerySelect.addButton(new sap.m.Button({
-			text : "{i18nModel>queryDelete}",
-			icon : sap.ui.core.IconPool.getIconURI("add"),
+			text : "{i18nModel>queryForm.queryDelete}",
+			icon : sap.ui.core.IconPool.getIconURI("delete"),
 			press : function(oEvent) {
-				sap.m.MessageToast.show(sap.ui.getCore().getModel("i18nModel").getProperty("queryDelete"))
+				var oQueryDeleteDialog = new sap.m.Dialog({
+					title : '{i18nModel>queryForm.queryDelete}',
+					type : 'Message',
+					content : [ new sap.m.Label({
+						text : "{i18nModel>queryForm.queryName}"
+					}), new sap.m.Input({
+						placeholder : self.oQuerySelect.getSelectedItem().getText()
+					}) ],
+					beginButton : new sap.m.Button({
+						text : 'Confirm',
+						press : function() {
+							delete self.getModel("serviceQueriesModel").getData().services[self.oServiceSelect.getSelectedKey()].queries[self.oQuerySelect.getSelectedKey()];
+							self.getModel("serviceQueriesModel").refresh();
+							sap.m.MessageToast.show(sap.ui.getCore().getModel("i18nModel").getProperty("queryForm.queryDeleted"));
+							oQueryDeleteDialog.close();
+						}
+					}),
+					endButton : new sap.m.Button({
+						text : 'Cancel',
+						press : function() {
+							oQueryDeleteDialog.close();
+						}
+					}),
+					afterClose : function() {
+						oQueryDeleteDialog.destroy();
+					}
+				});
+				oQueryDeleteDialog.open();
 			}
 		}));
 		self.oQuerySelect.addButton(new sap.m.Button({
-			text : "{i18nModel>queryAdd}",
+			text : "{i18nModel>queryForm.queryAdd}",
 			icon : sap.ui.core.IconPool.getIconURI("add"),
 			press : function(oEvent) {
-				sap.m.MessageToast.show(utils.generateUUID())
+				var oQueryAddDialog = new sap.m.Dialog({
+					title : '{i18nModel>queryForm.queryAdd}',
+					type : 'Message',
+					content : [ new sap.m.Label({
+						text : "{i18nModel>queryForm.queryNewName}"
+					}), new sap.m.Input({
+						placeholder : self.oQuerySelect.getSelectedItem().getText(),
+					}) ],
+					beginButton : new sap.m.Button({
+						text : 'Confirm',
+						press : function() {
+							var queries = self.getModel("serviceQueriesModel").getData().services[self.oServiceSelect.getSelectedKey()].queries;
+							var newQueryCode = utils.generateUUID();
+							queries[newQueryCode] = {
+								_class : "Query",
+								code : newQueryCode,
+								name : oQueryAddDialog.getContent()[1].getValue(),
+								concept: "Select concept"
+							};
+							self.getModel("serviceQueriesModel").refresh();
+							sap.m.MessageToast.show(sap.ui.getCore().getModel("i18nModel").getProperty("queryForm.queryAdded"));
+							oQueryAddDialog.close();
+						}
+					}),
+					endButton : new sap.m.Button({
+						text : 'Cancel',
+						press : function() {
+							oQueryAddDialog.close();
+						}
+					}),
+					afterClose : function() {
+						oQueryAddDialog.destroy();
+					}
+				});
+				oQueryAddDialog.open();
 			}
 		}));
 		self.oQuerySelect.addButton(new sap.m.Button({
-			text : "{i18nModel>queryClear}",
+			text : "{i18nModel>queryForm.queryCopy}",
+			icon : sap.ui.core.IconPool.getIconURI("duplicate"),
+			press : function(oEvent) {
+				var oQueryCopyDialog = new sap.m.Dialog({
+					title : '{i18nModel>queryForm.queryCopy}',
+					type : 'Message',
+					content : [ new sap.m.Label({
+						text : "{i18nModel>queryForm.queryName}"
+					}), new sap.m.Text({
+						text : self.oQuerySelect.getSelectedItem().getText()
+					}), new sap.m.Label({
+						text : "{i18nModel>queryForm.queryNewName}"
+					}), new sap.m.Input({
+						value : self.oQuerySelect.getSelectedItem().getText()
+					}) ],
+					beginButton : new sap.m.Button({
+						text : 'Confirm',
+						press : function() {
+							var queries = self.getModel("serviceQueriesModel").getData().services[self.oServiceSelect.getSelectedKey()].queries;
+							var newQueryCode = utils.generateUUID();
+							var newQuery = jQuery.extend(true, {}, queries[self.oQuerySelect.getSelectedKey()]);
+							newQuery.code = newQueryCode;
+							newQuery.name = oQueryCopyDialog.getContent()[3].getValue();
+							newQuery.concept= "Select concept";
+							queries[newQueryCode] = newQuery;
+							self.getModel("serviceQueriesModel").refresh();
+							sap.m.MessageToast.show(sap.ui.getCore().getModel("i18nModel").getProperty("queryForm.queryCopied"));
+							oQueryCopyDialog.close();
+						}
+					}),
+					endButton : new sap.m.Button({
+						text : 'Cancel',
+						press : function() {
+							oQueryCopyDialog.close();
+						}
+					}),
+					afterClose : function() {
+						oQueryCopyDialog.destroy();
+					}
+				});
+				oQueryCopyDialog.open();
+			}
+		}));
+		self.oQuerySelect.addButton(new sap.m.Button({
+			text : "{i18nModel>queryForm.queryReset}",
 			icon : sap.ui.core.IconPool.getIconURI("restart"),
 			press : function(oEvent) {
 				sap.m.MessageToast.show(sap.ui.getCore().getModel("i18nModel").getProperty("queryClear"))
+				var oQueryResetDialog = new sap.m.Dialog({
+					title : '{i18nModel>queryForm.queryReset}',
+					type : 'Message',
+					content : [ new sap.m.Label({
+						text : "{i18nModel>queryForm.queryName}"
+					}), new sap.m.Input({
+						placeholder : self.oQuerySelect.getSelectedItem().getText()
+					}) ],
+					beginButton : new sap.m.Button({
+						text : 'Confirm',
+						press : function() {
+							var query = self.getModel("serviceQueriesModel").getData().services[self.oServiceSelect.getSelectedKey()].queries[self.oQuerySelect
+									.getSelectedKey()];
+							delete query.clauses;
+							delete query.parameters;
+							self.getModel("serviceQueriesModel").refresh();
+							sap.m.MessageToast.show(sap.ui.getCore().getModel("i18nModel").getProperty("queryForm.queryReset"));
+							self.fireQueryChanged({
+								service : self.getModel("serviceQueriesModel").getData().services[self.oServiceSelect.getSelectedKey()],
+								query : query
+							})
+							oQueryResetDialog.close();
+						}
+					}),
+					endButton : new sap.m.Button({
+						text : 'Cancel',
+						press : function() {
+							oQueryResetDialog.close();
+						}
+					}),
+					afterClose : function() {
+						oQueryResetDialog.destroy();
+					}
+				});
+				oQueryResetDialog.open();
+			}
+		}));
+		self.oQuerySelect.addButton(new sap.m.Button({
+			text : "{i18nModel>queryForm.queryEdit}",
+			icon : sap.ui.core.IconPool.getIconURI("edit"),
+			press : function(oEvent) {
+				var oQueryEditDialog = new sap.m.Dialog({
+					title : '{i18nModel>queryForm.queryEdit}',
+					type : 'Message',
+					content : [ new sap.m.Label({
+						text : "{i18nModel>queryForm.queryName}"
+					}), new sap.m.Input({
+						value : {
+							path : "serviceQueriesModel>/services/" + self.oServiceSelect.getSelectedKey() + "/queries/" + self.oQuerySelect.getSelectedKey() + "/name"
+						}
+					}) ],
+					beginButton : new sap.m.Button({
+						text : 'Confirm',
+						press : function() {
+							oQueryEditDialog.close();
+						}
+					}),
+					endButton : new sap.m.Button({
+						text : 'Cancel',
+						press : function() {
+							oQueryEditDialog.close();
+						}
+					}),
+					afterClose : function() {
+						oQueryEditDialog.destroy();
+					}
+				});
+				oQueryEditDialog.open();
 			}
 		}));
 		self.oPreview = new sap.m.Button({
