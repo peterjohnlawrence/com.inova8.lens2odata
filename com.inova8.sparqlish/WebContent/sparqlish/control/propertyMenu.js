@@ -109,7 +109,7 @@ sap.ui
 													path : "entityTypeModel>/navigationProperty",
 													template : new sap.m.P13nItem({
 														columnKey : "{entityTypeModel>name}",
-														text : "{entityTypeModel>sap:label}"
+														text : "{= ${entityTypeModel>sap:label} || ${entityTypeModel>name}}"
 													})
 												// TODO .attachSelect(objectPropertySelect)
 												}
@@ -122,7 +122,7 @@ sap.ui
 													path : "entityTypeModel>/property",
 													template : new sap.m.P13nItem({
 														columnKey : "{entityTypeModel>name}",
-														text : "{entityTypeModel>sap:label}"
+														text : "{= ${entityTypeModel>sap:label} || ${entityTypeModel>name}}"
 													})
 												// TODO .attachSelect(dataPropertySelect)
 												}
