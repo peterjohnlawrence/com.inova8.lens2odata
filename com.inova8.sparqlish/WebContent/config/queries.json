@@ -3198,11 +3198,47 @@
 			}
 		},
 
-		"LL": 
+		"LLL": 
 		{
-			"code": "LL",
+			"code": "LLL",
 			"name": "LL",
 			"serviceUrl": "http://localhost:8080/odata2sparql/2.0/LLL/",
+			"version": "V2",
+			"queries": 
+			{
+				"m": 
+				{
+					"_class": "Query",
+					"code": "m",
+					"name": "Matters",
+					"concept": "Matter"
+				}
+			}
+		},
+
+		"LLO": 
+		{
+			"code": "LLO",
+			"name": "LLO",
+			"serviceUrl": "http://10.4.40.63:8080/odata2sparql/2.0/LLO/",
+			"version": "V2",
+			"queries": 
+			{
+				"m": 
+				{
+					"_class": "Query",
+					"code": "m",
+					"name": "Matters",
+					"concept": "Matter"
+				}
+			}
+		},
+
+		"LLV": 
+		{
+			"code": "LLV",
+			"name": "LLV",
+			"serviceUrl": "http://10.4.40.63:8080/odata2sparql/2.0/LLV/",
 			"version": "V2",
 			"queries": 
 			{

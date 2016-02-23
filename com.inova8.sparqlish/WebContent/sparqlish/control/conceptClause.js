@@ -3,7 +3,7 @@ jQuery.sap.require("sparqlish.control.conceptFilters");
 jQuery.sap.require("sparqlish.control.addClauses");
 jQuery.sap.require("sparqlish.control.includeOptionalIgnore");
 sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
-	"use strict";
+//	"use strict";
 	return Control.extend("sparqlish.control.conceptClause", {
 		metadata : {
 			properties : {},
@@ -130,7 +130,7 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 		},
 		init : function() {
 			var self = this;
-			var conceptChanged = function(oEvent) {
+			var fConceptChanged = function(oEvent) {
 				self.resetCurrentQueryContext();
 				// Now find corresponding entityType of concept to setup model
 				var sConcept = oEvent.getParameter("concept");
@@ -146,7 +146,7 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 				self.fireConceptClauseChanged(oEvent);
 			};
 			self.setAggregation("_concept", new sparqlish.control.conceptMenu({
-				conceptChanged : conceptChanged
+				conceptChanged : fConceptChanged
 			}).bindElement("queryModel>"));
 //TODO temporarily removed as difficult to support entity selection
 //			self.setAggregation("_conceptFilters", new sparqlish.control.conceptFilters().bindElement("queryModel>conceptFilters").attachConceptFiltersChanged(
@@ -155,7 +155,7 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 //					}));
 			self.setAggregation("_addClause", new sparqlish.control.addClauses({
 				clausesSelected : function(oEvent) {
-					var currentModelData = self.getCurrentQueryContext()
+					var currentModelData = self.getCurrentQueryContext(self)
 					// Now insert a first clause and move existing first clause if it exists into the first element of the array
 					// of
 					// conjunctionClauses

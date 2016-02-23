@@ -32,10 +32,8 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 			}
 		},
 		init : function() {
-			var self = this;
 		},
 		renderer : function(oRm, oControl) {
-			var self = this;
 			if (oControl.getClausePath() != undefined) {
 				oRm.write("<div ");
 				oRm.writeControlData(oControl);
