@@ -67,7 +67,8 @@
 		oStorage.put("lens2odata.queries", sap.ui.getCore().getModel("queryModel").getData());
 	};
 	utils.proxyUrl = function(url) {
-		return url.replace("http://", "proxy/http/");
+		//return url.replace("http://", "proxy/http/");
+		return url;
 	}
 	utils.lensUri = function(uri, type, serviceCode) {
 		// Workaround to avoid issue with sapui5 router that will not ignore '=' even if encoded
