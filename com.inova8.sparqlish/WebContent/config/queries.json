@@ -3220,7 +3220,7 @@
 		{
 			"code": "LLO",
 			"name": "LLO",
-			"serviceUrl": "http://10.4.40.63:8080/odata2sparql/2.0/LLO/",
+			"serviceUrl": "http://acodwb06:8080/odata2sparql/2.0/LLO/",
 			"version": "V2",
 			"queries": 
 			{
@@ -3238,7 +3238,7 @@
 		{
 			"code": "LLV",
 			"name": "LLV",
-			"serviceUrl": "http://10.4.40.63:8080/odata2sparql/2.0/LLV/",
+			"serviceUrl": "http://acodwb06:8080/odata2sparql/2.0/LLV/",
 			"version": "V2",
 			"queries": 
 			{
