@@ -2,6 +2,7 @@ jQuery.sap.require("sap.m.ActionSelect");
 jQuery.sap.require("sap.ui.core.ListItem");
 jQuery.sap.require("sap.ui.core.IconPool");
 jQuery.sap.require("sparqlish.control.parameterDialog");
+"use strict";
 sap.m.OverflowToolbar.extend("sparqlish.control.serviceQueryMenu", {
 	metadata : {
 		properties : {
@@ -286,7 +287,7 @@ sap.m.OverflowToolbar.extend("sparqlish.control.serviceQueryMenu", {
 								_class : "Query",
 								code : newQueryCode,
 								name : oQueryAddDialog.getContent()[1].getValue(),
-								concept: "Select concept"
+								concept: self.getModel("entityContainer").getData().entitySet[0].name
 							};
 							self.getModel("serviceQueriesModel").refresh();
 							sap.m.MessageToast.show(sap.ui.getCore().getModel("i18nModel").getProperty("queryForm.queryAdded"));

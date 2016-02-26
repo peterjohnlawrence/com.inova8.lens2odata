@@ -1,6 +1,7 @@
 jQuery.sap.require("sap.m.P13nDialog");
 jQuery.sap.require("sap.m.P13nColumnsPanel");
 jQuery.sap.require("sap.m.P13nItem");
+jQuery.sap.require("sparqlish.control.parameterEdit");
 sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 	"use strict";
 	return Control.extend("sparqlish.control.parameterDialog", {
@@ -32,15 +33,28 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 					expandable : true
 				}) ]
 			});
-
+			self.oParameterEdit = new sparqlish.control.parameterEdit();
 			self.oDialog = new sap.m.Dialog({
-				title : "{i18nModel>parameterDialogTitle}",
-				endButton : new sap.m.Button({
-					text : 'Submit',
+				title : "{i18nModel>parameterDialog.title}",
+				buttons : [ new sap.m.Button({
+					text : '{i18nModel>parameterDialog.addParameter}',
+					press : function() {
+						var oParameters = sap.ui.getCore().getModel("serviceQueriesModel").getProperty(self.getProperty("queryContext").getPath() + "/parameters/");
+            oParameters.push({
+						 "name": null,
+						 "type": "Edm.DString",
+						 "prompt": null,
+						 "defaultValue": null
+					 });
+						self.oParameterEdit.oParameterForm.bindElement("serviceQueriesModel>" + self.getProperty("queryContext").getPath() + "/parameters/"+(oParameters.length-1));
+						self.oParameterEdit.open();
+					}
+				}),  new sap.m.Button({
+					text : '{i18nModel>parameterDialog.submit}',
 					press : function() {
 						self.oDialog.close();
 					}
-				})
+				}) ]
 			});
 			self.oParameterPanel = new sap.m.Panel();
 			self.oParameterPanel.addContent(self.oParameterForm);
@@ -48,6 +62,7 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 
 		},
 		_initValueInputFactory : function(sId, oContext) {
+			var self=this;
 			var oInputValue = null
 			switch (oContext.getProperty("type")) {
 			case "Edm.Date":
@@ -58,7 +73,7 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 					placeholder : "{serviceQueriesModel>prompt}",
 					description : "",
 					editable : true,
-					showValueHelp : true,
+					showValueHelp : false,
 					valueHelpRequest : ""
 				})).addStyleClass("dataPropertyValue");
 				break;
@@ -70,7 +85,7 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 					placeholder : "{serviceQueriesModel>prompt}",
 					description : "",
 					editable : true,
-					showValueHelp : true,
+					showValueHelp : false,
 					valueHelpRequest : ""
 				})).addStyleClass("dataPropertyValue");
 				break;
@@ -82,7 +97,7 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 					placeholder : "{serviceQueriesModel>prompt}",
 					description : "",
 					editable : true,
-					showValueHelp : true,
+					showValueHelp : false,
 					valueHelpRequest : ""
 				})).addStyleClass("dataPropertyValue");
 				break;
@@ -118,9 +133,27 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 
 			var oFormElement = new sap.ui.layout.form.FormElement({
 				label : "{serviceQueriesModel>name}",
-				fields : [ oInputValue ],
+				fields : [ oInputValue, new sap.m.Button({
+					icon : sap.ui.core.IconPool.getIconURI("edit"),
+					width:"10em",
+					press : function(oEvent) {
+						self.oParameterEdit.oParameterForm.bindElement("serviceQueriesModel>"+oEvent.getSource().getBindingContext("serviceQueriesModel").getPath());
+						self.oParameterEdit.open();
+					}
+				}), new sap.m.Button({
+					icon : sap.ui.core.IconPool.getIconURI("delete"),
+					width:"10em",
+					press : function(oEvent) {
+						var sPath= oEvent.getSource().getBindingContext("serviceQueriesModel").getPath().split("/");
+						var element= sPath.pop();
+						//TODO remove references to parameter, replacing with defaultValue
+						sap.ui.getCore().getModel("serviceQueriesModel").getObject(sPath.join("/")).splice(element,1);
+						sap.ui.getCore().getModel("serviceQueriesModel").refresh();
+
+					}
+				}) ],
 				layoutData : new sap.ui.layout.form.GridElementData({
-					hCells : "2"
+					hCells : "1"
 				})
 			});
 			return oFormElement;

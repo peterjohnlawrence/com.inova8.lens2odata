@@ -9,7 +9,7 @@ jQuery.sap.require("sap.m.Button");
 jQuery.sap.require("sap.ui.core.IconPool");
 
 jQuery.sap.declare("Components.queryForm.Component");
-
+"use strict";
 sap.ui.core.UIComponent.extend("Components.queryForm.Component", {
 	metadata : {
 		// manifest : "json",
@@ -63,7 +63,15 @@ Components.queryForm.Component.prototype.createContent = function() {
 			flexible : true,
 			resizable : true,
 			autoResizable : true
-		}) ],
+		}) 
+//		, new sap.ui.table.Column("path", {
+//			label : "Path",
+//			template : new sap.m.Text({text: "{viewModel>path}"}),
+//			flexible : true,
+//			resizable : true,
+//			autoResizable : true
+//		})
+		],
 		// fixedColumnCount : 1,
 		width : "100%",
 		visibleRowCount : 1,
@@ -238,7 +246,7 @@ Components.queryForm.Component.prototype.setService = function(service, query, p
 			oDataMetaModel.loaded().then(function() {
 				var oMetaModelEntityContainer;
 				var oEntityContainerModel = new sap.ui.model.json.JSONModel();
-				self.oTable.setModel(oDataMetaModel, "metaModel")
+				self.oTable.setModel(oDataMetaModel, "metaModel");
 				oMetaModelEntityContainer = oDataMetaModel.getODataEntityContainer();
 				self.oTable.setModel(self.getDatatypesModel(), "datatypesModel");
 				self.oTable.getColumns()[1].setTemplate(new sparqlish.control.queryClausePreview({

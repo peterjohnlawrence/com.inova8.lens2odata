@@ -5,7 +5,7 @@ jQuery.sap.require("sap.ui.layout.form.FormContainer");
 jQuery.sap.require("sap.ui.layout.form.Form");
 jQuery.sap.require("sap.ui.commons.Paginator");
 jQuery.sap.declare("Components.lensResultsForm.Component");
-
+"use strict";
 sap.ui.core.UIComponent.extend("Components.lensResultsForm.Component", {
 
 	metadata : {
@@ -41,13 +41,13 @@ Components.lensResultsForm.Component.prototype.createContent = function() {
 		formContainers : this.oFormContainer
 	});
 	this.oFormPanel.addContent(this.oForm);
-//TODO n need for settings button...clogs up view
-//	this.oFormPanel.addButton(new sap.ui.commons.Button({
-//		icon : sap.ui.core.IconPool.getIconURI("settings"),
-//		press : function(oEvent) {
-//			sap.m.MessageToast.show("settings for form")
-//		}
-//	}));
+	// TODO n need for settings button...clogs up view
+	// this.oFormPanel.addButton(new sap.ui.commons.Button({
+	// icon : sap.ui.core.IconPool.getIconURI("settings"),
+	// press : function(oEvent) {
+	// sap.m.MessageToast.show("settings for form")
+	// }
+	// }));
 	return this.oFormPanel;
 };
 Components.lensResultsForm.Component.prototype.setTitle = function(sTitle) {
@@ -72,7 +72,8 @@ Components.lensResultsForm.Component.prototype.renderResults = function(queryUrl
 					var bResults = true;
 					var oRecordTemplate = null;
 					var sBindPath = null;
-					if (jQuery.isEmptyObject(odataResults.getData().d.results)) {
+					//if (jQuery.isEmptyObject(odataResults.getData().d.results)) {
+					if (typeof odataResults.getData().d.results  !== "object" ) {
 						if (odataResults.getData().d.length > 0) {
 							oRecordTemplate = odataResults.getData().d[0];
 							sBindPath = "/d";
@@ -108,7 +109,17 @@ Components.lensResultsForm.Component.prototype.renderResults = function(queryUrl
 			self.oFormPanel.addStyleClass("sapUiNoContentPadding");
 			self.oForm.setBusy(false);
 		}).attachRequestFailed(function(oEvent) {
-			sap.m.MessageToast.show(sap.ui.getCore().getModel("i18nModel").getProperty("lensResultsForm.queryResponseError") + oEvent.getParameter("statusText"));
+			var displayText;
+			if (oEvent.getParameter("statusCode") == 404) {
+				displayText = sap.ui.getCore().getModel("i18nModel").getProperty("lensResultsForm.queryNoDataFound");
+			} else {
+				displayText = sap.ui.getCore().getModel("i18nModel").getProperty("lensResultsForm.queryResponseError") + oEvent.getParameter("statusText");
+			}
+			self.oFormContainer.addFormElement(new sap.ui.layout.form.FormElement({
+				label : new sap.m.Label({
+					text : displayText,
+				})
+			}));
 			self.oForm.setBusy(false);
 		});
 	} else {
@@ -202,9 +213,15 @@ Components.lensResultsForm.Component.prototype.bindFormFields = function(oMetaMo
 					parts : [ {
 						path : sPathPrefix + "__metadata/uri",
 						type : new sap.ui.model.type.String()
+					}, {
+						path : sPathPrefix + "subjectId",
+						type : new sap.ui.model.type.String()
+					}, {
+						path : sPathPrefix + "label",
+						type : new sap.ui.model.type.String()
 					} ],
-					formatter : function(uri) {
-						return utils.lensUriLabel(uri);
+					formatter : function(uri, sSubjectId, sLabel) {
+						return utils.lensUriLabel(uri, sSubjectId, sLabel);
 					}
 				}).bindProperty("href", {
 					parts : [ {

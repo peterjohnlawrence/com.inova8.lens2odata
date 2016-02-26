@@ -1,7 +1,7 @@
 jQuery.sap.require("sap.ui.core.UIComponent");
 jQuery.sap.require("sap.ui.commons.Panel");
 jQuery.sap.declare("Components.lensPanel.Component");
-
+"use strict";
 sap.ui.core.UIComponent.extend("Components.lensPanel.Component", {
 
 	metadata : {
@@ -23,6 +23,7 @@ Components.lensPanel.Component.prototype.createContent = function() {
 	var self = this;
 	this.oLensPanel = new sap.ui.commons.Panel({
 		title : new sap.ui.core.Title().setText("Lens Panel"),
+		showCollapseIcon : false,
 		width : "100%",
 		height : "1000px"
 	});

@@ -1,151 +1,294 @@
 {
-	"d": 
+	"10": 
 	{
-		"results": 
+		"_class": "Query",
+		"code": "10",
+		"name": "Test10: Order query",
+		"top": 100,
+		"skip": 0,
+		"concept": "Order",
+		"conceptFilters": 
 		[
+			[
+				{
+					"key": "subjectId",
+					"value": "NWD:Order-10340",
+					"type": "Edm.String"
+				}
+			],
+
+			[
+				{
+					"key": "subjectId",
+					"value": "NWD:Order-10999",
+					"type": "Edm.String"
+				}
+			]
+		],
+
+		"clauses": 
+		{
+			"_class": "Clauses",
+			"clause": 
 			{
-				"__metadata": 
+				"_class": "Clause",
+				"includeOptionalIgnore": "include",
+				"ignore": false,
+				"optional": false,
+				"label": "Shipped to Country",
+				"propertyClause": 
 				{
-					"id": "http://localhost:8080/odata2sparql/2.0/NW/OrderDetail('northwind%3AOrderDetail-2383')",
-					"uri": "http://localhost:8080/odata2sparql/2.0/NW/OrderDetail('northwind%3AOrderDetail-2383')",
-					"type": "northwind.OrderDetail"
-				},
-
-				"subjectId": "northwind:OrderDetail-2383",
-				"unitPrice": null,
-				"discount": null,
-				"rdfs_Statement": 
-				{
-					"__deferred": 
+					"_class": "DataPropertyClause",
+					"dataProperty": "shipCountry",
+					"type": "Edm.String",
+					"dataPropertyFilters": 
 					{
-						"uri": "http://localhost:8080/odata2sparql/2.0/NW/OrderDetail('northwind%3AOrderDetail-2383')/rdfs_Statement"
-					}
-				},
+						"_class": "DataPropertyFilters",
+						"dataPropertyFilter": 
+						{
+							"_class": "DataPropertyFilter",
+							"condition": "contains",
+							"value": "Fr",
+							"datatype": "<http://www.w3.org/2001/XMLSchema#string>",
+							"type": "Edm.String"
+						},
 
-				"product": 
-				{
-					"__deferred": 
-					{
-						"uri": "http://localhost:8080/odata2sparql/2.0/NW/OrderDetail('northwind%3AOrderDetail-2383')/product"
-					}
-				},
-
-				"order": 
-				{
-					"__deferred": 
-					{
-						"uri": "http://localhost:8080/odata2sparql/2.0/NW/OrderDetail('northwind%3AOrderDetail-2383')/order"
+						"conjunctionFilters": 
+						[
+							{
+								"_class": "ConjunctionFilter",
+								"filterConjunction": "or",
+								"dataPropertyFilter": 
+								{
+									"_class": "DataPropertyFilter",
+									"condition": "contains",
+									"value": "Ge",
+									"datatype": "<http://www.w3.org/2001/XMLSchema#string>",
+									"type": "Edm.String"
+								}
+							}
+						]
 					}
 				}
 			},
 
-			{
-				"__metadata": 
+			"conjunctionClauses": 
+			[
 				{
-					"id": "http://localhost:8080/odata2sparql/2.0/NW/OrderDetail('northwind%3AOrderDetail-344')",
-					"uri": "http://localhost:8080/odata2sparql/2.0/NW/OrderDetail('northwind%3AOrderDetail-344')",
-					"type": "northwind.OrderDetail"
-				},
-
-				"subjectId": "northwind:OrderDetail-344",
-				"unitPrice": "31.2",
-				"discount": "0.0",
-				"rdfs_Statement": 
-				{
-					"__deferred": 
+					"_class": "ConjunctionClause",
+					"conjunction": "and",
+					"clause": 
 					{
-						"uri": "http://localhost:8080/odata2sparql/2.0/NW/OrderDetail('northwind%3AOrderDetail-344')/rdfs_Statement"
+						"_class": "Clause",
+						"includeOptionalIgnore": "include",
+						"ignore": false,
+						"optional": false,
+						"propertyClause": 
+						{
+							"_class": "DataPropertyClause",
+							"dataProperty": "shippedDate",
+							"type": "Edm.DateTime",
+							"dataPropertyFilters": 
+							{
+								"_class": "DataPropertyFilters",
+								"dataPropertyFilter": 
+								{
+									"_class": "DataPropertyFilter",
+									"condition": "<",
+									"value": "1998-01-01T00:00:00",
+									"datatype": "<http://www.w3.org/2001/XMLSchema#date>",
+									"type": "Edm.DateTime"
+								}
+							}
+						}
 					}
 				},
 
-				"product": 
 				{
-					"__deferred": 
+					"_class": "ConjunctionClause",
+					"conjunction": "and",
+					"clause": 
 					{
-						"uri": "http://localhost:8080/odata2sparql/2.0/NW/OrderDetail('northwind%3AOrderDetail-344')/product"
+						"_class": "Clause",
+						"includeOptionalIgnore": "include",
+						"ignore": false,
+						"optional": false,
+						"label": "Customer",
+						"propertyClause": 
+						{
+							"_class": "ObjectPropertyClause",
+							"objectProperty": "customer",
+							"multiplicity": "0..1",
+							"objectPropertyFilters": 
+							[
+								[
+									{
+										"key": "subjectId",
+										"value": "NWD:Customer-ALFKI",
+										"type": "Edm.String"
+									}
+								],
+
+								[
+									{
+										"key": "subjectId",
+										"value": "NWD:Customer-BONAP",
+										"type": "Edm.String"
+									}
+								]
+							],
+
+							"clauses": 
+							{
+								"_class": "Clauses",
+								"clause": 
+								{
+									"_class": "Clause",
+									"includeOptionalIgnore": "include",
+									"ignore": false,
+									"optional": false,
+									"propertyClause": 
+									{
+										"_class": "DataPropertyClause",
+										"dataProperty": "companyName",
+										"type": "Edm.String",
+										"dataPropertyFilters": 
+										{
+											"_class": "DataPropertyFilters",
+											"dataPropertyFilter": 
+											{
+												"_class": "DataPropertyFilter",
+												"condition": "contains",
+												"value": "Bon",
+												"datatype": "<http://www.w3.org/2001/XMLSchema#string>",
+												"type": "Edm.String"
+											}
+										}
+									}
+								},
+
+								"conjunctionClauses": 
+								[
+									{
+										"_class": "ConjunctionClause",
+										"conjunction": "and",
+										"clause": 
+										{
+											"_class": "Clause",
+											"includeOptionalIgnore": "include",
+											"ignore": false,
+											"optional": false,
+											"label": "Contact name",
+											"propertyClause": 
+											{
+												"_class": "DataPropertyClause",
+												"dataProperty": "contactName",
+												"type": "Edm.String",
+												"dataPropertyFilters": 
+												{
+													"_class": "DataPropertyFilters",
+													"dataPropertyFilter": 
+													{
+														"_class": "DataPropertyFilter",
+														"condition": "contains",
+														"value": "Leb",
+														"datatype": "<http://www.w3.org/2001/XMLSchema#string>",
+														"type": "Edm.String"
+													}
+												}
+											}
+										}
+									}
+								]
+							}
+						}
 					}
 				},
 
-				"order": 
 				{
-					"__deferred": 
+					"_class": "ConjunctionClause",
+					"conjunction": "and",
+					"clause": 
 					{
-						"uri": "http://localhost:8080/odata2sparql/2.0/NW/OrderDetail('northwind%3AOrderDetail-344')/order"
+						"_class": "Clause",
+						"includeOptionalIgnore": "include",
+						"ignore": false,
+						"optional": true,
+						"propertyClause": 
+						{
+							"_class": "ObjectPropertyClause",
+							"multiplicity": "0..1",
+							"objectProperty": "employee",
+							"clauses": 
+							{
+								"_class": "Clauses",
+								"clause": 
+								{
+									"_class": "Clause",
+									"includeOptionalIgnore": "include",
+									"ignore": false,
+									"optional": false,
+									"propertyClause": 
+									{
+										"_class": "DataPropertyClause",
+										"dataProperty": "firstName",
+										"type": "Edm.String",
+										"dataPropertyFilters": 
+										{
+											"_class": "DataPropertyFilters",
+											"dataPropertyFilter": 
+											{
+												"_class": "DataPropertyFilter",
+												"condition": "contains",
+												"value": "Nancy",
+												"datatype": "<http://www.w3.org/2001/XMLSchema#string>",
+												"type": "Edm.String"
+											}
+										}
+									}
+								},
+
+								"conjunctionClauses": 
+								[
+									{
+										"_class": "ConjunctionClause",
+										"conjunction": "and",
+										"clause": 
+										{
+											"_class": "Clause",
+											"includeOptionalIgnore": "include",
+											"ignore": false,
+											"optional": false,
+											"propertyClause": 
+											{
+												"_class": "ObjectPropertyClause",
+												"multiplicity": "0..1",
+												"objectProperty": "reportsTo",
+												"clauses": 
+												{
+													"_class": "Clauses",
+													"clause": 
+													{
+														"_class": "Clause",
+														"includeOptionalIgnore": "include",
+														"ignore": false,
+														"optional": false,
+														"propertyClause": 
+														{
+															"_class": "DataPropertyClause",
+															"dataProperty": "lastName"
+														}
+													}
+												}
+											}
+										}
+									}
+								]
+							}
+						}
 					}
 				}
-			},
-
-			{
-				"__metadata": 
-				{
-					"id": "http://localhost:8080/odata2sparql/2.0/NW/OrderDetail('northwind%3AOrderDetail-345')",
-					"uri": "http://localhost:8080/odata2sparql/2.0/NW/OrderDetail('northwind%3AOrderDetail-345')",
-					"type": "northwind.OrderDetail"
-				},
-
-				"subjectId": "northwind:OrderDetail-345",
-				"unitPrice": "36.4",
-				"discount": "0.0",
-				"rdfs_Statement": 
-				{
-					"__deferred": 
-					{
-						"uri": "http://localhost:8080/odata2sparql/2.0/NW/OrderDetail('northwind%3AOrderDetail-345')/rdfs_Statement"
-					}
-				},
-
-				"product": 
-				{
-					"__deferred": 
-					{
-						"uri": "http://localhost:8080/odata2sparql/2.0/NW/OrderDetail('northwind%3AOrderDetail-345')/product"
-					}
-				},
-
-				"order": 
-				{
-					"__deferred": 
-					{
-						"uri": "http://localhost:8080/odata2sparql/2.0/NW/OrderDetail('northwind%3AOrderDetail-345')/order"
-					}
-				}
-			},
-
-			{
-				"__metadata": 
-				{
-					"id": "http://localhost:8080/odata2sparql/2.0/NW/OrderDetail('northwind%3AOrderDetail-346')",
-					"uri": "http://localhost:8080/odata2sparql/2.0/NW/OrderDetail('northwind%3AOrderDetail-346')",
-					"type": "northwind.OrderDetail"
-				},
-
-				"subjectId": "northwind:OrderDetail-346",
-				"unitPrice": "14.4",
-				"discount": "0.0",
-				"rdfs_Statement": 
-				{
-					"__deferred": 
-					{
-						"uri": "http://localhost:8080/odata2sparql/2.0/NW/OrderDetail('northwind%3AOrderDetail-346')/rdfs_Statement"
-					}
-				},
-
-				"product": 
-				{
-					"__deferred": 
-					{
-						"uri": "http://localhost:8080/odata2sparql/2.0/NW/OrderDetail('northwind%3AOrderDetail-346')/product"
-					}
-				},
-
-				"order": 
-				{
-					"__deferred": 
-					{
-						"uri": "http://localhost:8080/odata2sparql/2.0/NW/OrderDetail('northwind%3AOrderDetail-346')/order"
-					}
-				}
-			}
-		]
+			]
+		}
 	}
 }

@@ -114,10 +114,10 @@ Lens.Component.prototype.init = function() {
 	sap.ui.getCore().setModel(oLensesModel, "lensesModel");
 
 	// Should not be here
-	var sUrl = "proxy/http/services.odata.org/V2/Northwind/Northwind.svc/";
-	var oDataModel = new sap.ui.model.odata.ODataModel(sUrl, true);
-	var oMetaModel = oDataModel.getMetaModel();
-	sap.ui.getCore().setModel(oMetaModel, "metaModel");
+//	var sUrl = "proxy/http/services.odata.org/V2/Northwind/Northwind.svc/";
+//	var oDataModel = new sap.ui.model.odata.ODataModel(sUrl, true);
+//	var oMetaModel = oDataModel.getMetaModel();
+//	sap.ui.getCore().setModel(oMetaModel, "metaModel");
 
 	// Do this last so models are initialized
 	this.getRouter().initialize();

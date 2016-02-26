@@ -369,8 +369,8 @@ sap.ui.base.Object.extend("Clauses", {
 			for (var i = 0; i < this.oConjunctionClauses.length; i++) {
 				var iIndex = i + 1;
 				var oConjunctionClause = {};
-//				oConjunctionClause[iIndex] = this.oConjunctionClauses[i].viewModel(sPath + "clauses/conjunctionClauses/" + (iIndex - 1) + "/", oClauseReferences,
-				oConjunctionClause[iIndex] = this.oConjunctionClauses[i].viewModel(sPath + "clauses/conjunctionClauses/" + (iIndex - 1) + "/clause/", oClauseReferences,
+				oConjunctionClause[iIndex] = this.oConjunctionClauses[i].viewModel(sPath + "clauses/conjunctionClauses/" + (iIndex - 1) + "/", oClauseReferences,
+//				oConjunctionClause[iIndex] = this.oConjunctionClauses[i].viewModel(sPath + "clauses/conjunctionClauses/" + (iIndex - 1) + "/clause/", oClauseReferences,
 						sKeyVariable, sResultsPath, sResultsContext, iClauseIndex);
 				extendj(oViewModel, oConjunctionClause);
 			}
@@ -555,8 +555,8 @@ sap.ui.base.Object.extend("Clause", {
 		var oViewModel = {};
 		this.sNameVariable = "";
 		if (!jQuery.isEmptyObject(this.oPropertyClause)) {
-//			extendj(oViewModel, this.oPropertyClause.viewModel(sPath + "clause/propertyClause/", oClauseReferences, sKeyVariable, sResultsPath, sResultsContext,
-			extendj(oViewModel, this.oPropertyClause.viewModel(sPath + "propertyClause/", oClauseReferences, sKeyVariable, sResultsPath, sResultsContext,
+			extendj(oViewModel, this.oPropertyClause.viewModel(sPath + "clause/propertyClause/", oClauseReferences, sKeyVariable, sResultsPath, sResultsContext,
+//			extendj(oViewModel, this.oPropertyClause.viewModel(sPath + "propertyClause/", oClauseReferences, sKeyVariable, sResultsPath, sResultsContext,
 					iIndex));
 			if (jQuery.isEmptyObject(this.oPropertyClause.oPropertyClause.sDataProperty)) {
 				// assume it must be an objectProperty

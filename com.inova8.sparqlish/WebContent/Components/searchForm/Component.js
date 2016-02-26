@@ -9,7 +9,7 @@ jQuery.sap.require("sap.m.Button");
 jQuery.sap.require("sap.ui.core.IconPool");
 
 jQuery.sap.declare("Components.searchForm.Component");
-
+"use strict";
 sap.ui.core.UIComponent.extend("Components.searchForm.Component", {
 	metadata : {
 		// manifest : "json",
@@ -152,10 +152,10 @@ Components.searchForm.Component.prototype.createContent = function() {
 	this.oFormPanel.addContent(this.oForm);
 
 	this.oSearchResultsFormComponent = sap.ui.getCore().createComponent({
-		name : "Components.lensResultsForm",
+		name : "Components.lensResultsForm"
 	});
 	this.oSearchResultsTableComponent = sap.ui.getCore().createComponent({
-		name : "Components.lensResultsTable",
+		name : "Components.lensResultsTable"
 	});
 	this.oSearchResultsFormComponentContainer = new sap.ui.core.ComponentContainer({
 		component : this.oSearchResultsFormComponent,
@@ -316,7 +316,7 @@ Components.searchForm.Component.prototype._initValueInputFactory = function(sId,
 			placeholder : "{serviceQueriesModel>prompt}",
 			description : "",
 			editable : true,
-			showValueHelp : true,
+			showValueHelp : false,
 			valueHelpRequest : ""
 		})).addStyleClass("dataPropertyValue");
 		break;
@@ -327,7 +327,7 @@ Components.searchForm.Component.prototype._initValueInputFactory = function(sId,
 			placeholder : "{serviceQueriesModel>prompt}",
 			description : "",
 			editable : true,
-			showValueHelp : true,
+			showValueHelp : false,
 			valueHelpRequest : ""
 		})).addStyleClass("dataPropertyValue");
 	}

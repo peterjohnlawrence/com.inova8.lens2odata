@@ -3,6 +3,7 @@ jQuery.sap.require("sap.m.Input");
 jQuery.sap.require("sap.m.P13nDialog");
 jQuery.sap.require("sap.m.P13nFilterPanel");
 jQuery.sap.require("sparqlish.control.parameterMenu");
+jQuery.sap.require("sparqlish.control.datePicker");
 sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 	"use strict";
 	return Control.extend("sparqlish.control.dataPropertyFilter", {
@@ -85,28 +86,31 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 
 			switch (oDataPropertyFilter.type) {
 			case "Edm.Date":
-				oInputValue = (new sap.m.DatePicker({
-					// value : "{queryModel>value}",
+				oInputValue = (new sparqlish.control.datePicker({
 					valueFormat : 'yyyy-MM-ddThh:mm:ssXX',
 					tooltip : "{i18n>dataFilterTooltip}",
 					width : "150px",
 					placeholder : "Enter date",
-					editable : true
+					editable : true,
+					valueHelpRequest : function(oEvent) {
+						self.getAggregation("_parameterValueHelp").open();
+					}
 				})).addStyleClass("dataPropertyValue");
 				break;
 			case "Edm.DateTime":
-				oInputValue = (new sap.m.DatePicker({
-					// value : "{queryModel>value}",
+				oInputValue = (new sparqlish.control.datePicker({
 					valueFormat : 'yyyy-MM-ddThh:mm:ssXX',
 					tooltip : "Enter date/time",
 					width : "150px",
 					placeholder : "Enter date/time",
-					editable : true
+					editable : true,
+					valueHelpRequest : function(oEvent) {
+						self.getAggregation("_parameterValueHelp").open();
+					}
 				})).addStyleClass("dataPropertyValue");
 				break;
 			case "Edm.Time":
 				oInputValue = (new sap.m.TimePicker({
-					// value : "{queryModel>value}",
 					valueFormat : 'yyyy-MM-ddThh:mm:ssXX',
 					tooltip : "{i18n>dataFilterTooltip}",
 					width : "150px",
@@ -152,6 +156,7 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 						// self.getAggregation("_parameterValueHelp").setModel("queryModel",self.getModel("queryModel")).open();
 						// var oParameterValueHelp = new sparqlish.control.parameterMenu();
 						// oParameterValueHelp.open();
+						self.getAggregation("_parameterValueHelp").oParameterPanel.bindElement("serviceQueriesModel>" + self.getBindingContext("queryModel").getPath());
 						self.getAggregation("_parameterValueHelp").open();
 					}
 				})).addStyleClass("dataPropertyValue");

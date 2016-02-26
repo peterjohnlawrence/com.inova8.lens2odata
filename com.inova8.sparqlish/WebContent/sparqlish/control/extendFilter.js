@@ -1,5 +1,5 @@
 jQuery.sap.require("sap.ui.core.IconPool");
-
+	"use strict";
 sap.ui.commons.Link.extend("sparqlish.control.extendFilter", {
 	metadata : {
 		properties : {

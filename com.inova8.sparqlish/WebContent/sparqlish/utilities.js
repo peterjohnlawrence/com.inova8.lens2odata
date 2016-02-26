@@ -12,9 +12,11 @@ sap.ui.model.MetaModel.prototype.entityTypeContext = function(oQueryModel, oCont
 		for (var index = 1; index < depth; index++) {
 			sContextPath += "clauses" + path[index];
 			var sObjectProperty = oQueryModel.getProperty(sContextPath).objectProperty;
-			var navigationProperty = this.getNavigationProperty(sEntityType, sObjectProperty);
-			var toEntitySet = navigationProperty.toRole;
-			sEntityType = this.getODataEntitySet(toEntitySet).entityType;
+//TODO simplified as below
+//			var navigationProperty = this.getNavigationProperty(sEntityType, sObjectProperty);
+//			var toEntitySet = navigationProperty.toRole;
+//			sEntityType = this.getODataEntitySet(toEntitySet).entityType;
+			sEntityType = this.getODataAssociationEnd(this.getODataEntityType(sEntityType),sObjectProperty).type;
 		}
 		return oMetaModel.getODataEntityType(sEntityType);
 	} catch (error) {
@@ -37,9 +39,11 @@ sap.ui.model.MetaModel.prototype.entityTypeQName = function(oQueryModel, oContex
 		for (var index = 1; index < depth; index++) {
 			sContextPath += "clauses" + path[index];
 			var sObjectProperty = oQueryModel.getProperty(sContextPath).objectProperty;
-			var navigationProperty = this.getNavigationProperty(sEntityType, sObjectProperty);
-			var toEntitySet = navigationProperty.toRole;
-			sEntityType = this.getODataEntitySet(toEntitySet).entityType;
+//TODO simplified as below
+//			var navigationProperty = this.getNavigationProperty(sEntityType, sObjectProperty);
+//			var toEntitySet = navigationProperty.toRole;
+//			sEntityType = this.getODataEntitySet(toEntitySet).entityType;			
+			sEntityType = this.getODataAssociationEnd(this.getODataEntityType(sEntityType),sObjectProperty).type;
 		}
 		return sEntityType;
 	} catch (error) {

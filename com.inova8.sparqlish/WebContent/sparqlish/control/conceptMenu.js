@@ -33,7 +33,7 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 					path : "entityContainer>/entitySet",
 					template : new sap.m.P13nItem({
 						columnKey : "{entityContainer>name}",
-						text : "{entityContainer>name}",
+						text : 	"{= ${entityContainer>sap:label} || ${entityContainer>name}}",
 						visible: true
 					})
 				},
@@ -48,9 +48,7 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 				ok : function(oEvent) {
 					var newConcept = self.oConceptList.getOkPayload().selectedItems[0].columnKey;
 					if (self.getAggregation("_concept").getText() != newConcept) {
-
 						self.getAggregation("_concept").setText(newConcept);
-
 						self.fireConceptChanged({
 							concept : newConcept
 						});

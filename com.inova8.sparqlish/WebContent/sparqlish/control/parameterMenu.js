@@ -19,15 +19,15 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 		init : function() {
 			var self = this;
 			self.oValueSuggestionPanel = new sap.m.P13nPanel({
-				title : "{i18nModel>valueSuggestions}"
+				title : "{i18nModel>parameterMenu.valueSuggestions}"
 			});
 			self.oParameterPanel = new sap.m.P13nColumnsPanel({
-				title : "{i18nModel>valueParameters}",
+				title : "{i18nModel>parameterMenu.valueParameters}",
 				items : {
 					path : "queryModel>/parameters",
 					template : new sap.m.P13nItem({
 						columnKey : "{queryModel>name}",
-						text : "{queryModel>type}",
+						text : "{queryModel>name}",
 					// visible : '{= ((${queryModel>type}==="Edm.String") ? true : false) }'
 					})
 				}
@@ -36,28 +36,35 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 			self.oParameterPanel._oTable.setMode(sap.m.ListMode.SingleSelect);
 
 			self.oDialog = new sap.m.P13nDialog({
-				title : "{i18nModel>editParameterTitle}",
+				title : "{i18nModel>parameterMenu.title}",
+				initialVisiblePanelType:"sap.m.P13nColumnsPanel",
 				cancel : function() {
 					self.oDialog.close();
 				},
 				ok : function(oEvent) {
 					// TODO is this the correct order?
 					self.oDialog.close();
+
 					switch (self.oDialog.indexOfPanel(self.oDialog.getVisiblePanel())) {
+
 					case 0:
-						if (!jQuery.isEmptyObject(self.oValueSuggestionPanel.getOkPayload().selectedItems[0]))
-							objectPropertySelect(self.oValueSuggestionPanel.getOkPayload().selectedItems[0].columnKey);
+						if (!jQuery.isEmptyObject(self.oParameterPanel.getOkPayload().selectedItems[0])) {
+							self.getModel("queryModel").setProperty(self.getBindingContext("queryModel").getPath() + "/value",
+									"{" + self.oParameterPanel.getOkPayload().selectedItems[0].columnKey + "}");
+							self.getModel("queryModel").refresh();
+						}
 						break;
 					case 1:
-						if (!jQuery.isEmptyObject(self.oParameterPanel.getOkPayload().selectedItems[0]))
-							dataPropertySelect(self.oParameterPanel.getOkPayload().selectedItems[0].columnKey);
+						if (!jQuery.isEmptyObject(self.oValueSuggestionPanel.getOkPayload().selectedItems[0])) {
+
+						}
 						break;
 					default:
 					}
 				}
 			});
-			self.oDialog.addPanel(self.oValueSuggestionPanel);
 			self.oDialog.addPanel(self.oParameterPanel);
+			self.oDialog.addPanel(self.oValueSuggestionPanel);
 		},
 		parameterValueFactory : function(sId, oContext) {
 			var oParameterValue = new sap.m.P13nItem({

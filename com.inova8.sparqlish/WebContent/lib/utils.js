@@ -67,15 +67,20 @@
 		oStorage.put("lens2odata.queries", sap.ui.getCore().getModel("queryModel").getData());
 	};
 	utils.proxyUrl = function(url) {
-		//return url.replace("http://", "proxy/http/");
+		// return url.replace("http://", "proxy/http/");
 		return url;
 	}
 	utils.lensUri = function(uri, type, serviceCode) {
 		// Workaround to avoid issue with sapui5 router that will not ignore '=' even if encoded
 		return jQuery.isEmptyObject(uri) ? "" : "../lens2odata/#/" + serviceCode + "/lens?type=" + type + "&uri=" + uri.replace(/=/g, "~");
 	};
-	utils.lensUriLabel = function(uri) {
-		return jQuery.isEmptyObject(uri) ? "" : decodeURIComponent(uri).split("/").pop();
+	utils.lensUriLabel = function(uri, sSubjectId, sLabel) {
+		if (sLabel) {
+			return sLabel;
+		} else if (sSubjectId) {
+			return sSubjectId;
+		} else
+			return jQuery.isEmptyObject(uri) ? "" : decodeURIComponent(uri).split("/").pop();
 	};
 	utils.lensDeferredUri = function(uri, serviceCode) {
 		if (jQuery.isEmptyObject(uri)) {

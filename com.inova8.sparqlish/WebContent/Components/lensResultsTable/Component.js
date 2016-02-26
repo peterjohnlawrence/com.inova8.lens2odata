@@ -1,7 +1,7 @@
 jQuery.sap.require("sap.ui.core.UIComponent");
 jQuery.sap.require("sap.ui.table.Table");
 jQuery.sap.declare("Components.lensResultsTable.Component");
-
+"use strict";
 sap.ui.core.UIComponent.extend("Components.lensResultsTable.Component", {
 
 	metadata : {
@@ -26,7 +26,9 @@ Components.lensResultsTable.Component.prototype.createContent = function() {
 	this.oTable = new sap.ui.table.Table({
 		// title : "empty so far",
 		showNoData : true,
-		noData: new  sap.m.Text({	text : "{i18nModel>lensResultsTable.noData}"}),
+		noData : new sap.m.Text({
+			text : "{i18nModel>lensResultsTable.noData}"
+		}),
 		editable : false,
 		// columnHeaderHeight : 10,
 		// enableGrouping : true,
@@ -56,7 +58,8 @@ Components.lensResultsTable.Component.prototype.renderResults = function(query) 
 					var oRecordTemplate = null;
 					var sBindPath = null;
 					var sCurrentPath = "";
-					if (jQuery.isEmptyObject(odataResults.getData().d.results)) {
+				//	if (jQuery.isEmptyObject(odataResults.getData().d.results  )) {
+					if (typeof odataResults.getData().d.results  !== "object" ) {
 						if (odataResults.getData().d.length > 0) {
 							oRecordTemplate = odataResults.getData().d[0];
 							sBindPath = "/d";
@@ -82,7 +85,6 @@ Components.lensResultsTable.Component.prototype.renderResults = function(query) 
 					var oPrimaryEntityType = oMetaModel.getODataEntityType(oRecordTemplate.__metadata.type);
 					self.oTable.destroyColumns();
 					self.bindTableColumns(self.getProperty("metaModel"), self.oTable, oRecordTemplate, oPrimaryEntityType.name, sCurrentPath, bResults);
-					// self.oTable.bindRows(sBindPath);
 					self.oTable.bindRows(sBindPath);
 				} catch (err) {
 					sap.m.MessageToast.show(err);
@@ -92,7 +94,11 @@ Components.lensResultsTable.Component.prototype.renderResults = function(query) 
 			}
 			self.oTable.setBusy(false);
 		}).attachRequestFailed(function(oEvent) {
-			sap.m.MessageToast.show(sap.ui.getCore().getModel("i18nModel").getProperty("lensResultsTable.queryResponseError") + oEvent.getParameter("statusText"));
+			if (oEvent.getParameter("statusCode") == 404) {
+				sap.m.MessageToast.show(sap.ui.getCore().getModel("i18nModel").getProperty("lensResultsTable.queryNoDataFound"));
+			} else {
+				sap.m.MessageToast.show(sap.ui.getCore().getModel("i18nModel").getProperty("lensResultsTable.queryResponseError") + oEvent.getParameter("statusText"));
+			}
 			self.oTable.setBusy(false);
 		});
 	} else {
@@ -111,7 +117,7 @@ Components.lensResultsTable.Component.prototype.bindTableColumns = function(oMet
 	}
 	for ( var column in oTemplate) {
 		if (column == "__metadata") {
-		
+
 			if (!jQuery.isEmptyObject(oTemplate[column].uri)) {
 				var sPathPrefix = (sCurrentPath != "") ? sCurrentPath + "/" : "";
 				var sMetadataPath = (sCurrentPath != "") ? sCurrentPath + "/__metadata/uri" : "__metadata/uri";
@@ -134,9 +140,15 @@ Components.lensResultsTable.Component.prototype.bindTableColumns = function(oMet
 						parts : [ {
 							path : sPathPrefix + "__metadata/uri",
 							type : new sap.ui.model.type.String()
+						}, {
+							path : sPathPrefix + "subjectId",
+							type : new sap.ui.model.type.String()
+						}, {
+							path : sPathPrefix + "label",
+							type : new sap.ui.model.type.String()
 						} ],
-						formatter : function(uri) {
-							return utils.lensUriLabel(uri);
+						formatter : function(uri, sSubjectId, sLabel) {
+							return utils.lensUriLabel(uri, sSubjectId, sLabel);
 						}
 					}).bindProperty("href", {
 						parts : [ {
@@ -152,8 +164,8 @@ Components.lensResultsTable.Component.prototype.bindTableColumns = function(oMet
 					})
 				}));
 			} else {
-				//TODO Must be a complex type. Need to add values for each filed of complex type if available
-	// oMetaModel.getODataComplexType(sEntityType)
+				// TODO Must be a complex type. Need to add values for each filed of complex type if available
+				// oMetaModel.getODataComplexType(sEntityType)
 			}
 
 		} else {

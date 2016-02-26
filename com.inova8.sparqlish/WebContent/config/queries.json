@@ -13,6 +13,14 @@
 				{
 					"_class": "Query",
 					"code": "0",
+					"name": "Test0:Category",
+					"concept": "Category"
+				},
+
+				"0a": 
+				{
+					"_class": "Query",
+					"code": "0a",
 					"name": "Test0:No concept"
 				},
 
@@ -44,13 +52,6 @@
 							"type": "Edm.String",
 							"prompt": "Enter value for Ship City",
 							"defaultValue": "London"
-						},
-
-						{
-							"name": "this",
-							"type": "Edm.Int32",
-							"prompt": "Enter value for Orders",
-							"defaultValue": "10289"
 						}
 					],
 
@@ -884,7 +885,7 @@
 						[
 							{
 								"key": "subjectId",
-								"value": "northwind:Order-10340",
+								"value": "NWD:Order-10340",
 								"type": "Edm.String"
 							}
 						],
@@ -892,7 +893,7 @@
 						[
 							{
 								"key": "subjectId",
-								"value": "northwind:Order-10999",
+								"value": "NWD:Order-10999",
 								"type": "Edm.String"
 							}
 						]
@@ -996,7 +997,7 @@
 											[
 												{
 													"key": "subjectId",
-													"value": "northwind:Customer-ALFKI",
+													"value": "NWD:Customer-ALFKI",
 													"type": "Edm.String"
 												}
 											],
@@ -1004,7 +1005,7 @@
 											[
 												{
 													"key": "subjectId",
-													"value": "northwind:Customer-BONAP",
+													"value": "NWD:Customer-BONAP",
 													"type": "Edm.String"
 												}
 											]
@@ -1540,13 +1541,6 @@
 							"type": "Edm.String",
 							"prompt": "Enter value for Ship City",
 							"defaultValue": "London"
-						},
-
-						{
-							"name": "this",
-							"type": "Edm.Int32",
-							"prompt": "Enter value for Orders",
-							"defaultValue": "10289"
 						}
 					],
 
