@@ -34,7 +34,7 @@ sap.ui.core.UIComponent.extend("Components.searchForm.Component", {
 });
 Components.searchForm.Component.prototype.setQueryCode = function(sQueryCode) {
 	var self = this;
-	var service = sap.ui.getCore().getModel("serviceQueriesModel").getData()["services"][self.getServiceCode()]
+	var service = sap.ui.getCore().getModel("queryModel").getData()["services"][self.getServiceCode()]
 	// Could be just specifying the service so select the first saved query
 	if (jQuery.isEmptyObject(sQueryCode)) {
 		sQueryCode = Object.keys(service.queries)[0];
@@ -47,7 +47,7 @@ Components.searchForm.Component.prototype.setQueryCode = function(sQueryCode) {
 		// Initialize the paramter form if required
 		if (service) {
 			// var queryIndex = utils.lookupIndex(service.queries, "code", sQueryCode);
-			self.oParameterForm.getFormContainers()[0].bindAggregation("formElements", "serviceQueriesModel>/services/" + self.getServiceCode() + "/queries/"
+			self.oParameterForm.getFormContainers()[0].bindAggregation("formElements", "queryModel>/services/" + self.getServiceCode() + "/queries/"
 					+ sQueryCode + "/parameters", this._initValueInputFactory.bind(this));
 			self.oSearchResultsFormComponent.clearContents();
 			self.oSearchResultsFormComponent.setTitle(sap.ui.getCore().getModel("i18nModel").getProperty("searchForm.waitingOnResults"));
@@ -63,17 +63,17 @@ Components.searchForm.Component.prototype.setServiceCode = function(sServiceCode
 	if (self.getProperty("serviceCode") === sServiceCode && !jQuery.isEmptyObject(sServiceCode)) {
 	} else {
 		self.setProperty("serviceCode", sServiceCode);
-		var service = sap.ui.getCore().getModel("serviceQueriesModel").getData().services[sServiceCode];
+		var service = sap.ui.getCore().getModel("queryModel").getData().services[sServiceCode];
 		if (service) {
 			self.oServiceSelect.setSelectedKey(sServiceCode);
 			self.oQuerySelect.bindItems({
-				path : "serviceQueriesModel>/services/" + service.code + "/queries",
+				path : "queryModel>/services/" + service.code + "/queries",
 				sorter : {
-					path : "serviceQueriesModel>name"
+					path : "queryModel>name"
 				},
 				template : new sap.ui.core.ListItem({
-					key : "{serviceQueriesModel>code}",
-					text : "{serviceQueriesModel>name}"
+					key : "{queryModel>code}",
+					text : "{queryModel>name}"
 				})
 			});
 			var odataModel = utils.getCachedOdataModel(service, function() {
@@ -102,7 +102,7 @@ Components.searchForm.Component.prototype.setServiceCode = function(sServiceCode
 			sap.m.MessageToast.show(sap.ui.getCore().getModel("i18nModel").getProperty("searchForm.invalidService") + " " + sServiceCode);
 
 			sap.ui.core.routing.Router.getRouter("lensRouter").navTo("searchWithQuery", {
-				service : Object.keys(sap.ui.getCore().getModel("serviceQueriesModel").getData()["services"])[0]
+				service : Object.keys(sap.ui.getCore().getModel("queryModel").getData()["services"])[0]
 			});
 		}
 	}
@@ -171,7 +171,7 @@ Components.searchForm.Component.prototype.createContent = function() {
 	this.oFormPanel.addContent(this.oSearchResultsFormComponentContainer);
 	this.oFormPanel.addContent(this.oSearchResultsTableComponentContainer);
 
-	this.oFormPanel.setModel(sap.ui.getCore().getModel("serviceQueriesModel"), "serviceQueriesModel");
+	this.oFormPanel.setModel(sap.ui.getCore().getModel("queryModel"), "queryModel");
 
 	return this.oFormPanel;
 };
@@ -181,8 +181,8 @@ Components.searchForm.Component.prototype.createSearchButton = function() {
 		text : "{i18nModel>searchForm.preview}",
 		icon : sap.ui.core.IconPool.getIconURI("search"),
 		press : function(oEvent) {
-			var queryPath = self.oQuerySelect.getSelectedItem().getBindingContext("serviceQueriesModel").getPath();
-			var queryAST = sap.ui.getCore().getModel("serviceQueriesModel").getProperty(queryPath);
+			var queryPath = self.oQuerySelect.getSelectedItem().getBindingContext("queryModel").getPath();
+			var queryAST = sap.ui.getCore().getModel("queryModel").getProperty(queryPath);
 			var query = new Query(self.getMetaModel(), queryAST);
 			self.renderResults(query);
 		}
@@ -219,13 +219,13 @@ Components.searchForm.Component.prototype.createServiceMenu = function() {
 	this.oServiceSelect = new sap.m.ActionSelect({
 		tooltip : "{i18nModel>searchForm.serviceSelectTooltip}",
 		items : {
-			path : "serviceQueriesModel>/services",
+			path : "queryModel>/services",
 			sorter : {
-				path : "serviceQueriesModel>name"
+				path : "queryModel>name"
 			},
 			template : new sap.ui.core.ListItem({
-				key : "{serviceQueriesModel>code}",
-				text : "{serviceQueriesModel>name}"
+				key : "{queryModel>code}",
+				text : "{queryModel>name}"
 			})
 		},
 		change : function(oEvent) {
@@ -249,7 +249,7 @@ Components.searchForm.Component.prototype.createQueryMenu = function() {
 	this.oFormPanel.addContent(self.oQuerySelect);
 };
 Components.searchForm.Component.prototype.renderResults = function(query) {
-	var service = sap.ui.getCore().getModel("serviceQueriesModel").getData()["services"][this.getServiceCode()];
+	var service = sap.ui.getCore().getModel("queryModel").getData()["services"][this.getServiceCode()];
 	var queryURL = service.serviceUrl + query.odataURI(service.version);
 	this.oSearchResultsFormComponent.setTitle(service.queries[this.getQueryCode()].name + " "
 			+ sap.ui.getCore().getModel("i18nModel").getProperty("searchForm.searchResults"));
@@ -270,9 +270,9 @@ Components.searchForm.Component.prototype._initValueInputFactory = function(sId,
 	case "Edm.Date":
 		oInputValue = (new sap.m.DatePicker({
 			valueFormat : 'yyyy-MM-ddThh:mm:ssXX',
-			tooltip : "{serviceQueriesModel>prompt}",
+			tooltip : "{queryModel>prompt}",
 			width : "auto",
-			placeholder : "{serviceQueriesModel>prompt}",
+			placeholder : "{queryModel>prompt}",
 			description : "",
 			editable : true,
 			showValueHelp : true,
@@ -282,9 +282,9 @@ Components.searchForm.Component.prototype._initValueInputFactory = function(sId,
 	case "Edm.DateTime":
 		oInputValue = (new sap.m.DatePicker({
 			valueFormat : 'yyyy-MM-ddThh:mm:ssXX',
-			tooltip : "{serviceQueriesModel>prompt}",
+			tooltip : "{queryModel>prompt}",
 			width : "auto",
-			placeholder : "{serviceQueriesModel>prompt}",
+			placeholder : "{queryModel>prompt}",
 			description : "",
 			editable : true,
 			showValueHelp : true,
@@ -294,9 +294,9 @@ Components.searchForm.Component.prototype._initValueInputFactory = function(sId,
 	case "Edm.Time":
 		oInputValue = (new sap.m.TimePicker({
 			valueFormat : 'yyyy-MM-ddThh:mm:ssXX',
-			tooltip : "{serviceQueriesModel>prompt}",
+			tooltip : "{queryModel>prompt}",
 			width : "auto",
-			placeholder : "{serviceQueriesModel>prompt}",
+			placeholder : "{queryModel>prompt}",
 			description : "",
 			editable : true,
 			showValueHelp : true,
@@ -311,9 +311,9 @@ Components.searchForm.Component.prototype._initValueInputFactory = function(sId,
 	case "Edm.Int64":
 		oInputValue = (new sap.m.Input({
 			type : sap.m.InputType.Number,
-			tooltip : "{serviceQueriesModel>prompt}",
+			tooltip : "{queryModel>prompt}",
 			width : "auto",
-			placeholder : "{serviceQueriesModel>prompt}",
+			placeholder : "{queryModel>prompt}",
 			description : "",
 			editable : true,
 			showValueHelp : false,
@@ -322,19 +322,19 @@ Components.searchForm.Component.prototype._initValueInputFactory = function(sId,
 		break;
 	default:
 		oInputValue = (new sap.m.Input({
-			tooltip : "{serviceQueriesModel>prompt}",
+			tooltip : "{queryModel>prompt}",
 			width : "auto",
-			placeholder : "{serviceQueriesModel>prompt}",
+			placeholder : "{queryModel>prompt}",
 			description : "",
 			editable : true,
 			showValueHelp : false,
 			valueHelpRequest : ""
 		})).addStyleClass("dataPropertyValue");
 	}
-	oInputValue.bindProperty("value", "serviceQueriesModel>defaultValue")
+	oInputValue.bindProperty("value", "queryModel>defaultValue")
 
 	var oFormElement = new sap.ui.layout.form.FormElement({
-		label : "{serviceQueriesModel>name}",
+		label : "{queryModel>name}",
 		fields : [ oInputValue ],
 		layoutData : new sap.ui.layout.form.GridElementData({
 			hCells : "2"

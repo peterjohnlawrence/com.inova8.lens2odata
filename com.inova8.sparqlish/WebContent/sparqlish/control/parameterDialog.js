@@ -20,7 +20,7 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 		setQueryContext : function(oQueryContext) {
 			var self = this;
 			self.setProperty("queryContext", oQueryContext);
-			self.oParameterForm.getFormContainers()[0].bindAggregation("formElements", "serviceQueriesModel>" + oQueryContext.getPath() + "/parameters",
+			self.oParameterForm.getFormContainers()[0].bindAggregation("formElements", "queryModel>" + oQueryContext.getPath() + "/parameters",
 					this._initValueInputFactory.bind(this));
 		},
 		init : function(queryContext) {
@@ -39,14 +39,14 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 				buttons : [ new sap.m.Button({
 					text : '{i18nModel>parameterDialog.addParameter}',
 					press : function() {
-						var oParameters = sap.ui.getCore().getModel("serviceQueriesModel").getProperty(self.getProperty("queryContext").getPath() + "/parameters/");
+						var oParameters = sap.ui.getCore().getModel("queryModel").getProperty(self.getProperty("queryContext").getPath() + "/parameters/");
             oParameters.push({
 						 "name": null,
 						 "type": "Edm.DString",
 						 "prompt": null,
 						 "defaultValue": null
 					 });
-						self.oParameterEdit.oParameterForm.bindElement("serviceQueriesModel>" + self.getProperty("queryContext").getPath() + "/parameters/"+(oParameters.length-1));
+						self.oParameterEdit.oParameterForm.bindElement("queryModel>" + self.getProperty("queryContext").getPath() + "/parameters/"+(oParameters.length-1));
 						self.oParameterEdit.open();
 					}
 				}),  new sap.m.Button({
@@ -68,9 +68,9 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 			case "Edm.Date":
 				oInputValue = (new sap.m.DatePicker({
 					valueFormat : 'yyyy-MM-ddThh:mm:ssXX',
-					tooltip : "{serviceQueriesModel>prompt}",
+					tooltip : "{queryModel>prompt}",
 					width : "auto",
-					placeholder : "{serviceQueriesModel>prompt}",
+					placeholder : "{queryModel>prompt}",
 					description : "",
 					editable : true,
 					showValueHelp : false,
@@ -80,9 +80,9 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 			case "Edm.DateTime":
 				oInputValue = (new sap.m.DatePicker({
 					valueFormat : 'yyyy-MM-ddThh:mm:ssXX',
-					tooltip : "{serviceQueriesModel>prompt}",
+					tooltip : "{queryModel>prompt}",
 					width : "auto",
-					placeholder : "{serviceQueriesModel>prompt}",
+					placeholder : "{queryModel>prompt}",
 					description : "",
 					editable : true,
 					showValueHelp : false,
@@ -92,9 +92,9 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 			case "Edm.Time":
 				oInputValue = (new sap.m.TimePicker({
 					valueFormat : 'yyyy-MM-ddThh:mm:ssXX',
-					tooltip : "{serviceQueriesModel>prompt}",
+					tooltip : "{queryModel>prompt}",
 					width : "auto",
-					placeholder : "{serviceQueriesModel>prompt}",
+					placeholder : "{queryModel>prompt}",
 					description : "",
 					editable : true,
 					showValueHelp : false,
@@ -109,9 +109,9 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 			case "Edm.Int64":
 				oInputValue = (new sap.m.Input({
 					type : sap.m.InputType.Number,
-					tooltip : "{serviceQueriesModel>prompt}",
+					tooltip : "{queryModel>prompt}",
 					width : "auto",
-					placeholder : "{serviceQueriesModel>prompt}",
+					placeholder : "{queryModel>prompt}",
 					description : "",
 					editable : true,
 					showValueHelp : true,
@@ -120,35 +120,35 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 				break;
 			default:
 				oInputValue = (new sap.m.Input({
-					tooltip : "{serviceQueriesModel>prompt}",
+					tooltip : "{queryModel>prompt}",
 					width : "auto",
-					placeholder : "{serviceQueriesModel>prompt}",
+					placeholder : "{queryModel>prompt}",
 					description : "",
 					editable : true,
 					showValueHelp : true,
 					valueHelpRequest : ""
 				})).addStyleClass("dataPropertyValue");
 			}
-			oInputValue.bindProperty("value", "serviceQueriesModel>defaultValue")
+			oInputValue.bindProperty("value", "queryModel>defaultValue")
 
 			var oFormElement = new sap.ui.layout.form.FormElement({
-				label : "{serviceQueriesModel>name}",
+				label : "{queryModel>name}",
 				fields : [ oInputValue, new sap.m.Button({
 					icon : sap.ui.core.IconPool.getIconURI("edit"),
 					width:"10em",
 					press : function(oEvent) {
-						self.oParameterEdit.oParameterForm.bindElement("serviceQueriesModel>"+oEvent.getSource().getBindingContext("serviceQueriesModel").getPath());
+						self.oParameterEdit.oParameterForm.bindElement("queryModel>"+oEvent.getSource().getBindingContext("queryModel").getPath());
 						self.oParameterEdit.open();
 					}
 				}), new sap.m.Button({
 					icon : sap.ui.core.IconPool.getIconURI("delete"),
 					width:"10em",
 					press : function(oEvent) {
-						var sPath= oEvent.getSource().getBindingContext("serviceQueriesModel").getPath().split("/");
+						var sPath= oEvent.getSource().getBindingContext("queryModel").getPath().split("/");
 						var element= sPath.pop();
 						//TODO remove references to parameter, replacing with defaultValue
-						sap.ui.getCore().getModel("serviceQueriesModel").getObject(sPath.join("/")).splice(element,1);
-						sap.ui.getCore().getModel("serviceQueriesModel").refresh();
+						sap.ui.getCore().getModel("queryModel").getObject(sPath.join("/")).splice(element,1);
+						sap.ui.getCore().getModel("queryModel").refresh();
 
 					}
 				}) ],

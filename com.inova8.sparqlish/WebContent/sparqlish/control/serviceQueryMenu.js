@@ -44,32 +44,32 @@ sap.m.OverflowToolbar.extend("sparqlish.control.serviceQueryMenu", {
 		self.oServiceSelect = new sap.m.ActionSelect({
 			tooltip : "{i18nModel>serviceSelectTooltip}",
 			items : {
-				path : "serviceQueriesModel>/services",
+				path : "queryModel>/services",
 				sorter : {
-					path : "serviceQueriesModel>name"
+					path : "queryModel>name"
 				},
 				template : new sap.ui.core.ListItem({
-					key : "{serviceQueriesModel>code}",
-					text : "{serviceQueriesModel>name}"
+					key : "{queryModel>code}",
+					text : "{queryModel>name}"
 				})
 			},
 			change : function(oEvent) {
 				self.oQuerySelect.bindItems({
-					path : "serviceQueriesModel>" + oEvent.getParameter("selectedItem").getBindingContext("serviceQueriesModel") + "/queries",
+					path : "queryModel>" + oEvent.getParameter("selectedItem").getBindingContext("queryModel") + "/queries",
 					sorter : {
-						path : "serviceQueriesModel>name"
+						path : "queryModel>name"
 					},
 					template : new sap.ui.core.ListItem({
-						key : "{serviceQueriesModel>code}",
-						text : "{serviceQueriesModel>name}"
+						key : "{queryModel>code}",
+						text : "{queryModel>name}"
 					})
 				});
 				self.oQuerySelect.setSelectedItem(self.oQuerySelect.getFirstItem());
 			}
 		}).addStyleClass("menuText").attachChange(function(oEvent) {
 			self.fireServiceChanged({
-				service : self.getModel("serviceQueriesModel").getProperty(self.oServiceSelect.getSelectedItem().getBindingContext("serviceQueriesModel").getPath()),
-				query : self.getModel("serviceQueriesModel").getProperty(self.oQuerySelect.getSelectedItem().getBindingContext("serviceQueriesModel").getPath())
+				service : self.getModel("queryModel").getProperty(self.oServiceSelect.getSelectedItem().getBindingContext("queryModel").getPath()),
+				query : self.getModel("queryModel").getProperty(self.oQuerySelect.getSelectedItem().getBindingContext("queryModel").getPath())
 			})
 		});
 
@@ -88,8 +88,8 @@ sap.m.OverflowToolbar.extend("sparqlish.control.serviceQueryMenu", {
 					beginButton : new sap.m.Button({
 						text : 'Confirm',
 						press : function() {
-							delete self.getModel("serviceQueriesModel").getData().services[self.oServiceSelect.getSelectedKey()];
-							self.getModel("serviceQueriesModel").refresh();
+							delete self.getModel("queryModel").getData().services[self.oServiceSelect.getSelectedKey()];
+							self.getModel("queryModel").refresh();
 							sap.m.MessageToast.show(sap.ui.getCore().getModel("i18nModel").getProperty("queryForm.serviceDeleted"));
 							oServiceDeleteDialog.close();
 						}
@@ -151,8 +151,8 @@ sap.m.OverflowToolbar.extend("sparqlish.control.serviceQueryMenu", {
 								utils.getCachedOdataModel(service, function() {
 									sap.m.MessageToast.show(sap.ui.getCore().getModel("i18nModel").getProperty('queryForm.serviceInvalid'));
 								}, function() {
-									self.getModel("serviceQueriesModel").getData().services[service.code] = service;
-									self.getModel("serviceQueriesModel").refresh();
+									self.getModel("queryModel").getData().services[service.code] = service;
+									self.getModel("queryModel").refresh();
 									sap.m.MessageToast.show(sap.ui.getCore().getModel("i18nModel").getProperty('queryForm.serviceValid'));
 									oServiceAddDialog.close();
 								})
@@ -184,19 +184,19 @@ sap.m.OverflowToolbar.extend("sparqlish.control.serviceQueryMenu", {
 						text : "{i18nModel>queryForm.serviceName}"
 					}), new sap.m.Input({
 						value : {
-							path : "serviceQueriesModel>/services/" + self.oServiceSelect.getSelectedKey() + "/name"
+							path : "queryModel>/services/" + self.oServiceSelect.getSelectedKey() + "/name"
 						}
 					}), new sap.m.Label({
 						text : "{i18nModel>queryForm.serviceUrl}"
 					}), new sap.m.Input({
 						value : {
-							path : "serviceQueriesModel>/services/" + self.oServiceSelect.getSelectedKey() + "/serviceUrl"
+							path : "queryModel>/services/" + self.oServiceSelect.getSelectedKey() + "/serviceUrl"
 						}
 					}) ],
 					beginButton : new sap.m.Button({
 						text : 'Confirm',
 						press : function() {
-							self.getModel("serviceQueriesModel").refresh();
+							self.getModel("queryModel").refresh();
 							oServiceEditDialog.close();
 						}
 					}),
@@ -216,19 +216,19 @@ sap.m.OverflowToolbar.extend("sparqlish.control.serviceQueryMenu", {
 		self.oQuerySelect = new sap.m.ActionSelect({
 			tooltip : "{i18nModel>querySelectTooltip}",
 			items : {
-				path : "serviceQueriesModel>/services/LNW2/queries",
+				path : "queryModel>/services/LNW2/queries",
 				sorter : {
-					path : "serviceQueriesModel>name"
+					path : "queryModel>name"
 				},
 				template : new sap.ui.core.ListItem({
-					key : "{serviceQueriesModel>serviceUrl}",
-					text : "{serviceQueriesModel>name}"
+					key : "{queryModel>serviceUrl}",
+					text : "{queryModel>name}"
 				})
 			},
 			change : function(oEvent) {
 				self.fireQueryChanged({
-					service : self.getModel("serviceQueriesModel").getProperty(self.oServiceSelect.getSelectedItem().getBindingContext("serviceQueriesModel").getPath()),
-					query : self.getModel("serviceQueriesModel").getProperty(oEvent.getParameter("selectedItem").getBindingContext("serviceQueriesModel").getPath())
+					service : self.getModel("queryModel").getProperty(self.oServiceSelect.getSelectedItem().getBindingContext("queryModel").getPath()),
+					query : self.getModel("queryModel").getProperty(oEvent.getParameter("selectedItem").getBindingContext("queryModel").getPath())
 				})
 			}
 		});
@@ -247,8 +247,8 @@ sap.m.OverflowToolbar.extend("sparqlish.control.serviceQueryMenu", {
 					beginButton : new sap.m.Button({
 						text : 'Confirm',
 						press : function() {
-							delete self.getModel("serviceQueriesModel").getData().services[self.oServiceSelect.getSelectedKey()].queries[self.oQuerySelect.getSelectedKey()];
-							self.getModel("serviceQueriesModel").refresh();
+							delete self.getModel("queryModel").getData().services[self.oServiceSelect.getSelectedKey()].queries[self.oQuerySelect.getSelectedKey()];
+							self.getModel("queryModel").refresh();
 							sap.m.MessageToast.show(sap.ui.getCore().getModel("i18nModel").getProperty("queryForm.queryDeleted"));
 							oQueryDeleteDialog.close();
 						}
@@ -281,7 +281,7 @@ sap.m.OverflowToolbar.extend("sparqlish.control.serviceQueryMenu", {
 					beginButton : new sap.m.Button({
 						text : 'Confirm',
 						press : function() {
-							var queries = self.getModel("serviceQueriesModel").getData().services[self.oServiceSelect.getSelectedKey()].queries;
+							var queries = self.getModel("queryModel").getData().services[self.oServiceSelect.getSelectedKey()].queries;
 							var newQueryCode = utils.generateUUID();
 							queries[newQueryCode] = {
 								_class : "Query",
@@ -289,7 +289,7 @@ sap.m.OverflowToolbar.extend("sparqlish.control.serviceQueryMenu", {
 								name : oQueryAddDialog.getContent()[1].getValue(),
 								concept: self.getModel("entityContainer").getData().entitySet[0].name
 							};
-							self.getModel("serviceQueriesModel").refresh();
+							self.getModel("queryModel").refresh();
 							sap.m.MessageToast.show(sap.ui.getCore().getModel("i18nModel").getProperty("queryForm.queryAdded"));
 							oQueryAddDialog.close();
 						}
@@ -326,14 +326,14 @@ sap.m.OverflowToolbar.extend("sparqlish.control.serviceQueryMenu", {
 					beginButton : new sap.m.Button({
 						text : 'Confirm',
 						press : function() {
-							var queries = self.getModel("serviceQueriesModel").getData().services[self.oServiceSelect.getSelectedKey()].queries;
+							var queries = self.getModel("queryModel").getData().services[self.oServiceSelect.getSelectedKey()].queries;
 							var newQueryCode = utils.generateUUID();
 							var newQuery = jQuery.extend(true, {}, queries[self.oQuerySelect.getSelectedKey()]);
 							newQuery.code = newQueryCode;
 							newQuery.name = oQueryCopyDialog.getContent()[3].getValue();
 							newQuery.concept= "Select concept";
 							queries[newQueryCode] = newQuery;
-							self.getModel("serviceQueriesModel").refresh();
+							self.getModel("queryModel").refresh();
 							sap.m.MessageToast.show(sap.ui.getCore().getModel("i18nModel").getProperty("queryForm.queryCopied"));
 							oQueryCopyDialog.close();
 						}
@@ -367,14 +367,14 @@ sap.m.OverflowToolbar.extend("sparqlish.control.serviceQueryMenu", {
 					beginButton : new sap.m.Button({
 						text : 'Confirm',
 						press : function() {
-							var query = self.getModel("serviceQueriesModel").getData().services[self.oServiceSelect.getSelectedKey()].queries[self.oQuerySelect
+							var query = self.getModel("queryModel").getData().services[self.oServiceSelect.getSelectedKey()].queries[self.oQuerySelect
 									.getSelectedKey()];
 							delete query.clauses;
 							delete query.parameters;
-							self.getModel("serviceQueriesModel").refresh();
+							self.getModel("queryModel").refresh();
 							sap.m.MessageToast.show(sap.ui.getCore().getModel("i18nModel").getProperty("queryForm.queryReset"));
 							self.fireQueryChanged({
-								service : self.getModel("serviceQueriesModel").getData().services[self.oServiceSelect.getSelectedKey()],
+								service : self.getModel("queryModel").getData().services[self.oServiceSelect.getSelectedKey()],
 								query : query
 							})
 							oQueryResetDialog.close();
@@ -404,7 +404,7 @@ sap.m.OverflowToolbar.extend("sparqlish.control.serviceQueryMenu", {
 						text : "{i18nModel>queryForm.queryName}"
 					}), new sap.m.Input({
 						value : {
-							path : "serviceQueriesModel>/services/" + self.oServiceSelect.getSelectedKey() + "/queries/" + self.oQuerySelect.getSelectedKey() + "/name"
+							path : "queryModel>/services/" + self.oServiceSelect.getSelectedKey() + "/queries/" + self.oQuerySelect.getSelectedKey() + "/name"
 						}
 					}) ],
 					beginButton : new sap.m.Button({
@@ -438,7 +438,7 @@ sap.m.OverflowToolbar.extend("sparqlish.control.serviceQueryMenu", {
 			tooltip : "{i18nModel>enterQueryParametersTooltip}",
 			icon : sap.ui.core.IconPool.getIconURI("form"),
 			press : function(oEvent) {
-				var oQueryContext = self.oQuerySelect.getSelectedItem().getBindingContext("serviceQueriesModel");
+				var oQueryContext = self.oQuerySelect.getSelectedItem().getBindingContext("queryModel");
 				var oParameters = oQueryContext.getProperty("parameters");
 				if (!jQuery.isEmptyObject(oParameters) && (oParameters.length > 0)) {
 					var enterQueryParametersDialog = new sparqlish.control.parameterDialog();

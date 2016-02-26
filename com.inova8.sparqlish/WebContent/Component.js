@@ -96,7 +96,7 @@ Lens.Component.prototype.init = function() {
 
 	oQueryModel.setData(queryData);
 	sap.ui.getCore().setModel(oQueryModel, "queryModel");
-	sap.ui.getCore().setModel(oQueryModel, "serviceQueriesModel");
+	//sap.ui.getCore().setModel(oQueryModel, "serviceQueriesModel");
 
 	// datatypesModel>
 	var oDatatypesModel = new sap.ui.model.json.JSONModel();

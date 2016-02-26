@@ -119,7 +119,7 @@ Components.lensPanel.Component.prototype.displayContent = function(oContent) {
 				
 				var queryUri =utils.bindStringToValues(oFragment.query, this.fragmentBindings) 
 				//if (queryUri === "{uri}")		queryUri = this.getQuery().uri;
-				var service = sap.ui.getCore().getModel("serviceQueriesModel").getData().services[this.getProperty("serviceCode")];
+				var service = sap.ui.getCore().getModel("queryModel").getData().services[this.getProperty("serviceCode")];
 				utils.getCachedOdataModel(service, function() {
 					sap.ui.MessageToast("lens.invalidService");
 				}, function(odataModel) {

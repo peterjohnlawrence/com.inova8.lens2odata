@@ -71,16 +71,16 @@
 // 	oMockServer.start();
 	
 
-	var oServiceQueriesModel = new sap.ui.model.json.JSONModel();
-	oServiceQueriesModel.loadData("config/service.query.test.json", null, false);
-	sap.ui.getCore().setModel(oServiceQueriesModel, "serviceQueriesModel");
+	var oQueryModel = new sap.ui.model.json.JSONModel();
+	oQueryModel.loadData("config/service.query.test.json", null, false);
+	sap.ui.getCore().setModel(oQueryModel, "queryModel");
 	
 	// Create a query form component
 	var oQueryEditorPreviewTreeTableComponent = sap.ui.getCore().createComponent({
 		name : "Components.queryEditorPreviewTreeTable",
 		settings : {
 			title : "queryEditorPreviewTreeTable",
-			serviceQueriesModel: oServiceQueriesModel,
+			queryModel: oQueryModel,
 			i18nModel : i18nModel, //TODO or specific one for this component?
 			datatypesModel : oDatatypesModel
 		}

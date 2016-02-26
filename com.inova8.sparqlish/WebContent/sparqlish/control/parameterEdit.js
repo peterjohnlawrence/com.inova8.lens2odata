@@ -25,7 +25,7 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 					formElements : [ new sap.ui.layout.form.FormElement({
 						label : "{i18n>parameterEdit.parameterName}",
 						fields : [ new sap.m.Input({
-							value : "{serviceQueriesModel>name}",
+							value : "{queryModel>name}",
 							tooltip : "{i18n>parameterEdit.parameterNamePrompt}",
 							width : "auto",
 							placeholder : "{i18n>parameterEdit.parameterNamePlaceholder}",
@@ -40,7 +40,7 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 					}), new sap.ui.layout.form.FormElement({
 						label : "{i18n>parameterEdit.parameterPrompt}",
 						fields : [ new sap.m.Input({
-							value : "{serviceQueriesModel>prompt}",
+							value : "{queryModel>prompt}",
 							tooltip : "{i18n>parameterEdit.parameterPromptPrompt}",
 							width : "auto",
 							placeholder : "{i18n>parameterEdit.parameterPromptPlaceholder}",
@@ -55,7 +55,7 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 					}), new sap.ui.layout.form.FormElement({
 						label : "{i18n>parameterEdit.parameterType}",
 						fields : [ new sap.m.Select({
-							selectedKey : "{serviceQueriesModel>type}",
+							selectedKey : "{queryModel>type}",
 							tooltip : "{i18n>parameterEdit.parameterTypePrompt}",
 							width : "auto",
 							placeholder : "{i18n>parameterEdit.parameterTypePlaceholder}",
@@ -121,17 +121,17 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 				buttons : [ new sap.m.Button({
 					text : '{i18nModel>parameterEdit.saveChanges}',
 					press : function() {
-						sap.ui.getCore().getModel("serviceQueriesModel").refresh();
+						sap.ui.getCore().getModel("queryModel").refresh();
 						self.oDialog.close();
 					}
 				}),new sap.m.Button({
 					text : '{i18nModel>parameterEdit.cancel}',
 					press : function(oEvent) {
-						sap.ui.getCore().getModel("serviceQueriesModel").refresh();
-						var sPath= self.oParameterForm.getBindingContext("serviceQueriesModel").getPath().split("/");
+						sap.ui.getCore().getModel("queryModel").refresh();
+						var sPath= self.oParameterForm.getBindingContext("queryModel").getPath().split("/");
 						var element= sPath.pop();
-						sap.ui.getCore().getModel("serviceQueriesModel").getObject(sPath.join("/")).splice(element,1);
-						sap.ui.getCore().getModel("serviceQueriesModel").refresh();
+						sap.ui.getCore().getModel("queryModel").getObject(sPath.join("/")).splice(element,1);
+						sap.ui.getCore().getModel("queryModel").refresh();
 						self.oDialog.close();
 					}
 				}) ]

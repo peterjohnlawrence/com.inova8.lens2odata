@@ -15,7 +15,7 @@ sap.ui.core.UIComponent.extend("Components.queryForm.Component", {
 		// manifest : "json",
 		properties : {
 			title : "string",
-			serviceQueriesModel : "object",
+			//serviceQueriesModel : "object",
 			odataModel : "object",
 			queryModel : "object",
 			service : "object",
@@ -29,8 +29,8 @@ sap.ui.core.UIComponent.extend("Components.queryForm.Component", {
 		}
 	}
 });
-Components.queryForm.Component.prototype.setServiceQueriesModel = function(serviceQueriesModel) {
-	this.setProperty("serviceQueriesModel", serviceQueriesModel);
+Components.queryForm.Component.prototype.setQueryModel = function(queryModel) {
+	this.setProperty("queryModel", queryModel);
 };
 
 Components.queryForm.Component.prototype.createContent = function() {
@@ -79,7 +79,7 @@ Components.queryForm.Component.prototype.createContent = function() {
 		enableColumnReordering : false,
 		expandFirstLevel : true,
 		// Only Odata.v2 expandTolevel : 3,
-		toolbar : new sparqlish.control.serviceQueryMenu().setModel(sap.ui.getCore().getModel("serviceQueriesModel"), "serviceQueriesModel").attachPreview(
+		toolbar : new sparqlish.control.serviceQueryMenu().setModel(sap.ui.getCore().getModel("queryModel"), "queryModel").attachPreview(
 				function(oEvent) {
 					self.previewResults(self);
 				}).attachQueryChanged(function(oEvent) {
@@ -229,13 +229,13 @@ Components.queryForm.Component.prototype.setService = function(service, query, p
 			self.oTable.getToolbar().oServiceSelect.setSelectedKey(service.code);
 			// Setup query list
 			self.oTable.getToolbar().oQuerySelect.bindItems({
-				path : "serviceQueriesModel>/services/" + service.code + "/queries",
+				path : "queryModel>/services/" + service.code + "/queries",
 				sorter : {
-					path : "serviceQueriesModel>name"
+					path : "queryModel>name"
 				},
 				template : new sap.ui.core.ListItem({
-					key : "{serviceQueriesModel>code}",
-					text : "{serviceQueriesModel>name}"
+					key : "{queryModel>code}",
+					text : "{queryModel>name}"
 				})
 			});
 			// Delay this

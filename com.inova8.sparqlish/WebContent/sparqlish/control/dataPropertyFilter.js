@@ -156,7 +156,7 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 						// self.getAggregation("_parameterValueHelp").setModel("queryModel",self.getModel("queryModel")).open();
 						// var oParameterValueHelp = new sparqlish.control.parameterMenu();
 						// oParameterValueHelp.open();
-						self.getAggregation("_parameterValueHelp").oParameterPanel.bindElement("serviceQueriesModel>" + self.getBindingContext("queryModel").getPath());
+						self.getAggregation("_parameterValueHelp").oParameterPanel.bindElement("queryModel>" + self.getBindingContext("queryModel").getPath());
 						self.getAggregation("_parameterValueHelp").open();
 					}
 				})).addStyleClass("dataPropertyValue");
