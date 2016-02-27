@@ -73,11 +73,11 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 			if (!jQuery.isEmptyObject(objectPropertyFilters)) {
 				for (var i = 0; i < objectPropertyFilters.length; i++) {
 					if (i > 0) {
-						oRm.renderControl(new sap.m.Label().setText(sap.ui.getCore().getModel("i18nModel").getProperty("conceptClauseConjunction")).addStyleClass(
+						oRm.renderControl(new sap.m.Label().setText(sap.ui.getCore().getModel("i18nModel").getProperty("objectPropertyFilters.conjunction")).addStyleClass(
 								"conjunctionMenuLink"));
 					} else {
 						oRm.write("&nbsp;");
-						oRm.renderControl(new sap.m.Label().setText(sap.ui.getCore().getModel("i18nModel").getProperty("conceptClauseIn")).addStyleClass(
+						oRm.renderControl(new sap.m.Label().setText(sap.ui.getCore().getModel("i18nModel").getProperty("objectPropertyFilters.in")).addStyleClass(
 								"conjunctionMenuLink"));
 					}
 					oRm.write("&nbsp;");

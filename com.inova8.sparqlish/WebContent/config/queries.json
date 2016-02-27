@@ -74,7 +74,7 @@
 									"dataPropertyFilter": 
 									{
 										"_class": "DataPropertyFilter",
-										"condition": "not equals",
+										"operator": "ne",
 										"type": "Edm.DateTime",
 										"value": "{Order Date}"
 									}
@@ -103,7 +103,7 @@
 											"dataPropertyFilter": 
 											{
 												"_class": "DataPropertyFilter",
-												"condition": "contains",
+												"operator": "substringof",
 												"type": "Edm.String",
 												"value": "{Ship City}"
 											}
@@ -157,7 +157,7 @@
 									"dataPropertyFilter": 
 									{
 										"_class": "DataPropertyFilter",
-										"condition": "not equals",
+										"operator": "ne",
 										"type": "Edm.DateTime",
 										"value": "{Order Date}"
 									}
@@ -186,7 +186,7 @@
 											"dataPropertyFilter": 
 											{
 												"_class": "DataPropertyFilter",
-												"condition": "contains",
+												"operator": "substringof",
 												"type": "Edm.String",
 												"value": "{Ship City}"
 											}
@@ -223,7 +223,7 @@
 									"dataPropertyFilter": 
 									{
 										"_class": "DataPropertyFilter",
-										"condition": "containing",
+										"operator": "substringof",
 										"value": "Fr",
 										"datatype": "<http://www.w3.org/2001/XMLSchema#string>",
 										"type": "Edm.String"
@@ -284,7 +284,7 @@
 									"dataPropertyFilter": 
 									{
 										"_class": "DataPropertyFilter",
-										"condition": "containing",
+										"operator": "substringof",
 										"value": "Fr",
 										"datatype": "<http://www.w3.org/2001/XMLSchema#string>",
 										"type": "Edm.String"
@@ -322,7 +322,7 @@
 									"dataPropertyFilter": 
 									{
 										"_class": "DataPropertyFilter",
-										"condition": "containing",
+										"operator": "substringof",
 										"value": "Fr",
 										"datatype": "<http://www.w3.org/2001/XMLSchema#string>",
 										"type": "Edm.String"
@@ -354,7 +354,7 @@
 											"dataPropertyFilter": 
 											{
 												"_class": "DataPropertyFilter",
-												"condition": "<",
+												"operator": "lt",
 												"value": "1998-01-01T00:00:00.000Z",
 												"datatype": "<http://www.w3.org/2001/XMLSchema#date>",
 												"type": "Edm.DateTime"
@@ -469,7 +469,7 @@
 												"dataPropertyFilter": 
 												{
 													"_class": "DataPropertyFilter",
-													"condition": "contains",
+													"operator": "substringof",
 													"value": "Berlin",
 													"datatype": "<http://www.w3.org/2001/XMLSchema#string>",
 													"type": "Edm.String"
@@ -523,7 +523,7 @@
 												"dataPropertyFilter": 
 												{
 													"_class": "DataPropertyFilter",
-													"condition": "contains",
+													"operator": "substringof",
 													"value": "Berlin",
 													"datatype": "<http://www.w3.org/2001/XMLSchema#string>",
 													"type": "Edm.String"
@@ -623,7 +623,7 @@
 												"dataPropertyFilter": 
 												{
 													"_class": "DataPropertyFilter",
-													"condition": "<",
+													"operator": "lt",
 													"value": "1998-01-01T00:00:00",
 													"datatype": "<http://www.w3.org/2001/XMLSchema#date>",
 													"type": "Edm.DateTime"
@@ -658,7 +658,7 @@
 											"dataPropertyFilter": 
 											{
 												"_class": "DataPropertyFilter",
-												"condition": "<",
+												"operator": "lt",
 												"value": "1998-01-01T00:00:00",
 												"datatype": "<http://www.w3.org/2001/XMLSchema#date>",
 												"type": "Edm.DateTime"
@@ -721,7 +721,7 @@
 											"dataPropertyFilter": 
 											{
 												"_class": "DataPropertyFilter",
-												"condition": "<",
+												"operator": "lt",
 												"value": "1998-01-01T00:00:00",
 												"datatype": "<http://www.w3.org/2001/XMLSchema#date>",
 												"type": "Edm.DateTime"
@@ -859,7 +859,7 @@
 											"dataPropertyFilter": 
 											{
 												"_class": "DataPropertyFilter",
-												"condition": "<",
+												"operator": "lt",
 												"value": "1998-01-01T00:00:00.000Z",
 												"datatype": "<http://www.w3.org/2001/XMLSchema#date>",
 												"type": "Edm.DateTime"
@@ -920,7 +920,7 @@
 									"dataPropertyFilter": 
 									{
 										"_class": "DataPropertyFilter",
-										"condition": "contains",
+										"operator": "substringof",
 										"value": "Fr",
 										"datatype": "<http://www.w3.org/2001/XMLSchema#string>",
 										"type": "Edm.String"
@@ -934,7 +934,7 @@
 											"dataPropertyFilter": 
 											{
 												"_class": "DataPropertyFilter",
-												"condition": "contains",
+												"operator": "substringof",
 												"value": "Ge",
 												"datatype": "<http://www.w3.org/2001/XMLSchema#string>",
 												"type": "Edm.String"
@@ -967,7 +967,7 @@
 											"dataPropertyFilter": 
 											{
 												"_class": "DataPropertyFilter",
-												"condition": "<",
+												"operator": "lt",
 												"value": "1998-01-01T00:00:00",
 												"datatype": "<http://www.w3.org/2001/XMLSchema#date>",
 												"type": "Edm.DateTime"
@@ -1031,7 +1031,7 @@
 														"dataPropertyFilter": 
 														{
 															"_class": "DataPropertyFilter",
-															"condition": "contains",
+															"operator": "substringof",
 															"value": "Bon",
 															"datatype": "<http://www.w3.org/2001/XMLSchema#string>",
 															"type": "Edm.String"
@@ -1063,7 +1063,7 @@
 																"dataPropertyFilter": 
 																{
 																	"_class": "DataPropertyFilter",
-																	"condition": "contains",
+																	"operator": "substringof",
 																	"value": "Leb",
 																	"datatype": "<http://www.w3.org/2001/XMLSchema#string>",
 																	"type": "Edm.String"
@@ -1112,7 +1112,7 @@
 														"dataPropertyFilter": 
 														{
 															"_class": "DataPropertyFilter",
-															"condition": "contains",
+															"operator": "substringof",
 															"value": "Nancy",
 															"datatype": "<http://www.w3.org/2001/XMLSchema#string>",
 															"type": "Edm.String"
@@ -1199,7 +1199,7 @@
 									"dataPropertyFilter": 
 									{
 										"_class": "DataPropertyFilter",
-										"condition": "contains",
+										"operator": "substringof",
 										"value": "Fr",
 										"datatype": "<http://www.w3.org/2001/XMLSchema#string>",
 										"type": "Edm.String"
@@ -1213,7 +1213,7 @@
 											"dataPropertyFilter": 
 											{
 												"_class": "DataPropertyFilter",
-												"condition": "contains",
+												"operator": "substringof",
 												"value": "Ge",
 												"datatype": "<http://www.w3.org/2001/XMLSchema#string>",
 												"type": "Edm.String"
@@ -1246,7 +1246,7 @@
 											"dataPropertyFilter": 
 											{
 												"_class": "DataPropertyFilter",
-												"condition": "<",
+												"operator": "lt",
 												"value": "1998-01-01T00:00:00",
 												"datatype": "<http://www.w3.org/2001/XMLSchema#date>",
 												"type": "Edm.DateTime"
@@ -1296,7 +1296,7 @@
 														"dataPropertyFilter": 
 														{
 															"_class": "DataPropertyFilter",
-															"condition": "contains",
+															"operator": "substringof",
 															"value": "Bon",
 															"datatype": "<http://www.w3.org/2001/XMLSchema#string>",
 															"type": "Edm.String"
@@ -1328,7 +1328,7 @@
 																"dataPropertyFilter": 
 																{
 																	"_class": "DataPropertyFilter",
-																	"condition": "contains",
+																	"operator": "substringof",
 																	"value": "Leb",
 																	"datatype": "<http://www.w3.org/2001/XMLSchema#string>",
 																	"type": "Edm.String"
@@ -1377,7 +1377,7 @@
 														"dataPropertyFilter": 
 														{
 															"_class": "DataPropertyFilter",
-															"condition": "contains",
+															"operator": "substringof",
 															"value": "Nancy",
 															"datatype": "<http://www.w3.org/2001/XMLSchema#string>",
 															"type": "Edm.String"
@@ -1563,7 +1563,7 @@
 									"dataPropertyFilter": 
 									{
 										"_class": "DataPropertyFilter",
-										"condition": "not equals",
+										"operator": "ne",
 										"type": "Edm.DateTime",
 										"value": "{Order Date}"
 									}
@@ -1592,7 +1592,7 @@
 											"dataPropertyFilter": 
 											{
 												"_class": "DataPropertyFilter",
-												"condition": "contains",
+												"operator": "substringof",
 												"type": "Edm.String",
 												"value": "{Ship City}"
 											}
@@ -1640,7 +1640,7 @@
 									"dataPropertyFilter": 
 									{
 										"_class": "DataPropertyFilter",
-										"condition": "containing",
+										"operator": "substringof",
 										"value": "Fr",
 										"datatype": "<http://www.w3.org/2001/XMLSchema#string>",
 										"type": "Edm.String"
@@ -1701,7 +1701,7 @@
 									"dataPropertyFilter": 
 									{
 										"_class": "DataPropertyFilter",
-										"condition": "containing",
+										"operator": "substringof",
 										"value": "Fr",
 										"datatype": "<http://www.w3.org/2001/XMLSchema#string>",
 										"type": "Edm.String"
@@ -1739,7 +1739,7 @@
 									"dataPropertyFilter": 
 									{
 										"_class": "DataPropertyFilter",
-										"condition": "containing",
+										"operator": "substringof",
 										"value": "Fr",
 										"datatype": "<http://www.w3.org/2001/XMLSchema#string>",
 										"type": "Edm.String"
@@ -1771,7 +1771,7 @@
 											"dataPropertyFilter": 
 											{
 												"_class": "DataPropertyFilter",
-												"condition": "<",
+												"operator": "lt",
 												"value": "1998-01-01T00:00:00.000Z",
 												"datatype": "<http://www.w3.org/2001/XMLSchema#date>",
 												"type": "Edm.DateTime"
@@ -1913,7 +1913,7 @@
 												"dataPropertyFilter": 
 												{
 													"_class": "DataPropertyFilter",
-													"condition": "<",
+													"operator": "lt",
 													"value": "1998-01-01T00:00:00.000Z",
 													"datatype": "<http://www.w3.org/2001/XMLSchema#date>",
 													"type": "Edm.DateTime"
@@ -1948,7 +1948,7 @@
 											"dataPropertyFilter": 
 											{
 												"_class": "DataPropertyFilter",
-												"condition": "<",
+												"operator": "lt",
 												"value": "1998-01-01T00:00:00.000Z",
 												"datatype": "<http://www.w3.org/2001/XMLSchema#date>",
 												"type": "Edm.DateTime"
@@ -2011,7 +2011,7 @@
 											"dataPropertyFilter": 
 											{
 												"_class": "DataPropertyFilter",
-												"condition": "<",
+												"operator": "lt",
 												"value": "1998-01-01T00:00:00.000Z",
 												"datatype": "<http://www.w3.org/2001/XMLSchema#date>",
 												"type": "Edm.DateTime"
@@ -2149,7 +2149,7 @@
 											"dataPropertyFilter": 
 											{
 												"_class": "DataPropertyFilter",
-												"condition": "<",
+												"operator": "lt",
 												"value": "1998-01-01T00:00:00.000Z",
 												"datatype": "<http://www.w3.org/2001/XMLSchema#date>",
 												"type": "Edm.DateTime"
@@ -2210,7 +2210,7 @@
 									"dataPropertyFilter": 
 									{
 										"_class": "DataPropertyFilter",
-										"condition": "contains",
+										"operator": "substringof",
 										"value": "Fr",
 										"datatype": "<http://www.w3.org/2001/XMLSchema#string>",
 										"type": "Edm.String"
@@ -2224,7 +2224,7 @@
 											"dataPropertyFilter": 
 											{
 												"_class": "DataPropertyFilter",
-												"condition": "contains",
+												"operator": "substringof",
 												"value": "Ge",
 												"datatype": "<http://www.w3.org/2001/XMLSchema#string>",
 												"type": "Edm.String"
@@ -2257,7 +2257,7 @@
 											"dataPropertyFilter": 
 											{
 												"_class": "DataPropertyFilter",
-												"condition": "<",
+												"operator": "lt",
 												"value": "1998-01-01T00:00:00.000Z",
 												"datatype": "<http://www.w3.org/2001/XMLSchema#date>",
 												"type": "Edm.DateTime"
@@ -2321,7 +2321,7 @@
 														"dataPropertyFilter": 
 														{
 															"_class": "DataPropertyFilter",
-															"condition": "contains",
+															"operator": "substringof",
 															"value": "Bon",
 															"datatype": "<http://www.w3.org/2001/XMLSchema#string>",
 															"type": "Edm.String"
@@ -2353,7 +2353,7 @@
 																"dataPropertyFilter": 
 																{
 																	"_class": "DataPropertyFilter",
-																	"condition": "contains",
+																	"operator": "substringof",
 																	"value": "Leb",
 																	"datatype": "<http://www.w3.org/2001/XMLSchema#string>",
 																	"type": "Edm.String"
@@ -2402,7 +2402,7 @@
 														"dataPropertyFilter": 
 														{
 															"_class": "DataPropertyFilter",
-															"condition": "contains",
+															"operator": "substringof",
 															"value": "Nancy",
 															"datatype": "<http://www.w3.org/2001/XMLSchema#string>",
 															"type": "Edm.String"
@@ -3044,7 +3044,7 @@
 											"dataPropertyFilter": 
 											{
 												"_class": "DataPropertyFilter",
-												"condition": "equals",
+												"operator": "equals",
 												"type": "Edm.String",
 												"value": "Pedals"
 											}
@@ -3097,7 +3097,7 @@
 											"dataPropertyFilter": 
 											{
 												"_class": "DataPropertyFilter",
-												"condition": "less than",
+												"operator": "less than",
 												"type": "Edm.Decimal",
 												"value": "80"
 											}
@@ -3139,7 +3139,7 @@
 									"dataPropertyFilter": 
 									{
 										"_class": "DataPropertyFilter",
-										"condition": "contains",
+										"operator": "substringof",
 										"type": "Edm.String",
 										"value": "Q1"
 									},
@@ -3152,7 +3152,7 @@
 											"dataPropertyFilter": 
 											{
 												"_class": "DataPropertyFilter",
-												"condition": "contains",
+												"operator": "substringof",
 												"type": "Edm.String",
 												"value": "Q2"
 											}

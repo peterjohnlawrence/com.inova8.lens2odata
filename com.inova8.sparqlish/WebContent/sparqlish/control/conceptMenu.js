@@ -22,11 +22,11 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 			var self = this;
 			self.oConceptLink = new sap.m.Link({
 				text : "{queryModel>concept}",
-				tooltip : "i18nModel>conceptTooltip"
+				tooltip : "i18nModel>conceptMenu.tooltip"
 			});
 			self.oConceptLink.addStyleClass("conceptMenuLink");
 			self.oConceptList = new sap.m.P13nColumnsPanel({
-				title : "{i18nModel>conceptList}",
+				title : "{i18nModel>conceptMenu.conceptList}",
 				type:"columns",
 				visible: true,
 				items : {
@@ -41,7 +41,7 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 			// TODO Undocumented hack to make P13nColumnsPanel to be single select
 			self.oConceptList._oTable.setMode(sap.m.ListMode.SingleSelect);
 			self.oDialog = new sap.m.P13nDialog({
-				title : "{i18nModel>conceptSelectTitle}",
+				title : "{i18nModel>conceptMenu.title}",
 				cancel : function() {
 					self.oDialog.close();
 				},

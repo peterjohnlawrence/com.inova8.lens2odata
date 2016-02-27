@@ -182,7 +182,7 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 			oRm.writeControlData(oControl);
 			oRm.writeClasses();
 			oRm.write(">");
-			var oFind = new sap.m.Label().setText(sap.ui.getCore().getModel("i18nModel").getProperty("conceptClauseFind")).addStyleClass("conjunctionMenuLink");
+			var oFind = new sap.m.Label().setText(sap.ui.getCore().getModel("i18nModel").getProperty("conceptClause.find")).addStyleClass("conjunctionMenuLink");
 			oRm.renderControl(oFind);
 			oRm.write("&nbsp;");
 			oRm.renderControl(oControl.getAggregation("_concept"));

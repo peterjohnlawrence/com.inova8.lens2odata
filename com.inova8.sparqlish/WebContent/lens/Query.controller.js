@@ -10,7 +10,7 @@ sap.ui.define([ "controller/BaseController" ], function(BaseController) {
 				settings : {
 					title : "QueryForm",
 					queryModel : sap.ui.getCore().getModel("queryModel"),
-					i18nModel : sap.ui.getCore().getModel("i18n"), // i18nModel, // TODO or specific one for this component?
+					i18nModel : sap.ui.getCore().getModel("i18nModel"), // i18nModel, // TODO or specific one for this component?
 					datatypesModel : sap.ui.getCore().getModel("datatypesModel")
 				}
 			});

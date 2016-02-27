@@ -77,7 +77,7 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 					var me = oEvent.getSource().getParent();
 					var eDock = sap.ui.core.Popup.Dock;
 					self.oConjunctionMenuItemDelete = new sap.ui.unified.MenuItem({
-						text : '{i18nModel>conjunctionClauseDelete}',
+						text : '{i18nModel>conjunctionPropertyClause.delete}',
 						icon : sap.ui.core.IconPool.getIconURI("delete")
 					});
 					self.oConjunctionMenuItemDelete.attachSelect(function(oEvent) {
@@ -85,9 +85,9 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 					});
 					var oConjunctionMenu = new sap.ui.unified.Menu({
 						items : [ new sap.ui.unified.MenuItem({
-							text : '{i18nModel>conjunctionClauseAnd}'
+							text : '{i18nModel>conjunctionPropertyClause.and}'
 						}), new sap.ui.unified.MenuItem({
-							text : '{i18nModel>conjunctionClauseOr}'
+							text : '{i18nModel>conjunctionPropertyClause.or}'
 						}), self.oConjunctionMenuItemDelete ]
 					});
 					oConjunctionMenu.attachItemSelect(function(oEvent) {

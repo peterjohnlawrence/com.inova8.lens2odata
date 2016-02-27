@@ -15,7 +15,7 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 				}
 			},
 			aggregations : {
-				_condition : {
+				_operator : {
 					type : "sap.m.Link",
 					multiple : false
 				},
@@ -38,19 +38,19 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 		init : function() {
 			var self = this;
 			self.setAggregation("_parameterValueHelp", new sparqlish.control.parameterMenu());
-			self.setAggregation("_condition", new sap.m.Link({
-				text : "{queryModel>condition}",
-				tooltip : "Select a condition",
+			self.setAggregation("_operator", new sap.m.Link({
+				tooltip : "Select a operator",
 				press : function(oEvent) {
 					var me = oEvent.getSource().getParent();
 					var oClauseContext = self._clauseContext(me);
 					this.oDataPropertyType = oClauseContext.getDataProperty().type;
 					var eDock = sap.ui.core.Popup.Dock;
-					var oConditionMenu = new sap.ui.unified.Menu({
+					var oOperatorMenu = new sap.ui.unified.Menu({
 						items : {
-							path : "datatypesModel>/datatypes/" + this.oDataPropertyType + "/conditions",
+							path : "datatypesModel>/datatypes/" + this.oDataPropertyType + "/operators",
 							template : new sap.ui.unified.MenuItem({
-								text : "{datatypesModel>condition}"
+								text : "{datatypesModel>condition}",
+								key : "{datatypesModel>operator}"
 							})
 						}
 					});
@@ -61,16 +61,21 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 					// icon : sap.ui.core.IconPool.getIconURI("delete")
 					// }));
 					// }
-					oConditionMenu.attachItemSelect(function(oEvent) {
+					oOperatorMenu.attachItemSelect(function(oEvent) {
 						var selectedItem = oEvent.getParameter("item").getText();
 						if (selectedItem == 'DELETE') {
 							me.fireDataPropertyFilterDeleted();
 						} else {
-							me.getAggregation("_condition").setText(selectedItem);
+							var oOperators = sap.ui.getCore().getModel("datatypesModel").getProperty("/datatypes/" + me.oDataPropertyType + "/operators/");
+							var iIndex = utils.lookupIndex(oOperators, "condition", selectedItem);
+
+							me.getModel("queryModel").setProperty(me.getBindingContext("queryModel").getPath() + "/operator", oOperators[iIndex].operator);
+							me.getAggregation("_operator").setText(selectedItem);
 						}
 					}).open(false, this.getFocusDomRef(), eDock.BeginTop, eDock.beginBottom, this.getDomRef());
 				}
 			}).addStyleClass("menuLink"));
+
 		},
 		_clauseContext : function(me) {
 			var oClauseContext = me.getParent().getParent();
@@ -131,14 +136,10 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 					type : sap.m.InputType.Number,
 					tooltip : "{i18n>dataFilterTooltip}",
 					width : "150px",
-					// placeholder : "{i18n>dataFilterTooltip}",
 					description : "",
 					editable : true,
 					showValueHelp : true,
 					valueHelpRequest : function(oEvent) {
-						// var oQueryContext = self.getBindingContext("queryModel");
-						// self.getAggregation("_parameterValueHelp").setQueryContext(oQueryContext);
-						// self.getAggregation("_parameterValueHelp").setModel("queryModel",self.getModel("queryModel")).open();
 						self.getAggregation("_parameterValueHelp").open();
 					}
 				})).addStyleClass("dataPropertyValue");
@@ -147,28 +148,17 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 				oInputValue = (new sap.m.Input({
 					tooltip : "{i18n>dataFilterTooltip}",
 					width : "150px",
-					placeholder : "Enter value for condition",
+					placeholder : "Enter value for operator",
 					description : "",
 					editable : true,
 					showValueHelp : true,
 					valueHelpRequest : function(oEvent) {
-						// var oQueryContext = self.oQuerySelect.getSelectedItem().getBindingContext("serviceQueriesModel");
-						// self.getAggregation("_parameterValueHelp").setModel("queryModel",self.getModel("queryModel")).open();
-						// var oParameterValueHelp = new sparqlish.control.parameterMenu();
-						// oParameterValueHelp.open();
 						self.getAggregation("_parameterValueHelp").oParameterPanel.bindElement("queryModel>" + self.getBindingContext("queryModel").getPath());
 						self.getAggregation("_parameterValueHelp").open();
 					}
 				})).addStyleClass("dataPropertyValue");
 
 			}
-			// TODO what about date/time?
-			// oInputValue.attachValueHelpRequest(
-			// function(oEvent){
-			// alert("hi");
-			// }
-			// );
-
 			// Check if a value or a parameter path
 			if (sPathPattern.test(oDataPropertyFilter.value)) {
 				var sParam = sPathPattern.exec(oDataPropertyFilter.value)[1];
@@ -189,18 +179,21 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 			// var oDataPropertyFilter = oControl.getModel("queryModel").getProperty("",
 			// oControl.getBindingContext("queryModel"));
 			if (!jQuery.isEmptyObject(oDataPropertyFilter)) {
-				if (oControl.getAggregation("_condition").getText() == "[enter condition]") {
+				var oClauseContext = oControl._clauseContext(oControl);
+				oControl.oDataPropertyType = oClauseContext.getDataProperty().type;
+				if (oDataPropertyFilter.operator == "[enter operator]") {
 					// not yet defined so lets bind to the first concept in collection
-					// TODO DELETE is the first condition
-					var oClauseContext = oControl._clauseContext(oControl);
-					oControl.oDataPropertyType = oClauseContext.getDataProperty().type;
-					oControl.getAggregation("_condition").setText(
-							oControl.getModel("datatypesModel").getProperty("/datatypes/" + oControl.oDataPropertyType + "/conditions/1/condition"));
+					// TODO DELETE is the first operator
+					oControl.getAggregation("_operator").setText(
+							sap.ui.getCore().getModel("datatypesModel").getProperty("/datatypes/" + oControl.oDataPropertyType + "/operators/1/condition"));
+				} else {
+					var oOperators = sap.ui.getCore().getModel("datatypesModel").getProperty("/datatypes/" + oControl.oDataPropertyType + "/operators/");
+					var iIndex = utils.lookupIndex(oOperators, "operator", oDataPropertyFilter.operator);
+					oControl.getAggregation("_operator").setText(oOperators[iIndex].condition);
 				}
 				oRm.write("&nbsp;");
-				oRm.renderControl(oControl.getAggregation("_condition"));
-				oRm.write("&nbsp;");
-
+				oRm.renderControl(oControl.getAggregation("_operator"));
+				oRm.write("&nbsp;")
 				oRm.addClass("sapUiSizeCompact");
 				oRm.addClass("dataPropertyValue");
 				oRm.write("<div ");

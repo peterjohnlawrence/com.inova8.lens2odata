@@ -3,1112 +3,1112 @@
 	{
 		"rdf.langString": 
 		{
-			"conditions": 
+			"operators": 
 			[
 				{
 					"condition": "contains",
-					"name": "substringof"
+					"operator": "substringof"
 				},
 
 				{
 					"condition": "equals",
-					"name": "eq"
+					"operator": "eq"
 				},
 
 				{
 					"condition": "not equals",
-					"name": "ne"
+					"operator": "ne"
 				},
 
 				{
 					"condition": "ends with",
-					"name": "endswith"
+					"operator": "endswith"
 				},
 
 				{
 					"condition": "starts with",
-					"name": "startswith"
+					"operator": "startswith"
 				}
 			]
 		},
 
 		"Edm.Binary": 
 		{
-			"conditions": 
+			"operators": 
 			[
 				{
 					"condition": "equals",
-					"name": "eq"
+					"operator": "eq"
 				},
 
 				{
 					"condition": "not equals",
-					"name": "ne"
+					"operator": "ne"
 				},
 
 				{
 					"condition": "greater than",
-					"name": "gt"
+					"operator": "gt"
 				},
 
 				{
 					"condition": "greater than or equal",
-					"name": "ge"
+					"operator": "ge"
 				},
 
 				{
 					"condition": "less than",
-					"name": "lt"
+					"operator": "lt"
 				},
 
 				{
 					"condition": "less than or equal",
-					"name": "le"
+					"operator": "le"
 				}
 			]
 		},
 
 		"Edm.Boolean": 
 		{
-			"conditions": 
+			"operators": 
 			[
 				{
 					"condition": "equals",
-					"name": "eq"
+					"operator": "eq"
 				},
 
 				{
 					"condition": "not equals",
-					"name": "ne"
+					"operator": "ne"
 				}
 			]
 		},
 
 		"Edm.Byte": 
 		{
-			"conditions": 
+			"operators": 
 			[
 				{
 					"condition": "equals",
-					"name": "eq"
+					"operator": "eq"
 				},
 
 				{
 					"condition": "not equals",
-					"name": "ne"
+					"operator": "ne"
 				},
 
 				{
 					"condition": "greater than",
-					"name": "gt"
+					"operator": "gt"
 				},
 
 				{
 					"condition": "greater than or equal",
-					"name": "ge"
+					"operator": "ge"
 				},
 
 				{
 					"condition": "less than",
-					"name": "lt"
+					"operator": "lt"
 				},
 
 				{
 					"condition": "less than or equal",
-					"name": "le"
+					"operator": "le"
 				}
 			]
 		},
 
 		"Edm.DateTime": 
 		{
-			"conditions": 
+			"operators": 
 			[
 				{
 					"condition": "equals",
-					"name": "eq"
+					"operator": "eq"
 				},
 
 				{
 					"condition": "not equals",
-					"name": "ne"
+					"operator": "ne"
 				},
 
 				{
 					"condition": "after",
-					"name": "gt"
+					"operator": "gt"
 				},
 
 				{
 					"condition": "on or after",
-					"name": "ge"
+					"operator": "ge"
 				},
 
 				{
 					"condition": "before",
-					"name": "lt"
+					"operator": "lt"
 				},
 
 				{
 					"condition": "on or before",
-					"name": "le"
+					"operator": "le"
 				}
 			]
 		},
 
 		"Edm.DateTimeOffset": 
 		{
-			"conditions": 
+			"operators": 
 			[
 				{
 					"condition": "equals",
-					"name": "eq"
+					"operator": "eq"
 				},
 
 				{
 					"condition": "not equals",
-					"name": "ne"
+					"operator": "ne"
 				},
 
 				{
 					"condition": "greater than",
-					"name": "gt"
+					"operator": "gt"
 				},
 
 				{
 					"condition": "greater than or equal",
-					"name": "ge"
+					"operator": "ge"
 				},
 
 				{
 					"condition": "less than",
-					"name": "lt"
+					"operator": "lt"
 				},
 
 				{
 					"condition": "less than or equal",
-					"name": "le"
+					"operator": "le"
 				}
 			]
 		},
 
 		"Edm.Decimal": 
 		{
-			"conditions": 
+			"operators": 
 			[
 				{
 					"condition": "equals",
-					"name": "eq"
+					"operator": "eq"
 				},
 
 				{
 					"condition": "not equals",
-					"name": "ne"
+					"operator": "ne"
 				},
 
 				{
 					"condition": "greater than",
-					"name": "gt"
+					"operator": "gt"
 				},
 
 				{
 					"condition": "greater than or equal",
-					"name": "ge"
+					"operator": "ge"
 				},
 
 				{
 					"condition": "less than",
-					"name": "lt"
+					"operator": "lt"
 				},
 
 				{
 					"condition": "less than or equal",
-					"name": "le"
+					"operator": "le"
 				}
 			]
 		},
 
 		"Edm.Double": 
 		{
-			"conditions": 
+			"operators": 
 			[
 				{
 					"condition": "equals",
-					"name": "eq"
+					"operator": "eq"
 				},
 
 				{
 					"condition": "not equals",
-					"name": "ne"
+					"operator": "ne"
 				},
 
 				{
 					"condition": "greater than",
-					"name": "gt"
+					"operator": "gt"
 				},
 
 				{
 					"condition": "greater than or equal",
-					"name": "ge"
+					"operator": "ge"
 				},
 
 				{
 					"condition": "less than",
-					"name": "lt"
+					"operator": "lt"
 				},
 
 				{
 					"condition": "less than or equal",
-					"name": "le"
+					"operator": "le"
 				}
 			]
 		},
 
 		"Edm.Guid": 
 		{
-			"conditions": 
+			"operators": 
 			[
 				{
 					"condition": "equals",
-					"name": "eq"
+					"operator": "eq"
 				},
 
 				{
 					"condition": "not equals",
-					"name": "ne"
+					"operator": "ne"
 				},
 
 				{
 					"condition": "greater than",
-					"name": "gt"
+					"operator": "gt"
 				},
 
 				{
 					"condition": "greater than or equal",
-					"name": "ge"
+					"operator": "ge"
 				},
 
 				{
 					"condition": "less than",
-					"name": "lt"
+					"operator": "lt"
 				},
 
 				{
 					"condition": "less than or equal",
-					"name": "le"
+					"operator": "le"
 				}
 			]
 		},
 
 		"Edm.Int16": 
 		{
-			"conditions": 
+			"operators": 
 			[
 				{
 					"condition": "equals",
-					"name": "eq"
+					"operator": "eq"
 				},
 
 				{
 					"condition": "not equals",
-					"name": "ne"
+					"operator": "ne"
 				},
 
 				{
 					"condition": "greater than",
-					"name": "gt"
+					"operator": "gt"
 				},
 
 				{
 					"condition": "greater than or equal",
-					"name": "ge"
+					"operator": "ge"
 				},
 
 				{
 					"condition": "less than",
-					"name": "lt"
+					"operator": "lt"
 				},
 
 				{
 					"condition": "less than or equal",
-					"name": "le"
+					"operator": "le"
 				}
 			]
 		},
 
 		"Edm.Int32": 
 		{
-			"conditions": 
+			"operators": 
 			[
 				{
 					"condition": "equals",
-					"name": "eq"
+					"operator": "eq"
 				},
 
 				{
 					"condition": "not equals",
-					"name": "ne"
+					"operator": "ne"
 				},
 
 				{
 					"condition": "greater than",
-					"name": "gt"
+					"operator": "gt"
 				},
 
 				{
 					"condition": "greater than or equal",
-					"name": "ge"
+					"operator": "ge"
 				},
 
 				{
 					"condition": "less than",
-					"name": "lt"
+					"operator": "lt"
 				},
 
 				{
 					"condition": "less than or equal",
-					"name": "le"
+					"operator": "le"
 				}
 			]
 		},
 
 		"Edm.Int64": 
 		{
-			"conditions": 
+			"operators": 
 			[
 				{
 					"condition": "equals",
-					"name": "eq"
+					"operator": "eq"
 				},
 
 				{
 					"condition": "not equals",
-					"name": "ne"
+					"operator": "ne"
 				},
 
 				{
 					"condition": "greater than",
-					"name": "gt"
+					"operator": "gt"
 				},
 
 				{
 					"condition": "greater than or equal",
-					"name": "ge"
+					"operator": "ge"
 				},
 
 				{
 					"condition": "less than",
-					"name": "lt"
+					"operator": "lt"
 				},
 
 				{
 					"condition": "less than or equal",
-					"name": "le"
+					"operator": "le"
 				}
 			]
 		},
 
 		"Edm.SByte": 
 		{
-			"conditions": 
+			"operators": 
 			[
 				{
 					"condition": "equals",
-					"name": "eq"
+					"operator": "eq"
 				},
 
 				{
 					"condition": "not equals",
-					"name": "ne"
+					"operator": "ne"
 				},
 
 				{
 					"condition": "greater than",
-					"name": "gt"
+					"operator": "gt"
 				},
 
 				{
 					"condition": "greater than or equal",
-					"name": "ge"
+					"operator": "ge"
 				},
 
 				{
 					"condition": "less than",
-					"name": "lt"
+					"operator": "lt"
 				},
 
 				{
 					"condition": "less than or equal",
-					"name": "le"
+					"operator": "le"
 				}
 			]
 		},
 
 		"Edm.Single": 
 		{
-			"conditions": 
+			"operators": 
 			[
 				{
 					"condition": "equals",
-					"name": "eq"
+					"operator": "eq"
 				},
 
 				{
 					"condition": "not equals",
-					"name": "ne"
+					"operator": "ne"
 				},
 
 				{
 					"condition": "greater than",
-					"name": "gt"
+					"operator": "gt"
 				},
 
 				{
 					"condition": "greater than or equal",
-					"name": "ge"
+					"operator": "ge"
 				},
 
 				{
 					"condition": "less than",
-					"name": "lt"
+					"operator": "lt"
 				},
 
 				{
 					"condition": "less than or equal",
-					"name": "le"
+					"operator": "le"
 				}
 			]
 		},
 
 		"Edm.String": 
 		{
-			"conditions": 
+			"operators": 
 			[
 				{
 					"condition": "contains",
-					"name": "substringof"
+					"operator": "substringof"
 				},
 
 				{
 					"condition": "equals",
-					"name": "eq"
+					"operator": "eq"
 				},
 
 				{
 					"condition": "not equals",
-					"name": "ne"
+					"operator": "ne"
 				},
 
 				{
 					"condition": "ends with",
-					"name": "endswith"
+					"operator": "endswith"
 				},
 
 				{
 					"condition": "starts with",
-					"name": "startswith"
+					"operator": "startswith"
 				}
 			]
 		},
 
 		"Edm.Time": 
 		{
-			"conditions": 
+			"operators": 
 			[
 				{
 					"condition": "equals",
-					"name": "eq"
+					"operator": "eq"
 				},
 
 				{
 					"condition": "not equals",
-					"name": "ne"
+					"operator": "ne"
 				},
 
 				{
 					"condition": "after",
-					"name": "gt"
+					"operator": "gt"
 				},
 
 				{
 					"condition": "on or after",
-					"name": "ge"
+					"operator": "ge"
 				},
 
 				{
 					"condition": "before",
-					"name": "lt"
+					"operator": "lt"
 				},
 
 				{
 					"condition": "on or before",
-					"name": "le"
+					"operator": "le"
 				}
 			]
 		},
 
 		"Collection(rdf.langString)": 
 		{
-			"conditions": 
+			"operators": 
 			[
 				{
 					"condition": "contains",
-					"name": "substringof"
+					"operator": "substringof"
 				},
 
 				{
 					"condition": "equals",
-					"name": "eq"
+					"operator": "eq"
 				},
 
 				{
 					"condition": "not equals",
-					"name": "ne"
+					"operator": "ne"
 				},
 
 				{
 					"condition": "ends with",
-					"name": "endswith"
+					"operator": "endswith"
 				},
 
 				{
 					"condition": "starts with",
-					"name": "startswith"
+					"operator": "startswith"
 				}
 			]
 		},
 
 		"Collection(Edm.Binary)": 
 		{
-			"conditions": 
+			"operators": 
 			[
 				{
 					"condition": "equals",
-					"name": "eq"
+					"operator": "eq"
 				},
 
 				{
 					"condition": "not equals",
-					"name": "ne"
+					"operator": "ne"
 				},
 
 				{
 					"condition": "greater than",
-					"name": "gt"
+					"operator": "gt"
 				},
 
 				{
 					"condition": "greater than or equal",
-					"name": "ge"
+					"operator": "ge"
 				},
 
 				{
 					"condition": "less than",
-					"name": "lt"
+					"operator": "lt"
 				},
 
 				{
 					"condition": "less than or equal",
-					"name": "le"
+					"operator": "le"
 				}
 			]
 		},
 
 		"Collection(Edm.Boolean)": 
 		{
-			"conditions": 
+			"operators": 
 			[
 				{
 					"condition": "equals",
-					"name": "eq"
+					"operator": "eq"
 				},
 
 				{
 					"condition": "not equals",
-					"name": "ne"
+					"operator": "ne"
 				},
 
 				{
 					"condition": "greater than",
-					"name": "gt"
+					"operator": "gt"
 				},
 
 				{
 					"condition": "greater than or equal",
-					"name": "ge"
+					"operator": "ge"
 				},
 
 				{
 					"condition": "less than",
-					"name": "lt"
+					"operator": "lt"
 				},
 
 				{
 					"condition": "less than or equal",
-					"name": "le"
+					"operator": "le"
 				}
 			]
 		},
 
 		"Collection(Edm.Byte)": 
 		{
-			"conditions": 
+			"operators": 
 			[
 				{
 					"condition": "equals",
-					"name": "eq"
+					"operator": "eq"
 				},
 
 				{
 					"condition": "not equals",
-					"name": "ne"
+					"operator": "ne"
 				},
 
 				{
 					"condition": "greater than",
-					"name": "gt"
+					"operator": "gt"
 				},
 
 				{
 					"condition": "greater than or equal",
-					"name": "ge"
+					"operator": "ge"
 				},
 
 				{
 					"condition": "less than",
-					"name": "lt"
+					"operator": "lt"
 				},
 
 				{
 					"condition": "less than or equal",
-					"name": "le"
+					"operator": "le"
 				}
 			]
 		},
 
 		"Collection(Edm.DateTime)": 
 		{
-			"conditions": 
+			"operators": 
 			[
 				{
 					"condition": "equals",
-					"name": "eq"
+					"operator": "eq"
 				},
 
 				{
 					"condition": "not equals",
-					"name": "ne"
+					"operator": "ne"
 				},
 
 				{
 					"condition": "after",
-					"name": "gt"
+					"operator": "gt"
 				},
 
 				{
 					"condition": "on or after",
-					"name": "ge"
+					"operator": "ge"
 				},
 
 				{
 					"condition": "before",
-					"name": "lt"
+					"operator": "lt"
 				},
 
 				{
 					"condition": "on or before",
-					"name": "le"
+					"operator": "le"
 				}
 			]
 		},
 
 		"Collection(Edm.DateTimeOffset)": 
 		{
-			"conditions": 
+			"operators": 
 			[
 				{
 					"condition": "equals",
-					"name": "eq"
+					"operator": "eq"
 				},
 
 				{
 					"condition": "not equals",
-					"name": "ne"
+					"operator": "ne"
 				},
 
 				{
 					"condition": "greater than",
-					"name": "gt"
+					"operator": "gt"
 				},
 
 				{
 					"condition": "greater than or equal",
-					"name": "ge"
+					"operator": "ge"
 				},
 
 				{
 					"condition": "less than",
-					"name": "lt"
+					"operator": "lt"
 				},
 
 				{
 					"condition": "less than or equal",
-					"name": "le"
+					"operator": "le"
 				}
 			]
 		},
 
 		"Collection(Edm.Decimal)": 
 		{
-			"conditions": 
+			"operators": 
 			[
 				{
 					"condition": "equals",
-					"name": "eq"
+					"operator": "eq"
 				},
 
 				{
 					"condition": "not equals",
-					"name": "ne"
+					"operator": "ne"
 				},
 
 				{
 					"condition": "greater than",
-					"name": "gt"
+					"operator": "gt"
 				},
 
 				{
 					"condition": "greater than or equal",
-					"name": "ge"
+					"operator": "ge"
 				},
 
 				{
 					"condition": "less than",
-					"name": "lt"
+					"operator": "lt"
 				},
 
 				{
 					"condition": "less than or equal",
-					"name": "le"
+					"operator": "le"
 				}
 			]
 		},
 
 		"Collection(Edm.Double)": 
 		{
-			"conditions": 
+			"operators": 
 			[
 				{
 					"condition": "equals",
-					"name": "eq"
+					"operator": "eq"
 				},
 
 				{
 					"condition": "not equals",
-					"name": "ne"
+					"operator": "ne"
 				},
 
 				{
 					"condition": "greater than",
-					"name": "gt"
+					"operator": "gt"
 				},
 
 				{
 					"condition": "greater than or equal",
-					"name": "ge"
+					"operator": "ge"
 				},
 
 				{
 					"condition": "less than",
-					"name": "lt"
+					"operator": "lt"
 				},
 
 				{
 					"condition": "less than or equal",
-					"name": "le"
+					"operator": "le"
 				}
 			]
 		},
 
 		"Collection(Edm.Guid)": 
 		{
-			"conditions": 
+			"operators": 
 			[
 				{
 					"condition": "equals",
-					"name": "eq"
+					"operator": "eq"
 				},
 
 				{
 					"condition": "not equals",
-					"name": "ne"
+					"operator": "ne"
 				},
 
 				{
 					"condition": "greater than",
-					"name": "gt"
+					"operator": "gt"
 				},
 
 				{
 					"condition": "greater than or equal",
-					"name": "ge"
+					"operator": "ge"
 				},
 
 				{
 					"condition": "less than",
-					"name": "lt"
+					"operator": "lt"
 				},
 
 				{
 					"condition": "less than or equal",
-					"name": "le"
+					"operator": "le"
 				}
 			]
 		},
 
 		"Collection(Edm.Int16)": 
 		{
-			"conditions": 
+			"operators": 
 			[
 				{
 					"condition": "equals",
-					"name": "eq"
+					"operator": "eq"
 				},
 
 				{
 					"condition": "not equals",
-					"name": "ne"
+					"operator": "ne"
 				},
 
 				{
 					"condition": "greater than",
-					"name": "gt"
+					"operator": "gt"
 				},
 
 				{
 					"condition": "greater than or equal",
-					"name": "ge"
+					"operator": "ge"
 				},
 
 				{
 					"condition": "less than",
-					"name": "lt"
+					"operator": "lt"
 				},
 
 				{
 					"condition": "less than or equal",
-					"name": "le"
+					"operator": "le"
 				}
 			]
 		},
 
 		"Collection(Edm.Int32)": 
 		{
-			"conditions": 
+			"operators": 
 			[
 				{
 					"condition": "equals",
-					"name": "eq"
+					"operator": "eq"
 				},
 
 				{
 					"condition": "not equals",
-					"name": "ne"
+					"operator": "ne"
 				},
 
 				{
 					"condition": "greater than",
-					"name": "gt"
+					"operator": "gt"
 				},
 
 				{
 					"condition": "greater than or equal",
-					"name": "ge"
+					"operator": "ge"
 				},
 
 				{
 					"condition": "less than",
-					"name": "lt"
+					"operator": "lt"
 				},
 
 				{
 					"condition": "less than or equal",
-					"name": "le"
+					"operator": "le"
 				}
 			]
 		},
 
 		"Collection(Edm.Int64)": 
 		{
-			"conditions": 
+			"operators": 
 			[
 				{
 					"condition": "equals",
-					"name": "eq"
+					"operator": "eq"
 				},
 
 				{
 					"condition": "not equals",
-					"name": "ne"
+					"operator": "ne"
 				},
 
 				{
 					"condition": "greater than",
-					"name": "gt"
+					"operator": "gt"
 				},
 
 				{
 					"condition": "greater than or equal",
-					"name": "ge"
+					"operator": "ge"
 				},
 
 				{
 					"condition": "less than",
-					"name": "lt"
+					"operator": "lt"
 				},
 
 				{
 					"condition": "less than or equal",
-					"name": "le"
+					"operator": "le"
 				}
 			]
 		},
 
 		"Collection(Edm.SByte)": 
 		{
-			"conditions": 
+			"operators": 
 			[
 				{
 					"condition": "equals",
-					"name": "eq"
+					"operator": "eq"
 				},
 
 				{
 					"condition": "not equals",
-					"name": "ne"
+					"operator": "ne"
 				},
 
 				{
 					"condition": "greater than",
-					"name": "gt"
+					"operator": "gt"
 				},
 
 				{
 					"condition": "greater than or equal",
-					"name": "ge"
+					"operator": "ge"
 				},
 
 				{
 					"condition": "less than",
-					"name": "lt"
+					"operator": "lt"
 				},
 
 				{
 					"condition": "less than or equal",
-					"name": "le"
+					"operator": "le"
 				}
 			]
 		},
 
 		"Collection(Edm.Single)": 
 		{
-			"conditions": 
+			"operators": 
 			[
 				{
 					"condition": "equals",
-					"name": "eq"
+					"operator": "eq"
 				},
 
 				{
 					"condition": "not equals",
-					"name": "ne"
+					"operator": "ne"
 				},
 
 				{
 					"condition": "greater than",
-					"name": "gt"
+					"operator": "gt"
 				},
 
 				{
 					"condition": "greater than or equal",
-					"name": "ge"
+					"operator": "ge"
 				},
 
 				{
 					"condition": "less than",
-					"name": "lt"
+					"operator": "lt"
 				},
 
 				{
 					"condition": "less than or equal",
-					"name": "le"
+					"operator": "le"
 				}
 			]
 		},
 
 		"Collection(Edm.String)": 
 		{
-			"conditions": 
+			"operators": 
 			[
 				{
 					"condition": "contains",
-					"name": "substringof"
+					"operator": "substringof"
 				},
 
 				{
 					"condition": "equals",
-					"name": "eq"
+					"operator": "eq"
 				},
 
 				{
 					"condition": "not equals",
-					"name": "ne"
+					"operator": "ne"
 				},
 
 				{
 					"condition": "ends with",
-					"name": "endswith"
+					"operator": "endswith"
 				},
 
 				{
 					"condition": "starts with",
-					"name": "startswith"
+					"operator": "startswith"
 				}
 			]
 		},
 
 		"Collection(Edm.Time)": 
 		{
-			"conditions": 
+			"operators": 
 			[
 				{
 					"condition": "equals",
-					"name": "eq"
+					"operator": "eq"
 				},
 
 				{
 					"condition": "not equals",
-					"name": "ne"
+					"operator": "ne"
 				},
 
 				{
 					"condition": "after",
-					"name": "gt"
+					"operator": "gt"
 				},
 
 				{
 					"condition": "on or after",
-					"name": "ge"
+					"operator": "ge"
 				},
 
 				{
 					"condition": "before",
-					"name": "lt"
+					"operator": "lt"
 				},
 
 				{
 					"condition": "on or before",
-					"name": "le"
+					"operator": "le"
 				}
 			]
 		}

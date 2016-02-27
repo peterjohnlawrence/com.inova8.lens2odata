@@ -15,7 +15,7 @@ sap.ui.core.UIComponent.extend("Components.queryForm.Component", {
 		// manifest : "json",
 		properties : {
 			title : "string",
-			//serviceQueriesModel : "object",
+			// serviceQueriesModel : "object",
 			odataModel : "object",
 			queryModel : "object",
 			service : "object",
@@ -63,14 +63,14 @@ Components.queryForm.Component.prototype.createContent = function() {
 			flexible : true,
 			resizable : true,
 			autoResizable : true
-		}) 
-//		, new sap.ui.table.Column("path", {
-//			label : "Path",
-//			template : new sap.m.Text({text: "{viewModel>path}"}),
-//			flexible : true,
-//			resizable : true,
-//			autoResizable : true
-//		})
+		})
+		// , new sap.ui.table.Column("path", {
+		// label : "Path",
+		// template : new sap.m.Text({text: "{viewModel>path}"}),
+		// flexible : true,
+		// resizable : true,
+		// autoResizable : true
+		// })
 		],
 		// fixedColumnCount : 1,
 		width : "100%",
@@ -79,10 +79,9 @@ Components.queryForm.Component.prototype.createContent = function() {
 		enableColumnReordering : false,
 		expandFirstLevel : true,
 		// Only Odata.v2 expandTolevel : 3,
-		toolbar : new sparqlish.control.serviceQueryMenu().setModel(sap.ui.getCore().getModel("queryModel"), "queryModel").attachPreview(
-				function(oEvent) {
-					self.previewResults(self);
-				}).attachQueryChanged(function(oEvent) {
+		toolbar : new sparqlish.control.serviceQueryMenu().setModel(sap.ui.getCore().getModel("queryModel"), "queryModel").attachPreview(function(oEvent) {
+			self.previewResults(self);
+		}).attachQueryChanged(function(oEvent) {
 			sap.ui.core.routing.Router.getRouter("lensRouter").navTo("query", {
 				service : oEvent.getParameter("service").code,
 				querycode : oEvent.getParameter("query").code,
@@ -213,12 +212,12 @@ Components.queryForm.Component.prototype.refreshQuery = function(self) {
 		this.oTable.setVisibleRowCount(1);
 	}
 	self.oTable.getModel("viewModel").refresh();
-	self.oTable.rerender();
+//	self.oTable.rerender();
 };
 Components.queryForm.Component.prototype.setService = function(service, query, params) {
 	var self = this;
-	self.setProperty("params",params);
-	if (jQuery.isEmptyObject( self.getQuery()) || (self.getQuery().oAST !== query) || (self.getService() !== service)) {
+	self.setProperty("params", params);
+	if (jQuery.isEmptyObject(self.getQuery()) || (self.getQuery().oAST !== query) || (self.getService() !== service)) {
 		var odataModel = utils.getCachedOdataModel(service, function() {
 			self.oTable.setBusy(false);
 		}, function(odataModel) {
@@ -265,7 +264,7 @@ Components.queryForm.Component.prototype.setService = function(service, query, p
 				}
 				self.oTable.getToolbar().oQuerySelect.setSelectedKey(query.code);
 				self.setQuery(query);
-				self.setProperty("queryCode",query.code)
+				self.setProperty("queryCode", query.code)
 
 			}, function() {
 				self.oTable.setBusy(false);
@@ -307,47 +306,52 @@ Components.queryForm.Component.prototype.setQuery = function(queryModel) {
 	}
 };
 Components.queryForm.Component.prototype.previewResults = function(self) {
-	var query = this.getProperty("query").init(this.getProperty("query").oAST);
-	var serviceURL = utils.proxyUrl(this.getProperty("service").serviceUrl);
-	var odataURL = serviceURL + "/" + query.odataURI() + "&$top=10";
-	self.clearResults(self);
-	self.oResultsModel = new sap.ui.model.json.JSONModel({});
-	if (!jQuery.isEmptyObject(odataURL)) {
-		self.oTable.setBusy(true);// .setBusyIndicatorDelay(0);
-		self.oResultsModel.loadData(odataURL);
-		self.oResultsModel.attachRequestCompleted(function(oEvent) {
-			if (oEvent.getParameter("success")) {
-				var nResults = 0;
-				self.oResultsModel.sBindPath = null;
-				var oData = self.oResultsModel.getData();
-				if (jQuery.isEmptyObject(oData.d.results)) {
-					if (oData.d.length > 0) {
-						self.oResultsModel.sBindPath = "/d";
-					} else {
-						sap.m.MessageToast.show(sap.ui.getCore().getModel("i18nModel").getProperty("queryForm.noResults"));
-					}
-				} else {
-					nResults = oData.d.results.length;
-					if (nResults === 0) {
-						sap.m.MessageToast.show(sap.ui.getCore().getModel("i18nModel").getProperty("queryForm.noResults"));
-					} else {
-						self.oResultsModel.sBindPath = "/d/results";
-					}
-				}
-				self.oTable.setBusy(false);
-				self.oTable.setModel(self.oResultsModel, "resultsModel");
-				self.oTable.rerender();
+	try {
 
-			}
-			// TODO not required with Requestfailed handler
-			// else {
-			// sap.m.MessageToast.show(oEvent.getParameter("errorobject").statusText);
-			// }
-		}).attachRequestFailed(function(oEvent) {
-			sap.m.MessageToast.show(sap.ui.getCore().getModel("i18nModel").getProperty("queryForm.queryResponseError") + oEvent.getParameter("statusText"));
-			self.oTable.setBusy(false);
-		});
-	} else {
-		sap.m.MessageToast.show(sap.ui.getCore().getModel("i18nModel").getProperty("queryForm.queryUndefined"));
+		var query = this.getProperty("query").init(this.getProperty("query").oAST);
+		var serviceURL = utils.proxyUrl(this.getProperty("service").serviceUrl);
+		var odataURL = serviceURL + "/" + query.odataURI() + "&$top=10";
+		self.clearResults(self);
+		self.oResultsModel = new sap.ui.model.json.JSONModel({});
+		if (!jQuery.isEmptyObject(odataURL)) {
+			self.oTable.setBusy(true);// .setBusyIndicatorDelay(0);
+			self.oResultsModel.loadData(odataURL);
+			self.oResultsModel.attachRequestCompleted(function(oEvent) {
+				if (oEvent.getParameter("success")) {
+					var nResults = 0;
+					self.oResultsModel.sBindPath = null;
+					var oData = self.oResultsModel.getData();
+					if (jQuery.isEmptyObject(oData.d.results)) {
+						if (oData.d.length > 0) {
+							self.oResultsModel.sBindPath = "/d";
+						} else {
+							sap.m.MessageToast.show(sap.ui.getCore().getModel("i18nModel").getProperty("queryForm.noResults"));
+						}
+					} else {
+						nResults = oData.d.results.length;
+						if (nResults === 0) {
+							sap.m.MessageToast.show(sap.ui.getCore().getModel("i18nModel").getProperty("queryForm.noResults"));
+						} else {
+							self.oResultsModel.sBindPath = "/d/results";
+						}
+					}
+					self.oTable.setBusy(false);
+					self.oTable.setModel(self.oResultsModel, "resultsModel");
+					self.oTable.rerender();
+
+				}
+				// TODO not required with Requestfailed handler
+				// else {
+				// sap.m.MessageToast.show(oEvent.getParameter("errorobject").statusText);
+				// }
+			}).attachRequestFailed(function(oEvent) {
+				sap.m.MessageToast.show(sap.ui.getCore().getModel("i18nModel").getProperty("queryForm.queryResponseError") + oEvent.getParameter("statusText"));
+				self.oTable.setBusy(false);
+			});
+		} else {
+			sap.m.MessageToast.show(sap.ui.getCore().getModel("i18nModel").getProperty("queryForm.queryUndefined"));
+		}
+	} catch (e) {
+		sap.m.MessageToast.show(e);
 	}
 };

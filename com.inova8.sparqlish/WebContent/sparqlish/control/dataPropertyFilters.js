@@ -73,7 +73,7 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 				visible : true,
 				text : "[+]",
 				icon : "add-filter",
-				tooltip : "{i18nModel>addDataFilterTooltip}",
+				tooltip : "{i18nModel>dataPropertyFilters.tooltip}",
 				press : function(oEvent) {
 					var currentModel = self.getModel("queryModel");
 					var currentContext = oEvent.getSource().getBindingContext("queryModel");
@@ -86,7 +86,7 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 							"_class" : "DataPropertyFilters",
 							"dataPropertyFilter" : {
 								"_class" : "DataPropertyFilter",
-								"condition" : "[enter condition]",
+								"operator" : "[enter operator]",
 								"type" : type
 							}
 						};
@@ -94,26 +94,26 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 						if (jQuery.isEmptyObject(currentModelData.dataPropertyFilter)) {
 							currentModelData.dataPropertyFilter = {
 								"_class" : "DataPropertyFilter",
-								"condition" : "[enter condition]",
+								"operator" : "[enter operator]",
 								"type" : type
 							}
 						} else if (jQuery.isEmptyObject(currentModelData.conjunctionFilters)) {
 							currentModelData.conjunctionFilters = [ {
 								"_class" : "ConjunctionFilter",
-								"filterConjunction" : sap.ui.getCore().getModel("i18nModel").getProperty("conjunctionClauseAnd"),
+								"filterConjunction" : sap.ui.getCore().getModel("i18nModel").getProperty("dataPropertyFilters.and"),
 								"dataPropertyFilter" : {
 									"_class" : "DataPropertyFilter",
-									"condition" : "[enter condition]",
+									"operator" : "[enter operator]",
 									"type" : type
 								}
 							} ]
 						} else {
 							currentModelData.conjunctionFilters.push({
 								"_class" : "ConjunctionFilter",
-								"filterConjunction" : sap.ui.getCore().getModel("i18nModel").getProperty("conjunctionClauseAnd"),
+								"filterConjunction" : sap.ui.getCore().getModel("i18nModel").getProperty("dataPropertyFilters.and"),
 								"dataPropertyFilter" : {
 									"_class" : "DataPropertyFilter",
-									"condition" : "[enter condition]",
+									"operator" : "[enter operator]",
 									"type" : type
 								}
 							});

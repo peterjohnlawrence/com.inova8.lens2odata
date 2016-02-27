@@ -184,12 +184,13 @@ sap.ui.base.Object
 							};
 							if (!jQuery.isEmptyObject(this.oClauses)) {
 								// TODO when do we need to prefix resultContext with /d ?
-								extendj(oViewModel.root, this.oClauses.viewModel(this.sPath, this.oClauseReferences, entityType.name, "", "{path}/{=P0}"), 0);//"/d/results/{=P0}"), 0);
+								extendj(oViewModel.root, this.oClauses.viewModel(this.sPath, this.oClauseReferences, entityType.name, "", "{path}/{=P0}"), 0);// "/d/results/{=P0}"),
+																																																																							// 0);
 							}
 							extendj(oViewModel.root, {
 								"path" : this.sPath,
 								"resultsPath" : "",
-								"resultsContext" : "{path}/{=P0}",//"/d/results/{=P0}",
+								"resultsContext" : "{path}/{=P0}",// "/d/results/{=P0}",
 								"sparqlish" : this.sparqlish(),
 								"label" : this.sLabel,
 								"hidden" : this.bHidden,
@@ -370,15 +371,17 @@ sap.ui.base.Object.extend("Clauses", {
 				var iIndex = i + 1;
 				var oConjunctionClause = {};
 				oConjunctionClause[iIndex] = this.oConjunctionClauses[i].viewModel(sPath + "clauses/conjunctionClauses/" + (iIndex - 1) + "/", oClauseReferences,
-//				oConjunctionClause[iIndex] = this.oConjunctionClauses[i].viewModel(sPath + "clauses/conjunctionClauses/" + (iIndex - 1) + "/clause/", oClauseReferences,
-						sKeyVariable, sResultsPath, sResultsContext, iClauseIndex);
+				// oConjunctionClause[iIndex] = this.oConjunctionClauses[i].viewModel(sPath + "clauses/conjunctionClauses/" +
+				// (iIndex - 1) + "/clause/", oClauseReferences,
+				sKeyVariable, sResultsPath, sResultsContext, iClauseIndex);
 				extendj(oViewModel, oConjunctionClause);
 			}
 		}
 		if (!jQuery.isEmptyObject(this.oClause)) {
 			extendj(oViewModel, {
 				"0" : this.oClause.viewModel(sPath + "clauses/clause/", oClauseReferences, sKeyVariable, sResultsPath, sResultsContext, iClauseIndex)
-//				"0" : this.oClause.viewModel(sPath + "clauses/", oClauseReferences, sKeyVariable, sResultsPath, sResultsContext, iClauseIndex)
+			// "0" : this.oClause.viewModel(sPath + "clauses/", oClauseReferences, sKeyVariable, sResultsPath,
+			// sResultsContext, iClauseIndex)
 			});
 		}
 		return oViewModel;
@@ -556,8 +559,9 @@ sap.ui.base.Object.extend("Clause", {
 		this.sNameVariable = "";
 		if (!jQuery.isEmptyObject(this.oPropertyClause)) {
 			extendj(oViewModel, this.oPropertyClause.viewModel(sPath + "clause/propertyClause/", oClauseReferences, sKeyVariable, sResultsPath, sResultsContext,
-//			extendj(oViewModel, this.oPropertyClause.viewModel(sPath + "propertyClause/", oClauseReferences, sKeyVariable, sResultsPath, sResultsContext,
-					iIndex));
+			// extendj(oViewModel, this.oPropertyClause.viewModel(sPath + "propertyClause/", oClauseReferences, sKeyVariable,
+			// sResultsPath, sResultsContext,
+			iIndex));
 			if (jQuery.isEmptyObject(this.oPropertyClause.oPropertyClause.sDataProperty)) {
 				// assume it must be an objectProperty
 				this.sNameVariable = sPrefix + this.oContext.sObject + sLabelPostfix;
@@ -892,7 +896,7 @@ sap.ui.base.Object.extend("DataPropertyFilter", {
 		try {
 			if (oAST["_class"] != "DataPropertyFilter")
 				throw "notFilterException";
-			this.sCondition = oAST["condition"];
+			this.sOperator = oAST["operator"];
 			this.sValue = oAST["value"];
 			this.sDatatype = oAST["datatype"];
 			this.sType = oAST["type"];
@@ -902,15 +906,15 @@ sap.ui.base.Object.extend("DataPropertyFilter", {
 		}
 	},
 	sparql : function() {
-		var sSparql = sparqlFilterCondition(sPrefix /* ?o */+ this.oContext.sObject, this.sCondition, this.sValue, this.sType);
+		var sSparql = sparqlFilterOperator(sPrefix /* ?o */+ this.oContext.sObject, this.sOperator, this.sValue, this.sType);
 		return sSparql;
 	},
 	sparqlish : function() {
-		var sSparqlish = this.sCondition + " " + this.sValue;
+		var sSparqlish = this.sOperator + " " + this.sValue;
 		return sSparqlish;
 	},
 	odataFilter : function(sVersion, oParameters) {
-		var sOdataFilter = odataFilterCondition(sVersion, this.oContext.sOdataEntityPath, this.sCondition, this.sValue, this.sType, oParameters);
+		var sOdataFilter = odataFilterOperator(sVersion, this.oContext.sOdataEntityPath, this.sOperator, this.sValue, this.sType, oParameters);
 		return sOdataFilter;
 	},
 	odataSelect : function(sVersion) {
@@ -1315,55 +1319,42 @@ odataFilterConjunction = function(sVersion, sConjunction) {
 		throw "illegalClauseConjunction";
 	}
 };
-sparqlFilterCondition = function(sVariable, sCondition, sValue, sType) {
+sparqlFilterOperator = function(sVariable, sOperator, sValue, sType) {
 	var sSparqlValue = sparqlValue(sValue, sType);
-	switch (sCondition) {
-	case "=":
-	case "is":
-	case "equals": {
+	switch (sOperator) {
+	case "eq": {
 		return "(" + sVariable + "= " + sSparqlValue + ")";
 	}
 		;
-	case "!=":
-	case "is not":
-	case "not equals": {
+	case "ne": {
 		return "(" + sVariable + " != " + sSparqlValue + ")";
 	}
 		;
-	case ">":
-	case "after":
-	case "greater than": {
+	case "gt": {
 		return "(" + sVariable + " > " + sSparqlValue + ")";
 	}
 		;
-	case ">=":
-	case "on or after":
-	case "greater than or equal": {
+	case "ge": {
 		return "(" + sVariable + " >= " + sSparqlValue + ")";
 	}
 		;
-	case "<":
-	case "before":
-	case "less than": {
+	case "lt": {
 		return "(" + sVariable + " < " + sSparqlValue + ")";
 	}
 		;
-	case "<=":
-	case "on or before":
-	case "less than or equal": {
+	case "le": {
 		return "(" + sVariable + " <= " + sSparqlValue + ")";
 	}
 		;
-	case "containing":
-	case "contains": {
+	case "substringof": {
 		return "(REGEX(" + sVariable + ", " + sSparqlValue + ",'i'))";
 	}
 		;
-	case "ends with": {
+	case "endswith": {
 		return "*ERROR*";
 	}
 		;
-	case "starts with": {
+	case "startswith": {
 		return "*ERROR*";
 	}
 		;
@@ -1371,58 +1362,45 @@ sparqlFilterCondition = function(sVariable, sCondition, sValue, sType) {
 		return "*ERROR*";
 	}
 		;
-	case "after": {
-		return "(" + sVariable + " > " + sSparqlValue + ")";
-	}
-		;
-	case "before": {
-		return "(" + sVariable + " < " + sSparqlValue + ")";
-	}
-		;
+//	case "after": {
+//		return "(" + sVariable + " > " + sSparqlValue + ")";
+//	}
+//		;
+//	case "before": {
+//		return "(" + sVariable + " < " + sSparqlValue + ")";
+//	}
+//		;
 	default:
-		throw "illegalFilterCondition";
+		throw "illegalFilterOperator";
 	}
 };
-odataFilterCondition = function(sVersion, sVariable, sCondition, sValue, sType, oParameters) {
-	switch (sCondition) {
-	case "=":
-	case "is":
-	case "equals": {
+odataFilterOperator = function(sVersion, sVariable, sOperator, sValue, sType, oParameters) {
+	switch (sOperator) {
+	case "eq": {
 		return "(" + sVariable + " eq " + odataValue(sVersion, sValue, sType, oParameters) + ")";
 	}
 		;
-	case "!=":
-	case "is not":
-	case "not equals": {
+	case "ne": {
 		return "(" + sVariable + " ne " + odataValue(sVersion, sValue, sType, oParameters) + ")";
 	}
 		;
-	case ">":
-	case "after":
-	case "greater than": {
+	case "gt": {
 		return "(" + sVariable + " gt " + odataValue(sVersion, sValue, sType, oParameters) + ")";
 	}
 		;
-	case ">=":
-	case "on or after":
-	case "greater than or equal": {
+	case "ge": {
 		return "(" + sVariable + " ge " + odataValue(sVersion, sValue, sType, oParameters) + ")";
 	}
 		;
-	case "<":
-	case "before":
-	case "less than": {
+	case "lt": {
 		return "(" + sVariable + " lt " + odataValue(sVersion, sValue, sType, oParameters) + ")";
 	}
 		;
-	case "<=":
-	case "on or before":
-	case "less than or equal": {
+	case "le": {
 		return "(" + sVariable + " le " + odataValue(sVersion, sValue, sType, oParameters) + ")";
 	}
 		;
-	case "containing":
-	case "contains": {
+	case "substringof": {
 		// TODO
 		if (sVersion == "V4") {
 			return "(contains(" + sVariable + "," + odataValue(sVersion, sValue, sType, oParameters) + "))";
@@ -1431,28 +1409,38 @@ odataFilterCondition = function(sVersion, sVariable, sCondition, sValue, sType, 
 		}
 	}
 		;
-	case "ends with": {
-		return "*ERROR*";
+	case "endswith": {
+		// TODO
+		if (sVersion == "V4") {
+			return "(contains(" + sVariable + "," + odataValue(sVersion, sValue, sType, oParameters) + "))";
+		} else {
+			return "(endswith(" + odataValue(sVersion, sValue, sType, oParameters) + "," + sVariable + "))";
+		}
 	}
 		;
-	case "starts with": {
-		return "*ERROR*";
+	case "startswith": {
+		// TODO
+		if (sVersion == "V4") {
+			return "(contains(" + sVariable + "," + odataValue(sVersion, sValue, sType, oParameters) + "))";
+		} else {
+			return "(startswith(" + odataValue(sVersion, sValue, sType, oParameters) + "," + sVariable + "))";
+		}
 	}
 		;
 	case "between": {
 		return "*ERROR*";
 	}
 		;
-	case "after": {
-		return "(" + sVariable + " gt " + odataValue(sVersion, sValue, sType, oParameters) + ")";
-	}
-		;
-	case "before": {
-		return "(" + sVariable + " lt " + odataValue(sVersion, sValue, sType, oParameters) + ")";
-	}
-		;
+//	case "gt": {
+//		return "(" + sVariable + " gt " + odataValue(sVersion, sValue, sType, oParameters) + ")";
+//	}
+//		;
+//	case "lt": {
+//		return "(" + sVariable + " lt " + odataValue(sVersion, sValue, sType, oParameters) + ")";
+//	}
+//		;
 	default:
-		throw "illegalFilterCondition";
+		throw "illegalFilterOperator";
 	}
 };
 odataValue = function(sVersion, sValue, sType, oParameters) {

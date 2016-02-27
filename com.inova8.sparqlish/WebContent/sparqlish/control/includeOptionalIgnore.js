@@ -31,10 +31,10 @@ sap.m.Link.extend("sparqlish.control.includeOptionalIgnore", {
 		var self = this;
 		self.setAggregation("_includeOptionalIgnore", new sap.m.Link({
 			text : "{= ${queryModel>ignore} ? 'excl':'incl'  }",// "{i18nModel>propertyClauseWith}",
-			tooltip : "{i18nModel>propertyClauseTooltipWith}",
+			tooltip : "{i18nModel>includeOptionalIgnore.withTooltip}",
 			press : function(oEvent) {
 				self.oIncludeOptionalIgnoreMenuItemDelete = new sap.ui.unified.MenuItem({
-					text : '{i18nModel>propertyClauseDelete}',
+					text : '{i18nModel>includeOptionalIgnore.delete}',
 					icon : sap.ui.core.IconPool.getIconURI("delete")
 				});
 				self.oIncludeOptionalIgnoreMenuItemDelete.attachSelect(function(oEvent) {
@@ -42,11 +42,11 @@ sap.m.Link.extend("sparqlish.control.includeOptionalIgnore", {
 				});
 				self.oIncludeOptionalIgnoreMenu = new sap.ui.unified.Menu({
 					items : [ new sap.ui.unified.MenuItem({
-						text : '{i18nModel>propertyClauseWith}'
+						text : '{i18nModel>includeOptionalIgnore.with}'
 					}), new sap.ui.unified.MenuItem({
-						text : '{i18nModel>propertyClauseOptionallyWith}'
+						text : '{i18nModel>includeOptionalIgnore.optionallyWith}'
 					}), new sap.ui.unified.MenuItem({
-						text : '{i18nModel>propertyClauseIgnoreWith}'
+						text : '{i18nModel>includeOptionalIgnore.ignoreWith}'
 					}) ]
 				});
 				if (!self.getConjunction()) {
@@ -63,25 +63,25 @@ sap.m.Link.extend("sparqlish.control.includeOptionalIgnore", {
 								var currentContext = self.getBindingContext("queryModel");
 								var currentModelData = currentModel.getProperty("", currentContext);
 								switch (sIncludeOptionalIgnore) {
-								case sap.ui.getCore().getModel("i18nModel").getProperty("propertyClauseWith"):
+								case sap.ui.getCore().getModel("i18nModel").getProperty("includeOptionalIgnore.with"):
 									currentModelData.ignore = false;
 									currentModelData.optional = false;
 									currentModelData.includeOptionalIgnore = "include";
 									self.getAggregation("_includeOptionalIgnore").setTooltip(sap.ui.getCore().getModel("i18nModel").getProperty("propertyClauseTooltipWith"));
 									break;
-								case sap.ui.getCore().getModel("i18nModel").getProperty("propertyClauseOptionallyWith"):
+								case sap.ui.getCore().getModel("i18nModel").getProperty("includeOptionalIgnore.optionallyWith"):
 									currentModelData.ignore = false;
 									currentModelData.optional = true;
 									currentModelData.includeOptionalIgnore = "optional";
 									self.getAggregation("_includeOptionalIgnore").setTooltip(
-											sap.ui.getCore().getModel("i18nModel").getProperty("propertyClauseTooltipOptionallyWith"));
+											sap.ui.getCore().getModel("i18nModel").getProperty("includeOptionalIgnore.optionallyWithTooltip"));
 									break;
-								case sap.ui.getCore().getModel("i18nModel").getProperty("propertyClauseIgnoreWith"):
+								case sap.ui.getCore().getModel("i18nModel").getProperty("includeOptionalIgnore.ignoreWith"):
 									currentModelData.ignore = true;
 									currentModelData.optional = false;
 									currentModelData.includeOptionalIgnore = "ignore";
 									self.getAggregation("_includeOptionalIgnore").setTooltip(
-											sap.ui.getCore().getModel("i18nModel").getProperty("propertyClauseTooltipIgnoreWith"));
+											sap.ui.getCore().getModel("i18nModel").getProperty("includeOptionalIgnore.ignoreWithTooltip"));
 									break;
 								}
 								currentModel.refresh();
@@ -98,11 +98,11 @@ sap.m.Link.extend("sparqlish.control.includeOptionalIgnore", {
 		var oClause = oControl.getModel("queryModel").getProperty("", oControl.getBindingContext("queryModel"));
 		var oText = "";
 		if (oClause.ignore) {
-			oText = sap.ui.getCore().getModel("i18nModel").getProperty("propertyClauseIgnoreWith");
+			oText = sap.ui.getCore().getModel("i18nModel").getProperty("includeOptionalIgnore.ignoreWith");
 		} else if (oClause.optional) {
-			oText = sap.ui.getCore().getModel("i18nModel").getProperty("propertyClauseOptionallyWith");
+			oText = sap.ui.getCore().getModel("i18nModel").getProperty("includeOptionalIgnore.optionallyWith");
 		} else {
-			oText = sap.ui.getCore().getModel("i18nModel").getProperty("propertyClauseWith");
+			oText = sap.ui.getCore().getModel("i18nModel").getProperty("includeOptionalIgnore.with");
 		}
 		oRm.renderControl(oControl.getAggregation("_includeOptionalIgnore").setText(oText));
 	}

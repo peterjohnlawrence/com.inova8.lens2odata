@@ -83,7 +83,7 @@ Lens.Component.prototype.init = function() {
 	var oI18n = new sap.ui.model.resource.ResourceModel({
 		bundleName : "i18n.lens"
 	});
-	sap.ui.getCore().setModel(oI18n, "i18n");
+//	sap.ui.getCore().setModel(oI18n, "i18n");
 	sap.ui.getCore().setModel(oI18n, "i18nModel");
 
 	// queryModel>

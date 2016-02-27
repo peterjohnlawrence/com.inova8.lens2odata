@@ -43,15 +43,15 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 						items : [ new sap.ui.unified.MenuItem({
 							text : '{i18nModel>dataPropertyClauseAnd}'
 						}), new sap.ui.unified.MenuItem({
-							text : '{i18nModel>dataPropertyClauseOr}'
+							text : '{i18nModel>dataPropertyConjunctionFilter.and}'
 						}), new sap.ui.unified.MenuItem({
-							text : '{i18nModel>dataPropertyClauseDELETE}',
+							text : '{i18nModel>dataPropertyConjunctionFilter.delete}',
 							icon : sap.ui.core.IconPool.getIconURI("delete")
 						}) ]
 					});
 					oConjunctionMenu.attachItemSelect(function(oEvent) {
 						var selectedItem = oEvent.getParameter("item").getText();
-						if (selectedItem == sap.ui.getCore().getModel("i18nModel").getProperty("dataPropertyClauseDELETE")) {
+						if (selectedItem == sap.ui.getCore().getModel("i18nModel").getProperty("dataPropertyConjunctionFilter.delete")) {
 							// TODO add handler
 							me.fireDeleted();
 						} else {

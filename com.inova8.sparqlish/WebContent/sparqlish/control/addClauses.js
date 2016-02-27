@@ -25,10 +25,10 @@ sap.ui.commons.Link.extend("sparqlish.control.addClauses", {
 		self.oAddClauseLink = new sparqlish.control.extendFilter({
 			visible : true,
 			icon : "add-process",
-			tooltip : "{i18nModel>addClauseTooltip}"
+			tooltip : "{i18nModel>addClause.tooltip}"
 		});
 		self.oDialog = new sap.m.P13nDialog({
-			title : "{i18nModel>conceptAddClausesTitle}",
+			title : "{i18nModel>addClause.title}",
 			cancel : function() {
 				self.oDialog.close();
 			},
@@ -44,7 +44,7 @@ sap.ui.commons.Link.extend("sparqlish.control.addClauses", {
 
 		self.oDialog.bindElement("queryModel>");
 		self.oObjectPropertyList = new sap.m.P13nColumnsPanel({
-			title : "{i18nModel>navigationProperties}",
+			title : "{i18nModel>addClause.navigationProperties}",
 			items : {
 				path : "entityTypeModel>/navigationProperty",
 				template : new sap.m.P13nItem({
@@ -55,7 +55,7 @@ sap.ui.commons.Link.extend("sparqlish.control.addClauses", {
 		});
 
 		self.oDataPropertyList = new sap.m.P13nColumnsPanel({
-			title : "{i18nModel>dataProperties}",
+			title : "{i18nModel>addClause.dataProperties}",
 			items : {
 				path : "entityTypeModel>/property",
 				template : new sap.m.P13nItem({

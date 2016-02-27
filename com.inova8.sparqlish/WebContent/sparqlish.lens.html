@@ -67,7 +67,7 @@ sap.ui.getCore().setModel(oMetaModel, "metaModel");
 var i18nModel = new sap.ui.model.resource.ResourceModel({
 	bundleUrl : [ ".", "i18n/messageBundle.properties" ].join("/")
 });
-sap.ui.getCore().setModel(i18nModel, "i18n");
+sap.ui.getCore().setModel(i18nModel, "i18nModel");
 
 var oQueryModel = new sap.ui.model.json.JSONModel();
 oQueryModel.loadData("config/service.query.test.json", null, false);

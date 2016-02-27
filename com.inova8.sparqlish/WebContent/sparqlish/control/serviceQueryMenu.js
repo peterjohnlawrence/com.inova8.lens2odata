@@ -8,11 +8,11 @@ sap.m.OverflowToolbar.extend("sparqlish.control.serviceQueryMenu", {
 		properties : {
 			serviceUrl : {
 				type : "string",
-				defaultValue : "{i18nModel>selectService}"
+				defaultValue : "{i18nModel>queryForm.selectService}"
 			},
 			query : {
 				type : "string",
-				defaultValue : "{i18nModel>selectQuery}"
+				defaultValue : "{i18nModel>queryForm.selectQuery}"
 			},
 		},
 		aggregations : {
@@ -42,7 +42,7 @@ sap.m.OverflowToolbar.extend("sparqlish.control.serviceQueryMenu", {
 	init : function() {
 		var self = this;
 		self.oServiceSelect = new sap.m.ActionSelect({
-			tooltip : "{i18nModel>serviceSelectTooltip}",
+			tooltip : "{i18nModel>queryForm.serviceSelectTooltip}",
 			items : {
 				path : "queryModel>/services",
 				sorter : {
@@ -427,15 +427,15 @@ sap.m.OverflowToolbar.extend("sparqlish.control.serviceQueryMenu", {
 			}
 		}));
 		self.oPreview = new sap.m.Button({
-			text : "{i18nModel>preview}",
+			text : "{i18nModel>queryForm.preview}",
 			icon : sap.ui.core.IconPool.getIconURI("search"),
 			press : function(oEvent) {
 				self.firePreview({})
 			}
 		});
 		self.oEnterQueryParameters = new sap.m.Button({
-			text : "{i18nModel>enterQueryParameters}",
-			tooltip : "{i18nModel>enterQueryParametersTooltip}",
+			text : "{i18nModel>queryForm.parameterEdit}",
+			tooltip : "{i18nModel>queryForm.parameterEditTooltip}",
 			icon : sap.ui.core.IconPool.getIconURI("form"),
 			press : function(oEvent) {
 				var oQueryContext = self.oQuerySelect.getSelectedItem().getBindingContext("queryModel");
@@ -445,21 +445,21 @@ sap.m.OverflowToolbar.extend("sparqlish.control.serviceQueryMenu", {
 					enterQueryParametersDialog.setQueryContext(oQueryContext);
 					enterQueryParametersDialog.open();
 				} else {
-					sap.m.MessageToast.show(sap.ui.getCore().getModel("i18nModel").getProperty("noQueryParams"))
+					sap.m.MessageToast.show(sap.ui.getCore().getModel("i18nModel").getProperty("queryForm.noParameters"))
 				}
 			}
 		});
 		self.oUndo = new sap.m.Button({
-			text : "{i18nModel>undo}",
-			tooltip : "{i18nModel>undoTooltip}",
+			text : "{i18nModel>queryForm.undo}",
+			tooltip : "{i18nModel>queryForm.undoTooltip}",
 			icon : sap.ui.core.IconPool.getIconURI("undo"),
 			press : function(oEvent) {
 				self.fireUndo(oEvent);
 			}
 		});
 		self.oSave = new sap.m.Button({
-			text : "{i18nModel>save}",
-			tooltip : "{i18nModel>saveTooltip}",
+			text : "{i18nModel>queryForm.save}",
+			tooltip : "{i18nModel>queryForm.saveTooltip}",
 			icon : sap.ui.core.IconPool.getIconURI("save"),
 			press : function(oEvent) {
 				self.fireSave(oEvent);

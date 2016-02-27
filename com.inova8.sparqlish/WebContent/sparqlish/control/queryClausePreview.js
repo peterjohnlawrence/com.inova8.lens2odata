@@ -168,7 +168,7 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 							oControl.setAggregation("_preview", oControl.oTextView);
 							break;
 						default:
-							oControl.oTextView = new sap.m.Text({wrapping:true,styleClass:"resultValue"});
+							oControl.oTextView = new sap.m.Text({wrapping:true}).addStyleClass("resultValue");
 							oControl.oTextView.bindProperty("text", {
 								path : "resultsModel>" + sCurrentResultsContext,
 								type : new sap.ui.model.type.String()

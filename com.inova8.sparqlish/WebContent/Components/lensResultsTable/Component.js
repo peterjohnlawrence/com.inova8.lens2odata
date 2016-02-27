@@ -43,8 +43,9 @@ Components.lensResultsTable.Component.prototype.createContent = function() {
 	return this.oTablePanel.addContent(this.oTable);
 };
 
-Components.lensResultsTable.Component.prototype.renderResults = function(query) {
+Components.lensResultsTable.Component.prototype.renderResults = function(query, serviceCode) {
 	var self = this;
+	self.setProperty("serviceCode", serviceCode || self.getProperty("serviceCode"));
 	var odataResults = new sap.ui.model.json.JSONModel({});
 	var odataURL = query || self.getProperty("query");
 	if (!jQuery.isEmptyObject(odataURL)) {
