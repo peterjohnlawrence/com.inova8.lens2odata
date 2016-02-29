@@ -1,194 +1,26 @@
 {
-	"d": 
-	[
+	"_class": "Query",
+	"code": "1",
+	"name": "Test1:No clauses",
+	"concept": "Order",
+	"clauses": 
+	{
+		"_class": "Clauses",
+		"clause": 
 		{
-			"__metadata": 
+			"_class": "Clause",
+			"ignore": false,
+			"optional": false,
+			"propertyClause": 
 			{
-				"uri": "http://services.odata.org/V2/Northwind/Northwind.svc/Orders(10308)",
-				"type": "NorthwindModel.Order"
-			},
-
-			"Customer": 
-			{
-				"__metadata": 
-				{
-					"uri": "http://services.odata.org/V2/Northwind/Northwind.svc/Customers('ANATR')",
-					"type": "NorthwindModel.Customer"
-				},
-
-				"CustomerID": "ANATR"
-			}
-		},
-
-		{
-			"__metadata": 
-			{
-				"uri": "http://services.odata.org/V2/Northwind/Northwind.svc/Orders(10625)",
-				"type": "NorthwindModel.Order"
-			},
-
-			"Customer": 
-			{
-				"__metadata": 
-				{
-					"uri": "http://services.odata.org/V2/Northwind/Northwind.svc/Customers('ANATR')",
-					"type": "NorthwindModel.Customer"
-				},
-
-				"CustomerID": "ANATR"
-			}
-		},
-
-		{
-			"__metadata": 
-			{
-				"uri": "http://services.odata.org/V2/Northwind/Northwind.svc/Orders(10643)",
-				"type": "NorthwindModel.Order"
-			},
-
-			"Customer": 
-			{
-				"__metadata": 
-				{
-					"uri": "http://services.odata.org/V2/Northwind/Northwind.svc/Customers('ALFKI')",
-					"type": "NorthwindModel.Customer"
-				},
-
-				"CustomerID": "ALFKI"
-			}
-		},
-
-		{
-			"__metadata": 
-			{
-				"uri": "http://services.odata.org/V2/Northwind/Northwind.svc/Orders(10692)",
-				"type": "NorthwindModel.Order"
-			},
-
-			"Customer": 
-			{
-				"__metadata": 
-				{
-					"uri": "http://services.odata.org/V2/Northwind/Northwind.svc/Customers('ALFKI')",
-					"type": "NorthwindModel.Customer"
-				},
-
-				"CustomerID": "ALFKI"
-			}
-		},
-
-		{
-			"__metadata": 
-			{
-				"uri": "http://services.odata.org/V2/Northwind/Northwind.svc/Orders(10702)",
-				"type": "NorthwindModel.Order"
-			},
-
-			"Customer": 
-			{
-				"__metadata": 
-				{
-					"uri": "http://services.odata.org/V2/Northwind/Northwind.svc/Customers('ALFKI')",
-					"type": "NorthwindModel.Customer"
-				},
-
-				"CustomerID": "ALFKI"
-			}
-		},
-
-		{
-			"__metadata": 
-			{
-				"uri": "http://services.odata.org/V2/Northwind/Northwind.svc/Orders(10759)",
-				"type": "NorthwindModel.Order"
-			},
-
-			"Customer": 
-			{
-				"__metadata": 
-				{
-					"uri": "http://services.odata.org/V2/Northwind/Northwind.svc/Customers('ANATR')",
-					"type": "NorthwindModel.Customer"
-				},
-
-				"CustomerID": "ANATR"
-			}
-		},
-
-		{
-			"__metadata": 
-			{
-				"uri": "http://services.odata.org/V2/Northwind/Northwind.svc/Orders(10835)",
-				"type": "NorthwindModel.Order"
-			},
-
-			"Customer": 
-			{
-				"__metadata": 
-				{
-					"uri": "http://services.odata.org/V2/Northwind/Northwind.svc/Customers('ALFKI')",
-					"type": "NorthwindModel.Customer"
-				},
-
-				"CustomerID": "ALFKI"
-			}
-		},
-
-		{
-			"__metadata": 
-			{
-				"uri": "http://services.odata.org/V2/Northwind/Northwind.svc/Orders(10926)",
-				"type": "NorthwindModel.Order"
-			},
-
-			"Customer": 
-			{
-				"__metadata": 
-				{
-					"uri": "http://services.odata.org/V2/Northwind/Northwind.svc/Customers('ANATR')",
-					"type": "NorthwindModel.Customer"
-				},
-
-				"CustomerID": "ANATR"
-			}
-		},
-
-		{
-			"__metadata": 
-			{
-				"uri": "http://services.odata.org/V2/Northwind/Northwind.svc/Orders(10952)",
-				"type": "NorthwindModel.Order"
-			},
-
-			"Customer": 
-			{
-				"__metadata": 
-				{
-					"uri": "http://services.odata.org/V2/Northwind/Northwind.svc/Customers('ALFKI')",
-					"type": "NorthwindModel.Customer"
-				},
-
-				"CustomerID": "ALFKI"
-			}
-		},
-
-		{
-			"__metadata": 
-			{
-				"uri": "http://services.odata.org/V2/Northwind/Northwind.svc/Orders(11011)",
-				"type": "NorthwindModel.Order"
-			},
-
-			"Customer": 
-			{
-				"__metadata": 
-				{
-					"uri": "http://services.odata.org/V2/Northwind/Northwind.svc/Customers('ALFKI')",
-					"type": "NorthwindModel.Customer"
-				},
-
-				"CustomerID": "ALFKI"
+				"_class": "ObjectPropertyClause",
+				"objectProperty": "rdfs_type",
+				"multiplicity": "*",
+				"objectPropertyFilters": 
+				[
+					
+				]
 			}
 		}
-	]
+	}
 }

@@ -43,17 +43,21 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 					currentPropertyClause.dataPropertyFilters = {
 						"_class" : "DataPropertyFilters"
 					};
+					//Cleanup
+					delete currentPropertyClause.multiplicity;
 					delete currentPropertyClause.objectProperty;
 					delete currentPropertyClause.objectPropertyFilters;
 					// clauses only apply to objectProperties but we have switched to a dataProperty
 					delete currentPropertyClause.clauses;
+
+					// TODO Why do I need to do this when property bound to model???
+					// self.getAggregation("_property").setText(sSelectedProperty);
+					//currentModel.refresh();
+					// TODO ??????????
+					self.getParent().rerender();
 					self.firePropertyChanged({
 						dataProperty : sSelectedProperty
 					});
-					self.getAggregation("_property").setText(sSelectedProperty);
-					currentModel.refresh();
-					// TODO ??????????
-					self.getParent().rerender();
 				} else {
 					self.fireSelected({
 						dataProperty : sSelectedProperty
@@ -72,19 +76,24 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 					}
 					currentPropertyClause._class = "ObjectPropertyClause";
 					currentPropertyClause.objectProperty = sSelectedProperty;
+					
+					currentPropertyClause.multiplicity= self.getModel("metaModel").getODataInheritedAssociation(self.getParent().getDomainEntityTypeContext(),		sSelectedProperty).multiplicity;
 					currentPropertyClause.objectPropertyFilters = [];
 					currentPropertyClause.clauses = {};
+					//Cleanup
+					delete currentPropertyClause.type;
 					delete currentPropertyClause.dataProperty;
 					delete currentPropertyClause.dataPropertyFilters;
 
-					self.fireChanged({
-						objectProperty : sSelectedProperty
-					});
-					self.getAggregation("_property").setText(sSelectedProperty);
-					currentModel.refresh();
+					// TODO Why do I need to do this when property bound to model???
+					// self.getAggregation("_property").setText(sSelectedProperty);
+					//currentModel.refresh();
 					// TODO ??????????
 					// self.getAggregation("_objectPropertyFilters").getAggregation("_extendFilter").setVisible(true);
 					self.getParent().rerender();
+					self.firePropertyChanged({
+						objectProperty : sSelectedProperty
+					});
 				} else {
 					self.fireSelected({
 						objectProperty : sSelectedProperty
@@ -94,37 +103,31 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 			var oPropertyLink = new sap.m.Link({
 				text : {
 					parts : [ {
-						path : "queryModel>propertyClause/_class",
-						type : new sap.ui.model.type.String()
-					},
-					{
 						path : "queryModel>propertyClause/dataProperty",
 						type : new sap.ui.model.type.String()
-					},
-					{
+					}, {
 						path : "queryModel>propertyClause/objectProperty",
 						type : new sap.ui.model.type.String()
-					}],
-					formatter : function(_class,dataProperty,objectProperty) {
-						if(jQuery.isEmptyObject(_class)) return "";
+					} ],
+					formatter : function( sDataProperty, sObjectProperty) {
 						var oProperty;
-						var sEntityType = this.getParent().getParent().getDomainEntityTypeQName();
-						if(_class=="DataPropertyClause"){
-							oProperty= this.getModel("metaModel").getDataProperty(sEntityType,dataProperty);
-						}else if(_class=="ObjectPropertyClause"){
-							oProperty= this.getModel("metaModel").getNavigationProperty(sEntityType,objectProperty)
-						}else{
+						var oEntityType = this.getParent().getParent().getDomainEntityTypeContext();
+						if (!jQuery.isEmptyObject(sDataProperty)) {
+							oProperty = this.getModel("metaModel").getODataInheritedProperty(oEntityType, sDataProperty);
+						} else 
+							if (!jQuery.isEmptyObject(sObjectProperty)) {
+							oProperty = this.getModel("metaModel").getODataInheritedNavigationProperty(oEntityType, sObjectProperty);
+						} else {
 							return "";
 						}
 						return oProperty["sap:label"] || oProperty["name"]
 					}
 				},
-			// text : "{= ${queryModel>propertyClause/_class} ==='DataPropertyClause' ? ${queryModel>propertyClause/dataProperty} : (${queryModel>propertyClause/_class} ==='ObjectPropertyClause' ? ${queryModel>propertyClause/objectProperty}: ${i18nModel>clauseSelectProperty})}",
-				tooltip : "{i18nModel>propertyMenuTooltip}"
+				tooltip : "{i18nModel>propertyMenu.tooltip}"
 			});
 
 			self.oObjectPropertyMenu = new sap.m.P13nColumnsPanel({
-				title : "{= ${i18nModel>navigationProperties}}",
+				title : "{= ${i18nModel>propertyMenu.navigationProperties}}",
 				items : {
 					path : "entityTypeModel>/navigationProperty",
 					template : new sap.m.P13nItem({
@@ -137,7 +140,7 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 			// TODO Undocumented hack to make P13nColumnsPanel to be single select
 			self.oObjectPropertyMenu._oTable.setMode(sap.m.ListMode.SingleSelect);
 			self.oDataPropertyMenu = new sap.m.P13nColumnsPanel({
-				title : "{i18nModel>dataProperties}",
+				title : "{i18nModel>propertyMenu.dataProperties}",
 				items : {
 					path : "entityTypeModel>/property",
 					template : new sap.m.P13nItem({
@@ -151,7 +154,7 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 			self.oDataPropertyMenu._oTable.setMode(sap.m.ListMode.SingleSelect);
 
 			self.oDialog = new sap.m.P13nDialog({
-				title : "{i18nModel>editClauseTitle}",
+				title : "{i18nModel>propertyMenu.title}",
 				cancel : function() {
 					self.oDialog.close();
 				},

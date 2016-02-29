@@ -37,7 +37,7 @@ Components.queryForm.Component.prototype.createContent = function() {
 	var self = this;
 
 	this.oTable = new sap.ui.table.TreeTable({
-		columns : [ new sap.ui.table.Column({
+		columns : [ new sap.ui.table.Column("queryColumn",{
 			label : "{i18nModel>queryForm.query}",
 			template : new sparqlish.control.queryClause({
 				clausePath : {
@@ -52,7 +52,7 @@ Components.queryForm.Component.prototype.createContent = function() {
 			flexible : true,
 			resizable : true,
 			autoResizable : true
-		}), new sap.ui.table.Column("results", {
+		}), new sap.ui.table.Column("resultsColumn", {
 			label : "{i18nModel>queryForm.resultsPreview}",
 			template : new sparqlish.control.queryClausePreview({
 				viewContext : {
@@ -98,10 +98,9 @@ Components.queryForm.Component.prototype.createContent = function() {
 		}).attachSave(function(oEvent) {
 			self.setQuery(oEvent.getParameter("query"));
 		})
-	// TODO need to provide i18n on component construction as it is required when i18n appears in path expressions
 	}).setModel(sap.ui.getCore().getModel("i18nModel"), "i18nModel").setModel(sap.ui.getCore().getModel("datatypesModel"), "datatypesModel");
 	// TODO add debug menu
-	if (jQuery.sap.log.getLevel() === jQuery.sap.log.Level.DEBUG) {
+	if (jQuery.sap.log.getLevel() === jQuery.sap.log.Level.ERROR) {
 		this.oDebug = new sap.m.ActionSelect().addButton(new sap.m.Button({
 			text : "Query Model",
 			press : function() {
@@ -154,7 +153,7 @@ Components.queryForm.Component.prototype.createContent = function() {
 		})).addButton(new sap.m.Button({
 			text : "Execute OData Query V2",
 			press : function() {
-				sap.m.URLHelper.redirect(self.getOdataModel().sServiceUrl + "/" + self.getProperty("query").odataURI("V2"), true);
+				sap.m.URLHelper.redirect(self.getOdataModel().sServiceUrl + "/" + self.getProperty("query").odataURI("V2")+ "&$top=10", true);
 			}
 		})).addButton(new sap.m.Button({
 			text : "OData Query V4",
@@ -187,7 +186,7 @@ Components.queryForm.Component.prototype.createContent = function() {
 Components.queryForm.Component.prototype.clearResults = function(self) {
 	self.oResultsModel = new sap.ui.model.json.JSONModel({});
 	self.oTable.setModel(self.oResultsModel, "resultsModel");
-	self.oTable.rerender();
+	//self.oTable.rerender();
 };
 // TODO delegate to Query object
 Components.queryForm.Component.prototype.resetQuery = function(self) {
@@ -264,7 +263,9 @@ Components.queryForm.Component.prototype.setService = function(service, query, p
 				}
 				self.oTable.getToolbar().oQuerySelect.setSelectedKey(query.code);
 				self.setQuery(query);
-				self.setProperty("queryCode", query.code)
+				self.setProperty("queryCode", query.code);
+				//TODO can we calculate the max level?
+				self.oTable.expandToLevel(10);
 
 			}, function() {
 				self.oTable.setBusy(false);
@@ -283,7 +284,7 @@ Components.queryForm.Component.prototype.setQuery = function(queryModel) {
 
 		var oQueryModel = new sap.ui.model.json.JSONModel();
 		oQueryModel.setData(query.oAST);
-		this.oTable.setModel(oQueryModel, "queryModel");
+		//this.oTable.setModel(oQueryModel, "queryModel");
 
 		this.oViewModel = new sap.ui.model.json.JSONModel();
 		this.oViewModel.setData(query.oViewModel);
@@ -301,6 +302,9 @@ Components.queryForm.Component.prototype.setQuery = function(queryModel) {
 		this.oResultsModel = new sap.ui.model.json.JSONModel({});
 		this.oResultsModel.setData({});
 		this.oTable.setModel(this.oResultsModel, "resultsModel");
+		this.oTable.setModel(null, "queryModel");
+		this.oTable.setModel(oQueryModel, "queryModel");
+
 	} catch (e) {
 		sap.m.MessageToast.show(e);
 	}
@@ -337,7 +341,8 @@ Components.queryForm.Component.prototype.previewResults = function(self) {
 					}
 					self.oTable.setBusy(false);
 					self.oTable.setModel(self.oResultsModel, "resultsModel");
-					self.oTable.rerender();
+					//TODO Minimize rerendering to the preview column
+					self.oTable.getColumns()[1].rerender();
 
 				}
 				// TODO not required with Requestfailed handler
@@ -345,7 +350,7 @@ Components.queryForm.Component.prototype.previewResults = function(self) {
 				// sap.m.MessageToast.show(oEvent.getParameter("errorobject").statusText);
 				// }
 			}).attachRequestFailed(function(oEvent) {
-				sap.m.MessageToast.show(sap.ui.getCore().getModel("i18nModel").getProperty("queryForm.queryResponseError") + oEvent.getParameter("statusText"));
+				sap.m.MessageToast.show(sap.ui.getCore().getModel("i18nModel").getProperty("queryForm.queryResponseError") + oEvent.getParameter("statusCode") + " "+  oEvent.getParameter("statusText"));
 				self.oTable.setBusy(false);
 			});
 		} else {

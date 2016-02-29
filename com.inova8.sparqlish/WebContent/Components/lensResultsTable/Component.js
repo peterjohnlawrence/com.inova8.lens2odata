@@ -98,7 +98,7 @@ Components.lensResultsTable.Component.prototype.renderResults = function(query, 
 			if (oEvent.getParameter("statusCode") == 404) {
 				sap.m.MessageToast.show(sap.ui.getCore().getModel("i18nModel").getProperty("lensResultsTable.queryNoDataFound"));
 			} else {
-				sap.m.MessageToast.show(sap.ui.getCore().getModel("i18nModel").getProperty("lensResultsTable.queryResponseError") + oEvent.getParameter("statusText"));
+				sap.m.MessageToast.show(sap.ui.getCore().getModel("i18nModel").getProperty("lensResultsTable.queryResponseError") + oEvent.getParameter("statusCode") + " "+  oEvent.getParameter("statusText"));
 			}
 			self.oTable.setBusy(false);
 		});

@@ -113,7 +113,7 @@ Components.lensResultsForm.Component.prototype.renderResults = function(queryUrl
 			if (oEvent.getParameter("statusCode") == 404) {
 				displayText = sap.ui.getCore().getModel("i18nModel").getProperty("lensResultsForm.queryNoDataFound");
 			} else {
-				displayText = sap.ui.getCore().getModel("i18nModel").getProperty("lensResultsForm.queryResponseError") + oEvent.getParameter("statusText");
+				displayText = sap.ui.getCore().getModel("i18nModel").getProperty("lensResultsForm.queryResponseError") + oEvent.getParameter("statusCode") + " "+ oEvent.getParameter("statusText");
 			}
 			self.oFormContainer.addFormElement(new sap.ui.layout.form.FormElement({
 				label : new sap.m.Label({

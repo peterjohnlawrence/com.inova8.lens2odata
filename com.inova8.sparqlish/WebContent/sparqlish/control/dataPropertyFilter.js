@@ -39,7 +39,7 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 			var self = this;
 			self.setAggregation("_parameterValueHelp", new sparqlish.control.parameterMenu());
 			self.setAggregation("_operator", new sap.m.Link({
-				tooltip : "Select a operator",
+				tooltip : "{i18nModel>dataPropertyFilter.operatorTooltip}",
 				press : function(oEvent) {
 					var me = oEvent.getSource().getParent();
 					var oClauseContext = self._clauseContext(me);
@@ -49,8 +49,9 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 						items : {
 							path : "datatypesModel>/datatypes/" + this.oDataPropertyType + "/operators",
 							template : new sap.ui.unified.MenuItem({
-								text : "{datatypesModel>condition}",
-								key : "{datatypesModel>operator}"
+								text : "{datatypesModel>condition}"
+								//TODO No key for a menuItem
+								//,		key : "{datatypesModel>operator}"
 							})
 						}
 					});

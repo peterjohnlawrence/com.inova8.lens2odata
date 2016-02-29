@@ -63,7 +63,7 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 						self.firePropertyClauseChanged();
 					}));
 			self.setAggregation("_property", new sparqlish.control.propertyMenu().bindElement("queryModel>").attachPropertyChanged(function(oEvent) {
-				this.getModel("queryModel").refresh();
+				//this.getModel("queryModel").refresh();
 				// self.rerender();
 				self.firePropertyClauseChanged();
 			}));
@@ -121,7 +121,8 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 					return null;
 				} else {
 					if (currentQueryContext.propertyClause._class == "DataPropertyClause") {
-						return this.getModel("metaModel").getDataProperty(this.getDomainEntityTypeQName(), currentQueryContext.propertyClause.dataProperty);
+						return this.getModel("metaModel").getODataInheritedProperty(this.getDomainEntityTypeContext(), currentQueryContext.propertyClause.dataProperty);
+						//return this.getModel("metaModel").getDataProperty(this.getDomainEntityTypeQName(), currentQueryContext.propertyClause.dataProperty);
 					} else {
 						return null;
 					}
@@ -137,25 +138,25 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 					return null
 				} else {
 					if (currentQueryContext.propertyClause._class == "ObjectPropertyClause") {
-						return this.getModel("metaModel").getNavigationProperty(this.getDomainEntityTypeQName(), currentQueryContext.propertyClause.objectProperty);
+						return this.getModel("metaModel").getODataInheritedNavigationProperty(this.getDomainEntityTypeContext(), currentQueryContext.propertyClause.objectProperty);
+						//return this.getModel("metaModel").getNavigationProperty(this.getDomainEntityTypeQName(), currentQueryContext.propertyClause.objectProperty);
 					} else {
 						return null;
 					}
 				}
 			}
 		},
-		// TODO oDataModel declaration -- Where??
 		getDomainEntityTypeQName : function() {
-			return this.getModel("odataModel").getMetaModel().entityTypeQName(this.getModel("queryModel"), this.getBindingContext("queryModel"));
+			return this.getModel("metaModel").entityTypeQName(this.getModel("queryModel"), this.getBindingContext("queryModel"));
 		},
 		getDomainEntityTypeContext : function() {
-			return this.getModel("odataModel").getMetaModel().getODataEntityType(this.getDomainEntityTypeQName());
+				return this.getModel("metaModel").getODataEntityType(this.getDomainEntityTypeQName());
 		},
 		getRangeEntityTypeQName : function() {
-			return this.getModel("odataModel").getMetaModel().getODataEntitySet(this.getObjectProperty().toRole).entityType;
+				return this.getModel("metaModel").getODataEntitySet(this.getObjectProperty().toRole).entityType;
 		},
 		getRangeEntityTypeContext : function() {
-			return this.getModel("odataModel").getMetaModel().getODataEntityType(this.getRangeEntityTypeQName());
+				return this.getModel("metaModel").getODataEntityType(this.getRangeEntityTypeQName());
 		},
 		deleteClause : function() {
 			// TODO This only works when we have a Query object, not when we have a QueryClause object
@@ -177,8 +178,6 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 				delete this.oClausesContext._class;
 			}
 			this.getParent().rerender();
-			// Goodbye
-			// this.destroy();
 		},
 		addClause : function(currentModelData, clauseClass, property) {
 			var clauseProperty = (clauseClass == "DataPropertyClause") ? "dataProperty" : "objectProperty";
@@ -194,12 +193,12 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 				currentModelData.clauses.clause.propertyClause._class = clauseClass;
 				currentModelData.clauses.clause.propertyClause[clauseProperty] = property;
 				if (clauseClass == "DataPropertyClause") {
-					currentModelData.clauses.clause.propertyClause.type = this.getModel("metaModel").getDataProperty(this.getRangeEntityTypeQName(), property).type;
+					currentModelData.clauses.clause.propertyClause.type = this.getModel("metaModel").getODataInheritedProperty(this.getRangeEntityTypeContext(), property).type;
 					currentModelData.clauses.clause.propertyClause.dataPropertyFilters = {};
 					currentModelData.clauses.clause.propertyClause.dataPropertyFilters._class = "DataPropertyFilters";
 				} else {
 					// add type = __metadata
-					currentModelData.clauses.clause.propertyClause.multiplicity = this.getModel("metaModel").getODataAssociationEnd(this.getRangeEntityTypeContext(),
+					currentModelData.clauses.clause.propertyClause.multiplicity = this.getModel("metaModel").getODataInheritedAssociation(this.getRangeEntityTypeContext(),
 							property).multiplicity;
 					currentModelData.clauses.clause.propertyClause.objectPropertyFilters = [];
 				}
@@ -219,13 +218,13 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 				currentModelData.clauses.conjunctionClauses[last].clause.propertyClause._class = clauseClass;
 				currentModelData.clauses.conjunctionClauses[last].clause.propertyClause[clauseProperty] = property;
 				if (clauseClass == "DataPropertyClause") {
-					currentModelData.clauses.conjunctionClauses[last].clause.propertyClause.type = this.getModel("metaModel").getDataProperty(
-							this.getRangeEntityTypeQName(), property).type;
+					currentModelData.clauses.conjunctionClauses[last].clause.propertyClause.type = this.getModel("metaModel").getODataInheritedProperty(
+							this.getRangeEntityTypeContext(), property).type;
 					currentModelData.clauses.conjunctionClauses[last].clause.propertyClause.dataPropertyFilters = {};
 					currentModelData.clauses.conjunctionClauses[last].clause.propertyClause.dataPropertyFilters._class = "DataPropertyFilters";
 				} else {
 					// add type = __metadata
-					currentModelData.clauses.conjunctionClauses[last].clause.propertyClause.multiplicity = this.getModel("metaModel").getODataAssociationEnd(
+					currentModelData.clauses.conjunctionClauses[last].clause.propertyClause.multiplicity = this.getModel("metaModel").getODataInheritedAssociation(
 							this.getRangeEntityTypeContext(), property).multiplicity;
 					currentModelData.clauses.conjunctionClauses[last].clause.propertyClause.objectPropertyFilters = [];
 				}
@@ -244,13 +243,13 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 				currentModelData.clauses.conjunctionClauses[0].clause.propertyClause._class = clauseClass;
 				currentModelData.clauses.conjunctionClauses[0].clause.propertyClause[clauseProperty] = property;
 				if (clauseClass == "DataPropertyClause") {
-					currentModelData.clauses.conjunctionClauses[0].clause.propertyClause.type = this.getModel("metaModel").getDataProperty(
-							this.getRangeEntityTypeQName(), property).type;
+					currentModelData.clauses.conjunctionClauses[0].clause.propertyClause.type = this.getModel("metaModel").getODataInheritedProperty(
+							this.getRangeEntityTypeContext(), property).type;
 					currentModelData.clauses.conjunctionClauses[0].clause.propertyClause.dataPropertyFilters = {};
 					currentModelData.clauses.conjunctionClauses[0].clause.propertyClause.dataPropertyFilters._class = "DataPropertyFilters";
 				} else {
 					// add type = __metadata
-					currentModelData.clauses.conjunctionClauses[0].clause.propertyClause.multiplicity = this.getModel("metaModel").getODataAssociationEnd(
+					currentModelData.clauses.conjunctionClauses[0].clause.propertyClause.multiplicity = this.getModel("metaModel").getODataInheritedAssociation(
 							this.getRangeEntityTypeContext(), property).multiplicity;
 					currentModelData.clauses.conjunctionClauses[0].clause.propertyClause.objectPropertyFilters = [];
 				}

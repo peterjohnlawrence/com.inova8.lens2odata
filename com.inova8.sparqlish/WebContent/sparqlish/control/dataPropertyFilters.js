@@ -80,13 +80,14 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 					// TODO make sure correct type for all occurrences of filter
 					var keyProperty = oEvent.getSource().getParent().getParent().getDataProperty();
 					var type = keyProperty.type;
+					var sOperator = sap.ui.getCore().getModel("datatypesModel").getProperty("/datatypes/" + type + "/operators/0/operator")
 					var currentModelData = currentModel.getProperty("", currentContext);
 					if (jQuery.isEmptyObject(currentModelData)) {
 						currentModelData = {
 							"_class" : "DataPropertyFilters",
 							"dataPropertyFilter" : {
 								"_class" : "DataPropertyFilter",
-								"operator" : "[enter operator]",
+								"operator" : sOperator,
 								"type" : type
 							}
 						};
@@ -94,7 +95,7 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 						if (jQuery.isEmptyObject(currentModelData.dataPropertyFilter)) {
 							currentModelData.dataPropertyFilter = {
 								"_class" : "DataPropertyFilter",
-								"operator" : "[enter operator]",
+								"operator" : sOperator,
 								"type" : type
 							}
 						} else if (jQuery.isEmptyObject(currentModelData.conjunctionFilters)) {
@@ -103,7 +104,7 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 								"filterConjunction" : sap.ui.getCore().getModel("i18nModel").getProperty("dataPropertyFilters.and"),
 								"dataPropertyFilter" : {
 									"_class" : "DataPropertyFilter",
-									"operator" : "[enter operator]",
+									"operator" : sOperator,
 									"type" : type
 								}
 							} ]
@@ -113,7 +114,7 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 								"filterConjunction" : sap.ui.getCore().getModel("i18nModel").getProperty("dataPropertyFilters.and"),
 								"dataPropertyFilter" : {
 									"_class" : "DataPropertyFilter",
-									"operator" : "[enter operator]",
+									"operator" : sOperator,
 									"type" : type
 								}
 							});

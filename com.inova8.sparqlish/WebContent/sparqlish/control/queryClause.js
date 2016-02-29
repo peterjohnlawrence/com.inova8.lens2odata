@@ -51,18 +51,21 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 					if (sClass == "Query") {
 						oControl.setAggregation("_conceptClause", new sparqlish.control.conceptClause().setBindingContext(oControl.getBindingContext("queryModel"))
 								.attachConceptClauseChanged(function(oEvent) {
+									//oEvent.getSource().rerender();
 									oControl.fireQueryChanged(oEvent);
 								}));
 						oRm.renderControl(oControl.getAggregation("_conceptClause"));
 					} else if (sClass == "Clause") {
 						oControl.setAggregation("_propertyClause", new sparqlish.control.propertyClause().setBindingContext(oControl.getBindingContext("queryModel"))
 								.attachPropertyClauseChanged(function(oEvent) {
+									oEvent.getSource().rerender();
 									oControl.fireQueryChanged();
 								}));
 						oRm.renderControl(oControl.getAggregation("_propertyClause"));
 					} else if (sClass == "ConjunctionClause") {
 						oControl.setAggregation("_conjunctionPropertyClause", new sparqlish.control.conjunctionPropertyClause().setBindingContext(
 								oControl.getBindingContext("queryModel")).attachConjunctionPropertyClauseChanged(function(oEvent) {
+									oEvent.getSource().rerender();
 							oControl.fireQueryChanged();
 						}));
 						oRm.renderControl(oControl.getAggregation("_conjunctionPropertyClause"));

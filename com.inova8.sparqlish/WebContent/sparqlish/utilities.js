@@ -1,4 +1,5 @@
 jQuery.sap.require("sap.ui.model.MetaModel");
+	"use strict";
 sap.ui.model.MetaModel.prototype.entityTypeContext = function(oQueryModel, oContext) {
 	try {
 		var path = oContext.getPath().split("clauses");
@@ -82,6 +83,18 @@ sap.ui.model.MetaModel.prototype.getODataInheritedNavigationProperty = function(
 		}
 	} else {
 		return oObjectProperty;
+	}
+};
+sap.ui.model.MetaModel.prototype.getODataInheritedAssociation = function(oEntityType, sObjectProperty) {
+	var oObjectProperty = this.getODataNavigationProperty(oEntityType, sObjectProperty);
+	if (jQuery.isEmptyObject(oObjectProperty)) {
+		if (!jQuery.isEmptyObject(oEntityType.baseType)) {
+			return this.getODataInheritedAssociation(this.getODataEntityType(oEntityType.baseType), sObjectProperty);
+		} else {
+			return null;
+		}
+	} else {
+		return this.getODataAssociationEnd(oEntityType,oObjectProperty.name);
 	}
 };
 sap.ui.model.MetaModel.prototype.getODataNavigationProperty = function(oEntityType, sObjectProperty) {

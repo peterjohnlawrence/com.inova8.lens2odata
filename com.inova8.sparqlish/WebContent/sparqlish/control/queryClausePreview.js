@@ -42,10 +42,10 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 			// Only required if we want the controls to be on the same line
 			var self = this;
 			var oDateTimeFormat = sap.ui.core.format.DateFormat.getDateTimeInstance({
-				pattern : sap.ui.getCore().getModel("i18n").getProperty("Edm.DateTime")
+				pattern : sap.ui.getCore().getModel("i18nModel").getProperty("Edm.DateTime")
 			});
 			var oDateFormat = sap.ui.core.format.DateFormat.getDateTimeInstance({
-				pattern : sap.ui.getCore().getModel("i18n").getProperty("Edm.Date")
+				pattern : sap.ui.getCore().getModel("i18nModel").getProperty("Edm.Date")
 			});
 			var serviceCode = oControl.getProperty("serviceCode")
 			if (!jQuery.isEmptyObject(oControl.getViewContext())) {
@@ -78,6 +78,7 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 										oPaginator = new sap.ui.commons.Paginator(sPaginatorIndex);
 										oPaginator.attachPage(function(oEvent) {
 											oResultsModel.refresh(true);
+											//TODO This is required to re-render any nested values 
 											oEvent.getSource().getParent().getParent().rerender();
 										});
 										if (jQuery.isEmptyObject(oResultsModel.getProperty("/paginators"))) {

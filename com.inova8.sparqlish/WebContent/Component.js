@@ -79,11 +79,11 @@ sap.ui.define([ "sap/ui/core/UIComponent" ], function(UIComponent) {
 Lens.Component.prototype.init = function() {
 	sap.ui.core.UIComponent.prototype.init.apply(this, arguments);
 	jQuery.sap.require("jquery.sap.storage");
-	// i18n>
+	
+	// i18nModel>
 	var oI18n = new sap.ui.model.resource.ResourceModel({
 		bundleName : "i18n.lens"
 	});
-//	sap.ui.getCore().setModel(oI18n, "i18n");
 	sap.ui.getCore().setModel(oI18n, "i18nModel");
 
 	// queryModel>
@@ -96,7 +96,6 @@ Lens.Component.prototype.init = function() {
 
 	oQueryModel.setData(queryData);
 	sap.ui.getCore().setModel(oQueryModel, "queryModel");
-	//sap.ui.getCore().setModel(oQueryModel, "serviceQueriesModel");
 
 	// datatypesModel>
 	var oDatatypesModel = new sap.ui.model.json.JSONModel();
@@ -112,12 +111,6 @@ Lens.Component.prototype.init = function() {
 	var oLensesModel = new sap.ui.model.json.JSONModel();
 	oLensesModel.loadData("config/lenses.json", null, false);
 	sap.ui.getCore().setModel(oLensesModel, "lensesModel");
-
-	// Should not be here
-//	var sUrl = "proxy/http/services.odata.org/V2/Northwind/Northwind.svc/";
-//	var oDataModel = new sap.ui.model.odata.ODataModel(sUrl, true);
-//	var oMetaModel = oDataModel.getMetaModel();
-//	sap.ui.getCore().setModel(oMetaModel, "metaModel");
 
 	// Do this last so models are initialized
 	this.getRouter().initialize();

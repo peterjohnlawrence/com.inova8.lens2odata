@@ -185,7 +185,7 @@ sap.ui.base.Object
 							if (!jQuery.isEmptyObject(this.oClauses)) {
 								// TODO when do we need to prefix resultContext with /d ?
 								extendj(oViewModel.root, this.oClauses.viewModel(this.sPath, this.oClauseReferences, entityType.name, "", "{path}/{=P0}"), 0);// "/d/results/{=P0}"),
-																																																																							// 0);
+								// 0);
 							}
 							extendj(oViewModel.root, {
 								"path" : this.sPath,
@@ -379,9 +379,9 @@ sap.ui.base.Object.extend("Clauses", {
 		}
 		if (!jQuery.isEmptyObject(this.oClause)) {
 			extendj(oViewModel, {
-				"0" : this.oClause.viewModel(sPath + "clauses/clause/", oClauseReferences, sKeyVariable, sResultsPath, sResultsContext, iClauseIndex)
-			// "0" : this.oClause.viewModel(sPath + "clauses/", oClauseReferences, sKeyVariable, sResultsPath,
-			// sResultsContext, iClauseIndex)
+				// "0" : this.oClause.viewModel(sPath + "clauses/clause/", oClauseReferences, sKeyVariable, sResultsPath,
+				// sResultsContext, iClauseIndex)
+				"0" : this.oClause.viewModel(sPath + "clauses/", oClauseReferences, sKeyVariable, sResultsPath, sResultsContext, iClauseIndex)
 			});
 		}
 		return oViewModel;
@@ -575,7 +575,7 @@ sap.ui.base.Object.extend("Clause", {
 			this.sResultsPath = sResultsPath + "/" + this.sField;
 		}
 		extendj(oViewModel, {
-			"path" : sPath,
+			"path" : sPath + "clause/",
 			"sparqlish" : this.sparqlish(),
 			"label" : this.sLabel,
 			"hidden" : this.bHidden,
@@ -987,7 +987,7 @@ sap.ui.base.Object.extend("ObjectPropertyClause", {
 				this.oContext.sOdataEntityPath = this.oContext.sOdataEntityPath + "/" + this.sObjectProperty;
 			}
 
-			if (!jQuery.isEmptyObject(oAST["clauses"])) {
+			if (!jQuery.isEmptyObject(oAST["clauses"]) && (oAST["clauses"]._class == "Clauses")) {
 				var oNewContext = {
 					sOdataEntityPath : oContext.sOdataEntityPath,
 					sSubject : oContext.sObject,
@@ -1362,14 +1362,14 @@ sparqlFilterOperator = function(sVariable, sOperator, sValue, sType) {
 		return "*ERROR*";
 	}
 		;
-//	case "after": {
-//		return "(" + sVariable + " > " + sSparqlValue + ")";
-//	}
-//		;
-//	case "before": {
-//		return "(" + sVariable + " < " + sSparqlValue + ")";
-//	}
-//		;
+		// case "after": {
+		// return "(" + sVariable + " > " + sSparqlValue + ")";
+		// }
+		// ;
+		// case "before": {
+		// return "(" + sVariable + " < " + sSparqlValue + ")";
+		// }
+		// ;
 	default:
 		throw "illegalFilterOperator";
 	}
@@ -1431,14 +1431,14 @@ odataFilterOperator = function(sVersion, sVariable, sOperator, sValue, sType, oP
 		return "*ERROR*";
 	}
 		;
-//	case "gt": {
-//		return "(" + sVariable + " gt " + odataValue(sVersion, sValue, sType, oParameters) + ")";
-//	}
-//		;
-//	case "lt": {
-//		return "(" + sVariable + " lt " + odataValue(sVersion, sValue, sType, oParameters) + ")";
-//	}
-//		;
+		// case "gt": {
+		// return "(" + sVariable + " gt " + odataValue(sVersion, sValue, sType, oParameters) + ")";
+		// }
+		// ;
+		// case "lt": {
+		// return "(" + sVariable + " lt " + odataValue(sVersion, sValue, sType, oParameters) + ")";
+		// }
+		// ;
 	default:
 		throw "illegalFilterOperator";
 	}

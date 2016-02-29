@@ -67,12 +67,12 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 				currentModelData.clauses.clause.propertyClause._class = clauseClass;
 				currentModelData.clauses.clause.propertyClause[clauseProperty] = property;
 				if (clauseClass == "DataPropertyClause") {
-					currentModelData.clauses.clause.propertyClause.type = this.getModel("metaModel").getDataProperty(this.getConcept().entityType, property).type;
+					currentModelData.clauses.clause.propertyClause.type = this.getModel("metaModel").getODataInheritedProperty(this.getRangeEntityTypeContext(), property).type;
 					currentModelData.clauses.clause.propertyClause.dataPropertyFilters = {};
 					currentModelData.clauses.clause.propertyClause.dataPropertyFilters._class = "DataPropertyFilters";
 				} else {
 					// add type = __metadata
-					currentModelData.clauses.clause.propertyClause.multiplicity = this.getModel("metaModel").getODataAssociationEnd(this.getRangeEntityTypeContext(),
+					currentModelData.clauses.clause.propertyClause.multiplicity = this.getModel("metaModel").getODataInheritedAssociation(this.getRangeEntityTypeContext(),
 							property).multiplicity;
 					currentModelData.clauses.clause.propertyClause.objectPropertyFilters = [];
 				}
@@ -91,13 +91,13 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 				currentModelData.clauses.conjunctionClauses[last].clause.propertyClause._class = clauseClass;
 				currentModelData.clauses.conjunctionClauses[last].clause.propertyClause[clauseProperty] = property;
 				if (clauseClass == "DataPropertyClause") {
-					currentModelData.clauses.conjunctionClauses[last].clause.propertyClause.type = this.getModel("metaModel").getDataProperty(
-							this.getConcept().entityType, property).type;
+					currentModelData.clauses.conjunctionClauses[last].clause.propertyClause.type = this.getModel("metaModel").getODataInheritedProperty(
+							this.getRangeEntityTypeContext(), property).type;
 					currentModelData.clauses.conjunctionClauses[last].clause.propertyClause.dataPropertyFilters = {};
 					currentModelData.clauses.conjunctionClauses[last].clause.propertyClause.dataPropertyFilters._class = "DataPropertyFilters";
 				} else {
 					// add type = __metadata
-					currentModelData.clauses.conjunctionClauses[last].clause.propertyClause.multiplicity = this.getModel("metaModel").getODataAssociationEnd(
+					currentModelData.clauses.conjunctionClauses[last].clause.propertyClause.multiplicity = this.getModel("metaModel").getODataInheritedAssociation(
 							this.getRangeEntityTypeContext(), property).multiplicity;
 					currentModelData.clauses.conjunctionClauses[last].clause.propertyClause.objectPropertyFilters = [];
 				}
@@ -116,13 +116,13 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 				currentModelData.clauses.conjunctionClauses[0].clause.propertyClause._class = clauseClass;
 				currentModelData.clauses.conjunctionClauses[0].clause.propertyClause[clauseProperty] = property;
 				if (clauseClass == "DataPropertyClause") {
-					currentModelData.clauses.conjunctionClauses[0].clause.propertyClause.type = this.getModel("metaModel").getDataProperty(this.getConcept().entityType,
+					currentModelData.clauses.conjunctionClauses[0].clause.propertyClause.type = this.getModel("metaModel").getODataInheritedProperty(this.getRangeEntityTypeContext(),
 							property).type;
 					currentModelData.clauses.conjunctionClauses[0].clause.propertyClause.dataPropertyFilters = {};
 					currentModelData.clauses.conjunctionClauses[0].clause.propertyClause.dataPropertyFilters._class = "DataPropertyFilters";
 				} else {
 					// add type = __metadata
-					currentModelData.clauses.conjunctionClauses[0].clause.propertyClause.multiplicity = this.getModel("metaModel").getODataAssociationEnd(
+					currentModelData.clauses.conjunctionClauses[0].clause.propertyClause.multiplicity = this.getModel("metaModel").getODataInheritedAssociation(
 							this.getRangeEntityTypeContext(), property).multiplicity;
 					currentModelData.clauses.conjunctionClauses[0].clause.propertyClause.objectPropertyFilters = [];
 				}
