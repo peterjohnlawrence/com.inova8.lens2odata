@@ -97,12 +97,27 @@ sap.m.Link.extend("sparqlish.control.includeOptionalIgnore", {
 		// oRm.writeControlData(oControl);
 		var oClause = oControl.getModel("queryModel").getProperty("", oControl.getBindingContext("queryModel"));
 		var oText = "";
-		if (oClause.ignore) {
-			oText = sap.ui.getCore().getModel("i18nModel").getProperty("includeOptionalIgnore.ignoreWith");
-		} else if (oClause.optional) {
-			oText = sap.ui.getCore().getModel("i18nModel").getProperty("includeOptionalIgnore.optionallyWith");
-		} else {
-			oText = sap.ui.getCore().getModel("i18nModel").getProperty("includeOptionalIgnore.with");
+		switch (oClause.propertyClause._class) {
+		case "ObjectPropertyClause":
+			if (oClause.ignore) {
+				oText = sap.ui.getCore().getModel("i18nModel").getProperty("includeOptionalIgnore.objectproperty.ignoreWith");
+			} else if (oClause.optional) {
+				oText = sap.ui.getCore().getModel("i18nModel").getProperty("includeOptionalIgnore.objectproperty.optionallyWith");
+			} else {
+				oText = sap.ui.getCore().getModel("i18nModel").getProperty("includeOptionalIgnore.objectproperty.with");
+			}
+			;
+			break;
+		case "DataPropertyClause":
+			if (oClause.ignore) {
+				oText = sap.ui.getCore().getModel("i18nModel").getProperty("includeOptionalIgnore.dataproperty.ignoreWith");
+			} else if (oClause.optional) {
+				oText = sap.ui.getCore().getModel("i18nModel").getProperty("includeOptionalIgnore.dataproperty.optionallyWith");
+			} else {
+				oText = sap.ui.getCore().getModel("i18nModel").getProperty("includeOptionalIgnore.dataproperty.with");
+			}
+			;
+			break;
 		}
 		oRm.renderControl(oControl.getAggregation("_includeOptionalIgnore").setText(oText));
 	}

@@ -1,5 +1,6 @@
 jQuery.sap.require("sap.ui.core.UIComponent");
 jQuery.sap.require("sap.ui.table.Table");
+jQuery.sap.require("sparqlish.control.textLink");
 jQuery.sap.declare("Components.lensResultsTable.Component");
 "use strict";
 sap.ui.core.UIComponent.extend("Components.lensResultsTable.Component", {
@@ -59,8 +60,8 @@ Components.lensResultsTable.Component.prototype.renderResults = function(query, 
 					var oRecordTemplate = null;
 					var sBindPath = null;
 					var sCurrentPath = "";
-				//	if (jQuery.isEmptyObject(odataResults.getData().d.results  )) {
-					if (typeof odataResults.getData().d.results  !== "object" ) {
+					// if (jQuery.isEmptyObject(odataResults.getData().d.results )) {
+					if (typeof odataResults.getData().d.results !== "object") {
 						if (odataResults.getData().d.length > 0) {
 							oRecordTemplate = odataResults.getData().d[0];
 							sBindPath = "/d";
@@ -94,14 +95,16 @@ Components.lensResultsTable.Component.prototype.renderResults = function(query, 
 				}
 			}
 			self.oTable.setBusy(false);
-		}).attachRequestFailed(function(oEvent) {
-			if (oEvent.getParameter("statusCode") == 404) {
-				sap.m.MessageToast.show(sap.ui.getCore().getModel("i18nModel").getProperty("lensResultsTable.queryNoDataFound"));
-			} else {
-				sap.m.MessageToast.show(sap.ui.getCore().getModel("i18nModel").getProperty("lensResultsTable.queryResponseError") + oEvent.getParameter("statusCode") + " "+  oEvent.getParameter("statusText"));
-			}
-			self.oTable.setBusy(false);
-		});
+		}).attachRequestFailed(
+				function(oEvent) {
+					if (oEvent.getParameter("statusCode") == 404) {
+						sap.m.MessageToast.show(sap.ui.getCore().getModel("i18nModel").getProperty("lensResultsTable.queryNoDataFound"));
+					} else {
+						sap.m.MessageToast.show(sap.ui.getCore().getModel("i18nModel").getProperty("lensResultsTable.queryResponseError")
+								+ oEvent.getParameter("statusCode") + " " + oEvent.getParameter("statusText"));
+					}
+					self.oTable.setBusy(false);
+				});
 	} else {
 		sap.m.MessageToast.show(sap.ui.getCore().getModel("i18nModel").getProperty("lensResultsTable.queryUndefined"));
 	}
@@ -360,10 +363,6 @@ Components.lensResultsTable.Component.prototype.columnFormatter = function(oTabl
 				wrapping : true,
 				tooltip : sTooltip
 			})
-		// .bindProperty("text", {
-		// path : sPath,
-		// type : new sap.ui.model.type.String()
-		// })
 		}));
 		break;
 	default:
@@ -380,13 +379,20 @@ Components.lensResultsTable.Component.prototype.columnFormatter = function(oTabl
 			sortProperty : sPath,
 			filterProperty : sPath,
 			hAlign : "Begin",
-			template : new sap.m.Text({
+			template : new sparqlish.control.textLink({
 				wrapping : true,
 				tooltip : sTooltip
-			}).bindProperty("text", {
-				path : sPath,
-				type : new sap.ui.model.type.String()
-			})
+			}).bindProperty("value", {
+				path : sPath
+			}).setProperty("linkText",sap.ui.getCore().getModel("i18nModel").getProperty("textLink.LinkTo") + sLabel)	
+
+		// new sap.m.Text({
+		// wrapping : true,
+		// tooltip : sTooltip
+		// }).bindProperty("text", {
+		// path : sPath,
+		// type : new sap.ui.model.type.String()
+		// })
 		}));
 	}
 };

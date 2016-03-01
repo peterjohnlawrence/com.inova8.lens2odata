@@ -1,4 +1,5 @@
 jQuery.sap.require("sap.ui.model.type.Date");
+jQuery.sap.require("sparqlish.control.textLink");
 sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 	"use strict";
 	return Control.extend("sparqlish.control.queryClausePreview", {
@@ -78,7 +79,7 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 										oPaginator = new sap.ui.commons.Paginator(sPaginatorIndex);
 										oPaginator.attachPage(function(oEvent) {
 											oResultsModel.refresh(true);
-											//TODO This is required to re-render any nested values 
+											// TODO This is required to re-render any nested values
 											oEvent.getSource().getParent().getParent().rerender();
 										});
 										if (jQuery.isEmptyObject(oResultsModel.getProperty("/paginators"))) {
@@ -125,12 +126,12 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 								parts : [ {
 									path : "resultsModel>" + sCurrentResultsContext + "/__metadata/uri",
 									type : new sap.ui.model.type.String()
-								},{
+								}, {
 									path : "resultsModel>" + sCurrentResultsContext + "/__metadata/type",
 									type : new sap.ui.model.type.String()
-								}],
-								formatter : function(uri,type) {
-									return utils.lensUri( uri,type,serviceCode);
+								} ],
+								formatter : function(uri, type) {
+									return utils.lensUri(uri, type, serviceCode);
 								}
 							});
 
@@ -169,11 +170,9 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 							oControl.setAggregation("_preview", oControl.oTextView);
 							break;
 						default:
-							oControl.oTextView = new sap.m.Text({wrapping:true}).addStyleClass("resultValue");
-							oControl.oTextView.bindProperty("text", {
-								path : "resultsModel>" + sCurrentResultsContext,
-								type : new sap.ui.model.type.String()
-							});
+							oControl.oTextView = new sparqlish.control.textLink().bindProperty("value",{
+								path : "resultsModel>" + sCurrentResultsContext
+							}).bindProperty("linkText","{i18nModel>textLink.Link}");
 							oControl.setAggregation("_preview", oControl.oTextView);
 						}
 						if ((oControl.getViewContext()["multiplicity"] === "*") && (oControl.getAggregation("_paginator").getProperty("numberOfPages") > 1)) {

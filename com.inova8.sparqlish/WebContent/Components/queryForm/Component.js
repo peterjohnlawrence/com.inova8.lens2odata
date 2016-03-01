@@ -96,7 +96,7 @@ Components.queryForm.Component.prototype.createContent = function() {
 			self.getQuery().undo();
 			self.refreshQuery(self);
 		}).attachSave(function(oEvent) {
-			self.setQuery(oEvent.getParameter("query"));
+			utils.saveToLocalStorage ();
 		})
 	}).setModel(sap.ui.getCore().getModel("i18nModel"), "i18nModel").setModel(sap.ui.getCore().getModel("datatypesModel"), "datatypesModel");
 	// TODO add debug menu
@@ -130,7 +130,7 @@ Components.queryForm.Component.prototype.createContent = function() {
 				});
 			}
 		})).addButton(new sap.m.Button({
-			text : "OData JSON Query V2",
+			text : "Fragment definition",
 			press : function() {
 				var queryDetails = {};
 				queryDetails.serviceUrl = self.getOdataModel().sServiceUrl + "/";
@@ -141,6 +141,7 @@ Components.queryForm.Component.prototype.createContent = function() {
 				queryDetails.orderby = "";
 				queryDetails.options = self.getProperty("query").odataOptions("V2");
 				var fragment = {};
+				fragment.entityType=self.oTable.getModel("metaModel").getODataEntitySet( self.getProperty("query").sConcept).entityType;
 				fragment.position = "R1";
 				fragment.title = "title";
 				fragment.type = "Components.lensResultsForm|Components.lensResultsTable";

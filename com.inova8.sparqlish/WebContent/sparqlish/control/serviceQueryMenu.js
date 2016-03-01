@@ -462,7 +462,8 @@ sap.m.OverflowToolbar.extend("sparqlish.control.serviceQueryMenu", {
 			tooltip : "{i18nModel>queryForm.saveTooltip}",
 			icon : sap.ui.core.IconPool.getIconURI("save"),
 			press : function(oEvent) {
-				self.fireSave(oEvent);
+				
+				self.fireSave({queryCode:self.oQuerySelect.getSelectedKey()});
 			}
 		});
 		self.oSettings = new sap.m.Button({

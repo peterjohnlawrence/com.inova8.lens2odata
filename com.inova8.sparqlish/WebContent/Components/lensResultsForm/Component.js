@@ -4,6 +4,7 @@ jQuery.sap.require("sap.ui.layout.form.GridLayout");
 jQuery.sap.require("sap.ui.layout.form.FormContainer");
 jQuery.sap.require("sap.ui.layout.form.Form");
 jQuery.sap.require("sap.ui.commons.Paginator");
+jQuery.sap.require("sparqlish.control.textLink");
 jQuery.sap.declare("Components.lensResultsForm.Component");
 "use strict";
 sap.ui.core.UIComponent.extend("Components.lensResultsForm.Component", {
@@ -72,8 +73,8 @@ Components.lensResultsForm.Component.prototype.renderResults = function(queryUrl
 					var bResults = true;
 					var oRecordTemplate = null;
 					var sBindPath = null;
-					//if (jQuery.isEmptyObject(odataResults.getData().d.results)) {
-					if (typeof odataResults.getData().d.results  !== "object" ) {
+					// if (jQuery.isEmptyObject(odataResults.getData().d.results)) {
+					if (typeof odataResults.getData().d.results !== "object") {
 						if (odataResults.getData().d.length > 0) {
 							oRecordTemplate = odataResults.getData().d[0];
 							sBindPath = "/d";
@@ -108,20 +109,22 @@ Components.lensResultsForm.Component.prototype.renderResults = function(queryUrl
 			}
 			self.oFormPanel.addStyleClass("sapUiNoContentPadding");
 			self.oForm.setBusy(false);
-		}).attachRequestFailed(function(oEvent) {
-			var displayText;
-			if (oEvent.getParameter("statusCode") == 404) {
-				displayText = sap.ui.getCore().getModel("i18nModel").getProperty("lensResultsForm.queryNoDataFound");
-			} else {
-				displayText = sap.ui.getCore().getModel("i18nModel").getProperty("lensResultsForm.queryResponseError") + oEvent.getParameter("statusCode") + " "+ oEvent.getParameter("statusText");
-			}
-			self.oFormContainer.addFormElement(new sap.ui.layout.form.FormElement({
-				label : new sap.m.Label({
-					text : displayText,
-				})
-			}));
-			self.oForm.setBusy(false);
-		});
+		}).attachRequestFailed(
+				function(oEvent) {
+					var displayText;
+					if (oEvent.getParameter("statusCode") == 404) {
+						displayText = sap.ui.getCore().getModel("i18nModel").getProperty("lensResultsForm.queryNoDataFound");
+					} else {
+						displayText = sap.ui.getCore().getModel("i18nModel").getProperty("lensResultsForm.queryResponseError") + oEvent.getParameter("statusCode") + " "
+								+ oEvent.getParameter("statusText");
+					}
+					self.oFormContainer.addFormElement(new sap.ui.layout.form.FormElement({
+						label : new sap.m.Label({
+							text : displayText,
+						})
+					}));
+					self.oForm.setBusy(false);
+				});
 	} else {
 		sap.m.MessageToast.show(sap.ui.getCore().getModel("i18nModel").getProperty("lensResultsForm.queryUndefined"));
 	}
@@ -315,24 +318,20 @@ Components.lensResultsForm.Component.prototype.bindFormFields = function(oMetaMo
 						})));
 						nRow++;
 					} else {
-						elementCollection.push(this.nextFormElement(sLabel, nLevel, false, new sap.m.Text({
-							wrapping : true,
-							tooltip : sTooltip
-						}).bindProperty("text", {
-							path : sPathPrefix + column,
-							type : new sap.ui.model.type.String()
-						})));
+						elementCollection.push(this.nextFormElement(sLabel, nLevel, false,
+								new sparqlish.control.textLink({wrapping : true,tooltip : sTooltip}).bindProperty("value",{
+								path :  sPathPrefix + column
+							})
+						));
 						nRow++;
 					}
 				}
 			} else {
-				elementCollection.push(this.nextFormElement(sLabel, nLevel, false, new sap.m.Text({
-					wrapping : true,
-					tooltip : sTooltip
-				}).bindProperty("text", {
-					path : sPathPrefix + column,
-					type : new sap.ui.model.type.String()
-				})));
+				elementCollection.push(this.nextFormElement(sLabel, nLevel, false, 
+				new sparqlish.control.textLink({wrapping : true,tooltip : sTooltip}).bindProperty("value",{
+								path :  sPathPrefix + column
+							}).setProperty("linkText",sap.ui.getCore().getModel("i18nModel").getProperty("textLink.LinkTo") + column)					
+				));
 				nRow++;
 			}
 		}

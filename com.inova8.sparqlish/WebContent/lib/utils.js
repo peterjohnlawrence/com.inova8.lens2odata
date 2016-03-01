@@ -186,5 +186,10 @@
 			return (c == 'x' ? r : (r & 0x3 | 0x8)).toString(16);
 		});
 		return uuid;
-	}
+	};
+	utils.validateUrl = function(sUrl) {
+		var oParser = document.createElement('a');
+		oParser.href = sUrl;
+		return (oParser.hostname && oParser.host != window.location.host) ? oParser : false;
+	};
 })(window);
