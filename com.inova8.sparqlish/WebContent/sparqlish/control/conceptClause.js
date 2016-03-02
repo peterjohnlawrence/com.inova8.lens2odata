@@ -3,7 +3,7 @@ jQuery.sap.require("sparqlish.control.conceptFilters");
 jQuery.sap.require("sparqlish.control.addClauses");
 jQuery.sap.require("sparqlish.control.includeOptionalIgnore");
 sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
-//	"use strict";
+	//"use strict";
 	return Control.extend("sparqlish.control.conceptClause", {
 		metadata : {
 			properties : {},
@@ -140,8 +140,9 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 				self.oEntityTypeModel = new sap.ui.model.json.JSONModel();
 				self.oEntityTypeModel.setData(oMetaModel.getODataEntityType(oConcept.entityType));
 				self.setModel(self.oEntityTypeModel, "entityTypeModel");
-				self.getAggregation("_conceptFilters").setModel(self.oEntityTypeModel, "entityTypeModel");
-				self.getAggregation("_conceptFilters").getAggregation("_extendFilter").setVisible(true);
+//TODO temporarily removed as difficult to support entity selection
+//				self.getAggregation("_conceptFilters").setModel(self.oEntityTypeModel, "entityTypeModel");
+//				self.getAggregation("_conceptFilters").getAggregation("_extendFilter").setVisible(true);
 				self.getModel("queryModel").refresh();
 				self.fireConceptClauseChanged(oEvent);
 			};
