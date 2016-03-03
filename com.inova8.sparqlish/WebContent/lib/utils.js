@@ -12,7 +12,39 @@
 	var oTimeFormat = sap.ui.core.format.DateFormat.getDateTimeInstance({
 		pattern : constants.TIMEFORMAT
 	});
-	utils.getCachedOdataModel = function(service, onFailure, onSuccess) {
+	utils.mergeQueryModel = function(localQueryData, remoteQueryData) {
+		var mergedData = {
+			services : {}
+		};
+		for ( var service in remoteQueryData.services) {
+			mergedData.services[service] = {
+				"code" : service,
+				"name" : remoteQueryData.services[service].name,
+				"serviceUrl" : remoteQueryData.services[service].serviceUrl,
+				"version" : remoteQueryData.services[service].version,
+				queries : {}
+			};
+			for ( var query in remoteQueryData.services[service].queries) {
+				mergedData.services[service].queries[query] = jQuery.extend(true, {}, remoteQueryData.services[service].queries[query])
+			}
+		}
+		// Now overwrite with any local data
+		if(!jQuery.isEmptyObject(localQueryData)){
+		for ( var service in localQueryData.services) {
+			mergedData.services[service] = {
+				"code" : service,
+				"name" : localQueryData.services[service].name,
+				"serviceUrl" : localQueryData.services[service].serviceUrl,
+				"version" : localQueryData.services[service].version,
+				queries : {}
+			};
+			for ( var query in localQueryData.services[service].queries) {
+				mergedData.services[service].queries[query] = jQuery.extend(true, {}, localQueryData.services[service].queries[query])
+			}
+		}}
+		return mergedData;// jQuery.extend(true, {}, localQueryData, remoteQueryData);
+	};
+	utils.getCachedOdataModel = function(service, onFailure, onSuccess, args) {
 		var odataModel = sap.ui.getCore().getModel(constants.ODATACACHE + service.code);
 		if (jQuery.isEmptyObject(odataModel)) {
 			// TODO should set maxDataServiceVersion based on declaration
@@ -25,14 +57,14 @@
 				}).attachMetadataLoaded(function(oEvent) {
 					sap.ui.getCore().setModel(odataModel, constants.ODATACACHE + service.code);
 					odataModel.setUseBatch(false);
-					onSuccess(odataModel);
+					onSuccess(odataModel, args);
 				});
 			} catch (e) {
 				sap.m.MessageToast.show("Metada load error. Check < OdataV4 also check source: " + service.serviceUrl);
 				throw new Error("MetadataFailed");
 			}
 		} else {
-			onSuccess(odataModel);
+			onSuccess(odataModel, args);
 		}
 	};
 	utils.removeValue = function(thisArray, property, value) {

@@ -19,7 +19,7 @@ sap.ui.core.UIComponent.extend("Components.lensResultsTable.Component", {
 Components.lensResultsTable.Component.prototype.createContent = function() {
 	this.oTablePanel = new sap.ui.commons.Panel({
 		title : new sap.ui.core.Title(),
-		width : "100%",
+		width : "100%",	 //height : "100%"
 		showCollapseIcon : false,
 		borderDesign : sap.ui.commons.enums.BorderDesign.Box
 	});

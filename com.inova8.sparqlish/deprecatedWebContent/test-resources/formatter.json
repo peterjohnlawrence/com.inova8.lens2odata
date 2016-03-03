@@ -14,161 +14,7 @@
 					"_class": "Query",
 					"code": "0",
 					"name": "Test0:Category",
-					"concept": "Product",
-					"clauses": 
-					{
-						"_class": "Clauses",
-						"clause": 
-						{
-							"_class": "Clause",
-							"ignore": false,
-							"optional": false,
-							"propertyClause": 
-							{
-								"_class": "DataPropertyClause",
-								"dataProperty": "comment",
-								"type": "Edm.String",
-								"dataPropertyFilters": 
-								{
-									"_class": "DataPropertyFilters"
-								}
-							}
-						},
-
-						"conjunctionClauses": 
-						[
-							{
-								"_class": "ConjunctionClause",
-								"conjunction": "and",
-								"clause": 
-								{
-									"_class": "Clause",
-									"ignore": false,
-									"optional": false,
-									"propertyClause": 
-									{
-										"_class": "DataPropertyClause",
-										"dataProperty": "label",
-										"type": "Edm.String",
-										"dataPropertyFilters": 
-										{
-											"_class": "DataPropertyFilters"
-										}
-									}
-								}
-							},
-
-							{
-								"_class": "ConjunctionClause",
-								"conjunction": "and",
-								"clause": 
-								{
-									"_class": "Clause",
-									"ignore": false,
-									"optional": false,
-									"propertyClause": 
-									{
-										"_class": "DataPropertyClause",
-										"dataProperty": "productName",
-										"type": "Edm.String",
-										"dataPropertyFilters": 
-										{
-											"_class": "DataPropertyFilters"
-										}
-									}
-								}
-							},
-
-							{
-								"_class": "ConjunctionClause",
-								"conjunction": "and",
-								"clause": 
-								{
-									"_class": "Clause",
-									"ignore": false,
-									"optional": false,
-									"propertyClause": 
-									{
-										"_class": "DataPropertyClause",
-										"dataProperty": "quantityPerUnit",
-										"type": "Edm.String",
-										"dataPropertyFilters": 
-										{
-											"_class": "DataPropertyFilters"
-										}
-									}
-								}
-							},
-
-							{
-								"_class": "ConjunctionClause",
-								"conjunction": "and",
-								"clause": 
-								{
-									"_class": "Clause",
-									"ignore": false,
-									"optional": false,
-									"propertyClause": 
-									{
-										"_class": "DataPropertyClause",
-										"dataProperty": "subjectId",
-										"type": "Edm.String",
-										"dataPropertyFilters": 
-										{
-											"_class": "DataPropertyFilters"
-										}
-									}
-								}
-							},
-
-							{
-								"_class": "ConjunctionClause",
-								"conjunction": "and",
-								"clause": 
-								{
-									"_class": "Clause",
-									"ignore": false,
-									"optional": false,
-									"propertyClause": 
-									{
-										"_class": "DataPropertyClause",
-										"dataProperty": "unitPrice",
-										"type": "Edm.Double",
-										"dataPropertyFilters": 
-										{
-											"_class": "DataPropertyFilters"
-										}
-									}
-								}
-							},
-
-							{
-								"_class": "ConjunctionClause",
-								"conjunction": "and",
-								"clause": 
-								{
-									"_class": "Clause",
-									"ignore": false,
-									"optional": false,
-									"propertyClause": 
-									{
-										"_class": "ObjectPropertyClause",
-										"objectProperty": "isPartOfOrderDetail",
-										"multiplicity": "*",
-										"objectPropertyFilters": 
-										[
-											
-										]
-									}
-								}
-							}
-						]
-					},
-
-					"conceptFilters": 
-					[
-						
-					]
+					"concept": "Category"
 				},
 
 				"1": 
@@ -3398,6 +3244,18 @@
 					"concept": "Matter"
 				}
 			}
+		},
+
+		"t1": 
+		{
+			"code": "t1",
+			"name": "t1",
+			"serviceUrl": "proxy/http/services.odata.org/Northwind/Northwind.svc/",
+			"version": "V2",
+			"queries": 
+			[
+				
+			]
 		}
 	}
 }

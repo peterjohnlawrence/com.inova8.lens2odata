@@ -326,7 +326,8 @@ Components.queryForm.Component.prototype.previewResults = function(self) {
 					var nResults = 0;
 					self.oResultsModel.sBindPath = null;
 					var oData = self.oResultsModel.getData();
-					if (jQuery.isEmptyObject(oData.d.results)) {
+					//if (jQuery.isEmptyObject(oData.d.results)) {
+					if (typeof oData.d.results !== "object") {
 						if (oData.d.length > 0) {
 							self.oResultsModel.sBindPath = "/d";
 						} else {

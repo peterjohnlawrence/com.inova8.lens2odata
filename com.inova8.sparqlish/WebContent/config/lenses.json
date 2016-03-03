@@ -104,6 +104,61 @@
 			]
 		},
 
+		"1R2C-1R1C": 
+		{
+			"type": "rows",
+			"width": "100%",
+			"height": "100%",
+			"rows": 
+			[
+				{
+					"content": 
+					{
+						"type": "columns",
+						"width": "100%",
+						"height": "100%",
+						"columns": 
+						[
+							{
+								"content": 
+								{
+									"type": "lens",
+									"id": "R1-C1"
+								}
+							},
+
+							{
+								"content": 
+								{
+									"type": "lens",
+									"id": "R1-C2"
+								}
+							}
+						]
+					}
+				},
+
+				{
+					"content": 
+					{
+						"type": "columns",
+						"width": "100%",
+						"height": "100%",
+						"columns": 
+						[
+							{
+								"content": 
+								{
+									"type": "lens",
+									"id": "R2-C1"
+								}
+							}
+						]
+					}
+				}
+			]
+		},
+
 		"1C": 
 		{
 			"type": "columns",
@@ -211,7 +266,7 @@
 			"LLM.Person": 
 			{
 				"title": "People",
-				"template": "1R2C-1R",
+				"template": "1R2C-1R1C",
 				"fragments": 
 				[
 					{
@@ -243,28 +298,28 @@
 					},
 
 					{
-						"position": "R2",
+						"position": "R2-C1",
 						"title": "K_Docs Authored",
 						"type": "Components.lensResultsTable",
 						"query": "{uri}"
 					},
 
 					{
-						"position": "R2",
+						"position": "R2-C1",
 						"title": "Matters Worked On",
 						"type": "Components.lensResultsTable",
 						"query": "{uri}"
 					},
 
 					{
-						"position": "R2",
+						"position": "R2-C1",
 						"title": "Matters for which they are Matter Managers",
 						"type": "Components.lensResultsTable",
 						"query": "{uri}"
 					},
 
 					{
-						"position": "R2",
+						"position": "R2-C1",
 						"title": "Matters for which they are Matter Partners",
 						"type": "Components.lensResultsTable",
 						"query": "{uri}"
@@ -275,7 +330,7 @@
 			"LLM.Deal": 
 			{
 				"title": "Deal",
-				"template": "1R2C-1R",
+				"template": "1R2C-1R1C",
 				"fragments": 
 				[
 					{
@@ -293,14 +348,14 @@
 					},
 
 					{
-						"position": "R2",
+						"position": "R2-C1",
 						"title": "People",
 						"type": "Components.lensResultsTable",
 						"query": "{uri}"
 					},
 
 					{
-						"position": "R2",
+						"position": "R2-C1",
 						"title": "Documents",
 						"type": "Components.lensResultsTable",
 						"query": "{uri}"
@@ -311,7 +366,7 @@
 			"LLM.Client": 
 			{
 				"title": "Client",
-				"template": "1R2C-1R",
+				"template": "1R2C-1R1C",
 				"fragments": 
 				[
 					{
@@ -329,35 +384,35 @@
 					},
 
 					{
-						"position": "R2",
+						"position": "R2-C1",
 						"title": "Engagement Terms",
 						"type": "Components.lensResultsTable",
 						"query": "{uri}"
 					},
 
 					{
-						"position": "R2",
+						"position": "R2-C1",
 						"title": "Matters Done for Client",
 						"type": "Components.lensResultsTable",
 						"query": "{uri}"
 					},
 
 					{
-						"position": "R2",
+						"position": "R2-C1",
 						"title": "ClientBook Activities",
 						"type": "Components.lensResultsTable",
 						"query": "{uri}"
 					},
 
 					{
-						"position": "R2",
+						"position": "R2-C1",
 						"title": "Client Team",
 						"type": "Components.lensResultsTable",
 						"query": "{uri}"
 					},
 
 					{
-						"position": "R2",
+						"position": "R2-C1",
 						"title": "Recent knowledge for this Client/CUP",
 						"type": "Components.lensResultsTable",
 						"query": "{uri}"

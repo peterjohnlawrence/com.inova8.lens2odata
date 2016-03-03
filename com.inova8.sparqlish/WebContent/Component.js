@@ -79,7 +79,7 @@ sap.ui.define([ "sap/ui/core/UIComponent" ], function(UIComponent) {
 Lens.Component.prototype.init = function() {
 	sap.ui.core.UIComponent.prototype.init.apply(this, arguments);
 	jQuery.sap.require("jquery.sap.storage");
-	
+
 	// i18nModel>
 	var oI18n = new sap.ui.model.resource.ResourceModel({
 		bundleName : "i18n.lens"
@@ -92,7 +92,7 @@ Lens.Component.prototype.init = function() {
 	var remoteQueryData = new sap.ui.model.json.JSONModel();
 	remoteQueryData.loadData("config/queries.json", null, false);
 
-	var queryData = jQuery.extend(true, {}, localQueryData, remoteQueryData.getData());
+	var queryData = utils.mergeQueryModel(localQueryData, remoteQueryData.getData());
 
 	oQueryModel.setData(queryData);
 	sap.ui.getCore().setModel(oQueryModel, "queryModel");
