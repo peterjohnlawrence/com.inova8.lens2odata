@@ -153,7 +153,8 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 				return this.getModel("metaModel").getODataEntityType(this.getDomainEntityTypeQName());
 		},
 		getRangeEntityTypeQName : function() {
-				return this.getModel("metaModel").getODataEntitySet(this.getObjectProperty().toRole).entityType;
+			return this.getModel("metaModel").getODataInheritedAssociation(this.getDomainEntityTypeContext(),this.getObjectProperty().name).type;
+			//return this.getModel("metaModel").getODataAssociationEnd(this.getDomainEntityTypeContext(),this.getObjectProperty().name).type;
 		},
 		getRangeEntityTypeContext : function() {
 				return this.getModel("metaModel").getODataEntityType(this.getRangeEntityTypeQName());

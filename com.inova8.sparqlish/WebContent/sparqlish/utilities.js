@@ -44,7 +44,8 @@ sap.ui.model.MetaModel.prototype.entityTypeQName = function(oQueryModel, oContex
 //			var navigationProperty = this.getNavigationProperty(sEntityType, sObjectProperty);
 //			var toEntitySet = navigationProperty.toRole;
 //			sEntityType = this.getODataEntitySet(toEntitySet).entityType;			
-			sEntityType = this.getODataAssociationEnd(this.getODataEntityType(sEntityType),sObjectProperty).type;
+//			sEntityType = this.getODataAssociationEnd(this.getODataEntityType(sEntityType),sObjectProperty).type;
+			sEntityType = this.getODataInheritedAssociation(this.getODataEntityType(sEntityType),sObjectProperty).type;
 		}
 		return sEntityType;
 	} catch (error) {
