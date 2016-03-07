@@ -43,9 +43,11 @@ sap.m.Link.extend("sparqlish.control.includeOptionalIgnore", {
 				self.oIncludeOptionalIgnoreMenu = new sap.ui.unified.Menu({
 					items : [ new sap.ui.unified.MenuItem({
 						text : '{i18nModel>includeOptionalIgnore.with}'
-					}), new sap.ui.unified.MenuItem({
-						text : '{i18nModel>includeOptionalIgnore.optionallyWith}'
-					}), new sap.ui.unified.MenuItem({
+					}), 
+//					new sap.ui.unified.MenuItem({
+//						text : '{i18nModel>includeOptionalIgnore.optionallyWith}'
+//					}), 
+					new sap.ui.unified.MenuItem({
 						text : '{i18nModel>includeOptionalIgnore.ignoreWith}'
 					}) ]
 				});
@@ -69,13 +71,13 @@ sap.m.Link.extend("sparqlish.control.includeOptionalIgnore", {
 									currentModelData.includeOptionalIgnore = "include";
 									self.getAggregation("_includeOptionalIgnore").setTooltip(sap.ui.getCore().getModel("i18nModel").getProperty("propertyClauseTooltipWith"));
 									break;
-								case sap.ui.getCore().getModel("i18nModel").getProperty("includeOptionalIgnore.optionallyWith"):
-									currentModelData.ignore = false;
-									currentModelData.optional = true;
-									currentModelData.includeOptionalIgnore = "optional";
-									self.getAggregation("_includeOptionalIgnore").setTooltip(
-											sap.ui.getCore().getModel("i18nModel").getProperty("includeOptionalIgnore.optionallyWithTooltip"));
-									break;
+//								case sap.ui.getCore().getModel("i18nModel").getProperty("includeOptionalIgnore.optionallyWith"):
+//									currentModelData.ignore = false;
+//									currentModelData.optional = true;
+//									currentModelData.includeOptionalIgnore = "optional";
+//									self.getAggregation("_includeOptionalIgnore").setTooltip(
+//											sap.ui.getCore().getModel("i18nModel").getProperty("includeOptionalIgnore.optionallyWithTooltip"));
+//									break;
 								case sap.ui.getCore().getModel("i18nModel").getProperty("includeOptionalIgnore.ignoreWith"):
 									currentModelData.ignore = true;
 									currentModelData.optional = false;
@@ -101,8 +103,8 @@ sap.m.Link.extend("sparqlish.control.includeOptionalIgnore", {
 		case "ObjectPropertyClause":
 			if (oClause.ignore) {
 				oText = sap.ui.getCore().getModel("i18nModel").getProperty("includeOptionalIgnore.objectproperty.ignoreWith");
-			} else if (oClause.optional) {
-				oText = sap.ui.getCore().getModel("i18nModel").getProperty("includeOptionalIgnore.objectproperty.optionallyWith");
+//			} else if (oClause.optional) {
+//				oText = sap.ui.getCore().getModel("i18nModel").getProperty("includeOptionalIgnore.objectproperty.optionallyWith");
 			} else {
 				oText = sap.ui.getCore().getModel("i18nModel").getProperty("includeOptionalIgnore.objectproperty.with");
 			}
@@ -111,8 +113,8 @@ sap.m.Link.extend("sparqlish.control.includeOptionalIgnore", {
 		case "DataPropertyClause":
 			if (oClause.ignore) {
 				oText = sap.ui.getCore().getModel("i18nModel").getProperty("includeOptionalIgnore.dataproperty.ignoreWith");
-			} else if (oClause.optional) {
-				oText = sap.ui.getCore().getModel("i18nModel").getProperty("includeOptionalIgnore.dataproperty.optionallyWith");
+//			} else if (oClause.optional) {
+//				oText = sap.ui.getCore().getModel("i18nModel").getProperty("includeOptionalIgnore.dataproperty.optionallyWith");
 			} else {
 				oText = sap.ui.getCore().getModel("i18nModel").getProperty("includeOptionalIgnore.dataproperty.with");
 			}

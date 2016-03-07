@@ -1375,72 +1375,76 @@ sparqlFilterOperator = function(sVariable, sOperator, sValue, sType) {
 	}
 };
 odataFilterOperator = function(sVersion, sVariable, sOperator, sValue, sType, oParameters) {
-	switch (sOperator) {
-	case "eq": {
-		return "(" + sVariable + " eq " + odataValue(sVersion, sValue, sType, oParameters) + ")";
-	}
-		;
-	case "ne": {
-		return "(" + sVariable + " ne " + odataValue(sVersion, sValue, sType, oParameters) + ")";
-	}
-		;
-	case "gt": {
-		return "(" + sVariable + " gt " + odataValue(sVersion, sValue, sType, oParameters) + ")";
-	}
-		;
-	case "ge": {
-		return "(" + sVariable + " ge " + odataValue(sVersion, sValue, sType, oParameters) + ")";
-	}
-		;
-	case "lt": {
-		return "(" + sVariable + " lt " + odataValue(sVersion, sValue, sType, oParameters) + ")";
-	}
-		;
-	case "le": {
-		return "(" + sVariable + " le " + odataValue(sVersion, sValue, sType, oParameters) + ")";
-	}
-		;
-	case "substringof": {
-		// TODO
-		if (sVersion == "V4") {
-			return "(contains(" + sVariable + "," + odataValue(sVersion, sValue, sType, oParameters) + "))";
-		} else {
-			return "(substringof(" + odataValue(sVersion, sValue, sType, oParameters) + "," + sVariable + "))";
+	if (jQuery.isEmptyObject(sValue)) {
+		return "";
+	} else {
+		switch (sOperator) {
+		case "eq": {
+			return "(" + sVariable + " eq " + odataValue(sVersion, sValue, sType, oParameters) + ")";
 		}
-	}
-		;
-	case "endswith": {
-		// TODO
-		if (sVersion == "V4") {
-			return "(contains(" + sVariable + "," + odataValue(sVersion, sValue, sType, oParameters) + "))";
-		} else {
-			return "(endswith(" + odataValue(sVersion, sValue, sType, oParameters) + "," + sVariable + "))";
+			;
+		case "ne": {
+			return "(" + sVariable + " ne " + odataValue(sVersion, sValue, sType, oParameters) + ")";
 		}
-	}
-		;
-	case "startswith": {
-		// TODO
-		if (sVersion == "V4") {
-			return "(contains(" + sVariable + "," + odataValue(sVersion, sValue, sType, oParameters) + "))";
-		} else {
-			return "(startswith(" + odataValue(sVersion, sValue, sType, oParameters) + "," + sVariable + "))";
+			;
+		case "gt": {
+			return "(" + sVariable + " gt " + odataValue(sVersion, sValue, sType, oParameters) + ")";
 		}
-	}
-		;
-	case "between": {
-		return "*ERROR*";
-	}
-		;
-		// case "gt": {
-		// return "(" + sVariable + " gt " + odataValue(sVersion, sValue, sType, oParameters) + ")";
-		// }
-		// ;
-		// case "lt": {
-		// return "(" + sVariable + " lt " + odataValue(sVersion, sValue, sType, oParameters) + ")";
-		// }
-		// ;
-	default:
-		throw "illegalFilterOperator";
+			;
+		case "ge": {
+			return "(" + sVariable + " ge " + odataValue(sVersion, sValue, sType, oParameters) + ")";
+		}
+			;
+		case "lt": {
+			return "(" + sVariable + " lt " + odataValue(sVersion, sValue, sType, oParameters) + ")";
+		}
+			;
+		case "le": {
+			return "(" + sVariable + " le " + odataValue(sVersion, sValue, sType, oParameters) + ")";
+		}
+			;
+		case "substringof": {
+			// TODO
+			if (sVersion == "V4") {
+				return "(contains(" + sVariable + "," + odataValue(sVersion, sValue, sType, oParameters) + "))";
+			} else {
+				return "(substringof(" + odataValue(sVersion, sValue, sType, oParameters) + "," + sVariable + "))";
+			}
+		}
+			;
+		case "endswith": {
+			// TODO
+			if (sVersion == "V4") {
+				return "(contains(" + sVariable + "," + odataValue(sVersion, sValue, sType, oParameters) + "))";
+			} else {
+				return "(endswith(" + odataValue(sVersion, sValue, sType, oParameters) + "," + sVariable + "))";
+			}
+		}
+			;
+		case "startswith": {
+			// TODO
+			if (sVersion == "V4") {
+				return "(contains(" + sVariable + "," + odataValue(sVersion, sValue, sType, oParameters) + "))";
+			} else {
+				return "(startswith(" + odataValue(sVersion, sValue, sType, oParameters) + "," + sVariable + "))";
+			}
+		}
+			;
+		case "between": {
+			return "*ERROR*";
+		}
+			;
+			// case "gt": {
+			// return "(" + sVariable + " gt " + odataValue(sVersion, sValue, sType, oParameters) + ")";
+			// }
+			// ;
+			// case "lt": {
+			// return "(" + sVariable + " lt " + odataValue(sVersion, sValue, sType, oParameters) + ")";
+			// }
+			// ;
+		default:
+			throw "illegalFilterOperator";
+		}
 	}
 };
 odataValue = function(sVersion, sValue, sType, oParameters) {

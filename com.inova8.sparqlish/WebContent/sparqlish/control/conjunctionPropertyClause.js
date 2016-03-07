@@ -86,9 +86,11 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 					var oConjunctionMenu = new sap.ui.unified.Menu({
 						items : [ new sap.ui.unified.MenuItem({
 							text : '{i18nModel>conjunctionPropertyClause.and}'
-						}), new sap.ui.unified.MenuItem({
-							text : '{i18nModel>conjunctionPropertyClause.or}'
-						}), self.oConjunctionMenuItemDelete ]
+						}), 
+//						new sap.ui.unified.MenuItem({
+//							text : '{i18nModel>conjunctionPropertyClause.or}'
+//						}), 
+						self.oConjunctionMenuItemDelete ]
 					});
 					oConjunctionMenu.attachItemSelect(function(oEvent) {
 						var selectedItem = oEvent.getParameter("item").getText();
