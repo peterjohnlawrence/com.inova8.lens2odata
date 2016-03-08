@@ -80,6 +80,7 @@ Lens.Component.prototype.init = function() {
 	sap.ui.core.UIComponent.prototype.init.apply(this, arguments);
 	jQuery.sap.require("jquery.sap.storage");
 
+
 	// i18nModel>
 	var oI18n = new sap.ui.model.resource.ResourceModel({
 		bundleName : "i18n.lens"

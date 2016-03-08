@@ -2376,7 +2376,7 @@
 									"_class": "Clause",
 									"includeOptionalIgnore": "include",
 									"ignore": false,
-									"optional": true,
+									"optional": false,
 									"propertyClause": 
 									{
 										"_class": "ObjectPropertyClause",
