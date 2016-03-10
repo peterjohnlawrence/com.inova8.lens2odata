@@ -3244,6 +3244,1510 @@
 					"concept": "Matter"
 				}
 			}
+		},
+
+		"NWL": 
+		{
+			"code": "NWL",
+			"name": "NWL",
+			"serviceUrl": "http://acodwb06:8080/odata2sparql/2.0/NWL/",
+			"version": "V2",
+			"queries": 
+			{
+				"0": 
+				{
+					"_class": "Query",
+					"code": "0",
+					"name": "Test0:Category",
+					"concept": "Category"
+				},
+
+				"0a": 
+				{
+					"_class": "Query",
+					"code": "0a",
+					"name": "Test0:No concept"
+				},
+
+				"1": 
+				{
+					"_class": "Query",
+					"code": "1",
+					"name": "Test1:No clauses",
+					"concept": "Order"
+				},
+
+				"1a": 
+				{
+					"_class": "Query",
+					"code": "1a",
+					"name": "Test1a: date clause",
+					"concept": "Order",
+					"parameters": 
+					[
+						{
+							"name": "Order Date",
+							"type": "Edm.DateTime",
+							"prompt": "Enter value for Order Date",
+							"defaultValue": "2015-12-20T00:00:00"
+						},
+
+						{
+							"name": "Ship City",
+							"type": "Edm.String",
+							"prompt": "Enter value for Ship City",
+							"defaultValue": "London"
+						}
+					],
+
+					"clauses": 
+					{
+						"_class": "Clauses",
+						"clause": 
+						{
+							"_class": "Clause",
+							"ignore": false,
+							"optional": false,
+							"propertyClause": 
+							{
+								"_class": "DataPropertyClause",
+								"dataProperty": "orderDate",
+								"type": "Edm.DateTime",
+								"dataPropertyFilters": 
+								{
+									"_class": "DataPropertyFilters",
+									"dataPropertyFilter": 
+									{
+										"_class": "DataPropertyFilter",
+										"operator": "ne",
+										"type": "Edm.DateTime",
+										"value": "{Order Date}"
+									}
+								}
+							}
+						},
+
+						"conjunctionClauses": 
+						[
+							{
+								"_class": "ConjunctionClause",
+								"conjunction": "and",
+								"clause": 
+								{
+									"_class": "Clause",
+									"ignore": false,
+									"optional": false,
+									"propertyClause": 
+									{
+										"_class": "DataPropertyClause",
+										"dataProperty": "shipCity",
+										"type": "Edm.String",
+										"dataPropertyFilters": 
+										{
+											"_class": "DataPropertyFilters",
+											"dataPropertyFilter": 
+											{
+												"_class": "DataPropertyFilter",
+												"operator": "substringof",
+												"type": "Edm.String",
+												"value": "{Ship City}"
+											}
+										}
+									}
+								}
+							}
+						]
+					}
+				},
+
+				"1b": 
+				{
+					"_class": "Query",
+					"code": "1b",
+					"name": "Test1b: date clause",
+					"concept": "Order",
+					"parameters": 
+					[
+						{
+							"name": "Order Date",
+							"type": "Edm.DateTime",
+							"prompt": "Enter value for Order Date",
+							"defaultValue": "2015-12-20T00:00:00"
+						},
+
+						{
+							"name": "Ship City",
+							"type": "Edm.String",
+							"prompt": "Enter value for Ship City",
+							"defaultValue": "London"
+						}
+					],
+
+					"clauses": 
+					{
+						"_class": "Clauses",
+						"clause": 
+						{
+							"_class": "Clause",
+							"ignore": false,
+							"optional": false,
+							"propertyClause": 
+							{
+								"_class": "DataPropertyClause",
+								"dataProperty": "orderDate",
+								"type": "Edm.DateTime",
+								"dataPropertyFilters": 
+								{
+									"_class": "DataPropertyFilters",
+									"dataPropertyFilter": 
+									{
+										"_class": "DataPropertyFilter",
+										"operator": "ne",
+										"type": "Edm.DateTime",
+										"value": "{Order Date}"
+									}
+								}
+							}
+						},
+
+						"conjunctionClauses": 
+						[
+							{
+								"_class": "ConjunctionClause",
+								"conjunction": "and",
+								"clause": 
+								{
+									"_class": "Clause",
+									"ignore": false,
+									"optional": false,
+									"propertyClause": 
+									{
+										"_class": "DataPropertyClause",
+										"dataProperty": "shipCity",
+										"type": "Edm.String",
+										"dataPropertyFilters": 
+										{
+											"_class": "DataPropertyFilters",
+											"dataPropertyFilter": 
+											{
+												"_class": "DataPropertyFilter",
+												"operator": "substringof",
+												"type": "Edm.String",
+												"value": "{Ship City}"
+											}
+										}
+									}
+								}
+							}
+						]
+					}
+				},
+
+				"2": 
+				{
+					"_class": "Query",
+					"code": "2",
+					"name": "Test2:Single clauses",
+					"concept": "Order",
+					"label": "Order",
+					"clauses": 
+					{
+						"_class": "Clauses",
+						"clause": 
+						{
+							"_class": "Clause",
+							"label": "Ship To Country",
+							"propertyClause": 
+							{
+								"_class": "DataPropertyClause",
+								"dataProperty": "shipCountry",
+								"type": "Edm.String",
+								"dataPropertyFilters": 
+								{
+									"_class": "DataPropertyFilters",
+									"dataPropertyFilter": 
+									{
+										"_class": "DataPropertyFilter",
+										"operator": "substringof",
+										"value": "Fr",
+										"datatype": "<http://www.w3.org/2001/XMLSchema#string>",
+										"type": "Edm.String"
+									}
+								}
+							}
+						}
+					}
+				},
+
+				"2a": 
+				{
+					"_class": "Query",
+					"code": "2a",
+					"name": "Test2A:Single clauses",
+					"concept": "Order",
+					"label": "Order",
+					"clauses": 
+					{
+						"_class": "Clauses",
+						"clause": 
+						{
+							"_class": "Clause",
+							"label": "Ship To Country",
+							"propertyClause": 
+							{
+								"_class": "DataPropertyClause",
+								"dataProperty": "shipCountry",
+								"type": "Edm.String"
+							}
+						}
+					}
+				},
+
+				"3": 
+				{
+					"_class": "Query",
+					"code": "3",
+					"name": "Test3:Optional Single clauses",
+					"concept": "Order",
+					"clauses": 
+					{
+						"_class": "Clauses",
+						"clause": 
+						{
+							"_class": "Clause",
+							"includeOptionalIgnore": "optional",
+							"ignore": false,
+							"optional": true,
+							"propertyClause": 
+							{
+								"_class": "DataPropertyClause",
+								"dataProperty": "shipCountry",
+								"type": "Edm.String",
+								"dataPropertyFilters": 
+								{
+									"_class": "DataPropertyFilters",
+									"dataPropertyFilter": 
+									{
+										"_class": "DataPropertyFilter",
+										"operator": "substringof",
+										"value": "Fr",
+										"datatype": "<http://www.w3.org/2001/XMLSchema#string>",
+										"type": "Edm.String"
+									}
+								}
+							}
+						}
+					}
+				},
+
+				"4": 
+				{
+					"_class": "Query",
+					"code": "4",
+					"name": "Test4:Optional two clauses",
+					"concept": "Order",
+					"clauses": 
+					{
+						"_class": "Clauses",
+						"clause": 
+						{
+							"_class": "Clause",
+							"includeOptionalIgnore": "include",
+							"ignore": false,
+							"optional": true,
+							"label": "Ship To Country",
+							"propertyClause": 
+							{
+								"_class": "DataPropertyClause",
+								"dataProperty": "shipCountry",
+								"type": "Edm.String",
+								"dataPropertyFilters": 
+								{
+									"_class": "DataPropertyFilters",
+									"dataPropertyFilter": 
+									{
+										"_class": "DataPropertyFilter",
+										"operator": "substringof",
+										"value": "Fr",
+										"datatype": "<http://www.w3.org/2001/XMLSchema#string>",
+										"type": "Edm.String"
+									}
+								}
+							}
+						},
+
+						"conjunctionClauses": 
+						[
+							{
+								"_class": "ConjunctionClause",
+								"conjunction": "and",
+								"clause": 
+								{
+									"_class": "Clause",
+									"includeOptionalIgnore": "include",
+									"ignore": false,
+									"optional": false,
+									"label": "Shipping Date",
+									"propertyClause": 
+									{
+										"_class": "DataPropertyClause",
+										"dataProperty": "shippedDate",
+										"type": "Edm.DateTime",
+										"dataPropertyFilters": 
+										{
+											"_class": "DataPropertyFilters",
+											"dataPropertyFilter": 
+											{
+												"_class": "DataPropertyFilter",
+												"operator": "lt",
+												"value": "1998-01-01T00:00:00.000Z",
+												"datatype": "<http://www.w3.org/2001/XMLSchema#date>",
+												"type": "Edm.DateTime"
+											}
+										}
+									}
+								}
+							}
+						]
+					}
+				},
+
+				"5": 
+				{
+					"_class": "Query",
+					"code": "5",
+					"name": "Test5:Object clause",
+					"concept": "Order",
+					"clauses": 
+					{
+						"_class": "Clauses",
+						"clause": 
+						{
+							"_class": "Clause",
+							"includeOptionalIgnore": "include",
+							"ignore": false,
+							"optional": false,
+							"propertyClause": 
+							{
+								"_class": "ObjectPropertyClause",
+								"objectProperty": "customer",
+								"multiplicity": "0..1",
+								"objectPropertyFilters": 
+								[
+									[
+										{
+											"key": "subjectId",
+											"value": "NWD:Customer-ALFKI",
+											"type": "Edm.String"
+										}
+									],
+
+									[
+										{
+											"key": "subjectId",
+											"value": "NWD:Customer-ANATR",
+											"type": "Edm.String"
+										}
+									]
+								]
+							}
+						}
+					}
+				},
+
+				"5a": 
+				{
+					"_class": "Query",
+					"code": "5a",
+					"name": "Test5A:Object clause",
+					"concept": "Order",
+					"clauses": 
+					{
+						"_class": "Clauses",
+						"clause": 
+						{
+							"_class": "Clause",
+							"includeOptionalIgnore": "include",
+							"ignore": false,
+							"optional": false,
+							"propertyClause": 
+							{
+								"_class": "ObjectPropertyClause",
+								"objectProperty": "customer",
+								"multiplicity": "0..1",
+								"objectPropertyFilters": 
+								[
+									[
+										{
+											"key": "subjectId",
+											"value": "NWD:Customer-ALFKI",
+											"type": "Edm.String"
+										}
+									],
+
+									[
+										{
+											"key": "subjectId",
+											"value": "NWD:Customer-ANATR",
+											"type": "Edm.String"
+										}
+									]
+								],
+
+								"clauses": 
+								{
+									"_class": "Clauses",
+									"clause": 
+									{
+										"_class": "Clause",
+										"includeOptionalIgnore": "include",
+										"ignore": false,
+										"optional": false,
+										"propertyClause": 
+										{
+											"_class": "DataPropertyClause",
+											"dataProperty": "city",
+											"type": "Edm.String",
+											"dataPropertyFilters": 
+											{
+												"_class": "DataPropertyFilters",
+												"dataPropertyFilter": 
+												{
+													"_class": "DataPropertyFilter",
+													"operator": "substringof",
+													"value": "Berlin",
+													"datatype": "<http://www.w3.org/2001/XMLSchema#string>",
+													"type": "Edm.String"
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				},
+
+				"5b": 
+				{
+					"_class": "Query",
+					"code": "5b",
+					"name": "Test5B:Object clause",
+					"concept": "Order",
+					"clauses": 
+					{
+						"_class": "Clauses",
+						"clause": 
+						{
+							"_class": "Clause",
+							"includeOptionalIgnore": "include",
+							"ignore": false,
+							"optional": false,
+							"propertyClause": 
+							{
+								"_class": "ObjectPropertyClause",
+								"objectProperty": "customer",
+								"multiplicity": "0..1",
+								"clauses": 
+								{
+									"_class": "Clauses",
+									"clause": 
+									{
+										"_class": "Clause",
+										"includeOptionalIgnore": "include",
+										"ignore": false,
+										"optional": false,
+										"propertyClause": 
+										{
+											"_class": "DataPropertyClause",
+											"dataProperty": "city",
+											"type": "Edm.String",
+											"dataPropertyFilters": 
+											{
+												"_class": "DataPropertyFilters",
+												"dataPropertyFilter": 
+												{
+													"_class": "DataPropertyFilter",
+													"operator": "substringof",
+													"value": "Berlin",
+													"datatype": "<http://www.w3.org/2001/XMLSchema#string>",
+													"type": "Edm.String"
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				},
+
+				"6": 
+				{
+					"_class": "Query",
+					"code": "6",
+					"name": "Test6:Object clauses",
+					"concept": "Order",
+					"clauses": 
+					{
+						"_class": "Clauses",
+						"clause": 
+						{
+							"_class": "Clause",
+							"includeOptionalIgnore": "include",
+							"ignore": false,
+							"optional": false,
+							"propertyClause": 
+							{
+								"_class": "ObjectPropertyClause",
+								"multiplicity": "0..1",
+								"objectProperty": "customer"
+							}
+						},
+
+						"conjunctionClauses": 
+						[
+							{
+								"_class": "ConjunctionClause",
+								"conjunction": "and",
+								"clause": 
+								{
+									"_class": "Clause",
+									"includeOptionalIgnore": "include",
+									"ignore": false,
+									"optional": false,
+									"propertyClause": 
+									{
+										"_class": "ObjectPropertyClause",
+										"multiplicity": "0..1",
+										"objectProperty": "customer"
+									}
+								}
+							}
+						]
+					}
+				},
+
+				"7": 
+				{
+					"_class": "Query",
+					"code": "7",
+					"name": "Test7A:Object clauses w/error",
+					"concept": "Order",
+					"clauses": 
+					{
+						"_class": "Clauses",
+						"clause": 
+						{
+							"_class": "Clause",
+							"includeOptionalIgnore": "include",
+							"ignore": false,
+							"optional": false,
+							"propertyClause": 
+							{
+								"_class": "ObjectPropertyClause",
+								"multiplicity": "0..1",
+								"objectProperty": "Order_customer",
+								"clauses": 
+								{
+									"_class": "Clauses",
+									"clause": 
+									{
+										"_class": "Clause",
+										"includeOptionalIgnore": "include",
+										"ignore": false,
+										"optional": false,
+										"propertyClause": 
+										{
+											"_class": "DataPropertyClause",
+											"dataProperty": "shippedDate",
+											"type": "Edm.DateTime",
+											"dataPropertyFilters": 
+											{
+												"_class": "DataPropertyFilters",
+												"dataPropertyFilter": 
+												{
+													"_class": "DataPropertyFilter",
+													"operator": "lt",
+													"value": "1998-01-01T00:00:00",
+													"datatype": "<http://www.w3.org/2001/XMLSchema#date>",
+													"type": "Edm.DateTime"
+												}
+											}
+										}
+									}
+								}
+							}
+						},
+
+						"conjunctionClauses": 
+						[
+							{
+								"_class": "ConjunctionClause",
+								"conjunction": "and",
+								"clause": 
+								{
+									"_class": "Clause",
+									"includeOptionalIgnore": "include",
+									"ignore": false,
+									"optional": false,
+									"label": "Shipping Date",
+									"propertyClause": 
+									{
+										"_class": "DataPropertyClause",
+										"dataProperty": "shippedDate",
+										"type": "Edm.DateTime",
+										"dataPropertyFilters": 
+										{
+											"_class": "DataPropertyFilters",
+											"dataPropertyFilter": 
+											{
+												"_class": "DataPropertyFilter",
+												"operator": "lt",
+												"value": "1998-01-01T00:00:00",
+												"datatype": "<http://www.w3.org/2001/XMLSchema#date>",
+												"type": "Edm.DateTime"
+											}
+										}
+									}
+								}
+							}
+						]
+					}
+				},
+
+				"7b": 
+				{
+					"_class": "Query",
+					"code": "7b",
+					"name": "Test7B:Object clauses",
+					"concept": "Order",
+					"clauses": 
+					{
+						"_class": "Clauses",
+						"clause": 
+						{
+							"_class": "Clause",
+							"includeOptionalIgnore": "include",
+							"ignore": false,
+							"optional": false,
+							"propertyClause": 
+							{
+								"_class": "ObjectPropertyClause",
+								"multiplicity": "0..1",
+								"objectProperty": "customer",
+								"clauses": 
+								{
+									"_class": "Clauses"
+								}
+							}
+						},
+
+						"conjunctionClauses": 
+						[
+							{
+								"_class": "ConjunctionClause",
+								"conjunction": "and",
+								"clause": 
+								{
+									"_class": "Clause",
+									"includeOptionalIgnore": "include",
+									"ignore": false,
+									"optional": false,
+									"label": "Shipping Date",
+									"propertyClause": 
+									{
+										"_class": "DataPropertyClause",
+										"dataProperty": "shippedDate",
+										"type": "Edm.DateTime",
+										"dataPropertyFilters": 
+										{
+											"_class": "DataPropertyFilters",
+											"dataPropertyFilter": 
+											{
+												"_class": "DataPropertyFilter",
+												"operator": "lt",
+												"value": "1998-01-01T00:00:00",
+												"datatype": "<http://www.w3.org/2001/XMLSchema#date>",
+												"type": "Edm.DateTime"
+											}
+										}
+									}
+								}
+							}
+						]
+					}
+				},
+
+				"8": 
+				{
+					"_class": "Query",
+					"code": "8",
+					"name": "Test8:Object object clauses, inverse property",
+					"concept": "Order",
+					"clauses": 
+					{
+						"_class": "Clauses",
+						"clause": 
+						{
+							"_class": "Clause",
+							"includeOptionalIgnore": "include",
+							"ignore": false,
+							"optional": false,
+							"propertyClause": 
+							{
+								"_class": "ObjectPropertyClause",
+								"multiplicity": "0..1",
+								"objectProperty": "customer",
+								"clauses": 
+								{
+									"_class": "Clauses",
+									"clause": 
+									{
+										"_class": "Clause",
+										"includeOptionalIgnore": "include",
+										"ignore": false,
+										"optional": false,
+										"propertyClause": 
+										{
+											"_class": "InverseObjectPropertyClause",
+											"multiplicity": "0..1",
+											"inverseObjectProperty": "isEmployeeOf"
+										}
+									}
+								}
+							}
+						}
+					}
+				},
+
+				"9": 
+				{
+					"_class": "Query",
+					"code": "9",
+					"name": "Test9:Object object clauses, inverse property",
+					"top": 100,
+					"skip": null,
+					"concept": "Order",
+					"clauses": 
+					{
+						"_class": "Clauses",
+						"clause": 
+						{
+							"_class": "Clause",
+							"includeOptionalIgnore": "include",
+							"ignore": false,
+							"optional": false,
+							"propertyClause": 
+							{
+								"_class": "ObjectPropertyClause",
+								"objectProperty": "customer",
+								"multiplicity": "0..1",
+								"objectPropertyFilters": 
+								[
+									[
+										{
+											"key": "subjectId",
+											"value": "NWD:Customer-ALFKI",
+											"type": "Edm.String"
+										}
+									],
+
+									[
+										{
+											"key": "subjectId",
+											"value": "NWD:Customer-ANATR",
+											"type": "Edm.String"
+										}
+									]
+								],
+
+								"clauses": 
+								{
+									"_class": "Clauses",
+									"clause": 
+									{
+										"_class": "Clause",
+										"includeOptionalIgnore": "include",
+										"ignore": false,
+										"optional": false,
+										"propertyClause": 
+										{
+											"_class": "InverseObjectPropertyClause",
+											"multiplicity": "0..1",
+											"inverseObjectProperty": "isEmployeeOf"
+										}
+									}
+								}
+							}
+						},
+
+						"conjunctionClauses": 
+						[
+							{
+								"_class": "ConjunctionClause",
+								"conjunction": "and",
+								"clause": 
+								{
+									"_class": "Clause",
+									"includeOptionalIgnore": "include",
+									"ignore": false,
+									"optional": false,
+									"propertyClause": 
+									{
+										"_class": "DataPropertyClause",
+										"dataProperty": "shippedDate",
+										"type": "Edm.DateTime",
+										"dataPropertyFilters": 
+										{
+											"_class": "DataPropertyFilters",
+											"dataPropertyFilter": 
+											{
+												"_class": "DataPropertyFilter",
+												"operator": "lt",
+												"value": "1998-01-01T00:00:00.000Z",
+												"datatype": "<http://www.w3.org/2001/XMLSchema#date>",
+												"type": "Edm.DateTime"
+											}
+										}
+									}
+								}
+							}
+						]
+					}
+				},
+
+				"10": 
+				{
+					"_class": "Query",
+					"code": "10",
+					"name": "Test10: Order query",
+					"top": 100,
+					"skip": 0,
+					"concept": "Order",
+					"conceptFilters": 
+					[
+						[
+							{
+								"key": "subjectId",
+								"value": "NWD:Order-10340",
+								"type": "Edm.String"
+							}
+						],
+
+						[
+							{
+								"key": "subjectId",
+								"value": "NWD:Order-10999",
+								"type": "Edm.String"
+							}
+						]
+					],
+
+					"clauses": 
+					{
+						"_class": "Clauses",
+						"clause": 
+						{
+							"_class": "Clause",
+							"includeOptionalIgnore": "include",
+							"ignore": false,
+							"optional": false,
+							"label": "Shipped to Country",
+							"propertyClause": 
+							{
+								"_class": "DataPropertyClause",
+								"dataProperty": "shipCountry",
+								"type": "Edm.String",
+								"dataPropertyFilters": 
+								{
+									"_class": "DataPropertyFilters",
+									"dataPropertyFilter": 
+									{
+										"_class": "DataPropertyFilter",
+										"operator": "substringof",
+										"value": "Fr",
+										"datatype": "<http://www.w3.org/2001/XMLSchema#string>",
+										"type": "Edm.String"
+									},
+
+									"conjunctionFilters": 
+									[
+										{
+											"_class": "ConjunctionFilter",
+											"filterConjunction": "or",
+											"dataPropertyFilter": 
+											{
+												"_class": "DataPropertyFilter",
+												"operator": "substringof",
+												"value": "Ge",
+												"datatype": "<http://www.w3.org/2001/XMLSchema#string>",
+												"type": "Edm.String"
+											}
+										}
+									]
+								}
+							}
+						},
+
+						"conjunctionClauses": 
+						[
+							{
+								"_class": "ConjunctionClause",
+								"conjunction": "and",
+								"clause": 
+								{
+									"_class": "Clause",
+									"includeOptionalIgnore": "include",
+									"ignore": false,
+									"optional": false,
+									"propertyClause": 
+									{
+										"_class": "DataPropertyClause",
+										"dataProperty": "shippedDate",
+										"type": "Edm.DateTime",
+										"dataPropertyFilters": 
+										{
+											"_class": "DataPropertyFilters",
+											"dataPropertyFilter": 
+											{
+												"_class": "DataPropertyFilter",
+												"operator": "lt",
+												"value": "1998-01-01T00:00:00",
+												"datatype": "<http://www.w3.org/2001/XMLSchema#date>",
+												"type": "Edm.DateTime"
+											}
+										}
+									}
+								}
+							},
+
+							{
+								"_class": "ConjunctionClause",
+								"conjunction": "and",
+								"clause": 
+								{
+									"_class": "Clause",
+									"includeOptionalIgnore": "include",
+									"ignore": false,
+									"optional": false,
+									"label": "Customer",
+									"propertyClause": 
+									{
+										"_class": "ObjectPropertyClause",
+										"objectProperty": "customer",
+										"multiplicity": "0..1",
+										"objectPropertyFilters": 
+										[
+											[
+												{
+													"key": "subjectId",
+													"value": "NWD:Customer-ALFKI",
+													"type": "Edm.String"
+												}
+											],
+
+											[
+												{
+													"key": "subjectId",
+													"value": "NWD:Customer-BONAP",
+													"type": "Edm.String"
+												}
+											]
+										],
+
+										"clauses": 
+										{
+											"_class": "Clauses",
+											"clause": 
+											{
+												"_class": "Clause",
+												"includeOptionalIgnore": "include",
+												"ignore": false,
+												"optional": false,
+												"propertyClause": 
+												{
+													"_class": "DataPropertyClause",
+													"dataProperty": "companyName",
+													"type": "Edm.String",
+													"dataPropertyFilters": 
+													{
+														"_class": "DataPropertyFilters",
+														"dataPropertyFilter": 
+														{
+															"_class": "DataPropertyFilter",
+															"operator": "substringof",
+															"value": "Bon",
+															"datatype": "<http://www.w3.org/2001/XMLSchema#string>",
+															"type": "Edm.String"
+														}
+													}
+												}
+											},
+
+											"conjunctionClauses": 
+											[
+												{
+													"_class": "ConjunctionClause",
+													"conjunction": "and",
+													"clause": 
+													{
+														"_class": "Clause",
+														"includeOptionalIgnore": "include",
+														"ignore": false,
+														"optional": false,
+														"label": "Contact name",
+														"propertyClause": 
+														{
+															"_class": "DataPropertyClause",
+															"dataProperty": "contactName",
+															"type": "Edm.String",
+															"dataPropertyFilters": 
+															{
+																"_class": "DataPropertyFilters",
+																"dataPropertyFilter": 
+																{
+																	"_class": "DataPropertyFilter",
+																	"operator": "substringof",
+																	"value": "Leb",
+																	"datatype": "<http://www.w3.org/2001/XMLSchema#string>",
+																	"type": "Edm.String"
+																}
+															}
+														}
+													}
+												}
+											]
+										}
+									}
+								}
+							},
+
+							{
+								"_class": "ConjunctionClause",
+								"conjunction": "and",
+								"clause": 
+								{
+									"_class": "Clause",
+									"includeOptionalIgnore": "include",
+									"ignore": false,
+									"optional": true,
+									"propertyClause": 
+									{
+										"_class": "ObjectPropertyClause",
+										"multiplicity": "0..1",
+										"objectProperty": "employee",
+										"clauses": 
+										{
+											"_class": "Clauses",
+											"clause": 
+											{
+												"_class": "Clause",
+												"includeOptionalIgnore": "include",
+												"ignore": false,
+												"optional": false,
+												"propertyClause": 
+												{
+													"_class": "DataPropertyClause",
+													"dataProperty": "firstName",
+													"type": "Edm.String",
+													"dataPropertyFilters": 
+													{
+														"_class": "DataPropertyFilters",
+														"dataPropertyFilter": 
+														{
+															"_class": "DataPropertyFilter",
+															"operator": "substringof",
+															"value": "Nancy",
+															"datatype": "<http://www.w3.org/2001/XMLSchema#string>",
+															"type": "Edm.String"
+														}
+													}
+												}
+											},
+
+											"conjunctionClauses": 
+											[
+												{
+													"_class": "ConjunctionClause",
+													"conjunction": "and",
+													"clause": 
+													{
+														"_class": "Clause",
+														"includeOptionalIgnore": "include",
+														"ignore": false,
+														"optional": false,
+														"propertyClause": 
+														{
+															"_class": "ObjectPropertyClause",
+															"multiplicity": "0..1",
+															"objectProperty": "reportsTo",
+															"clauses": 
+															{
+																"_class": "Clauses",
+																"clause": 
+																{
+																	"_class": "Clause",
+																	"includeOptionalIgnore": "include",
+																	"ignore": false,
+																	"optional": false,
+																	"propertyClause": 
+																	{
+																		"_class": "DataPropertyClause",
+																		"dataProperty": "lastName"
+																	}
+																}
+															}
+														}
+													}
+												}
+											]
+										}
+									}
+								}
+							}
+						]
+					}
+				},
+
+				"10a": 
+				{
+					"_class": "Query",
+					"code": "10a",
+					"name": "Test10a: Order query",
+					"top": 100,
+					"skip": 0,
+					"concept": "Order",
+					"conceptFilters": 
+					[
+						
+					],
+
+					"clauses": 
+					{
+						"_class": "Clauses",
+						"clause": 
+						{
+							"_class": "Clause",
+							"includeOptionalIgnore": "include",
+							"ignore": false,
+							"optional": false,
+							"label": "Shipped to Country",
+							"propertyClause": 
+							{
+								"_class": "DataPropertyClause",
+								"dataProperty": "shipCountry",
+								"type": "Edm.String",
+								"dataPropertyFilters": 
+								{
+									"_class": "DataPropertyFilters",
+									"dataPropertyFilter": 
+									{
+										"_class": "DataPropertyFilter",
+										"operator": "substringof",
+										"value": "Fr",
+										"datatype": "<http://www.w3.org/2001/XMLSchema#string>",
+										"type": "Edm.String"
+									},
+
+									"conjunctionFilters": 
+									[
+										{
+											"_class": "ConjunctionFilter",
+											"filterConjunction": "or",
+											"dataPropertyFilter": 
+											{
+												"_class": "DataPropertyFilter",
+												"operator": "substringof",
+												"value": "Ge",
+												"datatype": "<http://www.w3.org/2001/XMLSchema#string>",
+												"type": "Edm.String"
+											}
+										}
+									]
+								}
+							}
+						},
+
+						"conjunctionClauses": 
+						[
+							{
+								"_class": "ConjunctionClause",
+								"conjunction": "and",
+								"clause": 
+								{
+									"_class": "Clause",
+									"includeOptionalIgnore": "include",
+									"ignore": false,
+									"optional": false,
+									"propertyClause": 
+									{
+										"_class": "DataPropertyClause",
+										"dataProperty": "shippedDate",
+										"type": "Edm.DateTime",
+										"dataPropertyFilters": 
+										{
+											"_class": "DataPropertyFilters",
+											"dataPropertyFilter": 
+											{
+												"_class": "DataPropertyFilter",
+												"operator": "lt",
+												"value": "1998-01-01T00:00:00",
+												"datatype": "<http://www.w3.org/2001/XMLSchema#date>",
+												"type": "Edm.DateTime"
+											}
+										}
+									}
+								}
+							},
+
+							{
+								"_class": "ConjunctionClause",
+								"conjunction": "and",
+								"clause": 
+								{
+									"_class": "Clause",
+									"includeOptionalIgnore": "include",
+									"ignore": false,
+									"optional": false,
+									"label": "Customer",
+									"propertyClause": 
+									{
+										"_class": "ObjectPropertyClause",
+										"objectProperty": "customer",
+										"multiplicity": "0..1",
+										"objectPropertyFilters": 
+										[
+											
+										],
+
+										"clauses": 
+										{
+											"_class": "Clauses",
+											"clause": 
+											{
+												"_class": "Clause",
+												"includeOptionalIgnore": "include",
+												"ignore": false,
+												"optional": false,
+												"propertyClause": 
+												{
+													"_class": "DataPropertyClause",
+													"dataProperty": "companyName",
+													"type": "Edm.String",
+													"dataPropertyFilters": 
+													{
+														"_class": "DataPropertyFilters",
+														"dataPropertyFilter": 
+														{
+															"_class": "DataPropertyFilter",
+															"operator": "substringof",
+															"value": "Bon",
+															"datatype": "<http://www.w3.org/2001/XMLSchema#string>",
+															"type": "Edm.String"
+														}
+													}
+												}
+											},
+
+											"conjunctionClauses": 
+											[
+												{
+													"_class": "ConjunctionClause",
+													"conjunction": "and",
+													"clause": 
+													{
+														"_class": "Clause",
+														"includeOptionalIgnore": "include",
+														"ignore": false,
+														"optional": false,
+														"label": "Contact name",
+														"propertyClause": 
+														{
+															"_class": "DataPropertyClause",
+															"dataProperty": "contactName",
+															"type": "Edm.String",
+															"dataPropertyFilters": 
+															{
+																"_class": "DataPropertyFilters",
+																"dataPropertyFilter": 
+																{
+																	"_class": "DataPropertyFilter",
+																	"operator": "substringof",
+																	"value": "Leb",
+																	"datatype": "<http://www.w3.org/2001/XMLSchema#string>",
+																	"type": "Edm.String"
+																}
+															}
+														}
+													}
+												}
+											]
+										}
+									}
+								}
+							},
+
+							{
+								"_class": "ConjunctionClause",
+								"conjunction": "and",
+								"clause": 
+								{
+									"_class": "Clause",
+									"includeOptionalIgnore": "include",
+									"ignore": false,
+									"optional": true,
+									"propertyClause": 
+									{
+										"_class": "ObjectPropertyClause",
+										"multiplicity": "0..1",
+										"objectProperty": "employee",
+										"clauses": 
+										{
+											"_class": "Clauses",
+											"clause": 
+											{
+												"_class": "Clause",
+												"includeOptionalIgnore": "include",
+												"ignore": false,
+												"optional": false,
+												"propertyClause": 
+												{
+													"_class": "DataPropertyClause",
+													"dataProperty": "firstName",
+													"type": "Edm.String",
+													"dataPropertyFilters": 
+													{
+														"_class": "DataPropertyFilters",
+														"dataPropertyFilter": 
+														{
+															"_class": "DataPropertyFilter",
+															"operator": "substringof",
+															"value": "Nancy",
+															"datatype": "<http://www.w3.org/2001/XMLSchema#string>",
+															"type": "Edm.String"
+														}
+													}
+												}
+											},
+
+											"conjunctionClauses": 
+											[
+												{
+													"_class": "ConjunctionClause",
+													"conjunction": "and",
+													"clause": 
+													{
+														"_class": "Clause",
+														"includeOptionalIgnore": "include",
+														"ignore": false,
+														"optional": false,
+														"propertyClause": 
+														{
+															"_class": "ObjectPropertyClause",
+															"multiplicity": "0..1",
+															"objectProperty": "reportsTo",
+															"clauses": 
+															{
+																"_class": "Clauses",
+																"clause": 
+																{
+																	"_class": "Clause",
+																	"includeOptionalIgnore": "include",
+																	"ignore": false,
+																	"optional": false,
+																	"propertyClause": 
+																	{
+																		"_class": "DataPropertyClause",
+																		"dataProperty": "lastName"
+																	}
+																}
+															}
+														}
+													}
+												}
+											]
+										}
+									}
+								}
+							}
+						]
+					}
+				},
+
+				"11": 
+				{
+					"_class": "Query",
+					"code": "11",
+					"name": "Test11:Nested query",
+					"concept": "Order",
+					"clauses": 
+					{
+						"_class": "Clauses",
+						"clause": 
+						{
+							"_class": "Clause",
+							"ignore": false,
+							"optional": false,
+							"propertyClause": 
+							{
+								"_class": "DataPropertyClause",
+								"dataProperty": "shipCity",
+								"type": "Edm.String",
+								"dataPropertyFilters": 
+								{
+									"_class": "DataPropertyFilters"
+								}
+							}
+						},
+
+						"conjunctionClauses": 
+						[
+							{
+								"_class": "ConjunctionClause",
+								"conjunction": "and",
+								"clause": 
+								{
+									"_class": "Clause",
+									"ignore": false,
+									"optional": false,
+									"propertyClause": 
+									{
+										"_class": "ObjectPropertyClause",
+										"multiplicity": "*",
+										"objectProperty": "hasOrderDetail",
+										"objectPropertyFilters": 
+										[
+											
+										],
+
+										"clauses": 
+										{
+											"_class": "Clauses",
+											"clause": 
+											{
+												"_class": "Clause",
+												"ignore": false,
+												"optional": false,
+												"propertyClause": 
+												{
+													"_class": "DataPropertyClause",
+													"dataProperty": "unitPrice",
+													"type": "Edm.Double",
+													"dataPropertyFilters": 
+													{
+														"_class": "DataPropertyFilters"
+													}
+												}
+											}
+										}
+									}
+								}
+							}
+						]
+					}
+				}
+			}
 		}
 	}
 }

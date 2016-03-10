@@ -41,9 +41,9 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 					var eDock = sap.ui.core.Popup.Dock;
 					var oConjunctionMenu = new sap.ui.unified.Menu({
 						items : [ new sap.ui.unified.MenuItem({
-							text : '{i18nModel>dataPropertyClauseAnd}'
-						}), new sap.ui.unified.MenuItem({
 							text : '{i18nModel>dataPropertyConjunctionFilter.and}'
+						}), new sap.ui.unified.MenuItem({
+							text : '{i18nModel>dataPropertyConjunctionFilter.or}'
 						}), new sap.ui.unified.MenuItem({
 							text : '{i18nModel>dataPropertyConjunctionFilter.delete}',
 							icon : sap.ui.core.IconPool.getIconURI("delete")
