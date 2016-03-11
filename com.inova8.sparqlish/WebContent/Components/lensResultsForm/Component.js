@@ -25,7 +25,7 @@ Components.lensResultsForm.Component.prototype.createContent = function() {
 
 	this.oFormPanel = new sap.ui.commons.Panel({
 		title : new sap.ui.core.Title(),
-		width : "100%", //height : "100%",
+		width : "100%", // height : "100%",
 		showCollapseIcon : false,
 		borderDesign : sap.ui.commons.enums.BorderDesign.Box
 	});
@@ -74,7 +74,7 @@ Components.lensResultsForm.Component.prototype.renderResults = function(queryUrl
 					var sBindPath = null;
 					// if (jQuery.isEmptyObject(odataResults.getData().d.results)) {
 					// Should fix missing results
-					if ((typeof odataResults.getData().d.results !== "object")||jQuery.isEmptyObject(odataResults.getData().d.results)) {
+					if ((typeof odataResults.getData().d.results !== "object") || jQuery.isEmptyObject(odataResults.getData().d.results)) {
 						if ((odataResults.getData().d.length > 0)) {
 							oRecordTemplate = odataResults.getData().d[0];
 							sBindPath = "/d";
@@ -187,8 +187,13 @@ Components.lensResultsForm.Component.prototype.bindFormFields = function(oMetaMo
 						var sBindPath = oEvent.getParameter("path");
 						if (jQuery.isEmptyObject(sBindPath)) {
 							sBindPath = oEvent.getSource().bindPath;
-							if (jQuery.isEmptyObject(sBindPath))
-								sBindPath = "/";
+							if (jQuery.isEmptyObject(sBindPath)){			
+								//The path has not been set because it is the first rendering the paginator 
+								pathArray= oEvent.getSource().getBindingContext().getPath().split("/");
+								pathArray.splice(-3,3);
+								sBindPath= pathArray.join("/").concat("/")
+								//sBindPath = "/";								
+							}
 						} else {
 							sBindPath += "/";
 						}
@@ -281,6 +286,9 @@ Components.lensResultsForm.Component.prototype.bindFormFields = function(oMetaMo
 						}
 					})));
 					nRow++;
+				} else if (oTemplate[column].results != undefined) {
+					// This should not happen but could be the case that the navProperty is empty in which case there will be no
+					// metadata but an empty results array
 				} else {
 					// Should format according to type found in metadata
 					var oProperty;
@@ -318,20 +326,22 @@ Components.lensResultsForm.Component.prototype.bindFormFields = function(oMetaMo
 						})));
 						nRow++;
 					} else {
-						elementCollection.push(this.nextFormElement(sLabel, nLevel, false,
-								new sparqlish.control.textLink({wrapping : true,tooltip : sTooltip}).bindProperty("value",{
-								path :  sPathPrefix + column
-							})
-						));
+						elementCollection.push(this.nextFormElement(sLabel, nLevel, false, new sparqlish.control.textLink({
+							wrapping : true,
+							tooltip : sTooltip
+						}).bindProperty("value", {
+							path : sPathPrefix + column
+						})));
 						nRow++;
 					}
 				}
 			} else {
-				elementCollection.push(this.nextFormElement(sLabel, nLevel, false, 
-				new sparqlish.control.textLink({wrapping : true,tooltip : sTooltip}).bindProperty("value",{
-								path :  sPathPrefix + column
-							}).setProperty("linkText",sap.ui.getCore().getModel("i18nModel").getProperty("textLink.LinkTo") + column)					
-				));
+				elementCollection.push(this.nextFormElement(sLabel, nLevel, false, new sparqlish.control.textLink({
+					wrapping : true,
+					tooltip : sTooltip
+				}).bindProperty("value", {
+					path : sPathPrefix + column
+				}).setProperty("linkText", sap.ui.getCore().getModel("i18nModel").getProperty("textLink.LinkTo") + column)));
 				nRow++;
 			}
 		}
@@ -344,8 +354,11 @@ Components.lensResultsForm.Component.prototype.bindFormFields = function(oMetaMo
 			elementCollection[i].bindElement(sCurrentPath + "/");
 		}
 	if (bResults) {
-		for (var i = 0; i < paginatorCollection.length; i++)
+		for (var i = 0; i < paginatorCollection.length; i++){
 			paginatorCollection[i].setNumberOfPages(oPaginator.getModel().getProperty(sCurrentPath).length);
+		// Bind
+		//	paginatorCollection[i].bindPath ="/d/results/0" +"/" ;
+			}
 		return paginatorCollection;
 	} else {
 		return elementCollection;

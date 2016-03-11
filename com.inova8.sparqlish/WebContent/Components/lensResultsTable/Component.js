@@ -244,7 +244,10 @@ Components.lensResultsTable.Component.prototype.bindTableColumns = function(oMet
 							}
 						})
 					}));
-				} else {
+				} else if(oTemplate[column].results!=undefined){
+					//This should not happen but could be the case that the navProperty is empty in which case there will be no metadata but an empty results array
+					
+				}else {
 					this.columnFormatter(oTable, oMetaModel, oEntityType, column, sPath);
 				}
 			} else {
