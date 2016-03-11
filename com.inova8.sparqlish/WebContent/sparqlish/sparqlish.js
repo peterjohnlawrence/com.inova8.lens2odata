@@ -399,7 +399,12 @@ sap.ui.base.Object.extend("Clauses", {
 				for (var i = 1; i < this.oConjunctionClauses.length; i++) {
 					var sOdataConjunctionClauseFilter = this.oConjunctionClauses[i].odataFilter(sVersion, oParameters);
 					if (!jQuery.isEmptyObject(sOdataConjunctionClauseFilter)) {
-						sOdataFilter = sOdataFilter + odataClauseConjunction(this.oConjunctionClauses[i].sConjunction) + sOdataConjunctionClauseFilter;
+						if (jQuery.isEmptyObject(sOdataFilter)) {
+							//Ignore any conjunctions if this is the first filter
+							sOdataFilter = sOdataConjunctionClauseFilter;
+						} else {
+							sOdataFilter = sOdataFilter + odataClauseConjunction(this.oConjunctionClauses[i].sConjunction) + sOdataConjunctionClauseFilter;
+						}
 					}
 				}
 				return sOdataFilter;
@@ -434,22 +439,23 @@ sap.ui.base.Object.extend("Clauses", {
 	},
 	odataExpand : function(sVersion) {
 		if (!jQuery.isEmptyObject(this.oClause)) {
-			var sOdataExpand =[];
-			var clauseExpand=this.oClause.odataExpand(sVersion);
-			if(!jQuery.isEmptyObject(clauseExpand) ) sOdataExpand.push(this.oClause.odataExpand(sVersion));
+			var sOdataExpand = [];
+			var clauseExpand = this.oClause.odataExpand(sVersion);
+			if (!jQuery.isEmptyObject(clauseExpand))
+				sOdataExpand.push(this.oClause.odataExpand(sVersion));
 			if (!jQuery.isEmptyObject(this.oConjunctionClauses)) {
 				for (var i = 0; i < this.oConjunctionClauses.length; i++) {
 					var sOdataConjunctionExpand = this.oConjunctionClauses[i].odataExpand(sVersion);
 
-					if (!jQuery.isEmptyObject(sOdataConjunctionExpand )) {
-							sOdataExpand.push(sOdataConjunctionExpand);
+					if (!jQuery.isEmptyObject(sOdataConjunctionExpand)) {
+						sOdataExpand.push(sOdataConjunctionExpand);
 
-//						if (sOdataExpand != "") {
-//							sOdataExpand = sOdataExpand + "," + sOdataConjunctionExpand;
-//						} else {
-//							sOdataExpand = sOdataConjunctionExpand;
-//						}
-						
+						// if (sOdataExpand != "") {
+						// sOdataExpand = sOdataExpand + "," + sOdataConjunctionExpand;
+						// } else {
+						// sOdataExpand = sOdataConjunctionExpand;
+						// }
+
 					}
 				}
 				return sOdataExpand;
@@ -462,21 +468,20 @@ sap.ui.base.Object.extend("Clauses", {
 	},
 	odataExpandSelect : function(sVersion) {
 		if (!jQuery.isEmptyObject(this.oClause)) {
-			var sOdataExpandSelect=[];
+			var sOdataExpandSelect = [];
 			sOdataExpandSelect[0] = this.oClause.odataExpandSelect(sVersion);
 			(sOdataExpandSelect == "") ? "" : sOdataExpandSelect + "($select=xx)";
 			if (!jQuery.isEmptyObject(this.oConjunctionClauses)) {
 				for (var i = 0; i < this.oConjunctionClauses.length; i++) {
-					var sOdataConjunctionExpandSelect = this.oConjunctionClauses[i].odataExpandSelect(sVersion);					
+					var sOdataConjunctionExpandSelect = this.oConjunctionClauses[i].odataExpandSelect(sVersion);
 					if (sOdataConjunctionExpandSelect != "") {
 						sOdataExpandSelect.push(sOdataConjunctionExpandSelect);
-						
-						
-//						if (sOdataExpandSelect != "") {
-//							sOdataExpandSelect = sOdataExpandSelect + "," + sOdataConjunctionExpandSelect;
-//						} else {
-//							sOdataExpandSelect = sOdataConjunctionExpandSelect;
-//						}
+
+						// if (sOdataExpandSelect != "") {
+						// sOdataExpandSelect = sOdataExpandSelect + "," + sOdataConjunctionExpandSelect;
+						// } else {
+						// sOdataExpandSelect = sOdataConjunctionExpandSelect;
+						// }
 					}
 				}
 				return sOdataExpandSelect;
@@ -489,15 +494,16 @@ sap.ui.base.Object.extend("Clauses", {
 	},
 	odataSelectForExpand : function(sVersion) {
 		if (!jQuery.isEmptyObject(this.oClause)) {
-			var sOdataSelectForExpand=[];
+			var sOdataSelectForExpand = [];
 			sOdataSelectForExpand[0] = this.oClause.odataSelectForExpand(sVersion);
 			if (!jQuery.isEmptyObject(this.oConjunctionClauses)) {
 				for (var i = 0; i < this.oConjunctionClauses.length; i++) {
 					var sOdataConjunctionSelect = this.oConjunctionClauses[i].odataSelectForExpand(sVersion);
 					if (sOdataConjunctionSelect != "") {
 						sOdataSelectForExpand.push(sOdataConjunctionSelect);
-						
-//						sOdataSelectForExpand = sOdataSelectForExpand + "," + this.oConjunctionClauses[i].odataSelectForExpand(sVersion);
+
+						// sOdataSelectForExpand = sOdataSelectForExpand + "," +
+						// this.oConjunctionClauses[i].odataSelectForExpand(sVersion);
 					}
 				}
 				return sOdataSelectForExpand;
@@ -1101,7 +1107,7 @@ sap.ui.base.Object.extend("ObjectPropertyClause", {
 		}
 	},
 	odataExpand : function(sVersion) {
-		//TODO the clauses can return an array of expanded paths all of which need to be prefixed by this objectProperty
+		// TODO the clauses can return an array of expanded paths all of which need to be prefixed by this objectProperty
 		var sPathExpand = "";
 		if (!jQuery.isEmptyObject(this.oClauses)) {
 			sPathExpand = this.oClauses.odataExpand(sVersion);
@@ -1109,19 +1115,19 @@ sap.ui.base.Object.extend("ObjectPropertyClause", {
 		if (jQuery.isEmptyObject(sPathExpand)) {
 			return this.sObjectProperty;
 		} else {
-			var odataExpand=[]
+			var odataExpand = []
 			odataExpand.push(this.sObjectProperty)
-			for(sPath in sPathExpand){
-				odataExpand.push( this.sObjectProperty + "/" + sPathExpand[sPath]);
+			for (sPath in sPathExpand) {
+				odataExpand.push(this.sObjectProperty + "/" + sPathExpand[sPath]);
 			}
 			return odataExpand;
 		}
-		
-//		if (sPathExpand == "") {
-//			return this.sObjectProperty;
-//		} else {
-//			return this.sObjectProperty + "," + this.sObjectProperty + "/" + sPathExpand;
-//		}
+
+		// if (sPathExpand == "") {
+		// return this.sObjectProperty;
+		// } else {
+		// return this.sObjectProperty + "," + this.sObjectProperty + "/" + sPathExpand;
+		// }
 	},
 	odataExpandSelect : function(sVersion) {
 		var sOdataExpandSelect = "";

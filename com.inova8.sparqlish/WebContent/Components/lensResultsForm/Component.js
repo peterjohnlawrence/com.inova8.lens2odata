@@ -75,7 +75,7 @@ Components.lensResultsForm.Component.prototype.renderResults = function(queryUrl
 					// if (jQuery.isEmptyObject(odataResults.getData().d.results)) {
 					// Should fix missing results
 					if ((typeof odataResults.getData().d.results !== "object")||jQuery.isEmptyObject(odataResults.getData().d.results)) {
-						if (odataResults.getData().d.length > 0) {
+						if ((odataResults.getData().d.length > 0)) {
 							oRecordTemplate = odataResults.getData().d[0];
 							sBindPath = "/d";
 						} else {
