@@ -400,7 +400,7 @@ sap.ui.base.Object.extend("Clauses", {
 					var sOdataConjunctionClauseFilter = this.oConjunctionClauses[i].odataFilter(sVersion, oParameters);
 					if (!jQuery.isEmptyObject(sOdataConjunctionClauseFilter)) {
 						if (jQuery.isEmptyObject(sOdataFilter)) {
-							//Ignore any conjunctions if this is the first filter
+							// Ignore any conjunctions if this is the first filter
 							sOdataFilter = sOdataConjunctionClauseFilter;
 						} else {
 							sOdataFilter = sOdataFilter + odataClauseConjunction(this.oConjunctionClauses[i].sConjunction) + sOdataConjunctionClauseFilter;
@@ -417,16 +417,25 @@ sap.ui.base.Object.extend("Clauses", {
 	},
 	odataSelect : function(sVersion) {
 		if (!jQuery.isEmptyObject(this.oClause)) {
-			var sOdataSelect = this.oClause.odataSelect(sVersion);
+			var sOdataSelect = [];
+			var clauseSelect = this.oClause.odataSelect(sVersion);
+			if (!jQuery.isEmptyObject(clauseSelect))
+				sOdataSelect.push(clauseSelect);
 			if (!jQuery.isEmptyObject(this.oConjunctionClauses)) {
 				for (var i = 0; i < this.oConjunctionClauses.length; i++) {
 					var sOdataConjunctionSelect = this.oConjunctionClauses[i].odataSelect(sVersion);
-					if (sOdataConjunctionSelect != "") {
-						if (sOdataSelect != "") {
-							sOdataSelect = sOdataSelect + "," + sOdataConjunctionSelect;
+					if (!jQuery.isEmptyObject(sOdataConjunctionSelect)) {
+						if (sOdataConjunctionSelect instanceof Array) {
+							sOdataSelect.push.apply(sOdataSelect, sOdataConjunctionSelect);
 						} else {
-							sOdataSelect = sOdataConjunctionSelect
+							sOdataSelect.push(sOdataConjunctionSelect);
 						}
+						// if (sOdataConjunctionSelect != "") {
+						// if (sOdataSelect != "") {
+						// sOdataSelect = sOdataSelect + "," + sOdataConjunctionSelect;
+						// } else {
+						// sOdataSelect = sOdataConjunctionSelect
+						// }
 					}
 				}
 				return sOdataSelect;
@@ -442,20 +451,22 @@ sap.ui.base.Object.extend("Clauses", {
 			var sOdataExpand = [];
 			var clauseExpand = this.oClause.odataExpand(sVersion);
 			if (!jQuery.isEmptyObject(clauseExpand))
-				sOdataExpand.push(this.oClause.odataExpand(sVersion));
+				sOdataExpand.push(clauseExpand);
 			if (!jQuery.isEmptyObject(this.oConjunctionClauses)) {
 				for (var i = 0; i < this.oConjunctionClauses.length; i++) {
 					var sOdataConjunctionExpand = this.oConjunctionClauses[i].odataExpand(sVersion);
-
 					if (!jQuery.isEmptyObject(sOdataConjunctionExpand)) {
-						sOdataExpand.push(sOdataConjunctionExpand);
-
+						if (sOdataConjunctionExpand instanceof Array) {
+							sOdataExpand.push.apply(sOdataExpand, sOdataConjunctionExpand);
+						} else {
+							sOdataExpand.push(sOdataConjunctionExpand);
+						}
+						// sOdataExpand.push(sOdataConjunctionExpand);
 						// if (sOdataExpand != "") {
 						// sOdataExpand = sOdataExpand + "," + sOdataConjunctionExpand;
 						// } else {
 						// sOdataExpand = sOdataConjunctionExpand;
 						// }
-
 					}
 				}
 				return sOdataExpand;
@@ -474,9 +485,14 @@ sap.ui.base.Object.extend("Clauses", {
 			if (!jQuery.isEmptyObject(this.oConjunctionClauses)) {
 				for (var i = 0; i < this.oConjunctionClauses.length; i++) {
 					var sOdataConjunctionExpandSelect = this.oConjunctionClauses[i].odataExpandSelect(sVersion);
-					if (sOdataConjunctionExpandSelect != "") {
-						sOdataExpandSelect.push(sOdataConjunctionExpandSelect);
-
+					if (!jQuery.isEmptyObject(sOdataConjunctionExpandSelect)) {
+						if (sOdataConjunctionExpandSelect instanceof Array) {
+							sOdataExpandSelect.push.apply(sOdataExpand, sOdataConjunctionExpandSelect);
+						} else {
+							sOdataExpandSelect.push(sOdataConjunctionExpandSelect);
+						}
+						// if (sOdataConjunctionExpandSelect != "") {
+						// sOdataExpandSelect.push(sOdataConjunctionExpandSelect);
 						// if (sOdataExpandSelect != "") {
 						// sOdataExpandSelect = sOdataExpandSelect + "," + sOdataConjunctionExpandSelect;
 						// } else {
@@ -499,9 +515,14 @@ sap.ui.base.Object.extend("Clauses", {
 			if (!jQuery.isEmptyObject(this.oConjunctionClauses)) {
 				for (var i = 0; i < this.oConjunctionClauses.length; i++) {
 					var sOdataConjunctionSelect = this.oConjunctionClauses[i].odataSelectForExpand(sVersion);
-					if (sOdataConjunctionSelect != "") {
-						sOdataSelectForExpand.push(sOdataConjunctionSelect);
-
+					if (!jQuery.isEmptyObject(sOdataConjunctionSelect)) {
+						if (sOdataConjunctionSelect instanceof Array) {
+							sOdataSelectForExpand.push.apply(sOdataExpand, sOdataConjunctionSelect);
+						} else {
+							sOdataSelectForExpand.push(sOdataConjunctionSelect);
+						}
+						// if (sOdataConjunctionSelect != "") {
+						// sOdataSelectForExpand.push(sOdataConjunctionSelect);
 						// sOdataSelectForExpand = sOdataSelectForExpand + "," +
 						// this.oConjunctionClauses[i].odataSelectForExpand(sVersion);
 					}
@@ -1078,15 +1099,16 @@ sap.ui.base.Object.extend("ObjectPropertyClause", {
 		return sOdataFilter;
 	},
 	odataSelect : function(sVersion) {
+		// TODO the clauses can return an array of expanded paths all of which need to be prefixed by this objectProperty
 		if ((sVersion == "V4") && (this.oContext.iLevel >= 0)) {
 			return "";
 		} else {
-			var sOdataSelect = "";
+			var sOdataSelect = [];
 			if (!jQuery.isEmptyObject(this.oClauses) && !jQuery.isEmptyObject(this.oClauses.oClause)) {
 				sOdataSelect = this.oClauses.odataSelect(sVersion);
 			}
 			if (!jQuery.isEmptyObject(this.oObjectPropertyFilters) && (this.oObjectPropertyFilters.length > 0)) {
-				if (sOdataSelect != "") {
+				if (!jQuery.isEmptyObject(sOdataSelect)){//sOdataSelect != "") {
 					sOdataSelect = odataKeys(sVersion, this.oContext.sOdataEntityPath, this.oObjectPropertyFilters) + "," + sOdataSelect;
 				} else {
 					sOdataSelect = odataKeys(sVersion, this.oContext.sOdataEntityPath, this.oObjectPropertyFilters);
@@ -1094,42 +1116,37 @@ sap.ui.base.Object.extend("ObjectPropertyClause", {
 			} else if (!(!jQuery.isEmptyObject(this.oClauses) && !jQuery.isEmptyObject(this.oClauses.oClause))) {
 				// TODO must be an object property without any properties so need to add its subject, but only applicable to
 				// OlingoToSparql.
-				// so shuld detect the Key of the entity type and add to the select
+				// so should detect the Key of the entity type and add to the select
 				// oDataMetaModel.getODataEntityType("NorthwindModel.Order_Detail").key.propertyRef is an array of keys
 				// oDataMetaModel.getODataEntityType("NorthwindModel.Order_Detail").key.propertyRef[0].name value of property
-				if (sOdataSelect != "") {
-					sOdataSelect = this.oContext.sOdataEntityPath + "," + sOdataSelect;
+				if (!jQuery.isEmptyObject(sOdataSelect)){//sOdataSelect != "") {
+					sOdataSelect.unshift(this.oContext.sOdataEntityPath)
+					//sOdataSelect = this.oContext.sOdataEntityPath + "," + sOdataSelect;
 				} else {
-					sOdataSelect = this.oContext.sOdataEntityPath;
+					sOdataSelect.push(this.oContext.sOdataEntityPath);
 				}
 			}
 			return sOdataSelect;
 		}
 	},
 	odataExpand : function(sVersion) {
-		// TODO the clauses can return an array of expanded paths all of which need to be prefixed by this objectProperty
-		var sPathExpand = "";
+		var sClausesExpand = [];
 		if (!jQuery.isEmptyObject(this.oClauses)) {
-			sPathExpand = this.oClauses.odataExpand(sVersion);
+			sClausesExpand = this.oClauses.odataExpand(sVersion);
 		}
-		if (jQuery.isEmptyObject(sPathExpand)) {
+		if (jQuery.isEmptyObject(sClausesExpand)) {
 			return this.sObjectProperty;
 		} else {
 			var odataExpand = []
 			odataExpand.push(this.sObjectProperty)
-			for (sPath in sPathExpand) {
-				odataExpand.push(this.sObjectProperty + "/" + sPathExpand[sPath]);
+			for (sClauseExpand in sClausesExpand) {
+				odataExpand.push(this.sObjectProperty + "/" + sClausesExpand[sClauseExpand]);
 			}
 			return odataExpand;
 		}
-
-		// if (sPathExpand == "") {
-		// return this.sObjectProperty;
-		// } else {
-		// return this.sObjectProperty + "," + this.sObjectProperty + "/" + sPathExpand;
-		// }
 	},
 	odataExpandSelect : function(sVersion) {
+		// TODO the clauses can return an array of expanded paths all of which need to be prefixed by this objectProperty
 		var sOdataExpandSelect = "";
 		var sOdataSelect = "";
 		if (!jQuery.isEmptyObject(this.oClauses)) {
