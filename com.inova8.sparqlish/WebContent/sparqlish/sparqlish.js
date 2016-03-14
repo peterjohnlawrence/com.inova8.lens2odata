@@ -419,8 +419,13 @@ sap.ui.base.Object.extend("Clauses", {
 		if (!jQuery.isEmptyObject(this.oClause)) {
 			var sOdataSelect = [];
 			var clauseSelect = this.oClause.odataSelect(sVersion);
-			if (!jQuery.isEmptyObject(clauseSelect))
-				sOdataSelect.push(clauseSelect);
+			if (!jQuery.isEmptyObject(clauseSelect)) {
+				if (clauseSelect instanceof Array) {
+					sOdataSelect.push.apply(sOdataSelect, clauseSelect);
+				} else {
+					sOdataSelect.push(clauseSelect);
+				}
+			}
 			if (!jQuery.isEmptyObject(this.oConjunctionClauses)) {
 				for (var i = 0; i < this.oConjunctionClauses.length; i++) {
 					var sOdataConjunctionSelect = this.oConjunctionClauses[i].odataSelect(sVersion);
@@ -450,8 +455,13 @@ sap.ui.base.Object.extend("Clauses", {
 		if (!jQuery.isEmptyObject(this.oClause)) {
 			var sOdataExpand = [];
 			var clauseExpand = this.oClause.odataExpand(sVersion);
-			if (!jQuery.isEmptyObject(clauseExpand))
-				sOdataExpand.push(clauseExpand);
+			if (!jQuery.isEmptyObject(clauseExpand)){
+						if (clauseExpand instanceof Array) {
+							sOdataExpand.push.apply(sOdataExpand, clauseExpand);
+						} else {
+							sOdataExpand.push(clauseExpand);
+						}				
+			}
 			if (!jQuery.isEmptyObject(this.oConjunctionClauses)) {
 				for (var i = 0; i < this.oConjunctionClauses.length; i++) {
 					var sOdataConjunctionExpand = this.oConjunctionClauses[i].odataExpand(sVersion);
@@ -1108,7 +1118,7 @@ sap.ui.base.Object.extend("ObjectPropertyClause", {
 				sOdataSelect = this.oClauses.odataSelect(sVersion);
 			}
 			if (!jQuery.isEmptyObject(this.oObjectPropertyFilters) && (this.oObjectPropertyFilters.length > 0)) {
-				if (!jQuery.isEmptyObject(sOdataSelect)){//sOdataSelect != "") {
+				if (!jQuery.isEmptyObject(sOdataSelect)) {// sOdataSelect != "") {
 					sOdataSelect = odataKeys(sVersion, this.oContext.sOdataEntityPath, this.oObjectPropertyFilters) + "," + sOdataSelect;
 				} else {
 					sOdataSelect = odataKeys(sVersion, this.oContext.sOdataEntityPath, this.oObjectPropertyFilters);
@@ -1119,9 +1129,9 @@ sap.ui.base.Object.extend("ObjectPropertyClause", {
 				// so should detect the Key of the entity type and add to the select
 				// oDataMetaModel.getODataEntityType("NorthwindModel.Order_Detail").key.propertyRef is an array of keys
 				// oDataMetaModel.getODataEntityType("NorthwindModel.Order_Detail").key.propertyRef[0].name value of property
-				if (!jQuery.isEmptyObject(sOdataSelect)){//sOdataSelect != "") {
+				if (!jQuery.isEmptyObject(sOdataSelect)) {// sOdataSelect != "") {
 					sOdataSelect.unshift(this.oContext.sOdataEntityPath)
-					//sOdataSelect = this.oContext.sOdataEntityPath + "," + sOdataSelect;
+					// sOdataSelect = this.oContext.sOdataEntityPath + "," + sOdataSelect;
 				} else {
 					sOdataSelect.push(this.oContext.sOdataEntityPath);
 				}
