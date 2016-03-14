@@ -187,12 +187,12 @@ Components.lensResultsForm.Component.prototype.bindFormFields = function(oMetaMo
 						var sBindPath = oEvent.getParameter("path");
 						if (jQuery.isEmptyObject(sBindPath)) {
 							sBindPath = oEvent.getSource().bindPath;
-							if (jQuery.isEmptyObject(sBindPath)){			
-								//The path has not been set because it is the first rendering the paginator 
-								pathArray= oEvent.getSource().getBindingContext().getPath().split("/");
-								pathArray.splice(-3,3);
-								sBindPath= pathArray.join("/").concat("/")
-								//sBindPath = "/";								
+							if (jQuery.isEmptyObject(sBindPath)) {
+								// The path has not been set because it is the first rendering the paginator
+								pathArray = oEvent.getSource().getBindingContext().getPath().split("/");
+								pathArray.splice(-3, 3);
+								sBindPath = pathArray.join("/").concat("/")
+								// sBindPath = "/";
 							}
 						} else {
 							sBindPath += "/";
@@ -354,11 +354,15 @@ Components.lensResultsForm.Component.prototype.bindFormFields = function(oMetaMo
 			elementCollection[i].bindElement(sCurrentPath + "/");
 		}
 	if (bResults) {
-		for (var i = 0; i < paginatorCollection.length; i++){
-			paginatorCollection[i].setNumberOfPages(oPaginator.getModel().getProperty(sCurrentPath).length);
-		// Bind
-		//	paginatorCollection[i].bindPath ="/d/results/0" +"/" ;
+		for (var i = 0; i < paginatorCollection.length; i++) {
+			if (oPaginator.getModel().getProperty(sCurrentPath) != undefined) {
+				paginatorCollection[i].setNumberOfPages(oPaginator.getModel().getProperty(sCurrentPath).length);
+			} else {
+				paginatorCollection[i].setNumberOfPages(0);
 			}
+			// Bind
+			// paginatorCollection[i].bindPath ="/d/results/0" +"/" ;
+		}
 		return paginatorCollection;
 	} else {
 		return elementCollection;
