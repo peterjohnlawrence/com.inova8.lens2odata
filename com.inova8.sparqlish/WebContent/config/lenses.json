@@ -479,9 +479,9 @@
 				[
 					{
 						"position": "R1",
-						"title": "Customer details",
+						"title": "French Customer details",
 						"type": "Components.lensResultsForm",
-						"query": "{uri}",
+						"query": "{uri}/hasPlacedOrder?$filter=((substringof(%27Fr%27,shipCountry)))&&$select=shipCountry,label,orderDate",
 						"querydetails": 
 						{
 							"serviceUrl": "http://localhost:8080/odata2sparql/2.0/NW/",

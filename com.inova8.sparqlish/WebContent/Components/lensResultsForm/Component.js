@@ -23,8 +23,10 @@ sap.ui.core.UIComponent.extend("Components.lensResultsForm.Component", {
 
 Components.lensResultsForm.Component.prototype.createContent = function() {
 	var self = this;
-	self.setOptions({hiddenColumns :[ "label" ]});
-	//self.getOptions().hiddenColumns = [ "label" ]
+	self.setOptions({
+		hiddenColumns : [ "label" ]
+	});
+	// self.getOptions().hiddenColumns = [ "label" ]
 	this.oFormPanel = new sap.ui.commons.Panel({
 		title : new sap.ui.core.Title(),
 		width : "100%", // height : "100%",
@@ -98,10 +100,19 @@ Components.lensResultsForm.Component.prototype.renderResults = function(queryUrl
 					self.oFormPanel.getTitle().setText((jQuery.isEmptyObject(self.getProperty("title"))) ? oRecordTemplate.__metadata.type : self.getProperty("title"));
 					self.oFormPanel.setModel(odataResults);
 					var oMetaModel = self.getMetaModel();// sap.ui.getCore().getModel("metaModel");
-					var oPrimaryEntityType = oMetaModel.getODataEntityType(oRecordTemplate.__metadata.type);
-					self.oFormContainer.destroyFormElements();
-					self.bindFormFields(oMetaModel, "d", oRecordTemplate, oPrimaryEntityType.name, sBindPath, 0, 0, bResults);
-					self.oForm.bindElement(sBindPath);
+					if (!jQuery.isEmptyObject(oRecordTemplate.__metadata)) {
+						var oPrimaryEntityType = oMetaModel.getODataEntityType(oRecordTemplate.__metadata.type);
+						self.oFormContainer.destroyFormElements();
+						self.bindFormFields(oMetaModel, "d", oRecordTemplate, oPrimaryEntityType.name, sBindPath, 0, 0, bResults);
+						self.oForm.bindElement(sBindPath);
+					} else {
+						self.oFormContainer.addFormElement(new sap.ui.layout.form.FormElement({
+							label : new sap.m.Label({
+								text : sap.ui.getCore().getModel("i18nModel").getProperty("lensResultsForm.queryNoDataFound"),
+							})
+						}));
+						self.oForm.setBusy(false);
+					}
 				} catch (err) {
 					sap.m.MessageToast.show(err);
 					// self.oFormPanel.getTitle().setText(err);
@@ -258,8 +269,13 @@ Components.lensResultsForm.Component.prototype.bindFormFields = function(oMetaMo
 					if (!jQuery.isEmptyObject(oTemplate[column].results)) {
 						// Must be a repeating record set
 						var oInnerTemplate = oTemplate[column].results[0];
-						innerPaginatorCollection = this.bindFormFields(oMetaModel, column, oInnerTemplate, sLabel, sCurrentPath + "/0/" + column + "/results", nRow,
-								nLevel + 1, true);
+						if (bResults) {
+							innerPaginatorCollection = this.bindFormFields(oMetaModel, column, oInnerTemplate, sLabel, sCurrentPath + "/0/" + column + "/results", nRow,
+									nLevel + 1, true);
+						} else {
+							innerPaginatorCollection = this.bindFormFields(oMetaModel, column, oInnerTemplate, sLabel, sCurrentPath + "/" + column + "/results", nRow,
+									nLevel + 1, true);
+						}
 					} else if (!jQuery.isEmptyObject(oTemplate[column].__metadata)) {
 						// Must be a compound column so iterate through these as well
 						elementCollection = elementCollection.concat(this.bindFormFields(oMetaModel, column, oTemplate[column], sLabel, sPathPrefix + column, nRow,
