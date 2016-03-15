@@ -644,7 +644,7 @@
 					{
 						"position": "R2",
 						"title": "Order details",
-						"type": "Components.lensResultsTable",
+						"type": "Components.lensResultsForm",
 						"query": "{uri}/hasOrderDetail",
 						"querydetails": 
 						{

@@ -459,13 +459,13 @@ sap.m.OverflowToolbar.extend("sparqlish.control.serviceQueryMenu", {
 			press : function(oEvent) {
 				var oQueryContext = self.oQuerySelect.getSelectedItem().getBindingContext("queryModel");
 				var oParameters = oQueryContext.getProperty("parameters");
-				if (!jQuery.isEmptyObject(oParameters) && (oParameters.length > 0)) {
+				//if (!jQuery.isEmptyObject(oParameters) && (oParameters.length > 0)) {
 					var enterQueryParametersDialog = new sparqlish.control.parameterDialog();
 					enterQueryParametersDialog.setQueryContext(oQueryContext);
 					enterQueryParametersDialog.open();
-				} else {
-					sap.m.MessageToast.show(sap.ui.getCore().getModel("i18nModel").getProperty("queryForm.noParameters"))
-				}
+				//} else {
+				//	sap.m.MessageToast.show(sap.ui.getCore().getModel("i18nModel").getProperty("queryForm.noParameters"))
+				//}
 			}
 		});
 		self.oUndo = new sap.m.Button({

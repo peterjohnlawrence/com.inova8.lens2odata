@@ -11,15 +11,20 @@ sap.ui.core.UIComponent.extend("Components.lensResultsTable.Component", {
 			title : "string",
 			metaModel : "object",
 			query : "string",
-			serviceCode : "string"
+			serviceCode : "string",
+			options : "object"
 		}
 	}
 });
 
 Components.lensResultsTable.Component.prototype.createContent = function() {
+	var self = this;
+	self.setOptions({
+		hiddenColumns : [ "label" ]
+	});
 	this.oTablePanel = new sap.ui.commons.Panel({
 		title : new sap.ui.core.Title(),
-		width : "100%",	 //height : "100%"
+		width : "100%", // height : "100%"
 		showCollapseIcon : false,
 		borderDesign : sap.ui.commons.enums.BorderDesign.Box
 	});
@@ -62,7 +67,7 @@ Components.lensResultsTable.Component.prototype.renderResults = function(query, 
 					var sCurrentPath = "";
 					// if (jQuery.isEmptyObject(odataResults.getData().d.results )) {
 					// Should fix missing results
-					if ((typeof odataResults.getData().d.results !== "object")||jQuery.isEmptyObject(odataResults.getData().d.results)) {
+					if ((typeof odataResults.getData().d.results !== "object") || jQuery.isEmptyObject(odataResults.getData().d.results)) {
 						if (odataResults.getData().d.length > 0) {
 							oRecordTemplate = odataResults.getData().d[0];
 							sBindPath = "/d";
@@ -121,137 +126,140 @@ Components.lensResultsTable.Component.prototype.bindTableColumns = function(oMet
 		oEntityType = oMetaModel.getODataEntityType(sEntityType);
 	}
 	for ( var column in oTemplate) {
-		if (column == "__metadata") {
+		if (jQuery.inArray(column, self.getOptions().hiddenColumns)) {
+			if (column == "__metadata") {
 
-			if (!jQuery.isEmptyObject(oTemplate[column].uri)) {
-				var sPathPrefix = (sCurrentPath != "") ? sCurrentPath + "/" : "";
-				var sMetadataPath = (sCurrentPath != "") ? sCurrentPath + "/__metadata/uri" : "__metadata/uri";
-				var sLabel = oEntityType["com.sap.vocabularies.Common.v1.Label"] ? oEntityType["com.sap.vocabularies.Common.v1.Label"].String : column;
-				var sTooltip = oEntityType["com.sap.vocabularies.Common.v1.QuickInfo"] ? oEntityType["com.sap.vocabularies.Common.v1.QuickInfo"].String : sLabel;
-				oTable.addColumn(new sap.ui.table.Column({
-					label : new sap.ui.commons.Label({
-						text : sLabel,
-						textAlign : "Center"
-					}),
-					flexible : false,
-					resizable : true,
-					autoResizable : false,
-					width : utils.columnWidth(utils.lensUriLabel(oTemplate.__metadata.uri)),
-					sortProperty : sLabel,
-					filterProperty : sLabel,
-					template : new sap.m.Link({
-						tooltip : sTooltip
-					}).bindProperty("text", {
-						parts : [ {
-							path : sPathPrefix + "__metadata/uri",
-							type : new sap.ui.model.type.String()
-						}, {
-							path : sPathPrefix + "subjectId",
-							type : new sap.ui.model.type.String()
-						}, {
-							path : sPathPrefix + "label",
-							type : new sap.ui.model.type.String()
-						} ],
-						formatter : function(uri, sSubjectId, sLabel) {
-							return utils.lensUriLabel(uri, sSubjectId, sLabel);
-						}
-					}).bindProperty("href", {
-						parts : [ {
-							path : sPathPrefix + "__metadata/uri",
-							type : new sap.ui.model.type.String()
-						}, {
-							path : sPathPrefix + "__metadata/type",
-							type : new sap.ui.model.type.String()
-						} ],
-						formatter : function(uri, type) {
-							return utils.lensUri(uri, type, self.getProperty("serviceCode"));
-						}
-					})
-				}));
-			} else {
-				// TODO Must be a complex type. Need to add values for each filed of complex type if available
-				// oMetaModel.getODataComplexType(sEntityType)
-			}
-
-		} else {
-			var sLabel = ":" + column;// (sCurrentLabel == "") ? column : sCurrentLabel + ":" + column;
-			var sPath = (sCurrentPath == "") ? column : sCurrentPath + "/" + column;
-			if (!jQuery.isEmptyObject(oTemplate[column])) {
-				if (!jQuery.isEmptyObject(oTemplate[column].__metadata)) {
-					// Must be a compound column so iterate through these as well
-					this.bindTableColumns(oMetaModel, oTable, oTemplate[column], sLabel, sPath);
-				} else if (!jQuery.isEmptyObject(oTemplate[column].results)) {
-					// Must be a repeating record set
-					var oInnerTemplate = oTemplate[column].results[0];
-					var oInnerTable = new sap.ui.table.Table({
-						columnHeaderHeight : 3,
-						editable : false,
-						selectionMode : "None",
-						enableSelectAll : false,
-						showNoData : true,
-						visibleRowCount : 2,
-						navigationMode : sap.ui.table.NavigationMode.Paginator,
-						fixedColumnCount : 1
-					}).bindRows(sPath + "/results");
-					this.bindTableColumns(oMetaModel, oInnerTable, oInnerTemplate, column, "");
+				if (!jQuery.isEmptyObject(oTemplate[column].uri)) {
+					var sPathPrefix = (sCurrentPath != "") ? sCurrentPath + "/" : "";
+					var sMetadataPath = (sCurrentPath != "") ? sCurrentPath + "/__metadata/uri" : "__metadata/uri";
+					var sLabel = oEntityType["com.sap.vocabularies.Common.v1.Label"] ? oEntityType["com.sap.vocabularies.Common.v1.Label"].String : column;
+					var sTooltip = oEntityType["com.sap.vocabularies.Common.v1.QuickInfo"] ? oEntityType["com.sap.vocabularies.Common.v1.QuickInfo"].String : sLabel;
 					oTable.addColumn(new sap.ui.table.Column({
 						label : new sap.ui.commons.Label({
 							text : sLabel,
-							textAlign : "Center",
-							width : "100%"
+							textAlign : "Center"
 						}),
 						flexible : false,
 						resizable : true,
-						autoResizable : true,
-						width : "100%",
-						template : oInnerTable
-					}));
-				} else if (!jQuery.isEmptyObject(oTemplate[column].__deferred)) {
-					// var contents = oTemplate[column].__deferred;
-					var oProperty = oMetaModel.getODataInheritedNavigationProperty(oEntityType, column);
-					sLabel = oProperty["com.sap.vocabularies.Common.v1.Heading"] ? oProperty["com.sap.vocabularies.Common.v1.Heading"].String : column;
-					sTooltip = oProperty["com.sap.vocabularies.Common.v1.QuickInfo"] ? oProperty["com.sap.vocabularies.Common.v1.QuickInfo"].String : column;
-					oTable.addColumn(new sap.ui.table.Column({
-						label : new sap.ui.commons.Label({
-							text : sLabel,
-							textAlign : "Center",
-							width : "100%"
-						}),
-						flexible : false,
-						resizable : true,
-						autoResizable : true,
-						width : utils.columnWidth(utils.lensUriLabel(oTemplate[column].__deferred.uri), sLabel),
-						sortProperty : sPath + "/__deferred/uri",
-						filterProperty : sPath + "/__deferred/uri",
+						autoResizable : false,
+						width : utils.columnWidth(utils.lensUriLabel(oTemplate.__metadata.uri)),
+						sortProperty : sLabel,
+						filterProperty : sLabel,
 						template : new sap.m.Link({
 							tooltip : sTooltip
 						}).bindProperty("text", {
 							parts : [ {
-								path : sPath + "/__deferred/uri",
+								path : sPathPrefix + "__metadata/uri",
+								type : new sap.ui.model.type.String()
+							}, {
+								path : sPathPrefix + "subjectId",
+								type : new sap.ui.model.type.String()
+							}, {
+								path : sPathPrefix + "label",
 								type : new sap.ui.model.type.String()
 							} ],
-							formatter : function(uri) {
-								return utils.lensDeferredUriLabel(uri);
-							},
-							tooltp : sTooltip
+							formatter : function(uri, sSubjectId, sLabel) {
+								return utils.lensUriLabel(uri, sSubjectId, sLabel);
+							}
 						}).bindProperty("href", {
 							parts : [ {
-								path : sPath + "/__deferred/uri",
+								path : sPathPrefix + "__metadata/uri",
+								type : new sap.ui.model.type.String()
+							}, {
+								path : sPathPrefix + "__metadata/type",
 								type : new sap.ui.model.type.String()
 							} ],
-							formatter : function(uri) {
-								return utils.lensDeferredUri(uri, self.getProperty("serviceCode"));
+							formatter : function(uri, type) {
+								return utils.lensUri(uri, type, self.getProperty("serviceCode"));
 							}
 						})
 					}));
-				} else if(oTemplate[column].results!=undefined){
-					//This should not happen but could be the case that the navProperty is empty in which case there will be no metadata but an empty results array
-					
-				}else {
+				} else {
+					// TODO Must be a complex type. Need to add values for each filed of complex type if available
+					// oMetaModel.getODataComplexType(sEntityType)
+				}
+
+			} else {
+				var sLabel = ":" + column;// (sCurrentLabel == "") ? column : sCurrentLabel + ":" + column;
+				var sPath = (sCurrentPath == "") ? column : sCurrentPath + "/" + column;
+				if (!jQuery.isEmptyObject(oTemplate[column])) {
+					if (!jQuery.isEmptyObject(oTemplate[column].__metadata)) {
+						// Must be a compound column so iterate through these as well
+						this.bindTableColumns(oMetaModel, oTable, oTemplate[column], sLabel, sPath);
+					} else if (!jQuery.isEmptyObject(oTemplate[column].results)) {
+						// Must be a repeating record set
+						var oInnerTemplate = oTemplate[column].results[0];
+						var oInnerTable = new sap.ui.table.Table({
+							columnHeaderHeight : 3,
+							editable : false,
+							selectionMode : "None",
+							enableSelectAll : false,
+							showNoData : true,
+							visibleRowCount : 2,
+							navigationMode : sap.ui.table.NavigationMode.Paginator,
+							fixedColumnCount : 1
+						}).bindRows(sPath + "/results");
+						this.bindTableColumns(oMetaModel, oInnerTable, oInnerTemplate, column, "");
+						oTable.addColumn(new sap.ui.table.Column({
+							label : new sap.ui.commons.Label({
+								text : sLabel,
+								textAlign : "Center",
+								width : "100%"
+							}),
+							flexible : false,
+							resizable : true,
+							autoResizable : true,
+							width : "100%",
+							template : oInnerTable
+						}));
+					} else if (!jQuery.isEmptyObject(oTemplate[column].__deferred)) {
+						// var contents = oTemplate[column].__deferred;
+						var oProperty = oMetaModel.getODataInheritedNavigationProperty(oEntityType, column);
+						sLabel = oProperty["com.sap.vocabularies.Common.v1.Heading"] ? oProperty["com.sap.vocabularies.Common.v1.Heading"].String : column;
+						sTooltip = oProperty["com.sap.vocabularies.Common.v1.QuickInfo"] ? oProperty["com.sap.vocabularies.Common.v1.QuickInfo"].String : column;
+						oTable.addColumn(new sap.ui.table.Column({
+							label : new sap.ui.commons.Label({
+								text : sLabel,
+								textAlign : "Center",
+								width : "100%"
+							}),
+							flexible : false,
+							resizable : true,
+							autoResizable : true,
+							width : utils.columnWidth(utils.lensUriLabel(oTemplate[column].__deferred.uri), sLabel),
+							sortProperty : sPath + "/__deferred/uri",
+							filterProperty : sPath + "/__deferred/uri",
+							template : new sap.m.Link({
+								tooltip : sTooltip
+							}).bindProperty("text", {
+								parts : [ {
+									path : sPath + "/__deferred/uri",
+									type : new sap.ui.model.type.String()
+								} ],
+								formatter : function(uri) {
+									return utils.lensDeferredUriLabel(uri);
+								},
+								tooltp : sTooltip
+							}).bindProperty("href", {
+								parts : [ {
+									path : sPath + "/__deferred/uri",
+									type : new sap.ui.model.type.String()
+								} ],
+								formatter : function(uri) {
+									return utils.lensDeferredUri(uri, self.getProperty("serviceCode"));
+								}
+							})
+						}));
+					} else if (oTemplate[column].results != undefined) {
+						// This should not happen but could be the case that the navProperty is empty in which case there will be no
+						// metadata but an empty results array
+
+					} else {
+						this.columnFormatter(oTable, oMetaModel, oEntityType, column, sPath);
+					}
+				} else {
 					this.columnFormatter(oTable, oMetaModel, oEntityType, column, sPath);
 				}
-			} else {
-				this.columnFormatter(oTable, oMetaModel, oEntityType, column, sPath);
 			}
 		}
 	}
@@ -388,7 +396,7 @@ Components.lensResultsTable.Component.prototype.columnFormatter = function(oTabl
 				tooltip : sTooltip
 			}).bindProperty("value", {
 				path : sPath
-			}).setProperty("linkText",sap.ui.getCore().getModel("i18nModel").getProperty("textLink.LinkTo") + sLabel)	
+			}).setProperty("linkText", sap.ui.getCore().getModel("i18nModel").getProperty("textLink.LinkTo") + sLabel)
 
 		// new sap.m.Text({
 		// wrapping : true,

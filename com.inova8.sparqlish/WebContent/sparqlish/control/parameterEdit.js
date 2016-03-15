@@ -23,7 +23,9 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 				formContainers : [ new sap.ui.layout.form.FormContainer({
 					expandable : true,
 					formElements : [ new sap.ui.layout.form.FormElement({
-						label : "{i18n>parameterEdit.parameterName}",
+						label : new sap.m.Label({
+							text : "{i18n>parameterEdit.parameterName}"
+						}),
 						fields : [ new sap.m.Input({
 							value : "{queryModel>name}",
 							tooltip : "{i18n>parameterEdit.parameterNamePrompt}",
@@ -38,7 +40,9 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 							hCells : "2"
 						})
 					}), new sap.ui.layout.form.FormElement({
-						label : "{i18n>parameterEdit.parameterPrompt}",
+						label : new sap.m.Label({
+							text : "{i18n>parameterEdit.parameterPrompt}"
+						}),
 						fields : [ new sap.m.Input({
 							value : "{queryModel>prompt}",
 							tooltip : "{i18n>parameterEdit.parameterPromptPrompt}",
@@ -53,7 +57,9 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 							hCells : "2"
 						})
 					}), new sap.ui.layout.form.FormElement({
-						label : "{i18n>parameterEdit.parameterType}",
+						label : new sap.m.Label({
+							text : "{i18n>parameterEdit.parameterType}"
+						}),
 						fields : [ new sap.m.Select({
 							selectedKey : "{queryModel>type}",
 							tooltip : "{i18n>parameterEdit.parameterTypePrompt}",
@@ -124,13 +130,13 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 						sap.ui.getCore().getModel("queryModel").refresh();
 						self.oDialog.close();
 					}
-				}),new sap.m.Button({
+				}), new sap.m.Button({
 					text : '{i18nModel>parameterEdit.cancel}',
 					press : function(oEvent) {
 						sap.ui.getCore().getModel("queryModel").refresh();
-						var sPath= self.oParameterForm.getBindingContext("queryModel").getPath().split("/");
-						var element= sPath.pop();
-						sap.ui.getCore().getModel("queryModel").getObject(sPath.join("/")).splice(element,1);
+						var sPath = self.oParameterForm.getBindingContext("queryModel").getPath().split("/");
+						var element = sPath.pop();
+						sap.ui.getCore().getModel("queryModel").getObject(sPath.join("/")).splice(element, 1);
 						sap.ui.getCore().getModel("queryModel").refresh();
 						self.oDialog.close();
 					}
