@@ -15,7 +15,14 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 			events : {}
 		},
 		open : function() {
-			this.oDialog.open();
+			if (this._parametersCount() == 0) {
+				// Go straight to add a parameter
+				var oParameters = this._initializeParameters();
+				this.oParameterEdit.oParameterForm.bindElement("queryModel>" + this.getProperty("queryContext").getPath() + "/parameters/" + (oParameters.length - 1));
+				this.oParameterEdit.open();
+			} else {
+				this.oDialog.open();
+			}
 		},
 		setQueryContext : function(oQueryContext) {
 			var self = this;
@@ -40,22 +47,7 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 						new sap.m.Button({
 							text : '{i18nModel>parameterDialog.addParameter}',
 							press : function() {
-								var oParameters = sap.ui.getCore().getModel("queryModel").getProperty(self.getProperty("queryContext").getPath() + "/parameters/");
-								if (oParameters instanceof Array) {
-									oParameters.push({
-										"name" : null,
-										"type" : "Edm.DString",
-										"prompt" : null,
-										"defaultValue" : null
-									});
-								} else {
-									oParameters = [ {
-										"name" : null,
-										"type" : "Edm.DString",
-										"prompt" : null,
-										"defaultValue" : null
-									} ]
-								}
+								var oParameters = self._initializeParameters();
 								self.oParameterEdit.oParameterForm.bindElement("queryModel>" + self.getProperty("queryContext").getPath() + "/parameters/"
 										+ (oParameters.length - 1));
 								self.oParameterEdit.open();
@@ -71,6 +63,36 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 			self.oParameterPanel.addContent(self.oParameterForm);
 			self.oDialog.addContent(self.oParameterPanel);
 
+		},
+		_initializeParameters : function() {
+			var oParameters = sap.ui.getCore().getModel("queryModel").getProperty(this.getProperty("queryContext").getPath() + "/parameters/");
+			if (oParameters instanceof Array) {
+				oParameters.push({
+					"name" : null,
+					"type" : "Edm.String",
+					"prompt" : null,
+					"defaultValue" : null
+				});
+			} else {
+				oParameters = [ {
+					"name" : null,
+					"type" : "Edm.String",
+					"prompt" : null,
+					"defaultValue" : null
+				} ];
+				sap.ui.getCore().getModel("queryModel").getProperty(this.getProperty("queryContext").getPath()).parameters = oParameters;
+			}
+			// this.oParameterEdit.oParameterForm.bindElement("queryModel>" + self.getProperty("queryContext").getPath() +
+			// "/parameters/" + (oParameters.length - 1));
+			return oParameters;
+		},
+		_parametersCount : function() {
+			var oParameters = sap.ui.getCore().getModel("queryModel").getProperty(this.getProperty("queryContext").getPath() + "/parameters/");
+			if (oParameters instanceof Array) {
+				return oParameters.length;
+			} else {
+				return 0;
+			}
 		},
 		_initValueInputFactory : function(sId, oContext) {
 			var self = this;

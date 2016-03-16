@@ -29,19 +29,20 @@
 			}
 		}
 		// Now overwrite with any local data
-		if(!jQuery.isEmptyObject(localQueryData)){
-		for ( var service in localQueryData.services) {
-			mergedData.services[service] = {
-				"code" : service,
-				"name" : localQueryData.services[service].name,
-				"serviceUrl" : localQueryData.services[service].serviceUrl,
-				"version" : localQueryData.services[service].version,
-				queries : {}
-			};
-			for ( var query in localQueryData.services[service].queries) {
-				mergedData.services[service].queries[query] = jQuery.extend(true, {}, localQueryData.services[service].queries[query])
+		if (!jQuery.isEmptyObject(localQueryData)) {
+			for ( var service in localQueryData.services) {
+				mergedData.services[service] = {
+					"code" : service,
+					"name" : localQueryData.services[service].name,
+					"serviceUrl" : localQueryData.services[service].serviceUrl,
+					"version" : localQueryData.services[service].version,
+					queries : {}
+				};
+				for ( var query in localQueryData.services[service].queries) {
+					mergedData.services[service].queries[query] = jQuery.extend(true, {}, localQueryData.services[service].queries[query])
+				}
 			}
-		}}
+		}
 		return mergedData;// jQuery.extend(true, {}, localQueryData, remoteQueryData);
 	};
 	utils.getCachedOdataModel = function(service, onFailure, onSuccess, args) {
@@ -97,6 +98,44 @@
 	utils.saveToLocalStorage = function() {
 		var oStorage = jQuery.sap.storage(jQuery.sap.storage.Type.local);
 		oStorage.put("lens2odata.queries", sap.ui.getCore().getModel("queryModel").getData());
+	};
+	utils.writeQueryModelToLocalFile = function() {
+		navigator.webkitPersistentStorage.requestQuota(1024 * 1024, function(grantedBytes) {
+			window.webkitRequestFileSystem(PERSISTENT, grantedBytes, utils.onInitFs, function(e) {
+			alert(e.message);
+		});
+		}, function(e) {
+			alert(e.message);
+		});
+		// window.webkitRequestFileSystem(window.PERSISTENT, 1024 * 1024, onInitFs);
+
+	};
+	utils.onInitFs = function(fs) {
+		fs.root.getFile('/queries.json', {
+			create : true
+		}, function(fileEntry) {
+			// Create a FileWriter object for our FileEntry.
+			fileEntry.createWriter(function(fileWriter) {
+				fileWriter.onwrite = function(e) {
+					console.log('Write completed.');
+				};
+				fileWriter.onerror = function(e) {
+					console.log('Write failed: ' + e.toString());
+				};
+				var bb = new Blob([ "Lorem Ipsum" ], {
+					type : "text/plain"
+				});
+				fileWriter.write(bb);
+			}, function(e) {
+				alert(e.message)
+			});
+		}, function(e) {
+			alert(e.message)
+		});
+	};
+
+	utils.writeQueryModelToConsoleLog = function() {
+		jQuery.sap.log.error(JSON.stringify(sap.ui.getCore().getModel("queryModel").getData()));
 	};
 	utils.proxyUrl = function(url) {
 		// return url.replace("http://", "proxy/http/");

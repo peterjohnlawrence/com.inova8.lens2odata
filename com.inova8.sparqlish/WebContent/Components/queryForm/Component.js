@@ -181,28 +181,12 @@ Components.queryForm.Component.prototype.createContent = function() {
 		})).addButton(new sap.m.Button({
 			text : "Save to filesystem",
 			press : function() {
-				window.webkitRequestFileSystem(window.TEMPORARY, 1024 * 1024,
-				function(fs) {
-					fs.root.getFile('/queries.json', {
-						create : true
-					}, function(fileEntry) {
-						// Create a FileWriter object for our FileEntry.
-						fileEntry.createWriter(function(fileWriter) {
-							fileWriter.onwrite = function(e) {
-								console.log('Write completed.');
-							};
-							fileWriter.onerror = function(e) {
-								console.log('Write failed: ' + e.toString());
-							};
-							var bb =new Blob(["Lorem Ipsum"], {type: "text/plain"});
-							fileWriter.write(bb);
-						}, function(e){
-							alert(e.message)
-							});
-					}, function(e){
-						alert(e.message)
-						});
-				})
+				utils.writeQueryModelToLocalFile();
+			}
+		})).addButton(new sap.m.Button({
+			text : "Write queries to console log",
+			press : function() {
+				utils.writeQueryModelToConsoleLog();
 			}
 		}));
 		this.oTable.getToolbar().addContent(this.oDebug);

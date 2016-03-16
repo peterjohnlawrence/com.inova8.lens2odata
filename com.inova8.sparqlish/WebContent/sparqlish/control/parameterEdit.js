@@ -23,14 +23,12 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 				formContainers : [ new sap.ui.layout.form.FormContainer({
 					expandable : true,
 					formElements : [ new sap.ui.layout.form.FormElement({
-						label : new sap.m.Label({
-							text : "{i18n>parameterEdit.parameterName}"
-						}),
+						label:"{i18nModel>parameterEdit.parameterName}",
 						fields : [ new sap.m.Input({
 							value : "{queryModel>name}",
-							tooltip : "{i18n>parameterEdit.parameterNamePrompt}",
+							tooltip : "{i18nModel>parameterEdit.parameterNamePrompt}",
 							width : "auto",
-							placeholder : "{i18n>parameterEdit.parameterNamePlaceholder}",
+							placeholder : "{i18nModel>parameterEdit.parameterNamePlaceholder}",
 							description : "",
 							editable : true,
 							showValueHelp : false,
@@ -40,14 +38,12 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 							hCells : "2"
 						})
 					}), new sap.ui.layout.form.FormElement({
-						label : new sap.m.Label({
-							text : "{i18n>parameterEdit.parameterPrompt}"
-						}),
+						label : "{i18nModel>parameterEdit.parameterPrompt}",
 						fields : [ new sap.m.Input({
 							value : "{queryModel>prompt}",
-							tooltip : "{i18n>parameterEdit.parameterPromptPrompt}",
+							tooltip : "{i18nModel>parameterEdit.parameterPromptPrompt}",
 							width : "auto",
-							placeholder : "{i18n>parameterEdit.parameterPromptPlaceholder}",
+							placeholder : "{i18nModel>parameterEdit.parameterPromptPlaceholder}",
 							description : "",
 							editable : true,
 							showValueHelp : false,
@@ -57,14 +53,12 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 							hCells : "2"
 						})
 					}), new sap.ui.layout.form.FormElement({
-						label : new sap.m.Label({
-							text : "{i18n>parameterEdit.parameterType}"
-						}),
+						label : "{i18nModel>parameterEdit.parameterType}",
 						fields : [ new sap.m.Select({
 							selectedKey : "{queryModel>type}",
-							tooltip : "{i18n>parameterEdit.parameterTypePrompt}",
+							tooltip : "{i18nModel>parameterEdit.parameterTypePrompt}",
 							width : "auto",
-							placeholder : "{i18n>parameterEdit.parameterTypePlaceholder}",
+							placeholder : "{i18nModel>parameterEdit.parameterTypePlaceholder}",
 							description : "",
 							editable : true,
 							showValueHelp : false,

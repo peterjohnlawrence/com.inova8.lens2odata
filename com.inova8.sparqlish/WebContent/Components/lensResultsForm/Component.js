@@ -97,10 +97,10 @@ Components.lensResultsForm.Component.prototype.renderResults = function(queryUrl
 							sBindPath = "/d/results";
 						}
 					}
-					self.oFormPanel.getTitle().setText((jQuery.isEmptyObject(self.getProperty("title"))) ? oRecordTemplate.__metadata.type : self.getProperty("title"));
-					self.oFormPanel.setModel(odataResults);
-					var oMetaModel = self.getMetaModel();// sap.ui.getCore().getModel("metaModel");
 					if (!jQuery.isEmptyObject(oRecordTemplate.__metadata)) {
+						self.oFormPanel.getTitle().setText((jQuery.isEmptyObject(self.getProperty("title"))) ? oRecordTemplate.__metadata.type : self.getProperty("title"));
+						self.oFormPanel.setModel(odataResults);
+						var oMetaModel = self.getMetaModel();// sap.ui.getCore().getModel("metaModel");
 						var oPrimaryEntityType = oMetaModel.getODataEntityType(oRecordTemplate.__metadata.type);
 						self.oFormContainer.destroyFormElements();
 						self.bindFormFields(oMetaModel, "d", oRecordTemplate, oPrimaryEntityType.name, sBindPath, 0, 0, bResults);

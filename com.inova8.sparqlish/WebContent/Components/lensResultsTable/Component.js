@@ -57,51 +57,57 @@ Components.lensResultsTable.Component.prototype.renderResults = function(query, 
 	if (!jQuery.isEmptyObject(odataURL)) {
 		self.oTable.setBusy(true).setBusyIndicatorDelay(0);
 		odataResults.loadData(utils.proxyUrl(odataURL));
-		odataResults.attachRequestCompleted(function(oEvent) {
-			if (oEvent.getParameter("success")) {
-				try {
-					var nResults = 0;
-					var bResults = true;
-					var oRecordTemplate = null;
-					var sBindPath = null;
-					var sCurrentPath = "";
-					// if (jQuery.isEmptyObject(odataResults.getData().d.results )) {
-					// Should fix missing results
-					if ((typeof odataResults.getData().d.results !== "object") || jQuery.isEmptyObject(odataResults.getData().d.results)) {
-						if (odataResults.getData().d.length > 0) {
-							oRecordTemplate = odataResults.getData().d[0];
-							sBindPath = "/d";
-						} else {
-							oRecordTemplate = odataResults.getData().d;
-							sBindPath = "/";// "/d";
-							bResults = false;
-							sCurrentPath = "";
-						}
-					} else {
-						nResults = odataResults.getData().d.results.length;
-						if (nResults === 0) {
-							sap.m.MessageToast.show(sap.ui.getCore().getModel("i18nModel").getProperty("queryForm.noResults"));
-							throw "No results returned";
-						} else {
-							oRecordTemplate = odataResults.getData().d.results[0];
-							sBindPath = "/d/results";
+		odataResults.attachRequestCompleted(
+				function(oEvent) {
+					if (oEvent.getParameter("success")) {
+						try {
+							var nResults = 0;
+							var bResults = true;
+							var oRecordTemplate = null;
+							var sBindPath = null;
+							var sCurrentPath = "";
+							// if (jQuery.isEmptyObject(odataResults.getData().d.results )) {
+							// Should fix missing results
+							if ((typeof odataResults.getData().d.results !== "object") || jQuery.isEmptyObject(odataResults.getData().d.results)) {
+								if (odataResults.getData().d.length > 0) {
+									oRecordTemplate = odataResults.getData().d[0];
+									sBindPath = "/d";
+								} else {
+									oRecordTemplate = odataResults.getData().d;
+									sBindPath = "/";// "/d";
+									bResults = false;
+									sCurrentPath = "";
+								}
+							} else {
+								nResults = odataResults.getData().d.results.length;
+								if (nResults === 0) {
+									sap.m.MessageToast.show(sap.ui.getCore().getModel("i18nModel").getProperty("queryForm.noResults"));
+									throw "No results returned";
+								} else {
+									oRecordTemplate = odataResults.getData().d.results[0];
+									sBindPath = "/d/results";
+								}
+							}
+							if (!jQuery.isEmptyObject(oRecordTemplate.__metadata)) {
+								self.oTablePanel.getTitle().setText(
+										(jQuery.isEmptyObject(self.getProperty("title"))) ? oRecordTemplate.__metadata.type : self.getProperty("title"));
+								self.oTable.setModel(odataResults);
+								var oMetaModel = self.getMetaModel();
+								var oPrimaryEntityType = oMetaModel.getODataEntityType(oRecordTemplate.__metadata.type);
+								self.oTable.destroyColumns();
+								self.bindTableColumns(self.getProperty("metaModel"), self.oTable, oRecordTemplate, oPrimaryEntityType.name, sCurrentPath, bResults);
+								self.oTable.bindRows(sBindPath);
+							} else {
+								self.oTable.setBusy(false);
+							}
+						} catch (err) {
+							sap.m.MessageToast.show(err);
+							self.oTable.destroyColumns();
+							self.oTable.setBusy(false);
 						}
 					}
-					self.oTablePanel.getTitle().setText((jQuery.isEmptyObject(self.getProperty("title"))) ? oRecordTemplate.__metadata.type : self.getProperty("title"));
-					self.oTable.setModel(odataResults);
-					var oMetaModel = self.getMetaModel();
-					var oPrimaryEntityType = oMetaModel.getODataEntityType(oRecordTemplate.__metadata.type);
-					self.oTable.destroyColumns();
-					self.bindTableColumns(self.getProperty("metaModel"), self.oTable, oRecordTemplate, oPrimaryEntityType.name, sCurrentPath, bResults);
-					self.oTable.bindRows(sBindPath);
-				} catch (err) {
-					sap.m.MessageToast.show(err);
-					self.oTable.destroyColumns();
 					self.oTable.setBusy(false);
-				}
-			}
-			self.oTable.setBusy(false);
-		}).attachRequestFailed(
+				}).attachRequestFailed(
 				function(oEvent) {
 					if (oEvent.getParameter("statusCode") == 404) {
 						sap.m.MessageToast.show(sap.ui.getCore().getModel("i18nModel").getProperty("lensResultsTable.queryNoDataFound"));
