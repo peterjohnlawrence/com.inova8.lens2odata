@@ -321,9 +321,8 @@ Components.queryForm.Component.prototype.setQuery = function(queryModel) {
 };
 Components.queryForm.Component.prototype.previewResults = function(self) {
 	try {
-
 		var query = this.getProperty("query").init(this.getProperty("query").oAST);
-		var serviceURL = utils.proxyUrl(this.getProperty("service").serviceUrl);
+		var serviceURL = utils.proxyUrl(this.getProperty("service").serviceUrl,this.getProperty("service").useProxy);
 		var odataURL = serviceURL + "/" + query.odataURI() + "&$top=10";
 		self.clearResults(self);
 		self.oResultsModel = new sap.ui.model.json.JSONModel({});
@@ -336,6 +335,7 @@ Components.queryForm.Component.prototype.previewResults = function(self) {
 					self.oResultsModel.sBindPath = null;
 					var oData = self.oResultsModel.getData();
 					// if (jQuery.isEmptyObject(oData.d.results)) {
+					if(oData.d !== undefined){
 					if (typeof oData.d.results !== "object") {
 						if (oData.d.length > 0) {
 							self.oResultsModel.sBindPath = "/d";
@@ -354,7 +354,11 @@ Components.queryForm.Component.prototype.previewResults = function(self) {
 					self.oTable.setModel(self.oResultsModel, "resultsModel");
 					// TODO Minimize rerendering to the preview column
 					self.oTable.getColumns()[1].rerender();
-
+					}
+					else{
+						self.oTable.setBusy(false);
+						sap.m.MessageToast.show(sap.ui.getCore().getModel("i18nModel").getProperty("queryForm.invalidResponse"));
+					}
 				}
 				// TODO not required with Requestfailed handler
 				// else {

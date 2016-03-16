@@ -68,7 +68,7 @@ Components.lensResultsForm.Component.prototype.renderResults = function(queryUrl
 	var odataURL = queryUrl || self.getProperty("query");
 	if (!jQuery.isEmptyObject(odataURL)) {
 		self.oForm.setBusy(true).setBusyIndicatorDelay(0);
-		odataResults.loadData(utils.proxyUrl(odataURL));
+		odataResults.loadData(utils.proxyUrl(odataURL,sap.ui.getCore().getModel("queryModel").getData().services[self.getProperty("serviceCode")].useProxy));
 		odataResults.attachRequestCompleted(function(oEvent) {
 			if (oEvent.getParameter("success")) {
 				try {

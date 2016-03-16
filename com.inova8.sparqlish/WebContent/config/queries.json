@@ -1511,6 +1511,7 @@
 			"name": "NorthwindV2",
 			"serviceUrl": "http://services.odata.org/V2/Northwind/Northwind.svc/",
 			"version": "V2",
+			"useProxy": true,
 			"queries": 
 			{
 				"1": 
@@ -2939,6 +2940,7 @@
 			"name": "NorthwindV3",
 			"serviceUrl": "http://services.odata.org/V3/Northwind/Northwind.svc/",
 			"version": "V2",
+			"useProxy": true,
 			"queries": 
 			{
 				"a": 
@@ -2965,6 +2967,7 @@
 			"name": "NorthwindV4",
 			"serviceUrl": "http://services.odata.org/V4/Northwind/Northwind.svc/",
 			"version": "V4",
+			"useProxy": true,
 			"queries": 
 			{
 				"a": 
@@ -2983,6 +2986,7 @@
 			"name": "AdventureWorks",
 			"serviceUrl": "http://services.odata.org/AdventureWorksV3/AdventureWorks.svc/",
 			"version": "V2",
+			"useProxy": true,
 			"queries": 
 			{
 				"a": 
@@ -3172,6 +3176,7 @@
 			"name": "NerdDinner",
 			"serviceUrl": "http://www.nerddinner.com/Services/OData.svc/",
 			"version": "V2",
+			"useProxy": true,
 			"queries": 
 			{
 				"a": 

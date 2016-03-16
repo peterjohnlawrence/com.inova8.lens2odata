@@ -56,7 +56,7 @@ Components.lensResultsTable.Component.prototype.renderResults = function(query, 
 	var odataURL = query || self.getProperty("query");
 	if (!jQuery.isEmptyObject(odataURL)) {
 		self.oTable.setBusy(true).setBusyIndicatorDelay(0);
-		odataResults.loadData(utils.proxyUrl(odataURL));
+		odataResults.loadData(utils.proxyUrl(odataURL,sap.ui.getCore().getModel("queryModel").getData().services[self.getProperty("serviceCode")].useProxy));
 		odataResults.attachRequestCompleted(
 				function(oEvent) {
 					if (oEvent.getParameter("success")) {

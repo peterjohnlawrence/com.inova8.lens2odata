@@ -22,6 +22,7 @@
 				"name" : remoteQueryData.services[service].name,
 				"serviceUrl" : remoteQueryData.services[service].serviceUrl,
 				"version" : remoteQueryData.services[service].version,
+				"useProxy" : remoteQueryData.services[service].useProxy,
 				queries : {}
 			};
 			for ( var query in remoteQueryData.services[service].queries) {
@@ -36,6 +37,7 @@
 					"name" : localQueryData.services[service].name,
 					"serviceUrl" : localQueryData.services[service].serviceUrl,
 					"version" : localQueryData.services[service].version,
+					"useProxy" : localQueryData.services[service].useProxy,
 					queries : {}
 				};
 				for ( var query in localQueryData.services[service].queries) {
@@ -50,10 +52,10 @@
 		if (jQuery.isEmptyObject(odataModel)) {
 			// TODO should set maxDataServiceVersion based on declaration
 			try {
-				odataModel = new sap.ui.model.odata.v2.ODataModel(utils.proxyUrl(service.serviceUrl), {
+				odataModel = new sap.ui.model.odata.v2.ODataModel(utils.proxyUrl(service.serviceUrl,service.useProxy), {
 					maxDataServiceVersion : "2.0"
 				}).attachMetadataFailed(function(oEvent) {
-					sap.m.MessageToast.show("Metada failed to load. Check < OdataV4 also check source: " + service.serviceUrl);
+					sap.m.MessageToast.show("Metada failed to load. Check less than OdataV4, also check source and proxy: " + service.serviceUrl);
 					onFailure();
 				}).attachMetadataLoaded(function(oEvent) {
 					sap.ui.getCore().setModel(odataModel, constants.ODATACACHE + service.code);
@@ -102,8 +104,8 @@
 	utils.writeQueryModelToLocalFile = function() {
 		navigator.webkitPersistentStorage.requestQuota(1024 * 1024, function(grantedBytes) {
 			window.webkitRequestFileSystem(PERSISTENT, grantedBytes, utils.onInitFs, function(e) {
-			alert(e.message);
-		});
+				alert(e.message);
+			});
 		}, function(e) {
 			alert(e.message);
 		});
@@ -137,9 +139,12 @@
 	utils.writeQueryModelToConsoleLog = function() {
 		jQuery.sap.log.error(JSON.stringify(sap.ui.getCore().getModel("queryModel").getData()));
 	};
-	utils.proxyUrl = function(url) {
-		// return url.replace("http://", "proxy/http/");
-		return url;
+	utils.proxyUrl = function(url, useProxy) {
+		if (useProxy) {
+			return url.replace("http://", "proxy/http/");
+		} else {
+			return url;
+		}
 	}
 	utils.lensUri = function(uri, type, serviceCode) {
 		// Workaround to avoid issue with sapui5 router that will not ignore '=' even if encoded

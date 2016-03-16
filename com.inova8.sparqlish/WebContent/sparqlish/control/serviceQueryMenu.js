@@ -211,6 +211,12 @@ sap.m.OverflowToolbar.extend("sparqlish.control.serviceQueryMenu", {
 						value : {
 							path : "queryModel>/services/" + self.oServiceSelect.getSelectedKey() + "/serviceUrl"
 						}
+					}), new sap.m.Label({
+						text : "{i18nModel>queryForm.useProxy}"
+					}), new sap.m.CheckBox({
+						selected : {
+							path : "queryModel>/services/" + self.oServiceSelect.getSelectedKey() + "/useProxy"
+						}
 					}) ],
 					beginButton : new sap.m.Button({
 						text : 'Confirm',
