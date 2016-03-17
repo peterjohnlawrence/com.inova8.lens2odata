@@ -1,6 +1,6 @@
 jQuery.sap.require("sap.ui.unified.MenuItem");
 jQuery.sap.require("sap.ui.core.IconPool");
-sap.m.Link.extend("sparqlish.control.includeOptionalIgnore", {
+sap.m.Link.extend("control.includeOptionalIgnore", {
 	metadata : {
 		properties : {
 			state : {

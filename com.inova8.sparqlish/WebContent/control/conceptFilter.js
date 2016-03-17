@@ -2,10 +2,10 @@ jQuery.sap.require("sap.ui.commons.ListBox");
 jQuery.sap.require("sap.ui.core.ListItem");
 jQuery.sap.require("sap.ui.ux3.ToolPopup");
 jQuery.sap.require("sap.ui.core.IconPool");
-jQuery.sap.require("sparqlish.control.extendFilter");
+jQuery.sap.require("control.extendFilter");
 sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 	"use strict";
-	return Control.extend("sparqlish.control.conceptFilter", {
+	return Control.extend("control.conceptFilter", {
 		metadata : {
 			aggregations : {
 				_conceptFilter : {
@@ -55,7 +55,7 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 					text : 'northwind:Order-3'
 				}) ]
 			});
-			self.oConceptFilterDelete = new sparqlish.control.extendFilter({
+			self.oConceptFilterDelete = new control.extendFilter({
 				icon : "delete"
 			});
 			self.oConceptFilterPopup = new sap.ui.ux3.ToolPopup();

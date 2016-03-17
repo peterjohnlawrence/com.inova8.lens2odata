@@ -1,9 +1,9 @@
 jQuery.sap.require("sap.m.ActionSelect");
 jQuery.sap.require("sap.ui.core.ListItem");
 jQuery.sap.require("sap.ui.core.IconPool");
-jQuery.sap.require("sparqlish.control.parameterDialog");
+jQuery.sap.require("control.parameterDialog");
 "use strict";
-sap.m.OverflowToolbar.extend("sparqlish.control.serviceQueryMenu", {
+sap.m.OverflowToolbar.extend("control.serviceQueryMenu", {
 	metadata : {
 		properties : {
 			serviceUrl : {
@@ -466,7 +466,7 @@ sap.m.OverflowToolbar.extend("sparqlish.control.serviceQueryMenu", {
 				var oQueryContext = self.oQuerySelect.getSelectedItem().getBindingContext("queryModel");
 				var oParameters = oQueryContext.getProperty("parameters");
 				//if (!jQuery.isEmptyObject(oParameters) && (oParameters.length > 0)) {
-					var enterQueryParametersDialog = new sparqlish.control.parameterDialog();
+					var enterQueryParametersDialog = new control.parameterDialog();
 					enterQueryParametersDialog.setQueryContext(oQueryContext);
 					enterQueryParametersDialog.open();
 				//} else {

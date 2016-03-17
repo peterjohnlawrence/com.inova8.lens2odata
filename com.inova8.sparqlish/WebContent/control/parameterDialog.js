@@ -1,10 +1,10 @@
 jQuery.sap.require("sap.m.P13nDialog");
 jQuery.sap.require("sap.m.P13nColumnsPanel");
 jQuery.sap.require("sap.m.P13nItem");
-jQuery.sap.require("sparqlish.control.parameterEdit");
+jQuery.sap.require("control.parameterEdit");
 sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 	"use strict";
-	return Control.extend("sparqlish.control.parameterDialog", {
+	return Control.extend("control.parameterDialog", {
 		metadata : {
 			properties : {
 				queryContext : {
@@ -40,7 +40,7 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 					expandable : true
 				}) ]
 			});
-			self.oParameterEdit = new sparqlish.control.parameterEdit();
+			self.oParameterEdit = new control.parameterEdit();
 			self.oDialog = new sap.m.Dialog({
 				title : "{i18nModel>parameterDialog.title}",
 				buttons : [

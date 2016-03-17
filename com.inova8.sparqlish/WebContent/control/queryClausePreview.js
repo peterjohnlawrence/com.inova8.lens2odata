@@ -1,8 +1,8 @@
 jQuery.sap.require("sap.ui.model.type.Date");
-jQuery.sap.require("sparqlish.control.textLink");
+jQuery.sap.require("control.textLink");
 sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 	"use strict";
-	return Control.extend("sparqlish.control.queryClausePreview", {
+	return Control.extend("control.queryClausePreview", {
 		metadata : {
 			properties : {
 				viewContext : {
@@ -170,7 +170,7 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 							oControl.setAggregation("_preview", oControl.oTextView);
 							break;
 						default:
-							oControl.oTextView = new sparqlish.control.textLink().bindProperty("value",{
+							oControl.oTextView = new control.textLink().bindProperty("value",{
 								path : "resultsModel>" + sCurrentResultsContext
 							}).bindProperty("linkText","{i18nModel>textLink.Link}");
 							oControl.setAggregation("_preview", oControl.oTextView);

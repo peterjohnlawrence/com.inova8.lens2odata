@@ -1,6 +1,6 @@
 sap.ui.define([ "sap/ui/core/Control", "sap/m/Link", "sap/m/Text" ], function(Control) {
 	"use strict";
-	return Control.extend("sparqlish.control.textLink", {
+	return Control.extend("control.textLink", {
 		metadata : {
 			properties : {
 				value : {

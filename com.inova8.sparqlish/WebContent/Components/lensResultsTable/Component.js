@@ -1,6 +1,6 @@
 jQuery.sap.require("sap.ui.core.UIComponent");
 jQuery.sap.require("sap.ui.table.Table");
-jQuery.sap.require("sparqlish.control.textLink");
+jQuery.sap.require("control.textLink");
 jQuery.sap.declare("Components.lensResultsTable.Component");
 "use strict";
 sap.ui.core.UIComponent.extend("Components.lensResultsTable.Component", {
@@ -397,7 +397,7 @@ Components.lensResultsTable.Component.prototype.columnFormatter = function(oTabl
 			sortProperty : sPath,
 			filterProperty : sPath,
 			hAlign : "Begin",
-			template : new sparqlish.control.textLink({
+			template : new control.textLink({
 				wrapping : true,
 				tooltip : sTooltip
 			}).bindProperty("value", {

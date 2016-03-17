@@ -1,14 +1,14 @@
 jQuery.sap.require("sap.m.P13nDialog");
 jQuery.sap.require("sap.m.P13nColumnsPanel");
 jQuery.sap.require("sap.m.P13nItem");
-jQuery.sap.require("sparqlish.control.extendFilter");
+jQuery.sap.require("control.extendFilter");
 
-sap.ui.commons.Link.extend("sparqlish.control.addClauses", {
+sap.ui.commons.Link.extend("control.addClauses", {
 	metadata : {
 		properties : {},
 		aggregations : {
 			_icon : {
-				type : "sparqlish.control.extendFilter", // "sap.ui.core.Icon",
+				type : "control.extendFilter", // "sap.ui.core.Icon",
 				multiple : false
 			}
 		},
@@ -22,7 +22,7 @@ sap.ui.commons.Link.extend("sparqlish.control.addClauses", {
 	init : function() {
 		var self = this;
 
-		self.oAddClauseLink = new sparqlish.control.extendFilter({
+		self.oAddClauseLink = new control.extendFilter({
 			visible : true,
 			icon : "add-process",
 			tooltip : "{i18nModel>addClause.tooltip}"

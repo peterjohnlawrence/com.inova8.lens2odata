@@ -4,7 +4,7 @@ jQuery.sap.require("sap.m.P13nItem");
 
 sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 	"use strict";
-	return Control.extend("sparqlish.control.conceptMenu", {
+	return Control.extend("control.conceptMenu", {
 		metadata : {
 			aggregations : {
 				_concept : {

@@ -1,10 +1,10 @@
-jQuery.sap.require("sparqlish.control.conceptClause");
-jQuery.sap.require("sparqlish.control.propertyClause");
-jQuery.sap.require("sparqlish.control.conjunctionPropertyClause");
+jQuery.sap.require("control.conceptClause");
+jQuery.sap.require("control.propertyClause");
+jQuery.sap.require("control.conjunctionPropertyClause");
 
 sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 	"use strict";
-	return Control.extend("sparqlish.control.queryClause", {
+	return Control.extend("control.queryClause", {
 		metadata : {
 			properties : {
 				clausePath : {
@@ -18,15 +18,15 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 			},
 			aggregations : {
 				_conceptClause : {
-					type : "sparqlish.control.conceptClause",
+					type : "control.conceptClause",
 					multiple : false
 				},
 				_propertyClause : {
-					type : "sparqlish.control.propertyClause",
+					type : "control.propertyClause",
 					multiple : false
 				},
 				_conjunctionPropertyClause : {
-					type : "sparqlish.control.conjunctionPropertyClause",
+					type : "control.conjunctionPropertyClause",
 					multiple : false
 				}
 			}
@@ -49,21 +49,21 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 				if (!jQuery.isEmptyObject(currentContext)) {
 					var sClass = currentContext._class;
 					if (sClass == "Query") {
-						oControl.setAggregation("_conceptClause", new sparqlish.control.conceptClause().setBindingContext(oControl.getBindingContext("queryModel"))
+						oControl.setAggregation("_conceptClause", new control.conceptClause().setBindingContext(oControl.getBindingContext("queryModel"))
 								.attachConceptClauseChanged(function(oEvent) {
 									//oEvent.getSource().rerender();
 									oControl.fireQueryChanged(oEvent);
 								}));
 						oRm.renderControl(oControl.getAggregation("_conceptClause"));
 					} else if (sClass == "Clause") {
-						oControl.setAggregation("_propertyClause", new sparqlish.control.propertyClause().setBindingContext(oControl.getBindingContext("queryModel"))
+						oControl.setAggregation("_propertyClause", new control.propertyClause().setBindingContext(oControl.getBindingContext("queryModel"))
 								.attachPropertyClauseChanged(function(oEvent) {
 									oEvent.getSource().rerender();
 									oControl.fireQueryChanged();
 								}));
 						oRm.renderControl(oControl.getAggregation("_propertyClause"));
 					} else if (sClass == "ConjunctionClause") {
-						oControl.setAggregation("_conjunctionPropertyClause", new sparqlish.control.conjunctionPropertyClause().setBindingContext(
+						oControl.setAggregation("_conjunctionPropertyClause", new control.conjunctionPropertyClause().setBindingContext(
 								oControl.getBindingContext("queryModel")).attachConjunctionPropertyClauseChanged(function(oEvent) {
 									oEvent.getSource().rerender();
 							oControl.fireQueryChanged();

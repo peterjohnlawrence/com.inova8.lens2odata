@@ -2,10 +2,10 @@ jQuery.sap.require("sap.m.P13nDialog");
 jQuery.sap.require("sap.m.P13nColumnsPanel");
 jQuery.sap.require("sap.m.P13nItem");
 jQuery.sap.require("sap.ui.core.IconPool");
-jQuery.sap.require("sparqlish.utilities");
+jQuery.sap.require("lib.utilities");
 sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 	"use strict";
-	return Control.extend("sparqlish.control.propertyMenu", {
+	return Control.extend("control.propertyMenu", {
 		metadata : {
 			properties : {},
 			aggregations : {

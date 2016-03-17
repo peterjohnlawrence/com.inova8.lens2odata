@@ -1,8 +1,8 @@
 jQuery.sap.require("sap.ui.core.UIComponent");
 jQuery.sap.require("sparqlish.sparqlish")
-jQuery.sap.require("sparqlish.control.queryClause");
-jQuery.sap.require("sparqlish.control.queryClausePreview");
-jQuery.sap.require("sparqlish.control.serviceQueryMenu");
+jQuery.sap.require("control.queryClause");
+jQuery.sap.require("control.queryClausePreview");
+jQuery.sap.require("control.serviceQueryMenu");
 jQuery.sap.require("sap.ui.table.TreeTable");
 jQuery.sap.require("sap.m.Toolbar");
 jQuery.sap.require("sap.m.Button");
@@ -39,7 +39,7 @@ Components.queryForm.Component.prototype.createContent = function() {
 	this.oTable = new sap.ui.table.TreeTable({
 		columns : [ new sap.ui.table.Column("queryColumn", {
 			label : "{i18nModel>queryForm.query}",
-			template : new sparqlish.control.queryClause({
+			template : new control.queryClause({
 				clausePath : {
 					path : "viewModel>path"
 				},
@@ -54,7 +54,7 @@ Components.queryForm.Component.prototype.createContent = function() {
 			autoResizable : true
 		}), new sap.ui.table.Column("resultsColumn", {
 			label : "{i18nModel>queryForm.resultsPreview}",
-			template : new sparqlish.control.queryClausePreview({
+			template : new control.queryClausePreview({
 				viewContext : {
 					path : "viewModel>",
 				},
@@ -78,7 +78,7 @@ Components.queryForm.Component.prototype.createContent = function() {
 		enableColumnReordering : false,
 		expandFirstLevel : true,
 		// Only Odata.v2 expandTolevel : 3,
-		toolbar : new sparqlish.control.serviceQueryMenu().setModel(sap.ui.getCore().getModel("queryModel"), "queryModel").attachPreview(function(oEvent) {
+		toolbar : new control.serviceQueryMenu().setModel(sap.ui.getCore().getModel("queryModel"), "queryModel").attachPreview(function(oEvent) {
 			self.previewResults(self);
 		}).attachQueryChanged(function(oEvent) {
 			self.clearResults(self);
@@ -260,7 +260,7 @@ Components.queryForm.Component.prototype.setService = function(service, query, p
 				self.oTable.setModel(oDataMetaModel, "metaModel");
 				oMetaModelEntityContainer = oDataMetaModel.getODataEntityContainer();
 				self.oTable.setModel(self.getDatatypesModel(), "datatypesModel");
-				self.oTable.getColumns()[1].setTemplate(new sparqlish.control.queryClausePreview({
+				self.oTable.getColumns()[1].setTemplate(new control.queryClausePreview({
 					viewContext : {
 						path : "viewModel>",
 					},

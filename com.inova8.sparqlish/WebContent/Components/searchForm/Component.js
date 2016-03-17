@@ -1,8 +1,8 @@
 jQuery.sap.require("sap.ui.core.UIComponent");
 jQuery.sap.require("sparqlish.sparqlish")
-jQuery.sap.require("sparqlish.control.queryClause");
-jQuery.sap.require("sparqlish.control.queryClausePreview");
-jQuery.sap.require("sparqlish.control.serviceQueryMenu");
+jQuery.sap.require("control.queryClause");
+jQuery.sap.require("control.queryClausePreview");
+jQuery.sap.require("control.serviceQueryMenu");
 jQuery.sap.require("sap.ui.table.TreeTable");
 jQuery.sap.require("sap.m.Toolbar");
 jQuery.sap.require("sap.m.Button");

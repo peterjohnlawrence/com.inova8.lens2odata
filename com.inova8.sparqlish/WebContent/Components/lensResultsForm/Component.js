@@ -4,7 +4,7 @@ jQuery.sap.require("sap.ui.layout.form.GridLayout");
 jQuery.sap.require("sap.ui.layout.form.FormContainer");
 jQuery.sap.require("sap.ui.layout.form.Form");
 jQuery.sap.require("sap.ui.commons.Paginator");
-jQuery.sap.require("sparqlish.control.textLink");
+jQuery.sap.require("control.textLink");
 jQuery.sap.declare("Components.lensResultsForm.Component");
 "use strict";
 sap.ui.core.UIComponent.extend("Components.lensResultsForm.Component", {
@@ -347,7 +347,7 @@ Components.lensResultsForm.Component.prototype.bindFormFields = function(oMetaMo
 							})));
 							nRow++;
 						} else {
-							elementCollection.push(this.nextFormElement(sLabel, nLevel, false, new sparqlish.control.textLink({
+							elementCollection.push(this.nextFormElement(sLabel, nLevel, false, new control.textLink({
 								wrapping : true,
 								tooltip : sTooltip
 							}).bindProperty("value", {
@@ -357,7 +357,7 @@ Components.lensResultsForm.Component.prototype.bindFormFields = function(oMetaMo
 						}
 					}
 				} else {
-					elementCollection.push(this.nextFormElement(sLabel, nLevel, false, new sparqlish.control.textLink({
+					elementCollection.push(this.nextFormElement(sLabel, nLevel, false, new control.textLink({
 						wrapping : true,
 						tooltip : sTooltip
 					}).bindProperty("value", {

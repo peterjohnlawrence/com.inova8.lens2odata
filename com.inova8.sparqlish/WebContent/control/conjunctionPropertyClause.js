@@ -1,10 +1,10 @@
 jQuery.sap.require("sap.ui.unified.MenuItem");
-// jQuery.sap.require("sparqlish.control.addClause");
-jQuery.sap.require("sparqlish.control.propertyClause");
+// jQuery.sap.require("control.addClause");
+jQuery.sap.require("control.propertyClause");
 
 sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 	"use strict";
-	return Control.extend("sparqlish.control.conjunctionPropertyClause", {
+	return Control.extend("control.conjunctionPropertyClause", {
 		metadata : {
 			properties : {},
 			aggregations : {
@@ -13,7 +13,7 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 					multiple : false
 				},
 				_propertyClause : {
-					type : "sparqlish.control.propertyClause",
+					type : "control.propertyClause",
 					multiple : false
 				}
 			},
@@ -103,7 +103,7 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 					}).open(false, this.getFocusDomRef(), eDock.BeginTop, eDock.beginBottom, this.getDomRef());
 				}
 			}).addStyleClass("conjunctionMenuLink"));
-			self.setAggregation("_propertyClause", new sparqlish.control.propertyClause({}).bindElement("queryModel>clause").setConjunction(true)
+			self.setAggregation("_propertyClause", new control.propertyClause({}).bindElement("queryModel>clause").setConjunction(true)
 					.attachPropertyClauseChanged(function(oEvent) {
 						self.fireConjunctionPropertyClauseChanged();
 					})

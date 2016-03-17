@@ -1,22 +1,22 @@
-jQuery.sap.require("sparqlish.control.dataPropertyFilter");
-jQuery.sap.require("sparqlish.control.dataPropertyConjunctionFilter");
-jQuery.sap.require("sparqlish.control.extendFilter");
+jQuery.sap.require("control.dataPropertyFilter");
+jQuery.sap.require("control.dataPropertyConjunctionFilter");
+jQuery.sap.require("control.extendFilter");
 sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 	"use strict";
-	return Control.extend("sparqlish.control.dataPropertyFilters", {
+	return Control.extend("control.dataPropertyFilters", {
 		metadata : {
 			properties : {},
 			aggregations : {
 				_dataPropertyFilter : {
-					type : "sparqlish.control.dataPropertyFilter",
+					type : "control.dataPropertyFilter",
 					multiple : false
 				},
 				_dataPropertyConjunctionFilters : {
-					type : "sparqlish.control.dataPropertyConjunctionFilter",
+					type : "control.dataPropertyConjunctionFilter",
 					multiple : true
 				},
 				_extendFilter : {
-					type : "sparqlish.control.extendFilter",
+					type : "control.extendFilter",
 					multiple : false
 				}
 			},
@@ -28,7 +28,7 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 		},
 		init : function() {
 			var self = this;
-			self.setAggregation("_dataPropertyFilter", new sparqlish.control.dataPropertyFilter({
+			self.setAggregation("_dataPropertyFilter", new control.dataPropertyFilter({
 				dataPropertyFilterDeleted : function(oEvent) {
 					// TODO is this really the best way to delete an element?
 					var currentModel = oEvent.getSource().getModel("queryModel");
@@ -50,7 +50,7 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 				}
 			}).bindElement("queryModel>dataPropertyFilter"));
 			// TODO should we use a factory function to ensure correct binding of context?
-			self.bindAggregation("_dataPropertyConjunctionFilters", "queryModel>conjunctionFilters", new sparqlish.control.dataPropertyConjunctionFilter({
+			self.bindAggregation("_dataPropertyConjunctionFilters", "queryModel>conjunctionFilters", new control.dataPropertyConjunctionFilter({
 				deleted : function(oEvent) {
 					// TODO is this really the best way to delete an element?
 					var currentModel = oEvent.getSource().getModel("queryModel");
@@ -69,7 +69,7 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 			})// .bindElement("conjunctionFilters")
 			);
 
-			self.setAggregation("_extendFilter", new sparqlish.control.extendFilter({
+			self.setAggregation("_extendFilter", new control.extendFilter({
 				visible : true,
 				text : "[+]",
 				icon : "add-filter",

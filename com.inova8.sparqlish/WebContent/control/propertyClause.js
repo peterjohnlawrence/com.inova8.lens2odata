@@ -1,14 +1,14 @@
 jQuery.sap.require("sap.ui.unified.MenuItem");
-jQuery.sap.require("sparqlish.control.includeOptionalIgnore");
-jQuery.sap.require("sparqlish.control.propertyMenu");
-jQuery.sap.require("sparqlish.control.objectPropertyFilters");
-jQuery.sap.require("sparqlish.control.dataPropertyFilters");
-jQuery.sap.require("sparqlish.control.addClauses");
-jQuery.sap.require("sparqlish.control.clauses");
+jQuery.sap.require("control.includeOptionalIgnore");
+jQuery.sap.require("control.propertyMenu");
+jQuery.sap.require("control.objectPropertyFilters");
+jQuery.sap.require("control.dataPropertyFilters");
+jQuery.sap.require("control.addClauses");
+jQuery.sap.require("control.clauses");
 
 sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 	"use strict";
-	return Control.extend("sparqlish.control.propertyClause", {
+	return Control.extend("control.propertyClause", {
 		metadata : {
 			properties : {
 				conjunction : {
@@ -18,27 +18,27 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 			},
 			aggregations : {
 				_includeOptionalIgnore : {
-					type : "sparqlish.control.includeOptionalIgnore",
+					type : "control.includeOptionalIgnore",
 					multiple : false
 				},
 				_property : {
-					type : "sparqlish.control.propertyMenu",
+					type : "control.propertyMenu",
 					multiple : false
 				},
 				_objectPropertyFilters : {
-					type : "sparqlish.control.objectPropertyFilters",
+					type : "control.objectPropertyFilters",
 					multiple : false
 				},
 				_dataPropertyFilters : {
-					type : "sparqlish.control.dataPropertyFilters",
+					type : "control.dataPropertyFilters",
 					multiple : false
 				},
 				_addClause : {
-					type : "sparqlish.control.addClauses",
+					type : "control.addClauses",
 					multiple : false
 				},
 				_clauses : {
-					type : "sparqlish.control.clauses",
+					type : "control.clauses",
 					multiple : false
 				}
 			},
@@ -50,7 +50,7 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 		},
 		init : function() {
 			var self = this;
-			self.setAggregation("_includeOptionalIgnore", new sparqlish.control.includeOptionalIgnore().bindElement("queryModel>")
+			self.setAggregation("_includeOptionalIgnore", new control.includeOptionalIgnore().bindElement("queryModel>")
 					.attachPropertyClauseDeleteRequested(function(oEvent) {
 						if (self.getParent().sParentAggregationName == "_conjunctionPropertyClauses") {
 							self.getParent().deleteConjunctionClause();
@@ -62,20 +62,20 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 						// self.rerender();
 						self.firePropertyClauseChanged();
 					}));
-			self.setAggregation("_property", new sparqlish.control.propertyMenu().bindElement("queryModel>").attachPropertyChanged(function(oEvent) {
+			self.setAggregation("_property", new control.propertyMenu().bindElement("queryModel>").attachPropertyChanged(function(oEvent) {
 				//this.getModel("queryModel").refresh();
 				// self.rerender();
 				self.firePropertyClauseChanged();
 			}));
 //TODO temporarily removed as difficult to support entity selection
-//			self.setAggregation("_objectPropertyFilters", new sparqlish.control.objectPropertyFilters()
+//			self.setAggregation("_objectPropertyFilters", new control.objectPropertyFilters()
 //					.bindElement("queryModel>propertyClause/objectPropertyFilters"));
-			self.setAggregation("_dataPropertyFilters", new sparqlish.control.dataPropertyFilters().bindElement("queryModel>propertyClause/dataPropertyFilters")
+			self.setAggregation("_dataPropertyFilters", new control.dataPropertyFilters().bindElement("queryModel>propertyClause/dataPropertyFilters")
 					.attachDataPropertyFiltersChanged(function(oEvent) {
 						//self.rerender();
 						self.firePropertyClauseChanged();
 					}));
-			self.setAggregation("_addClause", new sparqlish.control.addClauses({
+			self.setAggregation("_addClause", new control.addClauses({
 				clausesSelected : function(oEvent) {
 
 					var currentModelData = self.getCurrentQueryContext().propertyClause;
@@ -299,7 +299,7 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 						// oRm.renderControl(oControl.getAggregation("_dataPropertyFilters"));
 						if (sap.ui.getCore().getModel("parametersModel").getProperty("/expandClause")) {
 							if ((propertyClause.clauses != undefined) && !(jQuery.isEmptyObject(propertyClause.clauses))) {
-								oControl.setAggregation("_clauses", new sparqlish.control.clauses().bindElement("queryModel>propertyClause/clauses"));
+								oControl.setAggregation("_clauses", new control.clauses().bindElement("queryModel>propertyClause/clauses"));
 								oRm.renderControl(oControl.getAggregation("_clauses"));
 							}
 						}

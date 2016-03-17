@@ -1,17 +1,22 @@
-jQuery.sap.require("sparqlish.control.objectPropertyFilter");
-jQuery.sap.require("sparqlish.control.extendFilter");
+jQuery.sap.require("control.conceptFilter");
+jQuery.sap.require("control.extendFilter");
 sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 	"use strict";
-	return Control.extend("sparqlish.control.objectPropertyFilters", {
+	return Control.extend("control.conceptFilters", {
 		metadata : {
 			aggregations : {
-				_objectPropertyFilters : {
-					type : "sparqlish.control.objectPropertyFilter",
+				_conceptFilters : {
+					type : "control.conceptFilter",
 					multiple : true
 				},
 				_extendFilter : {
-					type : "sparqlish.control.extendFilter",
+					type : "control.extendFilter",
 					multiple : false
+				}
+			},
+			events : {
+				conceptFiltersChanged : {
+					enablePreventDefault : true
 				}
 			}
 		},
@@ -37,51 +42,52 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 		},
 		init : function() {
 			var self = this;
-			// TODO should we use a factory function to ensure correct binding of context?
-			self.bindAggregation("_objectPropertyFilters", "queryModel>", new sparqlish.control.objectPropertyFilter({
+			self.bindAggregation("_conceptFilters", "queryModel>", new control.conceptFilter({
 				deleted : function(oEvent) {
 					// TODO is this really the best way to delete an element?
-					var me = oEvent.getSource();
-					var currentModel = me.getModel("queryModel");
+					var me = oEvent.getSource().me;
 					var currentContext = me.getBindingContext("queryModel");
+					var currentModelData = me.getModel("queryModel").getProperty("", currentContext);
 					var path = currentContext.getPath().split("/");
 					var index = path[path.length - 1];
-					var objectPropertyFiltersContextPath = currentContext.getPath().slice(0, -(1 + index.length))
-					var objectPropertyFiltersContext = new sap.ui.model.Context("queryModel", objectPropertyFiltersContextPath);
-					var currentModelData = currentModel.getProperty("", objectPropertyFiltersContext);
+					var conceptFiltersContextPath = currentContext.getPath().slice(0, -(1 + index.length))
+					var conceptFiltersContext = new sap.ui.model.Context("queryModel", conceptFiltersContextPath);
+					var currentModelData = me.getModel("queryModel").getProperty("", conceptFiltersContext);
 					currentModelData.splice(index, 1);
-					currentModel.refresh();
-					// TODO self not safe
-					self.getParent().rerender();
+
+					self.getModel("queryModel").refresh();
+					// TODO Required? or rerender
+					self.fireConceptFiltersChanged(oEvent);
 				}
 			}));
-			self.setAggregation("_extendFilter", new sparqlish.control.extendFilter({
-				visible : true,
-				text : "[+]",
+			self.setAggregation("_extendFilter", new control.extendFilter({
+				text : "add-filter",
 				icon : "add-filter",
-				tooltip : "{i18nModel>addObjectFilterTooltip}",
+				tooltip : "Add a filter value",
+				visible : true,
 				press : function(oEvent) {
 					self.extendFilter();
 					self.getAggregation("_extendFilter").setVisible(true);
+
 					self.getModel("queryModel").refresh();
-					self.getParent().rerender();
+					// TODO Required? or rerender
+					self.fireConceptFiltersChanged(oEvent);
 				}
 			}));
 		},
 		renderer : function(oRm, oControl) {
-			var objectPropertyFilters = oControl.getAggregation("_objectPropertyFilters");
-			if (!jQuery.isEmptyObject(objectPropertyFilters)) {
-				for (var i = 0; i < objectPropertyFilters.length; i++) {
+			var conceptFilters = oControl.getAggregation("_conceptFilters");
+			if (!jQuery.isEmptyObject(conceptFilters)) {
+				for (var i = 0; i < conceptFilters.length; i++) {
 					if (i > 0) {
-						oRm.renderControl(new sap.m.Label().setText(sap.ui.getCore().getModel("i18nModel").getProperty("objectPropertyFilters.conjunction")).addStyleClass(
+						oRm.renderControl(new sap.m.Label().setText(sap.ui.getCore().getModel("i18nModel").getProperty("conceptFilters.conjunction")).addStyleClass(
 								"conjunctionMenuLink"));
 					} else {
 						oRm.write("&nbsp;");
-						oRm.renderControl(new sap.m.Label().setText(sap.ui.getCore().getModel("i18nModel").getProperty("objectPropertyFilters.in")).addStyleClass(
+						oRm.renderControl(new sap.m.Label().setText(sap.ui.getCore().getModel("i18nModel").getProperty("conceptFilters.in")).addStyleClass(
 								"conjunctionMenuLink"));
 					}
-					oRm.write("&nbsp;");
-					oRm.renderControl(objectPropertyFilters[i]);
+					oRm.renderControl(conceptFilters[i]);
 				}
 			}
 			oRm.write("&nbsp;");

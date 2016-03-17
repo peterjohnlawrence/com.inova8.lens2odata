@@ -2,11 +2,11 @@ jQuery.sap.require("sap.ui.core.IconPool");
 jQuery.sap.require("sap.m.Input");
 jQuery.sap.require("sap.m.P13nDialog");
 jQuery.sap.require("sap.m.P13nFilterPanel");
-jQuery.sap.require("sparqlish.control.parameterMenu");
-jQuery.sap.require("sparqlish.control.datePicker");
+jQuery.sap.require("control.parameterMenu");
+jQuery.sap.require("control.datePicker");
 sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 	"use strict";
-	return Control.extend("sparqlish.control.dataPropertyFilter", {
+	return Control.extend("control.dataPropertyFilter", {
 		metadata : {
 			properties : {
 				conjunction : {
@@ -20,7 +20,7 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 					multiple : false
 				},
 				_parameterValueHelp : {
-					type : "sparqlish.control.parameterMenu",
+					type : "control.parameterMenu",
 					multiple : false
 				},
 				_value : {
@@ -37,7 +37,7 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 		},
 		init : function() {
 			var self = this;
-			self.setAggregation("_parameterValueHelp", new sparqlish.control.parameterMenu());
+			self.setAggregation("_parameterValueHelp", new control.parameterMenu());
 			self.setAggregation("_operator", new sap.m.Link({
 				tooltip : "{i18nModel>dataPropertyFilter.operatorTooltip}",
 				press : function(oEvent) {
@@ -80,7 +80,7 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 		},
 		_clauseContext : function(me) {
 			var oClauseContext = me.getParent().getParent();
-			if (oClauseContext.getMetadata()._sClassName != "sparqlish.control.propertyClause") {
+			if (oClauseContext.getMetadata()._sClassName != "control.propertyClause") {
 				oClauseContext = oClauseContext.getParent();
 			}
 			return oClauseContext;
@@ -92,7 +92,7 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 
 			switch (oDataPropertyFilter.type) {
 			case "Edm.Date":
-				oInputValue = (new sparqlish.control.datePicker({
+				oInputValue = (new control.datePicker({
 					valueFormat : 'yyyy-MM-ddThh:mm:ssXX',
 					tooltip : "{i18n>dataFilterTooltip}",
 					width : "150px",
@@ -104,7 +104,7 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 				})).addStyleClass("dataPropertyValue");
 				break;
 			case "Edm.DateTime":
-				oInputValue = (new sparqlish.control.datePicker({
+				oInputValue = (new control.datePicker({
 					valueFormat : 'yyyy-MM-ddThh:mm:ssXX',
 					tooltip : "Enter date/time",
 					width : "150px",

@@ -1,8 +1,8 @@
-jQuery.sap.require("sparqlish.control.dataPropertyFilter");
+jQuery.sap.require("control.dataPropertyFilter");
 jQuery.sap.require("sap.ui.core.IconPool");
 sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 	"use strict";
-	return Control.extend("sparqlish.control.dataPropertyConjunctionFilter", {
+	return Control.extend("control.dataPropertyConjunctionFilter", {
 		metadata : {
 			properties : {
 			// dataPropertyConjunctionFilter : "object"
@@ -13,7 +13,7 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 					multiple : false
 				},
 				_dataPropertyFilter : {
-					type : "sparqlish.control.dataPropertyFilter",
+					type : "control.dataPropertyFilter",
 					multiple : false
 				}
 			},
@@ -60,7 +60,7 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 					}).open(false, this.getFocusDomRef(), eDock.BeginTop, eDock.beginBottom, this.getDomRef());
 				}
 			}).addStyleClass("menuLink"));
-			self.setAggregation("_dataPropertyFilter", new sparqlish.control.dataPropertyFilter({
+			self.setAggregation("_dataPropertyFilter", new control.dataPropertyFilter({
 				dataPropertyFilterDeleted : function(oEvent) {
 					// TODO Should not delete if there are still some conjunctions
 					// TODO is this really the best way to delete an element?

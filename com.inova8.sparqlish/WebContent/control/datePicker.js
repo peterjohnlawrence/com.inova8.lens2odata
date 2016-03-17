@@ -1,5 +1,5 @@
 	"use strict";
-	sap.m.DatePicker.extend("sparqlish.control.datePicker", {
+	sap.m.DatePicker.extend("control.datePicker", {
 	metadata : {
 		events : {
 			"valueHelpRequest" : {}

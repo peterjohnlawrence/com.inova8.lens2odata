@@ -1,8 +1,8 @@
-jQuery.sap.require("sparqlish.control.conceptClause");
-jQuery.sap.require("sparqlish.control.clauses");
+jQuery.sap.require("control.conceptClause");
+jQuery.sap.require("control.clauses");
 sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 	"use strict";
-	return Control.extend("sparqlish.control.query", {
+	return Control.extend("control.query", {
 		metadata : {
 			properties : {
 
@@ -10,19 +10,19 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 			events : {},
 			aggregations : {
 				_conceptClause : {
-					type : "sparqlish.control.conceptClause",
+					type : "control.conceptClause",
 					multiple : false
 				},
 				_clauses : {
-					type : "sparqlish.control.clauses",
+					type : "control.clauses",
 					multiple : false
 				}
 			}
 		},
 		init : function() {
 			var self = this;
-			self.setAggregation("_conceptClause", new sparqlish.control.conceptClause().bindElement("queryModel>"));
-			self.setAggregation("_clauses", new sparqlish.control.clauses().bindElement("queryModel>clauses"));
+			self.setAggregation("_conceptClause", new control.conceptClause().bindElement("queryModel>"));
+			self.setAggregation("_clauses", new control.clauses().bindElement("queryModel>clauses"));
 		},
 		checkClass : function(oControl, oRm, sModel, _class) {
 			if (oControl.getModel(sModel).getProperty("_class", oControl.getBindingContext(sModel)) != _class) {

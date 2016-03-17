@@ -1,7 +1,7 @@
 jQuery.sap.require("sap.ui.core.IconPool");
 sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 	"use strict";
-	return Control.extend("sparqlish.control.objectPropertyFilter", {
+	return Control.extend("control.objectPropertyFilter", {
 		metadata : {
 			aggregations : {
 				_objectPropertyFilter : {

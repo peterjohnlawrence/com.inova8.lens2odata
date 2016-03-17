@@ -1,10 +1,10 @@
-jQuery.sap.require("sparqlish.control.conceptMenu");
-jQuery.sap.require("sparqlish.control.conceptFilters");
-jQuery.sap.require("sparqlish.control.addClauses");
-jQuery.sap.require("sparqlish.control.includeOptionalIgnore");
+jQuery.sap.require("control.conceptMenu");
+jQuery.sap.require("control.conceptFilters");
+jQuery.sap.require("control.addClauses");
+jQuery.sap.require("control.includeOptionalIgnore");
 sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 	//"use strict";
-	return Control.extend("sparqlish.control.conceptClause", {
+	return Control.extend("control.conceptClause", {
 		metadata : {
 			properties : {},
 			events : {
@@ -14,15 +14,15 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 			},
 			aggregations : {
 				_concept : {
-					type : "sparqlish.control.conceptMenu",
+					type : "control.conceptMenu",
 					multiple : false
 				},
 				_conceptFilters : {
-					type : "sparqlish.control.conceptFilters",
+					type : "control.conceptFilters",
 					multiple : false
 				},
 				_addClause : {
-					type : "sparqlish.control.addClauses",
+					type : "control.addClauses",
 					multiple : false
 				}
 			},
@@ -146,15 +146,15 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 				self.getModel("queryModel").refresh();
 				self.fireConceptClauseChanged(oEvent);
 			};
-			self.setAggregation("_concept", new sparqlish.control.conceptMenu({
+			self.setAggregation("_concept", new control.conceptMenu({
 				conceptChanged : fConceptChanged
 			}).bindElement("queryModel>"));
 //TODO temporarily removed as difficult to support entity selection
-//			self.setAggregation("_conceptFilters", new sparqlish.control.conceptFilters().bindElement("queryModel>conceptFilters").attachConceptFiltersChanged(
+//			self.setAggregation("_conceptFilters", new control.conceptFilters().bindElement("queryModel>conceptFilters").attachConceptFiltersChanged(
 //					function() {
 //						self.rerender();
 //					}));
-			self.setAggregation("_addClause", new sparqlish.control.addClauses({
+			self.setAggregation("_addClause", new control.addClauses({
 				clausesSelected : function(oEvent) {
 					var currentModelData = self.getCurrentQueryContext(self)
 					// Now insert a first clause and move existing first clause if it exists into the first element of the array
