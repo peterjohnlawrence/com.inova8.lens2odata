@@ -72,7 +72,6 @@ Components.queryForm.Component.prototype.createContent = function() {
 		// autoResizable : true
 		// })
 		],
-		// fixedColumnCount : 1,
 		width : "100%",
 		visibleRowCount : 1,
 		selectionMode : sap.ui.table.SelectionMode.Single,
@@ -82,12 +81,16 @@ Components.queryForm.Component.prototype.createContent = function() {
 		toolbar : new sparqlish.control.serviceQueryMenu().setModel(sap.ui.getCore().getModel("queryModel"), "queryModel").attachPreview(function(oEvent) {
 			self.previewResults(self);
 		}).attachQueryChanged(function(oEvent) {
+			self.clearResults(self);
+			self.oTable.setModel(null, "queryModel");
 			sap.ui.core.routing.Router.getRouter("lensRouter").navTo("query", {
 				service : oEvent.getParameter("service").code,
 				querycode : oEvent.getParameter("query").code,
 			});
 		}).attachServiceChanged(function(oEvent) {
 			// self.setService(oEvent.getParameter("service"), oEvent.getParameter("query"));
+			self.clearResults(self);
+			self.oTable.setModel(null, "queryModel");
 			sap.ui.core.routing.Router.getRouter("lensRouter").navTo("query", {
 				service : oEvent.getParameter("service").code,
 				querycode : oEvent.getParameter("query").code,
