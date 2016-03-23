@@ -14,8 +14,8 @@ sap.ui.define([ "controller/BaseController" ], function(BaseController) {
 				name : "Components.lensPanel",
 			});
 			//TODO settings does not seem to set the properties
-			//this.oLensPanelComponent.setType("{default}");
-			this.oLensPanelComponent.setRole("{default}"); 
+			//this.oLensPanelComponent.setType("[default]");
+			this.oLensPanelComponent.setRole("[default]"); 
 			
 			var oLensPanelComponentContainer = new sap.ui.core.ComponentContainer({
 				component : this.oLensPanelComponent,
@@ -29,7 +29,7 @@ sap.ui.define([ "controller/BaseController" ], function(BaseController) {
 			this.oArgs = oEvent.getParameter("arguments");
 			//oView = this.getView();
 			this.oLensPanelComponent.setProperty("serviceCode",this.oArgs.service);
-			this.oLensPanelComponent.setProperty("role",this.oArgs.role||"{default}");
+			this.oLensPanelComponent.setProperty("role",this.oArgs.role||"[default]");
 			//Workaround to avoid issue with sapui5 router that will not ignore '=' even if encoded
 			var oQuery = this.oArgs["?query"];
 			oQuery.uri = oQuery.uri.replace(/~/g,"=");

@@ -22,9 +22,10 @@ Components.lensResultsTable.Component.prototype.createContent = function() {
 	self.setOptions({
 		hiddenColumns : [ "label" ]
 	});
-	this.oTablePanel = new sap.ui.commons.Panel({
-		title : new sap.ui.core.Title(),
-		width : "100%", // height : "100%"
+	// this.oTablePanel = new sap.ui.commons.Panel({
+	// title : new sap.ui.core.Title(),
+	this.oTablePanel = new sap.m.Panel({
+		width : "100%",  height : "auto",
 		showCollapseIcon : false,
 		borderDesign : sap.ui.commons.enums.BorderDesign.Box
 	});
@@ -51,63 +52,65 @@ Components.lensResultsTable.Component.prototype.createContent = function() {
 
 Components.lensResultsTable.Component.prototype.renderResults = function(query, serviceCode) {
 	var self = this;
+	self.deferredEntityTypeMap = new Object();
 	self.setProperty("serviceCode", serviceCode || self.getProperty("serviceCode"));
 	var odataResults = new sap.ui.model.json.JSONModel({});
 	var odataURL = query || self.getProperty("query");
 	if (!jQuery.isEmptyObject(odataURL)) {
 		self.oTable.setBusy(true).setBusyIndicatorDelay(0);
-		odataResults.loadData(utils.proxyUrl(odataURL,sap.ui.getCore().getModel("queryModel").getData().services[self.getProperty("serviceCode")].useProxy));
-		odataResults.attachRequestCompleted(
-				function(oEvent) {
-					if (oEvent.getParameter("success")) {
-						try {
-							var nResults = 0;
-							var bResults = true;
-							var oRecordTemplate = null;
-							var sBindPath = null;
-							var sCurrentPath = "";
-							// if (jQuery.isEmptyObject(odataResults.getData().d.results )) {
-							// Should fix missing results
-							if ((typeof odataResults.getData().d.results !== "object") || jQuery.isEmptyObject(odataResults.getData().d.results)) {
-								if (odataResults.getData().d.length > 0) {
-									oRecordTemplate = odataResults.getData().d[0];
-									sBindPath = "/d";
-								} else {
-									oRecordTemplate = odataResults.getData().d;
-									sBindPath = "/";// "/d";
-									bResults = false;
-									sCurrentPath = "";
-								}
-							} else {
-								nResults = odataResults.getData().d.results.length;
-								if (nResults === 0) {
-									sap.m.MessageToast.show(sap.ui.getCore().getModel("i18nModel").getProperty("queryForm.noResults"));
-									throw "No results returned";
-								} else {
-									oRecordTemplate = odataResults.getData().d.results[0];
-									sBindPath = "/d/results";
-								}
-							}
-							if (!jQuery.isEmptyObject(oRecordTemplate.__metadata)) {
-								self.oTablePanel.getTitle().setText(
-										(jQuery.isEmptyObject(self.getProperty("title"))) ? oRecordTemplate.__metadata.type : self.getProperty("title"));
-								self.oTable.setModel(odataResults);
-								var oMetaModel = self.getMetaModel();
-								var oPrimaryEntityType = oMetaModel.getODataEntityType(oRecordTemplate.__metadata.type);
-								self.oTable.destroyColumns();
-								self.bindTableColumns(self.getProperty("metaModel"), self.oTable, oRecordTemplate, oPrimaryEntityType.name, sCurrentPath, bResults);
-								self.oTable.bindRows(sBindPath);
-							} else {
-								self.oTable.setBusy(false);
-							}
-						} catch (err) {
-							sap.m.MessageToast.show(err);
-							self.oTable.destroyColumns();
-							self.oTable.setBusy(false);
+		odataResults.loadData(utils.proxyUrl(odataURL, sap.ui.getCore().getModel("queryModel").getData().services[self.getProperty("serviceCode")].useProxy));
+		odataResults.attachRequestCompleted(function(oEvent) {
+			if (oEvent.getParameter("success")) {
+				try {
+					var nResults = 0;
+					var bResults = true;
+					var oRecordTemplate = null;
+					var sBindPath = null;
+					var sCurrentPath = "";
+					// if (jQuery.isEmptyObject(odataResults.getData().d.results )) {
+					// Should fix missing results
+					if ((typeof odataResults.getData().d.results !== "object") || jQuery.isEmptyObject(odataResults.getData().d.results)) {
+						if (odataResults.getData().d.length > 0) {
+							oRecordTemplate = odataResults.getData().d[0];
+							sBindPath = "/d";
+						} else {
+							oRecordTemplate = odataResults.getData().d;
+							sBindPath = "/";// "/d";
+							bResults = false;
+							sCurrentPath = "";
+						}
+					} else {
+						nResults = odataResults.getData().d.results.length;
+						if (nResults === 0) {
+							sap.m.MessageToast.show(sap.ui.getCore().getModel("i18nModel").getProperty("queryForm.noResults"));
+							throw "No results returned";
+						} else {
+							oRecordTemplate = odataResults.getData().d.results[0];
+							sBindPath = "/d/results";
 						}
 					}
+					if (!jQuery.isEmptyObject(oRecordTemplate.__metadata)) {
+						// self.oTablePanel.getTitle().setText(
+						// (jQuery.isEmptyObject(self.getProperty("title"))) ? oRecordTemplate.__metadata.type :
+						// self.getProperty("title"));
+						self.oTablePanel.setHeaderText((jQuery.isEmptyObject(self.getProperty("title"))) ? oRecordTemplate.__metadata.type : self.getProperty("title"));
+						self.oTable.setModel(odataResults);
+						var oMetaModel = self.getMetaModel();
+						var oPrimaryEntityType = oMetaModel.getODataEntityType(oRecordTemplate.__metadata.type);
+						self.oTable.destroyColumns();
+						self.bindTableColumns(self.getProperty("metaModel"), self.oTable, oRecordTemplate, oPrimaryEntityType.name, sCurrentPath, bResults);
+						self.oTable.bindRows(sBindPath);
+					} else {
+						self.oTable.setBusy(false);
+					}
+				} catch (err) {
+					sap.m.MessageToast.show(err);
+					self.oTable.destroyColumns();
 					self.oTable.setBusy(false);
-				}).attachRequestFailed(
+				}
+			}
+			self.oTable.setBusy(false);
+		}).attachRequestFailed(
 				function(oEvent) {
 					if (oEvent.getParameter("statusCode") == 404) {
 						sap.m.MessageToast.show(sap.ui.getCore().getModel("i18nModel").getProperty("lensResultsTable.queryNoDataFound"));
@@ -223,6 +226,11 @@ Components.lensResultsTable.Component.prototype.bindTableColumns = function(oMet
 						var oProperty = oMetaModel.getODataInheritedNavigationProperty(oEntityType, column);
 						sLabel = oProperty["com.sap.vocabularies.Common.v1.Heading"] ? oProperty["com.sap.vocabularies.Common.v1.Heading"].String : column;
 						sTooltip = oProperty["com.sap.vocabularies.Common.v1.QuickInfo"] ? oProperty["com.sap.vocabularies.Common.v1.QuickInfo"].String : column;
+						oLink = new sap.m.Link({
+							tooltip : sTooltip
+						});
+						self.deferredEntityTypeMap[column]= oMetaModel.getODataInheritedAssociation(oEntityType, column).type;
+						oTemplate[column].__deferred.type= oMetaModel.getODataInheritedAssociation(oEntityType, column).type;
 						oTable.addColumn(new sap.ui.table.Column({
 							label : new sap.ui.commons.Label({
 								text : sLabel,
@@ -235,9 +243,7 @@ Components.lensResultsTable.Component.prototype.bindTableColumns = function(oMet
 							width : utils.columnWidth(utils.lensUriLabel(oTemplate[column].__deferred.uri), sLabel),
 							sortProperty : sPath + "/__deferred/uri",
 							filterProperty : sPath + "/__deferred/uri",
-							template : new sap.m.Link({
-								tooltip : sTooltip
-							}).bindProperty("text", {
+							template : oLink.bindProperty("text", {
 								parts : [ {
 									path : sPath + "/__deferred/uri",
 									type : new sap.ui.model.type.String()
@@ -250,16 +256,15 @@ Components.lensResultsTable.Component.prototype.bindTableColumns = function(oMet
 								parts : [ {
 									path : sPath + "/__deferred/uri",
 									type : new sap.ui.model.type.String()
-								} ],
-								formatter : function(uri) {
-									return utils.lensDeferredUri(uri, self.getProperty("serviceCode"));
+								}],
+								formatter : function(uri,type) {
+									return utils.lensDeferredUri(uri, self.getProperty("serviceCode"), self);
 								}
 							})
 						}));
 					} else if (oTemplate[column].results != undefined) {
 						// This should not happen but could be the case that the navProperty is empty in which case there will be no
 						// metadata but an empty results array
-
 					} else {
 						this.columnFormatter(oTable, oMetaModel, oEntityType, column, sPath);
 					}
@@ -404,13 +409,6 @@ Components.lensResultsTable.Component.prototype.columnFormatter = function(oTabl
 				path : sPath
 			}).setProperty("linkText", sap.ui.getCore().getModel("i18nModel").getProperty("textLink.LinkTo") + sLabel)
 
-		// new sap.m.Text({
-		// wrapping : true,
-		// tooltip : sTooltip
-		// }).bindProperty("text", {
-		// path : sPath,
-		// type : new sap.ui.model.type.String()
-		// })
 		}));
 	}
 };

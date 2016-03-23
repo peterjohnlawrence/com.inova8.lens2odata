@@ -38,8 +38,8 @@ sap.ui.define([ "sap/ui/core/Control", "sap/m/Link", "sap/m/Text" ], function(Co
 			}
 		},
 		init : function() {
-			this.setAggregation("_text", new sap.m.Text({}).addStyleClass("resultValue"));
-			this.setAggregation("_link", new sap.m.Link({}).addStyleClass("resultValue").attachPress(function(oEvent) {
+			this.setAggregation("_text", new sap.m.Text({})); 
+			this.setAggregation("_link", new sap.m.Link({}).attachPress(function(oEvent) {
 				if (oEvent.getSource().getParent().getInNewTab()) {
 					oEvent.cancelBubble();
 					oEvent.preventDefault();
@@ -53,8 +53,6 @@ sap.ui.define([ "sap/ui/core/Control", "sap/m/Link", "sap/m/Text" ], function(Co
 			oRM.writeClasses();
 			oRM.write(">");
 			var sValue = oControl.getValue();
-			// Test
-//			 oRM.renderControl(oControl.getAggregation("_link").setText(oControl.getLinkText()).setHref("http://www.inova8.com"));
 			if (!utils.validateUrl(sValue)) {
 				oRM.renderControl(oControl.getAggregation("_text").setText(sValue));
 			} else {

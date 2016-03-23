@@ -27,9 +27,10 @@ Components.lensResultsForm.Component.prototype.createContent = function() {
 		hiddenColumns : [ "label" ]
 	});
 	// self.getOptions().hiddenColumns = [ "label" ]
-	this.oFormPanel = new sap.ui.commons.Panel({
-		title : new sap.ui.core.Title(),
-		width : "100%", // height : "100%",
+	// this.oFormPanel = new sap.ui.commons.Panel({
+	// title : new sap.ui.core.Title(),
+	this.oFormPanel = new sap.m.Panel({
+		width : "100%",  height : "auto",// height : "auto",
 		showCollapseIcon : false,
 		borderDesign : sap.ui.commons.enums.BorderDesign.Box
 	});
@@ -45,30 +46,25 @@ Components.lensResultsForm.Component.prototype.createContent = function() {
 		formContainers : this.oFormContainer
 	});
 	this.oFormPanel.addContent(this.oForm);
-	// TODO n need for settings button...clogs up view
-	// this.oFormPanel.addButton(new sap.ui.commons.Button({
-	// icon : sap.ui.core.IconPool.getIconURI("settings"),
-	// press : function(oEvent) {
-	// sap.m.MessageToast.show("settings for form")
-	// }
-	// }));
 	return this.oFormPanel;
 };
 Components.lensResultsForm.Component.prototype.setTitle = function(sTitle) {
 	this.setProperty("title", sTitle);
-	this.oFormPanel.getTitle().setText(sTitle);
+	// this.oFormPanel.getTitle().setText(sTitle);
+	this.oFormPanel.setHeaderText(sTitle);
 };
 Components.lensResultsForm.Component.prototype.clearContents = function() {
 	this.oFormContainer.destroyFormElements();
 };
 Components.lensResultsForm.Component.prototype.renderResults = function(queryUrl, serviceCode) {
 	var self = this;
+	self.deferredEntityTypeMap = new Object();
 	self.setProperty("serviceCode", serviceCode || self.getProperty("serviceCode"));
 	var odataResults = new sap.ui.model.json.JSONModel({});
 	var odataURL = queryUrl || self.getProperty("query");
 	if (!jQuery.isEmptyObject(odataURL)) {
 		self.oForm.setBusy(true).setBusyIndicatorDelay(0);
-		odataResults.loadData(utils.proxyUrl(odataURL,sap.ui.getCore().getModel("queryModel").getData().services[self.getProperty("serviceCode")].useProxy));
+		odataResults.loadData(utils.proxyUrl(odataURL, sap.ui.getCore().getModel("queryModel").getData().services[self.getProperty("serviceCode")].useProxy));
 		odataResults.attachRequestCompleted(function(oEvent) {
 			if (oEvent.getParameter("success")) {
 				try {
@@ -98,7 +94,9 @@ Components.lensResultsForm.Component.prototype.renderResults = function(queryUrl
 						}
 					}
 					if (!jQuery.isEmptyObject(oRecordTemplate.__metadata)) {
-						self.oFormPanel.getTitle().setText((jQuery.isEmptyObject(self.getProperty("title"))) ? oRecordTemplate.__metadata.type : self.getProperty("title"));
+						// self.oFormPanel.getTitle().setText((jQuery.isEmptyObject(self.getProperty("title"))) ?
+						// oRecordTemplate.__metadata.type : self.getProperty("title"));
+						self.oFormPanel.setHeaderText((jQuery.isEmptyObject(self.getProperty("title"))) ? oRecordTemplate.__metadata.type : self.getProperty("title"));
 						self.oFormPanel.setModel(odataResults);
 						var oMetaModel = self.getMetaModel();// sap.ui.getCore().getModel("metaModel");
 						var oPrimaryEntityType = oMetaModel.getODataEntityType(oRecordTemplate.__metadata.type);
@@ -115,7 +113,6 @@ Components.lensResultsForm.Component.prototype.renderResults = function(queryUrl
 					}
 				} catch (err) {
 					sap.m.MessageToast.show(err);
-					// self.oFormPanel.getTitle().setText(err);
 					self.oFormContainer.destroyFormElements();
 					self.oForm.setBusy(false);
 				}
@@ -282,14 +279,16 @@ Components.lensResultsForm.Component.prototype.bindFormFields = function(oMetaMo
 								nLevel + 1, false));
 					} else if (!jQuery.isEmptyObject(oTemplate[column].__deferred)) {
 						var contents = oTemplate[column].__deferred;
-						// format for text of URL: oTemplate.__metadata.uri.split("/").pop()
 						var oProperty = oMetaModel.getODataInheritedNavigationProperty(oEntityType, column);
 						sLabel = oProperty["com.sap.vocabularies.Common.v1.Label"] ? "\u21AA" + oProperty["com.sap.vocabularies.Common.v1.Label"].String : "\u21AA"
 								+ column;
 						sTooltip = oProperty["com.sap.vocabularies.Common.v1.QuickInfo"] ? oProperty["com.sap.vocabularies.Common.v1.QuickInfo"].String : column;
-						elementCollection.push(this.nextFormElement(sLabel, nLevel, true, new sap.m.Link({
+						oLink = new sap.m.Link({
 							tooltip : sTooltip
-						}).bindProperty("text", {
+						});
+						self.deferredEntityTypeMap[column]= oMetaModel.getODataInheritedAssociation(oEntityType, column).type;
+						oTemplate[column].__deferred.type = oMetaModel.getODataInheritedAssociation(oEntityType, column).type;
+						elementCollection.push(this.nextFormElement(sLabel, nLevel, true, oLink.bindProperty("text", {
 							parts : [ {
 								path : column + "/__deferred/uri",
 								type : new sap.ui.model.type.String()
@@ -301,9 +300,9 @@ Components.lensResultsForm.Component.prototype.bindFormFields = function(oMetaMo
 							parts : [ {
 								path : column + "/__deferred/uri",
 								type : new sap.ui.model.type.String()
-							} ],
-							formatter : function(uri) {
-								return utils.lensDeferredUri(uri, self.getProperty("serviceCode"));
+							}],
+							formatter : function(uri, type) {
+								return utils.lensDeferredUri(uri, self.getProperty("serviceCode"), self);
 							}
 						})));
 						nRow++;

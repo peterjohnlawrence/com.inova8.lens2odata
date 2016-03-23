@@ -241,7 +241,7 @@ sap.m.OverflowToolbar.extend("control.serviceQueryMenu", {
 		self.oQuerySelect = new sap.m.ActionSelect({
 			tooltip : "{i18nModel>queryForm.serviceQueryTooltip}",
 			items : {
-				path : "queryModel>/services/LNW2/queries",
+				//path : "queryModel>/services/LNW2/queries",
 				sorter : {
 					path : "queryModel>name"
 				},
@@ -318,6 +318,10 @@ sap.m.OverflowToolbar.extend("control.serviceQueryMenu", {
 							self.getModel("queryModel").refresh();
 							sap.m.MessageToast.show(sap.ui.getCore().getModel("i18nModel").getProperty("queryForm.queryAdded"));
 							oQueryAddDialog.close();
+							self.fireQueryChanged({
+								service : self.getModel("queryModel").getProperty(self.oServiceSelect.getSelectedItem().getBindingContext("queryModel").getPath()),
+								query : queries[newQueryCode]
+							});
 						}
 					}),
 					endButton : new sap.m.Button({
@@ -465,13 +469,13 @@ sap.m.OverflowToolbar.extend("control.serviceQueryMenu", {
 			press : function(oEvent) {
 				var oQueryContext = self.oQuerySelect.getSelectedItem().getBindingContext("queryModel");
 				var oParameters = oQueryContext.getProperty("parameters");
-				//if (!jQuery.isEmptyObject(oParameters) && (oParameters.length > 0)) {
-					var enterQueryParametersDialog = new control.parameterDialog();
-					enterQueryParametersDialog.setQueryContext(oQueryContext);
-					enterQueryParametersDialog.open();
-				//} else {
-				//	sap.m.MessageToast.show(sap.ui.getCore().getModel("i18nModel").getProperty("queryForm.noParameters"))
-				//}
+				// if (!jQuery.isEmptyObject(oParameters) && (oParameters.length > 0)) {
+				var enterQueryParametersDialog = new control.parameterDialog();
+				enterQueryParametersDialog.setQueryContext(oQueryContext);
+				enterQueryParametersDialog.open();
+				// } else {
+				// sap.m.MessageToast.show(sap.ui.getCore().getModel("i18nModel").getProperty("queryForm.noParameters"))
+				// }
 			}
 		});
 		self.oUndo = new sap.m.Button({
@@ -499,14 +503,16 @@ sap.m.OverflowToolbar.extend("control.serviceQueryMenu", {
 				sap.m.MessageToast.show("settings")
 			}
 		});
-		self.oInova8 = new sap.m.Button({
-			icon : "resources/inova8.png",
+		self.oLogo = new sap.m.Button({
+			//icon : "resources/Linklaters.png",
+			icon : "resources/LinklaterLensLogo.png",
+			//width:"200px",
 			press : function(oEvent) {
-				window.open("http://www.inova8.com");
+				window.open("http://www.linklaters.com/");
 			}
 		});
 		self.oToolbar = new sap.m.Toolbar();
-		self.oToolbar.addContent(self.oInova8).addContent(self.oServiceSelect).addContent(self.oQuerySelect).addContent(self.oEnterQueryParameters).addContent(
+		self.oToolbar.addContent(self.oLogo).addContent(self.oServiceSelect).addContent(self.oQuerySelect).addContent(self.oEnterQueryParameters).addContent(
 				self.oUndo).addContent(self.oRedo).addContent(self.oSave).addContent(self.oSaveAs).addContent(new sap.m.ToolbarSpacer()).addContent(self.oPreview)
 				.addContent(new sap.m.ToolbarSpacer()).addContent(self.oSettings);
 		// self.oToolbar.addContent(self.oServiceSelect).addContent(self.oQuerySelect)

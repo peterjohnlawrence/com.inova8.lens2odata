@@ -1,5 +1,6 @@
 jQuery.sap.require("sap.ui.core.UIComponent");
 jQuery.sap.require("sap.ui.commons.Panel");
+jQuery.sap.require("lib.utilities");
 jQuery.sap.declare("Components.lensPanel.Component");
 "use strict";
 sap.ui.core.UIComponent.extend("Components.lensPanel.Component", {
@@ -11,7 +12,7 @@ sap.ui.core.UIComponent.extend("Components.lensPanel.Component", {
 			serviceCode : "string",
 			role : {
 				type : "string",
-				defaultValue : "{default}"
+				defaultValue : "[default]"
 			},
 			query : {
 				type : "object"
@@ -21,35 +22,39 @@ sap.ui.core.UIComponent.extend("Components.lensPanel.Component", {
 });
 Components.lensPanel.Component.prototype.createContent = function() {
 	var self = this;
-	this.oLensPanel = new sap.ui.commons.Panel({
-		title : new sap.ui.core.Title().setText("Lens Panel"),
-		showCollapseIcon : false,
-		width : "100%",
-		height : "1800px"
-	});
-	return this.oLensPanel;
+	this.oIconTabBar = new sap.m.IconTabBar();
+	return this.oIconTabBar;
 };
 Components.lensPanel.Component.prototype.renderFragments = function() {
-	// Check sConfig to see if it has changed
-
-	this.oLensPanel.removeAllContent();
+	//this.oIconTabBar.removeAllItems();
+		this.oIconTabBar.destroyItems();
+		this.oIconTabBar.destroyContent();
 	var oLensesModel = sap.ui.getCore().getModel("lensesModel");
 	var oLens;
+	var oLensType = oLensesModel.getData()["lenses"][this.getQuery().type];
+	if (jQuery.isEmptyObject(oLensType)) {
+		oLensType = oLensesModel.getData()["lenses"]["[defaultEntityType]"]
+	}
+	var oLensTypeRoles = this.getQuery().deferred ? oLensType["entitySet"] : oLensType["entity"];
 	if (this.getQuery().deferred) {
-		oLens = oLensesModel.getData()["lenses"][this.getRole()]["{deferred}"];
+		oLensTypeRoles = oLensType["entitySet"];
+		if (jQuery.isEmptyObject(oLensTypeRoles)) {
+			oLensTypeRoles = oLensesModel.getData()["lenses"]["[defaultEntityType]"]["entitySet"];
+		}
 		var deferredUri = utils.parseDeferredUri(this.getQuery().uri);
 		this.fragmentBindings = {
 			serviceCode : this.getServiceCode(),
 			uri : this.getQuery().uri,
-			entityType : deferredUri.entityType,
+			entityType : this.getQuery().type,
 			entity : deferredUri.entity,
 			navigationProperty : deferredUri.navigationProperty,
 			role : this.getRole()
 		}
 	} else {
-		oLens = oLensesModel.getData()["lenses"][this.getRole()][this.getQuery().type];
-		if (jQuery.isEmptyObject(oLens))
-			oLens = oLensesModel.getData()["lenses"][this.getRole()]["{default}"];
+		oLensTypeRoles = oLensType["entity"];
+		if (jQuery.isEmptyObject(oLensTypeRoles)) {
+			oLensTypeRoles = oLensesModel.getData()["lenses"]["[defaultEntityType]"]["entity"];
+		}
 		var metadatadUri = utils.parseMetadataUri(this.getQuery().uri);
 		this.fragmentBindings = {
 			serviceCode : this.getServiceCode(),
@@ -59,10 +64,16 @@ Components.lensPanel.Component.prototype.renderFragments = function() {
 			role : this.getRole()
 		}
 	}
-	var oContent = sap.ui.getCore().getModel("lensesModel").getData()["templates"][oLens.template];
-	this.oLensPanel.getTitle().setText(utils.bindStringToValues(oLens.title, this.fragmentBindings));
-	this.setProperty("_fragmentModel", oLens["fragments"]);
-	this.oLensPanel.addContent(this.displayContent(oContent));
+	for ( var lens in oLensTypeRoles) {
+		var oLens = oLensTypeRoles[lens];
+		var oContent = sap.ui.getCore().getModel("lensesModel").getData()["templates"][oLens.template];
+		this.setProperty("_fragmentModel", oLens["fragments"]);
+		this.oIconTabBar.addItem(new sap.m.IconTabFilter({
+			text : lens,
+			content : this.displayContent(oContent) ,
+			visible : true
+		})).setExpanded(true);
+	}
 };
 Components.lensPanel.Component.prototype.displayContent = function(oContent) {
 	var self = this;
@@ -81,7 +92,8 @@ Components.lensPanel.Component.prototype.displayContent = function(oContent) {
 			if (Array.isArray(oCurrentContent)) {
 				var oContentSplitter = new sap.ui.layout.Splitter({
 					orientation : sap.ui.core.Orientation.Vertical,
-					width : "100%"// , height:"100%"
+					width : "100%"//,
+					//height : "800px"
 				});
 				for (var i = 0, len = oCurrentContent.length; i < len; i++)
 					oContentSplitter.addContentArea(oCurrentContent[i]);
@@ -90,7 +102,7 @@ Components.lensPanel.Component.prototype.displayContent = function(oContent) {
 				oHorizontalSplitter.addContentArea(oCurrentContent);
 			}
 		}
-		return oHorizontalSplitter;
+		return oHorizontalSplitter.setLayoutData(oLayoutData);
 	} else if (oContent.type === "rows") {
 		var oVerticalSplitter = new sap.ui.layout.Splitter();
 		oVerticalSplitter.setOrientation(sap.ui.core.Orientation.Vertical);
@@ -102,7 +114,8 @@ Components.lensPanel.Component.prototype.displayContent = function(oContent) {
 			if (Array.isArray(oCurrentContent)) {
 				var oContentSplitter = new sap.ui.layout.Splitter({
 					orientation : sap.ui.core.Orientation.Horizontal,
-					width : "100%"// , height : "100%"
+					width : "100%"//,
+				//	height : "800px"
 				});
 				for (var i = 0, len = oCurrentContent.length; i < len; i++)
 					oContentSplitter.addContentArea(oCurrentContent[i]);
@@ -111,9 +124,9 @@ Components.lensPanel.Component.prototype.displayContent = function(oContent) {
 				oVerticalSplitter.addContentArea(oCurrentContent);
 			}
 		}
-		return oVerticalSplitter;
+		return oVerticalSplitter.setLayoutData(oLayoutData);
 	} else if (oContent.type === "lens") {
-		var oFragments = utils.lookup(this.getProperty("_fragmentModel"), "position", oContent.id); 
+		var oFragments = utils.lookup(this.getProperty("_fragmentModel"), "position", oContent.id);
 		if (!jQuery.isEmptyObject(oFragments)) {
 			oComponentContainers = [];
 			for (var i = 0, len = oFragments.length; i < len; i++) {
@@ -162,7 +175,7 @@ Components.lensPanel.Component.prototype.displayContent = function(oContent) {
 				}
 			}));
 			oPanel.addStyleClass("tile");
-			return oPanel;
+			return oPanel.setLayoutData(oLayoutData);
 		}
 	}
 };

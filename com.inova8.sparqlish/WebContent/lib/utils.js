@@ -52,7 +52,7 @@
 		if (jQuery.isEmptyObject(odataModel)) {
 			// TODO should set maxDataServiceVersion based on declaration
 			try {
-				odataModel = new sap.ui.model.odata.v2.ODataModel(utils.proxyUrl(service.serviceUrl,service.useProxy), {
+				odataModel = new sap.ui.model.odata.v2.ODataModel(utils.proxyUrl(service.serviceUrl, service.useProxy), {
 					maxDataServiceVersion : "2.0"
 				}).attachMetadataFailed(function(oEvent) {
 					sap.m.MessageToast.show("Metada failed to load. Check less than OdataV4, also check source and proxy: " + service.serviceUrl);
@@ -158,14 +158,14 @@
 		} else
 			return jQuery.isEmptyObject(uri) ? "" : decodeURIComponent(uri).split("/").pop();
 	};
-	utils.lensDeferredUri = function(uri, serviceCode) {
+	utils.lensDeferredUri = function(uri, serviceCode, me) {
 		if (jQuery.isEmptyObject(uri)) {
 			return "";
 		} else {
 			var parts = uri.split("/");
 			var collection = parts.pop();
 			// Workaround to avoid issue with sapui5 router that will not ignore '=' even if encoded
-			return "../lens2odata/#/" + serviceCode + "/lens?deferred=true&uri=" + uri.replace(/=/g, "~");
+			return "../lens2odata/#/" + serviceCode + "/lens?deferred=true?type=" + me.deferredEntityTypeMap[collection] + "&uri=" + uri.replace(/=/g, "~");
 		}
 	};
 	utils.lensDeferredUriLabel = function(uri) {

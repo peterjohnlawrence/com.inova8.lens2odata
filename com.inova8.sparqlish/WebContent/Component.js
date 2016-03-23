@@ -41,13 +41,13 @@ sap.ui.define([ "sap/ui/core/UIComponent" ], function(UIComponent) {
 					name : "query",
 					target : "query"
 				}, {
-					// example #LNW2/lens/manager?deferred=true&uri=http://service/Orders()/shipsOrder
+					// example #LNW2/lens/manager?deferred=true&role=default&type=northwind.Order&uri=http://service/Orders()/shipsOrder
 					pattern : "{service}/lens/{role}/:?query:",
 					name : "lens",
 					target : "lens"
 				}, {
 					// example #LNW2/lens?uri=http://service/Orders()
-					// example #LNW2/lens?deferred=true&uri=http://service/Orders()/shipsOrder
+					// example #LNW2/lens?deferred=true&role=default&type=northwind.Order&uri=http://service/Orders()/shipsOrder
 					pattern : "{service}/lens/:?query:",
 					name : "defaultLens",
 					target : "lens"
