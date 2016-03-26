@@ -5,10 +5,10 @@ jQuery.sap.require("sap.ui.core.IconPool");
 jQuery.sap.require("control.extendFilter");
 sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 	"use strict";
-	return Control.extend("control.conceptOperationParameters", {
+	return Control.extend("control.conceptFilter", {
 		metadata : {
 			aggregations : {
-				_conceptParameters : {
+				_conceptFilter : {
 					type : "sap.m.Link",
 					multiple : false
 				}
@@ -23,6 +23,12 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 			var self = this;
 
 			self.oConceptFilterLink = new sap.m.Link({
+				// TODO Only allows for a single valued primary key
+				// text : '{= "{queryModel>" + ${entityTypeModel>/key/propertyRef/0/name}+"}"}',
+				// text :{ path : "='queryModel>'+${entityTypeModel>/key/propertyRef/0/name}" },
+				// text :{ path : '="queryModel>" + ${entityTypeModel>/key/propertyRef/0/name}' },
+				// text :"{='{queryModel>' + ${entityTypeModel>/key/propertyRef/0/name} +'}'}",
+				// text : "{queryModel>OrderID}",
 				text : '{queryModel>0/value}',
 				tooltip : "Select a value",
 
@@ -81,11 +87,11 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 				// Now close popup since select completed
 				self.oConceptFilterPopup.close();
 			});
-			self.setAggregation("_conceptParameters", self.oConceptFilterLink)
+			self.setAggregation("_conceptFilter", self.oConceptFilterLink)
 		},
 		renderer : function(oRm, oControl) {
 			oRm.write("&nbsp;");
-			oRm.renderControl(oControl.getAggregation("_conceptParameters"));
+			oRm.renderControl(oControl.getAggregation("_conceptFilter"));
 		}
 	});
 });

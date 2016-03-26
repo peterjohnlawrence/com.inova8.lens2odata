@@ -40,9 +40,6 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 				oRm.writeClasses();
 				oRm.write(">");
 				var currentModel = oControl.getModel("queryModel");
-				// Set binding context, rather than just the binding path etc, as this seems essential for satisfactory binding
-				// of
-				// aggregations
 				oControl.setBindingContext(new sap.ui.model.Context(oControl.getModel("queryModel"), oControl.getClausePath()), "queryModel")
 				var currentCtx = oControl.getBindingContext("queryModel");
 				var currentContext = oControl.getModel("queryModel").getProperty("", currentCtx);
@@ -51,7 +48,6 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 					if (sClass == "Query") {
 						oControl.setAggregation("_conceptClause", new control.conceptClause().setBindingContext(oControl.getBindingContext("queryModel"))
 								.attachConceptClauseChanged(function(oEvent) {
-									//oEvent.getSource().rerender();
 									oControl.fireQueryChanged(oEvent);
 								}));
 						oRm.renderControl(oControl.getAggregation("_conceptClause"));

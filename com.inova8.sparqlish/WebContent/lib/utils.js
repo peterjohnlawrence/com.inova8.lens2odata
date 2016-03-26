@@ -32,14 +32,21 @@
 		// Now overwrite with any local data
 		if (!jQuery.isEmptyObject(localQueryData)) {
 			for ( var service in localQueryData.services) {
-				mergedData.services[service] = {
-					"code" : service,
-					"name" : localQueryData.services[service].name,
-					"serviceUrl" : localQueryData.services[service].serviceUrl,
-					"version" : localQueryData.services[service].version,
-					"useProxy" : localQueryData.services[service].useProxy,
-					queries : {}
-				};
+				if (jQuery.isEmptyObject(mergedData.services[service])) {
+					mergedData.services[service] = {
+						"code" : service,
+						"name" : localQueryData.services[service].name,
+						"serviceUrl" : localQueryData.services[service].serviceUrl,
+						"version" : localQueryData.services[service].version,
+						"useProxy" : localQueryData.services[service].useProxy,
+						queries : {}
+					};
+				} else {
+					mergedData.services[service].name = localQueryData.services[service].name;
+					mergedData.services[service].serviceUrl = localQueryData.services[service].serviceUrl;
+					mergedData.services[service].version = localQueryData.services[service].version;
+					mergedData.services[service].useProxy = localQueryData.services[service].useProxy;
+				}
 				for ( var query in localQueryData.services[service].queries) {
 					mergedData.services[service].queries[query] = jQuery.extend(true, {}, localQueryData.services[service].queries[query])
 				}

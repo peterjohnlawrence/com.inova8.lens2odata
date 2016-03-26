@@ -9,6 +9,68 @@
 			"version": "V2",
 			"queries": 
 			{
+				"OPTST": 
+				{
+					"_class": "Query",
+					"code": "OPTST",
+					"name": "OperationTest",
+					"concept": "Summary_of_Sales_by_Years",
+					"conceptFilters": 
+					[
+						
+					],
+
+					"operationParameters": 
+					[
+						{
+							"name": "wildcard",
+							"type": "Edm.String",
+							"value": "35"
+						}
+					],
+
+					"clauses": 
+					{
+						
+					}
+				},
+
+				"OPTST1": 
+				{
+					"_class": "Query",
+					"code": "OPTST1",
+					"name": "OperationTestw/Parameters",
+					"concept": "Summary_of_Sales_by_Years",
+					"conceptFilters": 
+					[
+						
+					],
+
+					"parameters": 
+					[
+						{
+							"name": "wildcard",
+							"type": "Edm.String",
+							"prompt": "Enter matching string",
+							"defaultValue": "6"
+						}
+					],
+
+					"operationParameters": 
+					[
+						{
+							"name": "wildcard",
+							"type": "Edm.String",
+							"value": "{wildcard}"
+						}
+					],
+
+					"clauses": 
+					{
+						
+					}
+				},
+
 				"0": 
 				{
 					"_class": "Query",

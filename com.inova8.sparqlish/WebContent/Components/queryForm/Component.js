@@ -365,7 +365,7 @@ Components.queryForm.Component.prototype.previewResults = function(self) {
 			}).attachRequestFailed(
 					function(oEvent) {
 						sap.m.MessageToast.show(sap.ui.getCore().getModel("i18nModel").getProperty("queryForm.queryResponseError") + oEvent.getParameter("statusCode")
-								+ " " + oEvent.getParameter("statusText"));
+								+ " " + oEvent.getParameter("statusText")+ " " + oEvent.getParameter("responseText"));
 						self.oTable.setBusy(false);
 					});
 		} else {

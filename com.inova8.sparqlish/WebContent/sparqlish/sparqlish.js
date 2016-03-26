@@ -288,12 +288,21 @@ sap.ui.base.Object
 								return ""
 							}
 						}
-
+					},
+					odataCustomQueryOptions : function(sVersion) {
+						var odataCustomQueryOptions = "";
+						if (!jQuery.isEmptyObject(this.oAST.operationParameters)) {
+							for (operationParameterIndex in this.oAST.operationParameters) {
+								var operationParameter = this.oAST.operationParameters[operationParameterIndex];
+								odataCustomQueryOptions = odataCustomQueryOptions + "&" + operationParameter.name + "=" + odataValue(sVersion, operationParameter.value, operationParameter.type,  this.oAST.parameters);
+							}
+						}
+						return odataCustomQueryOptions;
 					},
 					odataURI : function(sVersion) {
 						sVersion = sVersion || defaultVersion;
 						return this.odataPath(sVersion) + "?" + this.odataFilter(sVersion) + "&" + this.odataExpand(sVersion) + "&" + this.odataSelect(sVersion) + "&"
-								+ this.odataOptions(sVersion);
+								+ this.odataOptions(sVersion) + this.odataCustomQueryOptions(sVersion);
 					}
 				});
 sap.ui.base.Object.extend("Clauses", {
@@ -455,12 +464,12 @@ sap.ui.base.Object.extend("Clauses", {
 		if (!jQuery.isEmptyObject(this.oClause)) {
 			var sOdataExpand = [];
 			var clauseExpand = this.oClause.odataExpand(sVersion);
-			if (!jQuery.isEmptyObject(clauseExpand)){
-						if (clauseExpand instanceof Array) {
-							sOdataExpand.push.apply(sOdataExpand, clauseExpand);
-						} else {
-							sOdataExpand.push(clauseExpand);
-						}				
+			if (!jQuery.isEmptyObject(clauseExpand)) {
+				if (clauseExpand instanceof Array) {
+					sOdataExpand.push.apply(sOdataExpand, clauseExpand);
+				} else {
+					sOdataExpand.push(clauseExpand);
+				}
 			}
 			if (!jQuery.isEmptyObject(this.oConjunctionClauses)) {
 				for (var i = 0; i < this.oConjunctionClauses.length; i++) {
@@ -1521,21 +1530,21 @@ odataValue = function(sVersion, sValue, sType, oParameters) {
 	case "Edm.Int32":
 	case "Edm.Int64":
 	case "Edm.SByte": {
-		return deparamterizeValue(sValue, sType, oParameters);
+		return deparameterizeValue(sValue, sType, oParameters);
 	}
 	case "Edm.String": {
-		return "'" + deparamterizeValue(sValue, sType, oParameters) + "'";
+		return "'" + deparameterizeValue(sValue, sType, oParameters) + "'";
 	}
 	case "Edm.Time":
 	case "Edm.DateTime": {
 		if (sVersion == "V4") {
-			return deparamterizeValue(sValue, sType, oParameters);
+			return deparameterizeValue(sValue, sType, oParameters);
 		} else {
 			// TODO need to simplify this. The idea is to convert to UTC as this is the lowest common denominator of V2 Odata
 			// services. Not all (Olingo for example) support timezones.
 			var oDateTime = sap.ui.core.format.DateFormat.getDateTimeInstance({
 				pattern : "yyyy-MM-dd'T'HH:mm:ssXXXXX"
-			}).parse(deparamterizeValue(sValue, sType, oParameters));
+			}).parse(deparameterizeValue(sValue, sType, oParameters));
 			var sDateTime = "datetime'" + sap.ui.core.format.DateFormat.getDateTimeInstance({
 				pattern : "yyyy-MM-dd'T'HH:mm:ss",
 				UTC : true
@@ -1545,7 +1554,7 @@ odataValue = function(sVersion, sValue, sType, oParameters) {
 	}
 	}
 };
-deparamterizeValue = function(sValue, sType, oParameters) {
+deparameterizeValue = function(sValue, sType, oParameters) {
 	var sPathPattern = /{(.*)}/;
 	if (sPathPattern.test(sValue)) {
 		var sParam = sPathPattern.exec(sValue)[1];
