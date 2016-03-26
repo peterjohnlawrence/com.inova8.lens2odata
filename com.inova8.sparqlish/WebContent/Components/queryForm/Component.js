@@ -1,5 +1,5 @@
 jQuery.sap.require("sap.ui.core.UIComponent");
-jQuery.sap.require("sparqlish.sparqlish")
+jQuery.sap.require("lib.sparqlish")
 jQuery.sap.require("control.queryClause");
 jQuery.sap.require("control.queryClausePreview");
 jQuery.sap.require("control.serviceQueryMenu");

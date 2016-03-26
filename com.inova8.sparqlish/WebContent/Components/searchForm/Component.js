@@ -1,5 +1,5 @@
 jQuery.sap.require("sap.ui.core.UIComponent");
-jQuery.sap.require("sparqlish.sparqlish")
+jQuery.sap.require("lib.sparqlish")
 jQuery.sap.require("control.queryClause");
 jQuery.sap.require("control.queryClausePreview");
 jQuery.sap.require("control.serviceQueryMenu");
@@ -47,8 +47,8 @@ Components.searchForm.Component.prototype.setQueryCode = function(sQueryCode) {
 		// Initialize the paramter form if required
 		if (service) {
 			// var queryIndex = utils.lookupIndex(service.queries, "code", sQueryCode);
-			self.oParameterForm.getFormContainers()[0].bindAggregation("formElements", "queryModel>/services/" + self.getServiceCode() + "/queries/"
-					+ sQueryCode + "/parameters", this._initValueInputFactory.bind(this));
+			self.oParameterForm.getFormContainers()[0].bindAggregation("formElements", "queryModel>/services/" + self.getServiceCode() + "/queries/" + sQueryCode
+					+ "/parameters", this._initValueInputFactory.bind(this));
 			self.oSearchResultsFormComponent.clearContents();
 			self.oSearchResultsFormComponent.setTitle(sap.ui.getCore().getModel("i18nModel").getProperty("searchForm.waitingOnResults"));
 			self.oSearchResultsTableComponent.setTitle(sap.ui.getCore().getModel("i18nModel").getProperty("searchForm.waitingOnResults"));
@@ -251,16 +251,17 @@ Components.searchForm.Component.prototype.createQueryMenu = function() {
 Components.searchForm.Component.prototype.renderResults = function(query) {
 	var service = sap.ui.getCore().getModel("queryModel").getData()["services"][this.getServiceCode()];
 	var queryURL = service.serviceUrl + query.odataURI(service.version);
+	//TODO only render the one that is currently selected
 	this.oSearchResultsFormComponent.setTitle(service.queries[this.getQueryCode()].name + " "
 			+ sap.ui.getCore().getModel("i18nModel").getProperty("searchForm.searchResults"));
 	this.oSearchResultsFormComponent.setMetaModel(this.getMetaModel());
-
+	this.oSearchResultsFormComponent.clearContents();
 	this.oSearchResultsFormComponent.renderResults(queryURL, this.getServiceCode());
 
 	this.oSearchResultsTableComponent.setTitle(service.queries[this.getQueryCode()].name + " "
 			+ sap.ui.getCore().getModel("i18nModel").getProperty("searchForm.searchResults"));
 	this.oSearchResultsTableComponent.setMetaModel(this.getMetaModel());
-
+	this.oSearchResultsTableComponent.clearContents();
 	this.oSearchResultsTableComponent.renderResults(queryURL, this.getServiceCode());
 
 };

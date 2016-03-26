@@ -49,7 +49,9 @@ Components.lensResultsTable.Component.prototype.createContent = function() {
 
 	return this.oTablePanel.addContent(this.oTable);
 };
-
+Components.lensResultsTable.Component.prototype.clearContents = function() {
+	this.oTable.destroyColumns();
+};
 Components.lensResultsTable.Component.prototype.renderResults = function(query, serviceCode) {
 	var self = this;
 	self.deferredEntityTypeMap = new Object();
