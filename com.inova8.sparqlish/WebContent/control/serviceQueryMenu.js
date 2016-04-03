@@ -344,11 +344,7 @@ sap.m.OverflowToolbar.extend("control.serviceQueryMenu", {
 				var oQueryCopyDialog = new sap.m.Dialog({
 					title : '{i18nModel>queryForm.queryCopy}',
 					type : 'Message',
-					content : [ new sap.m.Label({
-						text : "{i18nModel>queryForm.queryName}"
-					}), new sap.m.Text({
-						text : self.oQuerySelect.getSelectedItem().getText()
-					}), new sap.m.Label({
+					content : [  new sap.m.Label({
 						text : "{i18nModel>queryForm.queryNewName}"
 					}), new sap.m.Input({
 						value : self.oQuerySelect.getSelectedItem().getText()
@@ -360,8 +356,7 @@ sap.m.OverflowToolbar.extend("control.serviceQueryMenu", {
 							var newQueryCode = utils.generateUUID();
 							var newQuery = jQuery.extend(true, {}, queries[self.oQuerySelect.getSelectedKey()]);
 							newQuery.code = newQueryCode;
-							newQuery.name = oQueryCopyDialog.getContent()[3].getValue();
-							newQuery.concept = "Select concept";
+							newQuery.name = oQueryCopyDialog.getContent()[1].getValue();
 							queries[newQueryCode] = newQuery;
 							self.getModel("queryModel").refresh();
 							sap.m.MessageToast.show(sap.ui.getCore().getModel("i18nModel").getProperty("queryForm.queryCopied"));
