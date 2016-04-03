@@ -111,12 +111,11 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 					} ],
 					formatter : function( sDataProperty, sObjectProperty) {
 						var oProperty;
-						var oEntityType = this.getParent().getParent().getDomainEntityTypeContext();
 						if (!jQuery.isEmptyObject(sDataProperty)) {
-							oProperty = this.getModel("metaModel").getODataInheritedProperty(oEntityType, sDataProperty);
+							oProperty = this.getModel("metaModel").getODataInheritedProperty(this.getParent().getParent().getDomainEntityTypeContext(), sDataProperty);
 						} else 
 							if (!jQuery.isEmptyObject(sObjectProperty)) {
-							oProperty = this.getModel("metaModel").getODataInheritedNavigationProperty(oEntityType, sObjectProperty);
+							oProperty = this.getModel("metaModel").getODataInheritedNavigationProperty(this.getParent().getParent().getDomainEntityTypeContext(), sObjectProperty);
 						} else {
 							return "";
 						}
