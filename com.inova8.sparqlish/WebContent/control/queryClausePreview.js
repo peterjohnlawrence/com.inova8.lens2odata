@@ -113,7 +113,7 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 						// Build the display content
 						switch (oControl.getViewContext()["type"]) {
 						case "__metadata":
-							oControl.oLink = new sap.m.Link().addStyleClass("resultValue");
+							oControl.oLink = new sap.m.Link();
 							oControl.oLink.bindProperty("text", {
 								parts : [ {
 									path : "resultsModel>" + sCurrentResultsContext + "/__metadata/uri",
@@ -138,7 +138,7 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 							oControl.setAggregation("_preview", oControl.oLink);
 							break;
 						case "Edm.DateTime":
-							oControl.oTextView = new sap.m.Text().addStyleClass("resultValue");
+							oControl.oTextView = new sap.m.Text();
 							oControl.oTextView.bindProperty("text", {
 								path : "resultsModel>" + sCurrentResultsContext,
 								formatter : function(value) {
