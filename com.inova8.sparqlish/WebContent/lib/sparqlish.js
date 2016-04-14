@@ -291,6 +291,9 @@ sap.ui.base.Object
 					},
 					odataCustomQueryOptions : function(sVersion) {
 						var odataCustomQueryOptions = "";
+						if (!jQuery.isEmptyObject(this.oClauses)) {
+						odataCustomQueryOptions =  this.oClauses.odataCustomQueryOptions(sVersion);
+						}
 						if (!jQuery.isEmptyObject(this.oAST.operationParameters)) {
 							for (operationParameterIndex in this.oAST.operationParameters) {
 								var operationParameter = this.oAST.operationParameters[operationParameterIndex];
@@ -298,8 +301,7 @@ sap.ui.base.Object
 										+ odataValue(sVersion, operationParameter.value, operationParameter.type, this.oAST.parameters);
 							}
 						}
-						return odataCustomQueryOptions + this.oClauses.odataCustomQueryOptions(sVersion);
-						;
+						return odataCustomQueryOptions;
 					},
 					odataURI : function(sVersion) {
 						sVersion = sVersion || defaultVersion;
