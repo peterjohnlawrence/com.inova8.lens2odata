@@ -119,7 +119,7 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 						} else {
 							return "";
 						}
-						return oProperty["sap:label"] || oProperty["name"]
+						return oProperty["sap:label"] || oProperty["Name"]
 					}
 				},
 				tooltip : "{i18nModel>propertyMenu.tooltip}"

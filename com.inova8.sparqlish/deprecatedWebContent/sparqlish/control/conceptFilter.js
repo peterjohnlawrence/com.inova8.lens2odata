@@ -5,10 +5,10 @@ jQuery.sap.require("sap.ui.core.IconPool");
 jQuery.sap.require("control.extendFilter");
 sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 	"use strict";
-	return Control.extend("control.conceptOperationParameters", {
+	return Control.extend("control.conceptFilter", {
 		metadata : {
 			aggregations : {
-				_conceptParameters : {
+				_conceptFilter : {
 					type : "sap.m.Link",
 					multiple : false
 				}

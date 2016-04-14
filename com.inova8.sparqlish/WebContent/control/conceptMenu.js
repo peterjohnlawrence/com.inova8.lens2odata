@@ -21,8 +21,22 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 		init : function() {
 			var self = this;
 			self.oConceptLink = new sap.m.Link({
-				text : "{queryModel>concept}",
-				tooltip : "i18nModel>conceptMenu.tooltip"
+				text : {
+					parts : [ {
+						path : "queryModel>concept",
+						type : new sap.ui.model.type.String()
+					}],
+					formatter : function( sConcept) {
+						var oEntitySet;
+						if (!jQuery.isEmptyObject(sConcept)) {
+							oEntitySet = this.getModel("metaModel").getODataEntitySet(sConcept);
+						} else{
+							return "";
+						}
+						return oEntitySet["sap:label"] || oEntitySet["Name"]
+					}
+				},
+				tooltip : "{i18nModel>conceptMenu.tooltip}"
 			});
 			self.oConceptLink.addStyleClass("conceptMenuLink");
 			self.oConceptList = new sap.m.P13nColumnsPanel({
@@ -53,9 +67,6 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 							concept : newConcept
 						});
 					}
-					// self.fireSelected({
-					// concept : newConcept
-					// });
 					self.oDialog.close();
 				}
 			});

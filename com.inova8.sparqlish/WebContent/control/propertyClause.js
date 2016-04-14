@@ -1,8 +1,8 @@
 jQuery.sap.require("sap.ui.unified.MenuItem");
 jQuery.sap.require("control.includeOptionalIgnore");
 jQuery.sap.require("control.propertyMenu");
-jQuery.sap.require("control.objectPropertyFilters");
 jQuery.sap.require("control.dataPropertyFilters");
+jQuery.sap.require("control.conceptOperationParameters");
 jQuery.sap.require("control.addClauses");
 jQuery.sap.require("control.clauses");
 
@@ -25,12 +25,12 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 					type : "control.propertyMenu",
 					multiple : false
 				},
-				_objectPropertyFilters : {
-					type : "control.objectPropertyFilters",
-					multiple : false
-				},
 				_dataPropertyFilters : {
 					type : "control.dataPropertyFilters",
+					multiple : false
+				},
+				_conceptOperationParameters : {
+					type : "control.conceptOperationParameters",
 					multiple : false
 				},
 				_addClause : {
@@ -67,9 +67,8 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 				// self.rerender();
 				self.firePropertyClauseChanged();
 			}));
-//TODO temporarily removed as difficult to support entity selection
-//			self.setAggregation("_objectPropertyFilters", new control.objectPropertyFilters()
-//					.bindElement("queryModel>propertyClause/objectPropertyFilters"));
+			self.setAggregation("_conceptOperationParameters", new control.conceptOperationParameters().bindElement("queryModel>propertyClause/operationParameters"));
+
 			self.setAggregation("_dataPropertyFilters", new control.dataPropertyFilters().bindElement("queryModel>propertyClause/dataPropertyFilters")
 					.attachDataPropertyFiltersChanged(function(oEvent) {
 						//self.rerender();
@@ -122,7 +121,6 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 				} else {
 					if (currentQueryContext.propertyClause._class == "DataPropertyClause") {
 						return this.getModel("metaModel").getODataInheritedProperty(this.getDomainEntityTypeContext(), currentQueryContext.propertyClause.dataProperty);
-						//return this.getModel("metaModel").getDataProperty(this.getDomainEntityTypeQName(), currentQueryContext.propertyClause.dataProperty);
 					} else {
 						return null;
 					}
@@ -139,7 +137,6 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 				} else {
 					if (currentQueryContext.propertyClause._class == "ObjectPropertyClause") {
 						return this.getModel("metaModel").getODataInheritedNavigationProperty(this.getDomainEntityTypeContext(), currentQueryContext.propertyClause.objectProperty);
-						//return this.getModel("metaModel").getNavigationProperty(this.getDomainEntityTypeQName(), currentQueryContext.propertyClause.objectProperty);
 					} else {
 						return null;
 					}
@@ -293,6 +290,7 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 					if (sPropertyClass == "ObjectPropertyClause") {
 						//TODO temporarily removed as difficult to support entity selection
 						//oRm.renderControl(oControl.getAggregation("_objectPropertyFilters"));
+						oRm.renderControl(oControl.getAggregation("_conceptOperationParameters"));
 						oRm.write("&nbsp;");
 						oRm.renderControl(oControl.getAggregation("_addClause"));
 						// TODO need to remove remnants

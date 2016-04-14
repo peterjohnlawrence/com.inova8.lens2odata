@@ -294,10 +294,12 @@ sap.ui.base.Object
 						if (!jQuery.isEmptyObject(this.oAST.operationParameters)) {
 							for (operationParameterIndex in this.oAST.operationParameters) {
 								var operationParameter = this.oAST.operationParameters[operationParameterIndex];
-								odataCustomQueryOptions = odataCustomQueryOptions + "&" + operationParameter.name + "=" + odataValue(sVersion, operationParameter.value, operationParameter.type,  this.oAST.parameters);
+								odataCustomQueryOptions = odataCustomQueryOptions + "&" + operationParameter.name + "="
+										+ odataValue(sVersion, operationParameter.value, operationParameter.type, this.oAST.parameters);
 							}
 						}
-						return odataCustomQueryOptions;
+						return odataCustomQueryOptions + this.oClauses.odataCustomQueryOptions(sVersion);
+						;
 					},
 					odataURI : function(sVersion) {
 						sVersion = sVersion || defaultVersion;
@@ -553,6 +555,13 @@ sap.ui.base.Object.extend("Clauses", {
 		} else {
 			return "";
 		}
+	},
+	odataCustomQueryOptions : function(sVersion) {
+		if (!jQuery.isEmptyObject(this.oClause)) {
+			return this.oClause.odataCustomQueryOptions(sVersion);
+		} else {
+			return "";
+		}
 	}
 });
 sap.ui.base.Object.extend("Clause", {
@@ -682,6 +691,13 @@ sap.ui.base.Object.extend("Clause", {
 		} else {
 			return "";
 		}
+	},
+	odataCustomQueryOptions : function(sVersion) {
+		if (!jQuery.isEmptyObject(this.oPropertyClause)) {
+			return this.oPropertyClause.odataCustomQueryOptions(sVersion);
+		} else {
+			return "";
+		}
 	}
 });
 sap.ui.base.Object.extend("ConjunctionClause", {
@@ -734,6 +750,9 @@ sap.ui.base.Object.extend("ConjunctionClause", {
 	},
 	odataSelectForExpand : function(sVersion) {
 		return this.oClause.odataSelectForExpand(sVersion);
+	},
+	odataCustomQueryOptions : function(sVersion) {
+		return this.oClause.odataCustomQueryOptions(sVersion);
 	}
 });
 sap.ui.base.Object.extend("PropertyClause", {
@@ -789,6 +808,10 @@ sap.ui.base.Object.extend("PropertyClause", {
 	},
 	odataSelectForExpand : function(sVersion) {
 		return this.oPropertyClause.odataSelectForExpand(sVersion);
+	},
+	odataCustomQueryOptions : function(sVersion) {
+		return this.oPropertyClause.odataCustomQueryOptions(sVersion);
+		;
 	}
 });
 sap.ui.base.Object.extend("DataPropertyClause", {
@@ -863,6 +886,9 @@ sap.ui.base.Object.extend("DataPropertyClause", {
 	},
 	odataSelectForExpand : function(sVersion) {
 		return this.sDataProperty;
+	},
+	odataCustomQueryOptions : function(sVersion) {
+		return "";
 	}
 });
 sap.ui.base.Object.extend("DataPropertyFilters", {
@@ -1183,6 +1209,18 @@ sap.ui.base.Object.extend("ObjectPropertyClause", {
 	},
 	odataSelectForExpand : function(sVersion) {
 		return "";
+	},
+	odataCustomQueryOptions : function(sVersion) {
+		var odataCustomQueryOptions = "";
+		if (!jQuery.isEmptyObject(this.oAST.operationParameters)) {
+			for (operationParameterIndex in this.oAST.operationParameters) {
+				var operationParameter = this.oAST.operationParameters[operationParameterIndex];
+				odataCustomQueryOptions = odataCustomQueryOptions + "&" + operationParameter.name + "="
+						+ odataValue(sVersion, operationParameter.value, operationParameter.type, this.oAST.parameters);
+			}
+		}
+		return odataCustomQueryOptions;
+		;
 	}
 });
 sap.ui.base.Object.extend("InverseObjectPropertyClause", {

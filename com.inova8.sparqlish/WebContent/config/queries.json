@@ -26,6 +26,12 @@
 							"name": "wildcard",
 							"type": "Edm.String",
 							"value": "35"
+						},
+
+						{
+							"name": "another",
+							"type": "Edm.String",
+							"value": "42"
 						}
 					],
 
@@ -68,6 +74,93 @@
 					"clauses": 
 					{
 						
+					}
+				},
+
+				"OPTST2": 
+				{
+					"_class": "Query",
+					"code": "OPTST2",
+					"name": "Order/OperationTestw/Parameters",
+					"concept": "Order",
+					"conceptFilters": 
+					[
+						
+					],
+
+					"clauses": 
+					{
+						"_class": "Clauses",
+						"clause": 
+						{
+							"_class": "Clause",
+							"ignore": false,
+							"optional": false,
+							"propertyClause": 
+							{
+								"_class": "ObjectPropertyClause",
+								"objectProperty": "Order_Summary_of_Sales_by_Years",
+								"multiplicity": "*",
+								"objectPropertyFilters": 
+								[
+									
+								],
+
+								"operationParameters": 
+								[
+									{
+										"name": "wildcard",
+										"type": "Edm.String",
+										"value": "xx"
+									}
+								],
+
+								"clauses": 
+								{
+									"_class": "Clauses",
+									"clause": 
+									{
+										"_class": "Clause",
+										"ignore": false,
+										"optional": false,
+										"propertyClause": 
+										{
+											"_class": "DataPropertyClause",
+											"dataProperty": "Summary_of_Sales_by_Years_shippedDate",
+											"type": "Edm.DateTime",
+											"dataPropertyFilters": 
+											{
+												"_class": "DataPropertyFilters"
+											}
+										}
+									},
+
+									"conjunctionClauses": 
+									[
+										{
+											"_class": "ConjunctionClause",
+											"conjunction": "and",
+											"clause": 
+											{
+												"_class": "Clause",
+												"ignore": false,
+												"optional": false,
+												"propertyClause": 
+												{
+													"_class": "DataPropertyClause",
+													"dataProperty": "Summary_of_Sales_by_Years_subTotal",
+													"type": "Edm.Double",
+													"dataPropertyFilters": 
+													{
+														"_class": "DataPropertyFilters"
+													}
+												}
+											}
+										}
+									]
+								}
+							}
+						}
 					}
 				},
 
