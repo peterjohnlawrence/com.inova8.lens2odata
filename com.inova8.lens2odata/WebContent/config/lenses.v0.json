@@ -1,0 +1,664 @@
+{
+	"templates": 
+	{
+		"[default]": 
+		{
+			"type": "rows",
+			"width": "100%",
+			"height": "100%",
+			"rows": 
+			[
+				{
+					"content": 
+					{
+						"type": "lens",
+						"id": "[default]"
+					}
+				}
+			]
+		},
+
+		"1R": 
+		{
+			"type": "rows",
+			"width": "100%",
+			"height": "100%",
+			"rows": 
+			[
+				{
+					"content": 
+					{
+						"type": "lens",
+						"id": "R1"
+					}
+				}
+			]
+		},
+
+		"2R": 
+		{
+			"type": "rows",
+			"width": "100%",
+			"height": "100%",
+			"rows": 
+			[
+				{
+					"content": 
+					{
+						"type": "lens",
+						"id": "R1"
+					}
+				},
+
+				{
+					"content": 
+					{
+						"type": "lens",
+						"id": "R2"
+					}
+				}
+			]
+		},
+
+		"1R2C-1R": 
+		{
+			"type": "rows",
+			"width": "100%",
+			"height": "100%",
+			"rows": 
+			[
+				{
+					"content": 
+					{
+						"type": "columns",
+						"width": "100%",
+						"height": "100%",
+						"columns": 
+						[
+							{
+								"content": 
+								{
+									"type": "lens",
+									"id": "R1-C1"
+								}
+							},
+
+							{
+								"content": 
+								{
+									"type": "lens",
+									"id": "R1-C2"
+								}
+							}
+						]
+					}
+				},
+
+				{
+					"content": 
+					{
+						"type": "lens",
+						"id": "R2"
+					}
+				}
+			]
+		},
+
+		"1R2C-1R1C": 
+		{
+			"type": "rows",
+			"width": "100%",
+			"height": "100%",
+			"rows": 
+			[
+				{
+					"content": 
+					{
+						"type": "columns",
+						"width": "100%",
+						"height": "100%",
+						"columns": 
+						[
+							{
+								"content": 
+								{
+									"type": "lens",
+									"id": "R1-C1"
+								}
+							},
+
+							{
+								"content": 
+								{
+									"type": "lens",
+									"id": "R1-C2"
+								}
+							}
+						]
+					}
+				},
+
+				{
+					"content": 
+					{
+						"type": "columns",
+						"width": "100%",
+						"height": "100%",
+						"columns": 
+						[
+							{
+								"content": 
+								{
+									"type": "lens",
+									"id": "R2-C1"
+								}
+							}
+						]
+					}
+				}
+			]
+		},
+
+		"1C": 
+		{
+			"type": "columns",
+			"width": "100%",
+			"height": "100%",
+			"columns": 
+			[
+				{
+					"content": 
+					{
+						"type": "lens",
+						"id": "C1"
+					}
+				}
+			]
+		}
+	},
+
+	"lenses": 
+	{
+		"[default]": 
+		{
+			"[default]": 
+			{
+				"title": "Default Lens for {entityType}: {entity}",
+				"template": "[default]",
+				"fragments": 
+				[
+					{
+						"position": "[default]",
+						"title": "Properties of {entity}",
+						"type": "Components.lensResultsForm",
+						"query": "{uri}",
+						"querydetails": "[default]"
+					}
+				]
+			},
+
+			"[deferred]": 
+			{
+				"title": "Default Lens for {navigationProperty} values for {entityType}: {entity}",
+				"template": "[default]",
+				"fragments": 
+				[
+					{
+						"position": "[default]",
+						"title": "Values of {navigationProperty}",
+						"type": "Components.lensResultsTable",
+						"query": "{uri}",
+						"querydetails": "[default]"
+					}
+				]
+			},
+
+			"LLM.Matter": 
+			{
+				"title": "Matter",
+				"template": "1R2C-1R",
+				"fragments": 
+				[
+					{
+						"position": "R1-C1",
+						"title": "Matter details",
+						"type": "Components.lensResultsForm",
+						"query": "{uri}"
+					},
+
+					{
+						"position": "R1-C1",
+						"title": "Alliance information",
+						"type": "Components.lensResultsForm",
+						"query": "{uri}"
+					},
+
+					{
+						"position": "R1-C1",
+						"title": "Engagement terms",
+						"type": "Components.lensResultsForm",
+						"query": "{uri}"
+					},
+
+					{
+						"position": "R1-C2",
+						"title": "Client information",
+						"type": "Components.lensResultsForm",
+						"query": "{uri}"
+					},
+
+					{
+						"position": "R1-C2",
+						"title": "Location information",
+						"type": "Components.lensResultsForm",
+						"query": "{uri}"
+					},
+
+					{
+						"position": "R2",
+						"title": "Financials",
+						"type": "Components.lensResultsTable",
+						"query": "{uri}"
+					}
+				]
+			},
+
+			"LLM.Person": 
+			{
+				"title": "People",
+				"template": "1R2C-1R1C",
+				"fragments": 
+				[
+					{
+						"position": "R1-C1",
+						"title": "Person details",
+						"type": "Components.lensResultsForm",
+						"query": "{uri}"
+					},
+
+					{
+						"position": "R1-C2",
+						"title": "Qualifications",
+						"type": "Components.lensResultsForm",
+						"query": "{uri}"
+					},
+
+					{
+						"position": "R1-C2",
+						"title": "Clients for which they are MRP",
+						"type": "Components.lensResultsTable",
+						"query": "{uri}"
+					},
+
+					{
+						"position": "R1-C2",
+						"title": "Client activities",
+						"type": "Components.lensResultsTable",
+						"query": "{uri}"
+					},
+
+					{
+						"position": "R2-C1",
+						"title": "K_Docs Authored",
+						"type": "Components.lensResultsTable",
+						"query": "{uri}"
+					},
+
+					{
+						"position": "R2-C1",
+						"title": "Matters Worked On",
+						"type": "Components.lensResultsTable",
+						"query": "{uri}"
+					},
+
+					{
+						"position": "R2-C1",
+						"title": "Matters for which they are Matter Managers",
+						"type": "Components.lensResultsTable",
+						"query": "{uri}"
+					},
+
+					{
+						"position": "R2-C1",
+						"title": "Matters for which they are Matter Partners",
+						"type": "Components.lensResultsTable",
+						"query": "{uri}"
+					}
+				]
+			},
+
+			"LLM.Deal": 
+			{
+				"title": "Deal",
+				"template": "1R2C-1R1C",
+				"fragments": 
+				[
+					{
+						"position": "R1-C1",
+						"title": "Deal Summary",
+						"type": "Components.lensResultsForm",
+						"query": "{uri}"
+					},
+
+					{
+						"position": "R1-C2",
+						"title": "Matter Summary",
+						"type": "Components.lensResultsForm",
+						"query": "{uri}"
+					},
+
+					{
+						"position": "R2-C1",
+						"title": "People",
+						"type": "Components.lensResultsTable",
+						"query": "{uri}"
+					},
+
+					{
+						"position": "R2-C1",
+						"title": "Documents",
+						"type": "Components.lensResultsTable",
+						"query": "{uri}"
+					}
+				]
+			},
+
+			"LLM.Client": 
+			{
+				"title": "Client",
+				"template": "1R2C-1R1C",
+				"fragments": 
+				[
+					{
+						"position": "R1-C1",
+						"title": "About the client",
+						"type": "Components.lensResultsForm",
+						"query": "{uri}"
+					},
+
+					{
+						"position": "R1-C2",
+						"title": "Client Structure",
+						"type": "Components.lensResultsForm",
+						"query": "{uri}"
+					},
+
+					{
+						"position": "R2-C1",
+						"title": "Engagement Terms",
+						"type": "Components.lensResultsTable",
+						"query": "{uri}"
+					},
+
+					{
+						"position": "R2-C1",
+						"title": "Matters Done for Client",
+						"type": "Components.lensResultsTable",
+						"query": "{uri}"
+					},
+
+					{
+						"position": "R2-C1",
+						"title": "ClientBook Activities",
+						"type": "Components.lensResultsTable",
+						"query": "{uri}"
+					},
+
+					{
+						"position": "R2-C1",
+						"title": "Client Team",
+						"type": "Components.lensResultsTable",
+						"query": "{uri}"
+					},
+
+					{
+						"position": "R2-C1",
+						"title": "Recent knowledge for this Client/CUP",
+						"type": "Components.lensResultsTable",
+						"query": "{uri}"
+					}
+				]
+			},
+
+			"LLM.Office": 
+			{
+				"title": "Office",
+				"template": "1R",
+				"fragments": 
+				[
+					{
+						"position": "R1",
+						"title": "Office Details",
+						"type": "Components.lensResultsForm",
+						"query": "{uri}"
+					}
+				]
+			},
+
+			"LLM.Feature": 
+			{
+				"title": "Office",
+				"template": "1C",
+				"fragments": 
+				[
+					{
+						"position": "C1",
+						"title": "Deals",
+						"type": "Components.lensResultsTable",
+						"query": "{uri}"
+					},
+
+					{
+						"position": "C1",
+						"title": "Credentials",
+						"type": "Components.lensResultsTable",
+						"query": "{uri}"
+					},
+
+					{
+						"position": "C1",
+						"title": "eBibles",
+						"type": "Components.lensResultsTable",
+						"query": "{uri}"
+					},
+
+					{
+						"position": "C1",
+						"title": "All documents",
+						"type": "Components.lensResultsTable",
+						"query": "{uri}"
+					}
+				]
+			},
+
+			"northwind.Customer": 
+			{
+				"title": "{entityType} Lens for: {entity}",
+				"template": "2R",
+				"fragments": 
+				[
+					{
+						"position": "R1",
+						"title": "French Customer details",
+						"type": "Components.lensResultsForm",
+						"query": "{uri}/hasPlacedOrder?$filter=((substringof(%27Fr%27,shipCountry)))&&$select=shipCountry,label,orderDate",
+						"querydetails": 
+						{
+							"serviceUrl": "http://localhost:8080/odata2sparql/2.0/NW/",
+							"resourcePath": "{uri}",
+							"filter": "",
+							"expand": "",
+							"select": "",
+							"orderby": "",
+							"options": ""
+						}
+					},
+
+					{
+						"position": "R2",
+						"title": "Has placed these orders",
+						"type": "Components.lensResultsTable",
+						"query": "{uri}/hasPlacedOrder",
+						"querydetails": 
+						{
+							"serviceUrl": "http://localhost:8080/odata2sparql/2.0/NW/",
+							"resourcePath": "{uri}/hasPlacedOrder",
+							"filter": "",
+							"expand": "",
+							"select": "",
+							"orderby": "",
+							"options": ""
+						}
+					}
+				]
+			},
+
+			"northwind.Product": 
+			{
+				"title": "{entityType} Lens for: {entity}",
+				"template": "2R",
+				"fragments": 
+				[
+					{
+						"position": "R1",
+						"title": "Product details",
+						"type": "Components.lensResultsForm",
+						"query": "{uri}",
+						"querydetails": 
+						{
+							"serviceUrl": "http://localhost:8080/odata2sparql/2.0/NW/",
+							"resourcePath": "{uri}",
+							"filter": "",
+							"expand": "",
+							"select": "",
+							"orderby": "",
+							"options": ""
+						}
+					},
+
+					{
+						"position": "R2",
+						"title": "Part of these orders",
+						"type": "Components.lensResultsTable",
+						"query": "{uri}/isPartOfOrderDetail",
+						"querydetails": 
+						{
+							"serviceUrl": "http://localhost:8080/odata2sparql/2.0/NW/",
+							"resourcePath": "{uri}/isPartOfOrderDetail",
+							"filter": "",
+							"expand": "",
+							"select": "",
+							"orderby": "",
+							"options": ""
+						}
+					}
+				]
+			},
+
+			"northwind.Employee": 
+			{
+				"title": "{entityType} Lens for: {entity}",
+				"template": "2R",
+				"fragments": 
+				[
+					{
+						"position": "R1",
+						"title": "Employee description",
+						"type": "Components.lensResultsForm",
+						"query": "{uri}"
+					},
+
+					{
+						"position": "R1",
+						"title": "Manager details",
+						"type": "Components.lensResultsForm",
+						"query": "{uri}/reportsTo"
+					},
+
+					{
+						"position": "R2",
+						"title": "Managed Orders",
+						"type": "Components.lensResultsTable",
+						"query": "{uri}/managesOrder"
+					}
+				]
+			},
+
+			"northwind.Order": 
+			{
+				"title": "{entityType} Lens for: {entity}",
+				"template": "1R2C-1R",
+				"fragments": 
+				[
+					{
+						"position": "R1-C1",
+						"title": "Order description",
+						"type": "Components.lensResultsForm",
+						"query": "{uri}",
+						"querydetails": 
+						{
+							"serviceUrl": "http://localhost:8080/odata2sparql/2.0/NW/",
+							"resourcePath": "{uri}",
+							"filter": "",
+							"expand": "",
+							"select": "",
+							"orderby": "",
+							"options": ""
+						}
+					},
+
+					{
+						"position": "R1-C1",
+						"title": "Order shipping details",
+						"type": "Components.lensResultsForm",
+						"query": "{uri}/shipVia",
+						"querydetails": 
+						{
+							"serviceUrl": "http://localhost:8080/odata2sparql/2.0/NW/",
+							"resourcePath": "{uri}/shipVia",
+							"filter": "",
+							"expand": "",
+							"select": "",
+							"orderby": "",
+							"options": ""
+						}
+					},
+
+					{
+						"position": "R1-C2",
+						"title": "Order managed by",
+						"type": "Components.lensResultsForm",
+						"query": "{uri}/employee",
+						"querydetails": 
+						{
+							"serviceUrl": "http://localhost:8080/odata2sparql/2.0/NW/",
+							"resourcePath": "{uri}/employee",
+							"filter": "",
+							"expand": "",
+							"select": "",
+							"orderby": "",
+							"options": ""
+						}
+					},
+
+					{
+						"position": "R2",
+						"title": "Order details",
+						"type": "Components.lensResultsForm",
+						"query": "{uri}/hasOrderDetail",
+						"querydetails": 
+						{
+							"serviceUrl": "http://localhost:8080/odata2sparql/2.0/NW/",
+							"resourcePath": "{uri}/hasOrderDetail",
+							"filter": "",
+							"expand": "",
+							"select": "",
+							"orderby": "",
+							"options": ""
+						}
+					}
+				]
+			}
+		}
+	}
+}

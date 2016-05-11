@@ -1,0 +1,48 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.inova8.lens2odata</groupId>
+  <artifactId>lens2odata</artifactId>
+  <version>0.0.1</version>
+  <packaging>war</packaging>
+  <name>lens2odata</name>
+  <build>
+    <sourceDirectory>src</sourceDirectory>
+    <plugins>
+      <plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.1</version>
+        <configuration>
+          <source>1.7</source>
+          <target>1.7</target>
+        </configuration>
+      </plugin>
+      <plugin>
+        <artifactId>maven-war-plugin</artifactId>
+        <version>2.4</version>
+        <configuration>
+          <warSourceDirectory>WebContent</warSourceDirectory>
+          <failOnMissingWebXml>false</failOnMissingWebXml>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+  <properties>
+  	<openui5.version>1.36.9</openui5.version>
+  	<sapui5.serverside.libraries.version>1.30.9</sapui5.serverside.libraries.version>
+  </properties>
+  <organization>
+  	<name>inova8 llc</name>
+  	<url>http://www.inova8.com</url>
+  </organization>
+  <scm>
+  	<url>https://github.com/peterjohnlawrence/com.inova8.lens2odata</url>
+  	<developerConnection>Peter Lawrence</developerConnection>
+  </scm>
+  <dependencies>
+  	<dependency>
+  		<groupId>org.webjars</groupId>
+  		<artifactId>openui5</artifactId>
+  		<version>${openui5.version}</version>
+  	</dependency>
+  </dependencies>
+</project>
