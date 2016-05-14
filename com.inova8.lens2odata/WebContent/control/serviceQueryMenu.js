@@ -2,6 +2,7 @@ jQuery.sap.require("sap.m.ActionSelect");
 jQuery.sap.require("sap.ui.core.ListItem");
 jQuery.sap.require("sap.ui.core.IconPool");
 jQuery.sap.require("control.parameterDialog");
+jQuery.sap.require("control.pinDialog");
 "use strict";
 sap.m.OverflowToolbar.extend("control.serviceQueryMenu", {
 	metadata : {
@@ -492,23 +493,29 @@ sap.m.OverflowToolbar.extend("control.serviceQueryMenu", {
 				});
 			}
 		});
-		self.oSave = new sap.m.Button({
+		self.oPin = new sap.m.Button({
 			text : "{i18nModel>queryForm.pinToLens}",
 			tooltip : "{i18nModel>queryForm.pinToLensTooltip}",
 			icon : sap.ui.core.IconPool.getIconURI("pushpin-off"),
 			press : function(oEvent) {
+				var oQueryContext = self.oQuerySelect.getSelectedItem().getBindingContext("queryModel");
 
+				var pinDialog = new control.pinDialog();
+				pinDialog.setModel(sap.ui.getCore().getModel("lensesModel"),"lensesModel");
+				pinDialog.setModel(oEvent.getSource().getModel("metaModel"),"metaModel");
+				pinDialog.setQueryContext(oQueryContext);
+				pinDialog.open();			
 				self.fireSave({
 					queryCode : self.oQuerySelect.getSelectedKey()
 				});
 			}
 		});
-		self.oSettings = new sap.m.Button({
-			icon : sap.ui.core.IconPool.getIconURI("settings"),
-			press : function(oEvent) {
-				sap.m.MessageToast.show("settings")
-			}
-		});
+//		self.oSettings = new sap.m.Button({
+//			icon : sap.ui.core.IconPool.getIconURI("settings"),
+//			press : function(oEvent) {
+//				sap.m.MessageToast.show("settings")
+//			}
+//		});
 		self.oLogo = new sap.m.Button({
 			//icon : "resources/Linklaters.png",
 			icon : "resources/Logo2.png",
@@ -519,8 +526,8 @@ sap.m.OverflowToolbar.extend("control.serviceQueryMenu", {
 		});
 		self.oToolbar = new sap.m.Toolbar();
 		self.oToolbar.addContent(self.oLogo).addContent(self.oServiceSelect).addContent(self.oQuerySelect).addContent(self.oEnterQueryParameters).addContent(
-				self.oUndo).addContent(self.oRedo).addContent(self.oSave).addContent(self.oSaveAs).addContent(new sap.m.ToolbarSpacer()).addContent(self.oPreview)
-				.addContent(new sap.m.ToolbarSpacer()).addContent(self.oSettings);
+				self.oUndo).addContent(self.oRedo).addContent(self.oSave).addContent(self.oSaveAs).addContent(self.oPin).addContent(new sap.m.ToolbarSpacer()).addContent(self.oPreview)
+				.addContent(new sap.m.ToolbarSpacer());//.addContent(self.oSettings);
 		// self.oToolbar.addContent(self.oServiceSelect).addContent(self.oQuerySelect)
 		// .addContent(self.oPreview);
 		self.setAggregation("_toolbar", self.oToolbar);

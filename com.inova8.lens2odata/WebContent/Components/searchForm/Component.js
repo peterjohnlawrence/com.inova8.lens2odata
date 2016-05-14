@@ -51,6 +51,7 @@ Components.searchForm.Component.prototype.setQueryCode = function(sQueryCode) {
 					+ "/parameters", this._initValueInputFactory.bind(this));
 			self.oSearchResultsFormComponent.clearContents();
 			self.oSearchResultsFormComponent.setTitle(sap.ui.getCore().getModel("i18nModel").getProperty("searchForm.waitingOnResults"));
+			self.oSearchResultsTableComponent.clearContents();
 			self.oSearchResultsTableComponent.setTitle(sap.ui.getCore().getModel("i18nModel").getProperty("searchForm.waitingOnResults"));
 		} else {
 			sap.m.MessageToast.show(sap.ui.getCore().getModel("i18nModel").getProperty("searchForm.invalidService") + " " + self.getServiceCode());

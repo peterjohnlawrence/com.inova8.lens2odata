@@ -49,6 +49,10 @@ Components.lensResultsTable.Component.prototype.createContent = function() {
 
 	return this.oTablePanel.addContent(this.oTable);
 };
+Components.lensResultsTable.Component.prototype.setTitle = function(sTitle) {
+	this.setProperty("title", sTitle);
+	this.oTablePanel.setHeaderText(sTitle);
+};
 Components.lensResultsTable.Component.prototype.clearContents = function() {
 	this.oTable.destroyColumns();
 };

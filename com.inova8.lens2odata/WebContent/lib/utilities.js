@@ -1,5 +1,5 @@
 jQuery.sap.require("sap.ui.model.MetaModel");
-	"use strict";
+"use strict";
 sap.ui.model.MetaModel.prototype.entityTypeContext = function(oQueryModel, oContext) {
 	try {
 		var path = oContext.getPath().split("clauses");
@@ -13,11 +13,11 @@ sap.ui.model.MetaModel.prototype.entityTypeContext = function(oQueryModel, oCont
 		for (var index = 1; index < depth; index++) {
 			sContextPath += "clauses" + path[index];
 			var sObjectProperty = oQueryModel.getProperty(sContextPath).objectProperty;
-//TODO simplified as below
-//			var navigationProperty = this.getNavigationProperty(sEntityType, sObjectProperty);
-//			var toEntitySet = navigationProperty.toRole;
-//			sEntityType = this.getODataEntitySet(toEntitySet).entityType;
-			sEntityType = this.getODataAssociationEnd(this.getODataEntityType(sEntityType),sObjectProperty).type;
+			// TODO simplified as below
+			// var navigationProperty = this.getNavigationProperty(sEntityType, sObjectProperty);
+			// var toEntitySet = navigationProperty.toRole;
+			// sEntityType = this.getODataEntitySet(toEntitySet).entityType;
+			sEntityType = this.getODataAssociationEnd(this.getODataEntityType(sEntityType), sObjectProperty).type;
 		}
 		return oMetaModel.getODataEntityType(sEntityType);
 	} catch (error) {
@@ -40,12 +40,12 @@ sap.ui.model.MetaModel.prototype.entityTypeQName = function(oQueryModel, oContex
 		for (var index = 1; index < depth; index++) {
 			sContextPath += "clauses" + path[index];
 			var sObjectProperty = oQueryModel.getProperty(sContextPath).objectProperty;
-//TODO simplified as below
-//			var navigationProperty = this.getNavigationProperty(sEntityType, sObjectProperty);
-//			var toEntitySet = navigationProperty.toRole;
-//			sEntityType = this.getODataEntitySet(toEntitySet).entityType;			
-//			sEntityType = this.getODataAssociationEnd(this.getODataEntityType(sEntityType),sObjectProperty).type;
-			sEntityType = this.getODataInheritedAssociation(this.getODataEntityType(sEntityType),sObjectProperty).type;
+			// TODO simplified as below
+			// var navigationProperty = this.getNavigationProperty(sEntityType, sObjectProperty);
+			// var toEntitySet = navigationProperty.toRole;
+			// sEntityType = this.getODataEntitySet(toEntitySet).entityType;
+			// sEntityType = this.getODataAssociationEnd(this.getODataEntityType(sEntityType),sObjectProperty).type;
+			sEntityType = this.getODataInheritedAssociation(this.getODataEntityType(sEntityType), sObjectProperty).type;
 		}
 		return sEntityType;
 	} catch (error) {
@@ -95,9 +95,10 @@ sap.ui.model.MetaModel.prototype.getODataInheritedAssociation = function(oEntity
 			return null;
 		}
 	} else {
-		return this.getODataAssociationEnd(oEntityType,oObjectProperty.name);
+		return this.getODataAssociationEnd(oEntityType, oObjectProperty.name);
 	}
 };
+
 sap.ui.model.MetaModel.prototype.getODataNavigationProperty = function(oEntityType, sObjectProperty) {
 	try {
 		var navigationProperties = oEntityType.navigationProperty;
@@ -126,7 +127,7 @@ sap.ui.model.MetaModel.prototype.getNavigationProperty = function(sEntityType, s
 			}
 		}
 	} catch (error) {
-		//return null;
+		// return null;
 		jQuery.sap.log.fatal(error, 'Failed to locate navigation property ' + sEntityType + " " + sObjectProperty + " with error " + error.message);
 		throw ('Failed to locate navigation property ' + sEntityType + " " + sObjectProperty + " with error " + error.message);
 	}
@@ -206,6 +207,19 @@ sap.ui.model.MetaModel.prototype.getEntityTypeModel = function(sEntityType) {
 		var oEntityTypeModel = new sap.ui.model.json.JSONModel();
 		oEntityTypeModel.setData(oEntityTypeModelData);
 		return oEntityTypeModel;
+	} catch (error) {
+
+	}
+};
+sap.ui.model.MetaModel.prototype.getODataAssociationSetsForToEnd = function(sToEntitySet) {
+	try {
+		var associationSet = sap.ui.getCore().getModel("odataModel_LNW2").getMetaModel().getODataEntityContainer()["associationSet"]
+		var associationSets = [];
+		for (var index = 0; index < associationSet.length; index++) {
+			if (associationSet[index].end[1].entitySet == sToEntitySet)
+				associationSets = associationSets.concat(associationSet[index]);
+		}
+		return associationSets;
 	} catch (error) {
 
 	}

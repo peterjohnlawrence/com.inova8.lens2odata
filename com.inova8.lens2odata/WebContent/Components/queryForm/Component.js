@@ -103,95 +103,16 @@ Components.queryForm.Component.prototype.createContent = function() {
 	}).setModel(sap.ui.getCore().getModel("i18nModel"), "i18nModel").setModel(sap.ui.getCore().getModel("datatypesModel"), "datatypesModel");
 	// TODO add debug menu
 	if (jQuery.sap.log.getLevel() === jQuery.sap.log.Level.ERROR) {
-		this.oDebug = new sap.m.ActionSelect().addButton(new sap.m.Button({
-			text : "Query Model",
-			press : function() {
-				alert(JSON.stringify(self.getProperty("query").queryModel(), null, 2), {
-					width : "50em"
-				});
+		this.oDebug = new sap.m.Button({
+			text : "{i18nModel>debug}",
+			icon : sap.ui.core.IconPool.getIconURI("settings"),
+			press : function(oEvent) {
+				self.debugSheet.openBy(oEvent.getSource());
 			}
-		})).addButton(new sap.m.Button({
-			text : "View Model",
-			press : function() {
-				alert(JSON.stringify(self.getProperty("query").viewModel(), null, 2), {
-					width : "50em"
-				});
-			}
-		})).addButton(new sap.m.Button({
-			text : "SPARQL Query",
-			press : function() {
-				alert(self.getProperty("query").sparql(), {
-					width : "50em"
-				});
-			}
-		})).addButton(new sap.m.Button({
-			text : "OData Query V2",
-			press : function() {
-				sap.m.MessageToast.show(self.getProperty("query").odataURI("V2"), {
-					width : "50em"
-				});
-			}
-		})).addButton(new sap.m.Button({
-			text : "Fragment definition",
-			press : function() {
-				var queryDetails = {};
-				queryDetails.serviceUrl = self.getOdataModel().sServiceUrl + "/";
-				queryDetails.resourcePath = self.getProperty("query").odataPath("V2");
-				queryDetails.filter = self.getProperty("query").odataFilter("V2");
-				queryDetails.expand = self.getProperty("query").odataExpand("V2");
-				queryDetails.select = self.getProperty("query").odataSelect("V2");
-				queryDetails.orderby = "";
-				queryDetails.options = self.getProperty("query").odataOptions("V2");
-				var fragment = {};
-				fragment.entityType = self.oTable.getModel("metaModel").getODataEntitySet(self.getProperty("query").sConcept).entityType;
-				fragment.position = "R1";
-				fragment.title = "title";
-				fragment.type = "Components.lensResultsForm|Components.lensResultsTable";
-				fragment.query = self.getProperty("query").odataURI("V2");
-				fragment.querydetails = queryDetails;
-				alert(JSON.stringify(fragment, null, 2), {
-					width : "100em"
-				});
-			}
-		})).addButton(new sap.m.Button({
-			text : "Execute OData Query V2",
-			press : function() {
-				sap.m.URLHelper.redirect(self.getOdataModel().sServiceUrl + "/" + self.getProperty("query").odataURI("V2") + "&$top=10", true);
-			}
-		})).addButton(new sap.m.Button({
-			text : "OData Query V4",
-			press : function() {
-				sap.m.MessageToast.show(self.getProperty("query").odataURI("V4"), {
-					width : "50em"
-				});
-			}
-		})).addButton(new sap.m.Button({
-			text : "Execute OData Query V4",
-			press : function() {
-				sap.m.URLHelper.redirect(self.getOdataModel().sServiceUrl + "/" + self.getProperty("query").odataURI("V4"), true);
-			}
-		})).addButton(new sap.m.Button({
-			text : "Get OData collections",
-			press : function() {
-				sap.m.URLHelper.redirect(self.getOdataModel().sServiceUrl, true);
-			}
-		})).addButton(new sap.m.Button({
-			text : "Get OData metadata",
-			press : function() {
-				sap.m.URLHelper.redirect(self.getOdataModel().sServiceUrl + "/$metadata", true);
-			}
-		})).addButton(new sap.m.Button({
-			text : "Save to filesystem",
-			press : function() {
-				utils.writeQueryModelToLocalFile();
-			}
-		})).addButton(new sap.m.Button({
-			text : "Write queries to console log",
-			press : function() {
-				utils.writeQueryModelToConsoleLog();
-			}
-		}));
+		});
 		this.oTable.getToolbar().addContent(this.oDebug);
+
+		this.debugSheet = this.createDebugActionSheet(this);
 	}
 	return this.oTable;
 };
@@ -252,6 +173,7 @@ Components.queryForm.Component.prototype.setService = function(service, query, p
 				var oMetaModelEntityContainer;
 				var oEntityContainerModel = new sap.ui.model.json.JSONModel();
 				self.oTable.setModel(oDataMetaModel, "metaModel");
+				self.oTable.getToolbar().setModel(oDataMetaModel, "metaModel");
 				oMetaModelEntityContainer = oDataMetaModel.getODataEntityContainer();
 				self.oTable.setModel(self.getDatatypesModel(), "datatypesModel");
 				self.oTable.getColumns()[1].setTemplate(new control.queryClausePreview({
@@ -365,7 +287,7 @@ Components.queryForm.Component.prototype.previewResults = function(self) {
 			}).attachRequestFailed(
 					function(oEvent) {
 						sap.m.MessageToast.show(sap.ui.getCore().getModel("i18nModel").getProperty("queryForm.queryResponseError") + oEvent.getParameter("statusCode")
-								+ " " + oEvent.getParameter("statusText")+ " " + oEvent.getParameter("responseText"));
+								+ " " + oEvent.getParameter("statusText") + " " + oEvent.getParameter("responseText"));
 						self.oTable.setBusy(false);
 					});
 		} else {
@@ -374,4 +296,100 @@ Components.queryForm.Component.prototype.previewResults = function(self) {
 	} catch (e) {
 		sap.m.MessageToast.show(e);
 	}
+};
+Components.queryForm.Component.prototype.createDebugActionSheet= function(self) {
+			var debugActionSheet = new sap.m.ActionSheet().addButton(new sap.m.Button({
+			text : "{i18nModel>debug.queryModel}",
+			press : function() {
+				alert(JSON.stringify(self.getProperty("query").queryModel(), null, 2), {
+					width : "50em"
+				});
+			}
+		})).addButton(new sap.m.Button({
+			text : "{i18nModel>debug.viewModel}",
+			press : function() {
+				alert(JSON.stringify(self.getProperty("query").viewModel(), null, 2), {
+					width : "50em"
+				});
+			}
+		}))
+//		.addButton(new sap.m.Button({
+//			text : "{i18nModel>debug.querySPARQL}",
+//			press : function() {
+//				alert(self.getProperty("query").sparql(), {
+//					width : "50em"
+//				});
+//			}
+//		}))
+		.addButton(new sap.m.Button({
+			text : "{i18nModel>debug.queryODataV2}",
+			press : function() {
+				sap.m.MessageToast.show(self.getProperty("query").odataURI("V2"), {
+					width : "50em"
+				});
+			}
+		})).addButton(new sap.m.Button({
+			text : "{i18nModel>debug.fragmentDefinition}",
+			press : function() {
+				var queryDetails = {};
+				queryDetails.serviceUrl = self.getOdataModel().sServiceUrl + "/";
+				queryDetails.resourcePath = self.getProperty("query").odataPath("V2");
+				queryDetails.filter = self.getProperty("query").odataFilter("V2");
+				queryDetails.expand = self.getProperty("query").odataExpand("V2");
+				queryDetails.select = self.getProperty("query").odataSelect("V2");
+				queryDetails.orderby = "";
+				queryDetails.options = self.getProperty("query").odataOptions("V2");
+				var fragment = {};
+				fragment.entityType = self.oTable.getModel("metaModel").getODataEntitySet(self.getProperty("query").sConcept).entityType;
+				fragment.position = "R1";
+				fragment.title = "title";
+				fragment.type = "Components.lensResultsForm|Components.lensResultsTable";
+				fragment.query = self.getProperty("query").odataURI("V2");
+				fragment.querydetails = queryDetails;
+				alert(JSON.stringify(fragment, null, 2), {
+					width : "100em"
+				});
+			}
+		})).addButton(new sap.m.Button({
+			text : "{i18nModel>debug.executeODataV2}",
+			press : function() {
+				sap.m.URLHelper.redirect(self.getOdataModel().sServiceUrl + "/" + self.getProperty("query").odataURI("V2") + "&$top=10", true);
+			}
+		})).addButton(new sap.m.Button({
+			text : "{i18nModel>debug.queryODataV4}",
+			press : function() {
+				sap.m.MessageToast.show(self.getProperty("query").odataURI("V4"), {
+					width : "50em"
+				});
+			}
+		}))
+//		.addButton(new sap.m.Button({
+//			text : "{i18nModel>debug.executeODataV4}",
+//			press : function() {
+//				sap.m.URLHelper.redirect(self.getOdataModel().sServiceUrl + "/" + self.getProperty("query").odataURI("V4"), true);
+//			}
+//		}))
+		.addButton(new sap.m.Button({
+			text : "{i18nModel>debug.odataCollections}",
+			press : function() {
+				sap.m.URLHelper.redirect(self.getOdataModel().sServiceUrl, true);
+			}
+		})).addButton(new sap.m.Button({
+			text : "{i18nModel>debug.odataMetadata}",
+			press : function() {
+				sap.m.URLHelper.redirect(self.getOdataModel().sServiceUrl + "/$metadata", true);
+			}
+		})).addButton(new sap.m.Button({
+			text : "{i18nModel>debug.saveToFile}",
+			press : function() {
+				utils.writeQueryModelToLocalFile();
+			}
+		})).addButton(new sap.m.Button({
+			text : "{i18nModel>debug.writeToConsole}",
+			press : function() {
+				utils.writeQueryModelToConsoleLog();
+			}
+		}));
+				return debugActionSheet;
+	
 };

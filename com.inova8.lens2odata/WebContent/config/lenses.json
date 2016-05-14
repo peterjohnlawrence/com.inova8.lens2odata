@@ -177,7 +177,7 @@
 		}
 	},
 
-	"lenstypes": 
+	"pages": 
 	{
 		"[defaultLens]": 
 		{
@@ -192,6 +192,11 @@
 		"Detail": 
 		{
 			"title": "Details"
+		},
+
+		"Summary": 
+		{
+			"title": "Summary"
 		}
 	},
 
@@ -203,6 +208,7 @@
 			{
 				"[defaultEntityLens]": 
 				{
+					"page": "[defaultEntityLens]",
 					"title": "Default Lens for {entityType}: {entity}",
 					"template": "[defaultTemplate]",
 					"fragments": 
@@ -222,6 +228,7 @@
 			{
 				"[defaultEntitySetLens]": 
 				{
+					"page": "[defaultEntitySetLens]",
 					"title": "Default Lens for {navigationProperty} values for {entityType}: {entity}",
 					"template": "[defaultTemplate]",
 					"fragments": 
@@ -244,6 +251,7 @@
 			{
 				"Summary": 
 				{
+					"page": "Summary",
 					"title": "{entityType} Lens for: {entity}",
 					"template": "2R",
 					"fragments": 
@@ -292,6 +300,7 @@
 			{
 				"Summary": 
 				{
+					"page": "Summary",
 					"title": "{entityType} Lens for: {entity}",
 					"template": "2R",
 					"fragments": 
@@ -334,6 +343,7 @@
 
 				"Details": 
 				{
+					"page": "Details",
 					"title": "{entityType} Lens for: {entity}",
 					"template": "1R",
 					"fragments": 
@@ -365,6 +375,7 @@
 			{
 				"Summary": 
 				{
+					"page": "Summary",
 					"title": "{entityType} Lens for: {entity}",
 					"template": "2R",
 					"fragments": 
@@ -400,6 +411,7 @@
 			{
 				"Summary": 
 				{
+					"page": "Summary",
 					"title": "{entityType} Lens for: {entity}",
 					"template": "1R2C-1R",
 					"fragments": 

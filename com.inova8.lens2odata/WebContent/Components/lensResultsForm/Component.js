@@ -50,7 +50,6 @@ Components.lensResultsForm.Component.prototype.createContent = function() {
 };
 Components.lensResultsForm.Component.prototype.setTitle = function(sTitle) {
 	this.setProperty("title", sTitle);
-	// this.oFormPanel.getTitle().setText(sTitle);
 	this.oFormPanel.setHeaderText(sTitle);
 };
 Components.lensResultsForm.Component.prototype.clearContents = function() {
