@@ -27,7 +27,7 @@
     </plugins>
   </build>
   <properties>
-  	<openui5.version>1.36.9</openui5.version>
+  	<openui5.version>1.36.8</openui5.version>
   	<sapui5.serverside.libraries.version>1.30.9</sapui5.serverside.libraries.version>
   </properties>
   <organization>
