@@ -16,7 +16,9 @@ sap.ui.core.UIComponent.extend("Components.lensResultsTable.Component", {
 		}
 	}
 });
-
+Components.lensResultsTable.Component.prototype.fragmentEdit = function(oEvent, self) {
+	sap.m.MessageToast.show("under construction");
+};
 Components.lensResultsTable.Component.prototype.createContent = function() {
 	var self = this;
 	self.setOptions({
@@ -27,9 +29,14 @@ Components.lensResultsTable.Component.prototype.createContent = function() {
 	this.oTablePanel = new sap.m.Panel({
 		width : "100%",  height : "auto",
 		showCollapseIcon : false,
-		borderDesign : sap.ui.commons.enums.BorderDesign.Box
+		borderDesign : sap.ui.commons.enums.BorderDesign.Box,
+		headerToolbar: new sap.m.Toolbar()
 	});
-
+	this.oTitle= new sap.m.Title({text:""});
+  this.oTablePanel.getHeaderToolbar().addContent(this.oTitle).addContent(new sap.m.ToolbarSpacer()).addContent(new sap.m.Button({icon:"sap-icon://edit",
+		press : function(oEvent) {
+			self.fragmentEdit(oEvent, self)
+		}}));
 	this.oTable = new sap.ui.table.Table({
 		// title : "empty so far",
 		showNoData : true,
@@ -51,7 +58,8 @@ Components.lensResultsTable.Component.prototype.createContent = function() {
 };
 Components.lensResultsTable.Component.prototype.setTitle = function(sTitle) {
 	this.setProperty("title", sTitle);
-	this.oTablePanel.setHeaderText(sTitle);
+	//this.oTablePanel.setHeaderText(sTitle);
+	this.oTitle.setText(sTitle);
 };
 Components.lensResultsTable.Component.prototype.clearContents = function() {
 	this.oTable.destroyColumns();

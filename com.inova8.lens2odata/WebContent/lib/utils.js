@@ -275,4 +275,25 @@
 		oParser.href = sUrl;
 		return (oParser.hostname && oParser.host != window.location.host) ? oParser : false;
 	};
+	utils.getTemplatePositions = function(oContent) {
+		var positions=[];
+		switch (oContent.type) {
+		case "rows":
+			for (var content in oContent.rows) {
+				positions = positions.concat(utils.getTemplatePositions(oContent.rows[content].content));
+			}
+			break;
+		case "columns":
+			for (var content in oContent.columns) {
+					positions = positions.concat(utils.getTemplatePositions(oContent.columns[content].content));
+			}
+			break
+		case "lens":
+			return oContent.id;
+			break;
+		default:
+
+		}
+		return positions;
+	};
 })(window);

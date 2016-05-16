@@ -3,7 +3,7 @@ jQuery.sap.require("sap.m.P13nColumnsPanel");
 jQuery.sap.require("sap.m.P13nItem");
 sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 	"use strict";
-	return Control.extend("control.pinDialog", {
+	return Control.extend("control.fragmentDialog", {
 		metadata : {
 			properties : {
 				queryContext : {
@@ -79,11 +79,11 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 		init : function(queryContext) {
 			var self = this;
 			self.pinConceptElement = new sap.ui.layout.form.FormElement({
-				label : "{i18nModel>pinDialog.concept}",
+				label : "{i18nModel>fragmentDialog.concept}",
 				fields : [ new sap.m.Input({
-					tooltip : "{i18nModel>pinDialog.conceptPrompt}",
+					tooltip : "{i18nModel>fragmentDialog.conceptPrompt}",
 					width : "auto",
-					placeholder : "{i18nModel>pinDialog.conceptPlaceholder}",
+					placeholder : "{i18nModel>fragmentDialog.conceptPlaceholder}",
 					description : "",
 					editable : false,
 					showValueHelp : false,
@@ -101,11 +101,11 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 				text : '{= ${associationSetsModel>end/0/entitySet} +"/"+ ${associationSetsModel>association}}'
 			});
 			self.pinNavigationPropertyElement = new sap.ui.layout.form.FormElement({
-				label : "{i18nModel>pinDialog.navigationProperty}",
+				label : "{i18nModel>fragmentDialog.navigationProperty}",
 				fields : [ new sap.m.ActionSelect({
-					tooltip : "{i18nModel>pinDialog.navigationPropertyPrompt}",
+					tooltip : "{i18nModel>fragmentDialog.navigationPropertyPrompt}",
 					width : "auto",
-					placeholder : "{i18nModel>pinDialog.navigationPropertyPlaceholder}",
+					placeholder : "{i18nModel>fragmentDialog.navigationPropertyPlaceholder}",
 					description : "",
 					editable : true,
 					showValueHelp : false,
@@ -119,11 +119,11 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 				})
 			});
 			self.pinSetElement = new sap.ui.layout.form.FormElement({
-				label : "{i18nModel>pinDialog.set}",
+				label : "{i18nModel>fragmentDialog.set}",
 				fields : [ new sap.m.ActionSelect({
-					tooltip : "{i18nModel>pinDialog.setPrompt}",
+					tooltip : "{i18nModel>fragmentDialog.setPrompt}",
 					width : "auto",
-					placeholder : "{i18nModel>pinDialog.setPlaceholder}",
+					placeholder : "{i18nModel>fragmentDialog.setPlaceholder}",
 					description : "",
 					editable : true,
 					showValueHelp : false,
@@ -149,11 +149,11 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 				text : '{lensesModel>title}'
 			});
 			self.pinPageElement = new sap.ui.layout.form.FormElement({
-				label : "{i18nModel>pinDialog.page}",
+				label : "{i18nModel>fragmentDialog.page}",
 				fields : [ new sap.m.ActionSelect({
-					tooltip : "{i18nModel>pinDialog.pagePrompt}",
+					tooltip : "{i18nModel>fragmentDialog.pagePrompt}",
 					width : "auto",
-					placeholder : "{i18nModel>pinDialog.pagePlaceholder}",
+					placeholder : "{i18nModel>fragmentDialog.pagePlaceholder}",
 					description : "",
 					editable : true,
 					showValueHelp : false,
@@ -164,10 +164,10 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 					}
 				})
 //				.addButton(new sap.m.Button({
-//					text : "{i18nModel>pinDialog.pageAdd}",
+//					text : "{i18nModel>fragmentDialog.pageAdd}",
 //					icon : sap.ui.core.IconPool.getIconURI("add")
 //				})).addButton(new sap.m.Button({
-//					text : "{i18nModel>pinDialog.pageDelete}",
+//					text : "{i18nModel>fragmentDialog.pageDelete}",
 //					icon : sap.ui.core.IconPool.getIconURI("delete")
 //				})) 
 				],
@@ -176,11 +176,11 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 				})
 			});
 			self.pinPageTitleElement = new sap.ui.layout.form.FormElement({
-				label : "{i18nModel>pinDialog.pageTitle}",
+				label : "{i18nModel>fragmentDialog.pageTitle}",
 				fields : [ new sap.m.Input({
-					tooltip : "{i18nModel>pinDialog.pageTitlePrompt}",
+					tooltip : "{i18nModel>fragmentDialog.pageTitlePrompt}",
 					width : "auto",
-					placeholder : "{i18nModel>pinDialog.pageTitlePlaceholder}",
+					placeholder : "{i18nModel>fragmentDialog.pageTitlePlaceholder}",
 					description : "",
 					editable : true,
 					showValueHelp : false,
@@ -196,11 +196,11 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 				text : '{lensesModel>template}'
 			});
 			self.pinTemplateElement = new sap.ui.layout.form.FormElement({
-				label : "{i18nModel>pinDialog.template}",
+				label : "{i18nModel>fragmentDialog.template}",
 				fields : [ new sap.m.ActionSelect({
-					tooltip : "{i18nModel>pinDialog.templatePrompt}",
+					tooltip : "{i18nModel>fragmentDialog.templatePrompt}",
 					width : "auto",
-					placeholder : "{i18nModel>pinDialog.templatePlaceholder}",
+					placeholder : "{i18nModel>fragmentDialog.templatePlaceholder}",
 					description : "",
 					editable : true,
 					showValueHelp : false,
@@ -220,11 +220,11 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 				text : '{positionsModel>}'
 			});
 			self.pinPositionElement = new sap.ui.layout.form.FormElement({
-				label : "{i18nModel>pinDialog.position}",
+				label : "{i18nModel>fragmentDialog.position}",
 				fields : [ new sap.m.ActionSelect({
-					tooltip : "{i18nModel>pinDialog.positionPrompt}",
+					tooltip : "{i18nModel>fragmentDialog.positionPrompt}",
 					width : "auto",
-					placeholder : "{i18nModel>pinDialog.positionPlaceholder}",
+					placeholder : "{i18nModel>fragmentDialog.positionPlaceholder}",
 					description : "",
 					editable : true,
 					showValueHelp : false,
@@ -239,11 +239,11 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 				})
 			});
 			self.pinFragmentTypeElement = new sap.ui.layout.form.FormElement({
-				label : "{i18nModel>pinDialog.fragmentType}",
+				label : "{i18nModel>fragmentDialog.fragmentType}",
 				fields : [ new sap.m.Select({
-					tooltip : "{i18nModel>pinDialog.fragmentTypePrompt}",
+					tooltip : "{i18nModel>fragmentDialog.fragmentTypePrompt}",
 					width : "auto",
-					placeholder : "{i18nModel>pinDialog.fragmentTypePlaceholder}",
+					placeholder : "{i18nModel>fragmentDialog.fragmentTypePlaceholder}",
 					description : "",
 					editable : true,
 					showValueHelp : false,
@@ -262,11 +262,11 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 			});
 
 			self.pinFragmentTitleElement = new sap.ui.layout.form.FormElement({
-				label : "{i18nModel>pinDialog.fragmentTitle}",
+				label : "{i18nModel>fragmentDialog.fragmentTitle}",
 				fields : [ new sap.m.Input({
-					tooltip : "{i18nModel>pinDialog.fragmentTitlePrompt}",
+					tooltip : "{i18nModel>fragmentDialog.fragmentTitlePrompt}",
 					width : "auto",
-					placeholder : "{i18nModel>pinDialog.fragmentTitlePlaceholder}",
+					placeholder : "{i18nModel>fragmentDialog.fragmentTitlePlaceholder}",
 					description : "",
 					editable : true,
 					showValueHelp : false,
@@ -300,13 +300,13 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 				]
 			});
 			self.oDialog = new sap.m.Dialog({
-				title : "{i18nModel>pinDialog.title}",
+				title : "{i18nModel>fragmentDialog.title}",
 				buttons : [ new sap.m.Button({
-					text : '{i18nModel>pinDialog.pinFragment}',
+					text : '{i18nModel>fragmentDialog.pinFragment}',
 					press : function() {
 					}
 				}), new sap.m.Button({
-					text : '{i18nModel>pinDialog.cancel}',
+					text : '{i18nModel>fragmentDialog.cancel}',
 					press : function() {
 						self.oDialog.close();
 					}

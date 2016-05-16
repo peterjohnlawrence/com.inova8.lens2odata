@@ -10,7 +10,7 @@ sap.ui.core.UIComponent.extend("Components.lensPanel.Component", {
 		properties : {
 			_fragmentModel : "object",
 			serviceCode : "string",
-			role : {
+			page : {
 				type : "string",
 				defaultValue : "[default]"
 			},
@@ -35,11 +35,11 @@ Components.lensPanel.Component.prototype.renderFragments = function() {
 	if (jQuery.isEmptyObject(oLensType)) {
 		oLensType = oLensesModel.getData()["lenses"]["[defaultEntityType]"]
 	}
-	var oLensTypeRoles = this.getQuery().deferred ? oLensType["entitySet"] : oLensType["entity"];
+	var oLensTypePages = this.getQuery().deferred ? oLensType["entitySet"] : oLensType["entity"];
 	if (this.getQuery().deferred) {
-		oLensTypeRoles = oLensType["entitySet"];
-		if (jQuery.isEmptyObject(oLensTypeRoles)) {
-			oLensTypeRoles = oLensesModel.getData()["lenses"]["[defaultEntityType]"]["entitySet"];
+		oLensTypePages = oLensType["entitySet"];
+		if (jQuery.isEmptyObject(oLensTypePages)) {
+			oLensTypePages = oLensesModel.getData()["lenses"]["[defaultEntityType]"]["entitySet"];
 		}
 		var deferredUri = utils.parseDeferredUri(this.getQuery().uri);
 		this.fragmentBindings = {
@@ -48,12 +48,12 @@ Components.lensPanel.Component.prototype.renderFragments = function() {
 			entityType : this.getQuery().type,
 			entity : deferredUri.entity,
 			navigationProperty : deferredUri.navigationProperty,
-			role : this.getRole()
+			page : this.getPage()
 		}
 	} else {
-		oLensTypeRoles = oLensType["entity"];
-		if (jQuery.isEmptyObject(oLensTypeRoles)) {
-			oLensTypeRoles = oLensesModel.getData()["lenses"]["[defaultEntityType]"]["entity"];
+		oLensTypePages = oLensType["entity"];
+		if (jQuery.isEmptyObject(oLensTypePages)) {
+			oLensTypePages = oLensesModel.getData()["lenses"]["[defaultEntityType]"]["entity"];
 		}
 		var metadatadUri = utils.parseMetadataUri(this.getQuery().uri);
 		this.fragmentBindings = {
@@ -61,11 +61,11 @@ Components.lensPanel.Component.prototype.renderFragments = function() {
 			uri : this.getQuery().uri,
 			entityType : this.getQuery().type,
 			entity : metadatadUri.entity,
-			role : this.getRole()
+			page : this.getPage()
 		}
 	}
-	for ( var lens in oLensTypeRoles) {
-		var oLens = oLensTypeRoles[lens];
+	for ( var lens in oLensTypePages) {
+		var oLens = oLensTypePages[lens];
 		var oContent = sap.ui.getCore().getModel("lensesModel").getData()["templates"][oLens.template];
 		this.setProperty("_fragmentModel", oLens["fragments"]);
 		oTabContent = new sap.ui.layout.Splitter({
@@ -79,6 +79,7 @@ Components.lensPanel.Component.prototype.renderFragments = function() {
 		}));
 	}
 	//Should be set to the default defined 
+	//this.oIconTabBar.addItem(new sap.m.IconTabSeparator({icon:"sap-icon://edit"}));
 	this.oIconTabBar.setSelectedKey(0);
 };
 Components.lensPanel.Component.prototype.displayContent = function(oContent) {

@@ -20,7 +20,9 @@ sap.ui.core.UIComponent.extend("Components.lensResultsForm.Component", {
 		}
 	}
 });
-
+Components.lensResultsForm.Component.prototype.fragmentEdit = function(oEvent, self) {
+	sap.m.MessageToast.show("under construction");
+};
 Components.lensResultsForm.Component.prototype.createContent = function() {
 	var self = this;
 	self.setOptions({
@@ -30,10 +32,21 @@ Components.lensResultsForm.Component.prototype.createContent = function() {
 	// this.oFormPanel = new sap.ui.commons.Panel({
 	// title : new sap.ui.core.Title(),
 	this.oFormPanel = new sap.m.Panel({
-		width : "100%",  height : "auto",// height : "auto",
+		width : "100%",
+		height : "auto",// height : "auto",
 		showCollapseIcon : false,
-		borderDesign : sap.ui.commons.enums.BorderDesign.Box
+		borderDesign : sap.ui.commons.enums.BorderDesign.Box,
+		headerToolbar : new sap.m.Toolbar()
 	});
+	this.oTitle = new sap.m.Title({
+		text : ""
+	});
+	this.oFormPanel.getHeaderToolbar().addContent(this.oTitle).addContent(new sap.m.ToolbarSpacer()).addContent(new sap.m.Button({
+		icon : "sap-icon://edit",
+		press : function(oEvent) {
+			self.fragmentEdit(oEvent, self)
+		}
+	}));
 	var oFormLayout = new sap.ui.layout.form.GridLayout({
 		singleColumn : false
 	});
@@ -50,7 +63,8 @@ Components.lensResultsForm.Component.prototype.createContent = function() {
 };
 Components.lensResultsForm.Component.prototype.setTitle = function(sTitle) {
 	this.setProperty("title", sTitle);
-	this.oFormPanel.setHeaderText(sTitle);
+	// this.oFormPanel.setHeaderText(sTitle);
+	this.oTitle.setText(sTitle);
 };
 Components.lensResultsForm.Component.prototype.clearContents = function() {
 	this.oFormContainer.destroyFormElements();
@@ -285,7 +299,7 @@ Components.lensResultsForm.Component.prototype.bindFormFields = function(oMetaMo
 						oLink = new sap.m.Link({
 							tooltip : sTooltip
 						});
-						self.deferredEntityTypeMap[column]= oMetaModel.getODataInheritedAssociation(oEntityType, column).type;
+						self.deferredEntityTypeMap[column] = oMetaModel.getODataInheritedAssociation(oEntityType, column).type;
 						oTemplate[column].__deferred.type = oMetaModel.getODataInheritedAssociation(oEntityType, column).type;
 						elementCollection.push(this.nextFormElement(sLabel, nLevel, true, oLink.bindProperty("text", {
 							parts : [ {
@@ -299,7 +313,7 @@ Components.lensResultsForm.Component.prototype.bindFormFields = function(oMetaMo
 							parts : [ {
 								path : column + "/__deferred/uri",
 								type : new sap.ui.model.type.String()
-							}],
+							} ],
 							formatter : function(uri, type) {
 								return utils.lensDeferredUri(uri, self.getProperty("serviceCode"), self);
 							}

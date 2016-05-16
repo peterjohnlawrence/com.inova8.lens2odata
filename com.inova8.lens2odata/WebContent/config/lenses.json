@@ -3,6 +3,7 @@
 	{
 		"[defaultTemplate]": 
 		{
+			"template": "[defaultTemplate]",
 			"type": "rows",
 			"width": "100%",
 			"height": "100%",
@@ -20,6 +21,7 @@
 
 		"1R": 
 		{
+			"template": "1R",
 			"type": "rows",
 			"width": "100%",
 			"height": "100%",
@@ -37,6 +39,7 @@
 
 		"2R": 
 		{
+			"template": "2R",
 			"type": "rows",
 			"width": "100%",
 			"height": "100%",
@@ -62,6 +65,7 @@
 
 		"1R2C-1R": 
 		{
+			"template": "1R2C-1R",
 			"type": "rows",
 			"width": "100%",
 			"height": "100%",
@@ -106,6 +110,7 @@
 
 		"1R2C-1R1C": 
 		{
+			"template": "1R2C-1R1C",
 			"type": "rows",
 			"width": "100%",
 			"height": "100%",
@@ -161,6 +166,7 @@
 
 		"1C": 
 		{
+			"template": "1C",
 			"type": "columns",
 			"width": "100%",
 			"height": "100%",
@@ -312,6 +318,8 @@
 							"query": "{uri}",
 							"querydetails": 
 							{
+								"serviceCode": "LNW2",
+								"queryCode": "LNW2",
 								"serviceUrl": "http://localhost:8080/odata2sparql/2.0/NW/",
 								"resourcePath": "{uri}",
 								"filter": "",
