@@ -12,6 +12,10 @@
 	var oTimeFormat = sap.ui.core.format.DateFormat.getDateTimeInstance({
 		pattern : constants.TIMEFORMAT
 	});
+	utils.mergeLensesModel = function(localLensesData, remoteLensesData) {
+//temporary
+		return remoteLensesData;
+	};
 	utils.mergeQueryModel = function(localQueryData, remoteQueryData) {
 		var mergedData = {
 			services : {}
@@ -88,25 +92,25 @@
 	utils.lookup = function(thisArray, name, value) {
 		var lookup = [];
 		for (var i = 0, len = thisArray.length; i < len; i++) {
-			if (thisArray[i][name] === value)
+			if (!jQuery.isEmptyObject(thisArray[i]) && thisArray[i][name] === value)
 				lookup.push(thisArray[i]);
 		}
 		return lookup;
 	};
 	utils.lookupIndex = function(thisArray, name, value) {
 		for (var i = 0, len = thisArray.length; i < len; i++) {
-			if (thisArray[i][name] === value)
+			if (!jQuery.isEmptyObject(thisArray[i]) && thisArray[i][name] === value)
 				return i;
 		}
 		return undefined;
 	};
-	utils.getLocalStorage = function() {
+	utils.getLocalStorage = function(localFile) {
 		var oStorage = jQuery.sap.storage(jQuery.sap.storage.Type.local);
-		return oStorage.get("lens2odata.queries");
+		return oStorage.get(localFile);// "lens2odata.queries");
 	};
-	utils.saveToLocalStorage = function() {
+	utils.saveToLocalStorage = function(localFile, model) {
 		var oStorage = jQuery.sap.storage(jQuery.sap.storage.Type.local);
-		oStorage.put("lens2odata.queries", sap.ui.getCore().getModel("queryModel").getData());
+		oStorage.put(localFile, sap.ui.getCore().getModel(model).getData());
 	};
 	utils.writeQueryModelToLocalFile = function() {
 		navigator.webkitPersistentStorage.requestQuota(1024 * 1024, function(grantedBytes) {
@@ -276,16 +280,16 @@
 		return (oParser.hostname && oParser.host != window.location.host) ? oParser : false;
 	};
 	utils.getTemplatePositions = function(oContent) {
-		var positions=[];
+		var positions = [];
 		switch (oContent.type) {
 		case "rows":
-			for (var content in oContent.rows) {
+			for ( var content in oContent.rows) {
 				positions = positions.concat(utils.getTemplatePositions(oContent.rows[content].content));
 			}
 			break;
 		case "columns":
-			for (var content in oContent.columns) {
-					positions = positions.concat(utils.getTemplatePositions(oContent.columns[content].content));
+			for ( var content in oContent.columns) {
+				positions = positions.concat(utils.getTemplatePositions(oContent.columns[content].content));
 			}
 			break
 		case "lens":

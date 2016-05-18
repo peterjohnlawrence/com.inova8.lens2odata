@@ -98,7 +98,7 @@ Components.queryForm.Component.prototype.createContent = function() {
 			self.getQuery().undo();
 			self.refreshQuery(self);
 		}).attachSave(function(oEvent) {
-			utils.saveToLocalStorage();
+			utils.saveToLocalStorage("lens2odata.queries","queryModel");
 		})
 	}).setModel(sap.ui.getCore().getModel("i18nModel"), "i18nModel").setModel(sap.ui.getCore().getModel("datatypesModel"), "datatypesModel");
 	// TODO add debug menu

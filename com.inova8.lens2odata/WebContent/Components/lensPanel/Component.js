@@ -30,13 +30,18 @@ Components.lensPanel.Component.prototype.renderFragments = function() {
 	this.oIconTabBar.destroyItems();
 	this.oIconTabBar.destroyContent();
 	var oLensesModel = sap.ui.getCore().getModel("lensesModel");
+	var fragmentPath = "/lenses";
 	var oLens;
 	var oLensType = oLensesModel.getData()["lenses"][this.getQuery().type];
 	if (jQuery.isEmptyObject(oLensType)) {
 		oLensType = oLensesModel.getData()["lenses"]["[defaultEntityType]"]
+		fragmentPath = fragmentPath + "/[defaultEntityType]";
+	} else {
+		fragmentPath = fragmentPath + "/" + this.getQuery().type;
 	}
 	var oLensTypePages = this.getQuery().deferred ? oLensType["entitySet"] : oLensType["entity"];
 	if (this.getQuery().deferred) {
+		fragmentPath = fragmentPath + "/entitySet";
 		oLensTypePages = oLensType["entitySet"];
 		if (jQuery.isEmptyObject(oLensTypePages)) {
 			oLensTypePages = oLensesModel.getData()["lenses"]["[defaultEntityType]"]["entitySet"];
@@ -51,6 +56,7 @@ Components.lensPanel.Component.prototype.renderFragments = function() {
 			page : this.getPage()
 		}
 	} else {
+		fragmentPath = fragmentPath + "/entity";
 		oLensTypePages = oLensType["entity"];
 		if (jQuery.isEmptyObject(oLensTypePages)) {
 			oLensTypePages = oLensesModel.getData()["lenses"]["[defaultEntityType]"]["entity"];
@@ -65,32 +71,39 @@ Components.lensPanel.Component.prototype.renderFragments = function() {
 		}
 	}
 	for ( var lens in oLensTypePages) {
+		var pageContextPath=fragmentPath+"/"+lens;
 		var oLens = oLensTypePages[lens];
 		var oContent = sap.ui.getCore().getModel("lensesModel").getData()["templates"][oLens.template];
 		this.setProperty("_fragmentModel", oLens["fragments"]);
 		oTabContent = new sap.ui.layout.Splitter({
-			height:"1200px"
+			height : "1200px"
 		});
-		oTabContent.addContentArea(this.displayContent(oContent));
+		oTabContent.addContentArea(this.displayContent(oContent,pageContextPath,oLens.template));
+		var oTabPanel = new sap.m.Panel({
+			width : "100%",
+			height : "auto",
+			showCollapseIcon : false,
+			borderDesign : sap.ui.commons.enums.BorderDesign.Box
+
+		});
 		this.oIconTabBar.addItem(new sap.m.IconTabFilter({
 			text : lens,
 			content : oTabContent,
 			visible : true
 		}));
 	}
-	//Should be set to the default defined 
-	//this.oIconTabBar.addItem(new sap.m.IconTabSeparator({icon:"sap-icon://edit"}));
+	// Should be set to the default defined
 	this.oIconTabBar.setSelectedKey(0);
 };
-Components.lensPanel.Component.prototype.displayContent = function(oContent) {
+Components.lensPanel.Component.prototype.displayContent = function(oContent,pageContextPath,template) {
 	var self = this;
 	if (oContent.type === "columns") {
 		var oHorizontalSplitter = new sap.ui.layout.Splitter();
 		oHorizontalSplitter.setOrientation(sap.ui.core.Orientation.Horizontal);
-		//oHorizontalSplitter.setWidth((jQuery.isEmptyObject(oContent.width)) ? "100%" : oContent.width);
+		// oHorizontalSplitter.setWidth((jQuery.isEmptyObject(oContent.width)) ? "100%" : oContent.width);
 		// oHorizontalSplitter.setHeight((jQuery.isEmptyObject(oContent.height)) ? "100%" : oContent.height);
 		for (var oLensColumn = 0; oLensColumn < oContent["columns"].length; oLensColumn++) {
-			var oCurrentContent = this.displayContent(oContent["columns"][oLensColumn]["content"]);
+			var oCurrentContent = this.displayContent(oContent["columns"][oLensColumn]["content"],pageContextPath,template);
 			// oCurrentContent could be a collection/array
 			if (Array.isArray(oCurrentContent)) {
 				var oContentSplitter = new sap.ui.layout.Splitter({
@@ -100,7 +113,7 @@ Components.lensPanel.Component.prototype.displayContent = function(oContent) {
 				for (var i = 0, len = oCurrentContent.length; i < len; i++)
 					oContentSplitter.addContentArea(oCurrentContent[i]);
 				oHorizontalSplitter.addContentArea(oContentSplitter);
-			} else {
+			} else if(!jQuery.isEmptyObject(oCurrentContent)) {
 				oHorizontalSplitter.addContentArea(oCurrentContent);
 			}
 		}
@@ -112,10 +125,10 @@ Components.lensPanel.Component.prototype.displayContent = function(oContent) {
 	} else if (oContent.type === "rows") {
 		var oVerticalSplitter = new sap.ui.layout.Splitter();
 		oVerticalSplitter.setOrientation(sap.ui.core.Orientation.Vertical);
-		//oVerticalSplitter.setWidth((jQuery.isEmptyObject(oContent.width)) ? "100%" : oContent.width);
+		// oVerticalSplitter.setWidth((jQuery.isEmptyObject(oContent.width)) ? "100%" : oContent.width);
 		// oVerticalSplitter.setHeight((jQuery.isEmptyObject(oContent.height)) ? "100%" : oContent.height);
 		for (var oLensRow = 0; oLensRow < oContent["rows"].length; oLensRow++) {
-			var oCurrentContent = this.displayContent(oContent["rows"][oLensRow]["content"]);
+			var oCurrentContent = this.displayContent(oContent["rows"][oLensRow]["content"],pageContextPath,template);
 			// oCurrentContent could be a collection/array
 			if (Array.isArray(oCurrentContent)) {
 				var oContentSplitter = new sap.ui.layout.Splitter({
@@ -125,7 +138,7 @@ Components.lensPanel.Component.prototype.displayContent = function(oContent) {
 				for (var i = 0, len = oCurrentContent.length; i < len; i++)
 					oContentSplitter.addContentArea(oCurrentContent[i]);
 				oVerticalSplitter.addContentArea(oContentSplitter);
-			} else {
+			} else if(!jQuery.isEmptyObject(oCurrentContent)) {
 				oVerticalSplitter.addContentArea(oCurrentContent);
 			}
 		}
@@ -145,11 +158,14 @@ Components.lensPanel.Component.prototype.displayContent = function(oContent) {
 				var oComponent = sap.ui.getCore().createComponent({
 					name : oFragment.type,
 					settings : {
+						template:template,
+						fragment : oFragment,
 						title : utils.bindStringToValues(oFragment.title, self.fragmentBindings),
 						query : queryUri,
 						serviceCode : self.getProperty("serviceCode")
 					}
 				});
+				oComponent.setBindingContext(new sap.ui.model.Context(sap.ui.getCore().getModel("lensesModel"), pageContextPath+"/fragments/"+i), "lensesModel")
 				var oComponentContainer = new sap.ui.core.ComponentContainer({
 					component : oComponent,
 					propagateModel : true
@@ -172,27 +188,28 @@ Components.lensPanel.Component.prototype.displayContent = function(oContent) {
 			}
 			return oComponentContainers;
 		} else {
-			var oPanel = new sap.ui.commons.Panel({
-				title : new sap.ui.core.Title().setText(oContent.id),
-				width : "100%",
-				showCollapseIcon : false,
-				borderDesign : sap.ui.commons.enums.BorderDesign.Box,
-				areaDesign : sap.ui.commons.enums.AreaDesign.Plain,
-				applyContentPadding : true,
-				height : "250px"
-			});
-			oPanel.addButton(new sap.ui.commons.Button({
-				icon : sap.ui.core.IconPool.getIconURI("settings"),
-				press : function(oEvent) {
-					sap.m.MessageToast.show("settings for " + oContent.id)
-				}
-			}));
-			oPanel.addStyleClass("tile");
-			return oPanel.setLayoutData(new sap.ui.layout.SplitterLayoutData({
-				resizable : true,
-				minSize : 200,
-				size : "auto"
-			}));
+			return null;
+//			var oPanel = new sap.ui.commons.Panel({
+//				title : new sap.ui.core.Title().setText(oContent.id),
+//				width : "100%",
+//				showCollapseIcon : false,
+//				borderDesign : sap.ui.commons.enums.BorderDesign.Box,
+//				areaDesign : sap.ui.commons.enums.AreaDesign.Plain,
+//				applyContentPadding : true,
+//				height : "250px"
+//			});
+//			oPanel.addButton(new sap.ui.commons.Button({
+//				icon : sap.ui.core.IconPool.getIconURI("settings"),
+//				press : function(oEvent) {
+//					sap.m.MessageToast.show("settings for " + oContent.id)
+//				}
+//			}));
+//			oPanel.addStyleClass("tile");
+//			return oPanel.setLayoutData(new sap.ui.layout.SplitterLayoutData({
+//				resizable : true,
+//				minSize : 200,
+//				size : "auto"
+//			}));
 		}
 	}
 };

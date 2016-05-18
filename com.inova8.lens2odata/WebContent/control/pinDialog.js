@@ -1,6 +1,7 @@
 jQuery.sap.require("sap.m.P13nDialog");
 jQuery.sap.require("sap.m.P13nColumnsPanel");
 jQuery.sap.require("sap.m.P13nItem");
+jQuery.sap.require("control.addPageDialog");
 sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 	"use strict";
 	return Control.extend("control.pinDialog", {
@@ -19,17 +20,21 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 					self.getQueryContext().getProperty("concept")));
 			self.setModel(self.oAssociationSetsModel, "associationSetsModel");
 			sap.ui.getCore().setModel(self.oAssociationSetsModel, "associationSetsModel");
-			
+
 			self.oPositionsModel = new sap.ui.model.json.JSONModel(utils.getTemplatePositions(self.getModel("lensesModel").getProperty("/templates/1R2C-1R")));
 			self.setModel(self.oPositionsModel, "positionsModel");
-			sap.ui.getCore().setModel(self.oPositionsModel, "positionsModel");			
-			
+			sap.ui.getCore().setModel(self.oPositionsModel, "positionsModel");
+
+			self.pinQueryContextElement.getFields()[0].setValue(self.getQueryContext().getPath());
 			self.pinConceptElement.getFields()[0].setValue(self.getQueryContext().getProperty("concept"));
 			self.onConceptChange(null, self);
-			
+
 			self.pinNavigationPropertyElement.getFields()[0].bindAggregation("items", "associationSetsModel>/", self.pinNavigationPropertyItemTemplate);
-			self.pinPageElement.getFields()[0].bindAggregation("items",  "lensesModel>/pages/" , self.pinPageItemTemplate)
-			self.pinTemplateElement.getFields()[0].bindAggregation("items", "lensesModel>/templates", self.pinTemplateItemTemplate);
+			var set = self.pinSetElement.getFields()[0].getSelectedKey();
+			self.pinPageElement.getFields()[0]
+					.bindAggregation("items", "lensesModel>/lenses/" + self.getEntitySet().entityType + "/" + set, self.pinPageItemTemplate)
+			// self.pinTemplateElement.getFields()[0].bindAggregation("items", "lensesModel>/templates",
+			// self.pinTemplateItemTemplate);
 
 			self.pinPositionElement.getFields()[0].bindAggregation("items", "positionsModel>/", self.pinPositionItemTemplate);
 			self.oDialog.open();
@@ -57,27 +62,49 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 			var oEntitySet = self.getEntitySet();
 			var set = self.pinSetElement.getFields()[0].getSelectedKey();
 			self.pinPageElement.getFields()[0].bindAggregation("items", "lensesModel>/lenses/" + oEntitySet.entityType + "/" + set, self.pinPageItemTemplate)
-					.setSelectedKey("").fireEvent("change");
+					.setSelectedKey().fireEvent("change");
 		},
 		onPageChange : function(oEvent, self) {
 			var oEntitySet = self.getEntitySet();
 			var set = self.pinSetElement.getFields()[0].getSelectedKey();
 			var page = self.pinPageElement.getFields()[0].getSelectedKey();
-			self.pinPageTitleElement.getFields()[0].bindElement("value", "lensesModel>/lenses/" + oEntitySet.entityType + "/" + set + "/" + page + "/title");
-			self.pinTemplateElement.getFields()[0].setSelectedKey(self.getModel("lensesModel").getProperty("/lenses/" + oEntitySet.entityType + "/" + set + "/" + page + "/template"));
-			self.pinPositionElement.getFields()[0].bindAggregation("items", "lensesModel>/lenses/" + oEntitySet.entityType + "/" + set + "/" + page + "/fragments",
-					self.pinPositionItemTemplate).setSelectedKey("");
+			if (!jQuery.isEmptyObject(page)) {
+				self.pinPageTitleElement.getFields()[0].setValue(self.getModel("lensesModel").getProperty(
+						"/lenses/" + oEntitySet.entityType + "/" + set + "/" + page + "/title"));
+				self.pinTemplateElement.getFields()[0].setValue(self.getModel("lensesModel").getProperty(
+						"/lenses/" + oEntitySet.entityType + "/" + set + "/" + page + "/template"));
+
+				self.onTemplateChange(oEvent, self);
+			}
 		},
 		onTemplateChange : function(oEvent, self) {
-			var template = self.pinTemplateElement.getFields()[0].getSelectedKey();
-			var positions= utils.getTemplatePositions(self.getModel("lensesModel").getProperty("/templates/" +template));
-			self.getModel("positionsModel").setData(positions);
+			var template = self.pinTemplateElement.getFields()[0].getValue();
+			if (!jQuery.isEmptyObject(template)) {
+				var positions = utils.getTemplatePositions(self.getModel("lensesModel").getProperty("/templates/" + template));
+				self.getModel("positionsModel").setData(positions);
+				self.pinPositionElement.getFields()[0].bindAggregation("items", "positionsModel>/", self.pinPositionItemTemplate).setSelectedKey("");
+			}
 		},
 		onPositionChange : function(oEvent, self) {
 
 		},
 		init : function(queryContext) {
 			var self = this;
+			self.pinQueryContextElement = new sap.ui.layout.form.FormElement({
+				label : "{i18nModel>pinDialog.queryContext}",
+				fields : [ new sap.m.Input({
+					tooltip : "{i18nModel>pinDialog.queryContextPrompt}",
+					width : "auto",
+					placeholder : "{i18nModel>pinDialog.queryContextPlaceholder}",
+					description : "",
+					editable : false,
+					showValueHelp : false,
+					valueHelpRequest : ""
+				}) ],
+				layoutData : new sap.ui.layout.form.GridElementData({
+					hCells : "1"
+				})
+			});			
 			self.pinConceptElement = new sap.ui.layout.form.FormElement({
 				label : "{i18nModel>pinDialog.concept}",
 				fields : [ new sap.m.Input({
@@ -145,8 +172,8 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 				})
 			});
 			self.pinPageItemTemplate = new sap.ui.core.Item({
-				key : '{lensesModel>title}',
-				text : '{lensesModel>title}'
+				key : '{lensesModel>page}',
+				text : '{lensesModel>page}'
 			});
 			self.pinPageElement = new sap.ui.layout.form.FormElement({
 				label : "{i18nModel>pinDialog.page}",
@@ -162,14 +189,19 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 					change : function(oEvent) {
 						self.onPageChange(oEvent, self);
 					}
-				})
-//				.addButton(new sap.m.Button({
-//					text : "{i18nModel>pinDialog.pageAdd}",
-//					icon : sap.ui.core.IconPool.getIconURI("add")
-//				})).addButton(new sap.m.Button({
-//					text : "{i18nModel>pinDialog.pageDelete}",
-//					icon : sap.ui.core.IconPool.getIconURI("delete")
-//				})) 
+				}).addButton(new sap.m.Button({
+					text : "{i18nModel>pinDialog.pageAdd}",
+					icon : sap.ui.core.IconPool.getIconURI("add"),
+					press : function(oEvent) {
+						var addPageDialog = new control.addPageDialog();
+						addPageDialog.setModel(sap.ui.getCore().getModel("lensesModel"),"lensesModel");
+						addPageDialog.open();
+					}
+				}))
+				// .addButton(new sap.m.Button({
+				// text : "{i18nModel>pinDialog.pageDelete}",
+				// icon : sap.ui.core.IconPool.getIconURI("delete")
+				// }))
 				],
 				layoutData : new sap.ui.layout.form.GridElementData({
 					hCells : "1"
@@ -182,7 +214,7 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 					width : "auto",
 					placeholder : "{i18nModel>pinDialog.pageTitlePlaceholder}",
 					description : "",
-					editable : true,
+					editable : false,
 					showValueHelp : false,
 					valueHelpRequest : ""
 				}) ],
@@ -191,24 +223,16 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 				})
 			});
 
-			self.pinTemplateItemTemplate = new sap.ui.core.Item({
-				key : '{lensesModel>template}',
-				text : '{lensesModel>template}'
-			});
 			self.pinTemplateElement = new sap.ui.layout.form.FormElement({
 				label : "{i18nModel>pinDialog.template}",
-				fields : [ new sap.m.ActionSelect({
+				fields : [ new sap.m.Input({
 					tooltip : "{i18nModel>pinDialog.templatePrompt}",
 					width : "auto",
 					placeholder : "{i18nModel>pinDialog.templatePlaceholder}",
 					description : "",
-					editable : true,
+					editable : false,
 					showValueHelp : false,
-					valueHelpRequest : "",
-					forceSelection : true,
-					change : function(oEvent) {
-						 self.onTemplateChange(oEvent, self);
-					}
+					valueHelpRequest : ""
 				}) ],
 				layoutData : new sap.ui.layout.form.GridElementData({
 					hCells : "1"
@@ -231,7 +255,7 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 					valueHelpRequest : "",
 					forceSelection : true,
 					change : function(oEvent) {
-						 self.onPositionChange(oEvent, self);
+						self.onPositionChange(oEvent, self);
 					}
 				}) ],
 				layoutData : new sap.ui.layout.form.GridElementData({
@@ -281,22 +305,19 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 					singleColumn : false
 				}),
 				formContainers : [ new sap.ui.layout.form.FormContainer({
-					title:"What",
+					title : "What",
 					expandable : false,
-					formElements : [ self.pinConceptElement, self.pinNavigationPropertyElement, self.pinSetElement ]
-				}),
-				new sap.ui.layout.form.FormContainer({
-					title:"Where",
+					formElements : [self.pinQueryContextElement,  self.pinConceptElement, self.pinNavigationPropertyElement, self.pinSetElement ]
+				}), new sap.ui.layout.form.FormContainer({
+					title : "Where",
 					expandable : false,
-					formElements : [self.pinPageElement, self.pinPageTitleElement,
-							self.pinTemplateElement, self.pinPositionElement]
-				}),
-				new sap.ui.layout.form.FormContainer({
-					title:"How",
+					formElements : [ self.pinPageElement, self.pinPageTitleElement, self.pinTemplateElement, self.pinPositionElement ]
+				}), new sap.ui.layout.form.FormContainer({
+					title : "How",
 					expandable : false,
 					formElements : [ self.pinFragmentTypeElement, self.pinFragmentTitleElement ]
 				}),
-				
+
 				]
 			});
 			self.oDialog = new sap.m.Dialog({

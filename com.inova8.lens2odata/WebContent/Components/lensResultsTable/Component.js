@@ -1,6 +1,7 @@
 jQuery.sap.require("sap.ui.core.UIComponent");
 jQuery.sap.require("sap.ui.table.Table");
 jQuery.sap.require("control.textLink");
+jQuery.sap.require("control.fragmentDialog");
 jQuery.sap.declare("Components.lensResultsTable.Component");
 "use strict";
 sap.ui.core.UIComponent.extend("Components.lensResultsTable.Component", {
@@ -8,6 +9,8 @@ sap.ui.core.UIComponent.extend("Components.lensResultsTable.Component", {
 	metadata : {
 		// manifest : "json",
 		properties : {
+			template:"string",
+			fragment:"object",
 			title : "string",
 			metaModel : "object",
 			query : "string",
@@ -17,8 +20,13 @@ sap.ui.core.UIComponent.extend("Components.lensResultsTable.Component", {
 	}
 });
 Components.lensResultsTable.Component.prototype.fragmentEdit = function(oEvent, self) {
-	sap.m.MessageToast.show("under construction");
-};
+	var oFragmentDialog = new control.fragmentDialog();
+	var oLensContext = self.getBindingContext("lensesModel");
+	oFragmentDialog.setModel(sap.ui.getCore().getModel("lensesModel"),"lensesModel");
+	oFragmentDialog.setBindingContext(oLensContext, "lensesModel");
+	oFragmentDialog.setFragment(self.getFragment()).setTemplate(self.getProperty("template"));
+	oFragmentDialog.open();
+	};
 Components.lensResultsTable.Component.prototype.createContent = function() {
 	var self = this;
 	self.setOptions({
@@ -27,16 +35,21 @@ Components.lensResultsTable.Component.prototype.createContent = function() {
 	// this.oTablePanel = new sap.ui.commons.Panel({
 	// title : new sap.ui.core.Title(),
 	this.oTablePanel = new sap.m.Panel({
-		width : "100%",  height : "auto",
+		width : "100%",
+		height : "auto",
 		showCollapseIcon : false,
 		borderDesign : sap.ui.commons.enums.BorderDesign.Box,
-		headerToolbar: new sap.m.Toolbar()
+		headerToolbar : new sap.m.Toolbar()
 	});
-	this.oTitle= new sap.m.Title({text:""});
-  this.oTablePanel.getHeaderToolbar().addContent(this.oTitle).addContent(new sap.m.ToolbarSpacer()).addContent(new sap.m.Button({icon:"sap-icon://edit",
+	this.oTitle = new sap.m.Title({
+		text : ""
+	});
+	this.oTablePanel.getHeaderToolbar().addContent(this.oTitle).addContent(new sap.m.ToolbarSpacer()).addContent(new sap.m.Button({
+		icon : "sap-icon://edit",
 		press : function(oEvent) {
-			self.fragmentEdit(oEvent, self)
-		}}));
+			self.fragmentEdit(oEvent, self);
+		}
+	}));
 	this.oTable = new sap.ui.table.Table({
 		// title : "empty so far",
 		showNoData : true,
@@ -58,7 +71,7 @@ Components.lensResultsTable.Component.prototype.createContent = function() {
 };
 Components.lensResultsTable.Component.prototype.setTitle = function(sTitle) {
 	this.setProperty("title", sTitle);
-	//this.oTablePanel.setHeaderText(sTitle);
+	// this.oTablePanel.setHeaderText(sTitle);
 	this.oTitle.setText(sTitle);
 };
 Components.lensResultsTable.Component.prototype.clearContents = function() {
@@ -243,8 +256,8 @@ Components.lensResultsTable.Component.prototype.bindTableColumns = function(oMet
 						oLink = new sap.m.Link({
 							tooltip : sTooltip
 						});
-						self.deferredEntityTypeMap[column]= oMetaModel.getODataInheritedAssociation(oEntityType, column).type;
-						oTemplate[column].__deferred.type= oMetaModel.getODataInheritedAssociation(oEntityType, column).type;
+						self.deferredEntityTypeMap[column] = oMetaModel.getODataInheritedAssociation(oEntityType, column).type;
+						oTemplate[column].__deferred.type = oMetaModel.getODataInheritedAssociation(oEntityType, column).type;
 						oTable.addColumn(new sap.ui.table.Column({
 							label : new sap.ui.commons.Label({
 								text : sLabel,
@@ -270,8 +283,8 @@ Components.lensResultsTable.Component.prototype.bindTableColumns = function(oMet
 								parts : [ {
 									path : sPath + "/__deferred/uri",
 									type : new sap.ui.model.type.String()
-								}],
-								formatter : function(uri,type) {
+								} ],
+								formatter : function(uri, type) {
 									return utils.lensDeferredUri(uri, self.getProperty("serviceCode"), self);
 								}
 							})

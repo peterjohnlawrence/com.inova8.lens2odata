@@ -510,12 +510,6 @@ sap.m.OverflowToolbar.extend("control.serviceQueryMenu", {
 				});
 			}
 		});
-//		self.oSettings = new sap.m.Button({
-//			icon : sap.ui.core.IconPool.getIconURI("settings"),
-//			press : function(oEvent) {
-//				sap.m.MessageToast.show("settings")
-//			}
-//		});
 		self.oLogo = new sap.m.Button({
 			//icon : "resources/Linklaters.png",
 			icon : "resources/Logo2.png",

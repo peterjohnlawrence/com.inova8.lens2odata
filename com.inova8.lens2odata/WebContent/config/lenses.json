@@ -316,6 +316,7 @@
 							"title": "Product details",
 							"type": "Components.lensResultsForm",
 							"query": "{uri}",
+							"queryContext": "/services/LNW2/queries/2",
 							"querydetails": 
 							{
 								"serviceCode": "LNW2",
@@ -335,6 +336,7 @@
 							"title": "Part of these orders",
 							"type": "Components.lensResultsTable",
 							"query": "{uri}/isPartOfOrderDetail",
+							"queryContext": "",
 							"querydetails": 
 							{
 								"serviceUrl": "http://localhost:8080/odata2sparql/2.0/NW/",
@@ -361,6 +363,7 @@
 							"title": "Part of these orders",
 							"type": "Components.lensResultsTable",
 							"query": "{uri}/isPartOfOrderDetail",
+							"queryContext": "",
 							"querydetails": 
 							{
 								"serviceUrl": "http://localhost:8080/odata2sparql/2.0/NW/",
@@ -392,6 +395,7 @@
 							"position": "R1",
 							"title": "Employee description",
 							"type": "Components.lensResultsForm",
+							"queryContext": "",
 							"query": "{uri}"
 						},
 
@@ -399,6 +403,7 @@
 							"position": "R1",
 							"title": "Manager details",
 							"type": "Components.lensResultsForm",
+							"queryContext": "",
 							"query": "{uri}/reportsTo"
 						},
 
@@ -406,6 +411,7 @@
 							"position": "R2",
 							"title": "Managed Orders",
 							"type": "Components.lensResultsTable",
+							"queryContext": "",
 							"query": "{uri}/managesOrder"
 						}
 					]
@@ -429,6 +435,7 @@
 							"title": "Order description",
 							"type": "Components.lensResultsForm",
 							"query": "{uri}",
+							"queryContext": "",
 							"querydetails": 
 							{
 								"serviceUrl": "http://localhost:8080/odata2sparql/2.0/NW/",
@@ -445,6 +452,7 @@
 							"position": "R1-C1",
 							"title": "Order shipping details",
 							"type": "Components.lensResultsForm",
+							"queryContext": "",
 							"query": "{uri}/shipVia",
 							"querydetails": 
 							{
@@ -463,6 +471,7 @@
 							"title": "Order managed by",
 							"type": "Components.lensResultsForm",
 							"query": "{uri}/employee",
+							"queryContext": "",
 							"querydetails": 
 							{
 								"serviceUrl": "http://localhost:8080/odata2sparql/2.0/NW/",
@@ -480,6 +489,7 @@
 							"title": "Order details",
 							"type": "Components.lensResultsForm",
 							"query": "{uri}/hasOrderDetail",
+							"queryContext": "",
 							"querydetails": 
 							{
 								"serviceUrl": "http://localhost:8080/odata2sparql/2.0/NW/",

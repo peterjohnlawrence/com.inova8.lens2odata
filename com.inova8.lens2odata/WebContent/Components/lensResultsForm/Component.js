@@ -5,6 +5,7 @@ jQuery.sap.require("sap.ui.layout.form.FormContainer");
 jQuery.sap.require("sap.ui.layout.form.Form");
 jQuery.sap.require("sap.ui.commons.Paginator");
 jQuery.sap.require("control.textLink");
+jQuery.sap.require("control.fragmentDialog");
 jQuery.sap.declare("Components.lensResultsForm.Component");
 "use strict";
 sap.ui.core.UIComponent.extend("Components.lensResultsForm.Component", {
@@ -12,6 +13,8 @@ sap.ui.core.UIComponent.extend("Components.lensResultsForm.Component", {
 	metadata : {
 		// manifest : "json",
 		properties : {
+			template:"string",
+			fragment : "object",
 			title : "string",
 			metaModel : "object",
 			query : "string",
@@ -21,7 +24,12 @@ sap.ui.core.UIComponent.extend("Components.lensResultsForm.Component", {
 	}
 });
 Components.lensResultsForm.Component.prototype.fragmentEdit = function(oEvent, self) {
-	sap.m.MessageToast.show("under construction");
+	var oFragmentDialog = new control.fragmentDialog();
+	var oLensContext = self.getBindingContext("lensesModel");
+	oFragmentDialog.setModel(sap.ui.getCore().getModel("lensesModel"), "lensesModel");
+	oFragmentDialog.setBindingContext(oLensContext, "lensesModel");
+	oFragmentDialog.setFragment(self.getFragment()).setTemplate(self.getProperty("template"));
+	oFragmentDialog.open();
 };
 Components.lensResultsForm.Component.prototype.createContent = function() {
 	var self = this;
