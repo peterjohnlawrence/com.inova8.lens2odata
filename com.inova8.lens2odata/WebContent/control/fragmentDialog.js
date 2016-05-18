@@ -115,7 +115,7 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 					showValueHelp : false,
 					valueHelpRequest : "",
 					press : function(oEvent) {
-						sap.m.URLHelper.redirect((oEvent.getSource().getText()).replace("/services/", "../lens2odata/#/").replace("/queries/", "/query/"));
+						sap.m.URLHelper.redirect((oEvent.getSource().getText()).replace("/services/", ".."+ document.location.pathname +"#/").replace("/queries/", "/query/"));
 					}
 				}) ],
 				layoutData : new sap.ui.layout.form.GridElementData({

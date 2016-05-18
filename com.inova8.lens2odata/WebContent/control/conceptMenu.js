@@ -33,7 +33,7 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 						} else{
 							return "";
 						}
-						return oEntitySet["sap:label"] || oEntitySet["Name"]
+						return oEntitySet["sap:label"] || oEntitySet["name"]
 					}
 				},
 				tooltip : "{i18nModel>conceptMenu.tooltip}"

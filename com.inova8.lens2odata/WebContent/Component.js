@@ -89,7 +89,7 @@ Lens.Component.prototype.init = function() {
 
 	// queryModel>
 	var oQueryModel = new sap.ui.model.json.JSONModel();
-	var localQueryData = utils.getLocalStorage("lens2odata.queries");
+	var localQueryData = utils.getLocalStorage("queries");
 	var remoteQueryData = new sap.ui.model.json.JSONModel();
 	remoteQueryData.loadData("config/queries.json", null, false);
 
@@ -110,7 +110,7 @@ Lens.Component.prototype.init = function() {
 
 	// lensesModel>
 	var oLensesModel = new sap.ui.model.json.JSONModel();
-	var localLensesData = utils.getLocalStorage("lens2odata.lenses");
+	var localLensesData = utils.getLocalStorage("lenses");
 	var remoteLensesData = new sap.ui.model.json.JSONModel();
 	remoteLensesData.loadData("config/lenses.json", null, false);
 	var lensesData = utils.mergeLensesModel(localLensesData, remoteLensesData.getData());

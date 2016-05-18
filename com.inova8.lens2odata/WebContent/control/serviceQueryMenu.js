@@ -222,6 +222,7 @@ sap.m.OverflowToolbar.extend("control.serviceQueryMenu", {
 					beginButton : new sap.m.Button({
 						text : 'Confirm',
 						press : function() {
+							sap.ui.getCore().setModel(null,constants.ODATACACHE + sap.ui.getCore().getModel("queryModel").getProperty("/services/" + self.oServiceSelect.getSelectedKey() + "/code"));
 							self.getModel("queryModel").refresh();
 							oServiceEditDialog.close();
 						}

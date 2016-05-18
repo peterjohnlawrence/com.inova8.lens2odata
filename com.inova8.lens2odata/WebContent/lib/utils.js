@@ -13,8 +13,21 @@
 		pattern : constants.TIMEFORMAT
 	});
 	utils.mergeLensesModel = function(localLensesData, remoteLensesData) {
-//temporary
-		return remoteLensesData;
+		var mergedData = {
+			templates : remoteLensesData.templates,
+			pages : remoteLensesData.pages,
+			lenses:remoteLensesData.lenses
+		};
+		// Now overwrite with any local data
+		if (!jQuery.isEmptyObject(localLensesData)) {
+			for ( var entity in localLensesData.lenses) {
+				//if (jQuery.isEmptyObject(mergedData.lenses[entity])) 
+				{
+					mergedData.lenses[entity] =jQuery.extend(true, {}, localLensesData.lenses[entity])
+				}
+			}
+		}
+		return mergedData;
 	};
 	utils.mergeQueryModel = function(localQueryData, remoteQueryData) {
 		var mergedData = {
@@ -104,13 +117,17 @@
 		}
 		return undefined;
 	};
+	utils.appname = function() {
+		var pathname = document.location.pathname
+		return pathname.substring(1, pathname.length - 1);
+	}
 	utils.getLocalStorage = function(localFile) {
 		var oStorage = jQuery.sap.storage(jQuery.sap.storage.Type.local);
-		return oStorage.get(localFile);// "lens2odata.queries");
+		return oStorage.get(utils.appname() + "." + localFile);// "lens2odata.queries");
 	};
 	utils.saveToLocalStorage = function(localFile, model) {
 		var oStorage = jQuery.sap.storage(jQuery.sap.storage.Type.local);
-		oStorage.put(localFile, sap.ui.getCore().getModel(model).getData());
+		oStorage.put(utils.appname() + "." + localFile, sap.ui.getCore().getModel(model).getData());
 	};
 	utils.writeQueryModelToLocalFile = function() {
 		navigator.webkitPersistentStorage.requestQuota(1024 * 1024, function(grantedBytes) {
@@ -159,7 +176,7 @@
 	}
 	utils.lensUri = function(uri, type, serviceCode) {
 		// Workaround to avoid issue with sapui5 router that will not ignore '=' even if encoded
-		return jQuery.isEmptyObject(uri) ? "" : "../lens2odata/#/" + serviceCode + "/lens?type=" + type + "&uri=" + uri.replace(/=/g, "~");
+		return jQuery.isEmptyObject(uri) ? "" : ".." + document.location.pathname + "#/" + serviceCode + "/lens?type=" + type + "&uri=" + uri.replace(/=/g, "~");
 	};
 	utils.lensUriLabel = function(uri, sSubjectId, sLabel) {
 		if (sLabel) {
@@ -176,7 +193,8 @@
 			var parts = uri.split("/");
 			var collection = parts.pop();
 			// Workaround to avoid issue with sapui5 router that will not ignore '=' even if encoded
-			return "../lens2odata/#/" + serviceCode + "/lens?deferred=true?type=" + me.deferredEntityTypeMap[collection] + "&uri=" + uri.replace(/=/g, "~");
+			return ".." + document.location.pathname + "#/" + serviceCode + "/lens?deferred=true?type=" + me.deferredEntityTypeMap[collection] + "&uri="
+					+ uri.replace(/=/g, "~");
 		}
 	};
 	utils.lensDeferredUriLabel = function(uri) {

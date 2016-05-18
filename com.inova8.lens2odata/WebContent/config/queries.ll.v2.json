@@ -1511,6 +1511,7 @@
 			"name": "NorthwindV2",
 			"serviceUrl": "http://services.odata.org/V2/Northwind/Northwind.svc/",
 			"version": "V2",
+			"useProxy": true,
 			"queries": 
 			{
 				"1": 
@@ -2939,6 +2940,7 @@
 			"name": "NorthwindV3",
 			"serviceUrl": "http://services.odata.org/V3/Northwind/Northwind.svc/",
 			"version": "V2",
+			"useProxy": true,
 			"queries": 
 			{
 				"a": 
@@ -2965,6 +2967,7 @@
 			"name": "NorthwindV4",
 			"serviceUrl": "http://services.odata.org/V4/Northwind/Northwind.svc/",
 			"version": "V4",
+			"useProxy": true,
 			"queries": 
 			{
 				"a": 
@@ -2983,6 +2986,7 @@
 			"name": "AdventureWorks",
 			"serviceUrl": "http://services.odata.org/AdventureWorksV3/AdventureWorks.svc/",
 			"version": "V2",
+			"useProxy": true,
 			"queries": 
 			{
 				"a": 
@@ -3172,6 +3176,7 @@
 			"name": "NerdDinner",
 			"serviceUrl": "http://www.nerddinner.com/Services/OData.svc/",
 			"version": "V2",
+			"useProxy": true,
 			"queries": 
 			{
 				"a": 
@@ -3198,6 +3203,7 @@
 			"name": "LL",
 			"serviceUrl": "http://localhost:8080/odata2sparql/2.0/LLL/",
 			"version": "V2",
+			"useProxy": false,
 			"queries": 
 			{
 				"m": 
@@ -3234,6 +3240,7 @@
 			"name": "LLV",
 			"serviceUrl": "http://acodwb06:8080/odata2sparql/2.0/LLV/",
 			"version": "V2",
+			"useProxy": false,
 			"queries": 
 			{
 				"m1": 
@@ -3244,7 +3251,6 @@
 					"concept": "Matter",
 					"parameters": 
 					[
-						
 						{
 							"name": "Keyword",
 							"type": "Edm.String",
@@ -3252,7 +3258,9 @@
 							"defaultValue": "L-"
 						}
 					]
-				},"m2": 
+				},
+
+				"m2": 
 				{
 					"_class": "Query",
 					"code": "m2",
@@ -3260,14 +3268,13 @@
 					"concept": "Person",
 					"parameters": 
 					[
-						
 						{
 							"name": "Membership country",
 							"type": "Edm.String",
 							"prompt": "Enter country",
 							"defaultValue": ""
 						},
-						
+
 						{
 							"name": "Deal transaction type",
 							"type": "Edm.String",
@@ -3285,6 +3292,7 @@
 			"name": "NWL",
 			"serviceUrl": "http://acodwb06:8080/odata2sparql/2.0/NWL/",
 			"version": "V2",
+			"useProxy": false,
 			"queries": 
 			{
 				"0": 
