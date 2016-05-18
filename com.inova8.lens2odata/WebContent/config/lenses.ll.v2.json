@@ -1,0 +1,1009 @@
+{
+	"templates": 
+	{
+		"[defaultTemplate]": 
+		{
+			"template": "[defaultTemplate]",
+			"type": "rows",
+			"width": "100%",
+			"height": "100%",
+			"rows": 
+			[
+				{
+					"content": 
+					{
+						"type": "lens",
+						"id": "[defaultPosition]"
+					}
+				}
+			]
+		},
+
+		"1R": 
+		{
+			"template": "1R",
+			"type": "rows",
+			"width": "100%",
+			"height": "100%",
+			"rows": 
+			[
+				{
+					"content": 
+					{
+						"type": "lens",
+						"id": "R1"
+					}
+				}
+			]
+		},
+
+		"2R": 
+		{
+			"template": "2R",
+			"type": "rows",
+			"width": "100%",
+			"height": "100%",
+			"rows": 
+			[
+				{
+					"content": 
+					{
+						"type": "lens",
+						"id": "R1"
+					}
+				},
+
+				{
+					"content": 
+					{
+						"type": "lens",
+						"id": "R2"
+					}
+				}
+			]
+		},
+
+		"7R": 
+		{
+			"template": "7R",
+			"type": "rows",
+			"width": "100%",
+			"height": "100%",
+			"rows": 
+			[
+				{
+					"content": 
+					{
+						"type": "lens",
+						"id": "R1"
+					}
+				},
+
+				{
+					"content": 
+					{
+						"type": "lens",
+						"id": "R2"
+					}
+				},
+
+				{
+					"content": 
+					{
+						"type": "lens",
+						"id": "R3"
+					}
+				},
+
+				{
+					"content": 
+					{
+						"type": "lens",
+						"id": "R4"
+					}
+				},
+
+				{
+					"content": 
+					{
+						"type": "lens",
+						"id": "R5"
+					}
+				},
+
+				{
+					"content": 
+					{
+						"type": "lens",
+						"id": "R6"
+					}
+				},
+
+				{
+					"content": 
+					{
+						"type": "lens",
+						"id": "R7"
+					}
+				}
+			]
+		},
+
+		"1R2C-1R": 
+		{
+			"template": "1R2C-1R",
+			"type": "rows",
+			"width": "100%",
+			"height": "100%",
+			"rows": 
+			[
+				{
+					"content": 
+					{
+						"type": "columns",
+						"width": "100%",
+						"height": "100%",
+						"columns": 
+						[
+							{
+								"content": 
+								{
+									"type": "lens",
+									"id": "R1-C1"
+								}
+							},
+
+							{
+								"content": 
+								{
+									"type": "lens",
+									"id": "R1-C2"
+								}
+							}
+						]
+					}
+				},
+
+				{
+					"content": 
+					{
+						"type": "lens",
+						"id": "R2"
+					}
+				}
+			]
+		},
+
+		"1R2C-1R-1R-1R": 
+		{
+			"template": "1R2C-1R-1R-1R",
+			"type": "rows",
+			"width": "100%",
+			"height": "100%",
+			"rows": 
+			[
+				{
+					"content": 
+					{
+						"type": "columns",
+						"width": "100%",
+						"height": "100%",
+						"columns": 
+						[
+							{
+								"content": 
+								{
+									"type": "lens",
+									"id": "R1-C1"
+								}
+							},
+
+							{
+								"content": 
+								{
+									"type": "lens",
+									"id": "R1-C2"
+								}
+							}
+						]
+					}
+				},
+
+				{
+					"content": 
+					{
+						"type": "lens",
+						"id": "R2"
+					}
+				},
+
+				{
+					"content": 
+					{
+						"type": "lens",
+						"id": "R3"
+					}
+				},
+
+				{
+					"content": 
+					{
+						"type": "lens",
+						"id": "R4"
+					}
+				}
+			]
+		},
+
+		"1R2C-1R1C": 
+		{
+			"template": "1R2C-1R1C",
+			"type": "rows",
+			"width": "100%",
+			"height": "100%",
+			"rows": 
+			[
+				{
+					"content": 
+					{
+						"type": "columns",
+						"width": "100%",
+						"height": "100%",
+						"columns": 
+						[
+							{
+								"content": 
+								{
+									"type": "lens",
+									"id": "R1-C1"
+								}
+							},
+
+							{
+								"content": 
+								{
+									"type": "lens",
+									"id": "R1-C2"
+								}
+							}
+						]
+					}
+				},
+
+				{
+					"content": 
+					{
+						"type": "columns",
+						"width": "100%",
+						"height": "100%",
+						"columns": 
+						[
+							{
+								"content": 
+								{
+									"type": "lens",
+									"id": "R2-C1"
+								}
+							}
+						]
+					}
+				}
+			]
+		},
+
+		"1C": 
+		{
+			"template": "1C",
+			"type": "columns",
+			"width": "100%",
+			"height": "100%",
+			"columns": 
+			[
+				{
+					"content": 
+					{
+						"type": "lens",
+						"id": "C1"
+					}
+				}
+			]
+		}
+	},
+
+	"pages": 
+	{
+		"[defaultLens]": 
+		{
+			"title": "Default lens"
+		},
+
+		"Overview": 
+		{
+			"title": "Overview"
+		},
+
+		"Detail": 
+		{
+			"title": "Details"
+		},
+
+		"Summary": 
+		{
+			"title": "Summary"
+		}
+	},
+
+	"lenses": 
+	{
+		"[defaultEntityType]": 
+		{
+			"entity": 
+			{
+				"[defaultEntityLens]": 
+				{
+					"page": "[defaultEntityLens]",
+					"title": "Default Lens for {entityType}: {entity}",
+					"template": "[defaultTemplate]",
+					"fragments": 
+					[
+						{
+							"position": "[defaultPosition]",
+							"title": "Properties of {entity}",
+							"type": "Components.lensResultsForm",
+							"query": "{uri}?$select=*",
+							"querydetails": "[default]"
+						}
+					]
+				}
+			},
+
+			"entitySet": 
+			{
+				"[defaultEntitySetLens]": 
+				{
+					"page": "[defaultEntitySetLens]",
+					"title": "Default Lens for {navigationProperty} values for {entityType}: {entity}",
+					"template": "[defaultTemplate]",
+					"fragments": 
+					[
+						{
+							"position": "[defaultPosition]",
+							"title": "Values of {navigationProperty}",
+							"type": "Components.lensResultsTable",
+							"query": "{uri}?$select=*",
+							"querydetails": "[default]"
+						}
+					]
+				}
+			}
+		},
+
+		"LLM.MatterTest": 
+		{
+			"entity": 
+			{
+				"Summary": 
+				{
+					"page": "Summary",
+					"title": "Matter",
+					"template": "1R2C-1R-1R-1R",
+					"fragments": 
+					[
+						{
+							"position": "R1-C1",
+							"title": "Matter details",
+							"type": "Components.lensResultsForm",
+							"query": "{uri}?$expand=isMatterOfLinklatersSector,isMatterOfMatterManager,isMatterOfMatterManager/isPersonOfProfitCentre,isMatterOfPartner,isMatterOfPracticeGroup,isMatterOfProductArea,isMatterOfTransactionArea,isMatterOfTransactionAttribute,isMatterOfTransactionType,isMatterOfMatterStatus&$select=label,matterClosedDate,matterReferralDescription,matterReleasedDate,matterTitle,isMatterOfLinklatersSector/label,isMatterOfMatterManager/isPersonOfProfitCentre/label,isMatterOfMatterManager/label,isMatterOfPartner/label,isMatterOfPracticeGroup/label,isMatterOfProductArea/label,isMatterOfTransactionArea/label,isMatterOfTransactionAttribute/label,isMatterOfTransactionType/label,isMatterOfMatterStatus/label"
+						},
+
+						{
+							"position": "R1-C2",
+							"title": "Client information",
+							"type": "Components.lensResultsForm",
+							"query": "{uri}?$expand=isMatterOfClientAttribute,isMatterOfClient,isMatterOfClient/isClientOfCup,isMatterOfClient/isClientOfMrp,isMatterOfClientRole&$select=isMatterOfClientAttribute/label,isMatterOfClient/clientBPNumber,isMatterOfClient/clientPriority,isMatterOfClient/label,isMatterOfClient/isClientOfCup/cupID,isMatterOfClient/isClientOfCup/label,isMatterOfClient/isClientOfMrp/label,isMatterOfClientRole/label,isMatterOfClientRole/matterClientRoleName,label"
+						},
+
+						{
+							"position": "R1-C2",
+							"title": "Location information",
+							"type": "Components.lensResultsForm",
+							"query": "{uri}?$expand=isMatterOfGeographicAttribute,isMatterOfRegion,isMatterOfJurisdiction&$select=isMatterOfGeographicAttribute/label,isMatterOfRegion/label,isMatterOfJurisdiction/label,label"
+						},
+
+						{
+							"position": "R2",
+							"title": "Alliance information",
+							"type": "Components.lensResultsForm",
+							"query": "{uri}?$select=matterAllensERIJVFlag,matterAllensFlag,matterAllensIndonesianJVFlag,matterAllensTerritoriesFlag,matterWebberWentzelFlag,label"
+						},
+
+						{
+							"position": "R2",
+							"title": "Engagement terms",
+							"type": "Components.lensResultsForm",
+							"query": "{uri}?$expand=isMatterOfEngagement,isMatterOfEngagement/isEngagementOfDocument&$select=isMatterOfEngagement/engagementLiabilityCapComment,isMatterOfEngagement/engagmentLiabilityCap,isMatterOfEngagement/isEngagementOfDocument/documentLink,isMatterOfEngagement/isEngagementOfDocument/label,isMatterOfEngagement/label,label"
+						},
+
+						{
+							"position": "R2",
+							"title": "NMO Estimates",
+							"type": "Components.lensResultsForm",
+							"query": "{uri}?$select=matterCappingAmount,matterNMOFeeEstDate,matterNMOFeeEstimate,label"
+						},
+
+						{
+							"position": "R3",
+							"title": "Rates",
+							"type": "Components.lensResultsForm",
+							"query": "{uri}?$expand=isMatterOfFeeStructure&$select=figuresASRBilled,figuresNCRBilled,isMatterOfFeeStructure/label,label"
+						},
+
+						{
+							"position": "R3",
+							"title": "Billings",
+							"type": "Components.lensResultsForm",
+							"query": "{uri}?$select=figuresBilledHours,figuresDisbursements,figuresOSIs,figuresPCBBilled,matterNIMLink,label"
+						},
+
+						{
+							"position": "R3",
+							"title": "Key Ratios",
+							"type": "Components.lensResultsForm",
+							"query": "{uri}?$filter=((figuresABR%20gt%200))&&$select=figuresABR,figuresCPPH,figuresDiscount,figuresGearing,figuresLeakage,figuresRecovery,label&"
+						},
+
+						{
+							"position": "R4",
+							"title": "People",
+							"type": "Components.lensResultsForm",
+							"query": "{uri}?$expand=isMatterOfTimeRecord,isMatterOfTimeRecord/isTimeRecordOfOffice,isMatterOfTimeRecord/isTimeRecordOfPracticeGroup&$select=isMatterOfTimeRecord/label,isMatterOfTimeRecord/timeRecordTotalHours,isMatterOfTimeRecord/isTimeRecordOfOffice/label,isMatterOfTimeRecord/isTimeRecordOfPracticeGroup/label,label"
+						},
+
+						{
+							"position": "R4",
+							"title": "Deals",
+							"type": "Components.lensResultsForm",
+							"query": "{uri}?$expand=isMatterOfDeal,isMatterOfDeal/isDealOfDealFeature,isMatterOfDeal/isDealOfDealPracticeGroup,isMatterOfDeal/isDealOfDealTransactionType&$select=isMatterOfDeal/dealConfidential,isMatterOfDeal/dealKeyDate,isMatterOfDeal/isDealOfDealFeature/label,isMatterOfDeal/isDealOfDealPracticeGroup/label,isMatterOfDeal/isDealOfDealTransactionType/label,isMatterOfDeal/label,label"
+						}
+					]
+				}
+			}
+		},
+
+		"LLM.Matter": 
+		{
+			"entity": 
+			{
+				"Summary": 
+				{
+					"page": "Summary",
+					"title": "Matter",
+					"template": "1R2C-1R-1R-1R",
+					"fragments": 
+					[
+						{
+							"position": "R1-C1",
+							"title": "People",
+							"type": "Components.lensResultsForm",
+							"query": "{uri}?$expand=isMatterOfTimeRecord,isMatterOfTimeRecord/isTimeRecordOfOffice,isMatterOfTimeRecord/isTimeRecordOfPracticeGroup&$select=isMatterOfTimeRecord/label,isMatterOfTimeRecord/timeRecordTotalHours,isMatterOfTimeRecord/isTimeRecordOfOffice/label,isMatterOfTimeRecord/isTimeRecordOfPracticeGroup/label,label"
+						},
+
+						{
+							"position": "R1-C2",
+							"title": "TimeRecords",
+							"type": "Components.lensResultsForm",
+							"query": "{uri}/ismatterOfTimeRecord?&$expand=isTimeRecordOfFeeEarner,isTimeRecordOfOffice,isTimeRecordOfPracticeGroup&$select=label,timeRecordTotalHours,isTimeRecordOfFeeEarner/label,isTimeRecordOfOffice/label,isTimeRecordOfPracticeGroup/label"
+						}
+					]
+				}
+			}
+		},
+
+		"LLM.Person": 
+		{
+			"entity": 
+			{
+				"Summary": 
+				{
+					"page": "Summary",
+					"title": "People",
+					"template": "1R2C-1R1C",
+					"fragments": 
+					[
+						{
+							"position": "R1-C1",
+							"title": "Person details",
+							"type": "Components.lensResultsForm",
+							"query": "{uri}?$expand=isPersonOfCostCentre,isPersonOfDivision,isPersonOfHomeOffice,isPersonOfJob,isPersonOfPosition,isPersonOfPracticeGroup,isPersonOfProfitCentre&$select=personFullName,isPersonOfCostCentre/label,isPersonOfDivision/label,isPersonOfHomeOffice/label,isPersonOfJob/label,isPersonOfPosition/label,isPersonOfPracticeGroup/label,isPersonOfProfitCentre/label,personLeavingDate,personNonGroupMembership,personTechnicalStartDate,label"
+						},
+
+						{
+							"position": "R1-C2",
+							"title": "Qualifications",
+							"type": "Components.lensResultsForm",
+							"query": "{uri}?$select=personDegree,personMembershipCountry,personPQE,personProfessionalMembership,personUniversity,label"
+						},
+
+						{
+							"position": "R2-C1",
+							"title": "Contact",
+							"type": "Components.lensResultsForm",
+							"query": "{uri}?$select=label,personInsiteLink,personUserName"
+						},
+
+						{
+							"position": "R1-C2",
+							"title": "Client activities",
+							"type": "Components.lensResultsForm",
+							"query": "{uri}?$expand=isPersonOfActivity,isPersonOfActivity/isActivityOfClient,isPersonOfActivity/isActivityOfActivityType&$select=label,isPersonOfActivity/label,isPersonOfActivity/isActivityOfClient/label,isPersonOfActivity/isActivityOfClient/clientClientBookLink,isPersonOfActivity/isActivityOfActivityType/label&$top=10"
+						},
+
+						{
+							"position": "R2-C1",
+							"title": "Docs Authored",
+							"type": "Components.lensResultsForm",
+							"query": "{uri}?$expand=isPersonOfDocument,isPersonOfDocument/isDocumentOfType,isPersonOfDocument/isDocumentOfMatter,isPersonOfDocument/isDocumentOfClient&$select=label,isPersonOfDocument/label,isPersonOfDocument/documentKeyword,isPersonOfDocument/documentLink,isPersonOfDocument/documentTitle,isPersonOfDocument/isDocumentOfType/label,isPersonOfDocument/isDocumentOfMatter/label,isPersonOfDocument/isDocumentOfClient/label&$top=10"
+						}
+					]
+				}
+			}
+		},
+
+		"LLM.Deal": 
+		{
+			"entity": 
+			{
+				"Summary": 
+				{
+					"page": "Summary",
+					"title": "Deal",
+					"template": "7R",
+					"fragments": 
+					[
+						{
+							"position": "R1",
+							"title": "About",
+							"type": "Components.lensResultsForm",
+							"query": "{uri}?$expand=isDealOfDealPracticeGroup,isDealOfDealBusinessSector,isDealOfDealLinklatersSector,isDealOfDealTransactionType,isDealOfCountry,isDealOfDealJurisdiction,isDealOfOfficeInvolvement&$select=dealTitle,isDealOfDealPracticeGroup/label,isDealOfDealBusinessSector/label,isDealOfDealLinklatersSector/label,isDealOfDealTransactionType/label,dealValue,isDealOfCountry/label,isDealOfDealJurisdiction/label,dealConfidential,dealKeyDate,dealKeyDateRelation,isDealOfOfficeInvolvement/label,label"
+						},
+
+						{
+							"position": "R1",
+							"title": "Matter Summary",
+							"type": "Components.lensResultsForm",
+							"query": "{uri}?$expand=isDealOfMatter,isDealOfMatter/isMatterOfOffice,isDealOfMatter/isMatterOfPracticeGroup,isDealOfMatter/isMatterOfTransactionType,isDealOfMatter/isMatterOfMatterStatus,isDealOfMatter/isMatterOfMatterManager,isDealOfMatter/isMatterOfMatterManager/isPersonOfHomeOffice,isDealOfMatter/isMatterOfPartner,isDealOfMatter/isMatterOfEngagement&$select=isDealOfMatter/matterTitle,isDealOfMatter/isMatterOfOffice/label,isDealOfMatter/isMatterOfPracticeGroup/label,isDealOfMatter/isMatterOfTransactionType/label,isDealOfMatter/isMatterOfMatterStatus/label,isDealOfMatter/isMatterOfMatterManager/isPersonOfHomeOffice/label,isDealOfMatter/isMatterOfMatterManager/label,isDealOfMatter/isMatterOfPartner/label,isDealOfMatter/figuresBilledHours,isDealOfMatter/figuresPCBBilled,isDealOfMatter/matterNIMLink,isDealOfMatter/isMatterOfEngagement/engagmentTitle,isDealOfMatter/isMatterOfEngagement/label,isDealOfMatter/label,label"
+						},
+
+						{
+							"position": "R2",
+							"title": "Deal Summary",
+							"type": "Components.lensResultsForm",
+							"query": "{uri}?$select=dealFullSummary,label"
+						},
+
+						{
+							"position": "R2",
+							"title": "Deal Parties",
+							"type": "Components.lensResultsForm",
+							"query": "{uri}?$expand=isDealOfInvolvement,isDealOfInvolvement/isInvolvementOfPartyRole&$select=isDealOfInvolvement/involvementParty,isDealOfInvolvement/involvementPartyIsClient,isDealOfInvolvement/involvementPartyIsConfidential,isDealOfInvolvement/isInvolvementOfPartyRole/dealRoleName,isDealOfInvolvement/isInvolvementOfPartyRole/label,isDealOfInvolvement/label,label"
+						},
+
+						{
+							"position": "R3",
+							"title": "Documents",
+							"type": "Components.lensResultsForm",
+							"query": "{uri}?$expand=isDealOfDocument&$select=isDealOfDocument/documentID,isDealOfDocument/documentLink,isDealOfDocument/documentType,isDealOfDocument/documentTitle,isDealOfDocument/label,label"
+						},
+
+						{
+							"position": "R3",
+							"title": "Features",
+							"type": "Components.lensResultsForm",
+							"query": "{uri}?$expand=isDealOfDealFeature&$select=isDealOfDealFeature/label,label"
+						},
+
+						{
+							"position": "R4",
+							"title": "Notes",
+							"type": "Components.lensResultsForm",
+							"query": "{uri}?$select=dealNotes,label"
+						},
+
+						{
+							"position": "R4",
+							"title": "League",
+							"type": "Components.lensResultsForm",
+							"query": "{uri}?$expand=isDealOfDealLeagueMap,isDealOfDealLeagueMap/isLeagueMapOfDealLeague&$select=isDealOfDealLeagueMap/dealLeagueMapQuarter,isDealOfDealLeagueMap/dealLeagueMapYear,isDealOfDealLeagueMap/isLeagueMapOfDealLeague/label,isDealOfDealLeagueMap/label,label"
+						},
+
+						{
+							"position": "R5",
+							"title": "Directory",
+							"type": "Components.lensResultsForm",
+							"query": "{uri}?$expand=isDealOfDealDirectoryMap,isDealOfDealDirectoryMap/isDirectoryMapOfDealDirectory&$select=isDealOfDealDirectoryMap/isDirectoryMapOfDealDirectory/dealDirectoryTitle,isDealOfDealDirectoryMap/isDirectoryMapOfDealDirectory/label,label"
+						},
+
+						{
+							"position": "R5",
+							"title": "Marketing",
+							"type": "Components.lensResultsForm",
+							"query": "{uri}?$expand=isDealOfDealSource,isDealOfPressRelease,isDealOfDealAward&$select=dealBenefitToClient,label,dealFullSummary,dealShortSummary,isDealOfDealSource/label,isDealOfPressRelease/label,isDealOfPressRelease/pressReleaseLink,isDealOfDealAward/dealAwardBody,isDealOfDealAward/dealAwardComment,isDealOfDealAward/dealAwardStatus,isDealOfDealAward/dealAwardTitle,isDealOfDealAward/dealAwardYear,isDealOfDealAward/label"
+						},
+
+						{
+							"position": "R6",
+							"title": "KeyContacts",
+							"type": "Components.lensResultsForm",
+							"query": "{uri}?$expand=isDealOfKeyContact,isDealOfKeyContact/isPersonOfHomeOffice,isDealOfKeyContact/isPersonOfJob,isDealOfKeyContact/isPersonOfPracticeGroup&$select=isDealOfKeyContact/personEmail,isDealOfKeyContact/personFullName,isDealOfKeyContact/personMembershipCountry,isDealOfKeyContact/personProfessionalMembership,isDealOfKeyContact/isPersonOfHomeOffice/label,isDealOfKeyContact/isPersonOfJob/label,isDealOfKeyContact/isPersonOfPracticeGroup/label,isDealOfKeyContact/label,label"
+						},
+
+						{
+							"position": "R6",
+							"title": " Other Contacts",
+							"type": "Components.lensResultsForm",
+							"query": "{uri}?$expand=isDealOfContact,isDealOfContact/isPersonOfHomeOffice,isDealOfContact/isPersonOfJob,isDealOfContact/isPersonOfPracticeGroup&$select=isDealOfContact/personEmail,isDealOfContact/personFullName,isDealOfContact/personInsiteLink,isDealOfContact/personMembershipCountry,isDealOfContact/personProfessionalMembership,isDealOfContact/isPersonOfHomeOffice/label,isDealOfContact/isPersonOfJob/label,isDealOfContact/isPersonOfPracticeGroup/label,isDealOfContact/label"
+						},
+
+						{
+							"position": "R7",
+							"title": "People",
+							"type": "Components.lensResultsForm",
+							"query": "{uri}?$expand=isDealOfMatter,isDealOfMatter/isMatterOfTimeRecord,isDealOfMatter/isMatterOfTimeRecord/isTimeRecordOfFeeEarner,isDealOfMatter/isMatterOfTimeRecord/isTimeRecordOfFeeEarner/isPersonOfHomeOffice,isDealOfMatter/isMatterOfTimeRecord/isTimeRecordOfFeeEarner/isPersonOfPracticeGroup,isDealOfMatter/isMatterOfTimeRecord/isTimeRecordOfJob,isDealOfMatter/isMatterOfTimeRecord/isTimeRecordOfOffice,isDealOfMatter/isMatterOfTimeRecord/isTimeRecordOfPracticeGroup&$select=isDealOfMatter/isMatterOfTimeRecord/isTimeRecordOfFeeEarner/personEmail,isDealOfMatter/isMatterOfTimeRecord/isTimeRecordOfFeeEarner/isPersonOfHomeOffice/label,isDealOfMatter/isMatterOfTimeRecord/isTimeRecordOfFeeEarner/isPersonOfPracticeGroup/label,isDealOfMatter/isMatterOfTimeRecord/isTimeRecordOfJob/jobTitle,isDealOfMatter/isMatterOfTimeRecord/isTimeRecordOfOffice/label,isDealOfMatter/isMatterOfTimeRecord/isTimeRecordOfPracticeGroup/label,isDealOfMatter/isMatterOfTimeRecord/label,isDealOfMatter/label,label"
+						},
+
+						{
+							"position": "R7",
+							"title": "Other Deals",
+							"type": "Components.lensResultsForm",
+							"query": "{uri}?$expand=isDealOfMatter,isDealOfMatter/isMatterOfDeal,isDealOfMatter/isMatterOfDeal/isDealOfDealFeature,isDealOfMatter/isMatterOfDeal/isDealOfDealPracticeGroup,isDealOfMatter/isMatterOfDeal/isDealOfDealTransactionType,isDealOfMatter/isMatterOfDeal/isDealOfInvolvement,isDealOfMatter/isMatterOfDeal/isDealOfInvolvement/isInvolvementOfPartyRole&$select=isDealOfMatter/isMatterOfDeal/dealConfidential,isDealOfMatter/isMatterOfDeal/dealKeyDate,isDealOfMatter/isMatterOfDeal/dealKeyDateRelation,isDealOfMatter/isMatterOfDeal/dealSummary,isDealOfMatter/isMatterOfDeal/dealTitle,isDealOfMatter/isMatterOfDeal/isDealOfDealFeature/label,isDealOfMatter/isMatterOfDeal/isDealOfDealPracticeGroup/label,isDealOfMatter/isMatterOfDeal/isDealOfDealTransactionType/label,isDealOfMatter/isMatterOfDeal/isDealOfInvolvement/isInvolvementOfPartyRole,isDealOfMatter/isMatterOfDeal/isDealOfInvolvement/label,isDealOfMatter/isMatterOfDeal/label,isDealOfMatter/label,label"
+						}
+					]
+				}
+			}
+		},
+
+		"LLM.Client": 
+		{
+			"entity": 
+			{
+				"Summary": 
+				{
+					"page": "Summary",
+					"title": "Client",
+					"template": "1R2C-1R1C",
+					"fragments": 
+					[
+						{
+							"position": "R1-C1",
+							"title": "About the client",
+							"type": "Components.lensResultsForm",
+							"query": "{uri}"
+						},
+
+						{
+							"position": "R1-C2",
+							"title": "Client Structure",
+							"type": "Components.lensResultsForm",
+							"query": "{uri}"
+						},
+
+						{
+							"position": "R2-C1",
+							"title": "Engagement Terms",
+							"type": "Components.lensResultsTable",
+							"query": "{uri}"
+						},
+
+						{
+							"position": "R2-C1",
+							"title": "Matters Done for Client",
+							"type": "Components.lensResultsTable",
+							"query": "{uri}"
+						},
+
+						{
+							"position": "R2-C1",
+							"title": "ClientBook Activities",
+							"type": "Components.lensResultsTable",
+							"query": "{uri}"
+						},
+
+						{
+							"position": "R2-C1",
+							"title": "Client Team",
+							"type": "Components.lensResultsTable",
+							"query": "{uri}"
+						},
+
+						{
+							"position": "R2-C1",
+							"title": "Recent knowledge for this Client/CUP",
+							"type": "Components.lensResultsTable",
+							"query": "{uri}"
+						}
+					]
+				}
+			}
+		},
+
+		"LLM.Office": 
+		{
+			"entity": 
+			{
+				"Summary": 
+				{
+					"page": "Summary",
+					"title": "Office",
+					"template": "1R",
+					"fragments": 
+					[
+						{
+							"position": "R1",
+							"title": "Office Details",
+							"type": "Components.lensResultsForm",
+							"query": "{uri}"
+						}
+					]
+				}
+			}
+		},
+
+		"LLM.Feature": 
+		{
+			"entity": 
+			{
+				"Summary": 
+				{
+					"page": "Summary",
+					"title": "Office",
+					"template": "1C",
+					"fragments": 
+					[
+						{
+							"position": "C1",
+							"title": "Deals",
+							"type": "Components.lensResultsTable",
+							"query": "{uri}"
+						},
+
+						{
+							"position": "C1",
+							"title": "Credentials",
+							"type": "Components.lensResultsTable",
+							"query": "{uri}"
+						},
+
+						{
+							"position": "C1",
+							"title": "eBibles",
+							"type": "Components.lensResultsTable",
+							"query": "{uri}"
+						},
+
+						{
+							"position": "C1",
+							"title": "All documents",
+							"type": "Components.lensResultsTable",
+							"query": "{uri}"
+						}
+					]
+				}
+			}
+		},
+
+		"northwind.Customer": 
+		{
+			"entity": 
+			{
+				"Summary": 
+				{
+					"page": "Summary",
+					"title": "{entityType} Lens for: {entity}",
+					"template": "2R",
+					"fragments": 
+					[
+						{
+							"position": "R1",
+							"title": "French Customer details",
+							"type": "Components.lensResultsForm",
+							"query": "{uri}/hasPlacedOrder?$filter=((substringof(%27Fr%27,shipCountry)))&&$select=shipCountry,label,orderDate",
+							"querydetails": 
+							{
+								"serviceUrl": "http://localhost:8080/odata2sparql/2.0/NW/",
+								"resourcePath": "{uri}",
+								"filter": "",
+								"expand": "",
+								"select": "",
+								"orderby": "",
+								"options": ""
+							}
+						},
+
+						{
+							"position": "R2",
+							"title": "Has placed these orders",
+							"type": "Components.lensResultsTable",
+							"query": "{uri}/hasPlacedOrder",
+							"querydetails": 
+							{
+								"serviceUrl": "http://localhost:8080/odata2sparql/2.0/NW/",
+								"resourcePath": "{uri}/hasPlacedOrder",
+								"filter": "",
+								"expand": "",
+								"select": "",
+								"orderby": "",
+								"options": ""
+							}
+						}
+					]
+				}
+			}
+		},
+
+		"northwind.Product": 
+		{
+			"entity": 
+			{
+				"Summary": 
+				{
+					"page": "Summary",
+					"title": "{entityType} Lens for: {entity}",
+					"template": "2R",
+					"fragments": 
+					[
+						{
+							"position": "R1",
+							"title": "Product details",
+							"type": "Components.lensResultsForm",
+							"query": "{uri}",
+							"queryContext": "/services/LNW2/queries/2",
+							"querydetails": 
+							{
+								"serviceCode": "LNW2",
+								"queryCode": "LNW2",
+								"serviceUrl": "http://localhost:8080/odata2sparql/2.0/NW/",
+								"resourcePath": "{uri}",
+								"filter": "",
+								"expand": "",
+								"select": "",
+								"orderby": "",
+								"options": ""
+							}
+						},
+
+						{
+							"position": "R2",
+							"title": "Part of these orders",
+							"type": "Components.lensResultsTable",
+							"query": "{uri}/isPartOfOrderDetail",
+							"queryContext": "",
+							"querydetails": 
+							{
+								"serviceUrl": "http://localhost:8080/odata2sparql/2.0/NW/",
+								"resourcePath": "{uri}/isPartOfOrderDetail",
+								"filter": "",
+								"expand": "",
+								"select": "",
+								"orderby": "",
+								"options": ""
+							}
+						}
+					]
+				},
+
+				"Details": 
+				{
+					"page": "Details",
+					"title": "{entityType} Lens for: {entity}",
+					"template": "1R",
+					"fragments": 
+					[
+						{
+							"position": "R1",
+							"title": "Part of these orders",
+							"type": "Components.lensResultsTable",
+							"query": "{uri}/isPartOfOrderDetail",
+							"queryContext": "",
+							"querydetails": 
+							{
+								"serviceUrl": "http://localhost:8080/odata2sparql/2.0/NW/",
+								"resourcePath": "{uri}/isPartOfOrderDetail",
+								"filter": "",
+								"expand": "",
+								"select": "",
+								"orderby": "",
+								"options": ""
+							}
+						}
+					]
+				}
+			}
+		},
+
+		"northwind.Employee": 
+		{
+			"entity": 
+			{
+				"Summary": 
+				{
+					"page": "Summary",
+					"title": "{entityType} Lens for: {entity}",
+					"template": "2R",
+					"fragments": 
+					[
+						{
+							"position": "R1",
+							"title": "Employee description",
+							"type": "Components.lensResultsForm",
+							"queryContext": "",
+							"query": "{uri}"
+						},
+
+						{
+							"position": "R1",
+							"title": "Manager details",
+							"type": "Components.lensResultsForm",
+							"queryContext": "",
+							"query": "{uri}/reportsTo"
+						},
+
+						{
+							"position": "R2",
+							"title": "Managed Orders",
+							"type": "Components.lensResultsTable",
+							"queryContext": "",
+							"query": "{uri}/managesOrder"
+						}
+					]
+				}
+			}
+		},
+
+		"northwind.Order": 
+		{
+			"entity": 
+			{
+				"Summary": 
+				{
+					"page": "Summary",
+					"title": "{entityType} Lens for: {entity}",
+					"template": "1R2C-1R",
+					"fragments": 
+					[
+						{
+							"position": "R1-C1",
+							"title": "Order description",
+							"type": "Components.lensResultsForm",
+							"query": "{uri}",
+							"queryContext": ""
+						},
+
+						{
+							"position": "R1-C1",
+							"title": "Order shipping details",
+							"type": "Components.lensResultsForm",
+							"queryContext": "",
+							"query": "{uri}/shipVia"
+						},
+
+						{
+							"position": "R1-C2",
+							"title": "Order managed by",
+							"type": "Components.lensResultsForm",
+							"query": "{uri}/employee",
+							"queryContext": ""
+						},
+
+						{
+							"position": "R2",
+							"title": "Order details",
+							"type": "Components.lensResultsForm",
+							"query": "{uri}/hasOrderDetail",
+							"queryContext": ""
+						}
+					]
+				}
+			}
+		}
+	}
+}
