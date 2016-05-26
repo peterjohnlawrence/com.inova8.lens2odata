@@ -378,6 +378,70 @@
 			}
 		},
 
+		"northwind.Category": 
+		{
+			"entity": 
+			{
+				"[defaultEntityLens]": 
+				{
+					"page": "[defaultEntityLens]",
+					"title": "{entityType} Lens for: {entity}",
+					"template": "[defaultTemplate]",
+					"fragments": 
+					[
+						{
+							"position": "[defaultPosition]",
+							"title": "Properties of {entity}",
+							"type": "Components.lensResultsForm",
+							"query": "{uri}"
+						}
+					]
+				},
+
+				"Details": 
+				{
+					"page": "Details",
+					"title": "{entityType} Lens for: {entity}",
+					"template": "2R",
+					"fragments": 
+					[
+						{
+							"position": "R1",
+							"title": "Category",
+							"type": "Components.lensResultsForm",
+							"query": "{uri}"
+						},
+
+						{
+							"position": "R1",
+							"title": "Category-Products",
+							"type": "Components.lensResultsForm",
+							"query": "{uri}?&$expand=isCategoryOf&$select=isCategoryOf&"
+						},
+
+						{
+							"position": "R1",
+							"title": "Products",
+							"type": "Components.lensResultsForm",
+							"query": "{uri}/isCategoryOf"
+						},
+
+						{
+							"position": "R2",
+							"title": "Products",
+							"type": "Components.lensResultsTable",
+							"query": "{uri}/isCategoryOf?&&$select=label,productName,quantityPerUnit,reorderLevel,unitPrice,unitsInStock&"
+						}
+					]
+				}
+			},
+
+			"entityset": 
+			{
+				
+			}
+		},
+
 		"northwind.Customer": 
 		{
 			"entity": 
@@ -393,34 +457,43 @@
 							"position": "R1",
 							"title": "French Customer details",
 							"type": "Components.lensResultsForm",
-							"query": "{uri}/hasPlacedOrder?$filter=((substringof(%27Fr%27,shipCountry)))&&$select=shipCountry,label,orderDate",
-							"querydetails": 
-							{
-								"serviceUrl": "http://localhost:8080/odata2sparql/2.0/NW/",
-								"resourcePath": "{uri}",
-								"filter": "",
-								"expand": "",
-								"select": "",
-								"orderby": "",
-								"options": ""
-							}
+							"query": "{uri}/hasPlacedOrder?$filter=((substringof(%27Fr%27,shipCountry)))&&$select=shipCountry,label,orderDate"
 						},
 
 						{
 							"position": "R2",
 							"title": "Has placed these orders",
 							"type": "Components.lensResultsTable",
-							"query": "{uri}/hasPlacedOrder",
-							"querydetails": 
-							{
-								"serviceUrl": "http://localhost:8080/odata2sparql/2.0/NW/",
-								"resourcePath": "{uri}/hasPlacedOrder",
-								"filter": "",
-								"expand": "",
-								"select": "",
-								"orderby": "",
-								"options": ""
-							}
+							"query": "{uri}/hasPlacedOrder"
+						}
+					]
+				}
+			}
+		},
+
+		"northwind.Shipper": 
+		{
+			"entity": 
+			{
+				"Summary": 
+				{
+					"page": "Summary",
+					"title": "{entityType} Lens for: {entity}",
+					"template": "2R",
+					"fragments": 
+					[
+						{
+							"position": "R1",
+							"title": "Shipper details",
+							"type": "Components.lensResultsForm",
+							"query": "{uri}"
+						},
+
+						{
+							"position": "R2",
+							"title": "Has shipped these orders",
+							"type": "Components.lensResultsTable",
+							"query": "{uri}/shipsOrder"
 						}
 					]
 				}
@@ -443,19 +516,7 @@
 							"title": "Product details",
 							"type": "Components.lensResultsForm",
 							"query": "{uri}",
-							"queryContext": "/services/LNW2/queries/2",
-							"querydetails": 
-							{
-								"serviceCode": "LNW2",
-								"queryCode": "LNW2",
-								"serviceUrl": "http://localhost:8080/odata2sparql/2.0/NW/",
-								"resourcePath": "{uri}",
-								"filter": "",
-								"expand": "",
-								"select": "",
-								"orderby": "",
-								"options": ""
-							}
+							"queryContext": "/services/LNW2/queries/2"
 						},
 
 						{
@@ -463,17 +524,7 @@
 							"title": "Part of these orders",
 							"type": "Components.lensResultsTable",
 							"query": "{uri}/isPartOfOrderDetail",
-							"queryContext": "",
-							"querydetails": 
-							{
-								"serviceUrl": "http://localhost:8080/odata2sparql/2.0/NW/",
-								"resourcePath": "{uri}/isPartOfOrderDetail",
-								"filter": "",
-								"expand": "",
-								"select": "",
-								"orderby": "",
-								"options": ""
-							}
+							"queryContext": ""
 						}
 					]
 				},
@@ -490,17 +541,33 @@
 							"title": "Part of these orders",
 							"type": "Components.lensResultsTable",
 							"query": "{uri}/isPartOfOrderDetail",
-							"queryContext": "",
-							"querydetails": 
-							{
-								"serviceUrl": "http://localhost:8080/odata2sparql/2.0/NW/",
-								"resourcePath": "{uri}/isPartOfOrderDetail",
-								"filter": "",
-								"expand": "",
-								"select": "",
-								"orderby": "",
-								"options": ""
-							}
+							"queryContext": ""
+						}
+					]
+				}
+			},
+
+			"entitySet": 
+			{
+				"Summary": 
+				{
+					"page": "Summary",
+					"title": "{entityType} Lens for: {entity}",
+					"template": "2R",
+					"fragments": 
+					[
+						{
+							"position": "R1",
+							"title": "Details",
+							"type": "Components.lensResultsForm",
+							"query": "{uri}"
+						},
+
+						{
+							"position": "R2",
+							"title": "Error",
+							"type": "Components.lensResultsTable",
+							"query": "{uri}/hasPlacedOrder"
 						}
 					]
 				}
@@ -562,17 +629,7 @@
 							"title": "Order description",
 							"type": "Components.lensResultsForm",
 							"query": "{uri}",
-							"queryContext": "",
-							"querydetails": 
-							{
-								"serviceUrl": "http://localhost:8080/odata2sparql/2.0/NW/",
-								"resourcePath": "{uri}",
-								"filter": "",
-								"expand": "",
-								"select": "",
-								"orderby": "",
-								"options": ""
-							}
+							"queryContext": ""
 						},
 
 						{
@@ -580,17 +637,7 @@
 							"title": "Order shipping details",
 							"type": "Components.lensResultsForm",
 							"queryContext": "",
-							"query": "{uri}/shipVia",
-							"querydetails": 
-							{
-								"serviceUrl": "http://localhost:8080/odata2sparql/2.0/NW/",
-								"resourcePath": "{uri}/shipVia",
-								"filter": "",
-								"expand": "",
-								"select": "",
-								"orderby": "",
-								"options": ""
-							}
+							"query": "{uri}/shipVia"
 						},
 
 						{
@@ -598,17 +645,7 @@
 							"title": "Order managed by",
 							"type": "Components.lensResultsForm",
 							"query": "{uri}/employee",
-							"queryContext": "",
-							"querydetails": 
-							{
-								"serviceUrl": "http://localhost:8080/odata2sparql/2.0/NW/",
-								"resourcePath": "{uri}/employee",
-								"filter": "",
-								"expand": "",
-								"select": "",
-								"orderby": "",
-								"options": ""
-							}
+							"queryContext": ""
 						},
 
 						{
@@ -616,17 +653,24 @@
 							"title": "Order details",
 							"type": "Components.lensResultsForm",
 							"query": "{uri}/hasOrderDetail",
-							"queryContext": "",
-							"querydetails": 
-							{
-								"serviceUrl": "http://localhost:8080/odata2sparql/2.0/NW/",
-								"resourcePath": "{uri}/hasOrderDetail",
-								"filter": "",
-								"expand": "",
-								"select": "",
-								"orderby": "",
-								"options": ""
-							}
+							"queryContext": ""
+						}
+					]
+				},
+
+				"Test": 
+				{
+					"page": "Test",
+					"title": "{entityType} Lens for: {entity}",
+					"template": "1R2C-1R",
+					"fragments": 
+					[
+						{
+							"position": "R1-C1",
+							"title": "Order description",
+							"type": "Components.lensResultsForm",
+							"query": "{uri}",
+							"queryContext": ""
 						}
 					]
 				}

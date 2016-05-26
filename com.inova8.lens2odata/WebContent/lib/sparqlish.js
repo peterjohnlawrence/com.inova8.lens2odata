@@ -292,7 +292,7 @@ sap.ui.base.Object
 					odataCustomQueryOptions : function(sVersion) {
 						var odataCustomQueryOptions = "";
 						if (!jQuery.isEmptyObject(this.oClauses)) {
-						odataCustomQueryOptions =  this.oClauses.odataCustomQueryOptions(sVersion);
+							odataCustomQueryOptions = this.oClauses.odataCustomQueryOptions(sVersion);
 						}
 						if (!jQuery.isEmptyObject(this.oAST.operationParameters)) {
 							for (operationParameterIndex in this.oAST.operationParameters) {
@@ -303,10 +303,29 @@ sap.ui.base.Object
 						}
 						return odataCustomQueryOptions;
 					},
+					odataQuery : function(sVersion) {
+						sVersion = sVersion || defaultVersion;
+						var url = [];
+						var filter = this.odataFilter(sVersion);
+						if (!jQuery.isEmptyObject(filter))
+							url.push(filter);
+						var expand = this.odataExpand(sVersion);
+						if (!jQuery.isEmptyObject(expand))
+							url.push(expand);
+						var select = this.odataSelect(sVersion);
+						if (!jQuery.isEmptyObject(select))
+							url.push(select);
+						var options = this.odataOptions(sVersion);
+						if (!jQuery.isEmptyObject(options))
+							url.push(options);
+						var customQueryOptions = this.odataCustomQueryOptions(sVersion);
+						if (!jQuery.isEmptyObject(customQueryOptions))
+							url.push(customQueryOptions);
+						return "?" + url.join("&");
+					},
 					odataURI : function(sVersion) {
 						sVersion = sVersion || defaultVersion;
-						return this.odataPath(sVersion) + "?" + this.odataFilter(sVersion) + "&" + this.odataExpand(sVersion) + "&" + this.odataSelect(sVersion) + "&"
-								+ this.odataOptions(sVersion) + this.odataCustomQueryOptions(sVersion);
+						return this.odataPath(sVersion) + this.odataQuery(sVersion);
 					}
 				});
 sap.ui.base.Object.extend("Clauses", {

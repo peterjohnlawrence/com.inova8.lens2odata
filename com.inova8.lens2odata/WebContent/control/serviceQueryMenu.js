@@ -500,11 +500,14 @@ sap.m.OverflowToolbar.extend("control.serviceQueryMenu", {
 			icon : sap.ui.core.IconPool.getIconURI("pushpin-off"),
 			press : function(oEvent) {
 				var oQueryContext = self.oQuerySelect.getSelectedItem().getBindingContext("queryModel");
-
+				var queryModel= self.getModel("queryModel").getProperty(self.oQuerySelect.getSelectedItem().getBindingContext("queryModel").getPath());
+				var query = new Query(oEvent.getSource().getModel("metaModel"), queryModel);
+				
 				var pinDialog = new control.pinDialog();
 				pinDialog.setModel(sap.ui.getCore().getModel("lensesModel"),"lensesModel");
 				pinDialog.setModel(oEvent.getSource().getModel("metaModel"),"metaModel");
 				pinDialog.setQueryContext(oQueryContext);
+				pinDialog.setOdataQuery(query.odataQuery());
 				pinDialog.open();			
 				self.fireSave({
 					queryCode : self.oQuerySelect.getSelectedKey()

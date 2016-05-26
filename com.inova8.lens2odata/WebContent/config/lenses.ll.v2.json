@@ -129,6 +129,47 @@
 			]
 		},
 
+		"4R": 
+		{
+			"type": "rows",
+			"width": "100%",
+			"height": "100%",
+			"rows": 
+			[
+				{
+					"content": 
+					{
+						"type": "lens",
+						"id": "R1"
+					}
+				},
+
+				{
+					"content": 
+					{
+						"type": "lens",
+						"id": "R2"
+					}
+				},
+
+				{
+					"content": 
+					{
+						"type": "lens",
+						"id": "R3"
+					}
+				},
+
+				{
+					"content": 
+					{
+						"type": "lens",
+						"id": "R4"
+					}
+				}
+			]
+		},
+
 		"1R2C-1R": 
 		{
 			"template": "1R2C-1R",
@@ -391,6 +432,35 @@
 					[
 						{
 							"position": "R1-C1",
+							"title": "People",
+							"type": "Components.lensResultsForm",
+							"query": "{uri}?$expand=isMatterOfTimeRecord,isMatterOfTimeRecord/isTimeRecordOfOffice,isMatterOfTimeRecord/isTimeRecordOfPracticeGroup&$select=isMatterOfTimeRecord/label,isMatterOfTimeRecord/timeRecordTotalHours,isMatterOfTimeRecord/isTimeRecordOfOffice/label,isMatterOfTimeRecord/isTimeRecordOfPracticeGroup/label,label"
+						},
+
+						{
+							"position": "R1-C2",
+							"title": "TimeRecords",
+							"type": "Components.lensResultsForm",
+							"query": "{uri}/isMatterOfTimeRecord?&$expand=isTimeRecordOfFeeEarner,isTimeRecordOfOffice,isTimeRecordOfPracticeGroup&$select=label,timeRecordTotalHours,isTimeRecordOfFeeEarner/label,isTimeRecordOfOffice/label,isTimeRecordOfPracticeGroup/label&$top=15"
+						}
+					]
+				}
+			}
+		},
+
+		"LLM.Matter": 
+		{
+			"entity": 
+			{
+				"Summary": 
+				{
+					"page": "Summary",
+					"title": "Matter",
+					"template": "1R2C-1R-1R-1R",
+					"fragments": 
+					[
+						{
+							"position": "R1-C1",
 							"title": "Matter details",
 							"type": "Components.lensResultsForm",
 							"query": "{uri}?$expand=isMatterOfLinklatersSector,isMatterOfMatterManager,isMatterOfMatterManager/isPersonOfProfitCentre,isMatterOfPartner,isMatterOfPracticeGroup,isMatterOfProductArea,isMatterOfTransactionArea,isMatterOfTransactionAttribute,isMatterOfTransactionType,isMatterOfMatterStatus&$select=label,matterClosedDate,matterReferralDescription,matterReleasedDate,matterTitle,isMatterOfLinklatersSector/label,isMatterOfMatterManager/isPersonOfProfitCentre/label,isMatterOfMatterManager/label,isMatterOfPartner/label,isMatterOfPracticeGroup/label,isMatterOfProductArea/label,isMatterOfTransactionArea/label,isMatterOfTransactionAttribute/label,isMatterOfTransactionType/label,isMatterOfMatterStatus/label"
@@ -470,35 +540,6 @@
 			}
 		},
 
-		"LLM.Matter": 
-		{
-			"entity": 
-			{
-				"Summary": 
-				{
-					"page": "Summary",
-					"title": "Matter",
-					"template": "1R2C-1R-1R-1R",
-					"fragments": 
-					[
-						{
-							"position": "R1-C1",
-							"title": "People",
-							"type": "Components.lensResultsForm",
-							"query": "{uri}?$expand=isMatterOfTimeRecord,isMatterOfTimeRecord/isTimeRecordOfOffice,isMatterOfTimeRecord/isTimeRecordOfPracticeGroup&$select=isMatterOfTimeRecord/label,isMatterOfTimeRecord/timeRecordTotalHours,isMatterOfTimeRecord/isTimeRecordOfOffice/label,isMatterOfTimeRecord/isTimeRecordOfPracticeGroup/label,label"
-						},
-
-						{
-							"position": "R1-C2",
-							"title": "TimeRecords",
-							"type": "Components.lensResultsForm",
-							"query": "{uri}/ismatterOfTimeRecord?&$expand=isTimeRecordOfFeeEarner,isTimeRecordOfOffice,isTimeRecordOfPracticeGroup&$select=label,timeRecordTotalHours,isTimeRecordOfFeeEarner/label,isTimeRecordOfOffice/label,isTimeRecordOfPracticeGroup/label"
-						}
-					]
-				}
-			}
-		},
-
 		"LLM.Person": 
 		{
 			"entity": 
@@ -507,42 +548,42 @@
 				{
 					"page": "Summary",
 					"title": "People",
-					"template": "1R2C-1R1C",
+					"template": "4R",
 					"fragments": 
 					[
 						{
-							"position": "R1-C1",
+							"position": "R1",
 							"title": "Person details",
 							"type": "Components.lensResultsForm",
 							"query": "{uri}?$expand=isPersonOfCostCentre,isPersonOfDivision,isPersonOfHomeOffice,isPersonOfJob,isPersonOfPosition,isPersonOfPracticeGroup,isPersonOfProfitCentre&$select=personFullName,isPersonOfCostCentre/label,isPersonOfDivision/label,isPersonOfHomeOffice/label,isPersonOfJob/label,isPersonOfPosition/label,isPersonOfPracticeGroup/label,isPersonOfProfitCentre/label,personLeavingDate,personNonGroupMembership,personTechnicalStartDate,label"
 						},
 
 						{
-							"position": "R1-C2",
+							"position": "R1",
 							"title": "Qualifications",
 							"type": "Components.lensResultsForm",
 							"query": "{uri}?$select=personDegree,personMembershipCountry,personPQE,personProfessionalMembership,personUniversity,label"
 						},
 
 						{
-							"position": "R2-C1",
+							"position": "R2",
 							"title": "Contact",
 							"type": "Components.lensResultsForm",
-							"query": "{uri}?$select=label,personInsiteLink,personUserName"
+							"query": "{uri}?&&$select=label,personInsiteLink,personUserName,personEmail"
 						},
 
 						{
-							"position": "R1-C2",
-							"title": "Client activities",
-							"type": "Components.lensResultsForm",
-							"query": "{uri}?$expand=isPersonOfActivity,isPersonOfActivity/isActivityOfClient,isPersonOfActivity/isActivityOfActivityType&$select=label,isPersonOfActivity/label,isPersonOfActivity/isActivityOfClient/label,isPersonOfActivity/isActivityOfClient/clientClientBookLink,isPersonOfActivity/isActivityOfActivityType/label&$top=10"
-						},
-
-						{
-							"position": "R2-C1",
+							"position": "R2",
 							"title": "Docs Authored",
 							"type": "Components.lensResultsForm",
-							"query": "{uri}?$expand=isPersonOfDocument,isPersonOfDocument/isDocumentOfType,isPersonOfDocument/isDocumentOfMatter,isPersonOfDocument/isDocumentOfClient&$select=label,isPersonOfDocument/label,isPersonOfDocument/documentKeyword,isPersonOfDocument/documentLink,isPersonOfDocument/documentTitle,isPersonOfDocument/isDocumentOfType/label,isPersonOfDocument/isDocumentOfMatter/label,isPersonOfDocument/isDocumentOfClient/label&$top=10"
+							"query": "{uri}?$expand=isPersonOfDocument,isPersonOfDocument/isDocumentOfType,isPersonOfDocument/isDocumentOfMatter,isPersonOfDocument/isDocumentOfClient&$select=label,isPersonOfDocument/label,isPersonOfDocument/documentKeyword,isPersonOfDocument/documentLink,isPersonOfDocument/documentTitle,isPersonOfDocument/isDocumentOfType/label,isPersonOfDocument/isDocumentOfMatter/label,isPersonOfDocument/isDocumentOfClient/label"
+						},
+
+						{
+							"position": "R3",
+							"title": "Client activities",
+							"type": "Components.lensResultsForm",
+							"query": "{uri}?&$expand=isPersonOfActivity,isPersonOfActivity/isActivityOfClient&$select=label,isPersonOfActivity/label,isPersonOfActivity/isActivityOfClient/label,isPersonOfActivity/isActivityOfClient/clientClientBookLink"
 						}
 					]
 				}
@@ -585,7 +626,7 @@
 							"position": "R2",
 							"title": "Deal Parties",
 							"type": "Components.lensResultsForm",
-							"query": "{uri}?$expand=isDealOfInvolvement,isDealOfInvolvement/isInvolvementOfPartyRole&$select=isDealOfInvolvement/involvementParty,isDealOfInvolvement/involvementPartyIsClient,isDealOfInvolvement/involvementPartyIsConfidential,isDealOfInvolvement/isInvolvementOfPartyRole/dealRoleName,isDealOfInvolvement/isInvolvementOfPartyRole/label,isDealOfInvolvement/label,label"
+							"query": "{uri}?$expand=isDealOfInvolvement,isDealOfInvolvement/isInvolvementOfPartyRole&$select=isDealOfInvolvement/involvementParty,isDealOfInvolvement/involvementPartyIsClient,isDealOfInvolvement/involvementPartyIsConfidential,isDealOfInvolvement/isInvolvementOfPartyRole/label,isDealOfInvolvement/label,label"
 						},
 
 						{
@@ -648,14 +689,36 @@
 							"position": "R7",
 							"title": "People",
 							"type": "Components.lensResultsForm",
-							"query": "{uri}?$expand=isDealOfMatter,isDealOfMatter/isMatterOfTimeRecord,isDealOfMatter/isMatterOfTimeRecord/isTimeRecordOfFeeEarner,isDealOfMatter/isMatterOfTimeRecord/isTimeRecordOfFeeEarner/isPersonOfHomeOffice,isDealOfMatter/isMatterOfTimeRecord/isTimeRecordOfFeeEarner/isPersonOfPracticeGroup,isDealOfMatter/isMatterOfTimeRecord/isTimeRecordOfJob,isDealOfMatter/isMatterOfTimeRecord/isTimeRecordOfOffice,isDealOfMatter/isMatterOfTimeRecord/isTimeRecordOfPracticeGroup&$select=isDealOfMatter/isMatterOfTimeRecord/isTimeRecordOfFeeEarner/personEmail,isDealOfMatter/isMatterOfTimeRecord/isTimeRecordOfFeeEarner/isPersonOfHomeOffice/label,isDealOfMatter/isMatterOfTimeRecord/isTimeRecordOfFeeEarner/isPersonOfPracticeGroup/label,isDealOfMatter/isMatterOfTimeRecord/isTimeRecordOfJob/jobTitle,isDealOfMatter/isMatterOfTimeRecord/isTimeRecordOfOffice/label,isDealOfMatter/isMatterOfTimeRecord/isTimeRecordOfPracticeGroup/label,isDealOfMatter/isMatterOfTimeRecord/label,isDealOfMatter/label,label"
+							"query": "{uri}?$expand=isDealOfMatter,isDealOfMatter/isMatterOfTimeRecord,isDealOfMatter/isMatterOfTimeRecord/isTimeRecordOfFeeEarner,isDealOfMatter/isMatterOfTimeRecord/isTimeRecordOfFeeEarner/isPersonOfHomeOffice,isDealOfMatter/isMatterOfTimeRecord/isTimeRecordOfFeeEarner/isPersonOfPracticeGroup,isDealOfMatter/isMatterOfTimeRecord/isTimeRecordOfJob,isDealOfMatter/isMatterOfTimeRecord/isTimeRecordOfOffice,isDealOfMatter/isMatterOfTimeRecord/isTimeRecordOfPracticeGroup&$select=isDealOfMatter/isMatterOfTimeRecord/isTimeRecordOfFeeEarner/label,isDealOfMatter/isMatterOfTimeRecord/isTimeRecordOfFeeEarner/personEmail,isDealOfMatter/isMatterOfTimeRecord/isTimeRecordOfFeeEarner/isPersonOfHomeOffice/label,isDealOfMatter/isMatterOfTimeRecord/isTimeRecordOfFeeEarner/isPersonOfPracticeGroup/label,isDealOfMatter/isMatterOfTimeRecord/isTimeRecordOfJob/label,isDealOfMatter/isMatterOfTimeRecord/isTimeRecordOfOffice/label,isDealOfMatter/isMatterOfTimeRecord/isTimeRecordOfPracticeGroup/label,isDealOfMatter/isMatterOfTimeRecord/label,isDealOfMatter/label,label"
 						},
 
 						{
 							"position": "R7",
 							"title": "Other Deals",
 							"type": "Components.lensResultsForm",
-							"query": "{uri}?$expand=isDealOfMatter,isDealOfMatter/isMatterOfDeal,isDealOfMatter/isMatterOfDeal/isDealOfDealFeature,isDealOfMatter/isMatterOfDeal/isDealOfDealPracticeGroup,isDealOfMatter/isMatterOfDeal/isDealOfDealTransactionType,isDealOfMatter/isMatterOfDeal/isDealOfInvolvement,isDealOfMatter/isMatterOfDeal/isDealOfInvolvement/isInvolvementOfPartyRole&$select=isDealOfMatter/isMatterOfDeal/dealConfidential,isDealOfMatter/isMatterOfDeal/dealKeyDate,isDealOfMatter/isMatterOfDeal/dealKeyDateRelation,isDealOfMatter/isMatterOfDeal/dealSummary,isDealOfMatter/isMatterOfDeal/dealTitle,isDealOfMatter/isMatterOfDeal/isDealOfDealFeature/label,isDealOfMatter/isMatterOfDeal/isDealOfDealPracticeGroup/label,isDealOfMatter/isMatterOfDeal/isDealOfDealTransactionType/label,isDealOfMatter/isMatterOfDeal/isDealOfInvolvement/isInvolvementOfPartyRole,isDealOfMatter/isMatterOfDeal/isDealOfInvolvement/label,isDealOfMatter/isMatterOfDeal/label,isDealOfMatter/label,label"
+							"query": "{uri}?$expand=isDealOfMatter,isDealOfMatter/isMatterOfDeal&$select=isDealOfMatter/isMatterOfDeal/label,isDealOfMatter/label,label"
+						}
+					]
+				}
+			}
+		},
+
+		"LLM.DealTest": 
+		{
+			"entity": 
+			{
+				"Summary": 
+				{
+					"page": "Summary",
+					"title": "Deal",
+					"template": "7R",
+					"fragments": 
+					[
+						{
+							"position": "R1",
+							"title": "Marketing",
+							"type": "Components.lensResultsForm",
+							"query": "{uri}?$expand=isDealOfDealSource,isDealOfPressRelease,isDealOfDealAward&$select=dealBenefitToClient,label,dealFullSummary,dealShortSummary,isDealOfDealSource/label,isDealOfPressRelease/label,isDealOfPressRelease/pressReleaseLink,isDealOfDealAward/dealAwardBody,isDealOfDealAward/dealAwardComment,isDealOfDealAward/dealAwardStatus,isDealOfDealAward/dealAwardTitle,isDealOfDealAward/dealAwardYear,isDealOfDealAward/label"
 						}
 					]
 				}
@@ -669,8 +732,6 @@
 				"Summary": 
 				{
 					"page": "Summary",
-					"title": "Client",
-					"template": "1R2C-1R1C",
 					"fragments": 
 					[
 						{
@@ -806,34 +867,14 @@
 							"position": "R1",
 							"title": "French Customer details",
 							"type": "Components.lensResultsForm",
-							"query": "{uri}/hasPlacedOrder?$filter=((substringof(%27Fr%27,shipCountry)))&&$select=shipCountry,label,orderDate",
-							"querydetails": 
-							{
-								"serviceUrl": "http://localhost:8080/odata2sparql/2.0/NW/",
-								"resourcePath": "{uri}",
-								"filter": "",
-								"expand": "",
-								"select": "",
-								"orderby": "",
-								"options": ""
-							}
+							"query": "{uri}/hasPlacedOrder?$filter=((substringof(%27Fr%27,shipCountry)))&&$select=shipCountry,label,orderDate"
 						},
 
 						{
 							"position": "R2",
 							"title": "Has placed these orders",
 							"type": "Components.lensResultsTable",
-							"query": "{uri}/hasPlacedOrder",
-							"querydetails": 
-							{
-								"serviceUrl": "http://localhost:8080/odata2sparql/2.0/NW/",
-								"resourcePath": "{uri}/hasPlacedOrder",
-								"filter": "",
-								"expand": "",
-								"select": "",
-								"orderby": "",
-								"options": ""
-							}
+							"query": "{uri}/hasPlacedOrder"
 						}
 					]
 				}
@@ -856,19 +897,7 @@
 							"title": "Product details",
 							"type": "Components.lensResultsForm",
 							"query": "{uri}",
-							"queryContext": "/services/LNW2/queries/2",
-							"querydetails": 
-							{
-								"serviceCode": "LNW2",
-								"queryCode": "LNW2",
-								"serviceUrl": "http://localhost:8080/odata2sparql/2.0/NW/",
-								"resourcePath": "{uri}",
-								"filter": "",
-								"expand": "",
-								"select": "",
-								"orderby": "",
-								"options": ""
-							}
+							"queryContext": "/services/LNW2/queries/2"
 						},
 
 						{
@@ -876,17 +905,7 @@
 							"title": "Part of these orders",
 							"type": "Components.lensResultsTable",
 							"query": "{uri}/isPartOfOrderDetail",
-							"queryContext": "",
-							"querydetails": 
-							{
-								"serviceUrl": "http://localhost:8080/odata2sparql/2.0/NW/",
-								"resourcePath": "{uri}/isPartOfOrderDetail",
-								"filter": "",
-								"expand": "",
-								"select": "",
-								"orderby": "",
-								"options": ""
-							}
+							"queryContext": ""
 						}
 					]
 				},
@@ -903,17 +922,7 @@
 							"title": "Part of these orders",
 							"type": "Components.lensResultsTable",
 							"query": "{uri}/isPartOfOrderDetail",
-							"queryContext": "",
-							"querydetails": 
-							{
-								"serviceUrl": "http://localhost:8080/odata2sparql/2.0/NW/",
-								"resourcePath": "{uri}/isPartOfOrderDetail",
-								"filter": "",
-								"expand": "",
-								"select": "",
-								"orderby": "",
-								"options": ""
-							}
+							"queryContext": ""
 						}
 					]
 				}

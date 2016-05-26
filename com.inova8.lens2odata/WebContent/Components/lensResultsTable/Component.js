@@ -9,24 +9,30 @@ sap.ui.core.UIComponent.extend("Components.lensResultsTable.Component", {
 	metadata : {
 		// manifest : "json",
 		properties : {
-			template:"string",
-			fragment:"object",
+			template : "string",
+			fragment : "object",
 			title : "string",
 			metaModel : "object",
 			query : "string",
 			serviceCode : "string",
 			options : "object"
+		},
+		events : {
+			fragmentChange : {}
 		}
 	}
 });
 Components.lensResultsTable.Component.prototype.fragmentEdit = function(oEvent, self) {
 	var oFragmentDialog = new control.fragmentDialog();
 	var oLensContext = self.getBindingContext("lensesModel");
-	oFragmentDialog.setModel(sap.ui.getCore().getModel("lensesModel"),"lensesModel");
+	oFragmentDialog.setModel(sap.ui.getCore().getModel("lensesModel"), "lensesModel");
 	oFragmentDialog.setBindingContext(oLensContext, "lensesModel");
 	oFragmentDialog.setFragment(self.getFragment()).setTemplate(self.getProperty("template"));
+	oFragmentDialog.attachFragmentChange(function(oEvent) {
+		self.fireEvent("fragmentChange");
+	});
 	oFragmentDialog.open();
-	};
+};
 Components.lensResultsTable.Component.prototype.createContent = function() {
 	var self = this;
 	self.setOptions({

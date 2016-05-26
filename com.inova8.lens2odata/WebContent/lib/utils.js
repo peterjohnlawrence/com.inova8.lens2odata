@@ -16,14 +16,14 @@
 		var mergedData = {
 			templates : remoteLensesData.templates,
 			pages : remoteLensesData.pages,
-			lenses:remoteLensesData.lenses
+			lenses : remoteLensesData.lenses
 		};
 		// Now overwrite with any local data
 		if (!jQuery.isEmptyObject(localLensesData)) {
 			for ( var entity in localLensesData.lenses) {
-				//if (jQuery.isEmptyObject(mergedData.lenses[entity])) 
+				// if (jQuery.isEmptyObject(mergedData.lenses[entity]))
 				{
-					mergedData.lenses[entity] =jQuery.extend(true, {}, localLensesData.lenses[entity])
+					mergedData.lenses[entity] = jQuery.extend(true, {}, localLensesData.lenses[entity])
 				}
 			}
 		}
@@ -110,10 +110,25 @@
 		}
 		return lookup;
 	};
+	utils.lookupIndices = function(thisArray, name, value) {
+		var lookup = [];
+		for (var i = 0, len = thisArray.length; i < len; i++) {
+			if (!jQuery.isEmptyObject(thisArray[i]) && thisArray[i][name] === value)
+				lookup.push(i);
+		}
+		return lookup;
+	};
 	utils.lookupIndex = function(thisArray, name, value) {
 		for (var i = 0, len = thisArray.length; i < len; i++) {
 			if (!jQuery.isEmptyObject(thisArray[i]) && thisArray[i][name] === value)
 				return i;
+		}
+		return undefined;
+	};
+		utils.lookupObject = function(thisArray, name, value) {
+		for (var i = 0, len = thisArray.length; i < len; i++) {
+			if (!jQuery.isEmptyObject(thisArray[i]) && thisArray[i][name] === value)
+				return thisArray[i];
 		}
 		return undefined;
 	};
@@ -193,7 +208,7 @@
 			var parts = uri.split("/");
 			var collection = parts.pop();
 			// Workaround to avoid issue with sapui5 router that will not ignore '=' even if encoded
-			return ".." + document.location.pathname + "#/" + serviceCode + "/lens?deferred=true?type=" + me.deferredEntityTypeMap[collection] + "&uri="
+			return ".." + document.location.pathname + "#/" + serviceCode + "/lens?deferred=true&type=" + me.deferredEntityTypeMap[collection] + "&uri="
 					+ uri.replace(/=/g, "~");
 		}
 	};

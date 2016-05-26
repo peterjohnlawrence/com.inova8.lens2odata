@@ -214,10 +214,18 @@ sap.ui.model.MetaModel.prototype.getEntityTypeModel = function(sEntityType) {
 sap.ui.model.MetaModel.prototype.getODataAssociationSetsForToEnd = function(sToEntitySet) {
 	try {
 		var associationSet = sap.ui.getCore().getModel("odataModel_LNW2").getMetaModel().getODataEntityContainer()["associationSet"]
-		var associationSets = [];
+		var associationSets = [ {
+			key : "{uri}",
+			value : sToEntitySet,
+			concept : sToEntitySet
+		} ];
 		for (var index = 0; index < associationSet.length; index++) {
 			if (associationSet[index].end[1].entitySet == sToEntitySet)
-				associationSets = associationSets.concat(associationSet[index]);
+				associationSets = associationSets.concat({
+					key : "{uri}/" + associationSet[index].name,
+					value : associationSet[index].end[0].entitySet + "/" + associationSet[index].name,
+					concept : associationSet[index].end[0].entitySet
+				});
 		}
 		return associationSets;
 	} catch (error) {

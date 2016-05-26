@@ -11,7 +11,10 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 				fragment : "object"
 			},
 			aggregations : {},
-			events : {}
+			events : {
+				fragmentChange : {
+				}
+			}
 		},
 		open : function() {
 			var self = this;
@@ -19,6 +22,8 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 					"/templates/" + self.getProperty("template"))));
 			self.setModel(self.oPositionsModel, "positionsModel");
 			sap.ui.getCore().setModel(self.oPositionsModel, "positionsModel");
+			var pathElements = self.getBindingContext("lensesModel").getPath().split("/");
+			self.oDialog.setTitle("Manage fragment #" + pathElements[6] + " on " + pathElements[4] + " page for a " + pathElements[2] + " " + pathElements[3]);
 			self.fragmentPositionElement.getFields()[0].bindProperty("value", "lensesModel>" + self.getBindingContext("lensesModel").getPath() + "/position");
 			self.fragmentPositionElement.getFields()[0].bindAggregation("items", "positionsModel>/", self.fragmentPositionItemTemplate);
 			self.fragmentTypeElement.getFields()[0].bindProperty("value", "lensesModel>" + self.getBindingContext("lensesModel").getPath() + "/type");
@@ -115,7 +120,8 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 					showValueHelp : false,
 					valueHelpRequest : "",
 					press : function(oEvent) {
-						sap.m.URLHelper.redirect((oEvent.getSource().getText()).replace("/services/", ".."+ document.location.pathname +"#/").replace("/queries/", "/query/"));
+						sap.m.URLHelper.redirect((oEvent.getSource().getText()).replace("/services/", ".." + document.location.pathname + "#/").replace("/queries/",
+								"/query/"));
 					}
 				}) ],
 				layoutData : new sap.ui.layout.form.GridElementData({
@@ -134,22 +140,31 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 						}), ]
 			});
 			self.oDialog = new sap.m.Dialog({
-				title : "{i18nModel>fragmentDialog.title}",
 				buttons : [ new sap.m.Button({
 					text : '{i18nModel>fragmentDialog.delete}',
 					press : function() {
 						sap.m.MessageBox.confirm("Remove fragment", {
 							onClose : function(oAction) {
 								if (oAction === sap.m.MessageBox.Action.OK) {
-									//This seems very complex to remove an element of the array
+									// This seems very complex to remove an element of the array
 									var path = self.getBindingContext("lensesModel").getPath().split("/");
-									var index = path.pop();
-									var newpath = path.join("/");
-									var fragments = self.getBindingContext("lensesModel").getModel().getProperty(newpath);
+									var oLensesData = self.getBindingContext("lensesModel").getModel().getData()
+									var fragments = oLensesData.lenses[path[2]][path[3]][path[4]].fragments;
+									var index = path[6];
 									fragments.splice(index, 1);
-									self.getBindingContext("lensesModel").getModel().setProperty(newpath, fragments);
+									if (fragments.length == 0) {
+										delete oLensesData.lenses[path[2]][path[3]][path[4]];
+										if (jQuery.isEmptyObject(oLensesData.lenses[path[2]][path[3]])) {
+											delete oLensesData.lenses[path[2]][path[3]];
+											if (jQuery.isEmptyObject(oLensesData.lenses[path[2]])) {
+												delete oLensesData.lenses[path[2]];
+											}
+										}
+									}
+									self.getBindingContext("lensesModel").getModel().setData(oLensesData);
 								}
 								self.oDialog.close();
+								self.fireEvent("fragmentChange");
 							}
 						});
 					}

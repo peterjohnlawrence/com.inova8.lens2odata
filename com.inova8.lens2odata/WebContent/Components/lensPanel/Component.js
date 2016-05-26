@@ -148,11 +148,12 @@ Components.lensPanel.Component.prototype.displayContent = function(oContent,page
 			size : "auto"
 		}));
 	} else if (oContent.type === "lens") {
-		var oFragments = utils.lookup(this.getProperty("_fragmentModel"), "position", oContent.id);
-		if (!jQuery.isEmptyObject(oFragments)) {
+		//var oFragments = utils.lookup(this.getProperty("_fragmentModel"), "position", oContent.id);
+		var oFragmentIndices = utils.lookupIndices(this.getProperty("_fragmentModel"), "position", oContent.id);
+		if (!jQuery.isEmptyObject(oFragmentIndices)) {
 			oComponentContainers = [];
-			for (var i = 0, len = oFragments.length; i < len; i++) {
-				var oFragment = oFragments[i];
+			for (var j = 0, len = oFragmentIndices.length; j < len; j++) {
+				var oFragment = this.getProperty("_fragmentModel")[oFragmentIndices[j]];// oFragments[j];
 				var queryUri = utils.bindStringToValues(oFragment.query, this.fragmentBindings)
 				var service = sap.ui.getCore().getModel("queryModel").getData().services[this.getProperty("serviceCode")];
 				var oComponent = sap.ui.getCore().createComponent({
@@ -165,7 +166,10 @@ Components.lensPanel.Component.prototype.displayContent = function(oContent,page
 						serviceCode : self.getProperty("serviceCode")
 					}
 				});
-				oComponent.setBindingContext(new sap.ui.model.Context(sap.ui.getCore().getModel("lensesModel"), pageContextPath+"/fragments/"+i), "lensesModel")
+				oComponent.attachFragmentChange(function(oEvent){
+					self.renderFragments();
+				})
+				oComponent.setBindingContext(new sap.ui.model.Context(sap.ui.getCore().getModel("lensesModel"), pageContextPath+"/fragments/"+oFragmentIndices[j]), "lensesModel")
 				var oComponentContainer = new sap.ui.core.ComponentContainer({
 					component : oComponent,
 					propagateModel : true
@@ -189,27 +193,6 @@ Components.lensPanel.Component.prototype.displayContent = function(oContent,page
 			return oComponentContainers;
 		} else {
 			return null;
-//			var oPanel = new sap.ui.commons.Panel({
-//				title : new sap.ui.core.Title().setText(oContent.id),
-//				width : "100%",
-//				showCollapseIcon : false,
-//				borderDesign : sap.ui.commons.enums.BorderDesign.Box,
-//				areaDesign : sap.ui.commons.enums.AreaDesign.Plain,
-//				applyContentPadding : true,
-//				height : "250px"
-//			});
-//			oPanel.addButton(new sap.ui.commons.Button({
-//				icon : sap.ui.core.IconPool.getIconURI("settings"),
-//				press : function(oEvent) {
-//					sap.m.MessageToast.show("settings for " + oContent.id)
-//				}
-//			}));
-//			oPanel.addStyleClass("tile");
-//			return oPanel.setLayoutData(new sap.ui.layout.SplitterLayoutData({
-//				resizable : true,
-//				minSize : 200,
-//				size : "auto"
-//			}));
 		}
 	}
 };
