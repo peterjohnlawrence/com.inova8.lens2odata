@@ -125,7 +125,7 @@
 		}
 		return undefined;
 	};
-		utils.lookupObject = function(thisArray, name, value) {
+	utils.lookupObject = function(thisArray, name, value) {
 		for (var i = 0, len = thisArray.length; i < len; i++) {
 			if (!jQuery.isEmptyObject(thisArray[i]) && thisArray[i][name] === value)
 				return thisArray[i];
@@ -136,13 +136,38 @@
 		var pathname = document.location.pathname
 		return pathname.substring(1, pathname.length - 1);
 	}
-	utils.getLocalStorage = function(localFile) {
-		var oStorage = jQuery.sap.storage(jQuery.sap.storage.Type.local);
-		return oStorage.get(utils.appname() + "." + localFile);// "lens2odata.queries");
+//	utils.getLocalStorage1 = function(localFile) {
+//		var oStorage = jQuery.sap.storage(jQuery.sap.storage.Type.local);
+//		return oStorage.get(utils.appname() + "." + localFile);
+//	};
+	// utils.saveToLocalStorage = function(localFile, model) {
+	// var oStorage = jQuery.sap.storage(jQuery.sap.storage.Type.local);
+	// oStorage.put(utils.appname() + "." + localFile, sap.ui.getCore().getModel(model).getData());
+	// };
+	utils.getLocalStorage = function(remoteFile) {
+		var file = utils.appname() + "." + remoteFile;
+		var url = 'JSONServlet';
+		var result =null;
+		jQuery.ajaxSetup({async:false});
+		jQuery.get(url, {
+			filename : file
+		}, function(data) {
+			result  = data;
+		}, "json");
+		jQuery.ajaxSetup({async:true});
+		return result ;
 	};
-	utils.saveToLocalStorage = function(localFile, model) {
-		var oStorage = jQuery.sap.storage(jQuery.sap.storage.Type.local);
-		oStorage.put(utils.appname() + "." + localFile, sap.ui.getCore().getModel(model).getData());
+	utils.saveToLocalStorage = function(remoteFile, model) {
+		var file = utils.appname() + "." + remoteFile;
+		var data = sap.ui.getCore().getModel(model).getData();
+		var url = 'JSONServlet';
+		jQuery.post(url, {
+			data : JSON.stringify(data),
+			filename : file
+		}, function(data) {
+			$(".result").html(data);
+		}, "json")
+
 	};
 	utils.writeQueryModelToLocalFile = function() {
 		navigator.webkitPersistentStorage.requestQuota(1024 * 1024, function(grantedBytes) {
@@ -152,8 +177,6 @@
 		}, function(e) {
 			alert(e.message);
 		});
-		// window.webkitRequestFileSystem(window.PERSISTENT, 1024 * 1024, onInitFs);
-
 	};
 	utils.onInitFs = function(fs) {
 		fs.root.getFile('/queries.json', {

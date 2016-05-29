@@ -92,6 +92,7 @@ Lens.Component.prototype.init = function() {
 	var localQueryData = utils.getLocalStorage("queries");
 	var remoteQueryData = new sap.ui.model.json.JSONModel();
 	remoteQueryData.loadData("config/queries.json", null, false);
+	//	remoteQueryData.loadData("../../inova8/config/queries.json", null, false);
 
 	var queryData = utils.mergeQueryModel(localQueryData, remoteQueryData.getData());
 

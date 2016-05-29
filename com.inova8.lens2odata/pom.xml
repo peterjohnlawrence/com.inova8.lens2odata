@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.inova8.lens2odata</groupId>
   <artifactId>lens2odata</artifactId>
-  <version>0.0.1</version>
+  <version>{lens2odata.version}</version>
   <packaging>war</packaging>
   <name>lens2odata</name>
   <build>
@@ -29,14 +29,17 @@
   <properties>
   	<openui5.version>1.36.9</openui5.version>
   	<sapui5.serverside.libraries.version>1.30.9</sapui5.serverside.libraries.version>
+  	<lens2odata.version>0.0.1</lens2odata.version>
   </properties>
   <organization>
   	<name>inova8 llc</name>
   	<url>http://www.inova8.com</url>
   </organization>
   <scm>
-  	<url>https://github.com/peterjohnlawrence/com.inova8.lens2odata</url>
+  	<url>scm:git:file:\\localhost\Users\Peter\git\com.inova8.lens2odata</url>
   	<developerConnection>Peter Lawrence</developerConnection>
+  	<tag>lens2odata</tag>
+  	<connection>scm:git:file:\\localhost\Users\Peter\git\com.inova8.lens2odata</connection>
   </scm>
   <dependencies>
   	<dependency>
@@ -44,5 +47,16 @@
   		<artifactId>openui5</artifactId>
   		<version>${openui5.version}</version>
   	</dependency>
+  	<dependency>
+  		<groupId>commons-fileupload</groupId>
+  		<artifactId>commons-fileupload</artifactId>
+  		<version>1.3</version>
+  	</dependency>
+  	<dependency>
+  		<groupId>javax.servlet</groupId>
+  		<artifactId>javax.servlet-api</artifactId>
+  		<version>3.1.0</version>
+  	</dependency>
   </dependencies>
+  <url>http://www.inova8.com</url>
 </project>

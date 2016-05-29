@@ -1,0 +1,125 @@
+<html>
+<head>
+<title>Lens2OData Login Form Validation</title>
+<style media="screen" type="text/css">
+@import url(https://db.onlinewebfonts.com/c/89d11a443c316da80dcb8f5e1f63c86e?family=Bauhaus+93);
+h1 {
+	background-color: #FEFFED;
+	padding: 30px 35px;
+	margin: -10px -50px;
+	text-align: center;
+	border-radius: 10px 10px 0 0;
+	font-family: 'Bauhaus 93';
+	font-size: 72px;
+	font-color: blue;
+}
+h2 {
+	background-color: #FEFFED;
+	padding: 30px 35px;
+	margin: -10px -50px;
+	text-align: center;
+	border-radius: 10px 10px 0 0;
+}
+
+hr {
+	margin: 10px -50px;
+	border: 0;
+	border-top: 1px solid #ccc;
+	margin-bottom: 40px;
+}
+
+div.container {
+	width: 900px;
+	height: 610px;
+	margin: 35px auto;
+	font-family:  sans-serif;
+}
+
+div.main {
+	width: 300px;
+	padding: 10px 50px 25px;
+	border: 2px solid gray;
+	border-radius: 10px;
+	font-family: sans-serif;
+	float: left;
+	margin-top: 50px;
+}
+
+input[type=text], input[type=password] {
+	width: 100%;
+	height: 40px;
+	padding: 5px;
+	margin-bottom: 25px;
+	margin-top: 5px;
+	border: 2px solid #ccc;
+	color: #4f4f4f;
+	font-size: 16px;
+	border-radius: 5px;
+}
+
+label {
+	color: #464646;
+	text-shadow: 0 1px 0 #fff;
+	font-size: 14px;
+	font-weight: bold;
+}
+
+center {
+	font-size: 32px;
+}
+
+.note {
+	color: red;
+}
+
+.valid {
+	color: green;
+}
+
+.back {
+	text-decoration: none;
+	border: 1px solid rgb(0, 143, 255);
+	background-color: rgb(0, 214, 255);
+	padding: 3px 20px;
+	border-radius: 2px;
+	color: black;
+}
+
+input[type=button] {
+	font-size: 16px;
+	background: linear-gradient(#ffbc00 5%, #ffdd7f 100%);
+	border: 1px solid #e5a900;
+	color: #4E4D4B;
+	font-weight: bold;
+	cursor: pointer;
+	width: 100%;
+	border-radius: 5px;
+	padding: 10px 0;
+	outline: none;
+}
+
+input[type=button]:hover {
+	background: linear-gradient(#ffdd7f 5%, #ffbc00 100%);
+}
+
+</style>
+<!-- Include JS File Here -->
+<!-- <script src="login.js"></script> -->
+</head>
+<body>
+		<div class="container">
+				<div class="main">
+                  <h1><span style="font-family: 'Bauhaus 93'"></span><span style="color:blue">inova</span><span style="color:red">8</span></span></h1>
+						<h2>Lens2OData Login Form</h2>
+						<form id="form_id" method="post" name="myform" action="j_security_check">
+								<label>User Name :</label> <input type="text" name="j_username" id="j_username" /> 
+								<label>Password :</label> <input type="password" name="j_password" id="j_password" /> 
+								<input type="submit" value="Login" id="submit" />
+						</form>
+						<span><b class="note">Note : </b>For this demo use:<br /><br/>
+						<b class="valid">User Name : user1, user2, user3 <br/>Password : lens2odata
+						</b></span>
+				</div>
+		</div>
+</body>
+</html>

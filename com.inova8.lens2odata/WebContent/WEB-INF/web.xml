@@ -1,36 +1,79 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
-  <display-name>com.inova8.lens2odata</display-name>
-  <servlet>
-    <display-name>ResourceServlet</display-name>
-    <servlet-name>ResourceServlet</servlet-name>
-    <servlet-class>com.sap.ui5.resource.ResourceServlet</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>ResourceServlet</servlet-name>
-    <url-pattern>/resources/*</url-pattern>
-  </servlet-mapping>
-<!--   <servlet-mapping> -->
-<!--     <servlet-name>ResourceServlet</servlet-name> -->
-<!--     <url-pattern>/resources/*</url-pattern> -->
-<!--   </servlet-mapping> -->
-<!--   <servlet-mapping> -->
-<!--     <servlet-name>ResourceServlet</servlet-name> -->
-<!--     <url-pattern>/test-resources/*</url-pattern> -->
-<!--   </servlet-mapping> -->
-  <context-param>
-    <param-name>com.sap.ui5.resource.DEV_MODE</param-name>
-    <param-value>true</param-value>
-  </context-param>
-  <servlet>
-    <servlet-name>SimpleProxyServlet</servlet-name>
-    <servlet-class>com.sap.ui5.proxy.SimpleProxyServlet</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>SimpleProxyServlet</servlet-name>
-    <url-pattern>/proxy/*</url-pattern>
-  </servlet-mapping>
-  <welcome-file-list>
-    <welcome-file>index.html</welcome-file>
-  </welcome-file-list>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://java.sun.com/xml/ns/javaee"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	version="2.5">
+	<display-name>com.inova8.lens2odata</display-name>
+	<servlet>
+		<display-name>ResourceServlet</display-name>
+		<servlet-name>ResourceServlet</servlet-name>
+		<servlet-class>com.sap.ui5.resource.ResourceServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ResourceServlet</servlet-name>
+		<url-pattern>/resources/*</url-pattern>
+	</servlet-mapping>
+	<context-param>
+		<param-name>com.sap.ui5.resource.DEV_MODE</param-name>
+		<param-value>true</param-value>
+	</context-param>
+	<servlet>
+		<servlet-name>SimpleProxyServlet</servlet-name>
+		<servlet-class>com.sap.ui5.proxy.SimpleProxyServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>SimpleProxyServlet</servlet-name>
+		<url-pattern>/proxy/*</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>FileServlet</servlet-name>
+		<servlet-class>com.inova8.lens2odata.utils.FileServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>FileServlet</servlet-name>
+		<url-pattern>/FileServlet/*</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>JSONServlet</servlet-name>
+		<servlet-class>com.inova8.lens2odata.utils.JSONServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>JSONServlet</servlet-name>
+		<url-pattern>/JSONServlet/*</url-pattern>
+	</servlet-mapping>
+	<welcome-file-list>
+		<welcome-file>index.html</welcome-file>
+	</welcome-file-list>
+	<security-role>
+		<role-name>tomcat</role-name>
+	</security-role>
+	<security-role>
+		<role-name>lens2odata</role-name>
+	</security-role>
+	<security-constraint>
+		<web-resource-collection>
+			<web-resource-name>lens2odata</web-resource-name>
+			<url-pattern>/*</url-pattern>
+<!-- 			<http-method>GET</http-method> -->
+<!-- 			<http-method>POST</http-method> -->
+		</web-resource-collection>
+		<auth-constraint>
+<!-- 			<role-name>*</role-name> -->
+<!-- 			<role-name>tomcat</role-name> -->
+			<role-name>lens2odata</role-name>
+		</auth-constraint>
+	</security-constraint>
+
+<!-- 	<login-config> -->
+<!-- 		<auth-method>BASIC</auth-method> -->
+		<!-- <realm-name>lens2odata</realm-name> -->
+<!-- 	</login-config> -->
+	
+		<login-config>
+		<auth-method>FORM</auth-method>
+		<form-login-config>
+			<form-login-page>/login.html</form-login-page>
+			<form-error-page>/login-failed.html</form-error-page>
+		</form-login-config>
+	</login-config>
 </web-app>

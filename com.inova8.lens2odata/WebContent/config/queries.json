@@ -5,7 +5,7 @@
 		{
 			"code": "LNW2",
 			"name": "LocalNorthwindV2",
-			"serviceUrl": "http://192.168.0.6:8080/odata2sparql/2.0/NW/",
+			"serviceUrl": "http://localhost:8080/odata2sparql/2.0/NW/",
 			"version": "V2",
 			"queries": 
 			{

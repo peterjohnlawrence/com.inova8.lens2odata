@@ -310,29 +310,6 @@
 		}
 	},
 
-	"pages": 
-	{
-		"[defaultLens]": 
-		{
-			"title": "Default lens"
-		},
-
-		"Overview": 
-		{
-			"title": "Overview"
-		},
-
-		"Detail": 
-		{
-			"title": "Details"
-		},
-
-		"Summary": 
-		{
-			"title": "Summary"
-		}
-	},
-
 	"lenses": 
 	{
 		"[defaultEntityType]": 
