@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.inova8.lens2odata</groupId>
   <artifactId>lens2odata</artifactId>
-  <version>0.0.5-SNAPSHOT</version>
+  <version>0.0.11-SNAPSHOT</version>
   <packaging>war</packaging>
   <name>lens2odata</name>
   <build>
@@ -24,9 +24,10 @@
           <failOnMissingWebXml>false</failOnMissingWebXml>
         </configuration>
       </plugin>
-            <plugin>
+      <plugin>
         <groupId>net.alchim31.maven</groupId>
         <artifactId>yuicompressor-maven-plugin</artifactId>
+              	<version>1.5.1</version>
         <executions>
           <execution>
             <goals>

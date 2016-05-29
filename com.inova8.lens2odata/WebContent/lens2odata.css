@@ -8,6 +8,9 @@
 //	font-family:SAP-icons;
 	font-weight: normal; 
 }
+ .sapMBarChild   {
+		font-size: x-large;
+	}
 .clauseContainer {
 	display: -webkit-flex;
 	display: flex;

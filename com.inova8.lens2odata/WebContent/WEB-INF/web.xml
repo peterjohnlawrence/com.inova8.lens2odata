@@ -54,21 +54,11 @@
 		<web-resource-collection>
 			<web-resource-name>lens2odata</web-resource-name>
 			<url-pattern>/*</url-pattern>
-<!-- 			<http-method>GET</http-method> -->
-<!-- 			<http-method>POST</http-method> -->
 		</web-resource-collection>
 		<auth-constraint>
-<!-- 			<role-name>*</role-name> -->
-<!-- 			<role-name>tomcat</role-name> -->
 			<role-name>lens2odata</role-name>
 		</auth-constraint>
 	</security-constraint>
-
-<!-- 	<login-config> -->
-<!-- 		<auth-method>BASIC</auth-method> -->
-		<!-- <realm-name>lens2odata</realm-name> -->
-<!-- 	</login-config> -->
-	
 		<login-config>
 		<auth-method>FORM</auth-method>
 		<form-login-config>
