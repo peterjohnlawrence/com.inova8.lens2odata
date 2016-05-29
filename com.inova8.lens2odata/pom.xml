@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.inova8.lens2odata</groupId>
   <artifactId>lens2odata</artifactId>
-  <version>{lens2odata.version}</version>
+  <version>0.0.5-SNAPSHOT</version>
   <packaging>war</packaging>
   <name>lens2odata</name>
   <build>
@@ -29,17 +29,17 @@
   <properties>
   	<openui5.version>1.36.9</openui5.version>
   	<sapui5.serverside.libraries.version>1.30.9</sapui5.serverside.libraries.version>
-  	<lens2odata.version>0.0.1</lens2odata.version>
+  	<lens2odata.version>0.0.4-SNAPSHOT</lens2odata.version>
   </properties>
   <organization>
   	<name>inova8 llc</name>
   	<url>http://www.inova8.com</url>
   </organization>
   <scm>
-  	<url>scm:git:file:\\localhost\Users\Peter\git\com.inova8.lens2odata</url>
-  	<developerConnection>Peter Lawrence</developerConnection>
-  	<tag>lens2odata</tag>
+  	<url>scm:git:file://localhost/c:/Users/Peter/git/com.inova8.lens2odata</url>
+  	<developerConnection>scm:git:file://localhost/c:/Users/Peter/git/com.inova8.lens2odata</developerConnection>
   	<connection>scm:git:file:\\localhost\Users\Peter\git\com.inova8.lens2odata</connection>
+    <tag>lens2odata-0.0.3</tag>
   </scm>
   <dependencies>
   	<dependency>
