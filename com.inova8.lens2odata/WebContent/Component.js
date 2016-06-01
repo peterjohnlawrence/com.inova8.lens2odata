@@ -28,6 +28,11 @@ sap.ui.define([ "sap/ui/core/UIComponent" ], function(UIComponent) {
 					name : "search",
 					target : "search"
 				}, {
+					// example
+					pattern : "",
+					name : "defaultquery",
+					target : "query"
+				}, {
 					// example #LNW2/search
 					// example #LNW2/search/1a
 					// example #LNW2/search/1a?city=London&status=true
@@ -41,7 +46,8 @@ sap.ui.define([ "sap/ui/core/UIComponent" ], function(UIComponent) {
 					name : "query",
 					target : "query"
 				}, {
-					// example #LNW2/lens/manager?deferred=true&role=default&type=northwind.Order&uri=http://service/Orders()/shipsOrder
+					// example
+					// #LNW2/lens/manager?deferred=true&role=default&type=northwind.Order&uri=http://service/Orders()/shipsOrder
 					pattern : "{service}/lens/{role}/:?query:",
 					name : "lens",
 					target : "lens"
@@ -80,7 +86,6 @@ Lens.Component.prototype.init = function() {
 	sap.ui.core.UIComponent.prototype.init.apply(this, arguments);
 	jQuery.sap.require("jquery.sap.storage");
 
-
 	// i18nModel>
 	var oI18n = new sap.ui.model.resource.ResourceModel({
 		bundleName : "i18n.lens"
@@ -91,8 +96,12 @@ Lens.Component.prototype.init = function() {
 	var oQueryModel = new sap.ui.model.json.JSONModel();
 	var localQueryData = utils.getLocalStorage("queries");
 	var remoteQueryData = new sap.ui.model.json.JSONModel();
-	remoteQueryData.loadData("config/queries.json", null, false);
-	//	remoteQueryData.loadData("../../inova8/config/queries.json", null, false);
+	try {
+		remoteQueryData.loadData("config/queries.json", null, false);
+		// remoteQueryData.loadData("../../inova8/config/queries.json", null, false);
+	} catch (e) {
+		// Query data not found. No problem since user canb start building from scratch
+	}
 
 	var queryData = utils.mergeQueryModel(localQueryData, remoteQueryData.getData());
 
@@ -113,7 +122,11 @@ Lens.Component.prototype.init = function() {
 	var oLensesModel = new sap.ui.model.json.JSONModel();
 	var localLensesData = utils.getLocalStorage("lenses");
 	var remoteLensesData = new sap.ui.model.json.JSONModel();
-	remoteLensesData.loadData("config/lenses.json", null, false);
+	try {
+		remoteLensesData.loadData("config/lenses.json", null, false);
+	} catch (e) {
+		// Lenses data not found. No problem since user canb start building from scratch
+	}
 	var lensesData = utils.mergeLensesModel(localLensesData, remoteLensesData.getData());
 	oLensesModel.setData(lensesData);
 	sap.ui.getCore().setModel(oLensesModel, "lensesModel");

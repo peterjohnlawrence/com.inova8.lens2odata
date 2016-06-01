@@ -1,0 +1,657 @@
+{
+	"templates": 
+	{
+		"[defaultTemplate]": 
+		{
+			"template": "[defaultTemplate]",
+			"type": "rows",
+			"width": "100%",
+			"height": "100%",
+			"rows": 
+			[
+				{
+					"content": 
+					{
+						"type": "lens",
+						"id": "[defaultPosition]"
+					}
+				}
+			]
+		},
+
+		"1R": 
+		{
+			"template": "1R",
+			"type": "rows",
+			"width": "100%",
+			"height": "100%",
+			"rows": 
+			[
+				{
+					"content": 
+					{
+						"type": "lens",
+						"id": "R1"
+					}
+				}
+			]
+		},
+
+		"2R": 
+		{
+			"template": "2R",
+			"type": "rows",
+			"width": "100%",
+			"height": "100%",
+			"rows": 
+			[
+				{
+					"content": 
+					{
+						"type": "lens",
+						"id": "R1"
+					}
+				},
+
+				{
+					"content": 
+					{
+						"type": "lens",
+						"id": "R2"
+					}
+				}
+			]
+		},
+
+		"7R": 
+		{
+			"template": "7R",
+			"type": "rows",
+			"width": "100%",
+			"height": "100%",
+			"rows": 
+			[
+				{
+					"content": 
+					{
+						"type": "lens",
+						"id": "R1"
+					}
+				},
+
+				{
+					"content": 
+					{
+						"type": "lens",
+						"id": "R2"
+					}
+				},
+
+				{
+					"content": 
+					{
+						"type": "lens",
+						"id": "R3"
+					}
+				},
+
+				{
+					"content": 
+					{
+						"type": "lens",
+						"id": "R4"
+					}
+				},
+
+				{
+					"content": 
+					{
+						"type": "lens",
+						"id": "R5"
+					}
+				},
+
+				{
+					"content": 
+					{
+						"type": "lens",
+						"id": "R6"
+					}
+				},
+
+				{
+					"content": 
+					{
+						"type": "lens",
+						"id": "R7"
+					}
+				}
+			]
+		},
+
+		"1R2C-1R": 
+		{
+			"template": "1R2C-1R",
+			"type": "rows",
+			"width": "100%",
+			"height": "100%",
+			"rows": 
+			[
+				{
+					"content": 
+					{
+						"type": "columns",
+						"width": "100%",
+						"height": "100%",
+						"columns": 
+						[
+							{
+								"content": 
+								{
+									"type": "lens",
+									"id": "R1-C1"
+								}
+							},
+
+							{
+								"content": 
+								{
+									"type": "lens",
+									"id": "R1-C2"
+								}
+							}
+						]
+					}
+				},
+
+				{
+					"content": 
+					{
+						"type": "lens",
+						"id": "R2"
+					}
+				}
+			]
+		},
+
+		"1R2C-1R-1R-1R": 
+		{
+			"template": "1R2C-1R-1R-1R",
+			"type": "rows",
+			"width": "100%",
+			"height": "100%",
+			"rows": 
+			[
+				{
+					"content": 
+					{
+						"type": "columns",
+						"width": "100%",
+						"height": "100%",
+						"columns": 
+						[
+							{
+								"content": 
+								{
+									"type": "lens",
+									"id": "R1-C1"
+								}
+							},
+
+							{
+								"content": 
+								{
+									"type": "lens",
+									"id": "R1-C2"
+								}
+							}
+						]
+					}
+				},
+
+				{
+					"content": 
+					{
+						"type": "lens",
+						"id": "R2"
+					}
+				},
+
+				{
+					"content": 
+					{
+						"type": "lens",
+						"id": "R3"
+					}
+				},
+
+				{
+					"content": 
+					{
+						"type": "lens",
+						"id": "R4"
+					}
+				}
+			]
+		},
+
+		"1R2C-1R1C": 
+		{
+			"template": "1R2C-1R1C",
+			"type": "rows",
+			"width": "100%",
+			"height": "100%",
+			"rows": 
+			[
+				{
+					"content": 
+					{
+						"type": "columns",
+						"width": "100%",
+						"height": "100%",
+						"columns": 
+						[
+							{
+								"content": 
+								{
+									"type": "lens",
+									"id": "R1-C1"
+								}
+							},
+
+							{
+								"content": 
+								{
+									"type": "lens",
+									"id": "R1-C2"
+								}
+							}
+						]
+					}
+				},
+
+				{
+					"content": 
+					{
+						"type": "columns",
+						"width": "100%",
+						"height": "100%",
+						"columns": 
+						[
+							{
+								"content": 
+								{
+									"type": "lens",
+									"id": "R2-C1"
+								}
+							}
+						]
+					}
+				}
+			]
+		},
+
+		"1C": 
+		{
+			"template": "1C",
+			"type": "columns",
+			"width": "100%",
+			"height": "100%",
+			"columns": 
+			[
+				{
+					"content": 
+					{
+						"type": "lens",
+						"id": "C1"
+					}
+				}
+			]
+		}
+	},
+
+	"lenses": 
+	{
+		"[defaultEntityType]": 
+		{
+			"entity": 
+			{
+				"[defaultEntityLens]": 
+				{
+					"page": "[defaultEntityLens]",
+					"title": "Default Lens for {entityType}: {entity}",
+					"template": "[defaultTemplate]",
+					"fragments": 
+					[
+						{
+							"position": "[defaultPosition]",
+							"title": "Properties of {entity}",
+							"type": "Components.lensResultsForm",
+							"query": "{uri}?$select=*",
+							"querydetails": "[default]"
+						}
+					]
+				}
+			},
+
+			"entitySet": 
+			{
+				"[defaultEntitySetLens]": 
+				{
+					"page": "[defaultEntitySetLens]",
+					"title": "Default Lens for {navigationProperty} values for {entityType}: {entity}",
+					"template": "[defaultTemplate]",
+					"fragments": 
+					[
+						{
+							"position": "[defaultPosition]",
+							"title": "Values of {navigationProperty}",
+							"type": "Components.lensResultsTable",
+							"query": "{uri}?$select=*",
+							"querydetails": "[default]"
+						}
+					]
+				}
+			}
+		},
+
+		"northwind.Category": 
+		{
+			"entity": 
+			{
+				"[defaultEntityLens]": 
+				{
+					"page": "[defaultEntityLens]",
+					"title": "{entityType} Lens for: {entity}",
+					"template": "[defaultTemplate]",
+					"fragments": 
+					[
+						{
+							"position": "[defaultPosition]",
+							"title": "Properties of {entity}",
+							"type": "Components.lensResultsForm",
+							"query": "{uri}"
+						}
+					]
+				},
+
+				"Details": 
+				{
+					"page": "Details",
+					"title": "{entityType} Lens for: {entity}",
+					"template": "2R",
+					"fragments": 
+					[
+						{
+							"position": "R1",
+							"title": "Category",
+							"type": "Components.lensResultsForm",
+							"query": "{uri}"
+						},
+
+						{
+							"position": "R1",
+							"title": "Category-Products",
+							"type": "Components.lensResultsForm",
+							"query": "{uri}?&$expand=isCategoryOf&$select=isCategoryOf&"
+						},
+
+						{
+							"position": "R1",
+							"title": "Products",
+							"type": "Components.lensResultsForm",
+							"query": "{uri}/isCategoryOf"
+						},
+
+						{
+							"position": "R2",
+							"title": "Products",
+							"type": "Components.lensResultsTable",
+							"query": "{uri}/isCategoryOf?&&$select=label,productName,quantityPerUnit,reorderLevel,unitPrice,unitsInStock&"
+						}
+					]
+				}
+			},
+
+			"entityset": 
+			{
+				
+			}
+		},
+
+		"northwind.Customer": 
+		{
+			"entity": 
+			{
+				"Summary": 
+				{
+					"page": "Summary",
+					"title": "{entityType} Lens for: {entity}",
+					"template": "2R",
+					"fragments": 
+					[
+						{
+							"position": "R1",
+							"title": "French Customer details",
+							"type": "Components.lensResultsForm",
+							"query": "{uri}/hasPlacedOrder?$filter=((substringof(%27Fr%27,shipCountry)))&&$select=shipCountry,label,orderDate"
+						},
+
+						{
+							"position": "R2",
+							"title": "Has placed these orders",
+							"type": "Components.lensResultsTable",
+							"query": "{uri}/hasPlacedOrder"
+						}
+					]
+				}
+			}
+		},
+
+		"northwind.Shipper": 
+		{
+			"entity": 
+			{
+				"Summary": 
+				{
+					"page": "Summary",
+					"title": "{entityType} Lens for: {entity}",
+					"template": "2R",
+					"fragments": 
+					[
+						{
+							"position": "R1",
+							"title": "Shipper details",
+							"type": "Components.lensResultsForm",
+							"query": "{uri}"
+						},
+
+						{
+							"position": "R2",
+							"title": "Has shipped these orders",
+							"type": "Components.lensResultsTable",
+							"query": "{uri}/shipsOrder"
+						}
+					]
+				}
+			}
+		},
+
+		"northwind.Product": 
+		{
+			"entity": 
+			{
+				"Summary": 
+				{
+					"page": "Summary",
+					"title": "{entityType} Lens for: {entity}",
+					"template": "2R",
+					"fragments": 
+					[
+						{
+							"position": "R1",
+							"title": "Product details",
+							"type": "Components.lensResultsForm",
+							"query": "{uri}",
+							"queryContext": "/services/LNW2/queries/2"
+						},
+
+						{
+							"position": "R2",
+							"title": "Part of these orders",
+							"type": "Components.lensResultsTable",
+							"query": "{uri}/isPartOfOrderDetail",
+							"queryContext": ""
+						}
+					]
+				},
+
+				"Details": 
+				{
+					"page": "Details",
+					"title": "{entityType} Lens for: {entity}",
+					"template": "1R",
+					"fragments": 
+					[
+						{
+							"position": "R1",
+							"title": "Part of these orders",
+							"type": "Components.lensResultsTable",
+							"query": "{uri}/isPartOfOrderDetail",
+							"queryContext": ""
+						}
+					]
+				}
+			},
+
+			"entitySet": 
+			{
+				"Summary": 
+				{
+					"page": "Summary",
+					"title": "{entityType} Lens for: {entity}",
+					"template": "2R",
+					"fragments": 
+					[
+						{
+							"position": "R1",
+							"title": "Details",
+							"type": "Components.lensResultsForm",
+							"query": "{uri}"
+						},
+
+						{
+							"position": "R2",
+							"title": "Error",
+							"type": "Components.lensResultsTable",
+							"query": "{uri}/hasPlacedOrder"
+						}
+					]
+				}
+			}
+		},
+
+		"northwind.Employee": 
+		{
+			"entity": 
+			{
+				"Summary": 
+				{
+					"page": "Summary",
+					"title": "{entityType} Lens for: {entity}",
+					"template": "2R",
+					"fragments": 
+					[
+						{
+							"position": "R1",
+							"title": "Employee description",
+							"type": "Components.lensResultsForm",
+							"queryContext": "",
+							"query": "{uri}"
+						},
+
+						{
+							"position": "R1",
+							"title": "Manager details",
+							"type": "Components.lensResultsForm",
+							"queryContext": "",
+							"query": "{uri}/reportsTo"
+						},
+
+						{
+							"position": "R2",
+							"title": "Managed Orders",
+							"type": "Components.lensResultsTable",
+							"queryContext": "",
+							"query": "{uri}/managesOrder"
+						}
+					]
+				}
+			}
+		},
+
+		"northwind.Order": 
+		{
+			"entity": 
+			{
+				"Summary": 
+				{
+					"page": "Summary",
+					"title": "{entityType} Lens for: {entity}",
+					"template": "1R2C-1R",
+					"fragments": 
+					[
+						{
+							"position": "R1-C1",
+							"title": "Order description",
+							"type": "Components.lensResultsForm",
+							"query": "{uri}",
+							"queryContext": ""
+						},
+
+						{
+							"position": "R1-C1",
+							"title": "Order shipping details",
+							"type": "Components.lensResultsForm",
+							"queryContext": "",
+							"query": "{uri}/shipVia"
+						},
+
+						{
+							"position": "R1-C2",
+							"title": "Order managed by",
+							"type": "Components.lensResultsForm",
+							"query": "{uri}/employee",
+							"queryContext": ""
+						},
+
+						{
+							"position": "R2",
+							"title": "Order details",
+							"type": "Components.lensResultsForm",
+							"query": "{uri}/hasOrderDetail",
+							"queryContext": ""
+						}
+					]
+				},
+
+				"Test": 
+				{
+					"page": "Test",
+					"title": "{entityType} Lens for: {entity}",
+					"template": "1R2C-1R",
+					"fragments": 
+					[
+						{
+							"position": "R1-C1",
+							"title": "Order description",
+							"type": "Components.lensResultsForm",
+							"query": "{uri}",
+							"queryContext": ""
+						}
+					]
+				}
+			}
+		}
+	}
+}

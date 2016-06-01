@@ -3,6 +3,7 @@ jQuery.sap.require("sap.ui.core.ListItem");
 jQuery.sap.require("sap.ui.core.IconPool");
 jQuery.sap.require("control.parameterDialog");
 jQuery.sap.require("control.pinDialog");
+jQuery.sap.require("control.addServiceDialog");
 "use strict";
 sap.m.OverflowToolbar.extend("control.serviceQueryMenu", {
 	metadata : {
@@ -116,80 +117,7 @@ sap.m.OverflowToolbar.extend("control.serviceQueryMenu", {
 			text : "{i18nModel>queryForm.serviceAdd}",
 			icon : sap.ui.core.IconPool.getIconURI("add"),
 			press : function(oEvent) {
-				var oServiceAddDialog = new sap.m.Dialog({
-					title : '{i18nModel>queryForm.serviceAdd}',
-					type : 'Message',
-					content : [ new sap.m.Label({
-						text : "{i18nModel>queryForm.serviceId}"
-					}), new sap.m.Input({
-						class : "sapUiSmallMarginBottom",
-						type : "Text",
-						placeholder : "{i18nModel>queryForm.serviceIdPrompt}",
-						valueStateText : "{i18nModel>queryForm.serviceIdState}"
-					}), new sap.m.Label({
-						text : "{i18nModel>queryForm.serviceName}"
-					}), new sap.m.Input({
-						class : "sapUiSmallMarginBottom",
-						type : "Text",
-						placeholder : "{i18nModel>queryForm.serviceNamePrompt}",
-						valueStateText : "{i18nModel>queryForm.serviceNameState}"
-					}), new sap.m.Label({
-						text : "{i18nModel>queryForm.serviceUrl}"
-					}), new sap.m.Input({
-						class : "sapUiSmallMarginBottom",
-						type : "Url",
-						placeholder : "{i18nModel>queryForm.serviceUrlPrompt}",
-						valueStateText : "{i18nModel>queryForm.serviceUrlState}"
-					}) ],
-					beginButton : new sap.m.Button({
-						text : 'Add',
-						press : function() {
-							var service = {
-								"code" : oServiceAddDialog.getContent()[1].getValue(),
-								"name" : oServiceAddDialog.getContent()[3].getValue(),
-								"serviceUrl" : oServiceAddDialog.getContent()[5].getValue(),
-								"version" : "V2",
-								"queries" : []
-							};
-							var validateService = function(service) {
-								utils.getCachedOdataModel(service, function() {
-									sap.m.MessageToast.show(sap.ui.getCore().getModel("i18nModel").getProperty('queryForm.serviceInvalid'));
-								}, function(oDataModel) {
-									oDataModel.getMetaModel().loaded().then(function() {
-										var newQueryCode = utils.generateUUID();
-										service.queries = {};
-										service.queries[newQueryCode] = {
-											_class : "Query",
-											code : newQueryCode,
-											name : "New Query",
-											concept : oDataModel.getMetaModel().getODataEntityContainer().entitySet[0].name
-										// self.getModel("entityContainer").getData().entitySet[0].name
-
-										};
-										self.getModel("queryModel").getData().services[service.code] = service;
-										self.getModel("queryModel").refresh();
-										sap.m.MessageToast.show(sap.ui.getCore().getModel("i18nModel").getProperty('queryForm.serviceValid'));
-										oServiceAddDialog.close();
-										self.fireServiceChanged({
-											service : service,
-											query : service.queries[newQueryCode]
-										});
-									});
-								})
-							};
-							validateService(service);
-						}
-					}),
-					endButton : new sap.m.Button({
-						text : 'Cancel',
-						press : function() {
-							oServiceAddDialog.close();
-						}
-					}),
-					afterClose : function() {
-						oServiceAddDialog.destroy();
-					}
-				});
+				var oServiceAddDialog = new control.addServiceDialog();
 				oServiceAddDialog.open();
 			}
 		}));
@@ -222,7 +150,8 @@ sap.m.OverflowToolbar.extend("control.serviceQueryMenu", {
 					beginButton : new sap.m.Button({
 						text : 'Confirm',
 						press : function() {
-							sap.ui.getCore().setModel(null,constants.ODATACACHE + sap.ui.getCore().getModel("queryModel").getProperty("/services/" + self.oServiceSelect.getSelectedKey() + "/code"));
+							sap.ui.getCore().setModel(null,
+									constants.ODATACACHE + sap.ui.getCore().getModel("queryModel").getProperty("/services/" + self.oServiceSelect.getSelectedKey() + "/code"));
 							self.getModel("queryModel").refresh();
 							oServiceEditDialog.close();
 						}
@@ -243,7 +172,7 @@ sap.m.OverflowToolbar.extend("control.serviceQueryMenu", {
 		self.oQuerySelect = new sap.m.ActionSelect({
 			tooltip : "{i18nModel>queryForm.serviceQueryTooltip}",
 			items : {
-				//path : "queryModel>/services/LNW2/queries",
+				// path : "queryModel>/services/LNW2/queries",
 				sorter : {
 					path : "queryModel>name"
 				},
@@ -346,7 +275,7 @@ sap.m.OverflowToolbar.extend("control.serviceQueryMenu", {
 				var oQueryCopyDialog = new sap.m.Dialog({
 					title : '{i18nModel>queryForm.queryCopy}',
 					type : 'Message',
-					content : [  new sap.m.Label({
+					content : [ new sap.m.Label({
 						text : "{i18nModel>queryForm.queryNewName}"
 					}), new sap.m.Input({
 						value : self.oQuerySelect.getSelectedItem().getText()
@@ -500,32 +429,32 @@ sap.m.OverflowToolbar.extend("control.serviceQueryMenu", {
 			icon : sap.ui.core.IconPool.getIconURI("pushpin-off"),
 			press : function(oEvent) {
 				var oQueryContext = self.oQuerySelect.getSelectedItem().getBindingContext("queryModel");
-				var queryModel= self.getModel("queryModel").getProperty(self.oQuerySelect.getSelectedItem().getBindingContext("queryModel").getPath());
+				var queryModel = self.getModel("queryModel").getProperty(self.oQuerySelect.getSelectedItem().getBindingContext("queryModel").getPath());
 				var query = new Query(oEvent.getSource().getModel("metaModel"), queryModel);
-				
+
 				var pinDialog = new control.pinDialog();
-				pinDialog.setModel(sap.ui.getCore().getModel("lensesModel"),"lensesModel");
-				pinDialog.setModel(oEvent.getSource().getModel("metaModel"),"metaModel");
+				pinDialog.setModel(sap.ui.getCore().getModel("lensesModel"), "lensesModel");
+				pinDialog.setModel(oEvent.getSource().getModel("metaModel"), "metaModel");
 				pinDialog.setQueryContext(oQueryContext);
 				pinDialog.setOdataQuery(query.odataQuery());
-				pinDialog.open();			
+				pinDialog.open();
 				self.fireSave({
 					queryCode : self.oQuerySelect.getSelectedKey()
 				});
 			}
 		});
 		self.oLogo = new sap.m.Button({
-			//icon : "resources/Linklaters.png",
+			// icon : "resources/Linklaters.png",
 			icon : "resources/Logo2.png",
-			//width:"200px",
+			// width:"200px",
 			press : function(oEvent) {
 				window.open("http://www.linklaters.com/");
 			}
 		});
 		self.oToolbar = new sap.m.Toolbar();
 		self.oToolbar.addContent(self.oLogo).addContent(self.oServiceSelect).addContent(self.oQuerySelect).addContent(self.oEnterQueryParameters).addContent(
-				self.oUndo).addContent(self.oRedo).addContent(self.oSave).addContent(self.oSaveAs).addContent(self.oPin).addContent(new sap.m.ToolbarSpacer()).addContent(self.oPreview)
-				.addContent(new sap.m.ToolbarSpacer());//.addContent(self.oSettings);
+				self.oUndo).addContent(self.oRedo).addContent(self.oSave).addContent(self.oSaveAs).addContent(self.oPin).addContent(new sap.m.ToolbarSpacer())
+				.addContent(self.oPreview).addContent(new sap.m.ToolbarSpacer());// .addContent(self.oSettings);
 		// self.oToolbar.addContent(self.oServiceSelect).addContent(self.oQuerySelect)
 		// .addContent(self.oPreview);
 		self.setAggregation("_toolbar", self.oToolbar);

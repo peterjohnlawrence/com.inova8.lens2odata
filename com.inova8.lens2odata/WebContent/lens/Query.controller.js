@@ -10,7 +10,7 @@ sap.ui.define([ "controller/BaseController" ], function(BaseController) {
 				settings : {
 					title : "QueryForm",
 					queryModel : sap.ui.getCore().getModel("queryModel"),
-					i18nModel : sap.ui.getCore().getModel("i18nModel"), 
+					i18nModel : sap.ui.getCore().getModel("i18nModel"),
 					datatypesModel : sap.ui.getCore().getModel("datatypesModel")
 				}
 			});
@@ -24,7 +24,18 @@ sap.ui.define([ "controller/BaseController" ], function(BaseController) {
 
 			this.oQueryFormComponent.setParams(this.oArgs["?params"]);
 			var service = sap.ui.getCore().getModel("queryModel").getData().services[this.oArgs.service];
-			this.oQueryFormComponent.setService(service, service.queries[this.oArgs.querycode], this.oArgs["?params"]);
+			if (jQuery.isEmptyObject(service)) {
+				var service = sap.ui.getCore().getModel("queryModel").getData().services[0];
+			}
+			if (jQuery.isEmptyObject(service)) {
+				this.oQueryFormComponent.setService(null, null, this.oArgs["?params"]);
+			} else {
+				var queryCode = service.queries[this.oArgs.querycode];
+				if (jQuery.isEmptyObject(queryCode)) {
+					queryCode = service.queries[0];
+				}
+				this.oQueryFormComponent.setService(service, queryCode, this.oArgs["?params"]);
+			}
 		},
 		onSearch : function(oEvent) {
 			this.getRouter().navTo("searchWithQuery", {

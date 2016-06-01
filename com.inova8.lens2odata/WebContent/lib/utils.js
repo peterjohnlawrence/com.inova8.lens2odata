@@ -1,6 +1,7 @@
 (function(window) {
 	"use strict";
 	jQuery.sap.require("sap.ui.core.format.DateFormat");
+	jQuery.sap.require("sap.m.MessageToast");
 	jQuery.sap.declare('lib.utils');
 	window.utils = {};
 	var oDateTimeFormat = sap.ui.core.format.DateFormat.getDateTimeInstance({
@@ -72,6 +73,10 @@
 		return mergedData;// jQuery.extend(true, {}, localQueryData, remoteQueryData);
 	};
 	utils.getCachedOdataModel = function(service, onFailure, onSuccess, args) {
+		if(jQuery.isEmptyObject(service)){
+			sap.m.MessageToast.show("Service not recognized");
+			onFailure();
+		}else{
 		var odataModel = sap.ui.getCore().getModel(constants.ODATACACHE + service.code);
 		if (jQuery.isEmptyObject(odataModel)) {
 			// TODO should set maxDataServiceVersion based on declaration
@@ -92,7 +97,7 @@
 			}
 		} else {
 			onSuccess(odataModel, args);
-		}
+		}}
 	};
 	utils.removeValue = function(thisArray, property, value) {
 		thisArray.forEach(function(result, index) {
@@ -220,9 +225,9 @@
 		if (sLabel) {
 			return sLabel;
 		} else if (sSubjectId) {
-			return sSubjectId;
+			return decodeURIComponent(sSubjectId);
 		} else
-			return jQuery.isEmptyObject(uri) ? "" : decodeURIComponent(uri).split("/").pop();
+			return jQuery.isEmptyObject(uri) ? "" : decodeURIComponent(decodeURIComponent(uri).split("/").pop());
 	};
 	utils.lensDeferredUri = function(uri, serviceCode, me) {
 		if (jQuery.isEmptyObject(uri)) {
@@ -239,7 +244,7 @@
 		if (jQuery.isEmptyObject(uri)) {
 			return "";
 		} else {
-			return decodeURIComponent(uri).split("/").pop();
+			return decodeURIComponent(decodeURIComponent(uri).split("/").pop());
 		}
 	};
 	utils.edmDateTimeFormatter = function(value) {

@@ -212,13 +212,13 @@ sap.ui.model.MetaModel.prototype.getEntityTypeModel = function(sEntityType) {
 	}
 };
 sap.ui.model.MetaModel.prototype.getODataAssociationSetsForToEnd = function(sToEntitySet) {
+	var associationSets = [ {
+		key : "{uri}",
+		value : sToEntitySet,
+		concept : sToEntitySet
+	} ];
 	try {
-		var associationSet = sap.ui.getCore().getModel("odataModel_LNW2").getMetaModel().getODataEntityContainer()["associationSet"]
-		var associationSets = [ {
-			key : "{uri}",
-			value : sToEntitySet,
-			concept : sToEntitySet
-		} ];
+		var associationSet = this.getODataEntityContainer()["associationSet"];//   sap.ui.getCore().getModel("odataModel_LNW2").getMetaModel().getODataEntityContainer()["associationSet"];
 		for (var index = 0; index < associationSet.length; index++) {
 			if (associationSet[index].end[1].entitySet == sToEntitySet)
 				associationSets = associationSets.concat({
@@ -227,8 +227,7 @@ sap.ui.model.MetaModel.prototype.getODataAssociationSetsForToEnd = function(sToE
 					concept : associationSet[index].end[0].entitySet
 				});
 		}
-		return associationSets;
 	} catch (error) {
-
 	}
+	return associationSets;
 };

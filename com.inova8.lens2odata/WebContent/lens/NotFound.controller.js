@@ -11,7 +11,7 @@ sap.ui.define([
 			oTarget.attachDisplay(function (oEvent) {
 				this._oData = oEvent.getParameter("data");	// store the data
 			}, this);
-			BaseController.prototype.onNavBack.apply(this, arguments);
+			//BaseController.prototype.onNavBack.apply(this, arguments);
 		},
 
 		// override the parent's onNavBack (inherited from BaseController)

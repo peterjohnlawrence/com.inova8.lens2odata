@@ -1,5 +1,6 @@
 jQuery.sap.require("sap.ui.core.UIComponent");
 jQuery.sap.require("sap.ui.commons.Panel");
+jQuery.sap.require("sap.m.MessageToast");
 jQuery.sap.require("lib.utilities");
 jQuery.sap.declare("Components.lensPanel.Component");
 "use strict";
@@ -183,7 +184,7 @@ Components.lensPanel.Component.prototype.displayContent = function(oContent,page
 				oComponentContainers.push(oComponentContainer);
 
 				utils.getCachedOdataModel(service, function() {
-					sap.ui.MessageToast("lens.invalidService");
+					//sap.m.MessageToast.show("lens.invalidService");
 				}, function(odataModel, oComponent) {
 					oComponent.setMetaModel(odataModel.getMetaModel());
 					// Now we can render the results because the model is available
