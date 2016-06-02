@@ -54,12 +54,15 @@
 		<web-resource-collection>
 			<web-resource-name>lens2odata</web-resource-name>
 			<url-pattern>/*</url-pattern>
+			<http-method>GET</http-method>
+			<http-method>POST</http-method>
+			<http-method>PUT</http-method>
 		</web-resource-collection>
 		<auth-constraint>
 			<role-name>lens2odata</role-name>
 		</auth-constraint>
 	</security-constraint>
-		<login-config>
+	<login-config>
 		<auth-method>FORM</auth-method>
 		<form-login-config>
 			<form-login-page>/login.html</form-login-page>
