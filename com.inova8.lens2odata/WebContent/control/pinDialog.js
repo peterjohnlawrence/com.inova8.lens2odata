@@ -28,7 +28,6 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 			self.setModel(self.oPositionsModel, "positionsModel");
 			sap.ui.getCore().setModel(self.oPositionsModel, "positionsModel");
 
-			self.pinQueryContextElement.getFields()[0].setValue(self.getQueryContext().getPath());
 			self.pinConceptElement.getFields()[0].setValue(self.getQueryContext().getProperty("concept"));
 			self.onConceptChange(null, self);
 			var set = sap.ui.getCore().getModel("i18nModel").getProperty("pinDialog.entity");// self.pinSetElement.getFields()[0].getSelectedKey();
@@ -158,21 +157,21 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 		},
 		init : function(queryContext) {
 			var self = this;
-			self.pinQueryContextElement = new sap.ui.layout.form.FormElement({
-				label : "{i18nModel>pinDialog.queryContext}",
-				fields : [ new sap.m.Input({
-					tooltip : "{i18nModel>pinDialog.queryContextPrompt}",
-					width : "auto",
-					placeholder : "{i18nModel>pinDialog.queryContextPlaceholder}",
-					description : "",
-					editable : false,
-					showValueHelp : false,
-					valueHelpRequest : ""
-				}) ],
-				layoutData : new sap.ui.layout.form.GridElementData({
-					hCells : "1"
-				})
-			});
+//			self.pinQueryContextElement = new sap.ui.layout.form.FormElement({
+//				label : "{i18nModel>pinDialog.queryContext}",
+//				fields : [ new sap.m.Input({
+//					tooltip : "{i18nModel>pinDialog.queryContextPrompt}",
+//					width : "auto",
+//					placeholder : "{i18nModel>pinDialog.queryContextPlaceholder}",
+//					description : "",
+//					editable : false,
+//					showValueHelp : false,
+//					valueHelpRequest : ""
+//				}) ],
+//				layoutData : new sap.ui.layout.form.GridElementData({
+//					hCells : "1"
+//				})
+//			});
 			self.pinConceptElement = new sap.ui.layout.form.FormElement({
 				label : "{i18nModel>pinDialog.concept}",
 				fields : [ new sap.m.Input({
@@ -284,21 +283,21 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 					hCells : "1"
 				})
 			});
-			self.pinPageTitleElement = new sap.ui.layout.form.FormElement({
-				label : "{i18nModel>pinDialog.pageTitle}",
-				fields : [ new sap.m.Input({
-					tooltip : "{i18nModel>pinDialog.pageTitlePrompt}",
-					width : "auto",
-					placeholder : "{i18nModel>pinDialog.pageTitlePlaceholder}",
-					description : "",
-					editable : false,
-					showValueHelp : false,
-					valueHelpRequest : ""
-				}) ],
-				layoutData : new sap.ui.layout.form.GridElementData({
-					hCells : "1"
-				})
-			});
+//			self.pinPageTitleElement = new sap.ui.layout.form.FormElement({
+//				label : "{i18nModel>pinDialog.pageTitle}",
+//				fields : [ new sap.m.Input({
+//					tooltip : "{i18nModel>pinDialog.pageTitlePrompt}",
+//					width : "auto",
+//					placeholder : "{i18nModel>pinDialog.pageTitlePlaceholder}",
+//					description : "",
+//					editable : false,
+//					showValueHelp : false,
+//					valueHelpRequest : ""
+//				}) ],
+//				layoutData : new sap.ui.layout.form.GridElementData({
+//					hCells : "1"
+//				})
+//			});
 
 			self.pinTemplateElement = new sap.ui.layout.form.FormElement({
 				label : "{i18nModel>pinDialog.template}",
@@ -394,11 +393,11 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 				formContainers : [ new sap.ui.layout.form.FormContainer({
 					title : "{i18nModel>pinDialog.what}",
 					expandable : false,
-					formElements : [ self.pinQueryContextElement, self.pinSetElement, self.pinConceptElement, self.pinNavigationPropertyElement ]
+					formElements : [  self.pinSetElement, self.pinConceptElement, self.pinNavigationPropertyElement ]
 				}), new sap.ui.layout.form.FormContainer({
 					title : "{i18nModel>pinDialog.where}",
 					expandable : false,
-					formElements : [ self.pinPageElement, self.pinPageTitleElement, self.pinTemplateElement, self.pinPositionElement ]
+					formElements : [ self.pinPageElement, self.pinTemplateElement, self.pinPositionElement ]
 				}), new sap.ui.layout.form.FormContainer({
 					title : "{i18nModel>pinDialog.how}",
 					expandable : false,

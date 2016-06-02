@@ -327,7 +327,7 @@
 							"position": "[defaultPosition]",
 							"title": "Properties of {entity}",
 							"type": "Components.lensResultsForm",
-							"query": "{uri}?$select=*",
+							"query": "{uri}",
 							"querydetails": "[default]"
 						}
 					]
@@ -347,7 +347,7 @@
 							"position": "[defaultPosition]",
 							"title": "Values of {navigationProperty}",
 							"type": "Components.lensResultsTable",
-							"query": "{uri}?$select=*",
+							"query": "{uri}",
 							"querydetails": "[default]"
 						}
 					]

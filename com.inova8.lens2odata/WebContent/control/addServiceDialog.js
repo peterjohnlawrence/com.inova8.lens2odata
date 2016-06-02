@@ -41,9 +41,9 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 			var serviceName = self.serviceNameElement.getFields()[0].getValue();
 			var serviceUrl = self.serviceUrlElement.getFields()[0].getValue();
 			var lastChar = serviceUrl[serviceUrl.length - 1];
-			if ((lastChar != "\\") || (lastChar != "/"))
+			if ((lastChar != "\\") && (lastChar != "/"))
 				serviceUrl += "/";
-			var serviceProxy = self.serviceProxyElement.getFields()[0].getEnabled();
+			var serviceProxy = self.serviceProxyElement.getFields()[0].getSelected();
 			var oQueryModelData = sap.ui.getCore().getModel("queryModel").getData();
 			var oService = {
 				"code" : serviceId,

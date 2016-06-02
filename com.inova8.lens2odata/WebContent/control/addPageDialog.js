@@ -22,13 +22,11 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 		},
 		open : function() {
 			var self = this;
-			// self.pageElement.getFields()[0].bindAggregation("items", "lensesModel>/pages/", self.pageItemTemplate);
 			self.templateElement.getFields()[0].bindAggregation("items", "lensesModel>/templates/", self.templateItemTemplate);
 			self.oDialog.open();
-
 		},
 		validateReadyToSave : function(self) {
-			if (jQuery.isEmptyObject(self.pageTitleElement.getFields()[0].getValue())) {
+			if (jQuery.isEmptyObject(self.pageElement.getFields()[0].getValue())) {
 				self.oDialog.getButtons()[0].setEnabled(false);
 			} else {
 				self.oDialog.getButtons()[0].setEnabled(true);
@@ -38,12 +36,10 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 			var entityType = self.getEntitySet().entityType;
 			var set = self.getSet();
 			var page = self.pageElement.getFields()[0].getValue();
-			var title = self.pageTitleElement.getFields()[0].getValue();
 			var template = self.templateElement.getFields()[0].getSelectedItem().getKey();
 			var oLensModelData = sap.ui.getCore().getModel("lensesModel").getData();
 			var oPage = {
 				"page" : page,
-				"title" : title,
 				"template" : template,
 				"fragments" : []
 			};
@@ -56,15 +52,11 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 			oLensModelData["lenses"][entityType][set][page] = oPage;
 			return oPage;
 		},
-		onTitleChange : function(oEvent, self) {
+		onPageChange : function(oEvent, self) {
 			self.validateReadyToSave(self);
 		},
 		init : function(queryContext) {
 			var self = this;
-			self.pageItemTemplate = new sap.ui.core.Item({
-				key : '{lensesModel>title}',
-				text : '{lensesModel>title}'
-			});
 			self.pageElement = new sap.ui.layout.form.FormElement({
 				label : "{i18nModel>addPageDialog.page}",
 				fields : [ new sap.m.Input({
@@ -87,38 +79,38 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 						text : "{i18nModel>addPageDialog.pageSuggestion4}"
 					}) ],
 					change : function(oEvent) {
-						// self.onPageChange(oEvent, self);
+						 self.onPageChange(oEvent, self);
 					}
 				}) ],
 				layoutData : new sap.ui.layout.form.GridElementData({
 					hCells : "1"
 				})
 			});
-			self.pageTitleElement = new sap.ui.layout.form.FormElement({
-				label : "{i18nModel>addPageDialog.pageTitle}",
-				fields : [ new sap.m.Input({
-					tooltip : "{i18nModel>addPageDialog.pageTitlePrompt}",
-					width : "auto",
-					placeholder : "{i18nModel>addPageDialog.pageTitlePlaceholder}",
-					description : "",
-					editable : true,
-					showValueHelp : false,
-					valueHelpRequest : "",
-					showSuggestion : true,
-					startSuggestion : 0,
-					suggestionItems : [ new sap.ui.core.Item({
-						text : "{i18nModel>addPageDialog.pageTitleSuggestion1}"
-					}), new sap.ui.core.Item({
-						text : "{i18nModel>addPageDialog.pageTitleSuggestion2}"
-					}) ],
-					change : function(oEvent) {
-						self.onTitleChange(oEvent, self);
-					}
-				}) ],
-				layoutData : new sap.ui.layout.form.GridElementData({
-					hCells : "1"
-				})
-			});
+//			self.pageTitleElement = new sap.ui.layout.form.FormElement({
+//				label : "{i18nModel>addPageDialog.pageTitle}",
+//				fields : [ new sap.m.Input({
+//					tooltip : "{i18nModel>addPageDialog.pageTitlePrompt}",
+//					width : "auto",
+//					placeholder : "{i18nModel>addPageDialog.pageTitlePlaceholder}",
+//					description : "",
+//					editable : true,
+//					showValueHelp : false,
+//					valueHelpRequest : "",
+//					showSuggestion : true,
+//					startSuggestion : 0,
+//					suggestionItems : [ new sap.ui.core.Item({
+//						text : "{i18nModel>addPageDialog.pageTitleSuggestion1}"
+//					}), new sap.ui.core.Item({
+//						text : "{i18nModel>addPageDialog.pageTitleSuggestion2}"
+//					}) ],
+//					change : function(oEvent) {
+//						self.onTitleChange(oEvent, self);
+//					}
+//				}) ],
+//				layoutData : new sap.ui.layout.form.GridElementData({
+//					hCells : "1"
+//				})
+//			});
 			self.templateItemTemplate = new sap.ui.core.Item({
 				key : '{lensesModel>template}',
 				text : '{lensesModel>template}'
@@ -146,7 +138,7 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 				}),
 				formContainers : [ new sap.ui.layout.form.FormContainer({
 					expandable : false,
-					formElements : [ self.pageElement, self.pageTitleElement, self.templateElement ]
+					formElements : [ self.pageElement,  self.templateElement ]
 				})
 
 				]

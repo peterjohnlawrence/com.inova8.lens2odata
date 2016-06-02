@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.inova8.lens2odata</groupId>
   <artifactId>lens2odata</artifactId>
-  <version>0.0.15-SNAPSHOT</version>
+  <version>0.0.15</version>
   <packaging>war</packaging>
   <name>lens2odata</name>
   <build>
@@ -51,7 +51,7 @@
   	<url>scm:git:file://localhost/c:/Users/Peter/git/com.inova8.lens2odata</url>
   	<developerConnection>scm:git:file://localhost/c:/Users/Peter/git/com.inova8.lens2odata</developerConnection>
   	<connection>scm:git:file:\\localhost\Users\Peter\git\com.inova8.lens2odata</connection>
-    <tag>lens2odata-0.0.3</tag>
+    <tag>lens2odata-0.0.15</tag>
   </scm>
   <dependencies>
   	<dependency>

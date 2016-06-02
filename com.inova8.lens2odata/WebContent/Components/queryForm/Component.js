@@ -275,7 +275,7 @@ Components.queryForm.Component.prototype.previewResults = function(self) {
 	try {
 		var query = this.getProperty("query").init(this.getProperty("query").oAST);
 		var serviceURL = utils.proxyUrl(this.getProperty("service").serviceUrl, this.getProperty("service").useProxy);
-		var odataURL = serviceURL + "/" + query.odataURI() + "&$top=10";
+		var odataURL = serviceURL  + query.odataURI() + "&$top=10";
 		self.clearResults(self);
 		self.oResultsModel = new sap.ui.model.json.JSONModel({});
 		if (!jQuery.isEmptyObject(odataURL)) {

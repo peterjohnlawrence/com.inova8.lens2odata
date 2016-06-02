@@ -73,31 +73,32 @@
 		return mergedData;// jQuery.extend(true, {}, localQueryData, remoteQueryData);
 	};
 	utils.getCachedOdataModel = function(service, onFailure, onSuccess, args) {
-		if(jQuery.isEmptyObject(service)){
+		if (jQuery.isEmptyObject(service)) {
 			sap.m.MessageToast.show("Service not recognized");
 			onFailure();
-		}else{
-		var odataModel = sap.ui.getCore().getModel(constants.ODATACACHE + service.code);
-		if (jQuery.isEmptyObject(odataModel)) {
-			// TODO should set maxDataServiceVersion based on declaration
-			try {
-				odataModel = new sap.ui.model.odata.v2.ODataModel(utils.proxyUrl(service.serviceUrl, service.useProxy), {
-					maxDataServiceVersion : "2.0"
-				}).attachMetadataFailed(function(oEvent) {
-					sap.m.MessageToast.show("Metada failed to load. Check less than OdataV4, also check source and proxy: " + service.serviceUrl);
-					onFailure();
-				}).attachMetadataLoaded(function(oEvent) {
-					sap.ui.getCore().setModel(odataModel, constants.ODATACACHE + service.code);
-					odataModel.setUseBatch(false);
-					onSuccess(odataModel, args);
-				});
-			} catch (e) {
-				sap.m.MessageToast.show("Metada load error. Check < OdataV4 also check source: " + service.serviceUrl);
-				throw new Error("MetadataFailed");
-			}
 		} else {
-			onSuccess(odataModel, args);
-		}}
+			var odataModel = sap.ui.getCore().getModel(constants.ODATACACHE + service.code);
+			if (jQuery.isEmptyObject(odataModel)) {
+				// TODO should set maxDataServiceVersion based on declaration
+				try {
+					odataModel = new sap.ui.model.odata.v2.ODataModel(utils.proxyUrl(service.serviceUrl, service.useProxy), {
+						maxDataServiceVersion : "2.0"
+					}).attachMetadataFailed(function(oEvent) {
+						sap.m.MessageToast.show("Metada failed to load. Check less than OdataV4, also check source and proxy: " + service.serviceUrl);
+						onFailure();
+					}).attachMetadataLoaded(function(oEvent) {
+						sap.ui.getCore().setModel(odataModel, constants.ODATACACHE + service.code);
+						odataModel.setUseBatch(false);
+						onSuccess(odataModel, args);
+					});
+				} catch (e) {
+					sap.m.MessageToast.show("Metada load error. Check < OdataV4 also check source: " + service.serviceUrl);
+					throw new Error("MetadataFailed");
+				}
+			} else {
+				onSuccess(odataModel, args);
+			}
+		}
 	};
 	utils.removeValue = function(thisArray, property, value) {
 		thisArray.forEach(function(result, index) {
@@ -141,10 +142,10 @@
 		var pathname = document.location.pathname
 		return pathname.substring(1, pathname.length - 1);
 	}
-//	utils.getLocalStorage1 = function(localFile) {
-//		var oStorage = jQuery.sap.storage(jQuery.sap.storage.Type.local);
-//		return oStorage.get(utils.appname() + "." + localFile);
-//	};
+	// utils.getLocalStorage1 = function(localFile) {
+	// var oStorage = jQuery.sap.storage(jQuery.sap.storage.Type.local);
+	// return oStorage.get(utils.appname() + "." + localFile);
+	// };
 	// utils.saveToLocalStorage = function(localFile, model) {
 	// var oStorage = jQuery.sap.storage(jQuery.sap.storage.Type.local);
 	// oStorage.put(utils.appname() + "." + localFile, sap.ui.getCore().getModel(model).getData());
@@ -152,15 +153,19 @@
 	utils.getLocalStorage = function(remoteFile) {
 		var file = utils.appname() + "." + remoteFile;
 		var url = 'JSONServlet';
-		var result =null;
-		jQuery.ajaxSetup({async:false});
+		var result = null;
+		jQuery.ajaxSetup({
+			async : false
+		});
 		jQuery.get(url, {
 			filename : file
 		}, function(data) {
-			result  = data;
+			result = data;
 		}, "json");
-		jQuery.ajaxSetup({async:true});
-		return result ;
+		jQuery.ajaxSetup({
+			async : true
+		});
+		return result;
 	};
 	utils.saveToLocalStorage = function(remoteFile, model) {
 		var file = utils.appname() + "." + remoteFile;
@@ -217,9 +222,10 @@
 			return url;
 		}
 	}
-	utils.lensUri = function(uri, type, serviceCode) {
+	utils.lensUri = function(uri, type, serviceCode, sSubjectId, sLabel) {
 		// Workaround to avoid issue with sapui5 router that will not ignore '=' even if encoded
-		return jQuery.isEmptyObject(uri) ? "" : ".." + document.location.pathname + "#/" + serviceCode + "/lens?type=" + type + "&uri=" + uri.replace(/=/g, "~");
+		return jQuery.isEmptyObject(uri) ? "" : ".." + document.location.pathname + "#/" + serviceCode + "/lens?type=" + type + "&uri=" + uri.replace(/=/g, "~")
+				+ "&label=" + utils.lensUriLabel(uri, sSubjectId, sLabel);
 	};
 	utils.lensUriLabel = function(uri, sSubjectId, sLabel) {
 		if (sLabel) {
@@ -229,7 +235,7 @@
 		} else
 			return jQuery.isEmptyObject(uri) ? "" : decodeURIComponent(decodeURIComponent(uri).split("/").pop());
 	};
-	utils.lensDeferredUri = function(uri, serviceCode, me) {
+	utils.lensDeferredUri = function(uri, serviceCode, sSubjectId, sLabel, me) {
 		if (jQuery.isEmptyObject(uri)) {
 			return "";
 		} else {
@@ -237,14 +243,22 @@
 			var collection = parts.pop();
 			// Workaround to avoid issue with sapui5 router that will not ignore '=' even if encoded
 			return ".." + document.location.pathname + "#/" + serviceCode + "/lens?deferred=true&type=" + me.deferredEntityTypeMap[collection] + "&uri="
-					+ uri.replace(/=/g, "~");
+					+ uri.replace(/=/g, "~") + "&label=" + utils.lensDeferredUriLabel(uri, sSubjectId, sLabel);
 		}
 	};
-	utils.lensDeferredUriLabel = function(uri) {
+	utils.lensDeferredUriLabel = function(uri, sSubjectId, sLabel) {
+		var navProperty;
 		if (jQuery.isEmptyObject(uri)) {
-			return "";
+			navProperty = "";
 		} else {
-			return decodeURIComponent(decodeURIComponent(uri).split("/").pop());
+			navProperty = decodeURIComponent(decodeURIComponent(uri).split("/").pop());
+		}
+		if (sLabel) {
+			return sLabel + "/" + navProperty;
+		} else if (sSubjectId) {
+			return decodeURIComponent(sSubjectId) + "/" + navProperty;
+		} else {
+			return navProperty;
 		}
 	};
 	utils.edmDateTimeFormatter = function(value) {

@@ -278,9 +278,15 @@ Components.lensResultsForm.Component.prototype.bindFormFields = function(oMetaMo
 						}, {
 							path : sPathPrefix + "__metadata/type",
 							type : new sap.ui.model.type.String()
+						} , {
+							path : sPathPrefix + "subjectId",
+							type : new sap.ui.model.type.String()
+						}, {
+							path : sPathPrefix + "label",
+							type : new sap.ui.model.type.String()
 						} ],
-						formatter : function(uri, type) {
-							return utils.lensUri(uri, type, self.getProperty("serviceCode"));
+						formatter : function(uri, type, sSubjectId, sLabel) {
+							return utils.lensUri(uri, type, self.getProperty("serviceCode"), sSubjectId, sLabel);
 						}
 					})));
 					nRow++;
@@ -320,17 +326,29 @@ Components.lensResultsForm.Component.prototype.bindFormFields = function(oMetaMo
 							parts : [ {
 								path : column + "/__deferred/uri",
 								type : new sap.ui.model.type.String()
-							} ],
-							formatter : function(uri) {
-								return utils.lensDeferredUriLabel(uri);
+							} , {
+							path : sPathPrefix + "subjectId",
+							type : new sap.ui.model.type.String()
+						}, {
+							path : sPathPrefix + "label",
+							type : new sap.ui.model.type.String()
+						} ],
+							formatter : function(uri, sSubjectId, sLabel) {
+								return utils.lensDeferredUriLabel(uri, sSubjectId, sLabel);
 							}
 						}).bindProperty("href", {
 							parts : [ {
 								path : column + "/__deferred/uri",
 								type : new sap.ui.model.type.String()
-							} ],
-							formatter : function(uri, type) {
-								return utils.lensDeferredUri(uri, self.getProperty("serviceCode"), self);
+							}, {
+							path : sPathPrefix + "subjectId",
+							type : new sap.ui.model.type.String()
+						}, {
+							path : sPathPrefix + "label",
+							type : new sap.ui.model.type.String()
+						}  ],
+							formatter : function(uri , sSubjectId, sLabel) {
+								return utils.lensDeferredUri(uri, self.getProperty("serviceCode"), sSubjectId, sLabel, self);
 							}
 						})));
 						nRow++;

@@ -13,8 +13,6 @@ sap.ui.define([ "controller/BaseController" ], function(BaseController) {
 			this.oLensPanelComponent = sap.ui.getCore().createComponent({
 				name : "Components.lensPanel",
 			});
-			//TODO settings does not seem to set the properties
-			//this.oLensPanelComponent.setType("[default]");
 			this.oLensPanelComponent.setPage("[default]"); 
 			
 			var oLensPanelComponentContainer = new sap.ui.core.ComponentContainer({
@@ -22,18 +20,23 @@ sap.ui.define([ "controller/BaseController" ], function(BaseController) {
 				propagateModel : true
 			});
 			this.getView().byId("lensPage").addContent(oLensPanelComponentContainer);
-		//	oLensPanelComponent.renderFragments();
 		},
 		_onRouteMatched : function(oEvent) {
 			//var oArgs
 			this.oArgs = oEvent.getParameter("arguments");
-			//oView = this.getView();
 			this.oLensPanelComponent.setProperty("serviceCode",this.oArgs.service);
 			this.oLensPanelComponent.setProperty("page",this.oArgs.page||"[default]");
 			//Workaround to avoid issue with sapui5 router that will not ignore '=' even if encoded
 			var oQuery = this.oArgs["?query"];
 			oQuery.uri = oQuery.uri.replace(/~/g,"=");
 			this.oLensPanelComponent.setProperty("query",oQuery);
+			var oView = sap.ui.getCore().byId(this.createId("lensTitle"));
+			if(this.oArgs["?query"].deferred){
+				oView.setText(  "Deferred "+ this.oArgs["?query"].type + " " + sap.ui.getCore().getModel("i18nModel").getProperty("lens.title") + this.oArgs["?query"].label);
+			
+			}else{
+				oView.setText(  this.oArgs["?query"].type + " " + sap.ui.getCore().getModel("i18nModel").getProperty("lens.title") + this.oArgs["?query"].label);
+			}
 			this.oLensPanelComponent.renderFragments();
 		},
 		_onBindingChange : function(oEvent) {
