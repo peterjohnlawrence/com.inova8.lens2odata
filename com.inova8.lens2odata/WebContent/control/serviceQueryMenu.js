@@ -98,6 +98,15 @@ sap.m.OverflowToolbar.extend("control.serviceQueryMenu", {
 							self.getModel("queryModel").refresh();
 							sap.m.MessageToast.show(sap.ui.getCore().getModel("i18nModel").getProperty("queryForm.serviceDeleted"));
 							oServiceDeleteDialog.close();
+							var services = self.getModel("queryModel").getData().services;
+							var service = jQuery.isEmptyObject(self.oServiceSelect.getSelectedItem()) ? services[Object.keys(services)[0]] : self.getModel("queryModel")
+									.getProperty(self.oServiceSelect.getSelectedItem().getBindingContext("queryModel").getPath());
+							var query = jQuery.isEmptyObject(self.oQuerySelect.getSelectedItem()) ? service.queries[Object.keys(service.queries)[0]] : self.getModel(
+									"queryModel").getProperty(self.oQuerySelect.getSelectedItem().getBindingContext("queryModel").getPath());
+							self.fireServiceChanged({
+								service : service,
+								query : query
+							})
 						}
 					}),
 					endButton : new sap.m.Button({

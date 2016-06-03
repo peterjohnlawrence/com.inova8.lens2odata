@@ -29,7 +29,7 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 
 		},
 		validateReadyToSave : function(self) {
-			if (jQuery.isEmptyObject(self.serviceIdElement.getFields()[0].getValue()) || jQuery.isEmptyObject(self.serviceNameElement.getFields()[0].getValue())
+			if ( jQuery.isEmptyObject(self.serviceNameElement.getFields()[0].getValue())
 					|| jQuery.isEmptyObject(self.serviceUrlElement.getFields()[0].getValue())) {
 				self.oDialog.getButtons()[0].setEnabled(false);
 			} else {
@@ -37,7 +37,8 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 			}
 		},
 		saveService : function(oEvent, self) {
-			var serviceId = self.serviceIdElement.getFields()[0].getValue();
+			//var serviceId = self.serviceIdElement.getFields()[0].getValue();
+			var serviceId = utils.generateUUID(); 
 			var serviceName = self.serviceNameElement.getFields()[0].getValue();
 			var serviceUrl = self.serviceUrlElement.getFields()[0].getValue();
 			var lastChar = serviceUrl[serviceUrl.length - 1];
@@ -85,24 +86,24 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 
 		init : function(queryContext) {
 			var self = this;
-			self.serviceIdElement = new sap.ui.layout.form.FormElement({
-				label : "{i18nModel>addServiceDialog.serviceId}",
-				fields : [ new sap.m.Input({
-					tooltip : "{i18nModel>addServiceDialog.serviceIdPrompt}",
-					width : "auto",
-					placeholder : "{i18nModel>addServiceDialog.serviceIdPlaceholder}",
-					description : "",
-					editable : true,
-					showValueHelp : false,
-					valueHelpRequest : "",
-					change : function(oEvent) {
-						self.validateReadyToSave(self);
-					}
-				}) ],
-				layoutData : new sap.ui.layout.form.GridElementData({
-					hCells : "1"
-				})
-			});
+//			self.serviceIdElement = new sap.ui.layout.form.FormElement({
+//				label : "{i18nModel>addServiceDialog.serviceId}",
+//				fields : [ new sap.m.Input({
+//					tooltip : "{i18nModel>addServiceDialog.serviceIdPrompt}",
+//					width : "auto",
+//					placeholder : "{i18nModel>addServiceDialog.serviceIdPlaceholder}",
+//					description : "",
+//					editable : true,
+//					showValueHelp : false,
+//					valueHelpRequest : "",
+//					change : function(oEvent) {
+//						self.validateReadyToSave(self);
+//					}
+//				}) ],
+//				layoutData : new sap.ui.layout.form.GridElementData({
+//					hCells : "1"
+//				})
+//			});
 			self.serviceNameElement = new sap.ui.layout.form.FormElement({
 				label : "{i18nModel>addServiceDialog.serviceName}",
 				fields : [ new sap.m.Input({
@@ -161,7 +162,7 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 				}),
 				formContainers : [ new sap.ui.layout.form.FormContainer({
 					expandable : false,
-					formElements : [ self.serviceIdElement, self.serviceNameElement, self.serviceUrlElement, self.serviceProxyElement ]
+					formElements : [  self.serviceNameElement, self.serviceUrlElement, self.serviceProxyElement ]
 				})
 
 				]
