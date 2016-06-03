@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.inova8.lens2odata</groupId>
   <artifactId>lens2odata</artifactId>
-  <version>0.0.15</version>
+  <version>0.0.20-SNAPSHOT</version>
   <packaging>war</packaging>
   <name>lens2odata</name>
   <build>
@@ -41,7 +41,6 @@
   <properties>
   	<openui5.version>1.36.9</openui5.version>
   	<sapui5.serverside.libraries.version>1.30.9</sapui5.serverside.libraries.version>
-  	<lens2odata.version>0.0.4-SNAPSHOT</lens2odata.version>
   </properties>
   <organization>
   	<name>inova8 llc</name>
@@ -54,11 +53,6 @@
     <tag>lens2odata-0.0.15</tag>
   </scm>
   <dependencies>
-  	<dependency>
-  		<groupId>org.webjars</groupId>
-  		<artifactId>openui5</artifactId>
-  		<version>${openui5.version}</version>
-  	</dependency>
   	<dependency>
   		<groupId>commons-fileupload</groupId>
   		<artifactId>commons-fileupload</artifactId>

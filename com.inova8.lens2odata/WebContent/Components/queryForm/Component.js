@@ -35,7 +35,7 @@ Components.queryForm.Component.prototype.setQueryModel = function(queryModel) {
 };
 
 Components.queryForm.Component.prototype.onAfterRendering = function() {
-	if (jQuery.isEmptyObject(this.getService())) {
+	if (jQuery.isEmptyObject(this.getProperty("service"))) {
 		if (jQuery.isEmptyObject(sap.ui.getCore().getModel("queryModel").getData().services)) {
 			var oServiceAddDialog = new control.addServiceDialog();
 			oServiceAddDialog.attachServiceAdded(function(oEvent) {
@@ -58,7 +58,6 @@ Components.queryForm.Component.prototype.onAfterRendering = function() {
 };
 Components.queryForm.Component.prototype.createContent = function() {
 	var self = this;
-
 	this.oTable = new sap.ui.table.TreeTable({
 		columns : [ new sap.ui.table.Column("queryColumn", {
 			label : "{i18nModel>queryForm.query}",
@@ -84,8 +83,8 @@ Components.queryForm.Component.prototype.createContent = function() {
 				serviceCode : "LNW2"
 			}),
 			flexible : true,
-			resizable : true,
-			autoResizable : true
+			resizable : false,  //true
+			autoResizable : false //true
 		})
 		// , new sap.ui.table.Column("path", {
 		// label : "Path",
@@ -169,7 +168,7 @@ Components.queryForm.Component.prototype.refreshQuery = function(self) {
 Components.queryForm.Component.prototype.setService = function(service, query, params) {
 	var self = this;
 	self.setProperty("params", params);
-	if (jQuery.isEmptyObject(self.getQuery()) || (self.getQuery().oAST !== query) || (self.getService() !== service)) {
+	if (jQuery.isEmptyObject(self.getQuery()) || (self.getQuery().oAST !== query) || (self.getProperty("service") !== service)) {
 		if (jQuery.isEmptyObject(service)) {
 			// self.setService(null);
 			// prompt for service after rendering queryform
@@ -344,14 +343,6 @@ Components.queryForm.Component.prototype.createDebugActionSheet = function(self)
 			});
 		}
 	}))
-	// .addButton(new sap.m.Button({
-	// text : "{i18nModel>debug.querySPARQL}",
-	// press : function() {
-	// alert(self.getProperty("query").sparql(), {
-	// width : "50em"
-	// });
-	// }
-	// }))
 	.addButton(new sap.m.Button({
 		text : "{i18nModel>debug.queryODataV2}",
 		press : function() {

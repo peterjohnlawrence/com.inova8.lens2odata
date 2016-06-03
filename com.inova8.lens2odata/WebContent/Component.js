@@ -98,11 +98,9 @@ Lens.Component.prototype.init = function() {
 	var remoteQueryData = new sap.ui.model.json.JSONModel();
 	try {
 		remoteQueryData.loadData("config/queries.json", null, false);
-		// remoteQueryData.loadData("../../inova8/config/queries.json", null, false);
 	} catch (e) {
-		// Query data not found. No problem since user canb start building from scratch
+		// Query data not found. No problem since user can start building from scratch
 	}
-
 	var queryData = utils.mergeQueryModel(localQueryData, remoteQueryData.getData());
 
 	oQueryModel.setData(queryData);

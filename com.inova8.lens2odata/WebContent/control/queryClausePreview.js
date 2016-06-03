@@ -92,7 +92,14 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 											});
 										}
 									}
+									if(jQuery.isEmptyObject(oResultsModel.getProperty("/paginators" ))){
+										oResultsModel.setProperty("/paginators",{});
+									}
+										if(jQuery.isEmptyObject(oResultsModel.getProperty("/paginators/"+ sPaginatorIndex ))){
+										oResultsModel.setProperty("/paginators/"+ sPaginatorIndex,{});
+									}								
 									oResultsModel.setProperty("/paginators/" + sPaginatorIndex + "/numberOfPages", sCurrentResultsLength);
+								//	oResultsModel.setProperty("/paginators/" + sPaginatorIndex + "/currentPage", 1);
 									oPaginator.bindProperty("numberOfPages", {
 										path : "resultsModel>/paginators/" + sPaginatorIndex + "/numberOfPages"
 									});

@@ -29,9 +29,7 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 			sap.ui.getCore().setModel(self.oPositionsModel, "positionsModel");
 
 			self.pinConceptElement.getFields()[0].setValue(self.getQueryContext().getProperty("concept"));
-			self.onConceptChange(null, self);
 			var set = sap.ui.getCore().getModel("i18nModel").getProperty("pinDialog.entity");// self.pinSetElement.getFields()[0].getSelectedKey();
-			self.pinSetElement.getFields()[0].setSelectedKey(set).fireEvent("change");
 			self.pinNavigationPropertyElement.getFields()[0].bindAggregation("items", "associationSetsModel>/", self.pinNavigationPropertyItemTemplate);
 			self.pinPageElement.getFields()[0]
 					.bindAggregation("items", "lensesModel>/lenses/" + self.getEntitySet().entityType + "/" + set, self.pinPageItemTemplate)

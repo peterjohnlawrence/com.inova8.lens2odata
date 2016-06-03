@@ -39,8 +39,8 @@ sap.ui.define([ "controller/BaseController" ], function(BaseController) {
 		},
 		onSearch : function(oEvent) {
 			this.getRouter().navTo("searchWithQuery", {
-				service : this.oQueryFormComponent.getService().code,
-				querycode : this.oQueryFormComponent.getQuery().oAST.code,
+				service : this.oQueryFormComponent.getProperty("service").code,
+				querycode : this.oQueryFormComponent.getProperty("query").oAST.code,
 				params : this.oQueryFormComponent.getParams(),
 			});
 		}

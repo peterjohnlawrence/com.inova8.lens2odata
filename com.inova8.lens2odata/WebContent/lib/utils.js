@@ -81,8 +81,9 @@
 			if (jQuery.isEmptyObject(odataModel)) {
 				// TODO should set maxDataServiceVersion based on declaration
 				try {
+					
 					odataModel = new sap.ui.model.odata.v2.ODataModel(utils.proxyUrl(service.serviceUrl, service.useProxy), {
-						maxDataServiceVersion : "2.0"
+						maxDataServiceVersion : "2.0",
 					}).attachMetadataFailed(function(oEvent) {
 						sap.m.MessageToast.show("Metada failed to load. Check less than OdataV4, also check source and proxy: " + service.serviceUrl);
 						onFailure();
