@@ -1,24 +1,6 @@
 {
 	"services": 
 	{
-		"LLO": 
-		{
-			"code": "LLO",
-			"name": "LLO",
-			"serviceUrl": "http://acodwb06:8080/odata2sparql/2.0/LLO/",
-			"version": "V2",
-			"queries": 
-			{
-				"m": 
-				{
-					"_class": "Query",
-					"code": "m",
-					"name": "Matters",
-					"concept": "Matter"
-				}
-			}
-		},
-
 		"LLV": 
 		{
 			"code": "LLV",
