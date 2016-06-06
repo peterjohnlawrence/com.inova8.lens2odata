@@ -113,7 +113,12 @@ Lens.Component.prototype.init = function() {
 
 	// parametersModel>
 	var oParametersModel = new sap.ui.model.json.JSONModel();
-	oParametersModel.setJSON('{"expandClause":false}', true);
+	try {
+		oParametersModel.loadData("config/parameters.json", null, false);
+	} catch (e) {
+		//Use default values
+		oParametersModel.setJSON('{"expandClause":false,"hiddenColumns":["label"]}', true);
+	}
 	sap.ui.getCore().setModel(oParametersModel, "parametersModel");
 
 	// lensesModel>

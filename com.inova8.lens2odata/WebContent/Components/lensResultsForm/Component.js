@@ -22,8 +22,7 @@ sap.ui.core.UIComponent.extend("Components.lensResultsForm.Component", {
 			options : "object"
 		},
 		events : {
-			fragmentChange : {
-			}
+			fragmentChange : {}
 		}
 	}
 });
@@ -33,22 +32,17 @@ Components.lensResultsForm.Component.prototype.fragmentEdit = function(oEvent, s
 	oFragmentDialog.setModel(sap.ui.getCore().getModel("lensesModel"), "lensesModel");
 	oFragmentDialog.setBindingContext(oLensContext, "lensesModel");
 	oFragmentDialog.setFragment(self.getFragment()).setTemplate(self.getProperty("template"));
-	oFragmentDialog.attachFragmentChange(function(oEvent){
+	oFragmentDialog.attachFragmentChange(function(oEvent) {
 		self.fireEvent("fragmentChange");
 	});
 	oFragmentDialog.open();
 };
 Components.lensResultsForm.Component.prototype.createContent = function() {
 	var self = this;
-	self.setOptions({
-		hiddenColumns : [ "label" ]
-	});
-	// self.getOptions().hiddenColumns = [ "label" ]
-	// this.oFormPanel = new sap.ui.commons.Panel({
-	// title : new sap.ui.core.Title(),
+	self.setOptions(sap.ui.getCore().getModel("parametersModel").getData());
 	this.oFormPanel = new sap.m.Panel({
 		width : "100%",
-		height : "auto",// height : "auto",
+		height : "auto",
 		showCollapseIcon : false,
 		borderDesign : sap.ui.commons.enums.BorderDesign.Box,
 		headerToolbar : new sap.m.Toolbar()
@@ -78,7 +72,6 @@ Components.lensResultsForm.Component.prototype.createContent = function() {
 };
 Components.lensResultsForm.Component.prototype.setTitle = function(sTitle) {
 	this.setProperty("title", sTitle);
-	// this.oFormPanel.setHeaderText(sTitle);
 	this.oTitle.setText(sTitle);
 };
 Components.lensResultsForm.Component.prototype.clearContents = function() {
@@ -100,8 +93,6 @@ Components.lensResultsForm.Component.prototype.renderResults = function(queryUrl
 					var bResults = true;
 					var oRecordTemplate = null;
 					var sBindPath = null;
-					// if (jQuery.isEmptyObject(odataResults.getData().d.results)) {
-					// Should fix missing results
 					if ((typeof odataResults.getData().d.results !== "object") || jQuery.isEmptyObject(odataResults.getData().d.results)) {
 						if ((odataResults.getData().d.length > 0)) {
 							oRecordTemplate = odataResults.getData().d[0];
@@ -122,14 +113,12 @@ Components.lensResultsForm.Component.prototype.renderResults = function(queryUrl
 						}
 					}
 					if (!jQuery.isEmptyObject(oRecordTemplate.__metadata)) {
-						// self.oFormPanel.getTitle().setText((jQuery.isEmptyObject(self.getProperty("title"))) ?
-						// oRecordTemplate.__metadata.type : self.getProperty("title"));
 						self.oFormPanel.setHeaderText((jQuery.isEmptyObject(self.getProperty("title"))) ? oRecordTemplate.__metadata.type : self.getProperty("title"));
 						self.oFormPanel.setModel(odataResults);
 						var oMetaModel = self.getMetaModel();// sap.ui.getCore().getModel("metaModel");
 						var oPrimaryEntityType = oMetaModel.getODataEntityType(oRecordTemplate.__metadata.type);
 						self.oFormContainer.destroyFormElements();
-						self.bindFormFields(oMetaModel, "d", oRecordTemplate, oPrimaryEntityType.name, sBindPath, 0, 0, bResults);
+						self.bindFormFields(oMetaModel, "d", oRecordTemplate, oPrimaryEntityType.name, sBindPath, 0, 0, bResults, "");
 						self.oForm.bindElement(sBindPath);
 					} else {
 						self.oFormContainer.addFormElement(new sap.ui.layout.form.FormElement({
@@ -183,7 +172,7 @@ Components.lensResultsForm.Component.prototype.nextFormElement = function(sLabel
 			width : "100%",
 			design : bObjectProperty ? sap.ui.commons.LabelDesign.Bold : sap.ui.commons.LabelDesign.Standard,
 			layoutData : new sap.ui.layout.form.GridElementData({
-				hCells : (4 + nLevel).toString()
+				hCells : (3 + nLevel).toString()
 			})
 		}),
 		fields : [ oField ]
@@ -192,7 +181,7 @@ Components.lensResultsForm.Component.prototype.nextFormElement = function(sLabel
 	return oFormElement;
 };
 Components.lensResultsForm.Component.prototype.bindFormFields = function(oMetaModel, sColumn, oTemplate, sCurrentLabel, sCurrentPath, nStartRow, nLevel,
-		bResults) {
+		bResults, sTooltip) {
 	var self = this;
 	bResults = typeof bResults === 'undefined' ? true : bResults;
 	var sEntityType;
@@ -208,19 +197,18 @@ Components.lensResultsForm.Component.prototype.bindFormFields = function(oMetaMo
 	for ( var column in oTemplate) {
 		if (jQuery.inArray(column, self.getOptions().hiddenColumns)) {
 			var sPathPrefix = (bResults) ? "" : sCurrentPath + "/";
-			var sTooltip;
+			// var sTooltip;
 			if (column == "__metadata") {
-
 				if (!jQuery.isEmptyObject(oTemplate[column].uri)) {
-					var sLabel = oEntityType["com.sap.vocabularies.Common.v1.Label"] ? oEntityType["com.sap.vocabularies.Common.v1.Label"].String : sCurrentLabel;
-					sTooltip = oEntityType["com.sap.vocabularies.Common.v1.QuickInfo"] ? oEntityType["com.sap.vocabularies.Common.v1.QuickInfo"].String : sCurrentLabel;
+					// sTooltip = oEntityType["com.sap.vocabularies.Common.v1.QuickInfo"] ?
+					// oEntityType["com.sap.vocabularies.Common.v1.QuickInfo"].String : sCurrentLabel;
 					if (bResults) {
 						oPaginator = new sap.ui.commons.Paginator({
 							currentPage : 1
 						});
 						oPaginator.bindColumn = sColumn;
 						paginatorCollection.push(oPaginator);
-						elementCollection.push(this.nextFormElement(sLabel, nLevel - 1, true, oPaginator));
+						elementCollection.push(this.nextFormElement(sCurrentLabel, nLevel - 1, true, oPaginator));
 						nRow++;
 						oPaginator.attachPage(function(oEvent) {
 							var sBindColumn = oEvent.getSource().bindColumn;
@@ -255,7 +243,7 @@ Components.lensResultsForm.Component.prototype.bindFormFields = function(oMetaMo
 							}
 						});
 					}
-					elementCollection.push(this.nextFormElement(bResults ? "" : sLabel, nLevel - 1, true, new sap.m.Link({
+					elementCollection.push(this.nextFormElement(bResults ? "" : sCurrentLabel, nLevel - 1, true, new sap.m.Link({
 						tooltip : sTooltip
 					}).bindProperty("text", {
 						parts : [ {
@@ -278,7 +266,7 @@ Components.lensResultsForm.Component.prototype.bindFormFields = function(oMetaMo
 						}, {
 							path : sPathPrefix + "__metadata/type",
 							type : new sap.ui.model.type.String()
-						} , {
+						}, {
 							path : sPathPrefix + "subjectId",
 							type : new sap.ui.model.type.String()
 						}, {
@@ -296,27 +284,39 @@ Components.lensResultsForm.Component.prototype.bindFormFields = function(oMetaMo
 				}
 			} else {
 				var sLabel = (sCurrentLabel == "") ? column : "\u21AA" + column;
+				oMetaModel.getNavigationProperty(sEntityType, column)
 				if (oTemplate[column] != null) {
 					if (!jQuery.isEmptyObject(oTemplate[column].results)) {
 						// Must be a repeating record set
+						var oNavProperty = oMetaModel.getODataInheritedNavigationProperty(oEntityType, column);
+						if (!jQuery.isEmptyObject(oNavProperty)) {
+							sLabel = oNavProperty["com.sap.vocabularies.Common.v1.Label"] ? "\u21AA" + oNavProperty["com.sap.vocabularies.Common.v1.Label"].String : sLabel;
+							sTooltip = oNavProperty["com.sap.vocabularies.Common.v1.QuickInfo"] ? oNavProperty["com.sap.vocabularies.Common.v1.QuickInfo"].String : column;
+						}
 						var oInnerTemplate = oTemplate[column].results[0];
 						if (bResults) {
 							innerPaginatorCollection = this.bindFormFields(oMetaModel, column, oInnerTemplate, sLabel, sCurrentPath + "/0/" + column + "/results", nRow,
-									nLevel + 1, true);
+									nLevel + 1, true, sTooltip);
 						} else {
 							innerPaginatorCollection = this.bindFormFields(oMetaModel, column, oInnerTemplate, sLabel, sCurrentPath + "/" + column + "/results", nRow,
-									nLevel + 1, true);
+									nLevel + 1, true, sTooltip);
 						}
 					} else if (!jQuery.isEmptyObject(oTemplate[column].__metadata)) {
 						// Must be a compound column so iterate through these as well
+						var oNavProperty = oMetaModel.getODataInheritedNavigationProperty(oEntityType, column);
+						if (!jQuery.isEmptyObject(oNavProperty)) {
+							sLabel = oNavProperty["com.sap.vocabularies.Common.v1.Label"] ? "\u21AA" + oNavProperty["com.sap.vocabularies.Common.v1.Label"].String : sLabel;
+							sTooltip = oNavProperty["com.sap.vocabularies.Common.v1.QuickInfo"] ? oNavProperty["com.sap.vocabularies.Common.v1.QuickInfo"].String : column;
+						}
 						elementCollection = elementCollection.concat(this.bindFormFields(oMetaModel, column, oTemplate[column], sLabel, sPathPrefix + column, nRow,
-								nLevel + 1, false));
+								nLevel + 1, false, sTooltip));
 					} else if (!jQuery.isEmptyObject(oTemplate[column].__deferred)) {
+						var oNavProperty = oMetaModel.getODataInheritedNavigationProperty(oEntityType, column);
+						if (!jQuery.isEmptyObject(oNavProperty)) {
+							sLabel = oNavProperty["com.sap.vocabularies.Common.v1.Label"] ? "\u21AA" + oNavProperty["com.sap.vocabularies.Common.v1.Label"].String : sLabel;
+							sTooltip = oNavProperty["com.sap.vocabularies.Common.v1.QuickInfo"] ? oNavProperty["com.sap.vocabularies.Common.v1.QuickInfo"].String : column;
+						}
 						var contents = oTemplate[column].__deferred;
-						var oProperty = oMetaModel.getODataInheritedNavigationProperty(oEntityType, column);
-						sLabel = oProperty["com.sap.vocabularies.Common.v1.Label"] ? "\u21AA" + oProperty["com.sap.vocabularies.Common.v1.Label"].String : "\u21AA"
-								+ column;
-						sTooltip = oProperty["com.sap.vocabularies.Common.v1.QuickInfo"] ? oProperty["com.sap.vocabularies.Common.v1.QuickInfo"].String : column;
 						oLink = new sap.m.Link({
 							tooltip : sTooltip
 						});
@@ -324,30 +324,30 @@ Components.lensResultsForm.Component.prototype.bindFormFields = function(oMetaMo
 						oTemplate[column].__deferred.type = oMetaModel.getODataInheritedAssociation(oEntityType, column).type;
 						elementCollection.push(this.nextFormElement(sLabel, nLevel, true, oLink.bindProperty("text", {
 							parts : [ {
-								path : column + "/__deferred/uri",
+								path :  sPathPrefix +column + "/__deferred/uri",
 								type : new sap.ui.model.type.String()
-							} , {
-							path : sPathPrefix + "subjectId",
-							type : new sap.ui.model.type.String()
-						}, {
-							path : sPathPrefix + "label",
-							type : new sap.ui.model.type.String()
-						} ],
+							}, {
+								path : sPathPrefix + "subjectId",
+								type : new sap.ui.model.type.String()
+							}, {
+								path : sPathPrefix + "label",
+								type : new sap.ui.model.type.String()
+							} ],
 							formatter : function(uri, sSubjectId, sLabel) {
 								return utils.lensDeferredUriLabel(uri, sSubjectId, sLabel);
 							}
 						}).bindProperty("href", {
 							parts : [ {
-								path : column + "/__deferred/uri",
+								path :  sPathPrefix +column + "/__deferred/uri",
 								type : new sap.ui.model.type.String()
 							}, {
-							path : sPathPrefix + "subjectId",
-							type : new sap.ui.model.type.String()
-						}, {
-							path : sPathPrefix + "label",
-							type : new sap.ui.model.type.String()
-						}  ],
-							formatter : function(uri , sSubjectId, sLabel) {
+								path : sPathPrefix + "subjectId",
+								type : new sap.ui.model.type.String()
+							}, {
+								path : sPathPrefix + "label",
+								type : new sap.ui.model.type.String()
+							} ],
+							formatter : function(uri, sSubjectId, sLabel) {
 								return utils.lensDeferredUri(uri, self.getProperty("serviceCode"), sSubjectId, sLabel, self);
 							}
 						})));
