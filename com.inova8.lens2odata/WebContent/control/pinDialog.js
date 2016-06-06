@@ -24,7 +24,7 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 			self.setModel(self.oAssociationSetsModel, "associationSetsModel");
 			sap.ui.getCore().setModel(self.oAssociationSetsModel, "associationSetsModel");
 
-			self.oPositionsModel = new sap.ui.model.json.JSONModel(utils.getTemplatePositions(self.getModel("lensesModel").getProperty("/templates/1R2C-1R")));
+  		self.oPositionsModel = new sap.ui.model.json.JSONModel();
 			self.setModel(self.oPositionsModel, "positionsModel");
 			sap.ui.getCore().setModel(self.oPositionsModel, "positionsModel");
 
@@ -35,6 +35,9 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 					.bindAggregation("items", "lensesModel>/lenses/" + self.getEntitySet().entityType + "/" + set, self.pinPageItemTemplate)
 
 			self.pinPositionElement.getFields()[0].bindAggregation("items", "positionsModel>/", self.pinPositionItemTemplate);
+			//Initialize to entity and then force event tp publish fields
+			self.pinSetElement.getFields()[0].setSelectedKey(sap.ui.getCore().getModel("i18nModel").getProperty("pinDialog.entity"));
+			self.onSetChange(null,self);
 			self.oDialog.getButtons()[0].setEnabled(false);
 			self.oDialog.open();
 
@@ -105,8 +108,6 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 			var set = self.pinSetElement.getFields()[0].getSelectedKey();
 			var page = self.pinPageElement.getFields()[0].getSelectedKey();
 			if (!jQuery.isEmptyObject(page)) {
-				self.pinPageTitleElement.getFields()[0].setValue(self.getModel("lensesModel").getProperty(
-						"/lenses/" + oEntitySet.entityType + "/" + set + "/" + page + "/title"));
 				self.pinTemplateElement.getFields()[0].setValue(self.getModel("lensesModel").getProperty(
 						"/lenses/" + oEntitySet.entityType + "/" + set + "/" + page + "/template"));
 				self.onTemplateChange(oEvent, self);
