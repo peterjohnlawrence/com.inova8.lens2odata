@@ -50,8 +50,6 @@ sap.ui.base.Object
 						// TODO
 						sPath = sPath || "/";
 						this.oAST = oAST || this.oAST;
-
-						this.oClauseReferences = [];
 						this.oViewModel = null;
 						try {
 							if (this.oAST["_class"] != "Query")
@@ -174,6 +172,7 @@ sap.ui.base.Object
 						return this.oAST;
 					},
 					viewModel : function() {
+						this.oClauseReferences = [];
 						try {
 							this.oClauseReferences[0] = this;
 							// TODO

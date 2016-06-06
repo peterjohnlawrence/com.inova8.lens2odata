@@ -28,7 +28,7 @@ sap.ui.commons.Link.extend("control.addClauses", {
 			tooltip : "{i18nModel>addClause.tooltip}"
 		});
 		self.oDialog = new sap.m.P13nDialog({
-			title : "{i18nModel>addClause.title}",
+			//title : "{i18nModel>addClause.title}",
 			cancel : function() {
 				self.oDialog.close();
 			},
@@ -74,7 +74,7 @@ sap.ui.commons.Link.extend("control.addClauses", {
 			var sEntityTypeQName = self.getParent().getRangeEntityTypeQName();
 
 			self.oDialog.setModel(self.getModel("metaModel").getEntityTypeModel(sEntityTypeQName), "entityTypeModel");
-			// self.initData();
+			self.oDialog.setTitle(sap.ui.getCore().getModel("i18nModel").getProperty("addClause.expand") + oEntityTypeContext.name)
 			if (self.oDialog.isOpen()) {
 				self.oDialog.close();
 			} else {

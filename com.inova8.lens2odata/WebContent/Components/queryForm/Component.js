@@ -83,8 +83,9 @@ Components.queryForm.Component.prototype.createContent = function() {
 				serviceCode : "LNW2"
 			}),
 			flexible : true,
-			resizable : false,  //true
-			autoResizable : false //true
+			resizable : false, // true
+			autoResizable : false
+		// true
 		})
 		// , new sap.ui.table.Column("path", {
 		// label : "Path",
@@ -95,6 +96,7 @@ Components.queryForm.Component.prototype.createContent = function() {
 		// })
 		],
 		width : "100%",
+		height : "100%",
 		visibleRowCount : 1,
 		selectionMode : sap.ui.table.SelectionMode.Single,
 		enableColumnReordering : false,
@@ -141,6 +143,14 @@ Components.queryForm.Component.prototype.createContent = function() {
 	return this.oTable;
 };
 Components.queryForm.Component.prototype.clearResults = function(self) {
+	// Sledgehammer, but it seems to work by starting again with the preview column of the table
+	self.oTable.getColumns()[1].setTemplate(new control.queryClausePreview({
+		viewContext : {
+			path : "viewModel>",
+		},
+		serviceCode : this.getProperty("service").code
+	}));
+	//
 	self.oResultsModel = new sap.ui.model.json.JSONModel({});
 	self.oTable.setModel(self.oResultsModel, "resultsModel");
 };
@@ -254,7 +264,7 @@ Components.queryForm.Component.prototype.setQuery = function(queryModel) {
 		} else {
 			this.oTable.setVisibleRowCount(1);
 		}
-		this.oTable.setVisibleRowCountMode(sap.ui.table.VisibleRowCountMode.Interactive);
+		// this.oTable.setVisibleRowCountMode(sap.ui.table.VisibleRowCountMode.Interactive);
 		this.oTable.setModel(this.oViewModel, "viewModel");
 		this.oTable.bindRows("viewModel>/");
 
@@ -272,9 +282,10 @@ Components.queryForm.Component.prototype.setQuery = function(queryModel) {
 };
 Components.queryForm.Component.prototype.previewResults = function(self) {
 	try {
+
 		var query = this.getProperty("query").init(this.getProperty("query").oAST);
 		var serviceURL = utils.proxyUrl(this.getProperty("service").serviceUrl, this.getProperty("service").useProxy);
-		var odataURL = serviceURL  + query.odataURI() + "&$top=10";
+		var odataURL = serviceURL + query.odataURI() + "&$top=10";
 		self.clearResults(self);
 		self.oResultsModel = new sap.ui.model.json.JSONModel({});
 		if (!jQuery.isEmptyObject(odataURL)) {
@@ -342,8 +353,7 @@ Components.queryForm.Component.prototype.createDebugActionSheet = function(self)
 				width : "50em"
 			});
 		}
-	}))
-	.addButton(new sap.m.Button({
+	})).addButton(new sap.m.Button({
 		text : "{i18nModel>debug.queryODataV2}",
 		press : function() {
 			sap.m.MessageToast.show(self.getProperty("query").odataURI("V2"), {
