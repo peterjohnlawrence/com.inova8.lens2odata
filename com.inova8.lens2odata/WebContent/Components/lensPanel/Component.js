@@ -53,6 +53,7 @@ Components.lensPanel.Component.prototype.renderFragments = function() {
 			uri : this.getQuery().uri,
 			entityType : this.getQuery().type,
 			entity : deferredUri.entity,
+			entityLabel: this.getQuery().label,
 			navigationProperty : deferredUri.navigationProperty,
 			page : this.getPage()
 		}
@@ -68,6 +69,7 @@ Components.lensPanel.Component.prototype.renderFragments = function() {
 			uri : this.getQuery().uri,
 			entityType : this.getQuery().type,
 			entity : metadatadUri.entity,
+			entityLabel: this.getQuery().label,
 			page : this.getPage()
 		}
 	}

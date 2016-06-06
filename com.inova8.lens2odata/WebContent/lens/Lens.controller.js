@@ -31,11 +31,12 @@ sap.ui.define([ "controller/BaseController" ], function(BaseController) {
 			oQuery.uri = oQuery.uri.replace(/~/g,"=");
 			this.oLensPanelComponent.setProperty("query",oQuery);
 			var oView = sap.ui.getCore().byId(this.createId("lensTitle"));
+			var typelabel = this.oArgs["?query"].type.split(".")[1]
 			if(this.oArgs["?query"].deferred){
-				oView.setText(  "Deferred "+ this.oArgs["?query"].type + " " + sap.ui.getCore().getModel("i18nModel").getProperty("lens.title") + this.oArgs["?query"].label);
+				oView.setText(  "Deferred "+ typelabel + " " + sap.ui.getCore().getModel("i18nModel").getProperty("lens.title") + this.oArgs["?query"].label);
 			
 			}else{
-				oView.setText(  this.oArgs["?query"].type + " " + sap.ui.getCore().getModel("i18nModel").getProperty("lens.title") + this.oArgs["?query"].label);
+				oView.setText(  typelabel + " " + sap.ui.getCore().getModel("i18nModel").getProperty("lens.title") + this.oArgs["?query"].label);
 			}
 			this.oLensPanelComponent.renderFragments();
 		},
