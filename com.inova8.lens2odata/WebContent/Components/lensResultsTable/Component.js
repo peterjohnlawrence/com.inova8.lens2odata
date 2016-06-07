@@ -163,19 +163,21 @@ Components.lensResultsTable.Component.prototype.bindTableColumns = function(oMet
 	bResults = typeof bResults === 'undefined' ? true : bResults;
 	var sEntityType;
 	var oEntityType;
+	var oComplexType;
 	if (!jQuery.isEmptyObject(oTemplate.__metadata)) {
 		sEntityType = oTemplate.__metadata.type;
 		oEntityType = oMetaModel.getODataEntityType(sEntityType);
+		oComplexType = oMetaModel.getODataComplexType(sEntityType);
 	}
 	for ( var column in oTemplate) {
 		if (jQuery.inArray(column, self.getOptions().hiddenColumns)) {
 			if (column == "__metadata") {
+				var sPathPrefix = (sCurrentPath != "") ? sCurrentPath + "/" : "";
 
 				if (!jQuery.isEmptyObject(oTemplate[column].uri)) {
-					var sPathPrefix = (sCurrentPath != "") ? sCurrentPath + "/" : "";
 					var sMetadataPath = (sCurrentPath != "") ? sCurrentPath + "/__metadata/uri" : "__metadata/uri";
-					var sLabel = oEntityType["com.sap.vocabularies.Common.v1.Label"] ? oEntityType["com.sap.vocabularies.Common.v1.Label"].String : column;
-					var sTooltip = oEntityType["com.sap.vocabularies.Common.v1.QuickInfo"] ? oEntityType["com.sap.vocabularies.Common.v1.QuickInfo"].String : sLabel;
+					var sLabel = oEntityType["com.sap.vocabularies.Common.v1.Label"] ? oEntityType["com.sap.vocabularies.Common.v1.Label"].String : sCurrentLabel;
+					var sTooltip = oEntityType["com.sap.vocabularies.Common.v1.QuickInfo"] ? oEntityType["com.sap.vocabularies.Common.v1.QuickInfo"].String : sCurrentLabel;
 					oTable.addColumn(new sap.ui.table.Column({
 						label : new sap.ui.commons.Label({
 							text : sLabel,
@@ -216,15 +218,15 @@ Components.lensResultsTable.Component.prototype.bindTableColumns = function(oMet
 							}, {
 								path : sPathPrefix + "label",
 								type : new sap.ui.model.type.String()
-							}  ],
+							} ],
 							formatter : function(uri, type, sSubjectId, sLabel) {
 								return utils.lensUri(uri, type, self.getProperty("serviceCode"), sSubjectId, sLabel);
 							}
 						})
 					}));
 				} else {
-					// TODO Must be a complex type. Need to add values for each filed of complex type if available
-					// oMetaModel.getODataComplexType(sEntityType)
+					// Must be a complex type. Need to add values for each filed of complex type if available
+					var oComplexType = oMetaModel.getODataComplexType(oTemplate[column].type);
 				}
 
 			} else {
@@ -287,12 +289,12 @@ Components.lensResultsTable.Component.prototype.bindTableColumns = function(oMet
 									path : sPath + "/__deferred/uri",
 									type : new sap.ui.model.type.String()
 								}, {
-								path : sPathPrefix + "subjectId",
-								type : new sap.ui.model.type.String()
-							}, {
-								path : sPathPrefix + "label",
-								type : new sap.ui.model.type.String()
-							}  ],
+									path : sPathPrefix + "subjectId",
+									type : new sap.ui.model.type.String()
+								}, {
+									path : sPathPrefix + "label",
+									type : new sap.ui.model.type.String()
+								} ],
 								formatter : function(uri, sSubjectId, sLabel) {
 									return utils.lensDeferredUriLabel(uri, sSubjectId, sLabel);
 								},
@@ -301,13 +303,13 @@ Components.lensResultsTable.Component.prototype.bindTableColumns = function(oMet
 								parts : [ {
 									path : sPath + "/__deferred/uri",
 									type : new sap.ui.model.type.String()
-								} , {
-								path : sPathPrefix + "subjectId",
-								type : new sap.ui.model.type.String()
-							}, {
-								path : sPathPrefix + "label",
-								type : new sap.ui.model.type.String()
-							} ],
+								}, {
+									path : sPathPrefix + "subjectId",
+									type : new sap.ui.model.type.String()
+								}, {
+									path : sPathPrefix + "label",
+									type : new sap.ui.model.type.String()
+								} ],
 								formatter : function(uri, sSubjectId, sLabel) {
 									return utils.lensDeferredUri(uri, self.getProperty("serviceCode"), sSubjectId, sLabel, self);
 								}
@@ -317,27 +319,33 @@ Components.lensResultsTable.Component.prototype.bindTableColumns = function(oMet
 						// This should not happen but could be the case that the navProperty is empty in which case there will be no
 						// metadata but an empty results array
 					} else {
-						this.columnFormatter(oTable, oMetaModel, oEntityType, column, sPath);
+						this.columnFormatter(oTable, oMetaModel, oEntityType, oComplexType, column, sPath);
 					}
 				} else {
-					this.columnFormatter(oTable, oMetaModel, oEntityType, column, sPath);
+					this.columnFormatter(oTable, oMetaModel, oEntityType, oComplexType, column, sPath);
 				}
 			}
 		}
 	}
 };
-Components.lensResultsTable.Component.prototype.columnFormatter = function(oTable, oMetaModel, oEntityType, column, sPath) {
+Components.lensResultsTable.Component.prototype.columnFormatter = function(oTable, oMetaModel, oEntityType, oComplexType, column, sPath) {
 	var oProperty;
 	var iLen;
 	var sWidth;
 	var sLabel;
 	var sTooltip;
 	try {
-		oProperty = oMetaModel.getODataInheritedProperty(oEntityType, column);
+		if (jQuery.isEmptyObject(oEntityType)) {
+			oProperty = utils.lookupObject(oComplexType.property, "name", column);
+		 sLabel = oProperty["com.sap.vocabularies.Common.v1.Heading"] ? oProperty["com.sap.vocabularies.Common.v1.Heading"].String : oComplexType.name +"."+column;
+		} else {
+			oProperty = oMetaModel.getODataInheritedProperty(oEntityType, column);
+					sLabel = oProperty["com.sap.vocabularies.Common.v1.Heading"] ? oProperty["com.sap.vocabularies.Common.v1.Heading"].String : column;
+		}
+		// oProperty = oMetaModel.getODataInheritedProperty(oEntityType, column);
 		iLen = oProperty.maxLength;
 		iLen = iLen ? parseInt(iLen, constants.DEFAULTTABLECOLUMNWIDTH) : constants.DEFAULTTABLECOLUMNWIDTH;
 		sWidth = (iLen >= constants.DEFAULTTABLECOLUMNWIDTH ? (iLen > 50 ? 15 : constants.DEFAULTTABLECOLUMNWIDTH) : 5) + "rem";
-		sLabel = oProperty["com.sap.vocabularies.Common.v1.Heading"] ? oProperty["com.sap.vocabularies.Common.v1.Heading"].String : column;
 		sTooltip = oProperty["com.sap.vocabularies.Common.v1.QuickInfo"] ? oProperty["com.sap.vocabularies.Common.v1.QuickInfo"].String : column;
 	} catch (e) {
 		throw "getODataProperty" + ":" + oEntityType + ":" + column;

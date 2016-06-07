@@ -202,8 +202,16 @@ sap.ui.model.MetaModel.prototype.getEntityTypeModel = function(sEntityType) {
 		var oEntityTypeModelData = {};
 		var navigationProperties = this.getNavigationProperties(sEntityType);
 		var dataProperties = this.getDataProperties(sEntityType);
+		var complexTypes= [];
+		for (var index=0; index<dataProperties.length;index++){
+			if ( (dataProperties[index].type).split(".")[0] != "Edm"){
+				//Must be a complex property
+				complexTypes.push(dataProperties[index]);
+			}
+		}
 		oEntityTypeModelData.navigationProperty = navigationProperties;
 		oEntityTypeModelData.property = dataProperties;
+		oEntityTypeModelData.complexType = complexTypes;
 		var oEntityTypeModel = new sap.ui.model.json.JSONModel();
 		oEntityTypeModel.setData(oEntityTypeModelData);
 		return oEntityTypeModel;

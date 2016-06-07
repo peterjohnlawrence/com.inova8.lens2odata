@@ -160,9 +160,7 @@ Components.lensResultsForm.Component.prototype.renderResults = function(queryUrl
 
 Components.lensResultsForm.Component.prototype.nextFormElement = function(sLabel, nLevel, bObjectProperty, oField) {
 	nLevel < 0 ? nLevel = 0 : nLevel = nLevel;
-	oField.setLayoutData(new sap.ui.layout.form.GridElementData({
-		hCells : (12 - nLevel).toString()
-	}));
+
 	for (var i = 0; i < nLevel * 5; i++)
 		sLabel = "\u00a0" + sLabel;
 	var oFormElement = new sap.ui.layout.form.FormElement({
@@ -174,9 +172,14 @@ Components.lensResultsForm.Component.prototype.nextFormElement = function(sLabel
 			layoutData : new sap.ui.layout.form.GridElementData({
 				hCells : (3 + nLevel).toString()
 			})
-		}),
-		fields : [ oField ]
+		})
 	});
+	if (!jQuery.isEmptyObject(oField)) {
+		oField.setLayoutData(new sap.ui.layout.form.GridElementData({
+			hCells : (12 - nLevel).toString()
+		}));
+		oFormElement.addField(oField);
+	}
 	this.oFormContainer.addFormElement(oFormElement);
 	return oFormElement;
 };
@@ -186,6 +189,7 @@ Components.lensResultsForm.Component.prototype.bindFormFields = function(oMetaMo
 	bResults = typeof bResults === 'undefined' ? true : bResults;
 	var sEntityType;
 	var oEntityType;
+			var oComplexType;
 	var nRow = nStartRow;
 	var elementCollection = [];
 	var paginatorCollection = [];
@@ -193,6 +197,7 @@ Components.lensResultsForm.Component.prototype.bindFormFields = function(oMetaMo
 	if (!jQuery.isEmptyObject(oTemplate.__metadata)) {
 		sEntityType = oTemplate.__metadata.type;
 		oEntityType = oMetaModel.getODataEntityType(sEntityType);
+		oComplexType = oMetaModel.getODataComplexType(sEntityType);
 	}
 	for ( var column in oTemplate) {
 		if (jQuery.inArray(column, self.getOptions().hiddenColumns)) {
@@ -279,12 +284,12 @@ Components.lensResultsForm.Component.prototype.bindFormFields = function(oMetaMo
 					})));
 					nRow++;
 				} else {
-					// TODO Must be a complex type. Need to add values for each field of complex type if available
-					// oMetaModel.getODataComplexType(sEntityType)
+					// Must be a complex type. Need to add values for each field of complex type if available
+					elementCollection.push(this.nextFormElement(sCurrentLabel, nLevel- 1, true, null));
+					nRow++;
 				}
 			} else {
 				var sLabel = (sCurrentLabel == "") ? column : "\u21AA" + column;
-				oMetaModel.getNavigationProperty(sEntityType, column)
 				if (oTemplate[column] != null) {
 					if (!jQuery.isEmptyObject(oTemplate[column].results)) {
 						// Must be a repeating record set
@@ -303,13 +308,24 @@ Components.lensResultsForm.Component.prototype.bindFormFields = function(oMetaMo
 						}
 					} else if (!jQuery.isEmptyObject(oTemplate[column].__metadata)) {
 						// Must be a compound column so iterate through these as well
-						var oNavProperty = oMetaModel.getODataInheritedNavigationProperty(oEntityType, column);
-						if (!jQuery.isEmptyObject(oNavProperty)) {
-							sLabel = oNavProperty["com.sap.vocabularies.Common.v1.Label"] ? "\u21AA" + oNavProperty["com.sap.vocabularies.Common.v1.Label"].String : sLabel;
-							sTooltip = oNavProperty["com.sap.vocabularies.Common.v1.QuickInfo"] ? oNavProperty["com.sap.vocabularies.Common.v1.QuickInfo"].String : column;
+						if (!jQuery.isEmptyObject(oTemplate[column].__metadata.uri)) {
+							var oNavProperty = oMetaModel.getODataInheritedNavigationProperty(oEntityType, column);
+							if (!jQuery.isEmptyObject(oNavProperty)) {
+								sLabel = oNavProperty["com.sap.vocabularies.Common.v1.Label"] ? "\u21AA" + oNavProperty["com.sap.vocabularies.Common.v1.Label"].String : sLabel;
+								sTooltip = oNavProperty["com.sap.vocabularies.Common.v1.QuickInfo"] ? oNavProperty["com.sap.vocabularies.Common.v1.QuickInfo"].String : column;
+							}
+							elementCollection = elementCollection.concat(this.bindFormFields(oMetaModel, column, oTemplate[column], sLabel, sPathPrefix + column, nRow,
+									nLevel + 1, false, sTooltip));
+						} else {
+							// Must be a complex type
+							var oComplexType = oMetaModel.getODataComplexType(oTemplate[column].__metadata.type);
+							if (!jQuery.isEmptyObject(oComplexType)) {
+								sLabel = oComplexType["com.sap.vocabularies.Common.v1.Label"] ? "\u21AA" + oComplexType["com.sap.vocabularies.Common.v1.Label"].String : sLabel;
+								sTooltip = oComplexType["com.sap.vocabularies.Common.v1.QuickInfo"] ? oComplexType["com.sap.vocabularies.Common.v1.QuickInfo"].String : column;
+							}
+							elementCollection = elementCollection.concat(this.bindFormFields(oMetaModel, column, oTemplate[column], sLabel, sPathPrefix + column, nRow,
+									nLevel + 1, false, sTooltip));
 						}
-						elementCollection = elementCollection.concat(this.bindFormFields(oMetaModel, column, oTemplate[column], sLabel, sPathPrefix + column, nRow,
-								nLevel + 1, false, sTooltip));
 					} else if (!jQuery.isEmptyObject(oTemplate[column].__deferred)) {
 						var oNavProperty = oMetaModel.getODataInheritedNavigationProperty(oEntityType, column);
 						if (!jQuery.isEmptyObject(oNavProperty)) {
@@ -324,7 +340,7 @@ Components.lensResultsForm.Component.prototype.bindFormFields = function(oMetaMo
 						oTemplate[column].__deferred.type = oMetaModel.getODataInheritedAssociation(oEntityType, column).type;
 						elementCollection.push(this.nextFormElement(sLabel, nLevel, true, oLink.bindProperty("text", {
 							parts : [ {
-								path :  sPathPrefix +column + "/__deferred/uri",
+								path : sPathPrefix + column + "/__deferred/uri",
 								type : new sap.ui.model.type.String()
 							}, {
 								path : sPathPrefix + "subjectId",
@@ -338,7 +354,7 @@ Components.lensResultsForm.Component.prototype.bindFormFields = function(oMetaMo
 							}
 						}).bindProperty("href", {
 							parts : [ {
-								path :  sPathPrefix +column + "/__deferred/uri",
+								path : sPathPrefix + column + "/__deferred/uri",
 								type : new sap.ui.model.type.String()
 							}, {
 								path : sPathPrefix + "subjectId",
@@ -360,7 +376,11 @@ Components.lensResultsForm.Component.prototype.bindFormFields = function(oMetaMo
 						var oProperty;
 						try {
 							// oProperty = oMetaModel.getDataProperty(oEntityType.name, column);
-							oProperty = oMetaModel.getODataInheritedProperty(oEntityType, column);
+							if (jQuery.isEmptyObject(oEntityType)) {
+								oProperty = utils.lookupObject(oComplexType.property, "name", column);
+							} else {
+								oProperty = oMetaModel.getODataInheritedProperty(oEntityType, column);
+							}
 							sLabel = oProperty["com.sap.vocabularies.Common.v1.Label"] ? "\u21AA" + oProperty["com.sap.vocabularies.Common.v1.Label"].String : sLabel;
 							sTooltip = oProperty["com.sap.vocabularies.Common.v1.QuickInfo"] ? oProperty["com.sap.vocabularies.Common.v1.QuickInfo"].String : column;
 						} catch (e) {

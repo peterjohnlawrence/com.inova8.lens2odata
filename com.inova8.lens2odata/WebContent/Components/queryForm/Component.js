@@ -290,7 +290,6 @@ Components.queryForm.Component.prototype.previewResults = function(self) {
 		self.oResultsModel = new sap.ui.model.json.JSONModel({});
 		if (!jQuery.isEmptyObject(odataURL)) {
 			self.oTable.setBusy(true);// .setBusyIndicatorDelay(0);
-			self.oResultsModel.loadData(odataURL);
 			self.oResultsModel.attachRequestCompleted(function(oEvent) {
 				if (oEvent.getParameter("success")) {
 					var nResults = 0;
@@ -331,6 +330,7 @@ Components.queryForm.Component.prototype.previewResults = function(self) {
 								+ " " + oEvent.getParameter("statusText") + " " + oEvent.getParameter("responseText"));
 						self.oTable.setBusy(false);
 					});
+			self.oResultsModel.loadData(odataURL);
 		} else {
 			sap.m.MessageToast.show(sap.ui.getCore().getModel("i18nModel").getProperty("queryForm.queryUndefined"));
 		}

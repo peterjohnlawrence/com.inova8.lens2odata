@@ -40,9 +40,9 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 				oRm.writeClasses();
 				oRm.write(">");
 				var currentModel = oControl.getModel("queryModel");
-				oControl.setBindingContext(new sap.ui.model.Context(oControl.getModel("queryModel"), oControl.getClausePath()), "queryModel")
+				oControl.setBindingContext(new sap.ui.model.Context(currentModel, oControl.getClausePath()), "queryModel")
 				var currentCtx = oControl.getBindingContext("queryModel");
-				var currentContext = oControl.getModel("queryModel").getProperty("", currentCtx);
+				var currentContext = currentModel.getProperty("", currentCtx);
 				if (!jQuery.isEmptyObject(currentContext)) {
 					var sClass = currentContext._class;
 					if (sClass == "Query") {

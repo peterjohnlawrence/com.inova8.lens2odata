@@ -28,7 +28,7 @@ sap.ui.commons.Link.extend("control.addClauses", {
 			tooltip : "{i18nModel>addClause.tooltip}"
 		});
 		self.oDialog = new sap.m.P13nDialog({
-			//title : "{i18nModel>addClause.title}",
+			// title : "{i18nModel>addClause.title}",
 			cancel : function() {
 				self.oDialog.close();
 			},
@@ -64,9 +64,20 @@ sap.ui.commons.Link.extend("control.addClauses", {
 				})
 			}
 		});
+		self.oComplexTypeList = new sap.m.P13nColumnsPanel({
+			title : "{i18nModel>addClause.complexTypes}",
+			items : {
+				path : "entityTypeModel>/complexType",
+				template : new sap.m.P13nItem({
+					columnKey : "{entityTypeModel>name}",
+					text : "{= ${entityTypeModel>sap:label} || ${entityTypeModel>name}}"
+				})
+			}
+		});
 		self.oDialog.addPanel(self.oObjectPropertyList);
 		self.oDialog.addPanel(self.oDataPropertyList);
-
+		self.oDialog.addPanel(self.oComplexTypeList);
+		
 		self.oAddClauseLink.attachPress(function(oEvent) {
 			var self = oEvent.getSource().getParent();
 			// Setup property menu according to current model context if not already set
