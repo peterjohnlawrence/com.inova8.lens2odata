@@ -99,7 +99,11 @@
 	font-weight: normal; 
 	display: inline-block;
 }
-
+.complexDataPropertyClause {
+	font: 12px arial, sans-serif;
+	font-weight: normal; 
+	display: inline-block;
+}
 .dataPropertyValue {
 	font: 12px arial, sans-serif;
 	font-weight: normal; 
@@ -171,7 +175,16 @@
 	padding: 5px;
 	border-radius: 10px;
 }
-
+.complexDataPropertyMenuLink {
+	font: 12px arial, sans-serif;
+	font-weight: bold;
+	color:white;
+	display: inline-block;
+	background-color: #FF9966;//lightgrey;
+	border: 2px solid #EF7200;//navy;
+	padding: 5px;
+	border-radius: 10px;
+}
 .conjunctionMenuLink {
 	font: 12px arial, sans-serif;
 	font-weight: bold;

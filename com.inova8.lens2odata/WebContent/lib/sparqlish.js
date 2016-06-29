@@ -645,18 +645,22 @@ sap.ui.base.Object.extend("Clause", {
 		var oViewModel = {};
 		this.sNameVariable = "";
 		if (!jQuery.isEmptyObject(this.oPropertyClause)) {
-			extendj(oViewModel, this.oPropertyClause.viewModel(sPath + "clause/propertyClause/", oClauseReferences, sKeyVariable, sResultsPath, sResultsContext,
-			// extendj(oViewModel, this.oPropertyClause.viewModel(sPath + "propertyClause/", oClauseReferences, sKeyVariable,
-			// sResultsPath, sResultsContext,
-			iIndex));
-			if (jQuery.isEmptyObject(this.oPropertyClause.oPropertyClause.sDataProperty)) {
-				// assume it must be an objectProperty
+			extendj(oViewModel, this.oPropertyClause.viewModel(sPath + "clause/propertyClause/", oClauseReferences, sKeyVariable, sResultsPath, sResultsContext,iIndex));
+			switch (this.oPropertyClause.oPropertyClause.oAST._class) {
+			case "ObjectPropertyClause":
 				this.sNameVariable = sPrefix + this.oContext.sObject + sLabelPostfix;
 				this.sField = this.oPropertyClause.oPropertyClause.sObjectProperty;
 				this.sType = metadata;
-			} else {
+				break;
+			case "DataPropertyClause":
 				this.sField = this.oPropertyClause.oPropertyClause.sDataProperty;
 				this.sType = this.oPropertyClause.oPropertyClause.oAST.type;
+				break;
+			case "ComplexDataPropertyClause":
+				this.sField = this.oPropertyClause.oPropertyClause.sDataProperty;
+				this.sType = this.oPropertyClause.oPropertyClause.oAST.type;
+				break;
+			default:
 			}
 			this.sKeyVariable = sKeyVariable + ":" + this.sField;
 			this.sResultsPath = sResultsPath + "/" + this.sField;
@@ -795,6 +799,9 @@ sap.ui.base.Object.extend("PropertyClause", {
 			} else if (oAST["_class"] == "OperationClause") {
 				this.oPropertyClause = new OperationClause(this.oDataMetaModel, oAST, oContext);
 				this.sLabel = labelFromURI(this.oPropertyClause.sOperationProperty);
+			} else if (oAST["_class"] == "ComplexDataPropertyClause") {
+				this.oPropertyClause = new ComplexDataPropertyClause(this.oDataMetaModel, oAST, oContext);
+				this.sLabel = labelFromURI(this.oPropertyClause.sComplexDataProperty);
 			} else
 				throw "notPropertyClauseException";
 		} catch (e) {
@@ -1375,7 +1382,106 @@ sap.ui.base.Object.extend("OperationClause", {
 		return "";
 	}
 });
+sap.ui.base.Object.extend("ComplexDataPropertyClause", {
+	constructor : function(oDataMetaModel, oAST, oContext) {
+		this.oDataMetaModel = oDataMetaModel;
+		this.oAST = oAST;
+		try {
+			if (oAST["_class"] != "ComplexDataPropertyClause")
+				throw "notComplexDataPropertyClauseException";
+			this.sComplexDataProperty = oAST["complexDataProperty"];
+			this.oContext = oContext;
+			if (this.oContext.sOdataEntityPath == "") {
+				this.oContext.sOdataEntityPath = this.sComplexDataProperty;
+			} else {
+				this.oContext.sOdataEntityPath = this.oContext.sOdataEntityPath + "/" + this.sComplexDataProperty;
+			}
 
+			if (!jQuery.isEmptyObject(oAST["clauses"]) && (oAST["clauses"]._class == "Clauses")) {
+				var oNewContext = {
+					sOdataEntityPath : oContext.sOdataEntityPath,
+					sSubject : oContext.sObject,
+					sObject : oContext.sObject + "_",
+					iLevel : oContext.iLevel + 1
+				};
+				this.oClauses = new Clauses(this.oDataMetaModel, oAST["clauses"], oNewContext);
+			} else {
+				this.oClauses = null;
+			}
+		} catch (e) {
+			jQuery.sap.log.error(e);
+			throw (e);
+		}
+	},
+	sparql : function() {
+		return "";
+	},
+	facetSparql : function() {
+		return "";
+		return "";
+	},
+	sparqlish : function() {
+		return labelFromURI(this.sComplexDataProperty);
+	},
+	viewModel : function(sPath, oClauseReferences, sKeyVariable, sResultsPath, sResultsContext, iClauseIndex) {
+		var oViewModel = {};
+		var sContext = "";
+		if (this.oAST.multiplicity === "*")
+			sContext = "/results/{=P" + iClauseIndex + "}";
+		if (!jQuery.isEmptyObject(this.oClauses)) {
+			extendj(oViewModel, this.oClauses.viewModel(sPath, oClauseReferences, sKeyVariable + ":" + this.sComplexDataProperty, sResultsPath + "/"
+					+ this.sComplexDataProperty, sResultsContext + "/" + this.sComplexDataProperty + sContext, iClauseIndex));
+		}
+		extendj(oViewModel, {
+			"path" : sPath,
+			"sparqlish" : this.sparqlish(),
+			"keyVariable" : sKeyVariable + ":" + this.sComplexDataProperty,
+			"resultsPath" : sResultsPath + "/" + this.sComplexDataProperty,
+			"resultsContext" : sResultsContext + "/" + this.sComplexDataProperty + sContext,
+			"field" : this.sComplexDataProperty,
+			"multiplicity" : this.oAST.multiplicity,
+			"type" : metadata
+		});
+		return oViewModel;
+	},
+	odataFilter : function(sVersion, oParameters) {
+		var sOdataFilter = "";
+		if (!jQuery.isEmptyObject(this.oClauses)) {
+			sOdataFilter = this.oClauses.odataFilter(sVersion, oParameters);
+		}
+		return sOdataFilter;
+	},
+	odataSelect : function(sVersion) {
+		// Cannot navigate path of a complex type in a $select statement, can only retrive entire complex type in $select
+		return this.sComplexDataProperty;
+	},
+	odataExpand : function(sVersion) {
+		var sClausesExpand = [];
+		if (!jQuery.isEmptyObject(this.oClauses)) {
+			sClausesExpand = this.oClauses.odataExpand(sVersion);
+		}
+		if (jQuery.isEmptyObject(sClausesExpand)) {
+			return this.sComplexDataProperty;
+		} else {
+			var odataExpand = []
+			odataExpand.push(this.sComplexDataProperty)
+			for (sClauseExpand in sClausesExpand) {
+				odataExpand.push(this.sComplexDataProperty + "/" + sClausesExpand[sClauseExpand]);
+			}
+			return odataExpand;
+		}
+	},
+	odataExpandSelect : function(sVersion) {
+		return "";
+	},
+	odataSelectForExpand : function(sVersion) {
+		return "";
+	},
+	odataCustomQueryOptions : function(sVersion) {
+		return "";
+	}
+
+});
 sparqlClauseConjunction = function(sConjunction) {
 	switch (sConjunction) {
 	case "and": {

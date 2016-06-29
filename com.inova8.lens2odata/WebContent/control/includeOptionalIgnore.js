@@ -103,22 +103,23 @@ sap.m.Link.extend("control.includeOptionalIgnore", {
 		case "ObjectPropertyClause":
 			if (oClause.ignore) {
 				oText = sap.ui.getCore().getModel("i18nModel").getProperty("includeOptionalIgnore.objectproperty.ignoreWith");
-//			} else if (oClause.optional) {
-//				oText = sap.ui.getCore().getModel("i18nModel").getProperty("includeOptionalIgnore.objectproperty.optionallyWith");
 			} else {
 				oText = sap.ui.getCore().getModel("i18nModel").getProperty("includeOptionalIgnore.objectproperty.with");
 			}
-			;
+			break;
+		case "ComplexDataPropertyClause":
+			if (oClause.ignore) {
+				oText = sap.ui.getCore().getModel("i18nModel").getProperty("includeOptionalIgnore.complexdataproperty.ignoreWith");
+			} else {
+				oText = sap.ui.getCore().getModel("i18nModel").getProperty("includeOptionalIgnore.complexdataproperty.with");
+			}
 			break;
 		case "DataPropertyClause":
 			if (oClause.ignore) {
 				oText = sap.ui.getCore().getModel("i18nModel").getProperty("includeOptionalIgnore.dataproperty.ignoreWith");
-//			} else if (oClause.optional) {
-//				oText = sap.ui.getCore().getModel("i18nModel").getProperty("includeOptionalIgnore.dataproperty.optionallyWith");
 			} else {
 				oText = sap.ui.getCore().getModel("i18nModel").getProperty("includeOptionalIgnore.dataproperty.with");
 			}
-			;
 			break;
 		}
 		oRm.renderControl(oControl.getAggregation("_includeOptionalIgnore").setText(oText));

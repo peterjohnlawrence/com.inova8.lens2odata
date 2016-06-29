@@ -5,7 +5,12 @@ jQuery.sap.require("control.extendFilter");
 
 sap.ui.commons.Link.extend("control.addClauses", {
 	metadata : {
-		properties : {},
+		properties : {
+			complex : {
+				type : "boolean",
+				defaultValue : false
+			}
+		},
 		aggregations : {
 			_icon : {
 				type : "control.extendFilter", // "sap.ui.core.Icon",
@@ -64,28 +69,23 @@ sap.ui.commons.Link.extend("control.addClauses", {
 				})
 			}
 		});
-		self.oComplexTypeList = new sap.m.P13nColumnsPanel({
-			title : "{i18nModel>addClause.complexTypes}",
-			items : {
-				path : "entityTypeModel>/complexType",
-				template : new sap.m.P13nItem({
-					columnKey : "{entityTypeModel>name}",
-					text : "{= ${entityTypeModel>sap:label} || ${entityTypeModel>name}}"
-				})
-			}
-		});
 		self.oDialog.addPanel(self.oObjectPropertyList);
 		self.oDialog.addPanel(self.oDataPropertyList);
-		self.oDialog.addPanel(self.oComplexTypeList);
-		
+
 		self.oAddClauseLink.attachPress(function(oEvent) {
 			var self = oEvent.getSource().getParent();
 			// Setup property menu according to current model context if not already set
-			var oEntityTypeContext = self.getParent().getRangeEntityTypeContext();
-			var sEntityTypeQName = self.getParent().getRangeEntityTypeQName();
+			if (self.getComplex()) {
+				var oComplexTypeContext = self.getParent().getRangeComplexTypeContext();
+				var sComplexTypeQName = self.getParent().getRangeComplexTypeQName();
+				self.oDialog.setModel(self.getModel("metaModel").getComplexTypeModel(sComplexTypeQName), "entityTypeModel");
+			} else {
+				var oEntityTypeContext = self.getParent().getRangeEntityTypeContext();
+				var sEntityTypeQName = self.getParent().getRangeEntityTypeQName();
 
-			self.oDialog.setModel(self.getModel("metaModel").getEntityTypeModel(sEntityTypeQName), "entityTypeModel");
-			self.oDialog.setTitle(sap.ui.getCore().getModel("i18nModel").getProperty("addClause.expand") + oEntityTypeContext.name)
+				self.oDialog.setModel(self.getModel("metaModel").getEntityTypeModel(sEntityTypeQName), "entityTypeModel");
+				self.oDialog.setTitle(sap.ui.getCore().getModel("i18nModel").getProperty("addClause.expand") + oEntityTypeContext.name)
+			}
 			if (self.oDialog.isOpen()) {
 				self.oDialog.close();
 			} else {

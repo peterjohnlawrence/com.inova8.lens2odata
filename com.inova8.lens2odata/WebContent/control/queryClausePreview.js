@@ -180,7 +180,11 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 							oControl.oTextView = new control.textLink().bindProperty("value", {
 								path : "resultsModel>" + sCurrentResultsContext,
 								formatter : function(value) {
-									return JSON.stringify(value);
+									return JSON.stringify(value, function(key, value) {
+										if (key === "__metadata")
+											return undefined;
+										return value;
+									});
 								}
 							}).bindProperty("linkText", "{i18nModel>textLink.Link}");
 							oControl.setAggregation("_preview", oControl.oTextView);

@@ -81,7 +81,7 @@
 			if (jQuery.isEmptyObject(odataModel)) {
 				// TODO should set maxDataServiceVersion based on declaration
 				try {
-					
+
 					odataModel = new sap.ui.model.odata.v2.ODataModel(utils.proxyUrl(service.serviceUrl, service.useProxy), {
 						maxDataServiceVersion : "2.0",
 					}).attachMetadataFailed(function(oEvent) {
@@ -143,14 +143,6 @@
 		var pathname = document.location.pathname
 		return pathname.substring(1, pathname.length - 1);
 	}
-	// utils.getLocalStorage1 = function(localFile) {
-	// var oStorage = jQuery.sap.storage(jQuery.sap.storage.Type.local);
-	// return oStorage.get(utils.appname() + "." + localFile);
-	// };
-	// utils.saveToLocalStorage = function(localFile, model) {
-	// var oStorage = jQuery.sap.storage(jQuery.sap.storage.Type.local);
-	// oStorage.put(utils.appname() + "." + localFile, sap.ui.getCore().getModel(model).getData());
-	// };
 	utils.getLocalStorage = function(remoteFile) {
 		var file = utils.appname() + "." + remoteFile;
 		var url = 'JSONServlet';
@@ -375,5 +367,79 @@
 
 		}
 		return positions;
+	};
+	utils.addPropertyClauses = function(me, currentModelData, selectedObjectProperties, selectedDataProperties) {
+
+		for (var i = 0; i < selectedDataProperties.length; i++) {
+			var dataProperty = selectedDataProperties[i].columnKey;// getText();
+			// self.addClause(currentModelData, "DataPropertyClause", dataProperty);
+			utils.addPropertyClause(me, currentModelData, "DataPropertyClause", dataProperty);
+		}
+		for (var i = 0; i < selectedObjectProperties.length; i++) {
+			var objectProperty = selectedObjectProperties[i].columnKey;// getText();
+			// self.addClause(currentModelData, "ObjectPropertyClause", objectProperty);
+			utils.addPropertyClause(me, currentModelData, "ObjectPropertyClause", objectProperty);
+		}
+	};
+	utils.addPropertyClause = function(me, currentModelData, clauseClass, property) {
+		var clauseProperty = (clauseClass == "DataPropertyClause") ? "dataProperty" : "objectProperty";
+		var currentClause;
+		if (jQuery.isEmptyObject(currentModelData.clauses) || jQuery.isEmptyObject(currentModelData.clauses.clause)) {
+			// No dependent clauses at all so start element
+			currentModelData.clauses = {
+				"_class" : "Clauses",
+				"clause" : {}
+			};
+			currentClause = currentModelData.clauses.clause;
+		} else if (!jQuery.isEmptyObject(currentModelData.clauses.conjunctionClauses)) {
+			// Conjunction clauses exist so add at the end of the array
+			var last = currentModelData.clauses.conjunctionClauses.length;
+			currentModelData.clauses.conjunctionClauses[last] = {
+				"_class" : "ConjunctionClause",
+				"conjunction" : "and",
+				"clause" : {}
+			};
+			currentClause = currentModelData.clauses.conjunctionClauses[last].clause;
+		} else {
+			// Must be the first of a ConjunctionClause
+			currentModelData.clauses.conjunctionClauses = [];
+			currentModelData.clauses.conjunctionClauses[0] = {
+				"_class" : "ConjunctionClause",
+				"conjunction" : "and",
+				"clause" : {}
+			};
+			currentClause = currentModelData.clauses.conjunctionClauses[0].clause;
+		}
+		currentClause._class = "Clause";
+		currentClause.ignore = false;
+		currentClause.optional = false;
+		currentClause.propertyClause = {};
+		currentClause.propertyClause._class = clauseClass;
+		if (clauseClass == "DataPropertyClause") {
+			switch (currentModelData._class) {
+				case "Query":
+				case "ObjectPropertyClause":
+				currentClause.propertyClause.type = me.getModel("metaModel").getODataInheritedProperty(me.getRangeEntityTypeContext(), property).type;
+				break;
+			case "ComplexDataPropertyClause":
+				currentClause.propertyClause.type = utils.lookupObject(me.getModel("metaModel").getODataComplexType(currentModelData.type).property, "name", property).type;
+				break;
+			default:
+			}
+
+			if (!jQuery.isEmptyObject(me.getModel("metaModel").getODataComplexType(currentClause.propertyClause.type))) {
+				currentClause.propertyClause._class = "ComplexDataPropertyClause";
+				currentClause.propertyClause.complexDataProperty = property;
+			} else {
+				currentClause.propertyClause.dataPropertyFilters = {};
+				currentClause.propertyClause.dataPropertyFilters._class = "DataPropertyFilters";
+				currentClause.propertyClause.dataProperty = property;
+			}
+		} else {
+			// add type = __metadata
+			currentClause.propertyClause.objectProperty = property;
+			currentClause.propertyClause.multiplicity = me.getModel("metaModel").getODataInheritedAssociation(me.getRangeEntityTypeContext(), property).multiplicity;
+			currentClause.propertyClause.objectPropertyFilters = [];
+		}
 	};
 })(window);

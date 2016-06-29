@@ -13,16 +13,14 @@ sap.ui.model.MetaModel.prototype.entityTypeContext = function(oQueryModel, oCont
 		for (var index = 1; index < depth; index++) {
 			sContextPath += "clauses" + path[index];
 			var sObjectProperty = oQueryModel.getProperty(sContextPath).objectProperty;
-			// TODO simplified as below
-			// var navigationProperty = this.getNavigationProperty(sEntityType, sObjectProperty);
-			// var toEntitySet = navigationProperty.toRole;
-			// sEntityType = this.getODataEntitySet(toEntitySet).entityType;
 			sEntityType = this.getODataAssociationEnd(this.getODataEntityType(sEntityType), sObjectProperty).type;
 		}
 		return oMetaModel.getODataEntityType(sEntityType);
 	} catch (error) {
 		jQuery.sap.log.fatal(error, 'Failed to locate entityTypeContext using context ' + oContext.getPath() + " with error " + error.message);
-		throw ('Failed to locate entityTypeContext using context ' + oContext.getPath() + " with error " + error.message);
+		return null;
+		// throw ('Failed to locate entityTypeContext using context ' + oContext.getPath() + " with error " +
+		// error.message);
 	}
 };
 
@@ -39,20 +37,30 @@ sap.ui.model.MetaModel.prototype.entityTypeQName = function(oQueryModel, oContex
 
 		for (var index = 1; index < depth; index++) {
 			sContextPath += "clauses" + path[index];
-			var sObjectProperty = oQueryModel.getProperty(sContextPath).objectProperty;
-			// TODO simplified as below
-			// var navigationProperty = this.getNavigationProperty(sEntityType, sObjectProperty);
-			// var toEntitySet = navigationProperty.toRole;
-			// sEntityType = this.getODataEntitySet(toEntitySet).entityType;
-			// sEntityType = this.getODataAssociationEnd(this.getODataEntityType(sEntityType),sObjectProperty).type;
-			sEntityType = this.getODataInheritedAssociation(this.getODataEntityType(sEntityType), sObjectProperty).type;
+			switch (oQueryModel.getProperty(sContextPath)._class) {
+			case "ComplexDataPropertyClause":
+				var sComplexProperty = oQueryModel.getProperty(sContextPath).complexDataProperty;
+				var oEntityType = this.getODataEntityType(sEntityType);
+				var oComplexProperty = utils.lookupObject(oEntityType.property, "name", sComplexProperty);
+				sEntityType = oComplexProperty.type;
+				break;
+			case "ObjectPropertyClause":
+				var sObjectProperty = oQueryModel.getProperty(sContextPath).objectProperty;
+				sEntityType = this.getODataInheritedAssociation(this.getODataEntityType(sEntityType), sObjectProperty).type;
+				break;
+			case "DataPropertyClause":
+				break;
+			default:
+			}
 		}
 		return sEntityType;
 	} catch (error) {
 		jQuery.sap.log.fatal(error, 'Failed to locate qName using context ' + oContext.getPath() + " with error " + error.message);
-		throw ('Failed to locate qName using context ' + oContext.getPath() + " with error " + error.message);
+		return null;
+		// throw ('Failed to locate qName using context ' + oContext.getPath() + " with error " + error.message);
 	}
 };
+
 sap.ui.model.MetaModel.prototype.getNavigationProperties = function(sEntityType) {
 	try {
 		var oEntityType = this.getODataEntityType(sEntityType);
@@ -71,7 +79,28 @@ sap.ui.model.MetaModel.prototype.getNavigationProperties = function(sEntityType)
 		return navigationProperties;
 	} catch (error) {
 		jQuery.sap.log.fatal(error, 'Failed to locate navigation properties ' + sEntityType + " with error " + error.message);
-		throw ('Failed to locate navigation properties ' + sEntityType + " with error " + error.message);
+		return null;
+	}
+};
+sap.ui.model.MetaModel.prototype.getComplexNavigationProperties = function(sComplexType) {
+	try {
+		var oComplexType = this.getODataComplexType(sComplexType);
+		var complexNavigationProperties = [];
+		if (!jQuery.isEmptyObject(oComplexType.baseType)) {
+			if (jQuery.isEmptyObject(oComplexType.navigationProperty)) {
+				complexNavigationProperties = this.getComplexNavigationProperties(oComplexType.baseType);
+			} else {
+				complexNavigationProperties = oEntityType.navigationProperty.slice(0);
+				complexNavigationProperties = getComplexNavigationProperties.concat(this.getNavigationProperties(oComplexType.baseType));
+			}
+		} else {
+			if (!jQuery.isEmptyObject(oComplexType.navigationProperty))
+				complexNavigationProperties = oComplexType.navigationProperty.slice(0);
+		}
+		return complexNavigationProperties;
+	} catch (error) {
+		jQuery.sap.log.fatal(error, 'Failed to locate complex navigation properties ' + sComplexType + " with error " + error.message);
+		return null;
 	}
 };
 sap.ui.model.MetaModel.prototype.getODataInheritedNavigationProperty = function(oEntityType, sObjectProperty) {
@@ -84,6 +113,18 @@ sap.ui.model.MetaModel.prototype.getODataInheritedNavigationProperty = function(
 		}
 	} else {
 		return oObjectProperty;
+	}
+};
+sap.ui.model.MetaModel.prototype.getODataInheritedComplexProperty = function(oEntityType, sComplexDataProperty) {
+	var oComplexDataProperty = utils.lookupObject(oEntityType.property, "name", sComplexDataProperty);
+	if (jQuery.isEmptyObject(oComplexDataProperty)) {
+		if (!jQuery.isEmptyObject(oEntityType.baseType)) {
+			return this.getODataInheritedComplexProperty(this.getODataEntityType(oEntityType.baseType), sComplexDataProperty);
+		} else {
+			return null;
+		}
+	} else {
+		return oComplexDataProperty;
 	}
 };
 sap.ui.model.MetaModel.prototype.getODataInheritedAssociation = function(oEntityType, sObjectProperty) {
@@ -129,7 +170,9 @@ sap.ui.model.MetaModel.prototype.getNavigationProperty = function(sEntityType, s
 	} catch (error) {
 		// return null;
 		jQuery.sap.log.fatal(error, 'Failed to locate navigation property ' + sEntityType + " " + sObjectProperty + " with error " + error.message);
-		throw ('Failed to locate navigation property ' + sEntityType + " " + sObjectProperty + " with error " + error.message);
+		return null;
+		// throw ('Failed to locate navigation property ' + sEntityType + " " + sObjectProperty + " with error " +
+		// error.message);
 	}
 };
 sap.ui.model.MetaModel.prototype.getDataProperties = function(sEntityType) {
@@ -150,7 +193,28 @@ sap.ui.model.MetaModel.prototype.getDataProperties = function(sEntityType) {
 		return dataProperties;
 	} catch (error) {
 		jQuery.sap.log.fatal(error, 'Failed to locate data properties ' + sEntityType + " with error " + error.message);
-		throw ('Failed to locate data properties ' + sEntityType + " with error " + error.message);
+		return null;
+	}
+};
+sap.ui.model.MetaModel.prototype.getComplexDataProperties = function(sComplexType) {
+	try {
+		var oComplexType = this.getODataComplexType(sComplexType);
+		var complexDataProperties = [];
+		if (!jQuery.isEmptyObject(oComplexType.baseType)) {
+			if (jQuery.isEmptyObject(oComplexType.property)) {
+				complexDataProperties = this.getComplexDataProperties(oComplexType.baseType);
+			} else {
+				complexDataProperties = oComplexType.property.slice(0);
+				complexDataProperties = complexDataProperties.concat(this.getComplexDataProperties(oComplexType.baseType));
+			}
+		} else {
+			if (!jQuery.isEmptyObject(oComplexType.property))
+				complexDataProperties = oComplexType.property.slice(0);
+		}
+		return complexDataProperties;
+	} catch (error) {
+		jQuery.sap.log.fatal(error, 'Failed to locate complex data properties ' + sComplexType + " with error " + error.message);
+		return null;
 	}
 };
 sap.ui.model.MetaModel.prototype.getODataInheritedProperty = function(oEntityType, sProperty) {
@@ -181,7 +245,8 @@ sap.ui.model.MetaModel.prototype.getDataProperty = function(sEntityType, sProper
 		}
 	} catch (error) {
 		jQuery.sap.log.fatal(error, 'Failed to locate data property ' + sEntityType + " " + sProperty + " with error " + error.message);
-		throw ('Failed to locate data property ' + sEntityType + " " + sProperty + " with error " + error.message);
+		return null;
+		// throw ('Failed to locate data property ' + sEntityType + " " + sProperty + " with error " + error.message);
 	}
 };
 sap.ui.model.MetaModel.prototype.getEntityTypeKeyProperties = function(sEntityType) {
@@ -194,7 +259,8 @@ sap.ui.model.MetaModel.prototype.getEntityTypeKeyProperties = function(sEntityTy
 		}
 	} catch (error) {
 		jQuery.sap.log.fatal(error, 'Failed to locate keys of ' + sEntityType + " with error " + error.message);
-		throw ('Failed to locate keys of ' + sEntityType + " with error " + error.message);
+		return null;
+		// throw ('Failed to locate keys of ' + sEntityType + " with error " + error.message);
 	}
 };
 sap.ui.model.MetaModel.prototype.getEntityTypeModel = function(sEntityType) {
@@ -202,21 +268,45 @@ sap.ui.model.MetaModel.prototype.getEntityTypeModel = function(sEntityType) {
 		var oEntityTypeModelData = {};
 		var navigationProperties = this.getNavigationProperties(sEntityType);
 		var dataProperties = this.getDataProperties(sEntityType);
-		var complexTypes= [];
-		for (var index=0; index<dataProperties.length;index++){
-			if ( (dataProperties[index].type).split(".")[0] != "Edm"){
-				//Must be a complex property
-				complexTypes.push(dataProperties[index]);
-			}
-		}
+		// var complexTypes= [];
+		// for (var index=0; index<dataProperties.length;index++){
+		// if ( (dataProperties[index].type).split(".")[0] != "Edm"){
+		// //Must be a complex property
+		// complexTypes.push(dataProperties[index]);
+		// }
+		// }
 		oEntityTypeModelData.navigationProperty = navigationProperties;
 		oEntityTypeModelData.property = dataProperties;
-		oEntityTypeModelData.complexType = complexTypes;
+		// oEntityTypeModelData.complexType = complexTypes;
 		var oEntityTypeModel = new sap.ui.model.json.JSONModel();
 		oEntityTypeModel.setData(oEntityTypeModelData);
 		return oEntityTypeModel;
 	} catch (error) {
-
+		jQuery.sap.log.fatal(error, 'Failed to locate EntityTypeModel ' + sEntityType + " with error " + error.message);
+		return null;
+	}
+};
+sap.ui.model.MetaModel.prototype.getComplexTypeModel = function(sComplexType) {
+	try {
+		var oComplexTypeModelData = {};
+		var complexNavigationProperties = this.getComplexNavigationProperties(sComplexType);
+		var complexDataProperties = this.getComplexDataProperties(sComplexType);
+//		var complexTypes = [];
+//		for (var index = 0; index < dataProperties.length; index++) {
+//			if ((dataProperties[index].type).split(".")[0] != "Edm") {
+//				// Must be a complex property
+//				complexTypes.push(dataProperties[index]);
+//			}
+//		}
+		oComplexTypeModelData.navigationProperty = complexNavigationProperties;
+		oComplexTypeModelData.property = complexDataProperties;
+		// oEntityTypeModelData.complexType = complexTypes;
+		var oComplexTypeModel = new sap.ui.model.json.JSONModel();
+		oComplexTypeModel.setData(oComplexTypeModelData);
+		return oComplexTypeModel;
+	} catch (error) {
+		jQuery.sap.log.fatal(error, 'Failed to locate ComplexTypeModel ' + sComplexType + " with error " + error.message);
+		return null;
 	}
 };
 sap.ui.model.MetaModel.prototype.getODataAssociationSetsForToEnd = function(sToEntitySet) {
@@ -226,7 +316,7 @@ sap.ui.model.MetaModel.prototype.getODataAssociationSetsForToEnd = function(sToE
 		concept : sToEntitySet
 	} ];
 	try {
-		var associationSet = this.getODataEntityContainer()["associationSet"];//   sap.ui.getCore().getModel("odataModel_LNW2").getMetaModel().getODataEntityContainer()["associationSet"];
+		var associationSet = this.getODataEntityContainer()["associationSet"];// sap.ui.getCore().getModel("odataModel_LNW2").getMetaModel().getODataEntityContainer()["associationSet"];
 		for (var index = 0; index < associationSet.length; index++) {
 			if (associationSet[index].end[1].entitySet == sToEntitySet)
 				associationSets = associationSets.concat({

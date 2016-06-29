@@ -43,7 +43,7 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 					currentPropertyClause.dataPropertyFilters = {
 						"_class" : "DataPropertyFilters"
 					};
-					//Cleanup
+					// Cleanup
 					delete currentPropertyClause.multiplicity;
 					delete currentPropertyClause.objectProperty;
 					delete currentPropertyClause.objectPropertyFilters;
@@ -52,7 +52,7 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 
 					// TODO Why do I need to do this when property bound to model???
 					// self.getAggregation("_property").setText(sSelectedProperty);
-					//currentModel.refresh();
+					// currentModel.refresh();
 					// TODO ??????????
 					self.getParent().rerender();
 					self.firePropertyChanged({
@@ -76,18 +76,19 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 					}
 					currentPropertyClause._class = "ObjectPropertyClause";
 					currentPropertyClause.objectProperty = sSelectedProperty;
-					
-					currentPropertyClause.multiplicity= self.getModel("metaModel").getODataInheritedAssociation(self.getParent().getDomainEntityTypeContext(),		sSelectedProperty).multiplicity;
+
+					currentPropertyClause.multiplicity = self.getModel("metaModel").getODataInheritedAssociation(self.getParent().getDomainEntityTypeContext(),
+							sSelectedProperty).multiplicity;
 					currentPropertyClause.objectPropertyFilters = [];
 					currentPropertyClause.clauses = {};
-					//Cleanup
+					// Cleanup
 					delete currentPropertyClause.type;
 					delete currentPropertyClause.dataProperty;
 					delete currentPropertyClause.dataPropertyFilters;
 
 					// TODO Why do I need to do this when property bound to model???
 					// self.getAggregation("_property").setText(sSelectedProperty);
-					//currentModel.refresh();
+					// currentModel.refresh();
 					// TODO ??????????
 					// self.getAggregation("_objectPropertyFilters").getAggregation("_extendFilter").setVisible(true);
 					self.getParent().rerender();
@@ -108,15 +109,25 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 					}, {
 						path : "queryModel>propertyClause/objectProperty",
 						type : new sap.ui.model.type.String()
+					}, {
+						path : "queryModel>propertyClause/complexDataProperty",
+						type : new sap.ui.model.type.String()
 					} ],
-					formatter : function( sDataProperty, sObjectProperty) {
+					formatter : function(sDataProperty, sObjectProperty, sComplexDataProperty) {
 						var oProperty;
-						if (!jQuery.isEmptyObject(sDataProperty)) {
-							oProperty = this.getModel("metaModel").getODataInheritedProperty(this.getParent().getParent().getDomainEntityTypeContext(), sDataProperty);
-						} else 
-							if (!jQuery.isEmptyObject(sObjectProperty)) {
-							oProperty = this.getModel("metaModel").getODataInheritedNavigationProperty(this.getParent().getParent().getDomainEntityTypeContext(), sObjectProperty);
-						} else {
+						try {
+							if (!jQuery.isEmptyObject(sDataProperty)) {
+								oProperty = this.getModel("metaModel").getODataInheritedProperty(this.getParent().getParent().getDomainEntityTypeContext(), sDataProperty);
+							} else if (!jQuery.isEmptyObject(sObjectProperty)) {
+								oProperty = this.getModel("metaModel").getODataInheritedNavigationProperty(this.getParent().getParent().getDomainEntityTypeContext(),
+										sObjectProperty);
+							} else if (!jQuery.isEmptyObject(sComplexDataProperty)) {
+								oProperty = this.getModel("metaModel").getODataInheritedComplexProperty(this.getParent().getParent().getDomainEntityTypeContext(),
+										sComplexDataProperty);
+							} else {
+								return "";
+							}
+						} catch (e) {
 							return "";
 						}
 						return oProperty["sap:label"] || oProperty["name"]
@@ -198,6 +209,7 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 			self.setAggregation("_property", oPropertyLink);
 		},
 		renderer : function(oRm, oControl) {
+			//Need to distinguish between object, complex, and data properties
 			if (!jQuery.isEmptyObject(oControl.getParent().getObjectProperty())) {
 				oRm.renderControl(oControl.getAggregation("_property").addStyleClass("objectPropertyMenuLink"));
 			} else {

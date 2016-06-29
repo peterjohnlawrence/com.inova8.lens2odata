@@ -454,7 +454,7 @@ sap.m.OverflowToolbar.extend("control.serviceQueryMenu", {
 		});
 		self.oLogo = new sap.m.Button({
 			// icon : "resources/Linklaters.png",
-			icon : "resources/Logo2.png",
+			icon : "resources/lens2odata.png",
 			// width:"200px",
 			press : function(oEvent) {
 				window.open("http://www.linklaters.com/");
