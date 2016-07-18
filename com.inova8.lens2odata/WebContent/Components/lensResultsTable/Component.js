@@ -69,7 +69,7 @@ Components.lensResultsTable.Component.prototype.createContent = function() {
 		selectionMode : "MultiToggle",
 		enableSelectAll : true,
 		enableBusyIndicator : true,
-		navigationMode : sap.ui.table.NavigationMode.Paginator,
+		//deprecated navigationMode : sap.ui.table.NavigationMode.Paginator,
 		fixedColumnCount : 1
 	});
 

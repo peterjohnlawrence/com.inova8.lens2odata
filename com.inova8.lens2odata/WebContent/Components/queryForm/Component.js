@@ -282,8 +282,12 @@ Components.queryForm.Component.prototype.setQuery = function(queryModel) {
 };
 Components.queryForm.Component.prototype.previewResults = function(self) {
 	try {
+		utils.queryModel(this.getProperty("odataModel"), this.getProperty("query").init(this.getProperty("query").oAST), function(oEvent) {
+			var oData = oEvent.getParameters.data;
+		});
 
 		var query = this.getProperty("query").init(this.getProperty("query").oAST);
+
 		var serviceURL = utils.proxyUrl(this.getProperty("service").serviceUrl, this.getProperty("service").useProxy);
 		var odataURL = serviceURL + query.odataURI() + "&$top=10";
 		self.clearResults(self);
@@ -320,10 +324,6 @@ Components.queryForm.Component.prototype.previewResults = function(self) {
 						sap.m.MessageToast.show(sap.ui.getCore().getModel("i18nModel").getProperty("queryForm.invalidResponse"));
 					}
 				}
-				// TODO not required with Requestfailed handler
-				// else {
-				// sap.m.MessageToast.show(oEvent.getParameter("errorobject").statusText);
-				// }
 			}).attachRequestFailed(
 					function(oEvent) {
 						sap.m.MessageToast.show(sap.ui.getCore().getModel("i18nModel").getProperty("queryForm.queryResponseError") + oEvent.getParameter("statusCode")
@@ -364,11 +364,11 @@ Components.queryForm.Component.prototype.createDebugActionSheet = function(self)
 		text : "{i18nModel>debug.fragmentDefinition}",
 		press : function() {
 			var queryDetails = {};
-			queryDetails.serviceUrl = self.getOdataModel().sServiceUrl + "/";
+			queryDetails.serviceUrl = self.getOdataModel().sServiceUrl;
 			queryDetails.resourcePath = self.getProperty("query").odataPath("V2");
 			queryDetails.filter = self.getProperty("query").odataFilter("V2");
-			queryDetails.expand = self.getProperty("query").odataExpand("V2");
-			queryDetails.select = self.getProperty("query").odataSelect("V2");
+			queryDetails.expand = self.getProperty("query").odataExpandList("V2");
+			queryDetails.select = self.getProperty("query").odataSelectList("V2");
 			queryDetails.orderby = "";
 			queryDetails.options = self.getProperty("query").odataOptions("V2");
 			var fragment = {};

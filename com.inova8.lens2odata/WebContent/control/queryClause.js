@@ -40,38 +40,40 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 				oRm.writeClasses();
 				oRm.write(">");
 				var currentModel = oControl.getModel("queryModel");
-				oControl.setBindingContext(new sap.ui.model.Context(currentModel, oControl.getClausePath()), "queryModel")
-				var currentCtx = oControl.getBindingContext("queryModel");
-				var currentContext = currentModel.getProperty("", currentCtx);
-				if (!jQuery.isEmptyObject(currentContext)) {
-					var sClass = currentContext._class;
-					if (sClass == "Query") {
-						oControl.setAggregation("_conceptClause", new control.conceptClause().setBindingContext(oControl.getBindingContext("queryModel"))
-								.attachConceptClauseChanged(function(oEvent) {
-									oControl.fireQueryChanged(oEvent);
-								}));
-						oRm.renderControl(oControl.getAggregation("_conceptClause"));
-					} else if (sClass == "Clause") {
-						oControl.setAggregation("_propertyClause", new control.propertyClause().setBindingContext(oControl.getBindingContext("queryModel"))
-								.attachPropertyClauseChanged(function(oEvent) {
-									oEvent.getSource().rerender();
-									oControl.fireQueryChanged();
-								}));
-						oRm.renderControl(oControl.getAggregation("_propertyClause"));
-					} else if (sClass == "ConjunctionClause") {
-						oControl.setAggregation("_conjunctionPropertyClause", new control.conjunctionPropertyClause().setBindingContext(
-								oControl.getBindingContext("queryModel")).attachConjunctionPropertyClauseChanged(function(oEvent) {
-									oEvent.getSource().rerender();
-							oControl.fireQueryChanged();
-						}));
-						oRm.renderControl(oControl.getAggregation("_conjunctionPropertyClause"));
-					} else {
-						jQuery.sap.log.fatal("Incorrect class of provided query clause");
+				if (!jQuery.isEmptyObject(currentModel)) {
+					oControl.setBindingContext(new sap.ui.model.Context(currentModel, oControl.getClausePath()), "queryModel")
+					var currentCtx = oControl.getBindingContext("queryModel");
+					var currentContext = currentModel.getProperty("", currentCtx);
+					if (!jQuery.isEmptyObject(currentContext)) {
+						var sClass = currentContext._class;
+						if (sClass == "Query") {
+							oControl.setAggregation("_conceptClause", new control.conceptClause().setBindingContext(oControl.getBindingContext("queryModel"))
+									.attachConceptClauseChanged(function(oEvent) {
+										oControl.fireQueryChanged(oEvent);
+									}));
+							oRm.renderControl(oControl.getAggregation("_conceptClause"));
+						} else if (sClass == "Clause") {
+							oControl.setAggregation("_propertyClause", new control.propertyClause().setBindingContext(oControl.getBindingContext("queryModel"))
+									.attachPropertyClauseChanged(function(oEvent) {
+										oEvent.getSource().rerender();
+										oControl.fireQueryChanged();
+									}));
+							oRm.renderControl(oControl.getAggregation("_propertyClause"));
+						} else if (sClass == "ConjunctionClause") {
+							oControl.setAggregation("_conjunctionPropertyClause", new control.conjunctionPropertyClause().setBindingContext(
+									oControl.getBindingContext("queryModel")).attachConjunctionPropertyClauseChanged(function(oEvent) {
+								oEvent.getSource().rerender();
+								oControl.fireQueryChanged();
+							}));
+							oRm.renderControl(oControl.getAggregation("_conjunctionPropertyClause"));
+						} else {
+							jQuery.sap.log.fatal("Incorrect class of provided query clause");
+						}
 					}
+					oRm.write("</div>");
+				} else {
+					// TODO Not really an error jQuery.sap.log.fatal("clausePath not defined");
 				}
-				oRm.write("</div>");
-			} else {
-				// TODO Not really an error jQuery.sap.log.fatal("clausePath not defined");
 			}
 		}
 	});

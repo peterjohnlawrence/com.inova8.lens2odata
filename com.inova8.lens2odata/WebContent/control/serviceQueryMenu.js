@@ -155,6 +155,12 @@ sap.m.OverflowToolbar.extend("control.serviceQueryMenu", {
 						selected : {
 							path : "queryModel>/services/" + self.oServiceSelect.getSelectedKey() + "/useProxy"
 						}
+					}) , new sap.m.Label({
+						text : "{i18nModel>queryForm.useJson}"
+					}), new sap.m.CheckBox({
+						selected : {
+							path : "queryModel>/services/" + self.oServiceSelect.getSelectedKey() + "/json"
+						}
 					}) ],
 					beginButton : new sap.m.Button({
 						text : 'Confirm',

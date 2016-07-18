@@ -13,6 +13,89 @@
 	var oTimeFormat = sap.ui.core.format.DateFormat.getDateTimeInstance({
 		pattern : constants.TIMEFORMAT
 	});
+	utils.isNumeric = function(n) {
+		return !isNaN(parseFloat(n)) && isFinite(n);
+	};
+	utils.stringifyNumeric = function(n) {
+		return utils.isNumeric(n) ? "'" + n + "'" : n;
+	};
+	utils.constructFilterSet = function(oFilterSet) {
+		if (oFilterSet._class === "filterset") {
+			var filterset = {
+				path : null,
+				filters : [],
+				and : oFilterSet.and
+			};
+			for ( var filter in oFilterSet.filters) {
+				var subFilter = utils.constructFilter(oFilterSet.filters[filter]);
+				if (!jQuery.isEmptyObject(subFilter))
+					filterset.filters.push(subFilter);
+			}
+			return new sap.ui.model.Filter(filterset);
+		}
+	};
+	utils.constructFilter = function(oFilter) {
+		if (!jQuery.isEmptyObject(oFilter)) {
+			switch (oFilter._class) {
+			case "filterset":
+				return utils.constructFilterSet(oFilter);
+				break;
+			case "filter":
+				var filter = {
+					path : oFilter.path,
+					operator : oFilter.operator,
+					value1 : oFilter.value1,
+					value2 : oFilter.value2
+				};
+				var oFilter = new sap.ui.model.Filter(filter);
+				return oFilter;
+				break;
+			default:
+				return null;
+			}
+		} else {
+			return null;
+		}
+	};
+	utils.queryModel = function(oModel, oQuery, fnReceivedHandler) {
+
+		var oFilter = null;
+		var oFilterSet = oQuery.odataFilterSet("V2");
+		if (!jQuery.isEmptyObject(oFilterSet))
+			oFilter = utils.constructFilterSet(oFilterSet);
+
+		// var oBinding = oModel.bindList(oQuery.odataPath("V2"), null, null, oFilter, {
+		// select : oQuery.odataSelectList("V2"),
+		// expand : oQuery.odataExpandList("V2"),
+		// custom : oQuery.odataCustomQueryOptions("V2"),
+		// countMode : sap.ui.model.odata.CountMode.None,
+		// operationMode : sap.ui.model.odata.OperationMode.Server
+		// });
+		// oBinding.attachRefresh(function() {
+		// //oBinding.getContexts(0, 4);
+		// //oBinding.getContexts();
+		// oBinding.getDownloadUrl("json");
+		// });
+		// oBinding.attachDataReceived(fnReceivedHandler);
+		// oBinding.initialize();
+		var urlParameters = {
+			$select : oQuery.odataSelectList("V2"),
+			$expand : oQuery.odataExpandList("V2"),
+			$top : 2
+		}
+		jQuery.extend( urlParameters,  oQuery.odataCustomQueryOptionsList("V2"));
+		oModel.read(oQuery.odataPath("V2"), {
+			filters : (oFilter) ? [ oFilter ] : null,
+			success : function(oData, response) {
+				var oResults = response.data;
+			},
+			error : function(oData, oError) {
+				alert('error');
+			},
+			urlParameters : urlParameters
+		});
+
+	};
 	utils.mergeLensesModel = function(localLensesData, remoteLensesData) {
 		var mergedData = {
 			templates : remoteLensesData.templates,
@@ -41,6 +124,7 @@
 				"serviceUrl" : remoteQueryData.services[service].serviceUrl,
 				"version" : remoteQueryData.services[service].version,
 				"useProxy" : remoteQueryData.services[service].useProxy,
+				"json" : remoteQueryData.services[service].json,
 				queries : {}
 			};
 			for ( var query in remoteQueryData.services[service].queries) {
@@ -57,6 +141,7 @@
 						"serviceUrl" : localQueryData.services[service].serviceUrl,
 						"version" : localQueryData.services[service].version,
 						"useProxy" : localQueryData.services[service].useProxy,
+						"json" : localQueryData.services[service].json,
 						queries : {}
 					};
 				} else {
@@ -64,6 +149,7 @@
 					mergedData.services[service].serviceUrl = localQueryData.services[service].serviceUrl;
 					mergedData.services[service].version = localQueryData.services[service].version;
 					mergedData.services[service].useProxy = localQueryData.services[service].useProxy;
+					mergedData.services[service].json = localQueryData.services[service].json;
 				}
 				for ( var query in localQueryData.services[service].queries) {
 					mergedData.services[service].queries[query] = jQuery.extend(true, {}, localQueryData.services[service].queries[query])
@@ -84,6 +170,7 @@
 
 					odataModel = new sap.ui.model.odata.v2.ODataModel(utils.proxyUrl(service.serviceUrl, service.useProxy), {
 						maxDataServiceVersion : "2.0",
+						json : service.json
 					}).attachMetadataFailed(function(oEvent) {
 						sap.m.MessageToast.show("Metada failed to load. Check less than OdataV4, also check source and proxy: " + service.serviceUrl);
 						onFailure();
@@ -417,8 +504,8 @@
 		currentClause.propertyClause._class = clauseClass;
 		if (clauseClass == "DataPropertyClause") {
 			switch (currentModelData._class) {
-				case "Query":
-				case "ObjectPropertyClause":
+			case "Query":
+			case "ObjectPropertyClause":
 				currentClause.propertyClause.type = me.getModel("metaModel").getODataInheritedProperty(me.getRangeEntityTypeContext(), property).type;
 				break;
 			case "ComplexDataPropertyClause":

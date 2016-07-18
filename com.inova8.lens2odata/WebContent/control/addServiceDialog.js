@@ -45,6 +45,7 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 			if ((lastChar != "\\") && (lastChar != "/"))
 				serviceUrl += "/";
 			var serviceProxy = self.serviceProxyElement.getFields()[0].getSelected();
+			var json = self.serviceJsonElement.getFields()[0].getSelected();
 			var oQueryModelData = sap.ui.getCore().getModel("queryModel").getData();
 			var oService = {
 				"code" : serviceId,
@@ -52,6 +53,7 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 				"version" : "V2",
 				"serviceUrl" : serviceUrl,
 				"useProxy" : serviceProxy,
+				"json" : json,
 				"queries" : []
 			};
 			// oQueryModelData["services"][serviceId] = oService;
@@ -86,24 +88,6 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 
 		init : function(queryContext) {
 			var self = this;
-//			self.serviceIdElement = new sap.ui.layout.form.FormElement({
-//				label : "{i18nModel>addServiceDialog.serviceId}",
-//				fields : [ new sap.m.Input({
-//					tooltip : "{i18nModel>addServiceDialog.serviceIdPrompt}",
-//					width : "auto",
-//					placeholder : "{i18nModel>addServiceDialog.serviceIdPlaceholder}",
-//					description : "",
-//					editable : true,
-//					showValueHelp : false,
-//					valueHelpRequest : "",
-//					change : function(oEvent) {
-//						self.validateReadyToSave(self);
-//					}
-//				}) ],
-//				layoutData : new sap.ui.layout.form.GridElementData({
-//					hCells : "1"
-//				})
-//			});
 			self.serviceNameElement = new sap.ui.layout.form.FormElement({
 				label : "{i18nModel>addServiceDialog.serviceName}",
 				fields : [ new sap.m.Input({
@@ -156,13 +140,28 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 					hCells : "1"
 				})
 			});
+			self.serviceJsonElement = new sap.ui.layout.form.FormElement({
+				label : "{i18nModel>addServiceDialog.serviceJson}",
+				fields : [ new sap.m.CheckBox({
+					tooltip : "{i18nModel>addServiceDialog.serviceJsonPrompt}",
+					type : sap.m.InputType.Url,
+					width : "auto",
+					description : "",
+					editable : true,
+					showValueHelp : false,
+					valueHelpRequest : ""
+				}) ],
+				layoutData : new sap.ui.layout.form.GridElementData({
+					hCells : "1"
+				})
+			});
 			self.oForm = new sap.ui.layout.form.Form({
 				layout : new sap.ui.layout.form.GridLayout({
 					singleColumn : false
 				}),
 				formContainers : [ new sap.ui.layout.form.FormContainer({
 					expandable : false,
-					formElements : [  self.serviceNameElement, self.serviceUrlElement, self.serviceProxyElement ]
+					formElements : [  self.serviceNameElement, self.serviceUrlElement, self.serviceProxyElement, self.serviceJsonElement  ]
 				})
 
 				]
