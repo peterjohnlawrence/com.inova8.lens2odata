@@ -83,7 +83,7 @@
 			$expand : oQuery.odataExpandList("V2"),
 			$top : 2
 		}
-		jQuery.extend( urlParameters,  oQuery.odataCustomQueryOptionsList("V2"));
+		jQuery.extend(urlParameters, oQuery.odataCustomQueryOptionsList("V2"));
 		oModel.read(oQuery.odataPath("V2"), {
 			filters : (oFilter) ? [ oFilter ] : null,
 			success : function(oData, response) {
@@ -167,21 +167,67 @@
 			if (jQuery.isEmptyObject(odataModel)) {
 				// TODO should set maxDataServiceVersion based on declaration
 				try {
-
-					odataModel = new sap.ui.model.odata.v2.ODataModel(utils.proxyUrl(service.serviceUrl, service.useProxy), {
-						maxDataServiceVersion : "2.0",
-						json : service.json
-					}).attachMetadataFailed(function(oEvent) {
-						sap.m.MessageToast.show("Metada failed to load. Check less than OdataV4, also check source and proxy: " + service.serviceUrl);
-						onFailure();
-					}).attachMetadataLoaded(function(oEvent) {
-						sap.ui.getCore().setModel(odataModel, constants.ODATACACHE + service.code);
-						odataModel.setUseBatch(false);
-						onSuccess(odataModel, args);
-					});
+					switch (service.version) {
+					case "2.0":
+						odataModel = new sap.ui.model.odata.v2.ODataModel(utils.proxyUrl(service.serviceUrl, service.useProxy), {
+							maxDataServiceVersion : "2.0",
+							json : service.json
+						}).attachMetadataFailed(function(oEvent) {
+							sap.m.MessageToast.show("Metada failed to load. Check less than OdataV4, also check source and proxy: " + service.serviceUrl);
+							onFailure();
+						}).attachMetadataLoaded(function(oEvent) {
+							sap.ui.getCore().setModel(odataModel, constants.ODATACACHE + service.code);
+							odataModel.setUseBatch(false);
+							onSuccess(odataModel, args);
+						});
+						break;
+					case "4.0":
+						odataModel = new sap.ui.model.odata.v4.ODataModel({
+							serviceUrl : utils.proxyUrl(service.serviceUrl, service.useProxy),
+							synchronizationMode : "None",
+							updateGroupId : "$direct"
+						});
+						odataModel.sMaxDataServiceVersion="4.0"; // For compatibility with v2.odatamodel
+						var odataMetaModel = odataModel.getMetaModel();
+						//Force a promise to fetch metamodel
+						var oMetaModelPromise = odataMetaModel.requestObject("/");
+						oMetaModelPromise.then(function(value) {
+							//Since promise fulfilled then the entire metamodel is now available
+							sap.ui.getCore().setModel(odataModel, constants.ODATACACHE + service.code);
+						//	var obj = sap.ui.getCore().getModel(constants.ODATACACHE + "o4").getMetaModel().getObject("/$EntityContainer/Persons/$Type/PersonDetail/$Type/")
+						//	jQuery.each(obj, function(a, value) {
+						//		if (value.hasOwnProperty("$kind")) if(value["$kind"]==="NavigationProperty")
+						//			console.log(a);
+						//	});
+							onSuccess(odataModel, args);
+						}, function(reason) {
+							sap.m.MessageToast.show("V4 Metada failed to load. Check actually OdataV4, also check source and proxy: " + service.serviceUrl);
+							onFailure();
+						});
+						// var oMetaModelBinding = odataMetaModel.bindList("/");
+						// oMetaModelBinding.attachDataRequested(function(e) {
+						// alert("requested");
+						// });
+						// oMetaModelBinding.attachDataReceived(function(e) {
+						// oMetaModelBinding.getContexts(0, 4);
+						// oMetaModelBinding.getContexts();
+						// oMetaModelBinding.getDownloadUrl("json");
+						// });
+						// oBinding.attachDataReceived(fnReceivedHandler);
+						// oMetaModelBinding.initialize();
+						// if (odataMetaModel.loaded()) {
+						// onFailure();
+						// } else {
+						// oMetaModelBinding.getContexts();
+						//sap.ui.getCore().setModel(odataModel, constants.ODATACACHE + service.code);
+						// odataModel.setUseBatch(false);
+						//onSuccess(odataModel, args);
+						// }
+						break;
+					}
 				} catch (e) {
 					sap.m.MessageToast.show("Metada load error. Check < OdataV4 also check source: " + service.serviceUrl);
-					throw new Error("MetadataFailed");
+					onFailure(e);
 				}
 			} else {
 				onSuccess(odataModel, args);

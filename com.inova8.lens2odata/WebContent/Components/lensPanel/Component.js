@@ -1,7 +1,7 @@
 jQuery.sap.require("sap.ui.core.UIComponent");
 jQuery.sap.require("sap.ui.commons.Panel");
 jQuery.sap.require("sap.m.MessageToast");
-jQuery.sap.require("lib.utilities");
+jQuery.sap.require("lib.ODataMetaModel.v2");
 jQuery.sap.declare("Components.lensPanel.Component");
 "use strict";
 sap.ui.core.UIComponent.extend("Components.lensPanel.Component", {

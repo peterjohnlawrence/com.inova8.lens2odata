@@ -38,6 +38,12 @@ sap.m.OverflowToolbar.extend("control.serviceQueryMenu", {
 			},
 			save : {
 				enablePreventDefault : true
+			},
+			moveUp : {
+				enablePreventDefault : true
+			},
+			moveDown : {
+				enablePreventDefault : true
 			}
 		}
 	},
@@ -155,12 +161,33 @@ sap.m.OverflowToolbar.extend("control.serviceQueryMenu", {
 						selected : {
 							path : "queryModel>/services/" + self.oServiceSelect.getSelectedKey() + "/useProxy"
 						}
-					}) , new sap.m.Label({
+					}), new sap.m.Label({
 						text : "{i18nModel>queryForm.useJson}"
 					}), new sap.m.CheckBox({
 						selected : {
 							path : "queryModel>/services/" + self.oServiceSelect.getSelectedKey() + "/json"
 						}
+					}), new sap.m.Label({
+						text : "{i18nModel>queryForm.serviceVersion}"
+					}), new sap.m.Select({
+						tooltip : "{i18nModel>addServiceDialog.serviceVersionPrompt}",
+						text : "{i18nModel>addServiceDialog.serviceVersion}",
+						selectedKey : {
+							path : "queryModel>/services/" + self.oServiceSelect.getSelectedKey() + "/version"
+						},
+						width : "auto",
+						description : "",
+						editable : true,
+						items : [ new sap.ui.core.Item({
+							key : "{i18nModel>addServiceDialog.serviceV2Key}",
+							text : "{i18nModel>addServiceDialog.serviceV2}"
+						}), new sap.ui.core.Item({
+						key: "{i18nModel>addServiceDialog.serviceV3Key}",
+						text : "{i18nModel>addServiceDialog.serviceV3}"
+					}), new sap.ui.core.Item({
+							key : "{i18nModel>addServiceDialog.serviceV4Key}",
+							text : "{i18nModel>addServiceDialog.serviceV4}"
+						}) ]
 					}) ],
 					beginButton : new sap.m.Button({
 						text : 'Confirm',
@@ -259,7 +286,7 @@ sap.m.OverflowToolbar.extend("control.serviceQueryMenu", {
 								_class : "Query",
 								code : newQueryCode,
 								name : oQueryAddDialog.getContent()[1].getValue(),
-								concept : self.getModel("entityContainer").getData().entitySet[0].name
+								concept : self.getModel("entityContainer").getData().collections[0].name
 							};
 							self.getModel("queryModel").refresh();
 							sap.m.MessageToast.show(sap.ui.getCore().getModel("i18nModel").getProperty("queryForm.queryAdded"));
@@ -458,18 +485,34 @@ sap.m.OverflowToolbar.extend("control.serviceQueryMenu", {
 				});
 			}
 		});
-		self.oLogo = new sap.m.Button({
-			// icon : "resources/Linklaters.png",
-			icon : "resources/lens2odata.png",
-			// width:"200px",
+		self.oMoveUp = new sap.m.Button({
+			text : "{i18nModel>queryForm.moveUp}",
+			tooltip : "{i18nModel>queryForm.moveUpTooltip}",
+			icon : sap.ui.core.IconPool.getIconURI("up"),
+			visible : false,
 			press : function(oEvent) {
-				window.open("http://www.linklaters.com/");
+				self.fireMoveUp();
+			}
+		});
+		self.oMoveDown = new sap.m.Button({
+			text : "{i18nModel>queryForm.moveDown}",
+			tooltip : "{i18nModel>queryForm.moveDownTooltip}",
+			icon : sap.ui.core.IconPool.getIconURI("down"),
+			visible : false,
+			press : function(oEvent) {
+				self.fireMoveDown();
+			}
+		});
+		self.oLogo = new sap.m.Button({
+			icon : "resources/lens2odata.png",
+			press : function(oEvent) {
+				window.open("http://www.inova8.com/");
 			}
 		});
 		self.oToolbar = new sap.m.Toolbar();
 		self.oToolbar.addContent(self.oLogo).addContent(self.oServiceSelect).addContent(self.oQuerySelect).addContent(self.oEnterQueryParameters).addContent(
-				self.oUndo).addContent(self.oRedo).addContent(self.oSave).addContent(self.oSaveAs).addContent(self.oPin).addContent(new sap.m.ToolbarSpacer())
-				.addContent(self.oPreview).addContent(new sap.m.ToolbarSpacer());// .addContent(self.oSettings);
+				self.oUndo).addContent(self.oRedo).addContent(self.oSave).addContent(self.oSaveAs).addContent(self.oPin).addContent(self.oMoveUp).addContent(
+				self.oMoveDown).addContent(new sap.m.ToolbarSpacer()).addContent(self.oPreview).addContent(new sap.m.ToolbarSpacer());// .addContent(self.oSettings);
 		// self.oToolbar.addContent(self.oServiceSelect).addContent(self.oQuerySelect)
 		// .addContent(self.oPreview);
 		self.setAggregation("_toolbar", self.oToolbar);

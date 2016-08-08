@@ -62,7 +62,7 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 			} else {
 				concept = this.getQueryContext().getProperty("concept");
 			}
-			return this.getModel("metaModel").getODataEntitySet(concept);
+			return this.getModel("metaModel").getODataConcept(concept);
 		},
 		getLensPages : function(entityType) {
 			var self = this;

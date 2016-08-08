@@ -49,7 +49,7 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 		getConcept : function() {
 			var currentContext = this.getBindingContext("queryModel");
 			var currentModelData = this.getModel("queryModel").getProperty("", currentContext);
-			return this.getModel("metaModel").getODataEntitySet(currentModelData.concept);
+			return this.getModel("metaModel").getODataConcept(currentModelData.concept);
 		},
 		getRangeEntityTypeQName : function() {
 			return this.getConcept().entityType;
@@ -64,7 +64,7 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 				var oMetaModel = self.getModel("metaModel");
 				var oFunctionImport = oMetaModel.getODataFunctionImport(sConcept);
 				self.resetCurrentQueryContext(sConcept, oFunctionImport);
-				var oConcept = oMetaModel.getODataEntitySet(sConcept);
+				var oConcept = oMetaModel.getODataConcept(sConcept);
 				// TODO should this be another published object property?
 				self.oEntityTypeModel = new sap.ui.model.json.JSONModel();
 				self.oEntityTypeModel.setData(oMetaModel.getODataEntityType(oConcept.entityType));

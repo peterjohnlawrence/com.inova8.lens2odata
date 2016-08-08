@@ -15,7 +15,7 @@ jQuery.sap.declare("DataPropertyFilter");
 jQuery.sap.declare("ConjunctionFilter");
 var sPrefix = "?v";
 var sLabelPostfix = "_label";
-var defaultVersion = "V2";
+var defaultVersion = "2.0";
 var metadata = "__metadata";
 sap.ui.base.Object.extend("Queries", {
 	constructor : function(oDataMetaModel, oAST) {
@@ -176,7 +176,7 @@ sap.ui.base.Object
 						this.oClauseReferences = [];
 						try {
 							this.oClauseReferences[0] = this;
-							var entitySetType = this.oDataMetaModel.getODataEntitySet(this.sConcept);
+							var entitySetType = this.oDataMetaModel.getODataConcept(this.sConcept);
 							var entityType = this.oDataMetaModel.getODataEntityType(entitySetType.entityType);
 							var oViewModel = {
 								"root" : {}
@@ -207,26 +207,69 @@ sap.ui.base.Object
 						}
 					},
 					odataPath : function(sVersion) {
-						return "/" + this.sConcept + "()";
+						switch (sVersion) {
+						case "2.0":
+							return "/" + this.sConcept + "()";
+							break;
+						case "4.0":
+							switch (this.oDataMetaModel.getODataConcept(this.sConcept)["$kind"]) {
+							case "EntitySet":
+								return "/" + this.sConcept + "()";
+								break;
+							case "FunctionImport":
+								var odataPath = "/" + this.sConcept;
+								if (!jQuery.isEmptyObject(this.oAST.operationParameters)) {
+									odataPath = odataPath + "(";
+									for ( var parameter in this.oAST.operationParameters) {
+										var operationParameter = this.oAST.operationParameters[parameter];
+										odataPath = odataPath + operationParameter.name + "="
+												+ sparqlish.odataValue(sVersion, operationParameter.value, operationParameter.type, this.oAST.parameters) + ",";
+									}
+									odataPath = odataPath.slice(0, -1) + ")";
+								}
+								return odataPath;
+								break;
+							case "Singleton":
+								return "/" + this.sConcept;
+								break;
+							default:
+								return null;
+								break;
+							}
+						default:
+							return null;
+							break;
+						}
 					},
 					odataFilter : function(sVersion) {
 						var sClausesFilter = "";
 						if (!jQuery.isEmptyObject(this.oClauses)) {
 							sClausesFilter = this.oClauses.odataFilter(sVersion, this.oAST.parameters);
 						}
-						if (!jQuery.isEmptyObject(this.oConceptFilters)) {
-							var sOdataKeyFilters = sparqlish.odataKeyFilters(sVersion, this.oContext.sOdataEntityPath, this.oConceptFilters, this.oAST.parameters);
-							if (sClausesFilter != "") {
-								return jQuery.isEmptyObject(sOdataKeyFilters) ? "(" + sClausesFilter + ")" : "((" + sOdataKeyFilters + ")and(" + sClausesFilter + "))";
+						switch (sVersion) {
+						case "4.0": // Applies to filters that are universal to the query. Those specific to a clause (outer join)
+							// are in the expand select
+							return sClausesFilter;
+							break;
+						case "2.0":
+							if (!jQuery.isEmptyObject(this.oConceptFilters)) {
+								var sOdataKeyFilters = sparqlish.odataKeyFilters(sVersion, this.oContext.sOdataEntityPath, this.oConceptFilters, this.oAST.parameters);
+								if (sClausesFilter != "") {
+									return jQuery.isEmptyObject(sOdataKeyFilters) ? "(" + sClausesFilter + ")" : "((" + sOdataKeyFilters + ")and(" + sClausesFilter + "))";
+								} else {
+									return jQuery.isEmptyObject(sOdataKeyFilters) ? "" : "(" + sOdataKeyFilters + ")";
+								}
 							} else {
-								return jQuery.isEmptyObject(sOdataKeyFilters) ? "" : "(" + sOdataKeyFilters + ")";
+								if (sClausesFilter != "") {
+									return "(" + sClausesFilter + ")";
+								} else {
+									return "";
+								}
 							}
-						} else {
-							if (sClausesFilter != "") {
-								return "(" + sClausesFilter + ")";
-							} else {
-								return "";
-							}
+							break;
+						default:
+							return null;
+							break;
 						}
 					},
 					odataFilterSet : function(sVersion) {
@@ -280,15 +323,21 @@ sap.ui.base.Object
 					odataExpand : function(sVersion) {
 						var sOdataExpand = "";
 						if (!jQuery.isEmptyObject(this.oClauses)) {
-							if (sVersion == "V4") {
-								return this.odataExpandSelect(sVersion);
-							} else {
+							switch (sVersion) {
+							case "2.0":
 								sOdataExpand = this.oClauses.odataExpand(sVersion);
 								if (jQuery.isEmptyObject(sOdataExpand)) {
 									return "";
 								} else {
 									return sOdataExpand;
 								}
+								break;
+							case "4.0":
+								return this.odataExpandSelect(sVersion);
+								break;
+							default:
+								return "";
+								break;
 							}
 						} else
 							return "";
@@ -302,7 +351,7 @@ sap.ui.base.Object
 						}
 					},
 					odataExpandSelect : function(sVersion) {
-						return "$expand=" + this.oClauses.odataExpandSelect(sVersion);
+						return this.oClauses.odataExpandSelect(sVersion, this.oAST.parameters);
 					},
 					odataOptions : function(sVersion) {
 						var sTop = ((this.sTop == null) ? "" : "$top=" + this.sTop);
@@ -323,28 +372,45 @@ sap.ui.base.Object
 					},
 					odataCustomQueryOptions : function(sVersion) {
 						var odataCustomQueryOptions = "";
-						if (!jQuery.isEmptyObject(this.oClauses)) {
-							odataCustomQueryOptions = this.oClauses.odataCustomQueryOptions(sVersion);
-						}
-						if (!jQuery.isEmptyObject(this.oAST.operationParameters)) {
-							for (operationParameterIndex in this.oAST.operationParameters) {
-								var operationParameter = this.oAST.operationParameters[operationParameterIndex];
-								odataCustomQueryOptions = odataCustomQueryOptions + "&" + operationParameter.name + "="
-										+ sparqlish.odataValue(sVersion, operationParameter.value, operationParameter.type, this.oAST.parameters);
+						switch (sVersion) {
+						case "2.0":
+							if (!jQuery.isEmptyObject(this.oClauses)) {
+								odataCustomQueryOptions = this.oClauses.odataCustomQueryOptions(sVersion);
 							}
+							if (!jQuery.isEmptyObject(this.oAST.operationParameters)) {
+								for ( var operationParameterIndex in this.oAST.operationParameters) {
+									var operationParameter = this.oAST.operationParameters[operationParameterIndex];
+									odataCustomQueryOptions = odataCustomQueryOptions + "&" + operationParameter.name + "="
+											+ sparqlish.odataValue(sVersion, operationParameter.value, operationParameter.type, this.oAST.parameters);
+								}
+							}
+							break;
+						case "4.0":
+							break;
+						default:
+							break;
 						}
 						return odataCustomQueryOptions;
 					},
-					odataCustomQueryOptionsList:function(sVersion){
+					odataCustomQueryOptionsList : function(sVersion) {
 						var odataCustomQueryOptionsList = {};
-						if (!jQuery.isEmptyObject(this.oClauses)) {
-							odataCustomQueryOptionsList = this.oClauses.odataCustomQueryOptionsList(sVersion);
-						}
-						if (!jQuery.isEmptyObject(this.oAST.operationParameters)) {
-							for (operationParameterIndex in this.oAST.operationParameters) {
-								var operationParameter = this.oAST.operationParameters[operationParameterIndex];
-								odataCustomQueryOptionsList[operationParameter.name] = sparqlish.odataValue(sVersion, operationParameter.value, operationParameter.type, this.oAST.parameters);
+						switch (sVersion) {
+						case "2.0":
+							if (!jQuery.isEmptyObject(this.oClauses)) {
+								odataCustomQueryOptionsList = this.oClauses.odataCustomQueryOptionsList(sVersion);
 							}
+							if (!jQuery.isEmptyObject(this.oAST.operationParameters)) {
+								for ( var operationParameterIndex in this.oAST.operationParameters) {
+									var operationParameter = this.oAST.operationParameters[operationParameterIndex];
+									odataCustomQueryOptionsList[operationParameter.name] = sparqlish.odataValue(sVersion, operationParameter.value, operationParameter.type,
+											this.oAST.parameters);
+								}
+							}
+							break;
+						case "4.0":
+							break;
+						default:
+							break;
 						}
 						return odataCustomQueryOptionsList;
 					},
@@ -464,39 +530,87 @@ sap.ui.base.Object.extend("Clauses", {
 		return oViewModel;
 	},
 	odataFilter : function(sVersion, oParameters) {
-		if (!jQuery.isEmptyObject(this.oClause)) {
-			var sOdataFilter = this.oClause.odataFilter(sVersion, oParameters);
-			if (!jQuery.isEmptyObject(this.oConjunctionClauses) && (this.oConjunctionClauses.length > 0)) {
-				var sOdataConjunctionClause0Filter = this.oConjunctionClauses[0].odataFilter(sVersion, oParameters);
-				if ((sOdataFilter != "") && (sOdataConjunctionClause0Filter != "")) {
-					sOdataFilter = sOdataFilter + "and" + sOdataConjunctionClause0Filter;
-				} else {
-					sOdataFilter = sOdataFilter + sOdataConjunctionClause0Filter;
-				}
-				for (var i = 1; i < this.oConjunctionClauses.length; i++) {
-					var sOdataConjunctionClauseFilter = this.oConjunctionClauses[i].odataFilter(sVersion, oParameters);
-					if (!jQuery.isEmptyObject(sOdataConjunctionClauseFilter)) {
-						if (jQuery.isEmptyObject(sOdataFilter)) {
-							// Ignore any conjunctions if this is the first filter
-							sOdataFilter = sOdataConjunctionClauseFilter;
-						} else {
-							sOdataFilter = sOdataFilter + sparqlish.odataClauseConjunction(this.oConjunctionClauses[i].sConjunction) + sOdataConjunctionClauseFilter;
+
+		switch (sVersion) {
+		case "4.0":
+			// break;
+		case "2.0":
+			if (!jQuery.isEmptyObject(this.oClause)) {
+				var sOdataFilter = this.oClause.odataFilter(sVersion, oParameters);
+				if (!jQuery.isEmptyObject(this.oConjunctionClauses) && (this.oConjunctionClauses.length > 0)) {
+					var sOdataConjunctionClause0Filter = this.oConjunctionClauses[0].odataFilter(sVersion, oParameters);
+					if ((sOdataFilter != "") && (sOdataConjunctionClause0Filter != "")) {
+						sOdataFilter = sOdataFilter + "and" + sOdataConjunctionClause0Filter;
+					} else {
+						sOdataFilter = sOdataFilter + sOdataConjunctionClause0Filter;
+					}
+					for (var i = 1; i < this.oConjunctionClauses.length; i++) {
+						var sOdataConjunctionClauseFilter = this.oConjunctionClauses[i].odataFilter(sVersion, oParameters);
+						if (!jQuery.isEmptyObject(sOdataConjunctionClauseFilter)) {
+							if (jQuery.isEmptyObject(sOdataFilter)) {
+								// Ignore any conjunctions if this is the first filter
+								sOdataFilter = sOdataConjunctionClauseFilter;
+							} else {
+								sOdataFilter = sOdataFilter + sparqlish.odataClauseConjunction(this.oConjunctionClauses[i].sConjunction) + sOdataConjunctionClauseFilter;
+							}
 						}
 					}
+					return sOdataFilter;
+				} else {
+					return sOdataFilter;
 				}
-				return sOdataFilter;
 			} else {
-				return sOdataFilter;
+				return "";
 			}
-		} else {
-			return "";
+			break;
+		default:
+			break;
+		}
+	},
+		odataLambdaFilter : function(sVersion, oParameters) {
+
+		switch (sVersion) {
+		case "4.0":
+			// break;
+		case "2.0":
+			if (!jQuery.isEmptyObject(this.oClause)) {
+				var sOdataFilter = this.oClause.odataFilter(sVersion, oParameters);
+				if (!jQuery.isEmptyObject(this.oConjunctionClauses) && (this.oConjunctionClauses.length > 0)) {
+					var sOdataConjunctionClause0Filter = this.oConjunctionClauses[0].odataFilter(sVersion, oParameters);
+					if ((sOdataFilter != "") && (sOdataConjunctionClause0Filter != "")) {
+						sOdataFilter = sOdataFilter + "and" + sOdataConjunctionClause0Filter;
+					} else {
+						sOdataFilter = sOdataFilter + sOdataConjunctionClause0Filter;
+					}
+					for (var i = 1; i < this.oConjunctionClauses.length; i++) {
+						var sOdataConjunctionClauseFilter = this.oConjunctionClauses[i].odataFilter(sVersion, oParameters);
+						if (!jQuery.isEmptyObject(sOdataConjunctionClauseFilter)) {
+							if (jQuery.isEmptyObject(sOdataFilter)) {
+								// Ignore any conjunctions if this is the first filter
+								sOdataFilter = sOdataConjunctionClauseFilter;
+							} else {
+								sOdataFilter = sOdataFilter + sparqlish.odataClauseConjunction(this.oConjunctionClauses[i].sConjunction) + sOdataConjunctionClauseFilter;
+							}
+						}
+					}
+					return sOdataFilter;
+				} else {
+					return sOdataFilter;
+				}
+			} else {
+				return "";
+			}
+			break;
+		default:
+			break;
 		}
 	},
 	odataFilterSet : function(sVersion, oParameters) {
 		if (!jQuery.isEmptyObject(this.oClause)) {
 			var oOdataFilterSet = {};
 			var oClauseFilterSet = this.oClause.odataFilterSet(sVersion, oParameters);
-			if(!jQuery.isEmptyObject(oClauseFilterSet)) oOdataFilterSet[0] = oClauseFilterSet;
+			if (!jQuery.isEmptyObject(oClauseFilterSet))
+				oOdataFilterSet[0] = oClauseFilterSet;
 
 			if (!jQuery.isEmptyObject(this.oConjunctionClauses) && (this.oConjunctionClauses.length > 0)) {
 				var oOdataConjunctionClause0FilterSet = this.oConjunctionClauses[0].odataFilterSet(sVersion, oParameters);
@@ -597,14 +711,17 @@ sap.ui.base.Object.extend("Clauses", {
 			return "";
 		}
 	},
-	odataExpandSelect : function(sVersion) {
+	odataExpandSelect : function(sVersion, oParameters) {
 		if (!jQuery.isEmptyObject(this.oClause)) {
 			var sOdataExpandSelect = [];
-			sOdataExpandSelect[0] = this.oClause.odataExpandSelect(sVersion);
-			(sOdataExpandSelect == "") ? "" : sOdataExpandSelect + "($select=xx)";
+			var sClauseExpandSelect = this.oClause.odataExpandSelect(sVersion, oParameters);
+			if (!jQuery.isEmptyObject(sClauseExpandSelect))
+				sOdataExpandSelect.push(sClauseExpandSelect);
+			// sOdataExpandSelect[0] = this.oClause.odataExpandSelect(sVersion);
+			// TODO (sOdataExpandSelect == "") ? "" : sOdataExpandSelect + "($select=xx)";
 			if (!jQuery.isEmptyObject(this.oConjunctionClauses)) {
 				for (var i = 0; i < this.oConjunctionClauses.length; i++) {
-					var sOdataConjunctionExpandSelect = this.oConjunctionClauses[i].odataExpandSelect(sVersion);
+					var sOdataConjunctionExpandSelect = this.oConjunctionClauses[i].odataExpandSelect(sVersion, oParameters);
 					if (!jQuery.isEmptyObject(sOdataConjunctionExpandSelect)) {
 						if (sOdataConjunctionExpandSelect instanceof Array) {
 							sOdataExpandSelect.push.apply(sOdataExpand, sOdataConjunctionExpandSelect);
@@ -662,7 +779,7 @@ sap.ui.base.Object.extend("Clauses", {
 			return "";
 		}
 	},
-		odataCustomQueryOptionsList : function(sVersion) {
+	odataCustomQueryOptionsList : function(sVersion) {
 		if (!jQuery.isEmptyObject(this.oClause)) {
 			return this.oClause.odataCustomQueryOptionsList(sVersion);
 		} else {
@@ -796,9 +913,9 @@ sap.ui.base.Object.extend("Clause", {
 			return "";
 		}
 	},
-	odataExpandSelect : function(sVersion) {
+	odataExpandSelect : function(sVersion, oParameters) {
 		if (!jQuery.isEmptyObject(this.oPropertyClause)) {
-			return this.oPropertyClause.odataExpandSelect(sVersion);
+			return this.oPropertyClause.odataExpandSelect(sVersion, oParameters);
 		} else {
 			return "";
 		}
@@ -878,8 +995,8 @@ sap.ui.base.Object.extend("ConjunctionClause", {
 	odataExpand : function(sVersion) {
 		return this.oClause.odataExpand(sVersion);
 	},
-	odataExpandSelect : function(sVersion) {
-		return this.oClause.odataExpandSelect(sVersion);
+	odataExpandSelect : function(sVersion, oParameters) {
+		return this.oClause.odataExpandSelect(sVersion, oParameters);
 	},
 	odataSelectForExpand : function(sVersion) {
 		return this.oClause.odataSelectForExpand(sVersion);
@@ -945,8 +1062,8 @@ sap.ui.base.Object.extend("PropertyClause", {
 	odataExpand : function(sVersion) {
 		return this.oPropertyClause.odataExpand(sVersion);
 	},
-	odataExpandSelect : function(sVersion) {
-		return this.oPropertyClause.odataExpandSelect(sVersion);
+	odataExpandSelect : function(sVersion, oParameters) {
+		return this.oPropertyClause.odataExpandSelect(sVersion, oParameters);
 	},
 	odataSelectForExpand : function(sVersion) {
 		return this.oPropertyClause.odataSelectForExpand(sVersion);
@@ -966,8 +1083,8 @@ sap.ui.base.Object.extend("DataPropertyClause", {
 			if (oAST["_class"] != "DataPropertyClause")
 				throw "notDataPropertyClauseException";
 			// this.sDataProperty = oAST["dataProperty"];
-			if (!jQuery.isEmptyObject(oAST["dataPropertyFilters"])&&!jQuery.isEmptyObject(oAST["dataPropertyFilters"]["dataPropertyFilter"])) {
-				this.oFilters = new DataPropertyFilters(this.oDataMetaModel, oAST["dataPropertyFilters"], oContext);
+			if (!jQuery.isEmptyObject(oAST["dataPropertyFilters"]) && !jQuery.isEmptyObject(oAST["dataPropertyFilters"]["dataPropertyFilter"])) {
+				this.oFilters = new DataPropertyFilters(this.oDataMetaModel, oAST["dataPropertyFilters"], oContext, this.oAST["dataProperty"]);
 			} else {
 				this.oFilters = null;
 			}
@@ -1031,8 +1148,9 @@ sap.ui.base.Object.extend("DataPropertyClause", {
 	odataExpand : function(sVersion) {
 		return "";
 	},
-	odataExpandSelect : function(sVersion) {
-		return "";
+	odataExpandSelect : function(sVersion, oParameters) {
+		// TODO
+		return ""; // ";$filter=" + this.oFilters.odataFilter(sVersion, null);
 	},
 	odataSelectForExpand : function(sVersion) {
 		return this.oAST["dataProperty"];
@@ -1045,25 +1163,26 @@ sap.ui.base.Object.extend("DataPropertyClause", {
 	}
 });
 sap.ui.base.Object.extend("DataPropertyFilters", {
-	constructor : function(oDataMetaModel, oAST, oContext) {
+	constructor : function(oDataMetaModel, oAST, oContext, sDataProperty) {
 		this.oDataMetaModel = oDataMetaModel;
 		this.oAST = oAST;
 		this.oContext = oContext;
+		this.sDataProperty = sDataProperty;
 		try {
 			if (oAST["_class"] != "DataPropertyFilters")
 				throw "notFiltersException";
 			if (!jQuery.isEmptyObject(oAST["dataPropertyFilter"])) {
-				this.oFilter = new DataPropertyFilter(this.oDataMetaModel, oAST["dataPropertyFilter"], oContext);
+				this.oFilter = new DataPropertyFilter(this.oDataMetaModel, oAST["dataPropertyFilter"], oContext, sDataProperty);
 				if (!jQuery.isEmptyObject(oAST["conjunctionFilters"])) {
 					this.oConjunctionFilters = [];
 					for (var i = 0; i < oAST["conjunctionFilters"].length; i++) {
-						this.oConjunctionFilters[i] = new ConjunctionFilter(this.oDataMetaModel, oAST["conjunctionFilters"][i], oContext);
+						this.oConjunctionFilters[i] = new ConjunctionFilter(this.oDataMetaModel, oAST["conjunctionFilters"][i], oContext, sDataProperty);
 					}
 				} else {
 					this.oConjunctionFilters = null;
 				}
-			}else{
-				this.oFilter =null;
+			} else {
+				this.oFilter = null;
 				this.oConjunctionFilters = null;
 			}
 		} catch (e) {
@@ -1146,24 +1265,19 @@ sap.ui.base.Object.extend("DataPropertyFilters", {
 	odataExpand : function(sVersion) {
 		return "";
 	},
-	odataExpandSelect : function(sVersion) {
+	odataExpandSelect : function(sVersion, oParameters) {
 		return "";
 	}
 });
 sap.ui.base.Object.extend("DataPropertyFilter", {
-	constructor : function(oDataMetaModel, oAST, oContext) {
+	constructor : function(oDataMetaModel, oAST, oContext, sDataProperty) {
 		this.oDataMetaModel = oDataMetaModel;
 		this.oAST = oAST;
 		this.oContext = oContext;
+		this.sDataProperty = sDataProperty;
 		try {
 			if (oAST["_class"] != "DataPropertyFilter")
 				throw "notFilterException";
-
-			// this.sOperator = oAST["operator"];
-			// this.sValue = oAST["value"];
-			// this.sDatatype = oAST["datatype"];
-			// this.sType = oAST["type"];
-
 		} catch (e) {
 			jQuery.sap.log.error(e);
 			throw (e);
@@ -1182,11 +1296,18 @@ sap.ui.base.Object.extend("DataPropertyFilter", {
 		return sSparqlish;
 	},
 	odataFilter : function(sVersion, oParameters) {
-		// var sOdataFilter = sparqlish.odataFilterOperator(sVersion, this.oContext.sOdataEntityPath, this.sOperator,
-		// this.sValue,
-		// this.sType, oParameters);
-		var sOdataFilter = sparqlish.odataFilterOperator(sVersion, this.oContext.sOdataEntityPath, this.oAST["operator"], this.oAST["value"], this.oAST["type"],
-				oParameters);
+		var sOdataFilter;
+		switch (sVersion) {
+		case "2.0":
+			sOdataFilter = sparqlish.odataFilterOperator(sVersion, this.oContext.sOdataEntityPath, this.oAST["operator"], this.oAST["value"], this.oAST["type"],
+					oParameters);
+			break;
+		case "4.0":
+			sOdataFilter = sparqlish.odataFilterOperator(sVersion, this.sDataProperty, this.oAST["operator"], this.oAST["value"], this.oAST["type"], oParameters);
+			break;
+		default:
+			break;
+		}
 		return sOdataFilter;
 	},
 	odataFilterSet : function(sVersion, oParameters) {
@@ -1200,7 +1321,7 @@ sap.ui.base.Object.extend("DataPropertyFilter", {
 	odataExpand : function(sVersion) {
 		return "";
 	},
-	odataExpandSelect : function(sVersion) {
+	odataExpandSelect : function(sVersion, oParameters) {
 		return "";
 	},
 	odataSelectForExpand : function(sVersion) {
@@ -1242,7 +1363,7 @@ sap.ui.base.Object.extend("ConjunctionFilter", {
 	odataExpand : function(sVersion) {
 		return "";
 	},
-	odataExpandSelect : function(sVersion) {
+	odataExpandSelect : function(sVersion, oParameters) {
 		return "";
 	},
 	odataSelectForExpand : function(sVersion) {
@@ -1328,19 +1449,30 @@ sap.ui.base.Object.extend("ObjectPropertyClause", {
 		return oViewModel;
 	},
 	odataFilter : function(sVersion, oParameters) {
-		var sOdataFilter = "";
-		if (!jQuery.isEmptyObject(this.oClauses)) {
-			sOdataFilter = this.oClauses.odataFilter(sVersion, oParameters);
-		}
-		if (!jQuery.isEmptyObject(this.oObjectPropertyFilters) && (this.oObjectPropertyFilters.length > 0)) {
-			if (sOdataFilter != "") {
-				sOdataFilter = "(" + sparqlish.odataKeyFilters(sVersion, this.oContext.sOdataEntityPath, this.oObjectPropertyFilters, oParameters) + ")and"
-						+ sOdataFilter;
-			} else {
-				sOdataFilter = "(" + sparqlish.odataKeyFilters(sVersion, this.oContext.sOdataEntityPath, this.oObjectPropertyFilters, oParameters) + ")";
+		switch (sVersion) {
+		case "2.0":
+			var sOdataFilter = "";
+			if (!jQuery.isEmptyObject(this.oClauses)) {
+				sOdataFilter = this.oClauses.odataFilter(sVersion, oParameters);
 			}
+			if (!jQuery.isEmptyObject(this.oObjectPropertyFilters) && (this.oObjectPropertyFilters.length > 0)) {
+				if (sOdataFilter != "") {
+					sOdataFilter = "(" + sparqlish.odataKeyFilters(sVersion, this.oContext.sOdataEntityPath, this.oObjectPropertyFilters, oParameters) + ")and"
+							+ sOdataFilter;
+				} else {
+					sOdataFilter = "(" + sparqlish.odataKeyFilters(sVersion, this.oContext.sOdataEntityPath, this.oObjectPropertyFilters, oParameters) + ")";
+				}
+			}
+			return sOdataFilter;
+			break;
+		case "4.0":
+			// Do not recurse through object properties for V4
+			return "";
+			break;
+		default:
+			break;
 		}
-		return sOdataFilter;
+		return "";
 	},
 	odataFilterSet : function(sVersion, oParameters) {
 		var oOdataFilterSet = "";
@@ -1361,7 +1493,7 @@ sap.ui.base.Object.extend("ObjectPropertyClause", {
 		return oOdataFilterSet;
 	},
 	odataSelect : function(sVersion) {
-		if ((sVersion == "V4") && (this.oContext.iLevel >= 0)) {
+		if ((sVersion == "4.0") && (this.oContext.iLevel >= 0)) {
 			return "";
 		} else {
 			var sOdataSelect = [];
@@ -1394,26 +1526,39 @@ sap.ui.base.Object.extend("ObjectPropertyClause", {
 		} else {
 			var odataExpand = []
 			odataExpand.push(this.oAST["objectProperty"])
-			for (sClauseExpand in sClausesExpand) {
+			for ( var sClauseExpand in sClausesExpand) {
 				odataExpand.push(this.oAST["objectProperty"] + "/" + sClausesExpand[sClauseExpand]);
 			}
 			return odataExpand;
 		}
 	},
-	odataExpandSelect : function(sVersion) {
+	odataExpandSelect : function(sVersion, oParameters) {
 		var sOdataExpandSelect = "";
 		var sOdataSelect = "";
+		var sOdataFilter = "";
 		if (!jQuery.isEmptyObject(this.oClauses)) {
-			sOdataExpandSelect = this.oClauses.odataExpandSelect(sVersion);
+
+				// Only for collections
+				if (this.oAST.multiplicity !== "*") {
+					sOdataFilter = this.oClauses.odataLambdaFilter(sVersion, oParameters);
+				} else {
+					sOdataFilter = this.oClauses.odataFilter(sVersion, oParameters);
+				}
+
+			sOdataExpandSelect = this.oClauses.odataExpandSelect(sVersion, oParameters);
 			sOdataSelect = this.oClauses.odataSelectForExpand(sVersion);
 			if (!jQuery.isEmptyObject(this.oObjectPropertyFilters)) {
 				sOdataSelect = sparqlish.odataKeys(sVersion, "", this.oObjectPropertyFilters) + "," + sOdataSelect;
 			}
 		}
 		if (sOdataExpandSelect == "") {
-			return this.oAST["objectProperty"] + "($select=" + sOdataSelect + ")";
+			return this.oAST["objectProperty"]
+					+ ((jQuery.isEmptyObject(sOdataSelect)) ? "" : "($select=" + sOdataSelect + (jQuery.isEmptyObject(sOdataFilter) ? "" : ";$filter=" + sOdataFilter)
+							+ ")");
 		} else {
-			return this.oAST["objectProperty"] + "($select=" + sOdataSelect + ")," + this.oAST["objectProperty"] + "($expand=" + sOdataExpandSelect + ")";
+			return this.oAST["objectProperty"]
+					+ ((jQuery.isEmptyObject(sOdataSelect)) ? "" : "($select=" + sOdataSelect + ";" + "$expand=" + sOdataExpandSelect
+							+ (jQuery.isEmptyObject(sOdataFilter) ? "" : ";$filter=" + sOdataFilter) + ")");
 		}
 	},
 	odataSelectForExpand : function(sVersion) {
@@ -1435,7 +1580,8 @@ sap.ui.base.Object.extend("ObjectPropertyClause", {
 		if (!jQuery.isEmptyObject(this.oAST.operationParameters)) {
 			for (operationParameterIndex in this.oAST.operationParameters) {
 				var operationParameter = this.oAST.operationParameters[operationParameterIndex];
-				odataCustomQueryOptionsList[operationParameter.name]= sparqlish.odataValue(sVersion, operationParameter.value, operationParameter.type, this.oAST.parameters);
+				odataCustomQueryOptionsList[operationParameter.name] = sparqlish.odataValue(sVersion, operationParameter.value, operationParameter.type,
+						this.oAST.parameters);
 			}
 		}
 		return odataCustomQueryOptionsList;
@@ -1507,7 +1653,7 @@ sap.ui.base.Object.extend("InverseObjectPropertyClause", {
 	odataExpand : function(sVersion) {
 		return "";
 	},
-	odataExpandSelect : function(sVersion) {
+	odataExpandSelect : function(sVersion, oParameters) {
 		return "";
 	}
 });
@@ -1575,7 +1721,7 @@ sap.ui.base.Object.extend("OperationClause", {
 	odataExpand : function(sVersion) {
 		return "";
 	},
-	odataExpandSelect : function(sVersion) {
+	odataExpandSelect : function(sVersion, oParameters) {
 		return "";
 	}
 });
@@ -1675,7 +1821,7 @@ sap.ui.base.Object.extend("ComplexDataPropertyClause", {
 			return odataExpand;
 		}
 	},
-	odataExpandSelect : function(sVersion) {
+	odataExpandSelect : function(sVersion, oParameters) {
 		return "";
 	},
 	odataSelectForExpand : function(sVersion) {
@@ -1840,7 +1986,7 @@ sap.ui.base.Object.extend("ComplexDataPropertyClause", {
 			}
 			case "substringof": {
 				// TODO
-				if (sVersion == "V4") {
+				if (sVersion == "4.0") {
 					return "(contains(" + sVariable + "," + sparqlish.odataValue(sVersion, sValue, sType, oParameters) + "))";
 				} else {
 					return "(substringof(" + sparqlish.odataValue(sVersion, sValue, sType, oParameters) + "," + sVariable + "))";
@@ -1848,7 +1994,7 @@ sap.ui.base.Object.extend("ComplexDataPropertyClause", {
 			}
 			case "endswith": {
 				// TODO
-				if (sVersion == "V4") {
+				if (sVersion == "4.0") {
 					return "(contains(" + sVariable + "," + sparqlish.odataValue(sVersion, sValue, sType, oParameters) + "))";
 				} else {
 					return "(endswith(" + sparqlish.odataValue(sVersion, sValue, sType, oParameters) + "," + sVariable + "))";
@@ -1856,7 +2002,7 @@ sap.ui.base.Object.extend("ComplexDataPropertyClause", {
 			}
 			case "startswith": {
 				// TODO
-				if (sVersion == "V4") {
+				if (sVersion == "4.0") {
 					return "(contains(" + sVariable + "," + sparqlish.odataValue(sVersion, sValue, sType, oParameters) + "))";
 				} else {
 					return "(startswith(" + sparqlish.odataValue(sVersion, sValue, sType, oParameters) + "," + sVariable + "))";
@@ -1926,7 +2072,7 @@ sap.ui.base.Object.extend("ComplexDataPropertyClause", {
 			}
 			case "substringof": {
 				// TODO
-				if (sVersion == "V4") {
+				if (sVersion == "4.0") {
 					// return "(contains(" + sVariable + "," + sparqlish.odataValue(sVersion, sValue, sType, oParameters) + "))";
 				} else {
 					return {
@@ -1939,7 +2085,7 @@ sap.ui.base.Object.extend("ComplexDataPropertyClause", {
 			}
 			case "endswith": {
 				// TODO
-				if (sVersion == "V4") {
+				if (sVersion == "4.0") {
 					// return "(contains(" + sVariable + "," + sparqlish.odataValue(sVersion, sValue, sType, oParameters) + "))";
 				} else {
 					return {
@@ -1952,7 +2098,7 @@ sap.ui.base.Object.extend("ComplexDataPropertyClause", {
 			}
 			case "startswith": {
 				// TODO
-				if (sVersion == "V4") {
+				if (sVersion == "4.0") {
 					return "(contains(" + sVariable + "," + sparqlish.odataValue(sVersion, sValue, sType, oParameters) + "))";
 				} else {
 					return {
@@ -1996,7 +2142,7 @@ sap.ui.base.Object.extend("ComplexDataPropertyClause", {
 		}
 		case "Edm.Time":
 		case "Edm.DateTime": {
-			if (sVersion == "V4") {
+			if (sVersion == "4.0") {
 				return sparqlish.deparameterizeValue(sValue, sType, oParameters);
 			} else {
 				// TODO need to simplify this. The idea is to convert to UTC as this is the lowest common denominator of V2

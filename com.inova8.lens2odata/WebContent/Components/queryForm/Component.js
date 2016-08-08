@@ -8,6 +8,7 @@ jQuery.sap.require("sap.ui.table.TreeTable");
 jQuery.sap.require("sap.m.Toolbar");
 jQuery.sap.require("sap.m.Button");
 jQuery.sap.require("sap.ui.core.IconPool");
+jQuery.sap.require("lib.ODataMetaModel.v4")
 
 jQuery.sap.declare("Components.queryForm.Component");
 "use strict";
@@ -85,22 +86,23 @@ Components.queryForm.Component.prototype.createContent = function() {
 			flexible : true,
 			resizable : false, // true
 			autoResizable : false
-		// true
-		})
-		// , new sap.ui.table.Column("path", {
-		// label : "Path",
-		// template : new sap.m.Text({text: "{viewModel>path}"}),
-		// flexible : true,
-		// resizable : true,
-		// autoResizable : true
-		// })
-		],
-		width : "100%",
-		height : "100%",
+		}), new sap.ui.table.Column("path", {
+			label : "Path",
+			template : new sap.m.Text({
+				text : "{viewModel>path}"
+			}),
+			flexible : true,
+			resizable : true,
+			autoResizable : true,
+			visible : false
+		}) ],
+		// width : "100%",
+		// height : "100%",
 		visibleRowCount : 1,
 		selectionMode : sap.ui.table.SelectionMode.Single,
 		enableColumnReordering : false,
-		expandFirstLevel : true,
+		enableSelectAll : false,
+		selectionBehavior : sap.ui.table.SelectionBehavior.RowSelector,
 		// Only Odata.v2 expandTolevel : 3,
 		toolbar : new control.serviceQueryMenu().setModel(sap.ui.getCore().getModel("queryModel"), "queryModel").attachPreview(function(oEvent) {
 			self.previewResults(self);
@@ -125,8 +127,16 @@ Components.queryForm.Component.prototype.createContent = function() {
 			document.location.pathname
 			utils.saveToLocalStorage("queries", "queryModel");
 			utils.saveToLocalStorage("lenses", "lensesModel");
+		}).attachMoveUp(function(oEvent) {
+			self.moveClauseUp();
+		}).attachMoveDown(function(oEvent) {
+			self.moveClauseDown();
 		})
 	}).setModel(sap.ui.getCore().getModel("i18nModel"), "i18nModel").setModel(sap.ui.getCore().getModel("datatypesModel"), "datatypesModel");
+	// TODO add ability to move row up or down
+	this.oTable.attachRowSelectionChange(function(oEvent) {
+		self.checkMoveUpDown(oEvent);
+	});
 	// TODO add debug menu
 	if (jQuery.sap.log.getLevel() === jQuery.sap.log.Level.ERROR) {
 		this.oDebug = new sap.m.Button({
@@ -209,11 +219,11 @@ Components.queryForm.Component.prototype.setService = function(service, query, p
 				var oDataMetaModel = odataModel.getMetaModel();
 				self.oTable.setBusy(true).setBusyIndicatorDelay(0);
 				oDataMetaModel.loaded().then(function() {
-					var oMetaModelEntityContainer;
-					var oEntityContainerModel = new sap.ui.model.json.JSONModel();
+					var oMetaModelCollections;
+					var oCollectionsModel = new sap.ui.model.json.JSONModel();
 					self.oTable.setModel(oDataMetaModel, "metaModel");
 					self.oTable.getToolbar().setModel(oDataMetaModel, "metaModel");
-					oMetaModelEntityContainer = oDataMetaModel.getODataEntityContainer();
+					oMetaModelCollections = oDataMetaModel.getODataCollections();
 					self.oTable.setModel(self.getDatatypesModel(), "datatypesModel");
 					self.oTable.getColumns()[1].setTemplate(new control.queryClausePreview({
 						viewContext : {
@@ -221,10 +231,10 @@ Components.queryForm.Component.prototype.setService = function(service, query, p
 						},
 						serviceCode : service.code
 					}));
-					oEntityContainerModel.setData(oMetaModelEntityContainer);
+					oCollectionsModel.setData(oMetaModelCollections);
 					// TODO this does not work so need to set Core
-					self.oTable.setModel(oEntityContainerModel, "entityContainer");
-					sap.ui.getCore().setModel(oEntityContainerModel, "entityContainer");
+					self.oTable.setModel(oCollectionsModel, "entityContainer");
+					sap.ui.getCore().setModel(oCollectionsModel, "entityContainer");
 					self.oTable.setBusy(false);
 					if (jQuery.isEmptyObject(query)) {
 						query = service.queries[Object.keys(service.queries)[0]]
@@ -338,6 +348,85 @@ Components.queryForm.Component.prototype.previewResults = function(self) {
 		sap.m.MessageToast.show(e);
 	}
 };
+
+Components.queryForm.Component.prototype.checkMoveUpDown = function(oEvent) {
+	var self = oEvent.getSource();
+	if (oEvent.getParameters().rowContext == null) {
+		self.getParent().oTable.getToolbar().oMoveUp.setVisible(false);
+		self.getParent().oTable.getToolbar().oMoveDown.setVisible(false);
+		self.getParent().oTable.getToolbar().oMoveUp.oClause_1 = null;
+		self.getParent().oTable.getToolbar().oMoveUp.oClause0 = null;
+		self.getParent().oTable.getToolbar().oMoveDown.oClause0 = null;
+		self.getParent().oTable.getToolbar().oMoveDown.oClause1 = null;
+	} else {
+		var queryModelPath = self.getModel("viewModel").getObject(oEvent.getParameters().rowContext.sPath).path;
+		var oQueryModelPath = queryModelPath.split("/");
+		var bUp, bDown;
+		var oClause_1, oClause0, oClause1;
+		var currentClass = self.getModel("queryModel").getObject(queryModelPath)._class;
+		switch (self.getModel("queryModel").getObject(queryModelPath)._class) {
+		case "Clause":
+			oQueryModelPath.splice(oQueryModelPath.length - 2, 1);
+			bUp = false;
+			var clausesPath = oQueryModelPath.join("/");
+			if (jQuery.isEmptyObject(self.getModel("queryModel").getObject(clausesPath + "conjunctionClauses/0/"))) {
+				bDown = false
+			} else {
+				bDown = true;
+				oClause0 = clausesPath;
+				oClause1 = clausesPath + "conjunctionClauses/0/";
+			}
+			break;
+		case "Query":
+			bDown = false;
+			bUp = false;
+			break;
+		default:
+			var conjunctionClauseIndex = oQueryModelPath[oQueryModelPath.length - 2];
+			oQueryModelPath.splice(oQueryModelPath.length - 3, 2);
+			var clausesPath = oQueryModelPath.join("/");
+			bUp = true;
+			if (conjunctionClauseIndex == 0) {
+				oClause_1 = clausesPath;
+			} else {
+				oClause_1 = clausesPath + "conjunctionClauses/" + (Number(conjunctionClauseIndex) - 1) + "/";
+			}
+			oClause0 = queryModelPath;
+			if (jQuery.isEmptyObject(self.getModel("queryModel").getObject(clausesPath + "conjunctionClauses/" + (Number(conjunctionClauseIndex) + 1) + "/"))) {
+				bDown = false
+			} else {
+				bDown = true;
+				oClause1 = clausesPath + "conjunctionClauses/" + (Number(conjunctionClauseIndex) + 1) + "/";
+			}
+			break;
+		}
+		var clausesPath = oQueryModelPath.join("/");
+		self.getParent().oTable.getToolbar().oMoveUp.setVisible(bUp);
+		self.getParent().oTable.getToolbar().oMoveDown.setVisible(bDown);
+		self.getParent().oTable.getToolbar().oMoveUp.oClause_1 = oClause_1;
+		self.getParent().oTable.getToolbar().oMoveUp.oClause0 = oClause0;
+		self.getParent().oTable.getToolbar().oMoveDown.oClause0 = oClause0;
+		self.getParent().oTable.getToolbar().oMoveDown.oClause1 = oClause1;
+	}
+};
+
+Components.queryForm.Component.prototype.moveClauseUp = function(oClause) {
+	var oClause_1 = this.oTable.getModel("queryModel").getObject(this.oTable.getToolbar().oMoveUp.oClause_1);
+	var oClause0 = this.oTable.getModel("queryModel").getObject(this.oTable.getToolbar().oMoveUp.oClause0);
+	this.swapQueryClauses(oClause_1, oClause0);
+};
+Components.queryForm.Component.prototype.moveClauseDown = function(oClause) {
+	var oClause0 = this.oTable.getModel("queryModel").getObject(this.oTable.getToolbar().oMoveDown.oClause0);
+	var oClause1 = this.oTable.getModel("queryModel").getObject(this.oTable.getToolbar().oMoveDown.oClause1);
+	this.swapQueryClauses(oClause0, oClause1);
+};
+Components.queryForm.Component.prototype.swapQueryClauses = function(oClause0, oClause1) {
+	// swap these two clauses
+	var temp = oClause0.clause;
+	oClause0.clause = oClause1.clause;
+	oClause1.clause = temp;
+	this.refreshQuery(this);
+};
 Components.queryForm.Component.prototype.createDebugActionSheet = function(self) {
 	var debugActionSheet = new sap.m.ActionSheet().addButton(new sap.m.Button({
 		text : "{i18nModel>debug.queryModel}",
@@ -354,9 +443,10 @@ Components.queryForm.Component.prototype.createDebugActionSheet = function(self)
 			});
 		}
 	})).addButton(new sap.m.Button({
-		text : "{i18nModel>debug.queryODataV2}",
+		text : "{i18nModel>debug.queryOData}",
 		press : function() {
-			sap.m.MessageToast.show(self.getProperty("query").odataURI("V2"), {
+			var version = self.getOdataModel().sMaxDataServiceVersion;
+			sap.m.MessageToast.show(self.getProperty("query").odataURI(version), {
 				width : "50em"
 			});
 		}
@@ -365,43 +455,32 @@ Components.queryForm.Component.prototype.createDebugActionSheet = function(self)
 		press : function() {
 			var queryDetails = {};
 			queryDetails.serviceUrl = self.getOdataModel().sServiceUrl;
-			queryDetails.resourcePath = self.getProperty("query").odataPath("V2");
-			queryDetails.filter = self.getProperty("query").odataFilter("V2");
-			queryDetails.expand = self.getProperty("query").odataExpandList("V2");
-			queryDetails.select = self.getProperty("query").odataSelectList("V2");
+			var version = self.getOdataModel().sMaxDataServiceVersion;
+			queryDetails.resourcePath = self.getProperty("query").odataPath(version);
+			queryDetails.filter = self.getProperty("query").odataFilter(version);
+			queryDetails.expand = self.getProperty("query").odataExpandList(version);
+			queryDetails.select = self.getProperty("query").odataSelectList(version);
 			queryDetails.orderby = "";
-			queryDetails.options = self.getProperty("query").odataOptions("V2");
+			queryDetails.options = self.getProperty("query").odataOptions(version);
 			var fragment = {};
-			fragment.entityType = self.oTable.getModel("metaModel").getODataEntitySet(self.getProperty("query").sConcept).entityType;
+			fragment.entityType = self.oTable.getModel("metaModel").getODataConcept(self.getProperty("query").sConcept).entityType;
 			fragment.position = "R1";
 			fragment.title = "title";
 			fragment.type = "Components.lensResultsForm|Components.lensResultsTable";
-			fragment.query = self.getProperty("query").odataURI("V2");
+			fragment.query = self.getProperty("query").odataURI(version);
 			fragment.querydetails = queryDetails;
 			alert(JSON.stringify(fragment, null, 2), {
 				width : "100em"
 			});
 		}
 	})).addButton(new sap.m.Button({
-		text : "{i18nModel>debug.executeODataV2}",
+		text : "{i18nModel>debug.executeOData}",
 		press : function() {
-			sap.m.URLHelper.redirect(self.getOdataModel().sServiceUrl + "/" + self.getProperty("query").odataURI("V2") + "&$top=10", true);
+			var version = self.getOdataModel().sMaxDataServiceVersion;
+			sap.m.URLHelper.redirect(self.getProperty("service").serviceUrl+ self.getProperty("query").odataURI(version), true);
+		//	sap.m.URLHelper.redirect(self.getOdataModel().sServiceUrl + "/" + self.getProperty("query").odataURI(version), true);
 		}
 	})).addButton(new sap.m.Button({
-		text : "{i18nModel>debug.queryODataV4}",
-		press : function() {
-			sap.m.MessageToast.show(self.getProperty("query").odataURI("V4"), {
-				width : "50em"
-			});
-		}
-	}))
-	// .addButton(new sap.m.Button({
-	// text : "{i18nModel>debug.executeODataV4}",
-	// press : function() {
-	// sap.m.URLHelper.redirect(self.getOdataModel().sServiceUrl + "/" + self.getProperty("query").odataURI("V4"), true);
-	// }
-	// }))
-	.addButton(new sap.m.Button({
 		text : "{i18nModel>debug.odataCollections}",
 		press : function() {
 			sap.m.URLHelper.redirect(self.getOdataModel().sServiceUrl, true);
@@ -410,16 +489,6 @@ Components.queryForm.Component.prototype.createDebugActionSheet = function(self)
 		text : "{i18nModel>debug.odataMetadata}",
 		press : function() {
 			sap.m.URLHelper.redirect(self.getOdataModel().sServiceUrl + "/$metadata", true);
-		}
-	})).addButton(new sap.m.Button({
-		text : "{i18nModel>debug.saveToFile}",
-		press : function() {
-			utils.writeQueryModelToLocalFile();
-		}
-	})).addButton(new sap.m.Button({
-		text : "{i18nModel>debug.writeToConsole}",
-		press : function() {
-			utils.writeQueryModelToConsoleLog();
 		}
 	}));
 	return debugActionSheet;

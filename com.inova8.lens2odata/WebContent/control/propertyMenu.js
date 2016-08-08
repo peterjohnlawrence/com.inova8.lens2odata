@@ -2,7 +2,7 @@ jQuery.sap.require("sap.m.P13nDialog");
 jQuery.sap.require("sap.m.P13nColumnsPanel");
 jQuery.sap.require("sap.m.P13nItem");
 jQuery.sap.require("sap.ui.core.IconPool");
-jQuery.sap.require("lib.utilities");
+jQuery.sap.require("lib.ODataMetaModel.v2");
 sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 	"use strict";
 	return Control.extend("control.propertyMenu", {
@@ -157,7 +157,6 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 						columnKey : "{entityTypeModel>name}",
 						text : "{= ${entityTypeModel>sap:label} || ${entityTypeModel>name}}"
 					})
-				// TODO .attachSelect(dataPropertySelect)
 				}
 			});
 			// TODO Undocumented hack to make P13nColumnsPanel to be single select
@@ -193,19 +192,12 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 				var oEntityTypeContext = self.getParent().getDomainEntityTypeContext();
 				var sEntityTypeQName = self.getParent().getDomainEntityTypeQName();
 				self.oDialog.setModel(self.getModel("metaModel").getEntityTypeModel(sEntityTypeQName), "entityTypeModel");
-
-				// TODO not setting title or at least not displaying
-				// self.oObjectPropertyMenu.setTitle(oEntityTypeContext.name + " "
-				// + sap.ui.getCore().getModel("i18nModel").getProperty("propertyMenuLink"));
-				// self.oDataPropertyMenu.setTitle(oEntityTypeContext.name + " "
-				// + sap.ui.getCore().getModel("i18nModel").getProperty("propertyMenuAttribute"));
 				if (self.oDialog.isOpen()) {
 					self.oDialog.close();
 				} else {
 					self.oDialog.open();
 				}
 			});
-
 			self.setAggregation("_property", oPropertyLink);
 		},
 		renderer : function(oRm, oControl) {

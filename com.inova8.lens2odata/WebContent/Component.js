@@ -116,7 +116,7 @@ Lens.Component.prototype.init = function() {
 	try {
 		oParametersModel.loadData("config/parameters.json", null, false);
 	} catch (e) {
-		//Use default values
+		// Use default values
 		oParametersModel.setJSON('{"expandClause":false,"hiddenColumns":["label"]}', true);
 	}
 	sap.ui.getCore().setModel(oParametersModel, "parametersModel");
@@ -127,13 +127,16 @@ Lens.Component.prototype.init = function() {
 	var remoteLensesData = new sap.ui.model.json.JSONModel();
 	try {
 		remoteLensesData.loadData("config/lenses.json", null, false);
+		if (jQuery.isEmptyObject(remoteLensesData.getData()) & jQuery.isEmptyObject(localLensesData)) {
+			sap.m.MessageToast.show("Failed to locate Lenses.json. This will prevent lens pages being displayed. Contact your adminisrator");
+		} else {
+			var lensesData = utils.mergeLensesModel(localLensesData, remoteLensesData.getData());
+			oLensesModel.setData(lensesData);
+		}
 	} catch (e) {
-		// Lenses data not found. No problem since user canb start building from scratch
+		// Lenses data not found. No problem since user can start building from scratch
 	}
-	var lensesData = utils.mergeLensesModel(localLensesData, remoteLensesData.getData());
-	oLensesModel.setData(lensesData);
 	sap.ui.getCore().setModel(oLensesModel, "lensesModel");
-
 	// Do this last so models are initialized
 	this.getRouter().initialize();
 	this.getRouter().register("lensRouter");

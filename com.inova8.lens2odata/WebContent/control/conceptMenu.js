@@ -29,7 +29,7 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 					formatter : function( sConcept) {
 						var oEntitySet;
 						if (!jQuery.isEmptyObject(sConcept)) {
-							oEntitySet = this.getModel("metaModel").getODataEntitySet(sConcept);
+							oEntitySet = this.getModel("metaModel").getODataConcept(sConcept);
 						} else{
 							return "";
 						}
@@ -44,7 +44,7 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 				type:"columns",
 				visible: true,
 				items : {
-					path : "entityContainer>/entitySet",
+					path : "entityContainer>/collections",
 					template : new sap.m.P13nItem({
 						columnKey : "{entityContainer>name}",
 						text : 	"{= ${entityContainer>sap:label} || ${entityContainer>name}}",
@@ -86,7 +86,7 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 			// TODO really this should be done on a binding change event but where is it?
 			if (oControl.getAggregation("_concept").getText() == "") {
 				// not yet defined so lets bind to the first concept in collection
-				oControl.getAggregation("_concept").setText(oControl.getModel("entityContainer").getProperty("/entitySet/0/name"));
+				oControl.getAggregation("_concept").setText(oControl.getModel("entityContainer").getProperty("/collections/0/name"));
 			}
 			oRm.renderControl(oControl.getAggregation("_concept"));
 		}

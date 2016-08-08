@@ -552,28 +552,63 @@
 			"operators": 
 			[
 				{
-					"condition": "contains",
-					"operator": "substringof"
+					"condition": "any contains",
+					"operator": "substringof",
+					"lambda": "any"
 				},
 
 				{
-					"condition": "equals",
-					"operator": "eq"
+					"condition": "any equals",
+					"operator": "eq",
+					"lambda": "any"
 				},
 
 				{
-					"condition": "not equals",
-					"operator": "ne"
+					"condition": "any not equals",
+					"operator": "ne",
+					"lambda": "any"
 				},
 
 				{
-					"condition": "ends with",
-					"operator": "endswith"
+					"condition": "any ends with",
+					"operator": "endswith",
+					"lambda": "any"
 				},
 
 				{
-					"condition": "starts with",
-					"operator": "startswith"
+					"condition": "any starts with",
+					"operator": "startswith",
+					"lambda": "any"
+				},
+
+				{
+					"condition": "all contains",
+					"operator": "substringof",
+					"lambda": "all"
+				},
+
+				{
+					"condition": "all equals",
+					"operator": "eq",
+					"lambda": "all"
+				},
+
+				{
+					"condition": "all not equals",
+					"operator": "ne",
+					"lambda": "all"
+				},
+
+				{
+					"condition": "all ends with",
+					"operator": "endswith",
+					"lambda": "all"
+				},
+
+				{
+					"condition": "all starts with",
+					"operator": "startswith",
+					"lambda": "all"
 				}
 			]
 		},
@@ -583,33 +618,75 @@
 			"operators": 
 			[
 				{
-					"condition": "equals",
-					"operator": "eq"
+					"condition": "any equals",
+					"operator": "eq",
+					"lambda": "any"
 				},
 
 				{
-					"condition": "not equals",
-					"operator": "ne"
+					"condition": "any not equals",
+					"operator": "ne",
+					"lambda": "any"
 				},
 
 				{
-					"condition": "greater than",
-					"operator": "gt"
+					"condition": "any greater than",
+					"operator": "gt",
+					"lambda": "any"
 				},
 
 				{
-					"condition": "greater than or equal",
-					"operator": "ge"
+					"condition": "any greater than or equal",
+					"operator": "ge",
+					"lambda": "any"
 				},
 
 				{
-					"condition": "less than",
-					"operator": "lt"
+					"condition": "any less than",
+					"operator": "lt",
+					"lambda": "any"
 				},
 
 				{
-					"condition": "less than or equal",
-					"operator": "le"
+					"condition": "any less than or equal",
+					"operator": "le",
+					"lambda": "any"
+				},
+
+				{
+					"condition": "all equals",
+					"operator": "eq",
+					"lambda": "all"
+				},
+
+				{
+					"condition": "all not equals",
+					"operator": "ne",
+					"lambda": "all"
+				},
+
+				{
+					"condition": "all greater than",
+					"operator": "gt",
+					"lambda": "all"
+				},
+
+				{
+					"condition": "all greater than or equal",
+					"operator": "ge",
+					"lambda": "all"
+				},
+
+				{
+					"condition": "all less than",
+					"operator": "lt",
+					"lambda": "all"
+				},
+
+				{
+					"condition": "all less than or equal",
+					"operator": "le",
+					"lambda": "all"
 				}
 			]
 		},
@@ -619,33 +696,27 @@
 			"operators": 
 			[
 				{
-					"condition": "equals",
-					"operator": "eq"
+					"condition": "any equals",
+					"operator": "eq",
+					"lambda": "any"
 				},
 
 				{
-					"condition": "not equals",
-					"operator": "ne"
+					"condition": "any not equals",
+					"operator": "ne",
+					"lambda": "any"
 				},
 
 				{
-					"condition": "greater than",
-					"operator": "gt"
+					"condition": "all equals",
+					"operator": "eq",
+					"lambda": "all"
 				},
 
 				{
-					"condition": "greater than or equal",
-					"operator": "ge"
-				},
-
-				{
-					"condition": "less than",
-					"operator": "lt"
-				},
-
-				{
-					"condition": "less than or equal",
-					"operator": "le"
+					"condition": "all not equals",
+					"operator": "ne",
+					"lambda": "all"
 				}
 			]
 		},
@@ -655,33 +726,75 @@
 			"operators": 
 			[
 				{
-					"condition": "equals",
-					"operator": "eq"
+					"condition": "any equals",
+					"operator": "eq",
+					"lambda": "any"
 				},
 
 				{
-					"condition": "not equals",
-					"operator": "ne"
+					"condition": "any not equals",
+					"operator": "ne",
+					"lambda": "any"
 				},
 
 				{
-					"condition": "greater than",
-					"operator": "gt"
+					"condition": "any greater than",
+					"operator": "gt",
+					"lambda": "any"
 				},
 
 				{
-					"condition": "greater than or equal",
-					"operator": "ge"
+					"condition": "any greater than or equal",
+					"operator": "ge",
+					"lambda": "any"
 				},
 
 				{
-					"condition": "less than",
-					"operator": "lt"
+					"condition": "any less than",
+					"operator": "lt",
+					"lambda": "any"
 				},
 
 				{
-					"condition": "less than or equal",
-					"operator": "le"
+					"condition": "any less than or equal",
+					"operator": "le",
+					"lambda": "any"
+				},
+
+				{
+					"condition": "all equals",
+					"operator": "eq",
+					"lambda": "all"
+				},
+
+				{
+					"condition": "all not equals",
+					"operator": "ne",
+					"lambda": "all"
+				},
+
+				{
+					"condition": "all greater than",
+					"operator": "gt",
+					"lambda": "all"
+				},
+
+				{
+					"condition": "all greater than or equal",
+					"operator": "ge",
+					"lambda": "all"
+				},
+
+				{
+					"condition": "all less than",
+					"operator": "lt",
+					"lambda": "all"
+				},
+
+				{
+					"condition": "all less than or equal",
+					"operator": "le",
+					"lambda": "all"
 				}
 			]
 		},
@@ -691,33 +804,75 @@
 			"operators": 
 			[
 				{
-					"condition": "equals",
-					"operator": "eq"
+					"condition": "any equals",
+					"operator": "eq",
+					"lambda": "any"
 				},
 
 				{
-					"condition": "not equals",
-					"operator": "ne"
+					"condition": "any not equals",
+					"operator": "ne",
+					"lambda": "any"
 				},
 
 				{
-					"condition": "after",
-					"operator": "gt"
+					"condition": "any after",
+					"operator": "gt",
+					"lambda": "any"
 				},
 
 				{
-					"condition": "on or after",
-					"operator": "ge"
+					"condition": "any on or after",
+					"operator": "ge",
+					"lambda": "any"
 				},
 
 				{
-					"condition": "before",
-					"operator": "lt"
+					"condition": "any before",
+					"operator": "lt",
+					"lambda": "any"
 				},
 
 				{
-					"condition": "on or before",
-					"operator": "le"
+					"condition": "any on or before",
+					"operator": "le",
+					"lambda": "any"
+				},
+
+				{
+					"condition": "all equals",
+					"operator": "eq",
+					"lambda": "all"
+				},
+
+				{
+					"condition": "all not equals",
+					"operator": "ne",
+					"lambda": "all"
+				},
+
+				{
+					"condition": "all after",
+					"operator": "gt",
+					"lambda": "all"
+				},
+
+				{
+					"condition": "all on or after",
+					"operator": "ge",
+					"lambda": "all"
+				},
+
+				{
+					"condition": "all before",
+					"operator": "lt",
+					"lambda": "all"
+				},
+
+				{
+					"condition": "all on or before",
+					"operator": "le",
+					"lambda": "all"
 				}
 			]
 		},
@@ -727,33 +882,75 @@
 			"operators": 
 			[
 				{
-					"condition": "equals",
-					"operator": "eq"
+					"condition": "any equals",
+					"operator": "eq",
+					"lambda": "any"
 				},
 
 				{
-					"condition": "not equals",
-					"operator": "ne"
+					"condition": "any not equals",
+					"operator": "ne",
+					"lambda": "any"
 				},
 
 				{
-					"condition": "greater than",
-					"operator": "gt"
+					"condition": "any greater than",
+					"operator": "gt",
+					"lambda": "any"
 				},
 
 				{
-					"condition": "greater than or equal",
-					"operator": "ge"
+					"condition": "any greater than or equal",
+					"operator": "ge",
+					"lambda": "any"
 				},
 
 				{
-					"condition": "less than",
-					"operator": "lt"
+					"condition": "any less than",
+					"operator": "lt",
+					"lambda": "any"
 				},
 
 				{
-					"condition": "less than or equal",
-					"operator": "le"
+					"condition": "any less than or equal",
+					"operator": "le",
+					"lambda": "any"
+				},
+
+				{
+					"condition": "all equals",
+					"operator": "eq",
+					"lambda": "all"
+				},
+
+				{
+					"condition": "all not equals",
+					"operator": "ne",
+					"lambda": "all"
+				},
+
+				{
+					"condition": "all greater than",
+					"operator": "gt",
+					"lambda": "all"
+				},
+
+				{
+					"condition": "all greater than or equal",
+					"operator": "ge",
+					"lambda": "all"
+				},
+
+				{
+					"condition": "all less than",
+					"operator": "lt",
+					"lambda": "all"
+				},
+
+				{
+					"condition": "all less than or equal",
+					"operator": "le",
+					"lambda": "all"
 				}
 			]
 		},
@@ -763,33 +960,75 @@
 			"operators": 
 			[
 				{
-					"condition": "equals",
-					"operator": "eq"
+					"condition": "any equals",
+					"operator": "eq",
+					"lambda": "any"
 				},
 
 				{
-					"condition": "not equals",
-					"operator": "ne"
+					"condition": "any not equals",
+					"operator": "ne",
+					"lambda": "any"
 				},
 
 				{
-					"condition": "greater than",
-					"operator": "gt"
+					"condition": "any greater than",
+					"operator": "gt",
+					"lambda": "any"
 				},
 
 				{
-					"condition": "greater than or equal",
-					"operator": "ge"
+					"condition": "any greater than or equal",
+					"operator": "ge",
+					"lambda": "any"
 				},
 
 				{
-					"condition": "less than",
-					"operator": "lt"
+					"condition": "any less than",
+					"operator": "lt",
+					"lambda": "any"
 				},
 
 				{
-					"condition": "less than or equal",
-					"operator": "le"
+					"condition": "any less than or equal",
+					"operator": "le",
+					"lambda": "any"
+				},
+
+				{
+					"condition": "all equals",
+					"operator": "eq",
+					"lambda": "all"
+				},
+
+				{
+					"condition": "all not equals",
+					"operator": "ne",
+					"lambda": "all"
+				},
+
+				{
+					"condition": "all greater than",
+					"operator": "gt",
+					"lambda": "all"
+				},
+
+				{
+					"condition": "all greater than or equal",
+					"operator": "ge",
+					"lambda": "all"
+				},
+
+				{
+					"condition": "all less than",
+					"operator": "lt",
+					"lambda": "all"
+				},
+
+				{
+					"condition": "all less than or equal",
+					"operator": "le",
+					"lambda": "all"
 				}
 			]
 		},
@@ -799,33 +1038,75 @@
 			"operators": 
 			[
 				{
-					"condition": "equals",
-					"operator": "eq"
+					"condition": "any equals",
+					"operator": "eq",
+					"lambda": "any"
 				},
 
 				{
-					"condition": "not equals",
-					"operator": "ne"
+					"condition": "any not equals",
+					"operator": "ne",
+					"lambda": "any"
 				},
 
 				{
-					"condition": "greater than",
-					"operator": "gt"
+					"condition": "any greater than",
+					"operator": "gt",
+					"lambda": "any"
 				},
 
 				{
-					"condition": "greater than or equal",
-					"operator": "ge"
+					"condition": "any greater than or equal",
+					"operator": "ge",
+					"lambda": "any"
 				},
 
 				{
-					"condition": "less than",
-					"operator": "lt"
+					"condition": "any less than",
+					"operator": "lt",
+					"lambda": "any"
 				},
 
 				{
-					"condition": "less than or equal",
-					"operator": "le"
+					"condition": "any less than or equal",
+					"operator": "le",
+					"lambda": "any"
+				},
+
+				{
+					"condition": "all equals",
+					"operator": "eq",
+					"lambda": "all"
+				},
+
+				{
+					"condition": "all not equals",
+					"operator": "ne",
+					"lambda": "all"
+				},
+
+				{
+					"condition": "all greater than",
+					"operator": "gt",
+					"lambda": "all"
+				},
+
+				{
+					"condition": "all greater than or equal",
+					"operator": "ge",
+					"lambda": "all"
+				},
+
+				{
+					"condition": "all less than",
+					"operator": "lt",
+					"lambda": "all"
+				},
+
+				{
+					"condition": "all less than or equal",
+					"operator": "le",
+					"lambda": "all"
 				}
 			]
 		},
@@ -835,33 +1116,75 @@
 			"operators": 
 			[
 				{
-					"condition": "equals",
-					"operator": "eq"
+					"condition": "any equals",
+					"operator": "eq",
+					"lambda": "any"
 				},
 
 				{
-					"condition": "not equals",
-					"operator": "ne"
+					"condition": "any not equals",
+					"operator": "ne",
+					"lambda": "any"
 				},
 
 				{
-					"condition": "greater than",
-					"operator": "gt"
+					"condition": "any greater than",
+					"operator": "gt",
+					"lambda": "any"
 				},
 
 				{
-					"condition": "greater than or equal",
-					"operator": "ge"
+					"condition": "any greater than or equal",
+					"operator": "ge",
+					"lambda": "any"
 				},
 
 				{
-					"condition": "less than",
-					"operator": "lt"
+					"condition": "any less than",
+					"operator": "lt",
+					"lambda": "any"
 				},
 
 				{
-					"condition": "less than or equal",
-					"operator": "le"
+					"condition": "any less than or equal",
+					"operator": "le",
+					"lambda": "any"
+				},
+
+				{
+					"condition": "all equals",
+					"operator": "eq",
+					"lambda": "all"
+				},
+
+				{
+					"condition": "all not equals",
+					"operator": "ne",
+					"lambda": "all"
+				},
+
+				{
+					"condition": "all greater than",
+					"operator": "gt",
+					"lambda": "all"
+				},
+
+				{
+					"condition": "all greater than or equal",
+					"operator": "ge",
+					"lambda": "all"
+				},
+
+				{
+					"condition": "all less than",
+					"operator": "lt",
+					"lambda": "all"
+				},
+
+				{
+					"condition": "all less than or equal",
+					"operator": "le",
+					"lambda": "all"
 				}
 			]
 		},
@@ -871,33 +1194,75 @@
 			"operators": 
 			[
 				{
-					"condition": "equals",
-					"operator": "eq"
+					"condition": "any equals",
+					"operator": "eq",
+					"lambda": "any"
 				},
 
 				{
-					"condition": "not equals",
-					"operator": "ne"
+					"condition": "any not equals",
+					"operator": "ne",
+					"lambda": "any"
 				},
 
 				{
-					"condition": "greater than",
-					"operator": "gt"
+					"condition": "any greater than",
+					"operator": "gt",
+					"lambda": "any"
 				},
 
 				{
-					"condition": "greater than or equal",
-					"operator": "ge"
+					"condition": "any greater than or equal",
+					"operator": "ge",
+					"lambda": "any"
 				},
 
 				{
-					"condition": "less than",
-					"operator": "lt"
+					"condition": "any less than",
+					"operator": "lt",
+					"lambda": "any"
 				},
 
 				{
-					"condition": "less than or equal",
-					"operator": "le"
+					"condition": "any less than or equal",
+					"operator": "le",
+					"lambda": "any"
+				},
+
+				{
+					"condition": "all equals",
+					"operator": "eq",
+					"lambda": "all"
+				},
+
+				{
+					"condition": "all not equals",
+					"operator": "ne",
+					"lambda": "all"
+				},
+
+				{
+					"condition": "all greater than",
+					"operator": "gt",
+					"lambda": "all"
+				},
+
+				{
+					"condition": "all greater than or equal",
+					"operator": "ge",
+					"lambda": "all"
+				},
+
+				{
+					"condition": "all less than",
+					"operator": "lt",
+					"lambda": "all"
+				},
+
+				{
+					"condition": "all less than or equal",
+					"operator": "le",
+					"lambda": "all"
 				}
 			]
 		},
@@ -907,33 +1272,75 @@
 			"operators": 
 			[
 				{
-					"condition": "equals",
-					"operator": "eq"
+					"condition": "any equals",
+					"operator": "eq",
+					"lambda": "any"
 				},
 
 				{
-					"condition": "not equals",
-					"operator": "ne"
+					"condition": "any not equals",
+					"operator": "ne",
+					"lambda": "any"
 				},
 
 				{
-					"condition": "greater than",
-					"operator": "gt"
+					"condition": "any greater than",
+					"operator": "gt",
+					"lambda": "any"
 				},
 
 				{
-					"condition": "greater than or equal",
-					"operator": "ge"
+					"condition": "any greater than or equal",
+					"operator": "ge",
+					"lambda": "any"
 				},
 
 				{
-					"condition": "less than",
-					"operator": "lt"
+					"condition": "any less than",
+					"operator": "lt",
+					"lambda": "any"
 				},
 
 				{
-					"condition": "less than or equal",
-					"operator": "le"
+					"condition": "any less than or equal",
+					"operator": "le",
+					"lambda": "any"
+				},
+
+				{
+					"condition": "all equals",
+					"operator": "eq",
+					"lambda": "all"
+				},
+
+				{
+					"condition": "all not equals",
+					"operator": "ne",
+					"lambda": "all"
+				},
+
+				{
+					"condition": "all greater than",
+					"operator": "gt",
+					"lambda": "all"
+				},
+
+				{
+					"condition": "all greater than or equal",
+					"operator": "ge",
+					"lambda": "all"
+				},
+
+				{
+					"condition": "all less than",
+					"operator": "lt",
+					"lambda": "all"
+				},
+
+				{
+					"condition": "all less than or equal",
+					"operator": "le",
+					"lambda": "all"
 				}
 			]
 		},
@@ -943,33 +1350,75 @@
 			"operators": 
 			[
 				{
-					"condition": "equals",
-					"operator": "eq"
+					"condition": "any equals",
+					"operator": "eq",
+					"lambda": "any"
 				},
 
 				{
-					"condition": "not equals",
-					"operator": "ne"
+					"condition": "any not equals",
+					"operator": "ne",
+					"lambda": "any"
 				},
 
 				{
-					"condition": "greater than",
-					"operator": "gt"
+					"condition": "any greater than",
+					"operator": "gt",
+					"lambda": "any"
 				},
 
 				{
-					"condition": "greater than or equal",
-					"operator": "ge"
+					"condition": "any greater than or equal",
+					"operator": "ge",
+					"lambda": "any"
 				},
 
 				{
-					"condition": "less than",
-					"operator": "lt"
+					"condition": "any less than",
+					"operator": "lt",
+					"lambda": "any"
 				},
 
 				{
-					"condition": "less than or equal",
-					"operator": "le"
+					"condition": "any less than or equal",
+					"operator": "le",
+					"lambda": "any"
+				},
+
+				{
+					"condition": "all equals",
+					"operator": "eq",
+					"lambda": "all"
+				},
+
+				{
+					"condition": "all not equals",
+					"operator": "ne",
+					"lambda": "all"
+				},
+
+				{
+					"condition": "all greater than",
+					"operator": "gt",
+					"lambda": "all"
+				},
+
+				{
+					"condition": "all greater than or equal",
+					"operator": "ge",
+					"lambda": "all"
+				},
+
+				{
+					"condition": "all less than",
+					"operator": "lt",
+					"lambda": "all"
+				},
+
+				{
+					"condition": "all less than or equal",
+					"operator": "le",
+					"lambda": "all"
 				}
 			]
 		},
@@ -979,33 +1428,75 @@
 			"operators": 
 			[
 				{
-					"condition": "equals",
-					"operator": "eq"
+					"condition": "any equals",
+					"operator": "eq",
+					"lambda": "any"
 				},
 
 				{
-					"condition": "not equals",
-					"operator": "ne"
+					"condition": "any not equals",
+					"operator": "ne",
+					"lambda": "any"
 				},
 
 				{
-					"condition": "greater than",
-					"operator": "gt"
+					"condition": "any greater than",
+					"operator": "gt",
+					"lambda": "any"
 				},
 
 				{
-					"condition": "greater than or equal",
-					"operator": "ge"
+					"condition": "any greater than or equal",
+					"operator": "ge",
+					"lambda": "any"
 				},
 
 				{
-					"condition": "less than",
-					"operator": "lt"
+					"condition": "any less than",
+					"operator": "lt",
+					"lambda": "any"
 				},
 
 				{
-					"condition": "less than or equal",
-					"operator": "le"
+					"condition": "any less than or equal",
+					"operator": "le",
+					"lambda": "any"
+				},
+
+				{
+					"condition": "all equals",
+					"operator": "eq",
+					"lambda": "all"
+				},
+
+				{
+					"condition": "all not equals",
+					"operator": "ne",
+					"lambda": "all"
+				},
+
+				{
+					"condition": "all greater than",
+					"operator": "gt",
+					"lambda": "all"
+				},
+
+				{
+					"condition": "all greater than or equal",
+					"operator": "ge",
+					"lambda": "all"
+				},
+
+				{
+					"condition": "all less than",
+					"operator": "lt",
+					"lambda": "all"
+				},
+
+				{
+					"condition": "all less than or equal",
+					"operator": "le",
+					"lambda": "all"
 				}
 			]
 		},
@@ -1015,33 +1506,75 @@
 			"operators": 
 			[
 				{
-					"condition": "equals",
-					"operator": "eq"
+					"condition": "any equals",
+					"operator": "eq",
+					"lambda": "any"
 				},
 
 				{
-					"condition": "not equals",
-					"operator": "ne"
+					"condition": "any not equals",
+					"operator": "ne",
+					"lambda": "any"
 				},
 
 				{
-					"condition": "greater than",
-					"operator": "gt"
+					"condition": "any greater than",
+					"operator": "gt",
+					"lambda": "any"
 				},
 
 				{
-					"condition": "greater than or equal",
-					"operator": "ge"
+					"condition": "any greater than or equal",
+					"operator": "ge",
+					"lambda": "any"
 				},
 
 				{
-					"condition": "less than",
-					"operator": "lt"
+					"condition": "any less than",
+					"operator": "lt",
+					"lambda": "any"
 				},
 
 				{
-					"condition": "less than or equal",
-					"operator": "le"
+					"condition": "any less than or equal",
+					"operator": "le",
+					"lambda": "any"
+				},
+
+				{
+					"condition": "all equals",
+					"operator": "eq",
+					"lambda": "all"
+				},
+
+				{
+					"condition": "all not equals",
+					"operator": "ne",
+					"lambda": "all"
+				},
+
+				{
+					"condition": "all greater than",
+					"operator": "gt",
+					"lambda": "all"
+				},
+
+				{
+					"condition": "all greater than or equal",
+					"operator": "ge",
+					"lambda": "all"
+				},
+
+				{
+					"condition": "all less than",
+					"operator": "lt",
+					"lambda": "all"
+				},
+
+				{
+					"condition": "all less than or equal",
+					"operator": "le",
+					"lambda": "all"
 				}
 			]
 		},
@@ -1051,28 +1584,63 @@
 			"operators": 
 			[
 				{
-					"condition": "contains",
-					"operator": "substringof"
+					"condition": "any contains",
+					"operator": "substringof",
+					"lambda": "any"
 				},
 
 				{
-					"condition": "equals",
-					"operator": "eq"
+					"condition": "any equals",
+					"operator": "eq",
+					"lambda": "any"
 				},
 
 				{
-					"condition": "not equals",
-					"operator": "ne"
+					"condition": "any not equals",
+					"operator": "ne",
+					"lambda": "any"
 				},
 
 				{
-					"condition": "ends with",
-					"operator": "endswith"
+					"condition": "any ends with",
+					"operator": "endswith",
+					"lambda": "any"
 				},
 
 				{
-					"condition": "starts with",
-					"operator": "startswith"
+					"condition": "any starts with",
+					"operator": "startswith",
+					"lambda": "any"
+				},
+
+				{
+					"condition": "all contains",
+					"operator": "substringof",
+					"lambda": "all"
+				},
+
+				{
+					"condition": "all equals",
+					"operator": "eq",
+					"lambda": "all"
+				},
+
+				{
+					"condition": "all not equals",
+					"operator": "ne",
+					"lambda": "all"
+				},
+
+				{
+					"condition": "all ends with",
+					"operator": "endswith",
+					"lambda": "all"
+				},
+
+				{
+					"condition": "all starts with",
+					"operator": "startswith",
+					"lambda": "all"
 				}
 			]
 		},
@@ -1082,33 +1650,75 @@
 			"operators": 
 			[
 				{
-					"condition": "equals",
-					"operator": "eq"
+					"condition": "any equals",
+					"operator": "eq",
+					"lambda": "any"
 				},
 
 				{
-					"condition": "not equals",
-					"operator": "ne"
+					"condition": "any not equals",
+					"operator": "ne",
+					"lambda": "any"
 				},
 
 				{
-					"condition": "after",
-					"operator": "gt"
+					"condition": "any after",
+					"operator": "gt",
+					"lambda": "any"
 				},
 
 				{
-					"condition": "on or after",
-					"operator": "ge"
+					"condition": "any on or after",
+					"operator": "ge",
+					"lambda": "any"
 				},
 
 				{
-					"condition": "before",
-					"operator": "lt"
+					"condition": "any before",
+					"operator": "lt",
+					"lambda": "any"
 				},
 
 				{
-					"condition": "on or before",
-					"operator": "le"
+					"condition": "any on or before",
+					"operator": "le",
+					"lambda": "any"
+				},
+
+				{
+					"condition": "all equals",
+					"operator": "eq",
+					"lambda": "all"
+				},
+
+				{
+					"condition": "all not equals",
+					"operator": "ne",
+					"lambda": "all"
+				},
+
+				{
+					"condition": "all after",
+					"operator": "gt",
+					"lambda": "all"
+				},
+
+				{
+					"condition": "all on or after",
+					"operator": "ge",
+					"lambda": "all"
+				},
+
+				{
+					"condition": "all before",
+					"operator": "lt",
+					"lambda": "all"
+				},
+
+				{
+					"condition": "all on or before",
+					"operator": "le",
+					"lambda": "all"
 				}
 			]
 		}

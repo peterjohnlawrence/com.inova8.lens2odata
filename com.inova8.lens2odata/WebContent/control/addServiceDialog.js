@@ -29,28 +29,28 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 
 		},
 		validateReadyToSave : function(self) {
-			if ( jQuery.isEmptyObject(self.serviceNameElement.getFields()[0].getValue())
-					|| jQuery.isEmptyObject(self.serviceUrlElement.getFields()[0].getValue())) {
+			if (jQuery.isEmptyObject(self.serviceNameElement.getFields()[0].getValue()) || jQuery.isEmptyObject(self.serviceUrlElement.getFields()[0].getValue())) {
 				self.oDialog.getButtons()[0].setEnabled(false);
 			} else {
 				self.oDialog.getButtons()[0].setEnabled(true);
 			}
 		},
 		saveService : function(oEvent, self) {
-			//var serviceId = self.serviceIdElement.getFields()[0].getValue();
-			var serviceId = utils.generateUUID(); 
+			// var serviceId = self.serviceIdElement.getFields()[0].getValue();
+			var serviceId = utils.generateUUID();
 			var serviceName = self.serviceNameElement.getFields()[0].getValue();
 			var serviceUrl = self.serviceUrlElement.getFields()[0].getValue();
 			var lastChar = serviceUrl[serviceUrl.length - 1];
 			if ((lastChar != "\\") && (lastChar != "/"))
 				serviceUrl += "/";
-			var serviceProxy = self.serviceProxyElement.getFields()[0].getSelected();
-			var json = self.serviceJsonElement.getFields()[0].getSelected();
+			var serviceProxy = self.serviceOptionElement.getFields()[0].getSelected();
+			var json = self.serviceOptionElement.getFields()[1].getSelected();
+			var version = self.serviceOptionElement.getFields()[2].getSelectedKey();
 			var oQueryModelData = sap.ui.getCore().getModel("queryModel").getData();
 			var oService = {
 				"code" : serviceId,
 				"name" : serviceName,
-				"version" : "V2",
+				"version" : version,
 				"serviceUrl" : serviceUrl,
 				"useProxy" : serviceProxy,
 				"json" : json,
@@ -125,31 +125,42 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 					hCells : "1"
 				})
 			});
-			self.serviceProxyElement = new sap.ui.layout.form.FormElement({
-				label : "{i18nModel>addServiceDialog.serviceProxy}",
+			self.serviceOptionElement = new sap.ui.layout.form.FormElement({
+				label : "{i18nModel>addServiceDialog.serviceOptions}",
 				fields : [ new sap.m.CheckBox({
 					tooltip : "{i18nModel>addServiceDialog.serviceProxyPrompt}",
+					text : "{i18nModel>addServiceDialog.serviceProxy}",
 					type : sap.m.InputType.Url,
 					width : "auto",
 					description : "",
 					editable : true,
 					showValueHelp : false,
 					valueHelpRequest : ""
-				}) ],
-				layoutData : new sap.ui.layout.form.GridElementData({
-					hCells : "1"
-				})
-			});
-			self.serviceJsonElement = new sap.ui.layout.form.FormElement({
-				label : "{i18nModel>addServiceDialog.serviceJson}",
-				fields : [ new sap.m.CheckBox({
+				}), new sap.m.CheckBox({
 					tooltip : "{i18nModel>addServiceDialog.serviceJsonPrompt}",
+					text : "{i18nModel>addServiceDialog.serviceJson}",
 					type : sap.m.InputType.Url,
 					width : "auto",
 					description : "",
 					editable : true,
 					showValueHelp : false,
 					valueHelpRequest : ""
+				}), new sap.m.Select({
+					tooltip : "{i18nModel>addServiceDialog.serviceVersionPrompt}",
+					text : "{i18nModel>addServiceDialog.serviceVersion}",
+					width : "auto",
+					description : "",
+					editable : true,
+					items : [ new sap.ui.core.Item({
+						key: "{i18nModel>addServiceDialog.serviceV2Key}",
+						text : "{i18nModel>addServiceDialog.serviceV2}"
+					}), new sap.ui.core.Item({
+						key: "{i18nModel>addServiceDialog.serviceV3Key}",
+						text : "{i18nModel>addServiceDialog.serviceV3}"
+					}), new sap.ui.core.Item({
+						key: "{i18nModel>addServiceDialog.serviceV4Key}",
+						text : "{i18nModel>addServiceDialog.serviceV4}"
+					}) ]
 				}) ],
 				layoutData : new sap.ui.layout.form.GridElementData({
 					hCells : "1"
@@ -161,7 +172,7 @@ sap.ui.define([ "sap/ui/core/Control" ], function(Control) {
 				}),
 				formContainers : [ new sap.ui.layout.form.FormContainer({
 					expandable : false,
-					formElements : [  self.serviceNameElement, self.serviceUrlElement, self.serviceProxyElement, self.serviceJsonElement  ]
+					formElements : [ self.serviceNameElement, self.serviceUrlElement, self.serviceOptionElement ]
 				})
 
 				]

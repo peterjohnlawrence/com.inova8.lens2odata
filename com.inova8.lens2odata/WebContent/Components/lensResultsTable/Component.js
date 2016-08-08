@@ -246,7 +246,7 @@ Components.lensResultsTable.Component.prototype.bindTableColumns = function(oMet
 							enableSelectAll : false,
 							showNoData : true,
 							visibleRowCount : 2,
-							navigationMode : sap.ui.table.NavigationMode.Paginator,
+							//deprecated navigationMode : sap.ui.table.NavigationMode.Paginator,
 							fixedColumnCount : 1
 						}).bindRows(sPath + "/results");
 						this.bindTableColumns(oMetaModel, oInnerTable, oInnerTemplate, column, "");
